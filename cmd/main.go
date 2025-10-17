@@ -1,12 +1,18 @@
 package main
 
 import (
-	"fmt";
+	"fmt"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 func main() {
-	nvim := nvim.NewNvim("nvim")
+	instance, err := nvim.NewNvim("nvim")
 
-	fmt.Print(nvim.Path())
+	if err != nil {
+		panic(fmt.Errorf("Error opening nvim: %v", err))
+	}
+
+	defer instance.Kill()
+
+	fmt.Print(instance.Args())
 }
