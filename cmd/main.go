@@ -6,13 +6,12 @@ import (
 )
 
 func main() {
-	instance, err := nvim.NewNvim("nvim")
+	nvimInstance, err := nvim.NewNvim()
 
 	if err != nil {
 		panic(fmt.Errorf("Error opening nvim: %v", err))
 	}
 
-	defer instance.Kill()
-
-	fmt.Print(instance.Args())
+	fmt.Print(nvimInstance.Args())
+	fmt.Print(nvimInstance.Options())
 }
