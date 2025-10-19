@@ -3,19 +3,37 @@ package nvim
 import (
 	"bufio"
 	"fmt"
-	msgpack "github.com/vmihailenco/msgpack/v5"
 	"io"
 	"os/exec"
+	"reflect"
 	"sync"
+
+	msgpack "github.com/vmihailenco/msgpack/v5"
 )
 
 var mu sync.Mutex
 
 type requestMessage []any
 
+func (r requestMessage) Validate() error {
+	if len(r) < 2 {
+		return fmt.Errorf("Invalid request message length received: %v", r)
+	}
+
+	if reflect.TypeOf(r[0]).String() != "string" {
+		return fmt.Errorf("Invalid request message method type: %v", r)
+	}
+
+	if reflect.TypeOf(r[1]).String() != "[]interface {}" {
+		return fmt.Errorf("Invalid request message parameters type: %v", r)
+	}
+
+	return nil
+}
+
 func (r requestMessage) Marshal(id int8) []any {
 	return []any{
-		int8(0), // Message type: Request (0)
+		int8(0),
 		id,
 		r[0],
 		r[1],
@@ -60,6 +78,10 @@ func (r *rpc) Send(request requestMessage) (responseMessage, error) {
 	r.requestId++
 	mu.Unlock()
 
+	if err := request.Validate(); err != nil {
+		return nil, fmt.Errorf("Invalid request received: %v", err)
+	}
+
 	messageData, err := msgpack.Marshal(request.Marshal(messageId))
 
 	if err != nil {
@@ -79,7 +101,7 @@ func (r *rpc) Send(request requestMessage) (responseMessage, error) {
 	}
 
 	if err := response.Validate(messageId); err != nil {
-		return nil, fmt.Errorf("Invalid response received: %v", response)
+		return nil, fmt.Errorf("Invalid response received: %v", err)
 	}
 
 	return response, nil
