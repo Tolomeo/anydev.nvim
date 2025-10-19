@@ -26,7 +26,11 @@ func (n *nvim) Options() nvimOptions {
 }
 
 func (n *nvim) Close() error {
-	_, err := n.rpc.Request("nvim_command", []any{"qa!"})
+	request := rpcRequest{
+		method: "nvim_command",
+		params: []any{"qa!"},
+	}
+	_, err := n.rpc.Send(request)
 
 	// EOF error expected
 	if err != nil && !errors.Is(err, io.EOF) {
@@ -47,7 +51,11 @@ func (n *nvim) Kill() error {
 }
 
 func (n *nvim) ApiInfo() {
-	apiInfo, err := n.rpc.Request("nvim_get_api_info", []any{})
+	request := rpcRequest{
+		method: "nvim_get_api_info",
+		params: []any{},
+	}
+	apiInfo, err := n.rpc.Send(request)
 
 	if err != nil {
 		fmt.Printf("Error getting API info: %v\n", err)

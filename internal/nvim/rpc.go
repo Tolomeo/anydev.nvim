@@ -16,7 +16,21 @@ const (
 	responseMessageType int8 = 1
 )
 
-type rpcMethod string
+type rpcRequest struct {
+	method string
+	params []any
+}
+
+func (r *rpcRequest) Marshal(id int8) ([]byte, error) {
+	message := []any{
+		int8(0), // Message type: Request (0)
+		id,
+		r.method,
+		r.params,
+	}
+
+	return msgpack.Marshal(message)
+}
 
 type rpc struct {
 	requestId int8
@@ -24,20 +38,17 @@ type rpc struct {
 	reader    *bufio.Reader
 }
 
-func (r *rpc) Request(method rpcMethod, parameters []any) (any, error) {
+func (r *rpc) Request(method string, parameters []any) {
+
+}
+
+func (r *rpc) Send(request rpcRequest) (any, error) {
 	mu.Lock()
 	messageId := r.requestId
 	r.requestId++
 	mu.Unlock()
 
-	message := []any{
-		requestMessageType, // Message type: Request (0)
-		messageId,
-		method,
-		parameters,
-	}
-
-	messageData, err := msgpack.Marshal(message)
+	messageData, err := request.Marshal(messageId)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error marshalling request message: %v", err)
