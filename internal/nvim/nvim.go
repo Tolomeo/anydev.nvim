@@ -8,8 +8,8 @@ import (
 )
 
 type nvim struct {
-	cmd     *exec.Cmd
 	options nvimOptions
+	cmd     *exec.Cmd
 	writer  *io.WriteCloser
 	reader  *bufio.Reader
 }
@@ -26,26 +26,11 @@ func (n *nvim) Kill() error {
 	return n.cmd.Process.Kill()
 }
 
-type nvimOptions struct {
-	path string
-}
-
-type nvimOptionProvider func(*nvimOptions)
-
-func WithPath(path string) nvimOptionProvider {
-	return func(o *nvimOptions) {
-		o.path = path
-	}
-}
-
-func NewNvim(opts ...nvimOptionProvider) (*nvim, error) {
+func New(opts ...nvimOptionProvider) (*nvim, error) {
 	options := nvimOptions{
 		path: "nvim",
 	}
-
-	for _, opt := range opts {
-		opt(&options)
-	}
+	options.Set(opts...)
 
 	cmd := exec.Command(options.path, "--clean", "--embed")
 	stdin, err := cmd.StdinPipe()
@@ -64,9 +49,9 @@ func NewNvim(opts ...nvimOptionProvider) (*nvim, error) {
 	reader := bufio.NewReader(stdout)
 
 	return &nvim{
-		cmd:    cmd,
 		options: options,
-		writer: writer,
-		reader: reader,
+		cmd:     cmd,
+		writer:  writer,
+		reader:  reader,
 	}, nil
 }

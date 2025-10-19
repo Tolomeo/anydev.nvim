@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	nvimInstance, err := nvim.NewNvim()
+	nvimInstance, err := nvim.New()
 
 	if err != nil {
 		panic(fmt.Errorf("Error opening nvim: %v", err))
