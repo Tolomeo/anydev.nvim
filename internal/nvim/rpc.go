@@ -31,6 +31,8 @@ func (r requestMessage) Validate() error {
 	return nil
 }
 
+// https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md#request-message
+// [type, msgid, method, params]
 func (r requestMessage) Marshal(id int8) []any {
 	return []any{
 		int8(0),
@@ -42,6 +44,8 @@ func (r requestMessage) Marshal(id int8) []any {
 
 type responseMessage []any
 
+// https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md#response-message
+// [type, msgid, error, result]
 func (r responseMessage) Validate(id int8) error {
 	if len(r) < 4 {
 		return fmt.Errorf("Invalid response length received: %v", r)
@@ -82,13 +86,13 @@ func (r *rpc) Send(request requestMessage) (responseMessage, error) {
 		return nil, fmt.Errorf("Invalid request received: %v", err)
 	}
 
-	messageData, err := msgpack.Marshal(request.Marshal(messageId))
+	message, err := msgpack.Marshal(request.Marshal(messageId))
 
 	if err != nil {
 		return nil, fmt.Errorf("Error marshalling request message: %v", err)
 	}
 
-	if _, err := r.writer.Write(messageData); err != nil {
+	if _, err := r.writer.Write(message); err != nil {
 		return nil, fmt.Errorf("Error sending request data: %w", err)
 	}
 
