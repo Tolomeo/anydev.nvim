@@ -23,4 +23,8 @@ func main() {
 	fmt.Println(nvimClient.Options())
 
 	nvimClient.ApiInfo()
+
+	if err := nvimClient.Close(); err != nil {
+		fmt.Printf("Error closing nvim gracefully: %v", err)
+	}
 }

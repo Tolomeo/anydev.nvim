@@ -11,19 +11,12 @@ import (
 
 var mu sync.Mutex
 
-type messageType int8
-
 const (
-	requestMessageType  messageType = 0
-	responseMessageType messageType = 1
+	requestMessageType  int8 = 0
+	responseMessageType int8 = 1
 )
 
 type rpcMethod string
-
-/* const (
-	execCommand rpcMethod = "nvim_command"
-	execLua     rpcMethod = "nvim_exec_lua"
-) */
 
 type rpc struct {
 	requestId int8
@@ -54,8 +47,6 @@ func (r *rpc) Request(method rpcMethod, parameters []any) (any, error) {
 		return nil, fmt.Errorf("Error sending request data: %w", err)
 	}
 
-	r.writer.Close()
-
 	decoder := msgpack.NewDecoder(r.reader)
 
 	var response []any
@@ -64,9 +55,7 @@ func (r *rpc) Request(method rpcMethod, parameters []any) (any, error) {
 		return nil, fmt.Errorf("Error decoding response: %w", err)
 	}
 
-	fmt.Println(response)
-
-	if len(response) < 4 || response[0].(messageType) != responseMessageType || response[1].(int8) != messageId {
+	if len(response) < 4 || response[0].(int8) != responseMessageType || response[1].(int8) != messageId {
 		return nil, fmt.Errorf("Invalid response received: %v", response)
 	}
 

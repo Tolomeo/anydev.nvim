@@ -1,7 +1,9 @@
 package nvim
 
 import (
+	"errors"
 	"fmt"
+	"io"
 	"os/exec"
 )
 
@@ -12,9 +14,7 @@ type nvim struct {
 }
 
 func (n *nvim) Open() error {
-	err := n.cmd.Start()
-
-	return err
+	return n.cmd.Start()
 }
 
 func (n *nvim) Args() []string {
@@ -23,6 +23,23 @@ func (n *nvim) Args() []string {
 
 func (n *nvim) Options() nvimOptions {
 	return n.options
+}
+
+func (n *nvim) Close() error {
+	_, err := n.rpc.Request("nvim_command", []any{"qa!"})
+
+	// EOF error expected
+	if err != nil && !errors.Is(err, io.EOF) {
+		return err
+	}
+
+	err = n.cmd.Wait()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (n *nvim) Kill() error {
