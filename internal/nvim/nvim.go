@@ -1,17 +1,14 @@
 package nvim
 
 import (
-	"bufio"
 	"fmt"
-	"io"
 	"os/exec"
 )
 
 type nvim struct {
 	options nvimOptions
 	cmd     *exec.Cmd
-	writer  *io.WriteCloser
-	reader  *bufio.Reader
+	rpc     *rpc
 }
 
 func (n *nvim) Args() []string {
@@ -33,25 +30,15 @@ func New(opts ...nvimOptionProvider) (*nvim, error) {
 	options.Set(opts...)
 
 	cmd := exec.Command(options.path, "--clean", "--embed")
-	stdin, err := cmd.StdinPipe()
+	rpc, err := Rpc(cmd)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error connecting to nvim stdin: %v", err)
+		return nil, fmt.Errorf("Error connecting to nvim rpc: %v", err)
 	}
-
-	stdout, err := cmd.StdoutPipe()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error connecting to nvim stdout: %v", err)
-	}
-
-	writer := &stdin
-	reader := bufio.NewReader(stdout)
 
 	return &nvim{
 		options: options,
 		cmd:     cmd,
-		writer:  writer,
-		reader:  reader,
+		rpc:     rpc,
 	}, nil
 }
