@@ -22,9 +22,9 @@ func (n *nvim) Open() error {
 }
 
 func (n *nvim) Close() error {
-	request := rpcRequest{
-		method: "nvim_command",
-		params: []any{"qa!"},
+	request := requestMessage{
+		"nvim_command",
+		[]any{"qa!"},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -43,9 +43,9 @@ func (n *nvim) Close() error {
 }
 
 func (n *nvim) ApiInfo() {
-	request := rpcRequest{
-		method: "nvim_get_api_info",
-		params: []any{},
+	request := requestMessage{
+		"nvim_get_api_info",
+		[]any{},
 	}
 	response, err := n.rpc.Send(request)
 

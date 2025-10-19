@@ -11,28 +11,20 @@ import (
 
 var mu sync.Mutex
 
-const (
-	responseMessageType int8 = 1
-)
+type requestMessage []any
 
-type rpcRequest struct {
-	method string
-	params []any
-}
-
-func (r rpcRequest) Marshal(id int8) []any {
+func (r requestMessage) Marshal(id int8) []any {
 	return []any{
 		int8(0), // Message type: Request (0)
 		id,
-		r.method,
-		r.params,
+		r[0],
+		r[1],
 	}
-
 }
 
-type rpcResponse []any
+type responseMessage []any
 
-func (r rpcResponse) Validate(id int8) error {
+func (r responseMessage) Validate(id int8) error {
 	if len(r) < 4 {
 		return fmt.Errorf("Invalid response length received: %v", r)
 	}
@@ -48,7 +40,7 @@ func (r rpcResponse) Validate(id int8) error {
 	return nil
 }
 
-func (r rpcResponse) Result() (any, error) {
+func (r responseMessage) Result() (any, error) {
 	if r[2] != nil {
 		return nil, fmt.Errorf("Error response: %v", r[2])
 	}
@@ -62,7 +54,7 @@ type rpc struct {
 	reader    *bufio.Reader
 }
 
-func (r *rpc) Send(request rpcRequest) (rpcResponse, error) {
+func (r *rpc) Send(request requestMessage) (responseMessage, error) {
 	mu.Lock()
 	messageId := r.requestId
 	r.requestId++
@@ -80,7 +72,7 @@ func (r *rpc) Send(request rpcRequest) (rpcResponse, error) {
 
 	decoder := msgpack.NewDecoder(r.reader)
 
-	var response rpcResponse
+	var response responseMessage
 
 	if err := decoder.Decode(&response); err != nil {
 		return nil, fmt.Errorf("Error decoding response: %w", err)
