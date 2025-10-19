@@ -13,16 +13,12 @@ type nvim struct {
 	rpc     *rpc
 }
 
-func (n *nvim) Open() error {
-	return n.cmd.Start()
-}
-
-func (n *nvim) Args() []string {
-	return n.cmd.Args
-}
-
 func (n *nvim) Options() nvimOptions {
 	return n.options
+}
+
+func (n *nvim) Open() error {
+	return n.cmd.Start()
 }
 
 func (n *nvim) Close() error {
@@ -46,23 +42,26 @@ func (n *nvim) Close() error {
 	return nil
 }
 
-func (n *nvim) Kill() error {
-	return n.cmd.Process.Kill()
-}
-
 func (n *nvim) ApiInfo() {
 	request := rpcRequest{
 		method: "nvim_get_api_info",
 		params: []any{},
 	}
-	apiInfo, err := n.rpc.Send(request)
+	response, err := n.rpc.Send(request)
 
 	if err != nil {
 		fmt.Printf("Error getting API info: %v\n", err)
 		return
 	}
 
-	fmt.Printf("Api info: %v\n", apiInfo)
+	result, err := response.Result()
+
+	if err != nil {
+		fmt.Printf("Error getting API info: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Api info: %v\n", result)
 }
 
 func New(optionOverrides ...nvimOptionProvider) (*nvim, error) {

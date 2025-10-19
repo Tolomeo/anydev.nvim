@@ -19,7 +19,6 @@ func main() {
 
 	}
 
-	fmt.Println(nvimClient.Args())
 	fmt.Println(nvimClient.Options())
 
 	nvimClient.ApiInfo()

@@ -12,7 +12,6 @@ import (
 var mu sync.Mutex
 
 const (
-	requestMessageType  int8 = 0
 	responseMessageType int8 = 1
 )
 
@@ -21,15 +20,40 @@ type rpcRequest struct {
 	params []any
 }
 
-func (r *rpcRequest) Marshal(id int8) ([]byte, error) {
-	message := []any{
+func (r rpcRequest) Marshal(id int8) []any {
+	return []any{
 		int8(0), // Message type: Request (0)
 		id,
 		r.method,
 		r.params,
 	}
 
-	return msgpack.Marshal(message)
+}
+
+type rpcResponse []any
+
+func (r rpcResponse) Validate(id int8) error {
+	if len(r) < 4 {
+		return fmt.Errorf("Invalid response length received: %v", r)
+	}
+
+	if r[0].(int8) != 1 {
+		return fmt.Errorf("Invalid response type received: %v", r)
+	}
+
+	if r[1].(int8) != id {
+		return fmt.Errorf("Out of sync response received: %v", r)
+	}
+
+	return nil
+}
+
+func (r rpcResponse) Result() (any, error) {
+	if r[2] != nil {
+		return nil, fmt.Errorf("Error response: %v", r[2])
+	}
+
+	return r[3], nil
 }
 
 type rpc struct {
@@ -38,17 +62,13 @@ type rpc struct {
 	reader    *bufio.Reader
 }
 
-func (r *rpc) Request(method string, parameters []any) {
-
-}
-
-func (r *rpc) Send(request rpcRequest) (any, error) {
+func (r *rpc) Send(request rpcRequest) (rpcResponse, error) {
 	mu.Lock()
 	messageId := r.requestId
 	r.requestId++
 	mu.Unlock()
 
-	messageData, err := request.Marshal(messageId)
+	messageData, err := msgpack.Marshal(request.Marshal(messageId))
 
 	if err != nil {
 		return nil, fmt.Errorf("Error marshalling request message: %v", err)
@@ -60,21 +80,17 @@ func (r *rpc) Send(request rpcRequest) (any, error) {
 
 	decoder := msgpack.NewDecoder(r.reader)
 
-	var response []any
+	var response rpcResponse
 
 	if err := decoder.Decode(&response); err != nil {
 		return nil, fmt.Errorf("Error decoding response: %w", err)
 	}
 
-	if len(response) < 4 || response[0].(int8) != responseMessageType || response[1].(int8) != messageId {
+	if err := response.Validate(messageId); err != nil {
 		return nil, fmt.Errorf("Invalid response received: %v", response)
 	}
 
-	if response[2] != nil { // Check for error field
-		return nil, fmt.Errorf("RPC response error: %v", response[2])
-	}
-
-	return response[3], nil
+	return response, nil
 }
 
 func NewRpc(cmd *exec.Cmd) (*rpc, error) {
