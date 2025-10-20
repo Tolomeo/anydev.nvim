@@ -23,8 +23,8 @@ func (n *nvim) Open() error {
 
 func (n *nvim) Close() error {
 	request := requestMessage{
-		"nvim_command",
-		[]any{"qa!"},
+		method: "nvim_command",
+		params: []any{"qa!"},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -44,8 +44,8 @@ func (n *nvim) Close() error {
 
 func (n *nvim) ApiInfo() {
 	request := requestMessage{
-		"nvim_get_api_info",
-		[]any{},
+		method: "nvim_get_api_info",
+		params: []any{},
 	}
 	response, err := n.rpc.Send(request)
 
