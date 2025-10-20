@@ -42,7 +42,7 @@ func (n *nvim) Close() error {
 	return nil
 }
 
-func (n *nvim) ApiInfo() {
+func (n *nvim) ApiInfo() (any, error) {
 	request := requestMessage{
 		method: "nvim_get_api_info",
 		params: []any{},
@@ -50,18 +50,16 @@ func (n *nvim) ApiInfo() {
 	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		fmt.Printf("Error getting API info: %v\n", err)
-		return
+		return nil, fmt.Errorf("Error getting API info: %v\n", err)
 	}
 
 	result, err := response.Result()
 
 	if err != nil {
-		fmt.Printf("Error getting API info: %v\n", err)
-		return
+		return nil, fmt.Errorf("Error getting API info: %v\n", err)
 	}
 
-	fmt.Printf("Api info: %v\n", result)
+	return result, nil
 }
 
 func New(optionOverrides ...nvimOptionProvider) (*nvim, error) {
@@ -70,7 +68,18 @@ func New(optionOverrides ...nvimOptionProvider) (*nvim, error) {
 	}
 	options.Set(optionOverrides...)
 
-	cmd := exec.Command(options.path, "--clean", "--embed")
+	arguments := []string{ "--embed", "--headless"}
+
+	if (options.vimrc != "") {
+		arguments = append(arguments, "-u", options.vimrc)
+	} else {
+		arguments = append(arguments, "--clean")
+	}
+
+	fmt.Println(options)
+	fmt.Println(arguments)
+
+	cmd := exec.Command(options.path, arguments...)
 	rpc, err := NewRpc(cmd)
 
 	if err != nil {
