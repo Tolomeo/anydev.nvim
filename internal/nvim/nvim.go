@@ -62,22 +62,39 @@ func (n *nvim) ApiInfo() (any, error) {
 	return result, nil
 }
 
+func (n *nvim) ExecLua(lua string, args []any) (any, error) {
+	request := requestMessage{
+		method: "nvim_exec_lua",
+		params: []any{lua, args},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	return result, nil
+}
+
 func New(optionOverrides ...nvimOptionProvider) (*nvim, error) {
 	options := nvimOptions{
 		path: "nvim",
 	}
 	options.Set(optionOverrides...)
 
-	arguments := []string{ "--embed", "--headless"}
+	arguments := []string{"--embed", "--headless"}
 
-	if (options.vimrc != "") {
+	if options.vimrc != "" {
 		arguments = append(arguments, "-u", options.vimrc)
 	} else {
 		arguments = append(arguments, "--clean")
 	}
-
-	fmt.Println(options)
-	fmt.Println(arguments)
 
 	cmd := exec.Command(options.path, arguments...)
 	rpc, err := NewRpc(cmd)

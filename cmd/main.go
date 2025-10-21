@@ -27,8 +27,6 @@ func main() {
 		panic(fmt.Errorf("Error retrieving lua init: %v", err))
 	}
 
-	fmt.Println(vimrc)
-
 	nvimClient, err := nvim.New(nvim.WithVimrc(vimrc))
 
 	if err != nil {
@@ -39,18 +37,17 @@ func main() {
 
 	if err != nil {
 		panic(fmt.Errorf("Error opening nvim: %v", err))
-
 	}
 
-	fmt.Println(nvimClient.Options())
+	luacode := "return vim.fn.json_encode(vim.lsp.config.lua_ls)"
 
-	apiInfo, err := nvimClient.ApiInfo()
+	result, err := nvimClient.ExecLua(luacode, []any{})
 
-	if err != nil {
-		panic(fmt.Errorf("Error obtaining nvim api info: %v", err))
+	if (err != nil) {
+		panic(fmt.Errorf("Error executing lua: %v", err))
 	}
 
-	fmt.Println(apiInfo)
+	fmt.Println(result)
 
 	if err := nvimClient.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
