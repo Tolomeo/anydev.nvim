@@ -7,21 +7,21 @@ import (
 	"os/exec"
 )
 
-type nvim struct {
-	options nvimOptions
+type Nvim struct {
+	options options
 	cmd     *exec.Cmd
 	rpc     *rpc
 }
 
-func (n *nvim) Options() nvimOptions {
+func (n *Nvim) Options() options {
 	return n.options
 }
 
-func (n *nvim) Open() error {
+func (n *Nvim) Open() error {
 	return n.cmd.Start()
 }
 
-func (n *nvim) Close() error {
+func (n *Nvim) Close() error {
 	request := requestMessage{
 		method: "nvim_command",
 		params: []any{"qa!"},
@@ -42,7 +42,7 @@ func (n *nvim) Close() error {
 	return nil
 }
 
-func (n *nvim) ApiInfo() (any, error) {
+/* func (n *Nvim) ApiInfo() (any, error) {
 	request := requestMessage{
 		method: "nvim_get_api_info",
 		params: []any{},
@@ -60,9 +60,9 @@ func (n *nvim) ApiInfo() (any, error) {
 	}
 
 	return result, nil
-}
+} */
 
-func (n *nvim) ExecLua(lua string, args []any) (any, error) {
+func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	request := requestMessage{
 		method: "nvim_exec_lua",
 		params: []any{lua, args},
@@ -82,28 +82,27 @@ func (n *nvim) ExecLua(lua string, args []any) (any, error) {
 	return result, nil
 }
 
-func New(optionOverrides ...nvimOptionProvider) (*nvim, error) {
-	options := nvimOptions{
-		path: "nvim",
+func New(opts ...optionProvider) (*Nvim, error) {
+	options, err := NewOptions(opts...)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting nvim options: %v", err)
 	}
-	options.Set(optionOverrides...)
 
 	arguments := []string{"--embed", "--headless"}
 
 	if options.vimrc != "" {
 		arguments = append(arguments, "-u", options.vimrc)
-	} else {
-		arguments = append(arguments, "--clean")
 	}
 
-	cmd := exec.Command(options.path, arguments...)
+	cmd := exec.Command(options.cmd, arguments...)
 	rpc, err := NewRpc(cmd)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error connecting to nvim rpc: %v", err)
 	}
 
-	return &nvim{
+	return &Nvim{
 		options: options,
 		cmd:     cmd,
 		rpc:     rpc,

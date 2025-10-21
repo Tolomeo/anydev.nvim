@@ -18,8 +18,8 @@ type requestMessage struct {
 }
 
 type responseMessage struct {
-	error any
-	result  any
+	error  any
+	result any
 }
 
 func (r responseMessage) Result() (any, error) {
@@ -98,8 +98,8 @@ func (r *rpc) messagePackResponseToResponse(messagePackResponse []any, messageId
 	}
 
 	return &responseMessage{
-		error: messagePackResponse[2],
-		result:  messagePackResponse[3],
+		error:  messagePackResponse[2],
+		result: messagePackResponse[3],
 	}, nil
 }
 
