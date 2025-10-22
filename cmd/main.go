@@ -26,7 +26,6 @@ func main() {
 		local util = require('vim.lsp.util')
 
 		local args = {...}
-		local file = args[1]
 
 		vim.cmd(string.format("e %s/anydev.lua", "{{.Dir}}"))
 
@@ -35,12 +34,16 @@ func main() {
 			return next(vim.lsp.get_active_clients()) ~= nil
 		end)
 
+		vim.api.nvim_buf_set_lines(0, 0, -1, false, {
+			"local vim_api = vim",
+		})
+
 		-- Send a textDocument/documentSymbol request
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
 
 		-- Convert Lua table result to JSON for Go to decode
-		return vim.fn.json_encode("{{.InitFile}}")
+		return vim.fn.json_encode(result)
 	`)
 
 	if (err != nil) {

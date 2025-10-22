@@ -36,4 +36,3 @@ vim.lsp.enable("lua_ls")
 --	return next(vim.lsp.get_clients()) ~= nil
 --end)
 --
-vim.g.test = "test"
