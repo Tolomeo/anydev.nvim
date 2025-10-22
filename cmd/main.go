@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+
+	"text/template"
 )
 
 func main() {
@@ -18,40 +22,42 @@ func main() {
 		panic(fmt.Errorf("Error opening nvim: %v", err))
 	}
 
-	luacode := `
+	luaTpl, err := template.New("lua").Parse(`
 		local util = require('vim.lsp.util')
 
-		-- Create a buffer with example Lua code
-		vim.cmd('enew')
-		vim.api.nvim_buf_set_lines(0, 0, -1, false, {
-			"local function foo()",
-			"  local x = 42",
-			"  return x * 2",
-			"end",
-			"foo()"
-		})
+		local args = {...}
+		local file = args[1]
 
-		-- Start the LSP client (lua-language-server must be in PATH)
-		local client_id = vim.lsp.start({
-			cmd = { "lua-language-server" },
-			root_dir = vim.fn.getcwd(),
-		})
+		vim.cmd(string.format("e %s/anydev.lua", "{{.Dir}}"))
 
 		-- Wait for LSP to attach
 		vim.wait(2000, function()
 			return next(vim.lsp.get_active_clients()) ~= nil
 		end)
 
-
 		-- Send a textDocument/documentSymbol request
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
 
 		-- Convert Lua table result to JSON for Go to decode
-		return vim.fn.json_encode(vim.g.test)
-	`
+		return vim.fn.json_encode("{{.InitFile}}")
+	`)
 
-	result, err := nvimClient.ExecLua(luacode, []any{})
+	if (err != nil) {
+		panic(fmt.Errorf("Error parsing lua code template: %v", err))
+	}
+
+	var luaTplResult bytes.Buffer
+
+	err = luaTpl.Execute(&luaTplResult, nvimClient.Options().Config())
+
+	if (err != nil) {
+		panic(fmt.Errorf("Error parsing lua code template: %v", err))
+	}
+
+	luaCode := luaTplResult.String()
+
+	result, err := nvimClient.ExecLua(luaCode, []any{ "/Users/diegofrattini/Projects/anydev.nvim/.config/nvim/anydev.lua" })
 
 	if err != nil {
 		panic(fmt.Errorf("Error executing lua: %v", err))

@@ -89,12 +89,8 @@ func New(opts ...optionProvider) (*Nvim, error) {
 		return nil, fmt.Errorf("Error getting nvim options: %v", err)
 	}
 
-	arguments := []string{"--embed", "--headless"}
-
-	if options.vimrc != "" {
-		arguments = append(arguments, "-u", options.vimrc)
-	}
-
+	arguments := []string{"--embed", "--headless", "-u", options.config.InitFile()}
+	arguments = append(arguments, options.arguments...)
 	cmd := exec.Command(options.cmd, arguments...)
 	rpc, err := NewRpc(cmd)
 

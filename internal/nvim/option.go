@@ -6,29 +6,46 @@ import (
 	"strings"
 )
 
-func vimrc() (string, error) {
-	cmdOutput, err := exec.Command("go", "list", "-m", "-f", "{{.Dir}}").Output()
+type config struct {
+	dir  string
+}
+
+func (c config) Dir() string {
+	return c.dir
+}
+
+func (c config) File(path string) string {
+	return c.dir + path
+}
+
+func (c config) InitFile() string {
+	return c.File("init.lua")
+}
+
+func NewConfig() (config, error) {
+	moduleDir, err := exec.Command("go", "list", "-m", "-f", "{{.Dir}}").Output()
 
 	if err != nil {
-		return "", err
+		return config{}, fmt.Errorf("Error retrieving project folder path: %v", err)
 	}
 
-	rootDir := strings.TrimSpace(string(cmdOutput))
-	configDir := rootDir + "/.config/nvim"
-	initLua := configDir + "/init.lua"
+	configDir := strings.TrimSpace(string(moduleDir)) + "/.config/nvim/"
 
-	return initLua, nil
+	newconfig := config{
+		dir:  configDir,
+	}
+
+	return newconfig, nil
 }
 
 type options struct {
-	cmd   string
-	vimrc string
+	cmd       string
+	arguments []string
+	config    config
 }
 
-func (o *options) Set(opts ...optionProvider) {
-	for _, opt := range opts {
-		opt(o)
-	}
+func (o options) Config() config {
+	return o.config
 }
 
 type optionProvider func(*options)
@@ -39,22 +56,22 @@ func WithCmd(path string) optionProvider {
 	}
 }
 
-func WithVimrc(vimrc string) optionProvider {
+func WithArguments(arguments []string) optionProvider {
 	return func(o *options) {
-		o.vimrc = vimrc
+		o.arguments = arguments
 	}
 }
 
 func NewOptions(opts ...optionProvider) (options, error) {
-	rc, err := vimrc()
+	config, err := NewConfig()
 
 	if err != nil {
-		return options{}, fmt.Errorf("Error retrieving default nvim config location: %v", err)
+		return options{}, fmt.Errorf("Error retrieving default nvim config details: %v", err)
 	}
 
 	newoptions := options{
-		cmd:   "nvim",
-		vimrc: rc,
+		cmd:    "nvim",
+		config: config,
 	}
 
 	for _, opt := range opts {
