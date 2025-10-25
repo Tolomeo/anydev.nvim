@@ -42,6 +42,53 @@ func (n *Nvim) Close() error {
 	return nil
 }
 
+func (n *Nvim) Edit(file string) error {
+	request := requestMessage{
+		method: "nvim_command",
+		params: []any{"edit" + file},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error trying to edit %s: %v\n", file, err)
+	}
+
+	return nil
+}
+
+func (n *Nvim) Write() error {
+	request := requestMessage{
+		method: "nvim_command",
+		params: []any{"write"},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error trying to write buffer: %v\n", err)
+	}
+
+	return nil
+}
+
+func (n *Nvim) BufferName() (string, error) {
+	request := requestMessage{
+		method: "nvim_buf_get_name",
+		params: []any{0},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return "", fmt.Errorf("Error reading buffer name: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return "", fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	return result.(string), nil
+}
 /* func (n *Nvim) ApiInfo() (any, error) {
 	request := requestMessage{
 		method: "nvim_get_api_info",

@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bytes"
+	// "bytes"
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-
-	"text/template"
+	// "text/template"
 )
 
 func main() {
@@ -22,7 +21,28 @@ func main() {
 		panic(fmt.Errorf("Error opening nvim: %v", err))
 	}
 
-	luaTpl, err := template.New("lua").Parse(`
+	tempFile := nvimClient.Options().Config().Dir() + "anydev.lua"
+	err = nvimClient.Edit(tempFile)
+
+	if err != nil {
+		panic(err)
+	}
+
+	bufferName, err := nvimClient.BufferName()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(bufferName)
+
+	err = nvimClient.Write()
+
+	if err != nil {
+		panic(err)
+	}
+
+	/* luaTpl, err := template.New("lua").Parse(`
 		local util = require('vim.lsp.util')
 
 		local args = {...}
@@ -43,7 +63,7 @@ func main() {
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
 
 		-- Convert Lua table result to JSON for Go to decode
-		return vim.fn.json_encode(result)
+		return vim.fn.json_encode(1)
 	`)
 
 	if (err != nil) {
@@ -58,9 +78,11 @@ func main() {
 		panic(fmt.Errorf("Error parsing lua code template: %v", err))
 	}
 
-	luaCode := luaTplResult.String()
+	luaCode := luaTplResult.String() */
 
-	result, err := nvimClient.ExecLua(luaCode, []any{ "/Users/diegofrattini/Projects/anydev.nvim/.config/nvim/anydev.lua" })
+	luaCode := `return vim.fn.json_encode({ "test" })`
+
+	result, err := nvimClient.ExecLua(luaCode, []any{})
 
 	if err != nil {
 		panic(fmt.Errorf("Error executing lua: %v", err))
