@@ -28,7 +28,7 @@ func main() {
 		panic(err)
 	}
 
-	bufferName, err := nvimClient.BufferName()
+	bufferName, err := nvimClient.GetBufferName()
 
 	if err != nil {
 		panic(err)
@@ -36,12 +36,33 @@ func main() {
 
 	fmt.Println(bufferName)
 
-	err = nvimClient.Write()
+	luaCode := `
+		vim.wait(2000, function()
+			return next(vim.lsp.get_active_clients()) ~= nil
+		end)
+	`
+
+	_, err = nvimClient.ExecLua(luaCode, []any{})
 
 	if err != nil {
 		panic(err)
 	}
 
+	err = nvimClient.SetBufferLines([]string{
+		"local vim_api = vim",
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	lines, err := nvimClient.GetBufferLines()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(lines)
 	/* luaTpl, err := template.New("lua").Parse(`
 		local util = require('vim.lsp.util')
 
@@ -80,7 +101,7 @@ func main() {
 
 	luaCode := luaTplResult.String() */
 
-	luaCode := `return vim.fn.json_encode({ "test" })`
+	luaCode = `return vim.fn.json_encode({ "test" })`
 
 	result, err := nvimClient.ExecLua(luaCode, []any{})
 
@@ -89,6 +110,12 @@ func main() {
 	}
 
 	fmt.Println(result)
+
+	err = nvimClient.DeleteBuffer()
+
+	if err != nil {
+		panic(err)
+	}
 
 	if err := nvimClient.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)

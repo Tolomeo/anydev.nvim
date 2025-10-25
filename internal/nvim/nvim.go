@@ -70,7 +70,7 @@ func (n *Nvim) Write() error {
 	return nil
 }
 
-func (n *Nvim) BufferName() (string, error) {
+func (n *Nvim) GetBufferName() (string, error) {
 	request := requestMessage{
 		method: "nvim_buf_get_name",
 		params: []any{0},
@@ -89,6 +89,73 @@ func (n *Nvim) BufferName() (string, error) {
 
 	return result.(string), nil
 }
+
+func (n *Nvim) SetBufferLines(lines []string) error {
+	request := requestMessage{
+		method: "nvim_buf_set_lines",
+		params: []any{0, 0, -1, false, lines},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error trying set buffer lines: %v\n", err)
+	}
+
+	return nil
+
+}
+
+func (n *Nvim) GetBufferLines() ([]string, error) {
+	request := requestMessage{
+		method: "nvim_buf_get_lines",
+		params: []any{0, 0, -1, false},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer name: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	sliceOfAny, ok := result.([]any)
+
+	if !ok {
+		return []string{}, fmt.Errorf("Error reading buffer lines return value: $v")
+	}
+
+	sliceOfStrings := make([]string, len(sliceOfAny))
+
+	for index, value := range sliceOfAny {
+		str, ok := value.(string)
+
+		if !ok {
+			return []string{}, fmt.Errorf("Error reading buffer lines return value item %d: %s", index, value)
+		}
+
+		sliceOfStrings[index] = str
+	}
+
+	return sliceOfStrings, nil
+}
+
+func (n *Nvim) DeleteBuffer() error {
+	request := requestMessage{
+		method: "nvim_buf_delete",
+		params: []any{0, struct{ force bool }{force: true}}}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error trying to write buffer: %v\n", err)
+	}
+
+	return nil
+}
+
 /* func (n *Nvim) ApiInfo() (any, error) {
 	request := requestMessage{
 		method: "nvim_get_api_info",
