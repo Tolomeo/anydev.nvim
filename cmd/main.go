@@ -63,6 +63,20 @@ func main() {
 	}
 
 	fmt.Println(lines)
+
+	luaCode = `
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
+		return vim.fn.json_encode(result)
+	`
+
+	result, err := nvimClient.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(result)
 	/* luaTpl, err := template.New("lua").Parse(`
 		local util = require('vim.lsp.util')
 
@@ -100,22 +114,6 @@ func main() {
 	}
 
 	luaCode := luaTplResult.String() */
-
-	luaCode = `return vim.fn.json_encode({ "test" })`
-
-	result, err := nvimClient.ExecLua(luaCode, []any{})
-
-	if err != nil {
-		panic(fmt.Errorf("Error executing lua: %v", err))
-	}
-
-	fmt.Println(result)
-
-	err = nvimClient.DeleteBuffer()
-
-	if err != nil {
-		panic(err)
-	}
 
 	if err := nvimClient.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
