@@ -1,11 +1,9 @@
 package main
 
 import (
-	// "bytes"
 	"fmt"
-
+	"github.com/Tolomeo/anydev.nvim/internal/lsp"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	// "text/template"
 )
 
 func main() {
@@ -67,7 +65,7 @@ func main() {
 	luaCode = `
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
-		return vim.fn.json_encode(result)
+		return vim.fn.json_encode(result[1])
 	`
 
 	result, err := nvimClient.ExecLua(luaCode, []any{})
@@ -76,44 +74,20 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(result)
-	/* luaTpl, err := template.New("lua").Parse(`
-		local util = require('vim.lsp.util')
+	stringResult, ok := result.(string)
 
-		local args = {...}
-
-		vim.cmd(string.format("e %s/anydev.lua", "{{.Dir}}"))
-
-		-- Wait for LSP to attach
-		vim.wait(2000, function()
-			return next(vim.lsp.get_active_clients()) ~= nil
-		end)
-
-		vim.api.nvim_buf_set_lines(0, 0, -1, false, {
-			"local vim_api = vim",
-		})
-
-		-- Send a textDocument/documentSymbol request
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
-
-		-- Convert Lua table result to JSON for Go to decode
-		return vim.fn.json_encode(1)
-	`)
-
-	if (err != nil) {
-		panic(fmt.Errorf("Error parsing lua code template: %v", err))
+	if !ok {
+		panic(fmt.Errorf("Error reading documentSymbol result"))
 	}
 
-	var luaTplResult bytes.Buffer
+	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
+	err = documentSymbols.UnmarshalJSON([]byte(stringResult))
 
-	err = luaTpl.Execute(&luaTplResult, nvimClient.Options().Config())
-
-	if (err != nil) {
-		panic(fmt.Errorf("Error parsing lua code template: %v", err))
+	if err != nil {
+		panic(fmt.Errorf("Error marshalling documentSymbol response: %v", err))
 	}
 
-	luaCode := luaTplResult.String() */
+	fmt.Println(documentSymbols)
 
 	if err := nvimClient.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
