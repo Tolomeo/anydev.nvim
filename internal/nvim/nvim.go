@@ -6,7 +6,7 @@ import (
 	"io"
 	"os/exec"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lsp"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 )
 
 type Nvim struct {
