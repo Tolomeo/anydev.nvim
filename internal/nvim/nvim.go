@@ -178,14 +178,36 @@ func (n *Nvim) DeleteBuffer() error {
 	return result, nil
 } */
 
+func (n *Nvim) WaitForLSP() error {
+	luaCode := `
+		vim.wait(2000, function()
+			return next(vim.lsp.get_active_clients()) ~= nil
+		end)
+	`
+
+	_, err := n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return fmt.Errorf("Error waiting for lsp to attach: %v", err)
+	}
+
+	return nil
+}
+
 func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
+	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
+
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return documentSymbols, err
+	}
+
 	luaCode := `
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
 		return vim.fn.json_encode(result[1])
 	`
-
-	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
 
 	result, err := n.ExecLua(luaCode, []any{})
 

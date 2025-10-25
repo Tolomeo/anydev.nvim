@@ -33,18 +33,6 @@ func main() {
 
 	fmt.Println(bufferName)
 
-	luaCode := `
-		vim.wait(2000, function()
-			return next(vim.lsp.get_active_clients()) ~= nil
-		end)
-	`
-
-	_, err = nvimClient.ExecLua(luaCode, []any{})
-
-	if err != nil {
-		panic(err)
-	}
-
 	err = nvimClient.SetBufferLines([]string{
 		"local vim_api = vim",
 	})
