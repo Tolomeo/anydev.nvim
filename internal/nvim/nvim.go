@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+
+	"github.com/Tolomeo/anydev.nvim/internal/lsp"
 )
 
 type Nvim struct {
@@ -175,6 +177,36 @@ func (n *Nvim) DeleteBuffer() error {
 
 	return result, nil
 } */
+
+func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
+	luaCode := `
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
+
+	result, err := n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return documentSymbols, fmt.Errorf("Error getting document symbols: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return documentSymbols, fmt.Errorf("Error reading document symbols response: %v", result)
+	}
+
+	err = documentSymbols.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return documentSymbols, fmt.Errorf("Error unmarshalling document symbols response: %v", err)
+	}
+
+	return documentSymbols, nil
+}
 
 func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	request := requestMessage{

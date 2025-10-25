@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/Tolomeo/anydev.nvim/internal/lsp"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -62,29 +61,10 @@ func main() {
 
 	fmt.Println(lines)
 
-	luaCode = `
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := nvimClient.ExecLua(luaCode, []any{})
+	documentSymbols, err := nvimClient.GetDocumentSymbols()
 
 	if err != nil {
 		panic(err)
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		panic(fmt.Errorf("Error reading documentSymbol result"))
-	}
-
-	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
-	err = documentSymbols.UnmarshalJSON([]byte(stringResult))
-
-	if err != nil {
-		panic(fmt.Errorf("Error marshalling documentSymbol response: %v", err))
 	}
 
 	fmt.Println(documentSymbols)
