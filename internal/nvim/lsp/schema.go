@@ -6,6 +6,279 @@ import "encoding/json"
 import "fmt"
 import "reflect"
 
+// Represents a reference to a command. Provides a title which
+// will be used to represent a command in the UI and, optionally,
+// an array of arguments which will be passed to the command handler
+// function when invoked.
+//
+//	The Command namespace provides helper functions to work with
+//
+// [Command](#Command) literals.
+type Command struct {
+	// Arguments that the command handler should be
+	// invoked with.
+	Arguments []interface{} `json:"arguments,omitempty" yaml:"arguments,omitempty" mapstructure:"arguments,omitempty"`
+
+	// The identifier of the actual command handler.
+	Command string `json:"command" yaml:"command" mapstructure:"command"`
+
+	// Title of the command, like `save`.
+	Title string `json:"title" yaml:"title" mapstructure:"title"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *Command) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["command"]; raw != nil && !ok {
+		return fmt.Errorf("field command in Command: required")
+	}
+	if _, ok := raw["title"]; raw != nil && !ok {
+		return fmt.Errorf("field title in Command: required")
+	}
+	type Plain Command
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = Command(plain)
+	return nil
+}
+
+// A completion item represents a text snippet that is
+// proposed to complete text that is being typed.
+//
+//	The CompletionItem namespace provides functions to deal with
+//
+// completion items.
+type CompletionItem struct {
+	// An optional array of additional [text edits](#TextEdit) that are applied when
+	// selecting this completion. Edits must not overlap (including the same insert
+	// position)
+	// with the main [edit](#CompletionItem.textEdit) nor with themselves.
+	//
+	// Additional text edits should be used to change text unrelated to the current
+	// cursor position
+	// (for example adding an import statement at the top of the file if the
+	// completion item will
+	// insert an unqualified type).
+	AdditionalTextEdits []TextEdit `json:"additionalTextEdits,omitempty" yaml:"additionalTextEdits,omitempty" mapstructure:"additionalTextEdits,omitempty"`
+
+	// An optional [command](#Command) that is executed *after* inserting this
+	// completion. *Note* that
+	// additional modifications to the current document should be described with the
+	// [additionalTextEdits](#CompletionItem.additionalTextEdits)-property.
+	Command *Command `json:"command,omitempty" yaml:"command,omitempty" mapstructure:"command,omitempty"`
+
+	// An optional set of characters that when pressed while this completion is active
+	// will accept it first and
+	// then type that character. *Note* that all commit characters should have
+	// `length=1` and that superfluous
+	// characters will be ignored.
+	CommitCharacters []string `json:"commitCharacters,omitempty" yaml:"commitCharacters,omitempty" mapstructure:"commitCharacters,omitempty"`
+
+	// An data entry field that is preserved on a completion item between
+	// a [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest]
+	// (#CompletionResolveRequest)
+	Data interface{} `json:"data,omitempty" yaml:"data,omitempty" mapstructure:"data,omitempty"`
+
+	// Indicates if this item is deprecated.
+	Deprecated *bool `json:"deprecated,omitempty" yaml:"deprecated,omitempty" mapstructure:"deprecated,omitempty"`
+
+	// A human-readable string with additional information
+	// about this item, like type or symbol information.
+	Detail *string `json:"detail,omitempty" yaml:"detail,omitempty" mapstructure:"detail,omitempty"`
+
+	// A human-readable string that represents a doc-comment.
+	Documentation *string `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+
+	// A string that should be used when filtering a set of
+	// completion items. When `falsy` the [label](#CompletionItem.label)
+	// is used.
+	FilterText *string `json:"filterText,omitempty" yaml:"filterText,omitempty" mapstructure:"filterText,omitempty"`
+
+	// A string that should be inserted into a document when selecting
+	// this completion. When `falsy` the [label](#CompletionItem.label)
+	// is used.
+	//
+	// The `insertText` is subject to interpretation by the client side.
+	// Some tools might not take the string literally. For example
+	// VS Code when code complete is requested in this example `con<cursor position>`
+	// and a completion item with an `insertText` of `console` is provided it
+	// will only insert `sole`. Therefore it is recommended to use `textEdit` instead
+	// since it avoids additional client side interpretation.
+	InsertText *string `json:"insertText,omitempty" yaml:"insertText,omitempty" mapstructure:"insertText,omitempty"`
+
+	// The format of the insert text. The format applies to both the `insertText`
+	// property
+	// and the `newText` property of a provided `textEdit`.
+	InsertTextFormat *InsertTextFormat `json:"insertTextFormat,omitempty" yaml:"insertTextFormat,omitempty" mapstructure:"insertTextFormat,omitempty"`
+
+	// The kind of this completion item. Based of the kind
+	// an icon is chosen by the editor.
+	Kind *CompletionItemKind `json:"kind,omitempty" yaml:"kind,omitempty" mapstructure:"kind,omitempty"`
+
+	// The label of this completion item. By default
+	// also the text that is inserted when selecting
+	// this completion.
+	Label string `json:"label" yaml:"label" mapstructure:"label"`
+
+	// Select this item when showing.
+	//
+	// *Note* that only one completion item can be selected and that the
+	// tool / client decides which item that is. The rule is that the *first*
+	// item of those that match best is selected.
+	Preselect *bool `json:"preselect,omitempty" yaml:"preselect,omitempty" mapstructure:"preselect,omitempty"`
+
+	// A string that should be used when comparing this item
+	// with other items. When `falsy` the [label](#CompletionItem.label)
+	// is used.
+	SortText *string `json:"sortText,omitempty" yaml:"sortText,omitempty" mapstructure:"sortText,omitempty"`
+
+	// Tags for this completion item.
+	Tags []CompletionItemTag `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
+
+	// An [edit](#TextEdit) which is applied to a document when selecting
+	// this completion. When an edit is provided the value of
+	// [insertText](#CompletionItem.insertText) is ignored.
+	//
+	// *Note:* The text edit's range must be a [single line] and it must contain the
+	// position
+	// at which completion has been requested.
+	TextEdit *TextEdit `json:"textEdit,omitempty" yaml:"textEdit,omitempty" mapstructure:"textEdit,omitempty"`
+}
+
+type CompletionItemKind float64
+
+var enumValues_CompletionItemKind = []interface{}{
+	1.0,
+	2.0,
+	3.0,
+	4.0,
+	5.0,
+	6.0,
+	7.0,
+	8.0,
+	9.0,
+	10.0,
+	11.0,
+	12.0,
+	13.0,
+	14.0,
+	15.0,
+	16.0,
+	17.0,
+	18.0,
+	19.0,
+	20.0,
+	21.0,
+	22.0,
+	23.0,
+	24.0,
+	25.0,
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *CompletionItemKind) UnmarshalJSON(value []byte) error {
+	var v float64
+	if err := json.Unmarshal(value, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_CompletionItemKind {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_CompletionItemKind, v)
+	}
+	*j = CompletionItemKind(v)
+	return nil
+}
+
+type CompletionItemTag float64
+
+var enumValues_CompletionItemTag = []interface{}{
+	1.0,
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *CompletionItemTag) UnmarshalJSON(value []byte) error {
+	var v float64
+	if err := json.Unmarshal(value, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_CompletionItemTag {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_CompletionItemTag, v)
+	}
+	*j = CompletionItemTag(v)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *CompletionItem) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["label"]; raw != nil && !ok {
+		return fmt.Errorf("field label in CompletionItem: required")
+	}
+	type Plain CompletionItem
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = CompletionItem(plain)
+	return nil
+}
+
+// Represents a collection of [completion items](#CompletionItem) to be presented
+// in the editor.
+//
+//	The CompletionList namespace provides functions to deal with
+//
+// completion lists.
+type CompletionList struct {
+	// This list it not complete. Further typing results in recomputing this list.
+	IsIncomplete bool `json:"isIncomplete" yaml:"isIncomplete" mapstructure:"isIncomplete"`
+
+	// The completion items.
+	Items []CompletionItem `json:"items" yaml:"items" mapstructure:"items"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *CompletionList) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["isIncomplete"]; raw != nil && !ok {
+		return fmt.Errorf("field isIncomplete in CompletionList: required")
+	}
+	if _, ok := raw["items"]; raw != nil && !ok {
+		return fmt.Errorf("field items in CompletionList: required")
+	}
+	type Plain CompletionList
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = CompletionList(plain)
+	return nil
+}
+
 // Represents programming constructs like variables, classes, interfaces etc.
 // that appear in a document. Document symbols can be hierarchical and they
 // have two ranges: one that encloses its definition and one that points to
@@ -71,6 +344,33 @@ func (j *DocumentSymbol) UnmarshalJSON(value []byte) error {
 // A tagging type for string properties that are actually URIs.
 type DocumentUri string
 
+type InsertTextFormat float64
+
+var enumValues_InsertTextFormat = []interface{}{
+	1.0,
+	2.0,
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *InsertTextFormat) UnmarshalJSON(value []byte) error {
+	var v float64
+	if err := json.Unmarshal(value, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_InsertTextFormat {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_InsertTextFormat, v)
+	}
+	*j = InsertTextFormat(v)
+	return nil
+}
+
 // Represents a location inside a resource, such as a line
 // inside a text file.
 //
@@ -103,6 +403,97 @@ func (j *Location) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = Location(plain)
+	return nil
+}
+
+// A `MarkupContent` literal represents a string value which content is interpreted
+// base on its
+// kind flag. Currently the protocol supports `plaintext` and `markdown` as markup
+// kinds.
+//
+// If the kind is `markdown` then the value can contain fenced code blocks like in
+// GitHub issues.
+// See
+// https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting
+//
+// Here is an example how such a string can be constructed using JavaScript /
+// TypeScript:
+// ```ts
+//
+//	let markdown: MarkdownContent = {
+//	  kind: MarkupKind.Markdown,
+//
+// value: [
+//
+//	'# Header',
+//	'Some text',
+//	'```typescript',
+//	'someCode();',
+//	'```'
+//
+// ].join('\n')
+// };
+// ```
+//
+// *Please Note* that clients might sanitize the return markdown. A client could
+// decide to
+// remove HTML from the markdown to avoid script execution.
+type MarkupContent struct {
+	// The type of the Markup
+	Kind MarkupKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// The content itself
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *MarkupContent) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["kind"]; raw != nil && !ok {
+		return fmt.Errorf("field kind in MarkupContent: required")
+	}
+	if _, ok := raw["value"]; raw != nil && !ok {
+		return fmt.Errorf("field value in MarkupContent: required")
+	}
+	type Plain MarkupContent
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = MarkupContent(plain)
+	return nil
+}
+
+type MarkupKind string
+
+const MarkupKindMarkdown MarkupKind = "markdown"
+const MarkupKindPlaintext MarkupKind = "plaintext"
+
+var enumValues_MarkupKind = []interface{}{
+	"plaintext",
+	"markdown",
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *MarkupKind) UnmarshalJSON(value []byte) error {
+	var v string
+	if err := json.Unmarshal(value, &v); err != nil {
+		return err
+	}
+	var ok bool
+	for _, expected := range enumValues_MarkupKind {
+		if reflect.DeepEqual(v, expected) {
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_MarkupKind, v)
+	}
+	*j = MarkupKind(v)
 	return nil
 }
 
@@ -310,13 +701,47 @@ func (j *SymbolKind) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
+// A text edit applicable to a text document.
+//
+//	The TextEdit namespace provides helper function to create replace,
+//
+// insert and delete edits more easily.
+type TextEdit struct {
+	// The string to be inserted. For delete operations use an
+	// empty string.
+	NewText string `json:"newText" yaml:"newText" mapstructure:"newText"`
+
+	// The range of the text document to be manipulated. To insert
+	// text into a document create a range where start === end.
+	Range Range `json:"range" yaml:"range" mapstructure:"range"`
+}
+
+type CompletionItemDocumentation_1 = MarkupContent
+type TextDocumentCompletionResponse struct {
+	// The result of a request. This member is REQUIRED on success.
+	// This member MUST NOT exist if there was an error invoking the method.
+	Result CompletionList `json:"result" yaml:"result" mapstructure:"result"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TextDocumentCompletionResponse) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["result"]; raw != nil && !ok {
+		return fmt.Errorf("field result in TextDocumentCompletionResponse: required")
+	}
+	type Plain TextDocumentCompletionResponse
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TextDocumentCompletionResponse(plain)
+	return nil
+}
+
 type TextDocumentDocumentSymbolResponse struct {
-	// The request id.
-	Id interface{} `json:"id,omitempty" yaml:"id,omitempty" mapstructure:"id,omitempty"`
-
-	// Jsonrpc corresponds to the JSON schema field "jsonrpc".
-	Jsonrpc *string `json:"jsonrpc,omitempty" yaml:"jsonrpc,omitempty" mapstructure:"jsonrpc,omitempty"`
-
 	// The result of a request. This member is REQUIRED on success.
 	// This member MUST NOT exist if there was an error invoking the method.
 	Result []DocumentSymbol `json:"result" yaml:"result" mapstructure:"result"`
@@ -337,5 +762,26 @@ func (j *TextDocumentDocumentSymbolResponse) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = TextDocumentDocumentSymbolResponse(plain)
+	return nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TextEdit) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["newText"]; raw != nil && !ok {
+		return fmt.Errorf("field newText in TextEdit: required")
+	}
+	if _, ok := raw["range"]; raw != nil && !ok {
+		return fmt.Errorf("field range in TextEdit: required")
+	}
+	type Plain TextEdit
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TextEdit(plain)
 	return nil
 }

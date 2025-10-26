@@ -15,7 +15,7 @@ func main() {
 
 	crawler := crawler.New(client)
 
-	err = crawler.Crawl()
+	err = crawler.Crawl("vim")
 
 	if err != nil {
 		panic(fmt.Errorf("Error crawling: %v", err))

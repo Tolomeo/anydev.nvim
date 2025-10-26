@@ -230,6 +230,44 @@ func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, err
 	return documentSymbols, nil
 }
 
+func (n *Nvim) GetCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
+	completion := lsp.TextDocumentCompletionResponse{}
+
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return completion, err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/completion', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{ line, character })
+
+	if err != nil {
+		return completion, fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return completion, fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	err = completion.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return completion, fmt.Errorf("Error unmarshalling completion response: %v", err)
+	}
+
+	return completion, nil
+}
+
 func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	request := requestMessage{
 		method: "nvim_exec_lua",

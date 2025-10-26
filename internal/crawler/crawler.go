@@ -2,14 +2,18 @@ package crawler
 
 import (
 	"fmt"
+	"slices"
+
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
+	// "github.com/Tolomeo/anydev.nvim/internal/dumper"
 )
 
 type crawler struct {
 	nvim *nvim.Nvim
 }
 
-func (c *crawler) Crawl() error {
+func (c *crawler) Crawl(api string) error {
 	err := c.nvim.Open()
 
 	if err != nil {
@@ -32,7 +36,7 @@ func (c *crawler) Crawl() error {
 	fmt.Println(bufferName)
 
 	err = c.nvim.SetBufferLines([]string{
-		"local vim_api = vim",
+		"local ref = _G.",
 	})
 
 	if err != nil {
@@ -53,7 +57,29 @@ func (c *crawler) Crawl() error {
 		return err
 	}
 
-	fmt.Println(documentSymbols)
+	fmt.Printf("%+v", documentSymbols)
+
+	ref := slices.IndexFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
+		return s.Name == "ref"
+	})
+
+	if ref == -1 {
+		return fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
+	}
+
+	symbol := documentSymbols.Result[ref]
+
+	fmt.Println("Symbol")
+	fmt.Printf("%+v", symbol)
+
+	completion, err := c.nvim.GetCompletion(uint(symbol.SelectionRange.End.Line), uint(symbol.SelectionRange.End.Character))
+
+	if err != nil {
+		return fmt.Errorf("Error retrieving completion information: %v", err)
+	}
+
+	fmt.Println("Completion")
+	fmt.Printf("%+v", completion)
 
 	if err := c.nvim.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
