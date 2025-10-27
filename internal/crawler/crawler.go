@@ -2,10 +2,10 @@ package crawler
 
 import (
 	"fmt"
-	"slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
+	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
 	// "github.com/Tolomeo/anydev.nvim/internal/dumper"
 )
 
@@ -61,22 +61,20 @@ func (c *crawler) Crawl(api string) error {
 		return err
 	}
 
-	ref := slices.IndexFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
+	documentSymbol, ok := slicesx.FindFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
 		return s.Name == "ref"
 	})
 
-	if ref == -1 {
+	if !ok {
 		return fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
 	}
 
-	symbol := documentSymbols.Result[ref]
-
 	fmt.Println("Symbol")
-	fmt.Printf("%#v\n", symbol)
-	fmt.Println(symbol.SelectionRange.End.Line, symbol.SelectionRange.End.Character)
+	fmt.Printf("%#v\n", documentSymbol)
+	fmt.Println(documentSymbol.SelectionRange.End.Line, documentSymbol.SelectionRange.End.Character)
 	fmt.Println("/Symbol")
 
-	completion, err := c.nvim.GetCompletion(uint(symbol.Range.End.Line), uint(symbol.Range.End.Character))
+	completion, err := c.nvim.GetCompletion(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 
 	if err != nil {
 		return fmt.Errorf("Error retrieving completion information: %v", err)
@@ -85,6 +83,18 @@ func (c *crawler) Crawl(api string) error {
 	fmt.Println("Completion")
 	fmt.Printf("%#v\n", completion)
 	fmt.Println("/Completion")
+
+	symbol, ok := slicesx.FindFunc(completion.Result.Items, func(item lsp.CompletionItem) bool {
+		return item.Label == api
+	})
+
+	if !ok {
+		return fmt.Errorf("Error retrieving completion item from completion: %+v", completion)
+	}
+
+	fmt.Println("Symbol")
+	fmt.Printf("%#v\n", symbol)
+	fmt.Println("/Symbol")
 
 	if err := c.nvim.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
