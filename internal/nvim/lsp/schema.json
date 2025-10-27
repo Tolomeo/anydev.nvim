@@ -170,27 +170,6 @@
       "additionalProperties": false,
       "description": "A completion item represents a text snippet that is\r\nproposed to complete text that is being typed. \n The CompletionItem namespace provides functions to deal with\r\ncompletion items.",
       "properties": {
-        "additionalTextEdits": {
-          "description": "An optional array of additional [text edits](#TextEdit) that are applied when\r\nselecting this completion. Edits must not overlap (including the same insert position)\r\nwith the main [edit](#CompletionItem.textEdit) nor with themselves.\r\n\r\nAdditional text edits should be used to change text unrelated to the current cursor position\r\n(for example adding an import statement at the top of the file if the completion item will\r\ninsert an unqualified type).",
-          "items": {
-            "$ref": "#/definitions/TextEdit"
-          },
-          "type": "array"
-        },
-        "command": {
-          "$ref": "#/definitions/Command",
-          "description": "An optional [command](#Command) that is executed *after* inserting this completion. *Note* that\r\nadditional modifications to the current document should be described with the\r\n[additionalTextEdits](#CompletionItem.additionalTextEdits)-property."
-        },
-        "commitCharacters": {
-          "description": "An optional set of characters that when pressed while this completion is active will accept it first and\r\nthen type that character. *Note* that all commit characters should have `length=1` and that superfluous\r\ncharacters will be ignored.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "data": {
-          "description": "An data entry field that is preserved on a completion item between\r\na [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest]\r\n(#CompletionResolveRequest)"
-        },
         "deprecated": {
           "description": "Indicates if this item is deprecated.",
           "type": "boolean"
@@ -210,18 +189,6 @@
           ],
           "description": "A human-readable string that represents a doc-comment."
         },
-        "filterText": {
-          "description": "A string that should be used when filtering a set of\r\ncompletion items. When `falsy` the [label](#CompletionItem.label)\r\nis used.",
-          "type": "string"
-        },
-        "insertText": {
-          "description": "A string that should be inserted into a document when selecting\r\nthis completion. When `falsy` the [label](#CompletionItem.label)\r\nis used.\r\n\r\nThe `insertText` is subject to interpretation by the client side.\r\nSome tools might not take the string literally. For example\r\nVS Code when code complete is requested in this example `con<cursor position>`\r\nand a completion item with an `insertText` of `console` is provided it\r\nwill only insert `sole`. Therefore it is recommended to use `textEdit` instead\r\nsince it avoids additional client side interpretation.",
-          "type": "string"
-        },
-        "insertTextFormat": {
-          "$ref": "#/definitions/InsertTextFormat",
-          "description": "The format of the insert text. The format applies to both the `insertText` property\r\nand the `newText` property of a provided `textEdit`."
-        },
         "kind": {
           "$ref": "#/definitions/CompletionItemKind",
           "description": "The kind of this completion item. Based of the kind\r\nan icon is chosen by the editor."
@@ -229,25 +196,6 @@
         "label": {
           "description": "The label of this completion item. By default\r\nalso the text that is inserted when selecting\r\nthis completion.",
           "type": "string"
-        },
-        "preselect": {
-          "description": "Select this item when showing.\r\n\r\n*Note* that only one completion item can be selected and that the\r\ntool / client decides which item that is. The rule is that the *first*\r\nitem of those that match best is selected.",
-          "type": "boolean"
-        },
-        "sortText": {
-          "description": "A string that should be used when comparing this item\r\nwith other items. When `falsy` the [label](#CompletionItem.label)\r\nis used.",
-          "type": "string"
-        },
-        "tags": {
-          "description": "Tags for this completion item.",
-          "items": {
-            "$ref": "#/definitions/CompletionItemTag"
-          },
-          "type": "array"
-        },
-        "textEdit": {
-          "$ref": "#/definitions/TextEdit",
-          "description": "An [edit](#TextEdit) which is applied to a document when selecting\r\nthis completion. When an edit is provided the value of\r\n[insertText](#CompletionItem.insertText) is ignored.\r\n\r\n*Note:* The text edit's range must be a [single line] and it must contain the position\r\nat which completion has been requested."
         }
       },
       "required": ["label"],
@@ -270,43 +218,6 @@
         }
       },
       "required": ["isIncomplete", "items"],
-      "type": "object"
-    },
-    "TextEdit": {
-      "additionalProperties": false,
-      "description": "A text edit applicable to a text document. \n The TextEdit namespace provides helper function to create replace,\r\ninsert and delete edits more easily.",
-      "properties": {
-        "newText": {
-          "description": "The string to be inserted. For delete operations use an\r\nempty string.",
-          "type": "string"
-        },
-        "range": {
-          "$ref": "#/definitions/Range",
-          "description": "The range of the text document to be manipulated. To insert\r\ntext into a document create a range where start === end."
-        }
-      },
-      "required": ["range", "newText"],
-      "type": "object"
-    },
-    "Command": {
-      "additionalProperties": false,
-      "description": "Represents a reference to a command. Provides a title which\r\nwill be used to represent a command in the UI and, optionally,\r\nan array of arguments which will be passed to the command handler\r\nfunction when invoked. \n The Command namespace provides helper functions to work with\r\n[Command](#Command) literals.",
-      "properties": {
-        "arguments": {
-          "description": "Arguments that the command handler should be\r\ninvoked with.",
-          "items": {},
-          "type": "array"
-        },
-        "command": {
-          "description": "The identifier of the actual command handler.",
-          "type": "string"
-        },
-        "title": {
-          "description": "Title of the command, like `save`.",
-          "type": "string"
-        }
-      },
-      "required": ["title", "command"],
       "type": "object"
     },
     "MarkupContent": {
@@ -336,11 +247,6 @@
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25
       ],
-      "type": "number"
-    },
-    "CompletionItemTag": {
-      "description": "Completion item tags are extra annotations that tweak the rendering of a completion\r\nitem.",
-      "enum": [1],
       "type": "number"
     },
     "MarkupKind": {

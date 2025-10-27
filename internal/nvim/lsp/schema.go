@@ -6,47 +6,6 @@ import "encoding/json"
 import "fmt"
 import "reflect"
 
-// Represents a reference to a command. Provides a title which
-// will be used to represent a command in the UI and, optionally,
-// an array of arguments which will be passed to the command handler
-// function when invoked.
-//
-//	The Command namespace provides helper functions to work with
-//
-// [Command](#Command) literals.
-type Command struct {
-	// Arguments that the command handler should be
-	// invoked with.
-	Arguments []interface{} `json:"arguments,omitempty" yaml:"arguments,omitempty" mapstructure:"arguments,omitempty"`
-
-	// The identifier of the actual command handler.
-	Command string `json:"command" yaml:"command" mapstructure:"command"`
-
-	// Title of the command, like `save`.
-	Title string `json:"title" yaml:"title" mapstructure:"title"`
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *Command) UnmarshalJSON(value []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
-		return err
-	}
-	if _, ok := raw["command"]; raw != nil && !ok {
-		return fmt.Errorf("field command in Command: required")
-	}
-	if _, ok := raw["title"]; raw != nil && !ok {
-		return fmt.Errorf("field title in Command: required")
-	}
-	type Plain Command
-	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
-		return err
-	}
-	*j = Command(plain)
-	return nil
-}
-
 // A completion item represents a text snippet that is
 // proposed to complete text that is being typed.
 //
@@ -54,36 +13,6 @@ func (j *Command) UnmarshalJSON(value []byte) error {
 //
 // completion items.
 type CompletionItem struct {
-	// An optional array of additional [text edits](#TextEdit) that are applied when
-	// selecting this completion. Edits must not overlap (including the same insert
-	// position)
-	// with the main [edit](#CompletionItem.textEdit) nor with themselves.
-	//
-	// Additional text edits should be used to change text unrelated to the current
-	// cursor position
-	// (for example adding an import statement at the top of the file if the
-	// completion item will
-	// insert an unqualified type).
-	AdditionalTextEdits []TextEdit `json:"additionalTextEdits,omitempty" yaml:"additionalTextEdits,omitempty" mapstructure:"additionalTextEdits,omitempty"`
-
-	// An optional [command](#Command) that is executed *after* inserting this
-	// completion. *Note* that
-	// additional modifications to the current document should be described with the
-	// [additionalTextEdits](#CompletionItem.additionalTextEdits)-property.
-	Command *Command `json:"command,omitempty" yaml:"command,omitempty" mapstructure:"command,omitempty"`
-
-	// An optional set of characters that when pressed while this completion is active
-	// will accept it first and
-	// then type that character. *Note* that all commit characters should have
-	// `length=1` and that superfluous
-	// characters will be ignored.
-	CommitCharacters []string `json:"commitCharacters,omitempty" yaml:"commitCharacters,omitempty" mapstructure:"commitCharacters,omitempty"`
-
-	// An data entry field that is preserved on a completion item between
-	// a [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest]
-	// (#CompletionResolveRequest)
-	Data interface{} `json:"data,omitempty" yaml:"data,omitempty" mapstructure:"data,omitempty"`
-
 	// Indicates if this item is deprecated.
 	Deprecated *bool `json:"deprecated,omitempty" yaml:"deprecated,omitempty" mapstructure:"deprecated,omitempty"`
 
@@ -94,28 +23,6 @@ type CompletionItem struct {
 	// A human-readable string that represents a doc-comment.
 	Documentation *string `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
-	// A string that should be used when filtering a set of
-	// completion items. When `falsy` the [label](#CompletionItem.label)
-	// is used.
-	FilterText *string `json:"filterText,omitempty" yaml:"filterText,omitempty" mapstructure:"filterText,omitempty"`
-
-	// A string that should be inserted into a document when selecting
-	// this completion. When `falsy` the [label](#CompletionItem.label)
-	// is used.
-	//
-	// The `insertText` is subject to interpretation by the client side.
-	// Some tools might not take the string literally. For example
-	// VS Code when code complete is requested in this example `con<cursor position>`
-	// and a completion item with an `insertText` of `console` is provided it
-	// will only insert `sole`. Therefore it is recommended to use `textEdit` instead
-	// since it avoids additional client side interpretation.
-	InsertText *string `json:"insertText,omitempty" yaml:"insertText,omitempty" mapstructure:"insertText,omitempty"`
-
-	// The format of the insert text. The format applies to both the `insertText`
-	// property
-	// and the `newText` property of a provided `textEdit`.
-	InsertTextFormat *InsertTextFormat `json:"insertTextFormat,omitempty" yaml:"insertTextFormat,omitempty" mapstructure:"insertTextFormat,omitempty"`
-
 	// The kind of this completion item. Based of the kind
 	// an icon is chosen by the editor.
 	Kind *CompletionItemKind `json:"kind,omitempty" yaml:"kind,omitempty" mapstructure:"kind,omitempty"`
@@ -124,30 +31,6 @@ type CompletionItem struct {
 	// also the text that is inserted when selecting
 	// this completion.
 	Label string `json:"label" yaml:"label" mapstructure:"label"`
-
-	// Select this item when showing.
-	//
-	// *Note* that only one completion item can be selected and that the
-	// tool / client decides which item that is. The rule is that the *first*
-	// item of those that match best is selected.
-	Preselect *bool `json:"preselect,omitempty" yaml:"preselect,omitempty" mapstructure:"preselect,omitempty"`
-
-	// A string that should be used when comparing this item
-	// with other items. When `falsy` the [label](#CompletionItem.label)
-	// is used.
-	SortText *string `json:"sortText,omitempty" yaml:"sortText,omitempty" mapstructure:"sortText,omitempty"`
-
-	// Tags for this completion item.
-	Tags []CompletionItemTag `json:"tags,omitempty" yaml:"tags,omitempty" mapstructure:"tags,omitempty"`
-
-	// An [edit](#TextEdit) which is applied to a document when selecting
-	// this completion. When an edit is provided the value of
-	// [insertText](#CompletionItem.insertText) is ignored.
-	//
-	// *Note:* The text edit's range must be a [single line] and it must contain the
-	// position
-	// at which completion has been requested.
-	TextEdit *TextEdit `json:"textEdit,omitempty" yaml:"textEdit,omitempty" mapstructure:"textEdit,omitempty"`
 }
 
 type CompletionItemKind float64
@@ -197,32 +80,6 @@ func (j *CompletionItemKind) UnmarshalJSON(value []byte) error {
 		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_CompletionItemKind, v)
 	}
 	*j = CompletionItemKind(v)
-	return nil
-}
-
-type CompletionItemTag float64
-
-var enumValues_CompletionItemTag = []interface{}{
-	1.0,
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *CompletionItemTag) UnmarshalJSON(value []byte) error {
-	var v float64
-	if err := json.Unmarshal(value, &v); err != nil {
-		return err
-	}
-	var ok bool
-	for _, expected := range enumValues_CompletionItemTag {
-		if reflect.DeepEqual(v, expected) {
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		return fmt.Errorf("invalid value (expected one of %#v): %#v", enumValues_CompletionItemTag, v)
-	}
-	*j = CompletionItemTag(v)
 	return nil
 }
 
@@ -701,21 +558,6 @@ func (j *SymbolKind) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
-// A text edit applicable to a text document.
-//
-//	The TextEdit namespace provides helper function to create replace,
-//
-// insert and delete edits more easily.
-type TextEdit struct {
-	// The string to be inserted. For delete operations use an
-	// empty string.
-	NewText string `json:"newText" yaml:"newText" mapstructure:"newText"`
-
-	// The range of the text document to be manipulated. To insert
-	// text into a document create a range where start === end.
-	Range Range `json:"range" yaml:"range" mapstructure:"range"`
-}
-
 type CompletionItemDocumentation_1 = MarkupContent
 type TextDocumentCompletionResponse struct {
 	// The result of a request. This member is REQUIRED on success.
@@ -762,26 +604,5 @@ func (j *TextDocumentDocumentSymbolResponse) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = TextDocumentDocumentSymbolResponse(plain)
-	return nil
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TextEdit) UnmarshalJSON(value []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
-		return err
-	}
-	if _, ok := raw["newText"]; raw != nil && !ok {
-		return fmt.Errorf("field newText in TextEdit: required")
-	}
-	if _, ok := raw["range"]; raw != nil && !ok {
-		return fmt.Errorf("field range in TextEdit: required")
-	}
-	type Plain TextEdit
-	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
-		return err
-	}
-	*j = TextEdit(plain)
 	return nil
 }

@@ -33,7 +33,9 @@ func (c *crawler) Crawl(api string) error {
 		return err
 	}
 
+	fmt.Println("BufferName")
 	fmt.Println(bufferName)
+	fmt.Println("/BufferName")
 
 	err = c.nvim.SetBufferLines([]string{
 		"local ref = _G.",
@@ -49,15 +51,15 @@ func (c *crawler) Crawl(api string) error {
 		return err
 	}
 
+	fmt.Println("Lines")
 	fmt.Println(lines)
+	fmt.Println("/Lines")
 
 	documentSymbols, err := c.nvim.GetDocumentSymbols()
 
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("%+v", documentSymbols)
 
 	ref := slices.IndexFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
 		return s.Name == "ref"
@@ -70,16 +72,19 @@ func (c *crawler) Crawl(api string) error {
 	symbol := documentSymbols.Result[ref]
 
 	fmt.Println("Symbol")
-	fmt.Printf("%+v", symbol)
+	fmt.Printf("%#v\n", symbol)
+	fmt.Println(symbol.SelectionRange.End.Line, symbol.SelectionRange.End.Character)
+	fmt.Println("/Symbol")
 
-	completion, err := c.nvim.GetCompletion(uint(symbol.SelectionRange.End.Line), uint(symbol.SelectionRange.End.Character))
+	completion, err := c.nvim.GetCompletion(uint(symbol.Range.End.Line), uint(symbol.Range.End.Character))
 
 	if err != nil {
 		return fmt.Errorf("Error retrieving completion information: %v", err)
 	}
 
 	fmt.Println("Completion")
-	fmt.Printf("%+v", completion)
+	fmt.Printf("%#v\n", completion)
+	fmt.Println("/Completion")
 
 	if err := c.nvim.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %v", err)
