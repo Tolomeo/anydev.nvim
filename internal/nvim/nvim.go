@@ -180,12 +180,15 @@ func (n *Nvim) DeleteBuffer() error {
 
 func (n *Nvim) WaitForLSP() error {
 	luaCode := `
-		vim.wait(2000, function()
+		local args = {...}
+		local delay = args[1]
+
+		vim.wait(delay, function()
 			return next(vim.lsp.get_active_clients()) ~= nil
 		end)
 	`
 
-	_, err := n.ExecLua(luaCode, []any{})
+	_, err := n.ExecLua(luaCode, []any{30000})
 
 	if err != nil {
 		return fmt.Errorf("Error waiting for lsp to attach: %v", err)
@@ -247,7 +250,7 @@ func (n *Nvim) GetCompletion(line uint, character uint) (lsp.TextDocumentComplet
 		return vim.fn.json_encode(result[1])
 	`
 
-	result, err := n.ExecLua(luaCode, []any{ line, character })
+	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
 		return completion, fmt.Errorf("Error getting completion: %v", err)
