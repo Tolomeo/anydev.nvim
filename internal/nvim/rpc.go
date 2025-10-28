@@ -45,7 +45,7 @@ func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 	messagePackRequest, err := r.requestToMessagePackRequest(request, messageId)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error marshalling request message: %v", err)
+		return nil, fmt.Errorf("Error marshalling request message: %w", err)
 	}
 
 	if _, err := r.writer.Write(messagePackRequest); err != nil {
@@ -63,7 +63,7 @@ func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 	response, err := r.messagePackResponseToResponse(messagePackResponse, messageId)
 
 	if err != nil {
-		return nil, fmt.Errorf("Invalid response received: %v", err)
+		return nil, fmt.Errorf("Invalid response received: %w", err)
 	}
 
 	return response, nil

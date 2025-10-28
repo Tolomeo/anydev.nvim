@@ -54,13 +54,18 @@ func (c *crawler) Crawl(subpath string) error {
 
 	switch *completionItemKind {
 	case 5:
+		classSubpath := c.path+"."+subpath
 		classSymbol := ClassSymbol{
 			Name:       child.Label,
 			Deprecated: child.Deprecated,
 			Detail:     child.Detail,
 		}
 
-		c.crawlClass(&classSymbol, subpath)
+		err = c.crawlClass(&classSymbol, classSubpath)
+
+		if (err != nil) {
+			return fmt.Errorf("Error crawling %s: %w", classSubpath, err)
+		}
 
 		fmt.Println("Class")
 		fmt.Printf("%+v\n\n", classSymbol)
@@ -76,8 +81,35 @@ func (c *crawler) Crawl(subpath string) error {
 	return nil
 }
 
-func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) {
+func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
+	children, err := c.getChildren(subpath)
 
+	if err != nil {
+		return err
+	}
+
+	for _, child := range children {
+		if child.Kind == nil {
+			return fmt.Errorf("Error reading nil completion item kind: %#v", child)
+		}
+
+		childSubpath := subpath + "." + child.Label
+		fmt.Println(childSubpath, child.Label, *child.Kind)
+		fmt.Printf("%+v\n\n", child)
+
+		switch *(child.Kind) {
+		case 5:
+			childClassSymbol := ClassSymbol{
+				Name:       child.Label,
+				Deprecated: child.Deprecated,
+				Detail:     child.Detail,
+			}
+
+			symbol.Children = append(symbol.Children, c.crawlClass(&childClassSymbol, childSubpath))
+		}
+	}
+
+	return nil
 }
 
 func (c *crawler) getChildren(path string) ([]lsp.CompletionItem, error) {
