@@ -15,14 +15,8 @@ type crawler struct {
 }
 
 func (c *crawler) Crawl(subpath string) error {
-	err := c.nvim.Open()
-
-	if err != nil {
-		return fmt.Errorf("Error opening nvim: %v", err)
-	}
-
 	tempFile := c.nvim.Options().Config().Dir() + "anydev.lua"
-	err = c.nvim.Edit(tempFile)
+	err := c.nvim.Edit(tempFile)
 
 	if err != nil {
 		return err
@@ -54,7 +48,7 @@ func (c *crawler) Crawl(subpath string) error {
 
 	switch *completionItemKind {
 	case 5:
-		classSubpath := c.path+"."+subpath
+		classSubpath := c.path + "." + subpath
 		classSymbol := ClassSymbol{
 			Name:       child.Label,
 			Deprecated: child.Deprecated,
@@ -63,7 +57,7 @@ func (c *crawler) Crawl(subpath string) error {
 
 		err = c.crawlClass(&classSymbol, classSubpath)
 
-		if (err != nil) {
+		if err != nil {
 			return fmt.Errorf("Error crawling %s: %w", classSubpath, err)
 		}
 
@@ -72,10 +66,6 @@ func (c *crawler) Crawl(subpath string) error {
 		fmt.Println("/Class")
 	default:
 		fmt.Println("not a class")
-	}
-
-	if err := c.nvim.Close(); err != nil {
-		fmt.Printf("Error closing nvim gracefully: %v", err)
 	}
 
 	return nil
@@ -105,7 +95,13 @@ func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
 				Detail:     child.Detail,
 			}
 
-			symbol.Children = append(symbol.Children, c.crawlClass(&childClassSymbol, childSubpath))
+			err = c.crawlClass(&childClassSymbol, childSubpath)
+
+			if err != nil {
+				return fmt.Errorf("Error crawling %s: %w", childSubpath, err)
+			}
+
+			symbol.Children = append(symbol.Children, childClassSymbol)
 		}
 	}
 
