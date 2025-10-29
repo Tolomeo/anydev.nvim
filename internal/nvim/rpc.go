@@ -6,6 +6,7 @@ import (
 	"io"
 	"os/exec"
 	"sync"
+	"time"
 
 	msgpack "github.com/vmihailenco/msgpack/v5"
 )
@@ -39,9 +40,10 @@ type rpc struct {
 func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 	mu.Lock()
 	messageId := r.requestId
-	r.requestId++
+	r.requestId = (r.requestId + 1) % 127
 	mu.Unlock()
 
+	// fmt.Printf("RPC request %s: [%d, %s]\n", time.Now(), messageId, request.method)
 	messagePackRequest, err := r.requestToMessagePackRequest(request, messageId)
 
 	if err != nil {
@@ -61,6 +63,8 @@ func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 	}
 
 	response, err := r.messagePackResponseToResponse(messagePackResponse, messageId)
+
+	// fmt.Printf("RPC response %s: [%d]\n", time.Now(), messageId)
 
 	if err != nil {
 		return nil, fmt.Errorf("Invalid response received: %w", err)

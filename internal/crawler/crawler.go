@@ -79,6 +79,10 @@ func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
 	}
 
 	for _, child := range children {
+		if child.Label == "__index" {
+			continue
+		}
+
 		if child.Kind == nil {
 			return fmt.Errorf("Error reading nil completion item kind: %#v", child)
 		}
