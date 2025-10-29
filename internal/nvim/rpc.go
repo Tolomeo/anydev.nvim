@@ -6,7 +6,7 @@ import (
 	"io"
 	"os/exec"
 	"sync"
-	"time"
+	// "time"
 
 	msgpack "github.com/vmihailenco/msgpack/v5"
 )
@@ -37,11 +37,18 @@ type rpc struct {
 	reader    *bufio.Reader
 }
 
-func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
+func (r *rpc) getMessageId() int8 {
 	mu.Lock()
-	messageId := r.requestId
+	requestId := r.requestId
+	// the requestId folds and repeats from the start when we reach max count permitted by int8
 	r.requestId = (r.requestId + 1) % 127
 	mu.Unlock()
+
+	return requestId
+}
+
+func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
+	messageId := r.getMessageId()
 
 	// fmt.Printf("RPC request %s: [%d, %s]\n", time.Now(), messageId, request.method)
 	messagePackRequest, err := r.requestToMessagePackRequest(request, messageId)
@@ -64,7 +71,7 @@ func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 
 	response, err := r.messagePackResponseToResponse(messagePackResponse, messageId)
 
-	// fmt.Printf("RPC response %s: [%d]\n", time.Now(), messageId)
+	// fmt.Printf("RPC response %s: [%d, %v, %v]\n", time.Now(), messageId, response.error, response.result)
 
 	if err != nil {
 		return nil, fmt.Errorf("Invalid response received: %w", err)

@@ -29,6 +29,10 @@ func (c *crawler) Crawl(subpath string) error {
 	}
 
 	child, ok := slicesx.FindFunc(children, func(item lsp.CompletionItem) bool {
+		if item.InsertText != nil {
+			return *(item.InsertText) == subpath
+		}
+
 		return item.Label == subpath
 	})
 
@@ -53,6 +57,10 @@ func (c *crawler) Crawl(subpath string) error {
 			Name:       child.Label,
 			Deprecated: child.Deprecated,
 			Detail:     child.Detail,
+		}
+
+		if child.InsertText != nil {
+			classSymbol.Name = *(child.InsertText)
 		}
 
 		err = c.crawlClass(&classSymbol, classSubpath)
@@ -88,7 +96,12 @@ func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
 		}
 
 		childSubpath := subpath + "." + child.Label
-		fmt.Println(childSubpath, child.Label, *child.Kind)
+
+		if child.InsertText != nil {
+			childSubpath = subpath + "." + *(child.InsertText)
+		}
+
+		fmt.Println(childSubpath, child.InsertText, *child.Kind)
 		fmt.Printf("%+v\n\n", child)
 
 		switch *(child.Kind) {
@@ -97,6 +110,10 @@ func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
 				Name:       child.Label,
 				Deprecated: child.Deprecated,
 				Detail:     child.Detail,
+			}
+
+			if child.InsertText != nil {
+				childClassSymbol.Name = *(child.InsertText)
 			}
 
 			err = c.crawlClass(&childClassSymbol, childSubpath)

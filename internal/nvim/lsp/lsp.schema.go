@@ -23,6 +23,23 @@ type CompletionItem struct {
 	// A human-readable string that represents a doc-comment.
 	Documentation *string `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
+	// A string that should be inserted into a document when selecting
+	// this completion. When `falsy` the [label](#CompletionItem.label)
+	// is used.
+	//
+	// The `insertText` is subject to interpretation by the client side.
+	// Some tools might not take the string literally. For example
+	// VS Code when code complete is requested in this example `con<cursor position>`
+	// and a completion item with an `insertText` of `console` is provided it
+	// will only insert `sole`. Therefore it is recommended to use `textEdit` instead
+	// since it avoids additional client side interpretation.
+	InsertText *string `json:"insertText,omitempty" yaml:"insertText,omitempty" mapstructure:"insertText,omitempty"`
+
+	// The format of the insert text. The format applies to both the `insertText`
+	// property
+	// and the `newText` property of a provided `textEdit`.
+	InsertTextFormat *InsertTextFormat `json:"insertTextFormat,omitempty" yaml:"insertTextFormat,omitempty" mapstructure:"insertTextFormat,omitempty"`
+
 	// The kind of this completion item. Based of the kind
 	// an icon is chosen by the editor.
 	Kind *CompletionItemKind `json:"kind,omitempty" yaml:"kind,omitempty" mapstructure:"kind,omitempty"`
@@ -483,30 +500,6 @@ type SymbolInformation struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SymbolInformation) UnmarshalJSON(value []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
-		return err
-	}
-	if _, ok := raw["kind"]; raw != nil && !ok {
-		return fmt.Errorf("field kind in SymbolInformation: required")
-	}
-	if _, ok := raw["location"]; raw != nil && !ok {
-		return fmt.Errorf("field location in SymbolInformation: required")
-	}
-	if _, ok := raw["name"]; raw != nil && !ok {
-		return fmt.Errorf("field name in SymbolInformation: required")
-	}
-	type Plain SymbolInformation
-	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
-		return err
-	}
-	*j = SymbolInformation(plain)
-	return nil
-}
-
 type SymbolKind float64
 
 var enumValues_SymbolKind = []interface{}{
@@ -559,6 +552,31 @@ func (j *SymbolKind) UnmarshalJSON(value []byte) error {
 }
 
 type CompletionItemDocumentation_1 = MarkupContent
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SymbolInformation) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["kind"]; raw != nil && !ok {
+		return fmt.Errorf("field kind in SymbolInformation: required")
+	}
+	if _, ok := raw["location"]; raw != nil && !ok {
+		return fmt.Errorf("field location in SymbolInformation: required")
+	}
+	if _, ok := raw["name"]; raw != nil && !ok {
+		return fmt.Errorf("field name in SymbolInformation: required")
+	}
+	type Plain SymbolInformation
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = SymbolInformation(plain)
+	return nil
+}
+
 type TextDocumentCompletionResponse struct {
 	// The result of a request. This member is REQUIRED on success.
 	// This member MUST NOT exist if there was an error invoking the method.
