@@ -214,7 +214,7 @@ func (n *Nvim) WaitForLSP() error {
 	return nil
 }
 
-func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
+func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
 
 	err := n.WaitForLSP()
@@ -250,7 +250,7 @@ func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, err
 	return documentSymbols, nil
 }
 
-func (n *Nvim) GetHover(line uint, character uint) error {
+func (n *Nvim) GetLSPHover(line uint, character uint) error {
 	err := n.WaitForLSP()
 
 	if err != nil {
@@ -282,7 +282,7 @@ func (n *Nvim) GetHover(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) GetDeclaration(line uint, character uint) error {
+func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 	err := n.WaitForLSP()
 
 	if err != nil {
@@ -314,7 +314,7 @@ func (n *Nvim) GetDeclaration(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) GetDefinition(line uint, character uint) error {
+func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
 	err := n.WaitForLSP()
 
 	if err != nil {
@@ -346,7 +346,7 @@ func (n *Nvim) GetDefinition(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) GetImplementation(line uint, character uint) error {
+func (n *Nvim) GetLSPImplementation(line uint, character uint) error {
 	err := n.WaitForLSP()
 
 	if err != nil {
@@ -378,7 +378,7 @@ func (n *Nvim) GetImplementation(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) GetTypeDefinition(line uint, character uint) error {
+func (n *Nvim) GetLSPTypeDefinition(line uint, character uint) error {
 	err := n.WaitForLSP()
 
 	if err != nil {
@@ -417,10 +417,10 @@ func (n *Nvim) GetTypeDefinition(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) CallFunction(fn string, args []any) (any, error) {
+func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
 	request := requestMessage{
 		method: "nvim_call_function",
-		params: []any{fn, args},
+		params: []any{function, functionArgs},
 	}
 	response, err := n.rpc.Send(request)
 

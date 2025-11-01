@@ -33,7 +33,7 @@ func (c *crawler) Debug(path string, subpath string) error {
 
 	fmt.Println(lines)
 
-	documentSymbols, err := c.nvim.GetDocumentSymbols()
+	documentSymbols, err := c.nvim.GetLSPDocumentSymbols()
 
 	if err != nil {
 		return err
@@ -48,15 +48,15 @@ func (c *crawler) Debug(path string, subpath string) error {
 	}
 
 	fmt.Println("Hover")
-	c.nvim.GetHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	c.nvim.GetLSPHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 	fmt.Println("Declaration")
-	c.nvim.GetDeclaration(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	c.nvim.GetLSPDeclaration(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 	fmt.Println("Definition")
-	c.nvim.GetDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	c.nvim.GetLSPDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 	fmt.Println("TypeDefinition")
-	c.nvim.GetTypeDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	c.nvim.GetLSPTypeDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 	fmt.Println("Implementation")
-	c.nvim.GetImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	c.nvim.GetLSPImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 
 	return nil
 }
