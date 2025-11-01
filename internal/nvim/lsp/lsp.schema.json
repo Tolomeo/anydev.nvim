@@ -41,6 +41,27 @@
       "required": ["result"],
       "type": "object"
     },
+    "TextDocumentTypeDefinitionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/Location"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
     "DocumentSymbol": {
       "additionalProperties": false,
       "description": "Represents programming constructs like variables, classes, interfaces etc.\r\nthat appear in a document. Document symbols can be hierarchical and they\r\nhave two ranges: one that encloses its definition and one that points to\r\nits most interesting range, e.g. the range of an identifier.",

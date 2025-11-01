@@ -7,10 +7,13 @@ local config_dir = vim.fn.expand("<sfile>:p:h")
 
 vim.opt.runtimepath:prepend(config_dir)
 vim.opt.packpath:prepend(config_dir)
+-- vim.opt.packpath = { config_dir }
 -- package.path = package.path .. ';' .. config_dir .. '/lua/?.lua'
 
 -- Configuring lua_ls lsp
 require("lazydev").setup()
+
+local ref = vim
 
 vim.lsp.config["lua_ls"] = {
 	-- Command and arguments to start the server.
@@ -27,15 +30,32 @@ vim.lsp.config["lua_ls"] = {
 		Lua = {
 			runtime = {
 				version = "LuaJIT",
+				path = {
+					"lua/?.lua",
+					"lua/?/init.lua",
+				},
+			},
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME,
+				},
 			},
 		},
 	},
 }
 
-vim.lsp.enable("lua_ls")
--- Wait for lsp to attach
+--[[ vim.g.lua_ls_ready = false
 
---vim.wait(2000, function()
---	return next(vim.lsp.get_clients()) ~= nil
---end)
---
+vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
+
+vim.api.nvim_create_autocmd("LspProgress", {
+	group = "LuaLSReady",
+	callback = function(args)
+		if args.data.params.value.kind == "end" then
+			vim.g.lua_ls_ready = true
+		end
+	end,
+})
+
+vim.lsp.enable("lua_ls") ]]

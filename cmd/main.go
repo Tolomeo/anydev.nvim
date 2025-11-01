@@ -21,11 +21,14 @@ func main() {
 
 	crawler := crawler.New(client)
 
-	err = crawler.Crawl("vim")
+	result, err := crawler.Crawl("vim")
+
 
 	if err != nil {
 		panic(fmt.Errorf("Error crawling %s: %w", "vim", err))
 	}
+
+	fmt.Printf("%v", result)
 
 	if err := client.Close(); err != nil {
 		fmt.Printf("Error closing nvim gracefully: %w", err)

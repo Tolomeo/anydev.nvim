@@ -180,11 +180,28 @@ func (n *Nvim) DeleteBuffer() error {
 
 func (n *Nvim) WaitForLSP() error {
 	luaCode := `
+		if vim.g.lua_ls_ready == true then return end
+
 		local args = {...}
 		local delay = args[1]
 
+		vim.g.lua_ls_ready = false
+
+		vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
+
+		vim.api.nvim_create_autocmd("LspProgress", {
+			group = "LuaLSReady",
+			callback = function(args)
+				if args.data.params.value.kind == "end" then
+					vim.g.lua_ls_ready = true
+				end
+			end,
+		})
+
+		vim.lsp.enable("lua_ls")
+
 		vim.wait(delay, function()
-			return next(vim.lsp.get_active_clients()) ~= nil
+			return vim.g.lua_ls_ready == true
 		end)
 	`
 
@@ -233,7 +250,194 @@ func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, err
 	return documentSymbols, nil
 }
 
-func (n *Nvim) GetCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
+func (n *Nvim) GetHover(line uint, character uint) error {
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/hover', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return  fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return nil
+}
+
+func (n *Nvim) GetDeclaration(line uint, character uint) error {
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/declaration', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return  fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return nil
+}
+
+func (n *Nvim) GetDefinition(line uint, character uint) error {
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return  fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return nil
+}
+
+func (n *Nvim) GetImplementation(line uint, character uint) error {
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/implementation', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return  fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return nil
+}
+
+func (n *Nvim) GetTypeDefinition(line uint, character uint) error {
+	err := n.WaitForLSP()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+		local positionParams = {line = args[1], character = args[2]}
+		local result = vim.lsp.buf_request_sync(0, 'textDocument/typeDefinition', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		return vim.fn.json_encode(result[1])
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return  fmt.Errorf("Error getting completion: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading completion response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	/* err = completion.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return completion, fmt.Errorf("Error unmarshalling completion response: %v", err)
+	}
+
+	return completion, nil */
+	return nil
+}
+
+func (n *Nvim) CallFunction(fn string, args []any) (any, error) {
+	request := requestMessage{
+		method: "nvim_call_function",
+		params: []any{fn, args},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing function: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing function: %v\n", err)
+	}
+
+	return result, nil
+}
+
+func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
 	completion := lsp.TextDocumentCompletionResponse{}
 
 	err := n.WaitForLSP()
