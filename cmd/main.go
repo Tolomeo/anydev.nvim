@@ -13,7 +13,7 @@ func main() {
 		panic(fmt.Errorf("Error initialising nvim client: %v", err))
 	}
 
-	err = client.Open()
+	err = client.Start()
 
 	if err != nil {
 		panic(fmt.Errorf("Error opening nvim: %w", err))
@@ -30,7 +30,7 @@ func main() {
 
 	fmt.Printf("%v", result)
 
-	if err := client.Close(); err != nil {
-		fmt.Printf("Error closing nvim gracefully: %w", err)
+	if err := client.Quit(); err != nil {
+		fmt.Println(fmt.Errorf("Error closing nvim gracefully: %w", err))
 	}
 }

@@ -19,11 +19,11 @@ func (n *Nvim) Options() options {
 	return n.options
 }
 
-func (n *Nvim) Open() error {
+func (n *Nvim) Start() error {
 	return n.cmd.Start()
 }
 
-func (n *Nvim) Close() error {
+func (n *Nvim) Quit() error {
 	request := requestMessage{
 		method: "nvim_command",
 		params: []any{"qa!"},
@@ -44,7 +44,7 @@ func (n *Nvim) Close() error {
 	return nil
 }
 
-func (n *Nvim) Edit(file string) error {
+func (n *Nvim) Edit(file string) (string, error) {
 	request := requestMessage{
 		method: "nvim_command",
 		params: []any{"edit" + file},
@@ -52,10 +52,10 @@ func (n *Nvim) Edit(file string) error {
 	_, err := n.rpc.Send(request)
 
 	if err != nil {
-		return fmt.Errorf("Error trying to edit %s: %v\n", file, err)
+		return "", fmt.Errorf("Error opening %s: %v\n", file, err)
 	}
 
-	return nil
+	return file, nil
 }
 
 func (n *Nvim) Write() error {
@@ -178,7 +178,36 @@ func (n *Nvim) DeleteBuffer() error {
 	return result, nil
 } */
 
-func (n *Nvim) WaitForLSP() error {
+func (n *Nvim) StartTS() error {
+	luaCode := `
+		if vim.g.lua_ts_ready == true then return end
+
+		vim.g.lua_ts_ready = false
+
+		local ok = pcall(vim.treesitter.language.add, "lua")
+
+		if not ok then error("Treesitter Lua parser registration failed.") end
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = { "lua" },
+			callback = function(opts)
+				vim.treesitter.start(opts.buf, "lua")
+			end,
+		})
+
+		vim.g.lua_ts_ready = true
+	`
+
+	_, err := n.ExecLua(luaCode, []any{30000})
+
+	if err != nil {
+		return fmt.Errorf("Error starting treesitter lua: %w", err)
+	}
+
+	return nil
+}
+
+func (n *Nvim) StartLSP() error {
 	luaCode := `
 		if vim.g.lua_ls_ready == true then return end
 
@@ -208,7 +237,7 @@ func (n *Nvim) WaitForLSP() error {
 	_, err := n.ExecLua(luaCode, []any{30000})
 
 	if err != nil {
-		return fmt.Errorf("Error waiting for lsp to attach: %v", err)
+		return fmt.Errorf("Error starting lua lsp: %v", err)
 	}
 
 	return nil
@@ -217,7 +246,7 @@ func (n *Nvim) WaitForLSP() error {
 func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
 
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return documentSymbols, err
@@ -251,7 +280,7 @@ func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, 
 }
 
 func (n *Nvim) GetLSPHover(line uint, character uint) error {
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return err
@@ -268,7 +297,7 @@ func (n *Nvim) GetLSPHover(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return  fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
@@ -283,7 +312,7 @@ func (n *Nvim) GetLSPHover(line uint, character uint) error {
 }
 
 func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return err
@@ -300,7 +329,7 @@ func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return  fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
@@ -315,7 +344,7 @@ func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 }
 
 func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return err
@@ -332,7 +361,7 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return  fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
@@ -347,7 +376,7 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
 }
 
 func (n *Nvim) GetLSPImplementation(line uint, character uint) error {
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return err
@@ -364,7 +393,7 @@ func (n *Nvim) GetLSPImplementation(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return  fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
@@ -379,7 +408,7 @@ func (n *Nvim) GetLSPImplementation(line uint, character uint) error {
 }
 
 func (n *Nvim) GetLSPTypeDefinition(line uint, character uint) error {
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return err
@@ -396,7 +425,7 @@ func (n *Nvim) GetLSPTypeDefinition(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return  fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
@@ -440,7 +469,7 @@ func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
 func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
 	completion := lsp.TextDocumentCompletionResponse{}
 
-	err := n.WaitForLSP()
+	err := n.StartLSP()
 
 	if err != nil {
 		return completion, err

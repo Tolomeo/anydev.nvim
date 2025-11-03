@@ -11,7 +11,8 @@ import (
 
 type crawler struct {
 	nvim *nvim.Nvim
-	path string
+	// path string
+	scratchBuffer string
 }
 
 func (c *crawler) Debug(path string, subpath string) error {
@@ -62,14 +63,13 @@ func (c *crawler) Debug(path string, subpath string) error {
 }
 
 func (c *crawler) Crawl(subpath string) (Symbol, error) {
-	tempFile := c.nvim.Options().Config().Dir() + "anydev.lua"
-	err := c.nvim.Edit(tempFile)
+	_, err := c.nvim.Edit(c.scratchBuffer)
 
 	if err != nil {
 		return struct{}{}, err
 	}
 
-	return c.crawl(c.path, subpath)
+	return c.crawl("_G", subpath)
 }
 
 func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
@@ -77,11 +77,11 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 
 	fmt.Println(fullpath)
 
-	err := c.Debug(path, subpath)
+	/* err := c.Debug(path, subpath)
 
 	if err != nil {
 		return struct{}{}, err
-	}
+	} */
 
 	/* statement := "local ref = " + fullpath
 
@@ -151,13 +151,12 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 }
 
 func (c *crawler) getTypeName(path string, subpath string) (string, error) {
-	var fullpath string
+	fullpath := path + "." + subpath
 
 	switch subpath {
 	case "and", "function", "or", "repeat", "false", "true":
 		fullpath = path + "['" + subpath + "']"
 	default:
-		fullpath = path + "." + subpath
 	}
 
 	luaCode := fmt.Sprintf("return type(%s)", fullpath)
@@ -171,7 +170,7 @@ func (c *crawler) getTypeName(path string, subpath string) (string, error) {
 	typeName, ok := result.(string)
 
 	if !ok {
-		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string")
+		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", fullpath)
 	}
 
 	return typeName, nil
@@ -228,7 +227,7 @@ func (c *crawler) getTypeName(path string, subpath string) (string, error) {
 } */
 
 func (c *crawler) getChildren(path string) ([]string, error) {
-	err := c.nvim.WaitForLSP()
+	err := c.nvim.StartLSP()
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting path %s children: %w", err)
@@ -251,9 +250,11 @@ func (c *crawler) getChildren(path string) ([]string, error) {
 }
 
 func New(nvim *nvim.Nvim) *crawler {
+	scratchBuffer := nvim.Options().Config().Dir() + "anydev.lua"
+
 	instance := crawler{
 		nvim: nvim,
-		path: "_G",
+		scratchBuffer: scratchBuffer,
 	}
 
 	return &instance
