@@ -44,7 +44,7 @@ func (n *Nvim) Quit() error {
 	return nil
 }
 
-func (n *Nvim) Edit(file string) (string, error) {
+func (n *Nvim) Open(file string) (string, error) {
 	request := requestMessage{
 		method: "nvim_command",
 		params: []any{"edit" + file},
@@ -178,6 +178,50 @@ func (n *Nvim) DeleteBuffer() error {
 	return result, nil
 } */
 
+func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {
+	err := n.StartTS()
+
+	if err != nil {
+		return err
+	}
+
+	_, err = n.Open(file)
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = {...}
+		local line = args[1]
+		local column = args[2]
+
+		local parser = vim.treesitter.get_parser(0, 'lua')
+		local tree = parser:parse()[1]
+		local root = tree:root()
+
+		local node = vim.treesitter.get_node({line, column}, 0)
+
+		return node:type()
+	`
+
+	result, err := n.ExecLua(luaCode, []any{line, character})
+
+	if err != nil {
+		return err
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading function buffer lines response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return nil
+}
+
 func (n *Nvim) StartTS() error {
 	luaCode := `
 		if vim.g.lua_ts_ready == true then return end
@@ -287,14 +331,24 @@ func (n *Nvim) GetLSPHover(line uint, character uint) error {
 	}
 
 	luaCode := `
-		local args = {...}
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/hover', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		local args = { ... }
+		local line = args[1]
+		local character = args[2]
+		local position = { line = line, character = character }
+		local textDocument = vim.lsp.util.make_text_document_params(0)
+		local timeout = args[3]
+
+		local result = vim.lsp.buf_request_sync(
+			0,
+			"textDocument/hover",
+			{ textDocument = textDocument, position = position },
+			timeout
+		)
+
 		return vim.fn.json_encode(result[1])
 	`
 
-	result, err := n.ExecLua(luaCode, []any{line, character})
+	result, err := n.ExecLua(luaCode, []any{line, character, 2000})
 
 	if err != nil {
 		return fmt.Errorf("Error getting completion: %v", err)
@@ -320,6 +374,7 @@ func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 
 	luaCode := `
 		local args = {...}
+
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local positionParams = {line = args[1], character = args[2]}
 		local result = vim.lsp.buf_request_sync(0, 'textDocument/declaration', { textDocument = textDocumentParams, position = positionParams }, 2000)

@@ -63,7 +63,7 @@ func (c *crawler) Debug(path string, subpath string) error {
 }
 
 func (c *crawler) Crawl(subpath string) (Symbol, error) {
-	_, err := c.nvim.Edit(c.scratchBuffer)
+	_, err := c.nvim.Open(c.scratchBuffer)
 
 	if err != nil {
 		return struct{}{}, err
@@ -113,44 +113,54 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 		return struct{}{}, fmt.Errorf("Error reading hover: %w", err)
 	} */
 
-	typeName, err := c.getTypeName(path, subpath)
+	typeName, err := c.getRuntimeTypeName(path, subpath)
 
 	if err != nil {
 		return struct{}{}, err
 	}
 
-	if typeName != "table" {
-		return struct{}{}, nil
-	}
+	switch typeName {
+	case "table":
+		crawledTable, err := c.crawlTable(fullpath, subpath)
 
-	children, err := c.getChildren(fullpath)
-
-	if err != nil {
-		return struct{}{}, err
-	}
-
-	if len(children) > 0 {
-		classSymbol := ClassSymbol{
-			Name: subpath,
+		if err != nil {
+			return struct{}{}, err
 		}
 
-		for _, childpath := range children {
-			symbol, err := c.crawl(fullpath, childpath)
-
-			if err != nil {
-				return struct{}{}, fmt.Errorf("Error crawling %s.%s: %w", fullpath, childpath, err)
-			}
-
-			classSymbol.Children = append(classSymbol.Children, symbol)
-		}
-
-		return classSymbol, nil
+		return crawledTable, nil
 	}
 
 	return struct{}{}, nil
 }
 
-func (c *crawler) getTypeName(path string, subpath string) (string, error) {
+func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
+	classSymbol := ClassSymbol{
+		Name: name,
+	}
+	children, err := c.getChildren(path)
+
+	if err != nil {
+		return classSymbol, err
+	}
+
+	if len(children) == 0 {
+		return classSymbol, nil
+	}
+
+	for _, childpath := range children {
+		child, err := c.crawl(path, childpath)
+
+		if err != nil {
+			return classSymbol, fmt.Errorf("Error crawling %s.%s: %w", path, childpath, err)
+		}
+
+		classSymbol.Children = append(classSymbol.Children, child)
+	}
+
+	return classSymbol, nil
+}
+
+func (c *crawler) getRuntimeTypeName(path string, subpath string) (string, error) {
 	fullpath := path + "." + subpath
 
 	switch subpath {
@@ -253,7 +263,7 @@ func New(nvim *nvim.Nvim) *crawler {
 	scratchBuffer := nvim.Options().Config().Dir() + "anydev.lua"
 
 	instance := crawler{
-		nvim: nvim,
+		nvim:          nvim,
 		scratchBuffer: scratchBuffer,
 	}
 
