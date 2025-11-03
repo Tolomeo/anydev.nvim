@@ -139,7 +139,7 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 			return classSymbol, fmt.Errorf("Error crawling %s.%s: %w", path, childpath, err)
 		}
 
-		classSymbol.Children = append(classSymbol.Children, child)
+		classSymbol.Fields = append(classSymbol.Fields, child)
 	}
 
 	return classSymbol, nil
@@ -176,8 +176,9 @@ func (c *crawler) getSymbolDocumentation(path string) (string, error) {
 func (c *crawler) getRuntimeTypeName(path string, subpath string) (string, error) {
 	fullpath := path + "." + subpath
 
+	// https://www.lua.org/manual/5.1/manual.html#2.1
 	switch subpath {
-	case "and", "function", "or", "repeat", "false", "true":
+	case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
 		fullpath = path + "['" + subpath + "']"
 	default:
 	}

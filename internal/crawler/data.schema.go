@@ -7,14 +7,14 @@ package crawler
 // have two ranges: one that encloses its definition and one that points to
 // its most interesting range, e.g. the range of an identifier.
 type ClassSymbol struct {
-	// Children of this symbol, e.g. properties of a class.
-	Children []ClassSymbolChildrenElem `json:"children" yaml:"children" mapstructure:"children"`
-
 	// Indicates if this symbol is deprecated.
 	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
 
-	// Documentation of this symbol.
+	// A human-readable string that represents a doc-comment.
 	Documentation string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+
+	// Children of this symbol, e.g. properties of a class.
+	Fields []ClassSymbolFieldsElem `json:"fields,omitempty" yaml:"fields,omitempty" mapstructure:"fields,omitempty"`
 
 	// The name of this symbol. Will be displayed in the user interface and therefore
 	// must not be
@@ -22,6 +22,6 @@ type ClassSymbol struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
-type ClassSymbolChildrenElem interface{}
+type ClassSymbolFieldsElem interface{}
 
 type Symbol interface{}
