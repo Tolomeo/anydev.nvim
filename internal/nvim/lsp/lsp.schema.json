@@ -1,8 +1,33 @@
 {
-  "$ref": "#/definitions/_AnyFeature",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/Tolomeo/anydev.nvim/internal/lsp/schema.json",
   "definitions": {
+    "TextDocumentHoverResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Hover",
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "Hover": {
+      "additionalProperties": false,
+      "description": "The result of a hover request.",
+      "properties": {
+        "contents": {
+          "$ref": "#/definitions/MarkupContent",
+          "description": "The hover's content"
+        },
+        "range": {
+          "$ref": "#/definitions/Range",
+          "description": "An optional range"
+        }
+      },
+      "required": ["contents"],
+      "type": "object"
+    },
     "TextDocumentDocumentSymbolResponse": {
       "additionalProperties": false,
       "properties": {
@@ -265,6 +290,11 @@
       "required": ["kind", "value"],
       "type": "object"
     },
+    "MarkupKind": {
+      "description": "Describes the content type that a client supports in various\r\nresult literals like `Hover`, `ParameterInfo` or `CompletionItem`.\r\n\r\nPlease note that `MarkupKinds` must not start with a `$`. This kinds\r\nare reserved for internal usage.",
+      "enum": ["plaintext", "markdown"],
+      "type": "string"
+    },
     "InsertTextFormat": {
       "description": "Defines whether the insert text in a completion item should be interpreted as\r\nplain text or a snippet.",
       "enum": [1, 2],
@@ -277,11 +307,6 @@
         21, 22, 23, 24, 25
       ],
       "type": "number"
-    },
-    "MarkupKind": {
-      "description": "Describes the content type that a client supports in various\r\nresult literals like `Hover`, `ParameterInfo` or `CompletionItem`.\r\n\r\nPlease note that `MarkupKinds` must not start with a `$`. This kinds\r\nare reserved for internal usage.",
-      "enum": ["plaintext", "markdown"],
-      "type": "string"
     }
   }
 }

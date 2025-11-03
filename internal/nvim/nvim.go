@@ -265,9 +265,7 @@ func (n *Nvim) StartLSP() error {
 		vim.api.nvim_create_autocmd("LspProgress", {
 			group = "LuaLSReady",
 			callback = function(args)
-				if args.data.params.value.kind == "end" then
-					vim.g.lua_ls_ready = true
-				end
+				vim.g.lua_ls_ready = args.data.params.value.kind == "end"
 			end,
 		})
 
@@ -323,11 +321,13 @@ func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, 
 	return documentSymbols, nil
 }
 
-func (n *Nvim) GetLSPHover(line uint, character uint) error {
+func (n *Nvim) GetLSPHover(line uint, character uint) (lsp.TextDocumentHoverResponse, error) {
+	hover := lsp.TextDocumentHoverResponse{}
+
 	err := n.StartLSP()
 
 	if err != nil {
-		return err
+		return hover, err
 	}
 
 	luaCode := `
@@ -351,18 +351,22 @@ func (n *Nvim) GetLSPHover(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character, 2000})
 
 	if err != nil {
-		return fmt.Errorf("Error getting completion: %v", err)
+		return hover, fmt.Errorf("Error getting lsp hover response: %v", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return fmt.Errorf("Error reading completion response: %v", result)
+		return hover, fmt.Errorf("Error reading lsp hover response: %v", result)
 	}
 
-	fmt.Println(stringResult)
+	err = hover.UnmarshalJSON([]byte(stringResult))
 
-	return nil
+	if err != nil {
+		return hover, fmt.Errorf("Error unmarshalling lsp hover response: %v", err)
+	}
+
+	return hover, nil
 }
 
 func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {

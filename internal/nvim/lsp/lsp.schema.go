@@ -218,6 +218,33 @@ func (j *DocumentSymbol) UnmarshalJSON(value []byte) error {
 // A tagging type for string properties that are actually URIs.
 type DocumentUri string
 
+// The result of a hover request.
+type Hover struct {
+	// The hover's content
+	Contents MarkupContent `json:"contents" yaml:"contents" mapstructure:"contents"`
+
+	// An optional range
+	Range *Range `json:"range,omitempty" yaml:"range,omitempty" mapstructure:"range,omitempty"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *Hover) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["contents"]; raw != nil && !ok {
+		return fmt.Errorf("field contents in Hover: required")
+	}
+	type Plain Hover
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = Hover(plain)
+	return nil
+}
+
 type InsertTextFormat float64
 
 var enumValues_InsertTextFormat = []interface{}{
@@ -500,6 +527,30 @@ type SymbolInformation struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *SymbolInformation) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["kind"]; raw != nil && !ok {
+		return fmt.Errorf("field kind in SymbolInformation: required")
+	}
+	if _, ok := raw["location"]; raw != nil && !ok {
+		return fmt.Errorf("field location in SymbolInformation: required")
+	}
+	if _, ok := raw["name"]; raw != nil && !ok {
+		return fmt.Errorf("field name in SymbolInformation: required")
+	}
+	type Plain SymbolInformation
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = SymbolInformation(plain)
+	return nil
+}
+
 type SymbolKind float64
 
 var enumValues_SymbolKind = []interface{}{
@@ -551,37 +602,13 @@ func (j *SymbolKind) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
-type CompletionItemDocumentation_1 = MarkupContent
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *SymbolInformation) UnmarshalJSON(value []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(value, &raw); err != nil {
-		return err
-	}
-	if _, ok := raw["kind"]; raw != nil && !ok {
-		return fmt.Errorf("field kind in SymbolInformation: required")
-	}
-	if _, ok := raw["location"]; raw != nil && !ok {
-		return fmt.Errorf("field location in SymbolInformation: required")
-	}
-	if _, ok := raw["name"]; raw != nil && !ok {
-		return fmt.Errorf("field name in SymbolInformation: required")
-	}
-	type Plain SymbolInformation
-	var plain Plain
-	if err := json.Unmarshal(value, &plain); err != nil {
-		return err
-	}
-	*j = SymbolInformation(plain)
-	return nil
-}
-
 type TextDocumentCompletionResponse struct {
 	// The result of a request. This member is REQUIRED on success.
 	// This member MUST NOT exist if there was an error invoking the method.
 	Result CompletionList `json:"result" yaml:"result" mapstructure:"result"`
 }
+
+type CompletionItemDocumentation_1 = MarkupContent
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *TextDocumentCompletionResponse) UnmarshalJSON(value []byte) error {
@@ -622,5 +649,53 @@ func (j *TextDocumentDocumentSymbolResponse) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = TextDocumentDocumentSymbolResponse(plain)
+	return nil
+}
+
+type TextDocumentHoverResponse struct {
+	// The result of a request. This member is REQUIRED on success.
+	// This member MUST NOT exist if there was an error invoking the method.
+	Result Hover `json:"result" yaml:"result" mapstructure:"result"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TextDocumentHoverResponse) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["result"]; raw != nil && !ok {
+		return fmt.Errorf("field result in TextDocumentHoverResponse: required")
+	}
+	type Plain TextDocumentHoverResponse
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TextDocumentHoverResponse(plain)
+	return nil
+}
+
+type TextDocumentTypeDefinitionResponse struct {
+	// The result of a request. This member is REQUIRED on success.
+	// This member MUST NOT exist if there was an error invoking the method.
+	Result []Location `json:"result" yaml:"result" mapstructure:"result"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TextDocumentTypeDefinitionResponse) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["result"]; raw != nil && !ok {
+		return fmt.Errorf("field result in TextDocumentTypeDefinitionResponse: required")
+	}
+	type Plain TextDocumentTypeDefinitionResponse
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TextDocumentTypeDefinitionResponse(plain)
 	return nil
 }

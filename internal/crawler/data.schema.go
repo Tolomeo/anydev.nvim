@@ -8,13 +8,13 @@ package crawler
 // its most interesting range, e.g. the range of an identifier.
 type ClassSymbol struct {
 	// Children of this symbol, e.g. properties of a class.
-	Children []ClassSymbolChildrenElem `json:"children,omitempty" yaml:"children,omitempty" mapstructure:"children,omitempty"`
+	Children []ClassSymbolChildrenElem `json:"children" yaml:"children" mapstructure:"children"`
 
 	// Indicates if this symbol is deprecated.
-	Deprecated *bool `json:"deprecated,omitempty" yaml:"deprecated,omitempty" mapstructure:"deprecated,omitempty"`
+	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
 
-	// More detail for this symbol, e.g the signature of a function.
-	Detail *string `json:"detail,omitempty" yaml:"detail,omitempty" mapstructure:"detail,omitempty"`
+	// Documentation of this symbol.
+	Documentation string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 
 	// The name of this symbol. Will be displayed in the user interface and therefore
 	// must not be
@@ -25,5 +25,3 @@ type ClassSymbol struct {
 type ClassSymbolChildrenElem interface{}
 
 type Symbol interface{}
-
-type SymbolKind int

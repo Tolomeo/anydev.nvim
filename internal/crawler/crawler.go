@@ -15,6 +15,16 @@ type crawler struct {
 	scratchBuffer string
 }
 
+func (c *crawler) openScratchBuffer() error {
+	_, err := c.nvim.Open(c.scratchBuffer)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (c *crawler) Debug(path string, subpath string) error {
 	statement := "local ref = " + path + "." + subpath
 
@@ -77,42 +87,6 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 
 	fmt.Println(fullpath)
 
-	/* err := c.Debug(path, subpath)
-
-	if err != nil {
-		return struct{}{}, err
-	} */
-
-	/* statement := "local ref = " + fullpath
-
-	err := c.nvim.SetBufferLines([]string{
-		statement,
-	})
-
-	if err != nil {
-		return struct{}{}, err
-	}
-
-	documentSymbols, err := c.nvim.GetDocumentSymbols()
-
-	if err != nil {
-		return struct{}{}, err
-	}
-
-	documentSymbol, ok := slicesx.FindFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
-		return s.Name == "ref"
-	})
-
-	if !ok {
-		return struct{}{}, fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
-	}
-
-	err = c.nvim.GetHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-
-	if err != nil {
-		return struct{}{}, fmt.Errorf("Error reading hover: %w", err)
-	} */
-
 	typeName, err := c.getRuntimeTypeName(path, subpath)
 
 	if err != nil {
@@ -121,7 +95,8 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 
 	switch typeName {
 	case "table":
-		crawledTable, err := c.crawlTable(fullpath, subpath)
+		name := subpath
+		crawledTable, err := c.crawlTable(fullpath, name)
 
 		if err != nil {
 			return struct{}{}, err
@@ -130,6 +105,7 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 		return crawledTable, nil
 	}
 
+	// TODO: return Unrecognised type error
 	return struct{}{}, nil
 }
 
@@ -137,6 +113,15 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 	classSymbol := ClassSymbol{
 		Name: name,
 	}
+
+	documentation, err := c.getSymbolDocumentation(path)
+
+	classSymbol.Documentation = documentation
+
+	if err != nil {
+		return classSymbol, err
+	}
+
 	children, err := c.getChildren(path)
 
 	if err != nil {
@@ -158,6 +143,34 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 	}
 
 	return classSymbol, nil
+}
+
+func (c *crawler) getSymbolDocumentation(path string) (string, error) {
+	err := c.openScratchBuffer()
+
+	if err != nil {
+		return "", err
+	}
+
+	assignment := "local ref = " + path
+
+	err = c.nvim.SetBufferLines([]string{
+		assignment,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	line, character := uint(0), uint(len(assignment))
+
+	hover, err := c.nvim.GetLSPHover(line, character)
+
+	if err != nil {
+		return "", fmt.Errorf("Error retrieving documentation for symbol %s: %w", path, err)
+	}
+
+	return hover.Result.Contents.Value, nil
 }
 
 func (c *crawler) getRuntimeTypeName(path string, subpath string) (string, error) {
