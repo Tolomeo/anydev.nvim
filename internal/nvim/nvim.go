@@ -260,12 +260,23 @@ func (n *Nvim) StartLSP() error {
 
 		vim.g.lua_ls_ready = false
 
+		local lsp_inflight_events = {}
+
 		vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
 
 		vim.api.nvim_create_autocmd("LspProgress", {
 			group = "LuaLSReady",
 			callback = function(args)
-				vim.g.lua_ls_ready = args.data.params.value.kind == "end"
+				local value = args.data.params.value
+				local token = args.data.params.token
+
+				if value.kind == "begin" then
+					lsp_inflight_events[token] = value
+				elseif value.kind == "end" then
+					lsp_inflight_events[token] = nil
+				end
+
+				vim.g.lua_ls_ready = next(lsp_inflight_events) == nil
 			end,
 		})
 
@@ -359,6 +370,8 @@ func (n *Nvim) GetLSPHover(line uint, character uint) (lsp.TextDocumentHoverResp
 	if !ok {
 		return hover, fmt.Errorf("Error reading lsp hover response: %v", result)
 	}
+
+	// fmt.Println(stringResult)
 
 	err = hover.UnmarshalJSON([]byte(stringResult))
 
