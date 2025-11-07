@@ -158,25 +158,92 @@ func (n *Nvim) DeleteBuffer() error {
 	return nil
 }
 
-/* func (n *Nvim) ApiInfo() (any, error) {
-	request := requestMessage{
-		method: "nvim_get_api_info",
-		params: []any{},
+/*
+	 func (n *Nvim) ApiInfo() (any, error) {
+		request := requestMessage{
+			method: "nvim_get_api_info",
+			params: []any{},
+		}
+		response, err := n.rpc.Send(request)
+
+		if err != nil {
+			return nil, fmt.Errorf("Error getting API info: %v\n", err)
+		}
+
+		result, err := response.Result()
+
+		if err != nil {
+			return nil, fmt.Errorf("Error getting API info: %v\n", err)
+		}
+
+		return result, nil
 	}
-	response, err := n.rpc.Send(request)
+*/
+func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character uint) error {
+	err := n.StartTS()
 
 	if err != nil {
-		return nil, fmt.Errorf("Error getting API info: %v\n", err)
+		return err
 	}
 
-	result, err := response.Result()
+	luaCode := `
+		local args = {...}
+		local targetField = args[1]
+		local line = args[2]
+		local character = args[3]
+
+		local parser = vim.treesitter.get_parser(0, "lua")
+		local root = parser:parse()[1]:root()
+
+		local node = root:descendant_for_range(line, character, line, character)
+
+		if node == nil then
+			error("No node found")
+		end
+
+		local targetNode = nil
+
+		while not node:equal(root) do
+			if node:type() == targetField then
+				targetNode = node
+				break
+			end
+
+			node = node:parent()
+		end
+
+		if targetNode == nil then
+			error("No node found")
+		end
+
+		local startLine, _, endLine, _ = targetNode:range()
+		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
+
+		while previous_line and not previous_line:match("^%s*$") do
+			startLine = startLine -1
+			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
+		end
+
+		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
+	`
+
+	result, err := n.ExecLua(luaCode, []any{field, line, character})
 
 	if err != nil {
-		return nil, fmt.Errorf("Error getting API info: %v\n", err)
+		return err
 	}
 
-	return result, nil
-} */
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error reading tsparent response: %v", result)
+	}
+
+	fmt.Println("TSParent")
+	fmt.Println(stringResult)
+
+	return nil
+}
 
 func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {
 	err := n.StartTS()
@@ -415,11 +482,13 @@ func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 	return nil
 }
 
-func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
+func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefinitionResponse, error) {
+	definition := lsp.TextDocumentDefinitionResponse{}
+
 	err := n.StartLSP()
 
 	if err != nil {
-		return err
+		return definition, err
 	}
 
 	luaCode := `
@@ -433,18 +502,22 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return fmt.Errorf("Error getting completion: %v", err)
+		return definition, fmt.Errorf("Error getting completion: %v", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return fmt.Errorf("Error reading completion response: %v", result)
+		return definition, fmt.Errorf("Error reading completion response: %v", result)
 	}
 
-	fmt.Println(stringResult)
+	err = definition.UnmarshalJSON([]byte(stringResult))
 
-	return nil
+	if err != nil {
+		return definition, fmt.Errorf("Error unmarshalling definition response: %w", err)
+	}
+
+	return definition, nil
 }
 
 func (n *Nvim) GetLSPImplementation(line uint, character uint) error {

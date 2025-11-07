@@ -1,6 +1,20 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "TextDocumentDefinitionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "items": {
+            "$ref": "#/definitions/DefinitionLocation"
+          },
+          "type": "array",
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
     "TextDocumentHoverResponse": {
       "additionalProperties": false,
       "properties": {
@@ -206,6 +220,26 @@
         }
       },
       "required": ["uri", "range"],
+      "type": "object"
+    },
+    "DefinitionLocation": {
+      "additionalProperties": false,
+      "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
+      "properties": {
+        "originSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetUri": {
+          "$ref": "#/definitions/DocumentUri"
+        }
+      },
+      "required": ["originSelectionRange", "targetRange", "targetSelectionRange", "targetUri"],
       "type": "object"
     },
     "DocumentUri": {

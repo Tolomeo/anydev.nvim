@@ -1,8 +1,9 @@
 package crawler
 
 import (
-	// "encoding/json"
 	"fmt"
+	"net/url"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
@@ -15,12 +16,14 @@ type crawler struct {
 	scratchBuffer string
 }
 
-func (c *crawler) openScratchBuffer() error {
+func (c *crawler) scratch(lines []string) error {
 	_, err := c.nvim.Open(c.scratchBuffer)
 
 	if err != nil {
 		return err
 	}
+
+	err = c.nvim.SetBufferLines(lines)
 
 	return nil
 }
@@ -87,7 +90,7 @@ func (c *crawler) crawl(path string, subpath string) (Symbol, error) {
 
 	fmt.Println(fullpath)
 
-	typeName, err := c.getRuntimeTypeName(path, subpath)
+	typeName, err := c.getRuntimeTypeName(fullpath)
 
 	if err != nil {
 		return struct{}{}, err
@@ -116,7 +119,14 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 
 	documentation, err := c.getSymbolDocumentation(path)
 
+	if err != nil {
+		return classSymbol, err
+	}
+
 	classSymbol.Documentation = documentation
+
+	fmt.Println("Table definition")
+	err = c.getTableDefinition(path)
 
 	if err != nil {
 		return classSymbol, err
@@ -132,7 +142,7 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 		return classSymbol, nil
 	}
 
-	for _, childpath := range children {
+	/* for _, childpath := range children {
 		child, err := c.crawl(path, childpath)
 
 		if err != nil {
@@ -140,29 +150,75 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 		}
 
 		classSymbol.Fields = append(classSymbol.Fields, child)
-	}
+	} */
 
 	return classSymbol, nil
 }
 
+func (c *crawler) getTableDefinition(path string) error {
+	definitionLocation, err := c.follow(path)
+
+	fmt.Printf("%+v", definitionLocation)
+
+	if err != nil {
+		return err
+	}
+
+	url, err := url.Parse(string(definitionLocation.TargetUri))
+
+	fmt.Printf("%v", url.Path)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = c.nvim.Open(url.Path)
+
+	if err != nil {
+		return err
+	}
+
+	line, character := uint(definitionLocation.TargetRange.Start.Line), uint(definitionLocation.TargetRange.Start.Character)
+
+	err = c.nvim.GetFieldBufferLines("assignment_statement", line, character)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
+	lines := []string{"local ref = " + path}
+
+	err := c.scratch(lines)
+
+	if err != nil {
+		return lsp.DefinitionLocation{}, err
+	}
+
+	line, character := uint(0), uint(len(lines[0]))
+
+	definition, err := c.nvim.GetLSPDefinition(line, character)
+
+	if err != nil {
+		return lsp.DefinitionLocation{}, err
+	}
+
+	return definition.Result[0], nil
+}
+
 func (c *crawler) getSymbolDocumentation(path string) (string, error) {
-	err := c.openScratchBuffer()
+	lines := []string{"local ref = " + path}
+
+	err := c.scratch(lines)
 
 	if err != nil {
 		return "", err
 	}
 
-	assignment := "local ref = " + path
-
-	err = c.nvim.SetBufferLines([]string{
-		assignment,
-	})
-
-	if err != nil {
-		return "", err
-	}
-
-	line, character := uint(0), uint(len(assignment))
+	line, character := uint(0), uint(len(lines[0]))
 
 	hover, err := c.nvim.GetLSPHover(line, character)
 
@@ -173,17 +229,23 @@ func (c *crawler) getSymbolDocumentation(path string) (string, error) {
 	return hover.Result.Contents.Value, nil
 }
 
-func (c *crawler) getRuntimeTypeName(path string, subpath string) (string, error) {
-	fullpath := path + "." + subpath
+func (c *crawler) getRuntimeTypeName(path string) (string, error) {
+	runtimePath := path
+	parts := strings.Split(runtimePath, ".")
 
-	// https://www.lua.org/manual/5.1/manual.html#2.1
-	switch subpath {
-	case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
-		fullpath = path + "['" + subpath + "']"
+	switch len(parts) {
+	case 1:
 	default:
+		tail := parts[len(parts)-1]
+		// https://www.lua.org/manual/5.1/manual.html#2.1
+		switch tail {
+		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
+			head := parts[:len(parts)-1]
+			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
+		}
 	}
 
-	luaCode := fmt.Sprintf("return type(%s)", fullpath)
+	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
 
 	result, err := c.nvim.ExecLua(luaCode, []any{})
 
@@ -194,7 +256,7 @@ func (c *crawler) getRuntimeTypeName(path string, subpath string) (string, error
 	typeName, ok := result.(string)
 
 	if !ok {
-		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", fullpath)
+		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", runtimePath)
 	}
 
 	return typeName, nil
@@ -254,7 +316,7 @@ func (c *crawler) getChildren(path string) ([]string, error) {
 	err := c.nvim.StartLSP()
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error getting path %s children: %w", err)
+		return []string{}, fmt.Errorf("Error getting path %s children: %w", path, err)
 	}
 
 	completionPath := "lua " + path + "."
@@ -267,7 +329,7 @@ func (c *crawler) getChildren(path string) ([]string, error) {
 	result, ok := slicesx.AnyToString(getcompletionResult.([]any))
 
 	if !ok {
-		return []string{}, fmt.Errorf("Error getting path %s children: %w", path)
+		return []string{}, fmt.Errorf("Error getting path %s children", path)
 	}
 
 	return result, nil

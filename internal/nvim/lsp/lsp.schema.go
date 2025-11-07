@@ -153,6 +153,55 @@ func (j *CompletionList) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
+// Represents a location inside a resource, such as a line
+// inside a text file.
+//
+//	The Location namespace provides helper functions to work with
+//
+// [Location](#Location) literals.
+type DefinitionLocation struct {
+	// OriginSelectionRange corresponds to the JSON schema field
+	// "originSelectionRange".
+	OriginSelectionRange Range `json:"originSelectionRange" yaml:"originSelectionRange" mapstructure:"originSelectionRange"`
+
+	// TargetRange corresponds to the JSON schema field "targetRange".
+	TargetRange Range `json:"targetRange" yaml:"targetRange" mapstructure:"targetRange"`
+
+	// TargetSelectionRange corresponds to the JSON schema field
+	// "targetSelectionRange".
+	TargetSelectionRange Range `json:"targetSelectionRange" yaml:"targetSelectionRange" mapstructure:"targetSelectionRange"`
+
+	// TargetUri corresponds to the JSON schema field "targetUri".
+	TargetUri DocumentUri `json:"targetUri" yaml:"targetUri" mapstructure:"targetUri"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *DefinitionLocation) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["originSelectionRange"]; raw != nil && !ok {
+		return fmt.Errorf("field originSelectionRange in DefinitionLocation: required")
+	}
+	if _, ok := raw["targetRange"]; raw != nil && !ok {
+		return fmt.Errorf("field targetRange in DefinitionLocation: required")
+	}
+	if _, ok := raw["targetSelectionRange"]; raw != nil && !ok {
+		return fmt.Errorf("field targetSelectionRange in DefinitionLocation: required")
+	}
+	if _, ok := raw["targetUri"]; raw != nil && !ok {
+		return fmt.Errorf("field targetUri in DefinitionLocation: required")
+	}
+	type Plain DefinitionLocation
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = DefinitionLocation(plain)
+	return nil
+}
+
 // Represents programming constructs like variables, classes, interfaces etc.
 // that appear in a document. Document symbols can be hierarchical and they
 // have two ranges: one that encloses its definition and one that points to
@@ -608,8 +657,6 @@ type TextDocumentCompletionResponse struct {
 	Result CompletionList `json:"result" yaml:"result" mapstructure:"result"`
 }
 
-type CompletionItemDocumentation_1 = MarkupContent
-
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *TextDocumentCompletionResponse) UnmarshalJSON(value []byte) error {
 	var raw map[string]interface{}
@@ -625,6 +672,31 @@ func (j *TextDocumentCompletionResponse) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = TextDocumentCompletionResponse(plain)
+	return nil
+}
+
+type CompletionItemDocumentation_1 = MarkupContent
+type TextDocumentDefinitionResponse struct {
+	// The result of a request. This member is REQUIRED on success.
+	// This member MUST NOT exist if there was an error invoking the method.
+	Result []DefinitionLocation `json:"result" yaml:"result" mapstructure:"result"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TextDocumentDefinitionResponse) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["result"]; raw != nil && !ok {
+		return fmt.Errorf("field result in TextDocumentDefinitionResponse: required")
+	}
+	type Plain TextDocumentDefinitionResponse
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TextDocumentDefinitionResponse(plain)
 	return nil
 }
 
