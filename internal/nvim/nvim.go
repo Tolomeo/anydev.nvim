@@ -179,7 +179,13 @@ func (n *Nvim) DeleteBuffer() error {
 		return result, nil
 	}
 */
-func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character uint) error {
+
+type CursorPosition struct {
+	Line      uint
+	Character uint
+}
+
+func (n *Nvim) GetTSNodeAncestorAt(ancestorType []string, cursorPosition CursorPosition) error {
 	err := n.StartTS()
 
 	if err != nil {
@@ -188,7 +194,7 @@ func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character ui
 
 	luaCode := `
 		local args = {...}
-		local targetField = args[1]
+		local ancestorNodeTypes = args[1]
 		local line = args[2]
 		local character = args[3]
 
@@ -204,7 +210,7 @@ func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character ui
 		local targetNode = nil
 
 		while not node:equal(root) do
-			if node:type() == targetField then
+			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
 				targetNode = node
 				break
 			end
@@ -219,7 +225,7 @@ func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character ui
 		local startLine, _, endLine, _ = targetNode:range()
 		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 
-		while previous_line and not previous_line:match("^%s*$") do
+		while previous_line and #previous_line > 0 and previous_line:find("^%s*--") do
 			startLine = startLine -1
 			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 		end
@@ -227,7 +233,7 @@ func (n *Nvim) GetAnnotatedNodeBufferLines(field string, line uint, character ui
 		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
 	`
 
-	result, err := n.ExecLua(luaCode, []any{field, line, character})
+	result, err := n.ExecLua(luaCode, []any{ancestorType, cursorPosition.Line, cursorPosition.Character})
 
 	if err != nil {
 		return err

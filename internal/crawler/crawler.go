@@ -178,9 +178,12 @@ func (c *crawler) getTableDefinition(path string) error {
 		return err
 	}
 
-	line, character := uint(definitionLocation.TargetRange.Start.Line), uint(definitionLocation.TargetRange.Start.Character)
+	cursorPosition := nvim.CursorPosition{
+		Line:      uint(definitionLocation.TargetRange.Start.Line),
+		Character: uint(definitionLocation.TargetRange.Start.Character),
+	}
 
-	err = c.nvim.GetFieldBufferLines("assignment_statement", line, character)
+	err = c.nvim.GetTSNodeAncestorAt([]string{"assignment_statement"}, cursorPosition)
 
 	if err != nil {
 		return err
