@@ -185,11 +185,11 @@ type CursorPosition struct {
 	Character uint
 }
 
-func (n *Nvim) GetTSNodeAncestorAt(ancestorType []string, cursorPosition CursorPosition) error {
+func (n *Nvim) GetDocumentedAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
 	err := n.StartTS()
 
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
 	luaCode := `
@@ -197,6 +197,11 @@ func (n *Nvim) GetTSNodeAncestorAt(ancestorType []string, cursorPosition CursorP
 		local ancestorNodeTypes = args[1]
 		local line = args[2]
 		local character = args[3]
+
+		local function is_comment(ln)
+			local rest = ln:match("^%s*(.*)")
+			return rest:sub(1,2) == "--"
+		end
 
 		local parser = vim.treesitter.get_parser(0, "lua")
 		local root = parser:parse()[1]:root()
@@ -225,7 +230,7 @@ func (n *Nvim) GetTSNodeAncestorAt(ancestorType []string, cursorPosition CursorP
 		local startLine, _, endLine, _ = targetNode:range()
 		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 
-		while previous_line and #previous_line > 0 and previous_line:find("^%s*--") do
+		while previous_line and is_comment(previous_line) do
 			startLine = startLine -1
 			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 		end
@@ -233,22 +238,22 @@ func (n *Nvim) GetTSNodeAncestorAt(ancestorType []string, cursorPosition CursorP
 		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
 	`
 
+	ancestorType := []string{"assignment_statement"}
 	result, err := n.ExecLua(luaCode, []any{ancestorType, cursorPosition.Line, cursorPosition.Character})
 
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return fmt.Errorf("Error reading tsparent response: %v", result)
+		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
 	}
 
-	fmt.Println("TSParent")
 	fmt.Println(stringResult)
 
-	return nil
+	return []string{}, nil
 }
 
 func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {

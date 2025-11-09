@@ -126,7 +126,7 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 	classSymbol.Documentation = documentation
 
 	fmt.Println("Table definition")
-	err = c.getTableDefinition(path)
+	err = c.getDefinition(path)
 
 	if err != nil {
 		return classSymbol, err
@@ -142,7 +142,7 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 		return classSymbol, nil
 	}
 
-	/* for _, childpath := range children {
+	for _, childpath := range children {
 		child, err := c.crawl(path, childpath)
 
 		if err != nil {
@@ -150,15 +150,13 @@ func (c *crawler) crawlTable(path string, name string) (ClassSymbol, error) {
 		}
 
 		classSymbol.Fields = append(classSymbol.Fields, child)
-	} */
+	}
 
 	return classSymbol, nil
 }
 
-func (c *crawler) getTableDefinition(path string) error {
+func (c *crawler) getDefinition(path string) error {
 	definitionLocation, err := c.follow(path)
-
-	fmt.Printf("%+v", definitionLocation)
 
 	if err != nil {
 		return err
@@ -166,7 +164,7 @@ func (c *crawler) getTableDefinition(path string) error {
 
 	url, err := url.Parse(string(definitionLocation.TargetUri))
 
-	fmt.Printf("%v", url.Path)
+	fmt.Printf("%v\n", url.Path)
 
 	if err != nil {
 		return err
@@ -183,7 +181,7 @@ func (c *crawler) getTableDefinition(path string) error {
 		Character: uint(definitionLocation.TargetRange.Start.Character),
 	}
 
-	err = c.nvim.GetTSNodeAncestorAt([]string{"assignment_statement"}, cursorPosition)
+	_, err = c.nvim.GetDocumentedAssignmentBufferLines(cursorPosition)
 
 	if err != nil {
 		return err
