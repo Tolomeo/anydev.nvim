@@ -185,7 +185,7 @@ type CursorPosition struct {
 	Character uint
 }
 
-func (n *Nvim) GetDocumentedAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
+func (n *Nvim) GetAnnotatedAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
 	err := n.StartTS()
 
 	if err != nil {
@@ -209,7 +209,7 @@ func (n *Nvim) GetDocumentedAssignmentBufferLines(cursorPosition CursorPosition)
 		local node = root:descendant_for_range(line, character, line, character)
 
 		if node == nil then
-			error("No node found")
+			return vim.fn.json_encode({ result = nil })
 		end
 
 		local targetNode = nil
@@ -224,7 +224,7 @@ func (n *Nvim) GetDocumentedAssignmentBufferLines(cursorPosition CursorPosition)
 		end
 
 		if targetNode == nil then
-			error("No node found")
+			return vim.fn.json_encode({ result = nil })
 		end
 
 		local startLine, _, endLine, _ = targetNode:range()
@@ -479,13 +479,13 @@ func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
 	result, err := n.ExecLua(luaCode, []any{line, character})
 
 	if err != nil {
-		return fmt.Errorf("Error getting completion: %v", err)
+		return fmt.Errorf("Error getting lsp declaration: %w", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return fmt.Errorf("Error reading completion response: %v", result)
+		return fmt.Errorf("Error reading lsp declaration response: %v", result)
 	}
 
 	fmt.Println(stringResult)
@@ -506,8 +506,10 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefi
 		local args = {...}
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
 		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, 2000)
-		return vim.fn.json_encode(result[1])
+		local lspResponse = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		local result = next(lspResponse[1]) and lspResponse[1] or { result = {} }
+
+		return vim.fn.json_encode(result)
 	`
 
 	result, err := n.ExecLua(luaCode, []any{line, character})
@@ -521,6 +523,9 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefi
 	if !ok {
 		return definition, fmt.Errorf("Error reading completion response: %v", result)
 	}
+
+	fmt.Println("LSPDefinition")
+	fmt.Println(stringResult)
 
 	err = definition.UnmarshalJSON([]byte(stringResult))
 
