@@ -11,9 +11,10 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
 )
 
+var ErrNotFound = errors.New("Not found")
+
 type crawler struct {
-	nvim *nvim.Nvim
-	// path string
+	nvim          *nvim.Nvim
 	scratchBuffer string
 }
 
@@ -29,139 +30,123 @@ func (c *crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *crawler) Debug(path string, subpath string) error {
-	statement := "local ref = " + path + "." + subpath
-
-	err := c.nvim.SetBufferLines([]string{
-		statement,
-	})
-
-	if err != nil {
-		return err
-	}
-
-	lines, err := c.nvim.GetBufferLines()
-
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(lines)
-
-	documentSymbols, err := c.nvim.GetLSPDocumentSymbols()
-
-	if err != nil {
-		return err
-	}
-
-	documentSymbol, ok := slicesx.FindFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
-		return s.Name == "ref"
-	})
-
-	if !ok {
-		return fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
-	}
-
-	fmt.Println("Hover")
-	c.nvim.GetLSPHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Declaration")
-	c.nvim.GetLSPDeclaration(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Definition")
-	c.nvim.GetLSPDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("TypeDefinition")
-	c.nvim.GetLSPTypeDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Implementation")
-	c.nvim.GetLSPImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-
-	return nil
-}
-
-func (c *crawler) Crawl(subpath string) (Symbol, error) {
+func (c *crawler) Crawl(path string) (Symbol, error) {
 	_, err := c.nvim.Open(c.scratchBuffer)
 
 	if err != nil {
 		return struct{}{}, err
 	}
 
-	return c.crawl(subpath)
+	return c.findSymbol(path)
 }
 
-func (c *crawler) crawl(path string) (Symbol, error) {
+func (c *crawler) findSymbol(path string) (Symbol, error) {
+	fmt.Println("findSymbol", path)
 
-	fmt.Println(path)
+	runtimeSymbol, err := c.findRuntimeSymbol(path)
 
-	typeName, err := c.getRuntimeTypeName(path)
-
-	if err != nil {
-		return struct{}{}, err
+	switch {
+	case err == nil:
+		return runtimeSymbol, nil
+	case errors.Is(err, ErrNotFound):
+	default:
+		return nil, fmt.Errorf("Error retrieving runtime symbol for %s: %w", path, err)
 	}
 
-	switch typeName {
-	case "table":
-		crawledTable, err := c.crawlTable(path)
+	lspSymbol, err := c.findLSPSymbol(path)
 
-		if err != nil {
-			return struct{}{}, err
+	switch {
+	case err == nil:
+		return lspSymbol, nil
+	case errors.Is(err, ErrNotFound):
+	default:
+		return nil, fmt.Errorf("Error retrieving lsp symbol for %s: %w", path, err)
+	}
+
+	return nil, ErrNotFound
+}
+
+func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
+	fmt.Println("findRuntimeSymbol", path)
+
+	runtimeType, err := c.getRuntimeTypeName(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	switch runtimeType {
+	case "table":
+		classSymbol := ClassSymbol{
+			Name: path,
 		}
 
-		return crawledTable, nil
-	}
+		err := c.crawlTable(&classSymbol)
 
-	// TODO: return Unrecognised type error
-	return struct{}{}, nil
-}
+		if err != nil {
+			return nil, err
+		}
 
-func (c *crawler) crawlTable(path string) (ClassSymbol, error) {
-	classSymbol := ClassSymbol{
-		Name: path,
-	}
-
-	documentation, err := c.getSymbolDocumentation(path)
-
-	if err != nil {
-		return classSymbol, err
-	}
-
-	classSymbol.Documentation = documentation
-
-	fmt.Println("Table definition")
-	err = c.getDefinition(path)
-
-	if err != nil {
-		return classSymbol, err
-	}
-
-	children, err := c.getChildren(path)
-
-	if err != nil {
-		return classSymbol, err
-	}
-
-	if len(children) == 0 {
 		return classSymbol, nil
 	}
 
-	for _, childpath := range children {
-		child, err := c.crawl(path + "." + childpath)
+	return struct{}{}, nil
+}
 
-		if err != nil {
-			return classSymbol, fmt.Errorf("Error crawling %s.%s: %w", path, childpath, err)
-		}
+func (c *crawler) findLSPSymbol(path string) (Symbol, error) {
+	fmt.Println("findLSPSymbol", path)
+	return struct{}{}, nil
+}
 
-		classSymbol.Fields = append(classSymbol.Fields, child)
+func (c *crawler) crawlTable(symbol *ClassSymbol) error {
+	documentation, err := c.getSymbolDocumentation(symbol.Name)
+
+	if err != nil {
+		return err
 	}
 
-	return classSymbol, nil
+	symbol.Documentation = documentation
+
+	err = c.getDefinition(symbol.Name)
+
+	if err != nil {
+		return err
+	}
+
+	children, err := c.getChildren(symbol.Name)
+
+	if err != nil {
+		return err
+	}
+
+	if len(children) == 0 {
+		return nil
+	}
+
+	path := symbol.Name
+
+	for _, fieldPath := range children {
+		child, err := c.findSymbol(path + "." + fieldPath)
+
+		if err != nil {
+			return fmt.Errorf("Error crawling %s.%s: %w", path, fieldPath, err)
+		}
+
+		symbol.Fields = append(symbol.Fields, child)
+	}
+
+	return nil
 }
 
 func (c *crawler) getDefinition(path string) error {
 	definitionLocation, err := c.follow(path)
 
-	if err != nil {
-		if errors.Is(err, ErrNotFound) {
-			fmt.Printf("Definition not found for %s\n", path)
-			return nil
-		}
+	switch {
+	case err == nil:
+	case errors.Is(err, ErrNotFound):
+		fmt.Printf("Definition not found for %s\n", path)
+		return nil
+	default:
 		return err
 	}
 
@@ -192,8 +177,6 @@ func (c *crawler) getDefinition(path string) error {
 
 	return nil
 }
-
-var ErrNotFound = errors.New("Not found")
 
 func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
 	lines := []string{"local ref = " + path}
@@ -343,6 +326,53 @@ func (c *crawler) getChildren(path string) ([]string, error) {
 	}
 
 	return result, nil
+}
+
+func (c *crawler) Debug(path string, subpath string) error {
+	statement := "local ref = " + path + "." + subpath
+
+	err := c.nvim.SetBufferLines([]string{
+		statement,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	lines, err := c.nvim.GetBufferLines()
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(lines)
+
+	documentSymbols, err := c.nvim.GetLSPDocumentSymbols()
+
+	if err != nil {
+		return err
+	}
+
+	documentSymbol, ok := slicesx.FindFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
+		return s.Name == "ref"
+	})
+
+	if !ok {
+		return fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
+	}
+
+	fmt.Println("Hover")
+	c.nvim.GetLSPHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	fmt.Println("Declaration")
+	c.nvim.GetLSPDeclaration(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	fmt.Println("Definition")
+	c.nvim.GetLSPDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	fmt.Println("TypeDefinition")
+	c.nvim.GetLSPTypeDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+	fmt.Println("Implementation")
+	c.nvim.GetLSPImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
+
+	return nil
 }
 
 func New(nvim *nvim.Nvim) *crawler {
