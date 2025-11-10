@@ -21,7 +21,7 @@ func main() {
 
 	crawler := crawler.New(client)
 
-	path := "vim.b"
+	path := "vim.loop"
 
 	_, err = crawler.Crawl(path)
 

@@ -524,9 +524,6 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefi
 		return definition, fmt.Errorf("Error reading completion response: %v", result)
 	}
 
-	fmt.Println("LSPDefinition")
-	fmt.Println(stringResult)
-
 	err = definition.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
