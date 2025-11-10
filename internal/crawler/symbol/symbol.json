@@ -5,11 +5,11 @@
     "Symbol": {
       "anyOf": [
         {
-          "$ref": "#/definitions/ClassSymbol"
+          "$ref": "#/definitions/NamespaceSymbol"
         }
       ]
     },
-    "ClassSymbol": {
+    "NamespaceSymbol": {
       "additionalProperties": false,
       "description": "Represents programming constructs like variables, classes, interfaces etc.\r\nthat appear in a document. Document symbols can be hierarchical and they\r\nhave two ranges: one that encloses its definition and one that points to\r\nits most interesting range, e.g. the range of an identifier.",
       "properties": {

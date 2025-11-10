@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TextDocumentTSAncestorBufferLinesResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/BufferLines"
+        }
+      },
+      "required": ["result"]
+    },
+    "BufferLines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

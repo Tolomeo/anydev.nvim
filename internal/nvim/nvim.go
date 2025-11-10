@@ -7,6 +7,7 @@ import (
 	"os/exec"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 type Nvim struct {
@@ -185,7 +186,7 @@ type CursorPosition struct {
 	Character uint
 }
 
-func (n *Nvim) GetAnnotatedAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
+func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]string, error) {
 	err := n.StartTS()
 
 	if err != nil {
@@ -209,7 +210,7 @@ func (n *Nvim) GetAnnotatedAssignmentBufferLines(cursorPosition CursorPosition) 
 		local node = root:descendant_for_range(line, character, line, character)
 
 		if node == nil then
-			return vim.fn.json_encode({ result = nil })
+			return vim.fn.json_encode({ result = {} })
 		end
 
 		local targetNode = nil
@@ -224,17 +225,89 @@ func (n *Nvim) GetAnnotatedAssignmentBufferLines(cursorPosition CursorPosition) 
 		end
 
 		if targetNode == nil then
-			return vim.fn.json_encode({ result = nil })
+			return vim.fn.json_encode({ result = {} })
 		end
 
 		local startLine, _, endLine, _ = targetNode:range()
 		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
+		local next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
 
 		while previous_line and is_comment(previous_line) do
-			startLine = startLine -1
+			startLine = startLine - 1
 			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 		end
 
+		while next_line and is_comment(next_line) do
+			endLine = endLine + 1
+			next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
+		end
+
+		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
+	`
+
+	ancestorType := []string{"comment"}
+	result, err := n.ExecLua(luaCode, []any{ancestorType, cursorPosition.Line, cursorPosition.Character})
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
+	}
+
+	fmt.Println(stringResult)
+
+	return []string{}, nil
+
+}
+
+
+func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
+	err := n.StartTS()
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	luaCode := `
+		local args = {...}
+		local ancestorNodeTypes = args[1]
+		local line = args[2]
+		local character = args[3]
+
+		local function is_comment(ln)
+			local rest = ln:match("^%s*(.*)")
+			return rest:sub(1,2) == "--"
+		end
+
+		local parser = vim.treesitter.get_parser(0, "lua")
+		local root = parser:parse()[1]:root()
+
+		local node = root:descendant_for_range(line, character, line, character)
+
+		if node == nil then
+			return vim.fn.json_encode({ result = {} })
+		end
+
+		local targetNode = nil
+
+		while not node:equal(root) do
+			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
+				targetNode = node
+				break
+			end
+
+			node = node:parent()
+		end
+
+		if targetNode == nil then
+			return vim.fn.json_encode({ result = {} })
+		end
+
+		local startLine, _, endLine, _ = targetNode:range()
 		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
 	`
 
@@ -251,9 +324,15 @@ func (n *Nvim) GetAnnotatedAssignmentBufferLines(cursorPosition CursorPosition) 
 		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
 	}
 
-	fmt.Println(stringResult)
+	response := ts.TextDocumentTSAncestorBufferLinesResponse{}
+	
+	err = response.UnmarshalJSON([]byte(stringResult))
 
-	return []string{}, nil
+	if err != nil {
+		return []string{}, err
+	}
+
+	return response.Result, nil
 }
 
 func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {

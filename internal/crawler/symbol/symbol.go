@@ -6,7 +6,7 @@ package symbol
 // that appear in a document. Document symbols can be hierarchical and they
 // have two ranges: one that encloses its definition and one that points to
 // its most interesting range, e.g. the range of an identifier.
-type ClassSymbol struct {
+type NamespaceSymbol struct {
 	// Indicates if this symbol is deprecated.
 	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
 
@@ -14,7 +14,7 @@ type ClassSymbol struct {
 	Documentation string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 
 	// Children of this symbol, e.g. properties of a class.
-	Fields []ClassSymbolFieldsElem `json:"fields,omitempty" yaml:"fields,omitempty" mapstructure:"fields,omitempty"`
+	Fields []NamespaceSymbolFieldsElem `json:"fields,omitempty" yaml:"fields,omitempty" mapstructure:"fields,omitempty"`
 
 	// The name of this symbol. Will be displayed in the user interface and therefore
 	// must not be
@@ -22,6 +22,6 @@ type ClassSymbol struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 }
 
-type ClassSymbolFieldsElem interface{}
+type NamespaceSymbolFieldsElem interface{}
 
 type Symbol interface{}

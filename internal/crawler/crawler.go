@@ -40,7 +40,7 @@ func (c *crawler) Crawl(path string) (Symbol, error) {
 	fmt.Printf("%v\n", foundSymbol)
 
 	switch foundSymbol := foundSymbol.(type) {
-	case *Class:
+	case *Namespace:
 		err := c.crawlClass(foundSymbol)
 
 		if err != nil {
@@ -91,13 +91,13 @@ func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
 
 	switch runtimeType {
 	case "table":
-		err = c.getDefinition(path)
+		definition, err := c.getDefinition(path)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return NewClass(path, []string{}), nil
+		return NewNamespace(path, definition), nil
 
 	case "function":
 		fmt.Println("function", path)
@@ -112,22 +112,10 @@ func (c *crawler) findLSPSymbol(path string) (Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) crawlClass(symbol *Class) error {
-	documentation, err := c.getSymbolDocumentation(symbol.Name)
+func (c *crawler) crawlClass(symbol *Namespace) error {
+	path := symbol.Path()
 
-	if err != nil {
-		return err
-	}
-
-	symbol.Documentation = documentation
-
-	err = c.getDefinition(symbol.Name)
-
-	if err != nil {
-		return err
-	}
-
-	children, err := c.getChildren(symbol.Name)
+	children, err := c.getChildren(path)
 
 	if err != nil {
 		return err
@@ -137,7 +125,6 @@ func (c *crawler) crawlClass(symbol *Class) error {
 		return nil
 	}
 
-	path := symbol.Name
 
 	for _, fieldPath := range children {
 		child, err := c.Crawl(path + "." + fieldPath)
@@ -146,22 +133,22 @@ func (c *crawler) crawlClass(symbol *Class) error {
 			return fmt.Errorf("Error crawling %s.%s: %w", path, fieldPath, err)
 		}
 
-		symbol.Fields = append(symbol.Fields, child)
+		symbol.AddField(&child)
 	}
 
 	return nil
 }
 
-func (c *crawler) getDefinition(path string) error {
+func (c *crawler) getDefinition(path string) ( []string, error ) {
 	definitionLocation, err := c.follow(path)
 
 	switch {
 	case err == nil:
 	case errors.Is(err, ErrNotFound):
 		fmt.Printf("Definition not found for %s\n", path)
-		return nil
+		return []string{}, nil
 	default:
-		return err
+		return []string{}, err
 	}
 
 	url, err := url.Parse(string(definitionLocation.TargetUri))
@@ -169,27 +156,26 @@ func (c *crawler) getDefinition(path string) error {
 	fmt.Printf("%v:%v,%v\n", url.Path, definitionLocation.TargetRange.Start.Line, definitionLocation.TargetRange.Start.Character)
 
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
 	_, err = c.nvim.Open(url.Path)
 
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
 	cursorPosition := nvim.CursorPosition{
 		Line:      uint(definitionLocation.TargetRange.Start.Line),
 		Character: uint(definitionLocation.TargetRange.Start.Character),
 	}
-
-	_, err = c.nvim.GetAnnotatedAssignmentBufferLines(cursorPosition)
+	definitionBufferLines, err := c.nvim.GetTSAssignmentBufferLines(cursorPosition)
 
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
-	return nil
+	return definitionBufferLines, nil
 }
 
 func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
@@ -216,7 +202,7 @@ func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
 	return definition.Result[0], nil
 }
 
-func (c *crawler) getSymbolDocumentation(path string) (string, error) {
+/* func (c *crawler) getSymbolDocumentation(path string) (string, error) {
 	lines := []string{"local ref = " + path}
 
 	err := c.scratch(lines)
@@ -234,7 +220,7 @@ func (c *crawler) getSymbolDocumentation(path string) (string, error) {
 	}
 
 	return hover.Result.Contents.Value, nil
-}
+} */
 
 func (c *crawler) getRuntimeTypeName(path string) (string, error) {
 	runtimePath := path
