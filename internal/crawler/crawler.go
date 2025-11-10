@@ -91,7 +91,13 @@ func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
 
 	switch runtimeType {
 	case "table":
-		return NewClass(path), nil
+		err = c.getDefinition(path)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return NewClass(path, []string{}), nil
 
 	case "function":
 		fmt.Println("function", path)
