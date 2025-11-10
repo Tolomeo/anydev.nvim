@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
@@ -31,16 +30,18 @@ func (c *crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *crawler) Crawl(path string) (symbol.Symbol, error) {
+func (c *crawler) Crawl(path string) (Symbol, error) {
 	foundSymbol, err := c.findSymbol(path)
 
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Printf("%v\n", foundSymbol)
+
 	switch foundSymbol := foundSymbol.(type) {
-	case symbol.ClassSymbol:
-		err := c.crawlClass(&foundSymbol)
+	case *Class:
+		err := c.crawlClass(foundSymbol)
 
 		if err != nil {
 			return nil, err
@@ -53,7 +54,7 @@ func (c *crawler) Crawl(path string) (symbol.Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) findSymbol(path string) (symbol.Symbol, error) {
+func (c *crawler) findSymbol(path string) (Symbol, error) {
 	fmt.Println("findSymbol", path)
 
 	runtimeSymbol, err := c.findRuntimeSymbol(path)
@@ -79,7 +80,7 @@ func (c *crawler) findSymbol(path string) (symbol.Symbol, error) {
 	return nil, ErrNotFound
 }
 
-func (c *crawler) findRuntimeSymbol(path string) (symbol.Symbol, error) {
+func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
 	runtimeType, err := c.getRuntimeTypeName(path)
 
 	if err != nil {
@@ -90,9 +91,7 @@ func (c *crawler) findRuntimeSymbol(path string) (symbol.Symbol, error) {
 
 	switch runtimeType {
 	case "table":
-		return symbol.ClassSymbol{
-			Name: path,
-		}, nil
+		return NewClass(path), nil
 
 	case "function":
 		fmt.Println("function", path)
@@ -102,12 +101,12 @@ func (c *crawler) findRuntimeSymbol(path string) (symbol.Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) findLSPSymbol(path string) (symbol.Symbol, error) {
+func (c *crawler) findLSPSymbol(path string) (Symbol, error) {
 	fmt.Println("findLSPSymbol", path)
 	return struct{}{}, nil
 }
 
-func (c *crawler) crawlClass(symbol *symbol.ClassSymbol) error {
+func (c *crawler) crawlClass(symbol *Class) error {
 	documentation, err := c.getSymbolDocumentation(symbol.Name)
 
 	if err != nil {
