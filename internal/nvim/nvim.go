@@ -258,12 +258,17 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
 	}
 
-	fmt.Println(stringResult)
+	response := ts.TextDocumentTSAncestorBufferLinesResponse{}
 
-	return []string{}, nil
+	err = response.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	return response.Result, nil
 
 }
-
 
 func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
 	err := n.StartTS()
@@ -277,11 +282,6 @@ func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]stri
 		local ancestorNodeTypes = args[1]
 		local line = args[2]
 		local character = args[3]
-
-		local function is_comment(ln)
-			local rest = ln:match("^%s*(.*)")
-			return rest:sub(1,2) == "--"
-		end
 
 		local parser = vim.treesitter.get_parser(0, "lua")
 		local root = parser:parse()[1]:root()
@@ -325,7 +325,7 @@ func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]stri
 	}
 
 	response := ts.TextDocumentTSAncestorBufferLinesResponse{}
-	
+
 	err = response.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
@@ -583,30 +583,38 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefi
 
 	luaCode := `
 		local args = {...}
+		local line = args[1]
+		local character = args[2]
+		local delay = args[3]
 		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local lspResponse = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, 2000)
+		local positionParams = {line = line, character = character}
+		local lspResponse, err = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, delay)
+
+		if err ~= nil then
+			error(err)
+		end
+
 		local result = next(lspResponse[1]) and lspResponse[1] or { result = {} }
 
 		return vim.fn.json_encode(result)
 	`
 
-	result, err := n.ExecLua(luaCode, []any{line, character})
+	result, err := n.ExecLua(luaCode, []any{line, character, 15000})
 
 	if err != nil {
-		return definition, fmt.Errorf("Error getting completion: %v", err)
+		return definition, fmt.Errorf("Error getting lsp definition: %v", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return definition, fmt.Errorf("Error reading completion response: %v", result)
+		return definition, fmt.Errorf("Error reading lsp definition response: %v", result)
 	}
 
 	err = definition.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return definition, fmt.Errorf("Error unmarshalling definition response: %w", err)
+		return definition, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
 	}
 
 	return definition, nil

@@ -1,6 +1,8 @@
 package crawler
 
 import (
+	"fmt"
+
 	"github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
 	// "github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -10,7 +12,7 @@ type Symbol any
 type source struct {
 	// docString  []string
 	path       string
-	definition []string
+	definition definition
 	fields     []*Symbol
 }
 
@@ -31,16 +33,13 @@ func (n *Namespace) AddField(field *Symbol) {
 	n.source.fields = append(n.source.fields, field)
 }
 
-/* func FindNamespace(crawler *nvim.Nvim, path string) {
-	runtimeType, err := crawler.getRuntimeTypeName(path)
+func NewNamespace(c *crawler, path string) (*Namespace, error) {
+	definition, err := c.GetDefinition(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-} */
-
-func NewNamespace(path string, definition []string) *Namespace {
 	namespace := Namespace{
 		source: source{
 			path:       path,
@@ -49,5 +48,21 @@ func NewNamespace(path string, definition []string) *Namespace {
 		symbol: symbol.NamespaceSymbol{},
 	}
 
-	return &namespace
+	children, err := c.GetChildren(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, field := range children {
+		child, err := c.Crawl(path + "." + field)
+
+		if err != nil {
+			return nil, fmt.Errorf("Error crawling %s.%s: %w", path, field, err)
+		}
+
+		namespace.AddField(&child)
+	}
+
+	return &namespace, nil
 }

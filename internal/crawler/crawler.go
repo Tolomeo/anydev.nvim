@@ -31,7 +31,7 @@ func (c *crawler) scratch(lines []string) error {
 }
 
 func (c *crawler) Crawl(path string) (Symbol, error) {
-	foundSymbol, err := c.findSymbol(path)
+	foundSymbol, err := c.get(path)
 
 	if err != nil {
 		return nil, err
@@ -39,48 +39,10 @@ func (c *crawler) Crawl(path string) (Symbol, error) {
 
 	fmt.Printf("%v\n", foundSymbol)
 
-	switch foundSymbol := foundSymbol.(type) {
-	case *Namespace:
-		err := c.crawlClass(foundSymbol)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return foundSymbol, nil
-
-	}
-
-	return struct{}{}, nil
+	return foundSymbol, nil
 }
 
-func (c *crawler) findSymbol(path string) (Symbol, error) {
-	fmt.Println("findSymbol", path)
-
-	runtimeSymbol, err := c.findRuntimeSymbol(path)
-
-	switch {
-	case err == nil:
-		return runtimeSymbol, nil
-	case errors.Is(err, ErrNotFound):
-	default:
-		return nil, fmt.Errorf("Error retrieving runtime symbol for %s: %w", path, err)
-	}
-
-	lspSymbol, err := c.findLSPSymbol(path)
-
-	switch {
-	case err == nil:
-		return lspSymbol, nil
-	case errors.Is(err, ErrNotFound):
-	default:
-		return nil, fmt.Errorf("Error retrieving lsp symbol for %s: %w", path, err)
-	}
-
-	return nil, ErrNotFound
-}
-
-func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
+func (c *crawler) get(path string) (Symbol, error) {
 	runtimeType, err := c.getRuntimeTypeName(path)
 
 	if err != nil {
@@ -91,13 +53,13 @@ func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
 
 	switch runtimeType {
 	case "table":
-		definition, err := c.getDefinition(path)
+		namespace, err := NewNamespace(c, path)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return NewNamespace(path, definition), nil
+		return namespace, nil
 
 	case "function":
 		fmt.Println("function", path)
@@ -107,78 +69,70 @@ func (c *crawler) findRuntimeSymbol(path string) (Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) findLSPSymbol(path string) (Symbol, error) {
-	fmt.Println("findLSPSymbol", path)
-	return struct{}{}, nil
+type definition struct {
+	definition    []string
+	documentation []string
 }
 
-func (c *crawler) crawlClass(symbol *Namespace) error {
-	path := symbol.Path()
+func (c *crawler) GetDefinition(path string) (definition, error) {
+	var def = definition{}
 
-	children, err := c.getChildren(path)
-
-	if err != nil {
-		return err
-	}
-
-	if len(children) == 0 {
-		return nil
-	}
-
-
-	for _, fieldPath := range children {
-		child, err := c.Crawl(path + "." + fieldPath)
-
-		if err != nil {
-			return fmt.Errorf("Error crawling %s.%s: %w", path, fieldPath, err)
-		}
-
-		symbol.AddField(&child)
-	}
-
-	return nil
-}
-
-func (c *crawler) getDefinition(path string) ( []string, error ) {
-	definitionLocation, err := c.follow(path)
+	location, err := c.GetDefinitionLocation(path)
 
 	switch {
-	case err == nil:
 	case errors.Is(err, ErrNotFound):
-		fmt.Printf("Definition not found for %s\n", path)
-		return []string{}, nil
-	default:
-		return []string{}, err
+		fmt.Printf("Documentation not found for %s\n", path)
+		return def, nil
+	case err != nil:
+		return def, err
 	}
 
-	url, err := url.Parse(string(definitionLocation.TargetUri))
-
-	fmt.Printf("%v:%v,%v\n", url.Path, definitionLocation.TargetRange.Start.Line, definitionLocation.TargetRange.Start.Character)
+	url, err := url.Parse(string(location.TargetUri))
 
 	if err != nil {
-		return []string{}, err
+		return def, err
 	}
 
 	_, err = c.nvim.Open(url.Path)
 
 	if err != nil {
-		return []string{}, err
+		return def, err
 	}
 
-	cursorPosition := nvim.CursorPosition{
-		Line:      uint(definitionLocation.TargetRange.Start.Line),
-		Character: uint(definitionLocation.TargetRange.Start.Character),
+	definitionPosition := nvim.CursorPosition{
+		Line:      uint(location.TargetRange.Start.Line),
+		Character: uint(location.TargetRange.Start.Character),
 	}
-	definitionBufferLines, err := c.nvim.GetTSAssignmentBufferLines(cursorPosition)
+
+	definitionBufferLines, err := c.nvim.GetTSAssignmentBufferLines(definitionPosition)
 
 	if err != nil {
-		return []string{}, err
+		return def, err
 	}
 
-	return definitionBufferLines, nil
+	def.definition = definitionBufferLines
+
+	documentationPosition := nvim.CursorPosition{
+		Line:      uint(max(0, location.TargetRange.Start.Line-1)),
+		Character: uint(0),
+	}
+
+	documentationBufferLines, err := c.nvim.GetTSCommentBlockBufferLines(documentationPosition)
+
+	switch {
+	case errors.Is(err, ErrNotFound):
+		fmt.Printf("Documentation not found for %s\n", path)
+		return def, nil
+	case err != nil:
+		return def, err
+	}
+
+	def.documentation = documentationBufferLines
+
+	return def, nil
 }
 
-func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
+func (c *crawler) GetDefinitionLocation(path string) (lsp.DefinitionLocation, error) {
 	lines := []string{"local ref = " + path}
 
 	err := c.scratch(lines)
@@ -189,38 +143,18 @@ func (c *crawler) follow(path string) (lsp.DefinitionLocation, error) {
 
 	line, character := uint(0), uint(len(lines[0]))
 
-	definition, err := c.nvim.GetLSPDefinition(line, character)
+	lspDefinitionResponse, err := c.nvim.GetLSPDefinition(line, character)
 
 	if err != nil {
 		return lsp.DefinitionLocation{}, err
 	}
 
-	if len(definition.Result) == 0 {
+	if len(lspDefinitionResponse.Result) == 0 {
 		return lsp.DefinitionLocation{}, ErrNotFound
 	}
 
-	return definition.Result[0], nil
+	return lspDefinitionResponse.Result[0], nil
 }
-
-/* func (c *crawler) getSymbolDocumentation(path string) (string, error) {
-	lines := []string{"local ref = " + path}
-
-	err := c.scratch(lines)
-
-	if err != nil {
-		return "", err
-	}
-
-	line, character := uint(0), uint(len(lines[0]))
-
-	hover, err := c.nvim.GetLSPHover(line, character)
-
-	if err != nil {
-		return "", fmt.Errorf("Error retrieving documentation for symbol %s: %w", path, err)
-	}
-
-	return hover.Result.Contents.Value, nil
-} */
 
 func (c *crawler) getRuntimeTypeName(path string) (string, error) {
 	runtimePath := path
@@ -255,57 +189,7 @@ func (c *crawler) getRuntimeTypeName(path string) (string, error) {
 	return typeName, nil
 }
 
-/* func (c *crawler) crawlClass(symbol *ClassSymbol, subpath string) error {
-	children, err := c.getChildren(subpath)
-
-	if err != nil {
-		return err
-	}
-
-	for _, child := range children {
-		if child.Label == "__index" {
-			continue
-		}
-
-		if child.Kind == nil {
-			return fmt.Errorf("Error reading nil completion item kind: %#v", child)
-		}
-
-		childSubpath := subpath + "." + child.Label
-
-		if child.InsertText != nil {
-			childSubpath = subpath + "." + *(child.InsertText)
-		}
-
-		fmt.Println(childSubpath, child.InsertText, *child.Kind)
-		fmt.Printf("%+v\n\n", child)
-
-		switch *(child.Kind) {
-		case 5:
-			childClassSymbol := ClassSymbol{
-				Name:       child.Label,
-				Deprecated: child.Deprecated,
-				Detail:     child.Detail,
-			}
-
-			if child.InsertText != nil {
-				childClassSymbol.Name = *(child.InsertText)
-			}
-
-			err = c.crawlClass(&childClassSymbol, childSubpath)
-
-			if err != nil {
-				return fmt.Errorf("Error crawling %s: %w", childSubpath, err)
-			}
-
-			symbol.Children = append(symbol.Children, childClassSymbol)
-		}
-	}
-
-	return nil
-} */
-
-func (c *crawler) getChildren(path string) ([]string, error) {
+func (c *crawler) GetChildren(path string) ([]string, error) {
 	err := c.nvim.StartLSP()
 
 	if err != nil {
