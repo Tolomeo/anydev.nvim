@@ -11,6 +11,13 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
+type CursorPosition struct {
+	Line      uint
+	Character uint
+}
+
+var ErrNotFound = errors.New("Not found")
+
 type Nvim struct {
 	options options
 	cmd     *exec.Cmd
@@ -170,12 +177,74 @@ func (n *Nvim) DeleteBuffer() error {
 	}
 */
 
-type CursorPosition struct {
-	Line      uint
-	Character uint
+func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
+	request := requestMessage{
+		method: "nvim_call_function",
+		params: []any{function, functionArgs},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing function: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing function: %v\n", err)
+	}
+
+	return result, nil
 }
 
-var ErrNotFound = errors.New("Not found")
+func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
+	request := requestMessage{
+		method: "nvim_exec_lua",
+		params: []any{lua, args},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	return result, nil
+}
+
+func (n *Nvim) StartTS() error {
+	luaCode := `
+		if vim.g.lua_ts_ready == true then return end
+
+		vim.g.lua_ts_ready = false
+
+		local ok = pcall(vim.treesitter.language.add, "lua")
+
+		if not ok then error("Treesitter Lua parser registration failed.") end
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = { "lua" },
+			callback = function(opts)
+				vim.treesitter.start(opts.buf, "lua")
+			end,
+		})
+
+		vim.g.lua_ts_ready = true
+	`
+
+	_, err := n.ExecLua(luaCode, []any{30000})
+
+	if err != nil {
+		return fmt.Errorf("Error starting treesitter lua: %w", err)
+	}
+
+	return nil
+}
 
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
 	tsNode := ts.TsNode{}
@@ -253,10 +322,10 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 	return tsNode, nil
 }
 
-func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]string, error) {
+func (n *Nvim) GetCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
 	tsNode, err := n.GetTSNodeAt([]string{"comment"}, cursorPosition.Line, cursorPosition.Character)
 
-	if (err != nil) {
+	if err != nil {
 		return []string{}, err
 	}
 
@@ -302,93 +371,20 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 	return bufferLines, nil
 }
 
-func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
+func (n *Nvim) GetAssignmentStatementAt(cursorPosition CursorPosition) ([]string, error) {
 	tsNode, err := n.GetTSNodeAt([]string{"assignment_statement"}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err
 	}
 
-	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line + 1))
+	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line+1))
 
 	if err != nil {
 		return []string{}, err
 	}
 
 	return bufferLines, nil
-}
-
-func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {
-	err := n.StartTS()
-
-	if err != nil {
-		return err
-	}
-
-	_, err = n.Open(file)
-
-	if err != nil {
-		return err
-	}
-
-	luaCode := `
-		local args = {...}
-		local line = args[1]
-		local column = args[2]
-
-		local parser = vim.treesitter.get_parser(0, 'lua')
-		local tree = parser:parse()[1]
-		local root = tree:root()
-
-		local node = vim.treesitter.get_node({line, column}, 0)
-
-		return node:type()
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character})
-
-	if err != nil {
-		return err
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return fmt.Errorf("Error reading function buffer lines response: %v", result)
-	}
-
-	fmt.Println(stringResult)
-
-	return nil
-}
-
-func (n *Nvim) StartTS() error {
-	luaCode := `
-		if vim.g.lua_ts_ready == true then return end
-
-		vim.g.lua_ts_ready = false
-
-		local ok = pcall(vim.treesitter.language.add, "lua")
-
-		if not ok then error("Treesitter Lua parser registration failed.") end
-
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = { "lua" },
-			callback = function(opts)
-				vim.treesitter.start(opts.buf, "lua")
-			end,
-		})
-
-		vim.g.lua_ts_ready = true
-	`
-
-	_, err := n.ExecLua(luaCode, []any{30000})
-
-	if err != nil {
-		return fmt.Errorf("Error starting treesitter lua: %w", err)
-	}
-
-	return nil
 }
 
 func (n *Nvim) StartLSP() error {
@@ -436,7 +432,7 @@ func (n *Nvim) StartLSP() error {
 	return nil
 }
 
-func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
+func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
 
 	err := n.StartLSP()
@@ -472,7 +468,7 @@ func (n *Nvim) GetLSPDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, 
 	return documentSymbols, nil
 }
 
-func (n *Nvim) GetLSPHover(line uint, character uint) (lsp.TextDocumentHoverResponse, error) {
+func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverResponse, error) {
 	hover := lsp.TextDocumentHoverResponse{}
 
 	err := n.StartLSP()
@@ -522,40 +518,7 @@ func (n *Nvim) GetLSPHover(line uint, character uint) (lsp.TextDocumentHoverResp
 	return hover, nil
 }
 
-func (n *Nvim) GetLSPDeclaration(line uint, character uint) error {
-	err := n.StartLSP()
-
-	if err != nil {
-		return err
-	}
-
-	luaCode := `
-		local args = {...}
-
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/declaration', { textDocument = textDocumentParams, position = positionParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character})
-
-	if err != nil {
-		return fmt.Errorf("Error getting lsp declaration: %w", err)
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return fmt.Errorf("Error reading lsp declaration response: %v", result)
-	}
-
-	fmt.Println(stringResult)
-
-	return nil
-}
-
-func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefinitionResponse, error) {
+func (n *Nvim) GetDefinition(line uint, character uint) (lsp.TextDocumentDefinitionResponse, error) {
 	definition := lsp.TextDocumentDefinitionResponse{}
 
 	err := n.StartLSP()
@@ -603,98 +566,30 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefi
 	return definition, nil
 }
 
-func (n *Nvim) GetLSPImplementation(line uint, character uint) error {
+func (n *Nvim) GetCompletion(head string) ([]string, error) {
 	err := n.StartLSP()
 
 	if err != nil {
-		return err
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
 	}
 
-	luaCode := `
-		local args = {...}
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/implementation', { textDocument = textDocumentParams, position = positionParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character})
+	cmd := "lua " + head + "."
+	getcompletionResult, err := n.CallFunction("getcompletion", []any{cmd, "cmdline"})
 
 	if err != nil {
-		return fmt.Errorf("Error getting completion: %v", err)
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
 	}
 
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return fmt.Errorf("Error reading completion response: %v", result)
-	}
-
-	fmt.Println(stringResult)
-
-	return nil
-}
-
-func (n *Nvim) GetLSPTypeDefinition(line uint, character uint) error {
-	err := n.StartLSP()
+	result, err := anyx.ToStringSlice(getcompletionResult)
 
 	if err != nil {
-		return err
-	}
-
-	luaCode := `
-		local args = {...}
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/typeDefinition', { textDocument = textDocumentParams, position = positionParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character})
-
-	if err != nil {
-		return fmt.Errorf("Error getting completion: %v", err)
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return fmt.Errorf("Error reading completion response: %v", result)
-	}
-
-	fmt.Println(stringResult)
-
-	/* err = completion.UnmarshalJSON([]byte(stringResult))
-
-	if err != nil {
-		return completion, fmt.Errorf("Error unmarshalling completion response: %v", err)
-	}
-
-	return completion, nil */
-	return nil
-}
-
-func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
-	request := requestMessage{
-		method: "nvim_call_function",
-		params: []any{function, functionArgs},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error executing function: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error executing function: %v\n", err)
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
 	}
 
 	return result, nil
 }
 
-func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
+/* func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
 	completion := lsp.TextDocumentCompletionResponse{}
 
 	err := n.StartLSP()
@@ -730,27 +625,7 @@ func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentComp
 	}
 
 	return completion, nil
-}
-
-func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
-	request := requestMessage{
-		method: "nvim_exec_lua",
-		params: []any{lua, args},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	return result, nil
-}
+} */
 
 func New(opts ...optionProvider) (*Nvim, error) {
 	options, err := NewOptions(opts...)

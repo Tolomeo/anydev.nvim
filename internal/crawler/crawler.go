@@ -8,7 +8,6 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
-	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
 )
 
 var ErrNotFound = errors.New("Not found")
@@ -104,7 +103,7 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 		Character: uint(location.TargetRange.Start.Character),
 	}
 
-	definitionBufferLines, err := c.nvim.GetTSAssignmentBufferLines(definitionPosition)
+	definitionBufferLines, err := c.nvim.GetAssignmentStatementAt(definitionPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -121,7 +120,7 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 		Character: uint(location.TargetRange.Start.Character),
 	}
 
-	documentationBufferLines, err := c.nvim.GetTSCommentBlockBufferLines(documentationPosition)
+	documentationBufferLines, err := c.nvim.GetCommentBlockAt(documentationPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -147,7 +146,7 @@ func (c *crawler) GetDefinitionLocation(path string) (lsp.DefinitionLocation, er
 
 	line, character := uint(0), uint(len(lines[0]))
 
-	lspDefinitionResponse, err := c.nvim.GetLSPDefinition(line, character)
+	lspDefinitionResponse, err := c.nvim.GetDefinition(line, character)
 
 	if err != nil {
 		return lsp.DefinitionLocation{}, err
@@ -194,26 +193,7 @@ func (c *crawler) getRuntimeTypeName(path string) (string, error) {
 }
 
 func (c *crawler) GetChildren(path string) ([]string, error) {
-	err := c.nvim.StartLSP()
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error getting path %s children: %w", path, err)
-	}
-
-	completionPath := "lua " + path + "."
-	getcompletionResult, err := c.nvim.CallFunction("getcompletion", []any{completionPath, "cmdline"})
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error getting path %s children: %w", path, err)
-	}
-
-	result, ok := slicesx.AnyToString(getcompletionResult.([]any))
-
-	if !ok {
-		return []string{}, fmt.Errorf("Error getting path %s children", path)
-	}
-
-	return result, nil
+	return c.nvim.GetCompletion(path)
 }
 
 /* func (c *crawler) Debug(path string, subpath string) error {
