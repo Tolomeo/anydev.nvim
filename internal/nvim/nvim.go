@@ -149,7 +149,7 @@ func (n *Nvim) DeleteBuffer() error {
 	_, err := n.rpc.Send(request)
 
 	if err != nil {
-		return fmt.Errorf("Error trying to write buffer: %v\n", err)
+		return fmt.Errorf("Error trying to delete buffer: %v\n", err)
 	}
 
 	return nil
@@ -373,6 +373,22 @@ func (n *Nvim) GetCommentBlockAt(cursorPosition CursorPosition) ([]string, error
 
 func (n *Nvim) GetAssignmentStatementAt(cursorPosition CursorPosition) ([]string, error) {
 	tsNode, err := n.GetTSNodeAt([]string{"assignment_statement"}, cursorPosition.Line, cursorPosition.Character)
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line+1))
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	return bufferLines, nil
+}
+
+func (n *Nvim) GetDeclarationStatementAt(cursorPosition CursorPosition) ([]string, error) {
+	tsNode, err := n.GetTSNodeAt([]string{"function_declaration"}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err

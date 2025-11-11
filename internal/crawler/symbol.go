@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
-	// "github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type Symbol any
@@ -34,7 +33,7 @@ func (n *Namespace) AddField(field *Symbol) {
 }
 
 func NewNamespace(c *crawler, path string) (*Namespace, error) {
-	definition, err := c.GetDefinition(path)
+	definition, err := c.GetAssignmentDescription(path)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
@@ -48,10 +47,10 @@ func NewNamespace(c *crawler, path string) (*Namespace, error) {
 		symbol: symbol.NamespaceSymbol{},
 	}
 
-	children, err := c.GetChildren(path)
+	children, err := c.GetFields(path)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
+		return nil, fmt.Errorf("Error crawling namespace %s: %w", path, err)
 	}
 
 	for _, field := range children {
@@ -65,4 +64,25 @@ func NewNamespace(c *crawler, path string) (*Namespace, error) {
 	}
 
 	return &namespace, nil
+}
+
+type Function struct {
+	source source
+}
+
+func NewFunction(c *crawler, path string) (*Function, error) {
+	definition, err := c.GetDeclarationDefinition(path)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error crawling function %s: %w", path, err)
+	}
+
+	function := Function{
+		source: source{
+			path:       path,
+			definition: definition,
+		},
+	}
+
+	return &function, nil
 }

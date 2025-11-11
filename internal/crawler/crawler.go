@@ -10,8 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 )
 
-var ErrNotFound = errors.New("Not found")
-
 type crawler struct {
 	nvim          *nvim.Nvim
 	scratchBuffer string
@@ -25,6 +23,10 @@ func (c *crawler) scratch(lines []string) error {
 	}
 
 	err = c.nvim.SetBufferLines(lines)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -61,8 +63,13 @@ func (c *crawler) get(path string) (Symbol, error) {
 		return namespace, nil
 
 	case "function":
-		fmt.Println("function", path)
-		return struct{}{}, nil
+		function, err := NewFunction(c, path)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return function, nil
 	}
 
 	return struct{}{}, nil
@@ -73,37 +80,56 @@ type definition struct {
 	documentation []string
 }
 
-func (c *crawler) GetDefinition(path string) (definition, error) {
+type location struct {
+	lsp.DefinitionLocation
+	Url string
+}
+
+func (c *crawler) getLocation(path string) (location, error) {
+	var pathLocation location
+
+	lspLocation, err := c.GetDefinitionLocation(path)
+
+	if err != nil {
+		return pathLocation, err
+	}
+
+	url, err := url.Parse(string(lspLocation.TargetUri))
+
+	if err != nil {
+		return pathLocation, err
+	}
+
+	pathLocation.Url = url.Path
+
+	return pathLocation, nil
+}
+
+func (c *crawler) GetAssignmentDescription(path string) (definition, error) {
 	var def = definition{}
 
-	location, err := c.GetDefinitionLocation(path)
+	pathLocation, err := c.getLocation(path)
 
 	switch {
-	case errors.Is(err, ErrNotFound):
-		fmt.Printf("Documentation not found for %s\n", path)
+	case errors.Is(err, nvim.ErrNotFound):
+		fmt.Printf("Location not found for %s\n", path)
 		return def, nil
 	case err != nil:
 		return def, err
 	}
 
-	url, err := url.Parse(string(location.TargetUri))
+	_, err = c.nvim.Open(pathLocation.Url)
 
 	if err != nil {
 		return def, err
 	}
 
-	_, err = c.nvim.Open(url.Path)
-
-	if err != nil {
-		return def, err
+	assignmentPosition := nvim.CursorPosition{
+		Line:      uint(pathLocation.TargetRange.Start.Line),
+		Character: uint(pathLocation.TargetRange.Start.Character),
 	}
 
-	definitionPosition := nvim.CursorPosition{
-		Line:      uint(location.TargetRange.Start.Line),
-		Character: uint(location.TargetRange.Start.Character),
-	}
-
-	definitionBufferLines, err := c.nvim.GetAssignmentStatementAt(definitionPosition)
+	definitionBufferLines, err := c.nvim.GetAssignmentStatementAt(assignmentPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -111,15 +137,14 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 		return def, nil
 	case err != nil:
 		return def, err
+	default:
+		def.definition = definitionBufferLines
 	}
-
-	def.definition = definitionBufferLines
 
 	documentationPosition := nvim.CursorPosition{
-		Line:      uint(max(0, location.TargetRange.Start.Line-1)),
-		Character: uint(location.TargetRange.Start.Character),
+		Line:      max(0, assignmentPosition.Line-1),
+		Character: assignmentPosition.Character,
 	}
-
 	documentationBufferLines, err := c.nvim.GetCommentBlockAt(documentationPosition)
 
 	switch {
@@ -128,9 +153,64 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 		return def, nil
 	case err != nil:
 		return def, err
+	default:
+		def.documentation = documentationBufferLines
 	}
 
-	def.documentation = documentationBufferLines
+	return def, nil
+
+}
+
+func (c *crawler) GetDeclarationDefinition(path string) (definition, error) {
+	var def = definition{}
+
+	pathLocation, err := c.getLocation(path)
+
+	switch {
+	case errors.Is(err, nvim.ErrNotFound):
+		fmt.Printf("Location not found for %s\n", path)
+		return def, nil
+	case err != nil:
+		return def, err
+	}
+
+	_, err = c.nvim.Open(pathLocation.Url)
+
+	if err != nil {
+		return def, err
+	}
+
+	declarationPosition := nvim.CursorPosition{
+		Line:      uint(pathLocation.TargetRange.Start.Line),
+		Character: uint(pathLocation.TargetRange.Start.Character),
+	}
+	declarationBufferLines, err := c.nvim.GetDeclarationStatementAt(declarationPosition)
+
+	switch {
+	case errors.Is(err, nvim.ErrNotFound):
+		fmt.Printf("Declaration statement not found for %s, falling back to statement definition\n", path)
+		return def, nil
+	case err != nil:
+		return def, err
+	default:
+		def.definition = declarationBufferLines
+	}
+
+	documentationPosition := nvim.CursorPosition{
+		Line:      max(0, declarationPosition.Line-1),
+		Character: declarationPosition.Character,
+	}
+	documentationBufferLines, err := c.nvim.GetCommentBlockAt(documentationPosition)
+
+	switch {
+	case errors.Is(err, nvim.ErrNotFound):
+		fmt.Printf("Documentation not found for %s\n", path)
+		return def, nil
+	case err != nil:
+		return def, err
+	default:
+		def.documentation = documentationBufferLines
+	}
 
 	return def, nil
 }
@@ -153,7 +233,7 @@ func (c *crawler) GetDefinitionLocation(path string) (lsp.DefinitionLocation, er
 	}
 
 	if len(lspDefinitionResponse.Result) == 0 {
-		return lsp.DefinitionLocation{}, ErrNotFound
+		return lsp.DefinitionLocation{}, nvim.ErrNotFound
 	}
 
 	return lspDefinitionResponse.Result[0], nil
@@ -192,7 +272,7 @@ func (c *crawler) getRuntimeTypeName(path string) (string, error) {
 	return typeName, nil
 }
 
-func (c *crawler) GetChildren(path string) ([]string, error) {
+func (c *crawler) GetFields(path string) ([]string, error) {
 	return c.nvim.GetCompletion(path)
 }
 
