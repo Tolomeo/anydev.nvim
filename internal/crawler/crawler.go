@@ -73,8 +73,8 @@ func (c *crawler) get(path string) (Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) GetAssignmentDescription(path string) (definition, error) {
-	var def = definition{}
+func (c *crawler) GetAssignmentOrigin(path string) (origin, error) {
+	var def = origin{}
 
 	pathLocation, err := c.getLocation(path)
 
@@ -129,8 +129,8 @@ func (c *crawler) GetAssignmentDescription(path string) (definition, error) {
 
 }
 
-func (c *crawler) GetDeclarationDefinition(path string) (definition, error) {
-	var def = definition{}
+func (c *crawler) GetDeclarationOrigin(path string) (origin, error) {
+	var def = origin{}
 
 	pathLocation, err := c.getLocation(path)
 
