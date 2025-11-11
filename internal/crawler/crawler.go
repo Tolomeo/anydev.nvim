@@ -88,13 +88,15 @@ type location struct {
 func (c *crawler) getLocation(path string) (location, error) {
 	var pathLocation location
 
-	lspLocation, err := c.GetDefinitionLocation(path)
+	definitionLocation, err := c.GetDefinitionLocation(path)
 
 	if err != nil {
 		return pathLocation, err
 	}
 
-	url, err := url.Parse(string(lspLocation.TargetUri))
+	pathLocation.DefinitionLocation = definitionLocation
+
+	url, err := url.Parse(string(definitionLocation.TargetUri))
 
 	if err != nil {
 		return pathLocation, err
@@ -188,7 +190,7 @@ func (c *crawler) GetDeclarationDefinition(path string) (definition, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Declaration statement not found for %s, falling back to statement definition\n", path)
+		fmt.Printf("Declaration statement not found for %s\n", path)
 		return def, nil
 	case err != nil:
 		return def, err
