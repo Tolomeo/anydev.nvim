@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/url"
 	"os/exec"
 
 	"github.com/Tolomeo/anydev.nvim/internal/anyx"
@@ -14,6 +15,11 @@ import (
 type CursorPosition struct {
 	Line      uint
 	Character uint
+}
+
+type Location struct {
+	lsp.DefinitionLocation
+	Url string
 }
 
 var ErrNotFound = errors.New("Not found")
@@ -534,7 +540,7 @@ func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverRespons
 	return hover, nil
 }
 
-func (n *Nvim) GetDefinition(line uint, character uint) (lsp.TextDocumentDefinitionResponse, error) {
+func (n *Nvim) GetLSPDefinition(line uint, character uint) (lsp.TextDocumentDefinitionResponse, error) {
 	definition := lsp.TextDocumentDefinitionResponse{}
 
 	err := n.StartLSP()
@@ -580,6 +586,31 @@ func (n *Nvim) GetDefinition(line uint, character uint) (lsp.TextDocumentDefinit
 	}
 
 	return definition, nil
+}
+
+func (n *Nvim) GetDefinitionLocation(line uint, character uint) (Location, error) {
+	var loc Location
+
+	lspDefinitionResponse, err := n.GetLSPDefinition(line, character)
+
+	switch {
+	case err != nil:
+		return loc, err
+	case len(lspDefinitionResponse.Result) == 0:
+		return loc, ErrNotFound
+	default:
+		loc.DefinitionLocation = lspDefinitionResponse.Result[0]
+	}
+
+	url, err := url.Parse(string(loc.DefinitionLocation.TargetUri))
+
+	if err != nil {
+		return loc, err
+	}
+
+	loc.Url = url.Path
+
+	return loc, nil
 }
 
 func (n *Nvim) GetCompletion(head string) ([]string, error) {

@@ -3,11 +3,9 @@ package crawler
 import (
 	"errors"
 	"fmt"
-	"net/url"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 )
 
 type crawler struct {
@@ -73,38 +71,6 @@ func (c *crawler) get(path string) (Symbol, error) {
 	}
 
 	return struct{}{}, nil
-}
-
-type definition struct {
-	definition    []string
-	documentation []string
-}
-
-type location struct {
-	lsp.DefinitionLocation
-	Url string
-}
-
-func (c *crawler) getLocation(path string) (location, error) {
-	var pathLocation location
-
-	definitionLocation, err := c.GetDefinitionLocation(path)
-
-	if err != nil {
-		return pathLocation, err
-	}
-
-	pathLocation.DefinitionLocation = definitionLocation
-
-	url, err := url.Parse(string(definitionLocation.TargetUri))
-
-	if err != nil {
-		return pathLocation, err
-	}
-
-	pathLocation.Url = url.Path
-
-	return pathLocation, nil
 }
 
 func (c *crawler) GetAssignmentDescription(path string) (definition, error) {
@@ -217,28 +183,24 @@ func (c *crawler) GetDeclarationDefinition(path string) (definition, error) {
 	return def, nil
 }
 
-func (c *crawler) GetDefinitionLocation(path string) (lsp.DefinitionLocation, error) {
+func (c *crawler) getLocation(path string) (nvim.Location, error) {
 	lines := []string{"local ref = " + path}
 
 	err := c.scratch(lines)
 
 	if err != nil {
-		return lsp.DefinitionLocation{}, err
+		return nvim.Location{}, err
 	}
 
 	line, character := uint(0), uint(len(lines[0]))
 
-	lspDefinitionResponse, err := c.nvim.GetDefinition(line, character)
+	location, err := c.nvim.GetDefinitionLocation(line, character)
 
 	if err != nil {
-		return lsp.DefinitionLocation{}, err
+		return nvim.Location{}, err
 	}
 
-	if len(lspDefinitionResponse.Result) == 0 {
-		return lsp.DefinitionLocation{}, nvim.ErrNotFound
-	}
-
-	return lspDefinitionResponse.Result[0], nil
+	return location, nil
 }
 
 func (c *crawler) getRuntimeTypeName(path string) (string, error) {

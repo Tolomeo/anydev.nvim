@@ -4,9 +4,18 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 )
 
-type Symbol any
+type definition struct {
+	definition    []string
+	documentation []string
+}
+
+type location struct {
+	lsp.DefinitionLocation
+	Url string
+}
 
 type source struct {
 	// docString  []string
@@ -14,6 +23,8 @@ type source struct {
 	definition definition
 	fields     []*Symbol
 }
+
+type Symbol any
 
 type Namespace struct {
 	source source
