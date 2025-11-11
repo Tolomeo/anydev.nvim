@@ -6,6 +6,7 @@ import (
 	"io"
 	"os/exec"
 
+	"github.com/Tolomeo/anydev.nvim/internal/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
@@ -125,25 +126,13 @@ func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
 	}
 
-	sliceOfAny, ok := result.([]any)
+	bufferLines, err := anyx.ToStringSlice(result)
 
-	if !ok {
-		return []string{}, fmt.Errorf("Error reading buffer lines return value: $v")
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
 	}
 
-	sliceOfStrings := make([]string, len(sliceOfAny))
-
-	for index, value := range sliceOfAny {
-		str, ok := value.(string)
-
-		if !ok {
-			return []string{}, fmt.Errorf("Error reading buffer lines return value item %d: %s", index, value)
-		}
-
-		sliceOfStrings[index] = str
-	}
-
-	return sliceOfStrings, nil
+	return bufferLines, nil
 }
 
 func (n *Nvim) DeleteBuffer() error {
@@ -295,7 +284,7 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 			next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
 		end
 
-		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
+		return vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true)
 	`
 
 	result, err := n.ExecLua(luaCode, []any{tsNode.Range.Start.Line, tsNode.Range.End.Line})
@@ -304,22 +293,13 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 		return []string{}, err
 	}
 
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
-	}
-
-	response := ts.TextDocumentTSAncestorBufferLinesResponse{}
-
-	err = response.UnmarshalJSON([]byte(stringResult))
+	bufferLines, err := anyx.ToStringSlice(result)
 
 	if err != nil {
-		return []string{}, err
+		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
 	}
 
-	return response.Result, nil
-
+	return bufferLines, nil
 }
 
 func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
