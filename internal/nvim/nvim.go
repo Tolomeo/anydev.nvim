@@ -108,10 +108,10 @@ func (n *Nvim) SetBufferLines(lines []string) error {
 
 }
 
-func (n *Nvim) GetBufferLines() ([]string, error) {
+func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 	request := requestMessage{
 		method: "nvim_buf_get_lines",
-		params: []any{0, 0, -1, false},
+		params: []any{0, start, end, false},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -186,23 +186,22 @@ type CursorPosition struct {
 	Character uint
 }
 
-func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]string, error) {
+var ErrNotFound = errors.New("Not found")
+
+func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
+	tsNode := ts.TsNode{}
+
 	err := n.StartTS()
 
 	if err != nil {
-		return []string{}, err
+		return tsNode, err
 	}
 
 	luaCode := `
-		local args = {...}
+		local args = { ... }
 		local ancestorNodeTypes = args[1]
 		local line = args[2]
 		local character = args[3]
-
-		local function is_comment(ln)
-			local rest = ln:match("^%s*(.*)")
-			return rest:sub(1,2) == "--"
-		end
 
 		local parser = vim.treesitter.get_parser(0, "lua")
 		local root = parser:parse()[1]:root()
@@ -210,7 +209,7 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 		local node = root:descendant_for_range(line, character, line, character)
 
 		if node == nil then
-			return vim.fn.json_encode({ result = {} })
+			return vim.NIL
 		end
 
 		local targetNode = nil
@@ -225,17 +224,71 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 		end
 
 		if targetNode == nil then
-			return vim.fn.json_encode({ result = {} })
+			return vim.NIL
 		end
 
-		local startLine, _, endLine, _ = targetNode:range()
+		local nodeType = node:type()
+		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
+
+		return vim.fn.json_encode({
+			type = nodeType,
+			range = {
+				start = { line = startLine, character = startCharacter },
+				["end"] = { line = endLine, character = endCharacter },
+			},
+		})
+	`
+
+	result, err := n.ExecLua(luaCode, []any{nodeTypes, line, character})
+
+	if err != nil {
+		return tsNode, err
+	}
+
+	if result == nil {
+		return tsNode, ErrNotFound
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return tsNode, err
+	}
+
+	err = tsNode.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return tsNode, fmt.Errorf("Error unmarshalling tsnode response: %w", err)
+	}
+
+	return tsNode, nil
+}
+
+func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]string, error) {
+	tsNode, err := n.GetTSNodeAt([]string{"comment"}, cursorPosition.Line, cursorPosition.Character)
+
+	if (err != nil) {
+		return []string{}, err
+	}
+
+	luaCode := `
+		local args = {...}
+		local startLine = args[1]
+		local endLine = args[2]
+
+		local function is_comment(ln)
+			local rest = ln:match("^%s*(.*)")
+			return rest:sub(1,2) == "--"
+		end
+
 		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
-		local next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
 
 		while previous_line and is_comment(previous_line) do
 			startLine = startLine - 1
 			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
 		end
+
+		local next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
 
 		while next_line and is_comment(next_line) do
 			endLine = endLine + 1
@@ -245,8 +298,7 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
 	`
 
-	ancestorType := []string{"comment"}
-	result, err := n.ExecLua(luaCode, []any{ancestorType, cursorPosition.Line, cursorPosition.Character})
+	result, err := n.ExecLua(luaCode, []any{tsNode.Range.Start.Line, tsNode.Range.End.Line})
 
 	if err != nil {
 		return []string{}, err
@@ -271,68 +323,19 @@ func (n *Nvim) GetTSCommentBlockBufferLines(cursorPosition CursorPosition) ([]st
 }
 
 func (n *Nvim) GetTSAssignmentBufferLines(cursorPosition CursorPosition) ([]string, error) {
-	err := n.StartTS()
+	tsNode, err := n.GetTSNodeAt([]string{"assignment_statement"}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err
 	}
 
-	luaCode := `
-		local args = {...}
-		local ancestorNodeTypes = args[1]
-		local line = args[2]
-		local character = args[3]
-
-		local parser = vim.treesitter.get_parser(0, "lua")
-		local root = parser:parse()[1]:root()
-
-		local node = root:descendant_for_range(line, character, line, character)
-
-		if node == nil then
-			return vim.fn.json_encode({ result = {} })
-		end
-
-		local targetNode = nil
-
-		while not node:equal(root) do
-			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
-				targetNode = node
-				break
-			end
-
-			node = node:parent()
-		end
-
-		if targetNode == nil then
-			return vim.fn.json_encode({ result = {} })
-		end
-
-		local startLine, _, endLine, _ = targetNode:range()
-		return vim.fn.json_encode({ result = vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true) })
-	`
-
-	ancestorType := []string{"assignment_statement"}
-	result, err := n.ExecLua(luaCode, []any{ancestorType, cursorPosition.Line, cursorPosition.Character})
+	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line + 1))
 
 	if err != nil {
 		return []string{}, err
 	}
 
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return []string{}, fmt.Errorf("Error reading tsparent response: %v", result)
-	}
-
-	response := ts.TextDocumentTSAncestorBufferLinesResponse{}
-
-	err = response.UnmarshalJSON([]byte(stringResult))
-
-	if err != nil {
-		return []string{}, err
-	}
-
-	return response.Result, nil
+	return bufferLines, nil
 }
 
 func (n *Nvim) GetAnnotatedFunctionBufferLinesAt(file string, line uint, character uint) error {

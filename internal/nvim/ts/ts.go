@@ -7,6 +7,105 @@ import "fmt"
 
 type BufferLines []string
 
+// Position in a text document expressed as zero-based line and character offset.
+// The offsets are based on a UTF-16 string representation. So a string of the form
+// `a𐐀b` the character offset of the character `a` is 0, the character offset of
+// `𐐀`
+// is 1 and the character offset of b is 3 since `𐐀` is represented using two code
+// units in UTF-16.
+//
+// Positions are line end character agnostic. So you can not specify a position
+// that
+// denotes `\r|\n` or `\n|` where `|` represents the character offset.
+//
+//	The Position namespace provides helper functions to work with
+//
+// [Position](#Position) literals.
+type Position struct {
+	// Character offset on a line in a document (zero-based). Assuming that the line
+	// is
+	// represented as a string, the `character` value represents the gap between the
+	// `character` and `character + 1`.
+	//
+	// If the character value is greater than the line length it defaults back to the
+	// line length.
+	// If a line number is negative, it defaults to 0.
+	Character float64 `json:"character" yaml:"character" mapstructure:"character"`
+
+	// Line position in a document (zero-based).
+	// If a line number is greater than the number of lines in a document, it defaults
+	// back to the number of lines in the document.
+	// If a line number is negative, it defaults to 0.
+	Line float64 `json:"line" yaml:"line" mapstructure:"line"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *Position) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["character"]; raw != nil && !ok {
+		return fmt.Errorf("field character in Position: required")
+	}
+	if _, ok := raw["line"]; raw != nil && !ok {
+		return fmt.Errorf("field line in Position: required")
+	}
+	type Plain Position
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = Position(plain)
+	return nil
+}
+
+// A range in a text document expressed as (zero-based) start and end positions.
+//
+// If you want to specify a range that contains a line including the line ending
+// character(s) then use an end position denoting the start of the next line.
+// For example:
+// ```ts
+//
+//	{
+//	     start: { line: 5, character: 23 }
+//	     end : { line 6, character : 0 }
+//	}
+//
+// ```
+//
+//	The Range namespace provides helper functions to work with
+//
+// [Range](#Range) literals.
+type Range struct {
+	// The range's end position.
+	End Position `json:"end" yaml:"end" mapstructure:"end"`
+
+	// The range's start position
+	Start Position `json:"start" yaml:"start" mapstructure:"start"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *Range) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["end"]; raw != nil && !ok {
+		return fmt.Errorf("field end in Range: required")
+	}
+	if _, ok := raw["start"]; raw != nil && !ok {
+		return fmt.Errorf("field start in Range: required")
+	}
+	type Plain Range
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = Range(plain)
+	return nil
+}
+
 type TextDocumentTSAncestorBufferLinesResponse struct {
 	// Result corresponds to the JSON schema field "result".
 	Result BufferLines `json:"result" yaml:"result" mapstructure:"result"`
@@ -27,5 +126,36 @@ func (j *TextDocumentTSAncestorBufferLinesResponse) UnmarshalJSON(value []byte) 
 		return err
 	}
 	*j = TextDocumentTSAncestorBufferLinesResponse(plain)
+	return nil
+}
+
+type TextDocumentTSNodeRequestResponse interface{}
+
+type TsNode struct {
+	// Range corresponds to the JSON schema field "range".
+	Range Range `json:"range" yaml:"range" mapstructure:"range"`
+
+	// Type corresponds to the JSON schema field "type".
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TsNode) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["range"]; raw != nil && !ok {
+		return fmt.Errorf("field range in TsNode: required")
+	}
+	if _, ok := raw["type"]; raw != nil && !ok {
+		return fmt.Errorf("field type in TsNode: required")
+	}
+	type Plain TsNode
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TsNode(plain)
 	return nil
 }

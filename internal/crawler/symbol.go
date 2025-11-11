@@ -37,7 +37,7 @@ func NewNamespace(c *crawler, path string) (*Namespace, error) {
 	definition, err := c.GetDefinition(path)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
 	namespace := Namespace{
@@ -51,7 +51,7 @@ func NewNamespace(c *crawler, path string) (*Namespace, error) {
 	children, err := c.GetChildren(path)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
 	for _, field := range children {

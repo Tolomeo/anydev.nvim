@@ -106,7 +106,11 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 
 	definitionBufferLines, err := c.nvim.GetTSAssignmentBufferLines(definitionPosition)
 
-	if err != nil {
+	switch {
+	case errors.Is(err, nvim.ErrNotFound):
+		fmt.Printf("Definition not found for %s\n", path)
+		return def, nil
+	case err != nil:
 		return def, err
 	}
 
@@ -114,13 +118,13 @@ func (c *crawler) GetDefinition(path string) (definition, error) {
 
 	documentationPosition := nvim.CursorPosition{
 		Line:      uint(max(0, location.TargetRange.Start.Line-1)),
-		Character: uint(0),
+		Character: uint(location.TargetRange.Start.Character),
 	}
 
 	documentationBufferLines, err := c.nvim.GetTSCommentBlockBufferLines(documentationPosition)
 
 	switch {
-	case errors.Is(err, ErrNotFound):
+	case errors.Is(err, nvim.ErrNotFound):
 		fmt.Printf("Documentation not found for %s\n", path)
 		return def, nil
 	case err != nil:
@@ -212,7 +216,7 @@ func (c *crawler) GetChildren(path string) ([]string, error) {
 	return result, nil
 }
 
-func (c *crawler) Debug(path string, subpath string) error {
+/* func (c *crawler) Debug(path string, subpath string) error {
 	statement := "local ref = " + path + "." + subpath
 
 	err := c.nvim.SetBufferLines([]string{
@@ -257,7 +261,7 @@ func (c *crawler) Debug(path string, subpath string) error {
 	c.nvim.GetLSPImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
 
 	return nil
-}
+} */
 
 func New(nvim *nvim.Nvim) *crawler {
 	scratchBuffer := nvim.Options().Config().Dir() + "anydev.lua"
