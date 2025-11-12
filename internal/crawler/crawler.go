@@ -7,24 +7,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-type statistics struct {
-	locationNotFound      map[string]struct{}
-	originNotFound        map[string]struct{}
-	documentationNotFound map[string]struct{}
-}
-
-func (s *statistics) LocationNotFound(path string) {
-	s.locationNotFound[path] = struct{}{}
-}
-
-func (s *statistics) OriginNotFound(path string) {
-	s.originNotFound[path] = struct{}{}
-}
-
-func (s *statistics) DocumentationNotFound(path string) {
-	s.documentationNotFound[path] = struct{}{}
-}
-
 type crawler struct {
 	nvim   *nvim.Nvim
 	buffer string
@@ -307,9 +289,9 @@ func New(nvim *nvim.Nvim) *crawler {
 	instance := crawler{
 		nvim:   nvim,
 		buffer: scratchBuffer,
-		stats:  &statistics{
-			locationNotFound: map[string]struct{}{},
-			originNotFound: map[string]struct{}{},
+		stats: &statistics{
+			locationNotFound:      map[string]struct{}{},
+			originNotFound:        map[string]struct{}{},
 			documentationNotFound: map[string]struct{}{},
 		},
 	}
