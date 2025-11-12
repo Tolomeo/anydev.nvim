@@ -41,15 +41,15 @@ func (c *crawler) Crawl(path string) (Symbol, error) {
 }
 
 func (c *crawler) get(path string) (Symbol, error) {
-	runtimeType, err := c.nvim.GetLuaTypeName(path)
+	luaType, err := c.nvim.GetLuaTypeName(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("findRuntimeSymbol", path, runtimeType)
+	fmt.Println("findRuntimeSymbol", path, luaType)
 
-	switch runtimeType {
+	switch luaType {
 	case "table":
 		namespace, err := NewNamespace(c, path)
 
@@ -67,9 +67,17 @@ func (c *crawler) get(path string) (Symbol, error) {
 		}
 
 		return function, nil
+	case "boolean", "number", "string", "userdata", "thread", "nil":
+		variable, err := NewVariable(c, path)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return variable, nil
 	}
 
-	return struct{}{}, nil
+	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
 }
 
 func (c *crawler) GetVariableOrigin(path string) (origin, error) {

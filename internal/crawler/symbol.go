@@ -90,3 +90,24 @@ func NewFunction(c *crawler, path string) (*Function, error) {
 
 	return &function, nil
 }
+
+type Variable struct {
+	source source
+}
+
+func NewVariable(c *crawler, path string) (*Variable, error) {
+	variableOrigin, err := c.GetVariableOrigin(path)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
+	}
+
+	variable := Variable{
+		source: source{
+			path:   path,
+			origin: variableOrigin,
+		},
+	}
+
+	return &variable, nil
+}
