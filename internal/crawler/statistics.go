@@ -17,3 +17,11 @@ func (s *statistics) OriginNotFound(path string) {
 func (s *statistics) DocumentationNotFound(path string) {
 	s.missingDocumentation[path] = struct{}{}
 }
+
+func NewStatistics() *statistics {
+	return &statistics{
+		missingLocation:      map[string]struct{}{},
+		missingOrigin:        map[string]struct{}{},
+		missingDocumentation: map[string]struct{}{},
+	}
+}
