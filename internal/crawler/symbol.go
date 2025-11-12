@@ -7,8 +7,13 @@ import (
 )
 
 type origin struct {
+	location string
 	definition    []string
 	documentation []string
+}
+
+func (o *origin) SetLocation(url string, line uint, character uint) {
+	o.location = fmt.Sprintf(`%s:%v:%v`, url, line, character)
 }
 
 type source struct {

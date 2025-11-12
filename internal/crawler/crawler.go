@@ -7,13 +7,36 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
+type statistics struct {
+	locationNotFound      map[string]struct{}
+	originNotFound        map[string]struct{}
+	documentationNotFound map[string]struct{}
+}
+
+func (s *statistics) LocationNotFound(path string) {
+	s.locationNotFound[path] = struct{}{}
+}
+
+func (s *statistics) OriginNotFound(path string) {
+	s.originNotFound[path] = struct{}{}
+}
+
+func (s *statistics) DocumentationNotFound(path string) {
+	s.documentationNotFound[path] = struct{}{}
+}
+
 type crawler struct {
-	nvim          *nvim.Nvim
-	scratchBuffer string
+	nvim   *nvim.Nvim
+	buffer string
+	stats  *statistics
+}
+
+func (c *crawler) Statistics() statistics {
+	return *c.stats
 }
 
 func (c *crawler) scratch(lines []string) error {
-	_, err := c.nvim.Open(c.scratchBuffer)
+	_, err := c.nvim.Open(c.buffer)
 
 	if err != nil {
 		return err
@@ -87,10 +110,18 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Location not found for %s\n", path)
+		c.stats.LocationNotFound(path)
+		c.stats.OriginNotFound(path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
+	default:
+		def.SetLocation(
+			pathLocation.Url,
+			uint(pathLocation.TargetRange.Start.Line),
+			uint(pathLocation.TargetRange.Start.Character),
+		)
 	}
 
 	_, err = c.nvim.Open(pathLocation.Url)
@@ -107,7 +138,8 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Definition not found for %s\n", path)
+		c.stats.OriginNotFound(path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
@@ -123,7 +155,7 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Documentation not found for %s\n", path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
@@ -142,10 +174,18 @@ func (c *crawler) GetFunctionOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Location not found for %s\n", path)
+		c.stats.LocationNotFound(path)
+		c.stats.OriginNotFound(path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
+	default:
+		def.SetLocation(
+			pathLocation.Url,
+			uint(pathLocation.TargetRange.Start.Line),
+			uint(pathLocation.TargetRange.Start.Character),
+		)
 	}
 
 	_, err = c.nvim.Open(pathLocation.Url)
@@ -162,7 +202,8 @@ func (c *crawler) GetFunctionOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Declaration statement not found for %s\n", path)
+		c.stats.OriginNotFound(path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
@@ -178,7 +219,7 @@ func (c *crawler) GetFunctionOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		fmt.Printf("Documentation not found for %s\n", path)
+		c.stats.DocumentationNotFound(path)
 		return def, nil
 	case err != nil:
 		return def, err
@@ -264,8 +305,13 @@ func New(nvim *nvim.Nvim) *crawler {
 	scratchBuffer := nvim.Options().Config().Dir() + "anydev.lua"
 
 	instance := crawler{
-		nvim:          nvim,
-		scratchBuffer: scratchBuffer,
+		nvim:   nvim,
+		buffer: scratchBuffer,
+		stats:  &statistics{
+			locationNotFound: map[string]struct{}{},
+			originNotFound: map[string]struct{}{},
+			documentationNotFound: map[string]struct{}{},
+		},
 	}
 
 	return &instance
