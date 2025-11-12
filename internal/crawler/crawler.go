@@ -3,7 +3,6 @@ package crawler
 import (
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -42,7 +41,7 @@ func (c *crawler) Crawl(path string) (Symbol, error) {
 }
 
 func (c *crawler) get(path string) (Symbol, error) {
-	runtimeType, err := c.getRuntimeTypeName(path)
+	runtimeType, err := c.nvim.GetLuaTypeName(path)
 
 	if err != nil {
 		return nil, err
@@ -200,39 +199,6 @@ func (c *crawler) getLocation(path string) (nvim.Location, error) {
 	}
 
 	return location, nil
-}
-
-func (c *crawler) getRuntimeTypeName(path string) (string, error) {
-	runtimePath := path
-	parts := strings.Split(runtimePath, ".")
-
-	switch len(parts) {
-	case 1:
-	default:
-		tail := parts[len(parts)-1]
-		// https://www.lua.org/manual/5.1/manual.html#2.1
-		switch tail {
-		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
-			head := parts[:len(parts)-1]
-			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
-		}
-	}
-
-	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
-
-	result, err := c.nvim.ExecLua(luaCode, []any{})
-
-	if err != nil {
-		return "", fmt.Errorf("Error getting the type of %s: %w", path, err)
-	}
-
-	typeName, ok := result.(string)
-
-	if !ok {
-		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", runtimePath)
-	}
-
-	return typeName, nil
 }
 
 func (c *crawler) GetFields(path string) ([]string, error) {

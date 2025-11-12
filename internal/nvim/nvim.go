@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/url"
 	"os/exec"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
@@ -258,6 +259,39 @@ func (n *Nvim) StartTS() error {
 	}
 
 	return nil
+}
+
+func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
+	runtimePath := variable
+	parts := strings.Split(runtimePath, ".")
+
+	switch len(parts) {
+	case 1:
+	default:
+		tail := parts[len(parts)-1]
+		// https://www.lua.org/manual/5.1/manual.html#2.1
+		switch tail {
+		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
+			head := parts[:len(parts)-1]
+			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
+		}
+	}
+
+	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
+
+	result, err := n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return "", fmt.Errorf("Error getting the type of %s: %w", variable, err)
+	}
+
+	typeName, ok := result.(string)
+
+	if !ok {
+		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", runtimePath)
+	}
+
+	return typeName, nil
 }
 
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
