@@ -22,6 +22,12 @@ type Location struct {
 	Url string
 }
 
+const (
+	TS_ASSIGNMENT_STATEMENT string = "assignment_statement"
+	TS_FUNCTION_DECLARATION string = "function_declaration"
+	TS_COMMENT              string = "comment"
+)
+
 var ErrNotFound = errors.New("Not found")
 
 type Nvim struct {
@@ -240,6 +246,8 @@ func (n *Nvim) StartTS() error {
 			end,
 		})
 
+		vim.treesitter.start(0, 'lua')
+
 		vim.g.lua_ts_ready = true
 	`
 
@@ -328,8 +336,8 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 	return tsNode, nil
 }
 
-func (n *Nvim) GetCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
-	tsNode, err := n.GetTSNodeAt([]string{"comment"}, cursorPosition.Line, cursorPosition.Character)
+func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
+	tsNode, err := n.GetTSNodeAt([]string{TS_COMMENT}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err
@@ -377,24 +385,9 @@ func (n *Nvim) GetCommentBlockAt(cursorPosition CursorPosition) ([]string, error
 	return bufferLines, nil
 }
 
-func (n *Nvim) GetAssignmentStatementAt(cursorPosition CursorPosition) ([]string, error) {
-	tsNode, err := n.GetTSNodeAt([]string{"assignment_statement"}, cursorPosition.Line, cursorPosition.Character)
-
-	if err != nil {
-		return []string{}, err
-	}
-
-	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line+1))
-
-	if err != nil {
-		return []string{}, err
-	}
-
-	return bufferLines, nil
-}
-
-func (n *Nvim) GetDeclarationStatementAt(cursorPosition CursorPosition) ([]string, error) {
-	tsNode, err := n.GetTSNodeAt([]string{"function_declaration"}, cursorPosition.Line, cursorPosition.Character)
+func (n *Nvim) ReadTSNodeAt(cursorPosition CursorPosition, nodeType string, nodeTypes ...string) ([]string, error) {
+	tsNodeTypes := append([]string{nodeType}, nodeTypes...)
+	tsNode, err := n.GetTSNodeAt(tsNodeTypes, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err
@@ -517,7 +510,7 @@ func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverRespons
 		return vim.fn.json_encode(result[1])
 	`
 
-	result, err := n.ExecLua(luaCode, []any{line, character, 2000})
+	result, err := n.ExecLua(luaCode, []any{line, character, 15000})
 
 	if err != nil {
 		return hover, fmt.Errorf("Error getting lsp hover response: %v", err)

@@ -73,7 +73,7 @@ func (c *crawler) get(path string) (Symbol, error) {
 	return struct{}{}, nil
 }
 
-func (c *crawler) GetAssignmentOrigin(path string) (origin, error) {
+func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 	var def = origin{}
 
 	pathLocation, err := c.getLocation(path)
@@ -92,12 +92,11 @@ func (c *crawler) GetAssignmentOrigin(path string) (origin, error) {
 		return def, err
 	}
 
-	assignmentPosition := nvim.CursorPosition{
+	variablePosition := nvim.CursorPosition{
 		Line:      uint(pathLocation.TargetRange.Start.Line),
 		Character: uint(pathLocation.TargetRange.Start.Character),
 	}
-
-	definitionBufferLines, err := c.nvim.GetAssignmentStatementAt(assignmentPosition)
+	variableBufferLines, err := c.nvim.ReadTSNodeAt(variablePosition, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -106,14 +105,14 @@ func (c *crawler) GetAssignmentOrigin(path string) (origin, error) {
 	case err != nil:
 		return def, err
 	default:
-		def.definition = definitionBufferLines
+		def.definition = variableBufferLines
 	}
 
 	documentationPosition := nvim.CursorPosition{
-		Line:      max(0, assignmentPosition.Line-1),
-		Character: assignmentPosition.Character,
+		Line:      max(0, variablePosition.Line-1),
+		Character: uint(0),
 	}
-	documentationBufferLines, err := c.nvim.GetCommentBlockAt(documentationPosition)
+	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -129,7 +128,7 @@ func (c *crawler) GetAssignmentOrigin(path string) (origin, error) {
 
 }
 
-func (c *crawler) GetDeclarationOrigin(path string) (origin, error) {
+func (c *crawler) GetFunctionOrigin(path string) (origin, error) {
 	var def = origin{}
 
 	pathLocation, err := c.getLocation(path)
@@ -148,11 +147,11 @@ func (c *crawler) GetDeclarationOrigin(path string) (origin, error) {
 		return def, err
 	}
 
-	declarationPosition := nvim.CursorPosition{
+	functionPosition := nvim.CursorPosition{
 		Line:      uint(pathLocation.TargetRange.Start.Line),
 		Character: uint(pathLocation.TargetRange.Start.Character),
 	}
-	declarationBufferLines, err := c.nvim.GetDeclarationStatementAt(declarationPosition)
+	functionBufferLines, err := c.nvim.ReadTSNodeAt(functionPosition, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
@@ -161,14 +160,14 @@ func (c *crawler) GetDeclarationOrigin(path string) (origin, error) {
 	case err != nil:
 		return def, err
 	default:
-		def.definition = declarationBufferLines
+		def.definition = functionBufferLines
 	}
 
 	documentationPosition := nvim.CursorPosition{
-		Line:      max(0, declarationPosition.Line-1),
-		Character: declarationPosition.Character,
+		Line:      max(0, functionPosition.Line-1),
+		Character: functionPosition.Character,
 	}
-	documentationBufferLines, err := c.nvim.GetCommentBlockAt(documentationPosition)
+	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):

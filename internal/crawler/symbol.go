@@ -37,7 +37,7 @@ func (n *Namespace) AddField(field *Symbol) {
 }
 
 func NewNamespace(c *crawler, path string) (*Namespace, error) {
-	assignmentOrigin, err := c.GetAssignmentOrigin(path)
+	assignmentOrigin, err := c.GetVariableOrigin(path)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
@@ -75,7 +75,7 @@ type Function struct {
 }
 
 func NewFunction(c *crawler, path string) (*Function, error) {
-	declarationOrigin, err := c.GetDeclarationOrigin(path)
+	declarationOrigin, err := c.GetFunctionOrigin(path)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling function %s: %w", path, err)
