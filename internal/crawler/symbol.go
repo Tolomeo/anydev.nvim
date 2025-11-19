@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type origin struct {
-	location string
+	location      string
 	definition    []string
 	documentation []string
 }
@@ -42,7 +43,7 @@ func (n *Namespace) AddField(field *Symbol) {
 }
 
 func NewNamespace(c *crawler, path string) (*Namespace, error) {
-	assignmentOrigin, err := c.GetVariableOrigin(path)
+	assignmentOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
@@ -80,7 +81,7 @@ type Function struct {
 }
 
 func NewFunction(c *crawler, path string) (*Function, error) {
-	declarationOrigin, err := c.GetFunctionOrigin(path)
+	declarationOrigin, err := c.GetOrigin(path, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling function %s: %w", path, err)
@@ -101,7 +102,7 @@ type Variable struct {
 }
 
 func NewVariable(c *crawler, path string) (*Variable, error) {
-	variableOrigin, err := c.GetVariableOrigin(path)
+	variableOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)

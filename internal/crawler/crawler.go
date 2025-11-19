@@ -86,19 +86,17 @@ func (c *crawler) get(path string) (Symbol, error) {
 	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
 }
 
-func (c *crawler) GetVariableOrigin(path string) (origin, error) {
-	var def = origin{}
+func (c *crawler) GetOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
+	var orig = origin{}
 
 	locations, err := c.getLocation(path)
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		c.stats.LocationNotFound(path)
-		c.stats.OriginNotFound(path)
-		c.stats.DocumentationNotFound(path)
-		return def, nil
+		c.stats.Report(path, c.stats.MissingLocation(), c.stats.MissingOrigin(), c.stats.MissingDocumentation())
+		return orig, nil
 	case err != nil:
-		return def, err
+		return orig, err
 	}
 
 	locationIndex, err := slicesx.IndexFunc(locations, func(location nvim.Location) (bool, error) {
@@ -112,7 +110,7 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 			Line:      uint(location.TargetRange.Start.Line),
 			Character: uint(location.TargetRange.Start.Character),
 		}
-		bufferLines, err := c.nvim.ReadTSNodeAt(position, nvim.TS_ASSIGNMENT_STATEMENT)
+		bufferLines, err := c.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
 
 		switch {
 		case errors.Is(err, nvim.ErrNotFound):
@@ -121,8 +119,8 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 			return false, err
 		}
 
-		def.definition = bufferLines
-		def.SetLocation(
+		orig.definition = bufferLines
+		orig.SetLocation(
 			location.Url,
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character),
@@ -133,11 +131,10 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 
 	switch {
 	case err != nil:
-		return def, err
+		return orig, err
 	case locationIndex == -1:
-		c.stats.OriginNotFound(path)
-		c.stats.DocumentationNotFound(path)
-		return def, nil
+		c.stats.Report(path, c.stats.MissingOrigin(), c.stats.MissingDocumentation())
+		return orig, nil
 	}
 
 	functionLocation := locations[locationIndex]
@@ -150,91 +147,15 @@ func (c *crawler) GetVariableOrigin(path string) (origin, error) {
 
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
-		c.stats.DocumentationNotFound(path)
-		return def, nil
+		c.stats.Report(path, c.stats.MissingDocumentation())
+		return orig, nil
 	case err != nil:
-		return def, err
+		return orig, err
 	default:
-		def.documentation = documentationBufferLines
+		orig.documentation = documentationBufferLines
 	}
 
-	return def, nil
-
-}
-
-func (c *crawler) GetFunctionOrigin(path string) (origin, error) {
-	var def = origin{}
-
-	locations, err := c.getLocation(path)
-
-	switch {
-	case errors.Is(err, nvim.ErrNotFound):
-		c.stats.LocationNotFound(path)
-		c.stats.OriginNotFound(path)
-		c.stats.DocumentationNotFound(path)
-		return def, nil
-	case err != nil:
-		return def, err
-	}
-
-	locationIndex, err := slicesx.IndexFunc(locations, func(location nvim.Location) (bool, error) {
-		_, err = c.nvim.Open(location.Url)
-
-		if err != nil {
-			return false, err
-		}
-
-		position := nvim.CursorPosition{
-			Line:      uint(location.TargetRange.Start.Line),
-			Character: uint(location.TargetRange.Start.Character),
-		}
-		bufferLines, err := c.nvim.ReadTSNodeAt(position, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
-
-		switch {
-		case errors.Is(err, nvim.ErrNotFound):
-			return false, nil
-		case err != nil:
-			return false, err
-		}
-
-		def.definition = bufferLines
-		def.SetLocation(
-			location.Url,
-			uint(location.TargetRange.Start.Line),
-			uint(location.TargetRange.Start.Character),
-		)
-
-		return true, nil
-	})
-
-	switch {
-	case err != nil:
-		return def, err
-	case locationIndex == -1:
-		c.stats.OriginNotFound(path)
-		c.stats.DocumentationNotFound(path)
-		return def, nil
-	}
-
-	functionLocation := locations[locationIndex]
-
-	documentationPosition := nvim.CursorPosition{
-		Line:      uint(max(0, functionLocation.TargetRange.Start.Line-1)),
-		Character: uint(functionLocation.TargetRange.Start.Character),
-	}
-	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
-
-	switch {
-	case errors.Is(err, nvim.ErrNotFound):
-		c.stats.DocumentationNotFound(path)
-		return def, nil
-	case err != nil:
-		return def, err
-	default:
-		def.documentation = documentationBufferLines
-	}
-
-	return def, nil
+	return orig, nil
 }
 
 func (c *crawler) getLocation(path string) ([]nvim.Location, error) {

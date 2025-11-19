@@ -21,9 +21,11 @@ func main() {
 
 	crawler := crawler.New(client)
 
-	path := "vim.loop"
+	path := "vim.uv.fs_stat"
 
 	_, err = crawler.Crawl(path)
+
+	fmt.Printf("%+v", crawler.Statistics())
 
 	if err != nil {
 		panic(fmt.Errorf("Error crawling %s: %w", path, err))

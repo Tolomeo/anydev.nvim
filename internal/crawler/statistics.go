@@ -6,16 +6,30 @@ type statistics struct {
 	missingDocumentation map[string]struct{}
 }
 
-func (s *statistics) LocationNotFound(path string) {
-	s.missingLocation[path] = struct{}{}
+type statisticsReporter func(path string)
+
+func (s *statistics) Report(path string, reporters ...statisticsReporter) {
+	for _, report := range reporters {
+		report(path)
+	}
 }
 
-func (s *statistics) OriginNotFound(path string) {
-	s.missingOrigin[path] = struct{}{}
+func (s *statistics) MissingLocation() statisticsReporter {
+	return func(path string) {
+		s.missingLocation[path] = struct{}{}
+	}
 }
 
-func (s *statistics) DocumentationNotFound(path string) {
-	s.missingDocumentation[path] = struct{}{}
+func (s *statistics) MissingOrigin() statisticsReporter {
+	return func(path string) {
+		s.missingOrigin[path] = struct{}{}
+	}
+}
+
+func (s *statistics) MissingDocumentation() statisticsReporter {
+	return func(path string) {
+		s.missingDocumentation[path] = struct{}{}
+	}
 }
 
 func NewStatistics() *statistics {
