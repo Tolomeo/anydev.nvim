@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type crawler struct {

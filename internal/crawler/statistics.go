@@ -9,8 +9,8 @@ type statistics struct {
 type statisticsReporter func(path string)
 
 func (s *statistics) Report(path string, reporters ...statisticsReporter) {
-	for _, report := range reporters {
-		report(path)
+	for _, reporter := range reporters {
+		reporter(path)
 	}
 }
 

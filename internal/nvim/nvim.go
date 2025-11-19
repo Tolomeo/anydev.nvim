@@ -8,10 +8,10 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
-	"github.com/Tolomeo/anydev.nvim/internal/slicesx"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type CursorPosition struct {
