@@ -9,8 +9,16 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
+const path string = "vim.fs"
+
 func main() {
-	client, err := nvim.New()
+	nvimConfigDir, err := project.GetConfigDir()
+
+	if err != nil {
+		panic(fmt.Errorf("Error getting nvim config location: %w", err))
+	}
+
+	client, err := nvim.New(nvim.NewConfig(nvimConfigDir))
 
 	if err != nil {
 		panic(fmt.Errorf("Error initialising nvim client: %v", err))
@@ -23,8 +31,6 @@ func main() {
 	}
 
 	crawler := crawler.New(client)
-
-	path := "vim.uv.fs_stat"
 
 	_, err = crawler.Crawl(path)
 

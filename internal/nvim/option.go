@@ -1,50 +1,40 @@
 package nvim
 
 import (
-	"fmt"
 	"path/filepath"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type config struct {
+type Config struct {
 	directory  string
 }
 
-func (c config) Dir() string {
+func (c Config) Dir() string {
 	return c.directory
 }
 
-func (c config) File(path string) string {
+func (c Config) File(path string) string {
 	return filepath.Join(c.directory, path)
 }
 
-func (c config) InitFile() string {
+func (c Config) InitFile() string {
 	return c.File("init.lua")
 }
 
-func NewConfig() (config, error) {
-	rootDir, err := project.GetRoot()
-
-	if err != nil {
-		return config{}, fmt.Errorf("Error retrieving project folder path: %v", err)
+func NewConfig(directory string) (Config) {
+	newconfig := Config{
+		directory:  directory,
 	}
 
-	configDir := filepath.Join(rootDir, ".config/nvim/")
-
-	newconfig := config{
-		directory:  configDir,
-	}
-
-	return newconfig, nil
+	return newconfig
 }
 
 type options struct {
 	cmd       string
 	arguments []string
-	config    config
+	config    Config
 }
 
-func (o options) Config() config {
+func (o options) Config() Config {
 	return o.config
 }
 
@@ -62,13 +52,7 @@ func WithArguments(arguments []string) optionProvider {
 	}
 }
 
-func NewOptions(opts ...optionProvider) (options, error) {
-	config, err := NewConfig()
-
-	if err != nil {
-		return options{}, fmt.Errorf("Error retrieving default nvim config details: %v", err)
-	}
-
+func NewOptions(config Config, opts ...optionProvider) (options, error) {
 	newoptions := options{
 		cmd:    "nvim",
 		config: config,

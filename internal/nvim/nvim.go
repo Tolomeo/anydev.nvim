@@ -709,8 +709,8 @@ func (n *Nvim) GetCompletion(head string) ([]string, error) {
 	return completion, nil
 } */
 
-func New(opts ...optionProvider) (*Nvim, error) {
-	options, err := NewOptions(opts...)
+func New(config Config, opts ...optionProvider) (*Nvim, error) {
+	options, err := NewOptions(config, opts...)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error getting nvim options: %v", err)

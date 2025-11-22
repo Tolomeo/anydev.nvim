@@ -25,13 +25,31 @@ func GetOutputDir() (string, error) {
 		return "", err
 	}
 
-	outputDir := filepath.Join(rootDir, "output/")
+	dir := filepath.Join(rootDir, "output/")
 
-	err = os.MkdirAll(outputDir, os.ModePerm)
+	err = os.MkdirAll(dir, os.ModePerm)
 
 	if err != nil {
 		return "", err
 	}
 
-	return outputDir, nil
+	return dir, nil
+}
+
+func GetConfigDir() (string, error) {
+	rootDir, err := GetRoot()
+
+	if err != nil {
+		return "", err
+	}
+
+	dir := filepath.Join(rootDir, ".config/nvim/")
+
+	err = os.MkdirAll(dir, os.ModePerm)
+
+	if err != nil {
+		return "", err
+	}
+
+	return dir, nil
 }
