@@ -2,20 +2,20 @@ package nvim
 
 import (
 	"fmt"
-	"os/exec"
-	"strings"
+	"path/filepath"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
 type config struct {
-	dir  string
+	directory  string
 }
 
 func (c config) Dir() string {
-	return c.dir
+	return c.directory
 }
 
 func (c config) File(path string) string {
-	return c.dir + path
+	return filepath.Join(c.directory, path)
 }
 
 func (c config) InitFile() string {
@@ -23,16 +23,16 @@ func (c config) InitFile() string {
 }
 
 func NewConfig() (config, error) {
-	moduleDir, err := exec.Command("go", "list", "-m", "-f", "{{.Dir}}").Output()
+	rootDir, err := project.GetRoot()
 
 	if err != nil {
 		return config{}, fmt.Errorf("Error retrieving project folder path: %v", err)
 	}
 
-	configDir := strings.TrimSpace(string(moduleDir)) + "/.config/nvim/"
+	configDir := filepath.Join(rootDir, ".config/nvim/")
 
 	newconfig := config{
-		dir:  configDir,
+		directory:  configDir,
 	}
 
 	return newconfig, nil

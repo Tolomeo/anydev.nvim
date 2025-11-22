@@ -1,9 +1,13 @@
 package crawler
 
+import (
+	"github.com/Tolomeo/anydev.nvim/internal/utils/set"
+)
+
 type statistics struct {
-	missingLocation      map[string]struct{}
-	missingOrigin        map[string]struct{}
-	missingDocumentation map[string]struct{}
+	NoLocation      set.StringSet `json:"missingLocation"`
+	NoOrigin        set.StringSet `json:"missingOrigin"`
+	NoDocumentation set.StringSet `json:"missingDocumentation"`
 }
 
 type statisticsReporter func(path string)
@@ -16,26 +20,26 @@ func (s *statistics) Report(path string, reporters ...statisticsReporter) {
 
 func (s *statistics) MissingLocation() statisticsReporter {
 	return func(path string) {
-		s.missingLocation[path] = struct{}{}
+		s.NoLocation[path] = struct{}{}
 	}
 }
 
 func (s *statistics) MissingOrigin() statisticsReporter {
 	return func(path string) {
-		s.missingOrigin[path] = struct{}{}
+		s.NoOrigin[path] = struct{}{}
 	}
 }
 
 func (s *statistics) MissingDocumentation() statisticsReporter {
 	return func(path string) {
-		s.missingDocumentation[path] = struct{}{}
+		s.NoDocumentation[path] = struct{}{}
 	}
 }
 
 func NewStatistics() *statistics {
 	return &statistics{
-		missingLocation:      map[string]struct{}{},
-		missingOrigin:        map[string]struct{}{},
-		missingDocumentation: map[string]struct{}{},
+		NoLocation:      set.StringSet{},
+		NoOrigin:        set.StringSet{},
+		NoDocumentation: set.StringSet{},
 	}
 }
