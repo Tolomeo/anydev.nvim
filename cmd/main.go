@@ -46,13 +46,9 @@ func main() {
 
 	out := output.NewOutput(outputDir)
 
-	err = out.WriteFile("statistics.json", crawler.Statistics())
-
-	if err != nil {
+	if err := out.WriteFile("statistics.json", crawler.Statistics()); err != nil {
 		panic(fmt.Errorf("Error collecting crawler statistics: %w", err))
 	}
-
-	fmt.Printf("%+v", crawler.Statistics())
 
 	if err := client.Quit(); err != nil {
 		fmt.Println(fmt.Errorf("Error closing nvim gracefully: %w", err))
