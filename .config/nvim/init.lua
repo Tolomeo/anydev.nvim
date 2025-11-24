@@ -13,8 +13,6 @@ vim.opt.packpath:prepend(config_dir)
 -- Configuring lua_ls lsp
 require("lazydev").setup()
 
-local ref = vim
-
 vim.lsp.config["lua_ls"] = {
 	-- Command and arguments to start the server.
 	cmd = { "lua-language-server" },
@@ -36,26 +34,13 @@ vim.lsp.config["lua_ls"] = {
 				},
 			},
 			workspace = {
-				checkThirdParty = false,
+				checkThirdParty = true,
 				library = {
 					vim.env.VIMRUNTIME,
+					"${3rd}/luv/library",
+					"${3rd}/busted/library",
 				},
 			},
 		},
 	},
 }
-
---[[ vim.g.lua_ls_ready = false
-
-vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
-
-vim.api.nvim_create_autocmd("LspProgress", {
-	group = "LuaLSReady",
-	callback = function(args)
-		if args.data.params.value.kind == "end" then
-			vim.g.lua_ls_ready = true
-		end
-	end,
-})
-
-vim.lsp.enable("lua_ls") ]]
