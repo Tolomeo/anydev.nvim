@@ -25,7 +25,7 @@ func GetOutputDir() (string, error) {
 		return "", err
 	}
 
-	dir := filepath.Join(rootDir, "output/")
+	dir := filepath.Join(rootDir, "out/")
 
 	err = os.MkdirAll(dir, os.ModePerm)
 

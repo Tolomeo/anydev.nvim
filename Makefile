@@ -25,7 +25,7 @@ generate:
 
 .PHONY=run
 run:
-	@go run ./cmd
+	@go run ./cmd/get-types
 
 .PHONY=install
 install:
