@@ -23,8 +23,8 @@ tree-sitter-build: tree-sitter-install
 generate:
 	@go generate ./...
 
-.PHONY=run
-run:
+.PHONY=extract
+extract:
 	@go run ./cmd/extract
 
 .PHONY=install

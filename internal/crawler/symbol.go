@@ -42,7 +42,7 @@ func (n *Namespace) AddField(field *Symbol) {
 	n.fields = append(n.fields, field)
 }
 
-func NewNamespace(c *crawler, path string) (*Namespace, error) {
+func NewNamespace(c *Crawler, path string) (*Namespace, error) {
 	assignmentOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
@@ -80,7 +80,7 @@ type Function struct {
 	source source
 }
 
-func NewFunction(c *crawler, path string) (*Function, error) {
+func NewFunction(c *Crawler, path string) (*Function, error) {
 	declarationOrigin, err := c.GetOrigin(path, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
@@ -101,7 +101,7 @@ type Variable struct {
 	source source
 }
 
-func NewVariable(c *crawler, path string) (*Variable, error) {
+func NewVariable(c *Crawler, path string) (*Variable, error) {
 	variableOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {

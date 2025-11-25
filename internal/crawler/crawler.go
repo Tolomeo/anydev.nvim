@@ -8,17 +8,17 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type crawler struct {
+type Crawler struct {
 	nvim   *nvim.Nvim
 	buffer string
 	stats  *statistics
 }
 
-func (c *crawler) Statistics() statistics {
+func (c *Crawler) Statistics() statistics {
 	return *c.stats
 }
 
-func (c *crawler) scratch(lines []string) error {
+func (c *Crawler) scratch(lines []string) error {
 	_, err := c.nvim.Open(c.buffer)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func (c *crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *crawler) Crawl(path string) (Symbol, error) {
+func (c *Crawler) Crawl(path string) (Symbol, error) {
 	foundSymbol, err := c.get(path)
 
 	if err != nil {
@@ -46,14 +46,12 @@ func (c *crawler) Crawl(path string) (Symbol, error) {
 	return foundSymbol, nil
 }
 
-func (c *crawler) get(path string) (Symbol, error) {
+func (c *Crawler) get(path string) (Symbol, error) {
 	luaType, err := c.nvim.GetLuaTypeName(path)
 
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println("findRuntimeSymbol", path, luaType)
 
 	switch luaType {
 	case "table":
@@ -86,7 +84,7 @@ func (c *crawler) get(path string) (Symbol, error) {
 	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
 }
 
-func (c *crawler) GetOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
+func (c *Crawler) GetOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
 	var orig = origin{}
 
 	locations, err := c.getLocation(path)
@@ -158,7 +156,7 @@ func (c *crawler) GetOrigin(path string, fieldType string, fieldTypes ...string)
 	return orig, nil
 }
 
-func (c *crawler) getLocation(path string) ([]nvim.Location, error) {
+func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 	lines := []string{"local ref = " + path}
 
 	err := c.scratch(lines)
@@ -178,7 +176,7 @@ func (c *crawler) getLocation(path string) ([]nvim.Location, error) {
 	return locations, nil
 }
 
-func (c *crawler) GetFields(path string) ([]string, error) {
+func (c *Crawler) GetFields(path string) ([]string, error) {
 	return c.nvim.GetCompletion(path)
 }
 
@@ -229,10 +227,10 @@ func (c *crawler) GetFields(path string) ([]string, error) {
 	return nil
 } */
 
-func New(nvim *nvim.Nvim) *crawler {
+func New(nvim *nvim.Nvim) *Crawler {
 	buffer := nvim.Options().Config().Dir() + "anydev.lua"
 
-	instance := crawler{
+	instance := Crawler{
 		nvim:   nvim,
 		buffer: buffer,
 		stats:  NewStatistics(),
