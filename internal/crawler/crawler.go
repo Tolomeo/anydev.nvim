@@ -34,7 +34,7 @@ func (c *Crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *Crawler) Crawl(path string) (Symbol, error) {
+func (c *Crawler) Crawl(path string) (Source, error) {
 	foundSymbol, err := c.get(path)
 
 	if err != nil {
@@ -46,7 +46,7 @@ func (c *Crawler) Crawl(path string) (Symbol, error) {
 	return foundSymbol, nil
 }
 
-func (c *Crawler) get(path string) (Symbol, error) {
+func (c *Crawler) get(path string) (Source, error) {
 	luaType, err := c.nvim.GetLuaTypeName(path)
 
 	if err != nil {
