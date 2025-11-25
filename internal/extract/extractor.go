@@ -16,7 +16,7 @@ type extractor struct {
 func (e *extractor) Extract(path string) error {
 	crawler := crawler.New(e.nvim)
 
-	_, err := crawler.Crawl(path)
+	_, err := crawler.CrawlRuntime(path)
 
 	if err != nil {
 		return fmt.Errorf("Error crawling %s: %w", path, err)

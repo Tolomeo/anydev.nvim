@@ -34,19 +34,19 @@ func (c *Crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *Crawler) Crawl(path string) (Source, error) {
-	foundSymbol, err := c.get(path)
+func (c *Crawler) CrawlRuntime(path string) (Source, error) {
+	source, err := c.getRuntimeSource(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Printf("%v\n", foundSymbol)
+	fmt.Printf("%v\n", source)
 
-	return foundSymbol, nil
+	return source, nil
 }
 
-func (c *Crawler) get(path string) (Source, error) {
+func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 	luaType, err := c.nvim.GetLuaTypeName(path)
 
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *Crawler) get(path string) (Source, error) {
 	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
 }
 
-func (c *Crawler) GetOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
+func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
 	var orig = origin{}
 
 	locations, err := c.getLocation(path)
@@ -108,7 +108,7 @@ func (c *Crawler) GetOrigin(path string, fieldType string, fieldTypes ...string)
 			Line:      uint(location.TargetRange.Start.Line),
 			Character: uint(location.TargetRange.Start.Character),
 		}
-		bufferLines, err := c.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
+		definitionLines, err := c.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
 
 		switch {
 		case errors.Is(err, nvim.ErrNotFound):
@@ -117,12 +117,10 @@ func (c *Crawler) GetOrigin(path string, fieldType string, fieldTypes ...string)
 			return false, err
 		}
 
-		orig.definition = bufferLines
-		orig.SetLocation(
-			location.Url,
-			uint(location.TargetRange.Start.Line),
-			uint(location.TargetRange.Start.Character),
-		)
+		orig.url = location.Url
+		orig.line = uint(location.TargetRange.Start.Line)
+		orig.character = uint(location.TargetRange.Start.Character)
+		orig.definition = definitionLines
 
 		return true, nil
 	})

@@ -8,13 +8,11 @@ import (
 )
 
 type origin struct {
-	location      string
+	url string
+	line uint
+	character uint
 	definition    []string
 	documentation []string
-}
-
-func (o *origin) SetLocation(url string, line uint, character uint) {
-	o.location = fmt.Sprintf(`%s:%v:%v`, url, line, character)
 }
 
 type Source interface {
@@ -41,7 +39,7 @@ func (n *Namespace) Fields() []*Source {
 }
 
 func NewNamespace(c *Crawler, path string) (*Namespace, error) {
-	assignmentOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
+	assignmentOrigin, err := c.getOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
@@ -59,7 +57,7 @@ func NewNamespace(c *Crawler, path string) (*Namespace, error) {
 	}
 
 	for _, field := range children {
-		child, err := c.Crawl(path + "." + field)
+		child, err := c.CrawlRuntime(path + "." + field)
 
 		if err != nil {
 			return nil, fmt.Errorf("Error crawling %s.%s: %w", path, field, err)
@@ -85,7 +83,7 @@ func (f *Function) Origin() origin {
 }
 
 func NewFunction(c *Crawler, path string) (*Function, error) {
-	functionOrigin, err := c.GetOrigin(path, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
+	functionOrigin, err := c.getOrigin(path, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling function %s: %w", path, err)
@@ -113,7 +111,7 @@ func (v *Variable) Origin() origin {
 }
 
 func NewVariable(c *Crawler, path string) (*Variable, error) {
-	variableOrigin, err := c.GetOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
+	variableOrigin, err := c.getOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
