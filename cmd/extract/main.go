@@ -6,7 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/extract"
 )
 
-const path string = "vim.fs"
+const path string = "vim.validate"
 
 func main() {
 	extractor, err := extract.NewExtractor()
@@ -15,5 +15,9 @@ func main() {
 		panic(fmt.Errorf("Error creating extractor: %w", err))
 	}
 
-	extractor.Extract(path)
+	err = extractor.Extract(path)
+
+	if err != nil {
+		panic(fmt.Errorf("Error extracting %s: %w", path, err))
+	}
 }
