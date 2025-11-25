@@ -1,4 +1,4 @@
-package crawler
+package crawl
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/set"

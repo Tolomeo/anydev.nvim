@@ -1,4 +1,4 @@
-package crawler
+package crawl
 
 import (
 	"errors"
@@ -225,7 +225,7 @@ func (c *Crawler) GetFields(path string) ([]string, error) {
 	return nil
 } */
 
-func New(nvim *nvim.Nvim) *Crawler {
+func NewCrawler(nvim *nvim.Nvim) *Crawler {
 	buffer := nvim.Options().Config().Dir() + "anydev.lua"
 
 	instance := Crawler{
