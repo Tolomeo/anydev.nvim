@@ -55,7 +55,7 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 
 	switch luaType {
 	case "table":
-		namespace, err := NewNamespace(c, path)
+		namespace, err := NewNamespaceSource(c, path)
 
 		if err != nil {
 			return nil, err
@@ -64,7 +64,7 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 		return namespace, nil
 
 	case "function":
-		function, err := NewFunction(c, path)
+		function, err := NewFunctionSource(c, path)
 
 		if err != nil {
 			return nil, err
@@ -72,7 +72,7 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 
 		return function, nil
 	case "boolean", "number", "string", "userdata", "thread", "nil":
-		variable, err := NewVariable(c, path)
+		variable, err := NewVariableSource(c, path)
 
 		if err != nil {
 			return nil, err

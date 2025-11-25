@@ -2,15 +2,13 @@ package crawler
 
 import (
 	"fmt"
-
-	// "github.com/Tolomeo/anydev.nvim/internal/crawler/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type origin struct {
-	url string
-	line uint
-	character uint
+	url           string
+	line          uint
+	character     uint
 	definition    []string
 	documentation []string
 }
@@ -20,32 +18,32 @@ type Source interface {
 	Origin() origin
 }
 
-type Namespace struct {
+type NamespaceSource struct {
 	path   string
 	origin origin
 	fields []*Source
 }
 
-func (n *Namespace) Path() string {
+func (n *NamespaceSource) Path() string {
 	return n.path
 }
 
-func (n *Namespace) Origin() origin {
+func (n *NamespaceSource) Origin() origin {
 	return n.origin
 }
 
-func (n *Namespace) Fields() []*Source {
+func (n *NamespaceSource) Fields() []*Source {
 	return n.fields
 }
 
-func NewNamespace(c *Crawler, path string) (*Namespace, error) {
+func NewNamespaceSource(c *Crawler, path string) (*NamespaceSource, error) {
 	assignmentOrigin, err := c.getOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	namespace := Namespace{
+	namespace := NamespaceSource{
 		path:   path,
 		origin: assignmentOrigin,
 	}
@@ -69,27 +67,27 @@ func NewNamespace(c *Crawler, path string) (*Namespace, error) {
 	return &namespace, nil
 }
 
-type Function struct {
+type FunctionSource struct {
 	path   string
 	origin origin
 }
 
-func (f *Function) Path() string {
+func (f *FunctionSource) Path() string {
 	return f.path
 }
 
-func (f *Function) Origin() origin {
+func (f *FunctionSource) Origin() origin {
 	return f.origin
 }
 
-func NewFunction(c *Crawler, path string) (*Function, error) {
+func NewFunctionSource(c *Crawler, path string) (*FunctionSource, error) {
 	functionOrigin, err := c.getOrigin(path, nvim.TS_FUNCTION_DECLARATION, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling function %s: %w", path, err)
 	}
 
-	function := Function{
+	function := FunctionSource{
 		path:   path,
 		origin: functionOrigin,
 	}
@@ -97,27 +95,27 @@ func NewFunction(c *Crawler, path string) (*Function, error) {
 	return &function, nil
 }
 
-type Variable struct {
+type VariableSource struct {
 	path   string
 	origin origin
 }
 
-func (v *Variable) Path() string {
+func (v *VariableSource) Path() string {
 	return v.path
 }
 
-func (v *Variable) Origin() origin {
+func (v *VariableSource) Origin() origin {
 	return v.origin
 }
 
-func NewVariable(c *Crawler, path string) (*Variable, error) {
+func NewVariableSource(c *Crawler, path string) (*VariableSource, error) {
 	variableOrigin, err := c.getOrigin(path, nvim.TS_ASSIGNMENT_STATEMENT)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	variable := Variable{
+	variable := VariableSource{
 		path:   path,
 		origin: variableOrigin,
 	}
