@@ -16,11 +16,16 @@ type extractor struct {
 func (e *extractor) Extract(path string) error {
 	crawler := crawl.NewCrawler(e.nvim)
 
-	_, err := crawler.CrawlRuntime(path)
+	prsr := NewParser(crawler)
+
+	source, err := crawler.CrawlRuntime(path)
 
 	if err != nil {
 		return fmt.Errorf("Error crawling %s: %w", path, err)
 	}
+
+	prsr.Parse(source)
+
 
 	outputDir, err := project.GetOutputDir()
 
@@ -32,10 +37,6 @@ func (e *extractor) Extract(path string) error {
 
 	if err := out.WriteFile("statistics.json", crawler.Statistics()); err != nil {
 		return fmt.Errorf("Error collecting crawler statistics: %w", err)
-	}
-
-	if err := e.nvim.Quit(); err != nil {
-		fmt.Println(fmt.Errorf("Error closing nvim gracefully: %w", err))
 	}
 
 	return nil

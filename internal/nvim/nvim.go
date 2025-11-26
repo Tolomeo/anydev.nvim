@@ -24,12 +24,6 @@ type Location struct {
 	Url string
 }
 
-const (
-	TS_ASSIGNMENT_STATEMENT string = "assignment_statement"
-	TS_FUNCTION_DECLARATION string = "function_declaration"
-	TS_COMMENT              string = "comment"
-)
-
 var ErrNotFound = errors.New("Not found")
 
 type Nvim struct {
@@ -372,7 +366,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 }
 
 func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
-	tsNode, err := n.GetTSNodeAt([]string{TS_COMMENT}, cursorPosition.Line, cursorPosition.Character)
+	tsNode, err := n.GetTSNodeAt([]string{ts.COMMENT}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {
 		return []string{}, err

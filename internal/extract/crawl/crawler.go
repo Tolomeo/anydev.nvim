@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
@@ -41,8 +42,6 @@ func (c *Crawler) CrawlRuntime(path string) (Source, error) {
 		return nil, err
 	}
 
-	fmt.Printf("%v\n", source)
-
 	return source, nil
 }
 
@@ -55,30 +54,58 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 
 	switch luaType {
 	case "table":
-		namespace, err := NewNamespaceSource(c, path)
+		tableOrigin, err := c.getOrigin(path, ts.ASSIGNMENT_STATEMENT)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return namespace, nil
+		tableSource := TableSource{
+			path:   path,
+			origin: tableOrigin,
+		}
+
+		fields, err := c.nvim.GetCompletion(path)
+
+		if err != nil {
+			return nil, err
+		}
+
+		for _, field := range fields {
+			child, err := c.CrawlRuntime(path + "." + field)
+
+			if err != nil {
+				return nil, err
+			}
+
+			tableSource.fields = append(tableSource.fields, &child)
+		}
+
+		return &tableSource, nil
 
 	case "function":
-		function, err := NewFunctionSource(c, path)
+		functionOrigin, err := c.getOrigin(path, ts.FUNCTION_DECLARATION, ts.ASSIGNMENT_STATEMENT)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return function, nil
+		return &FunctionSource{
+			path:   path,
+			origin: functionOrigin,
+		}, nil
+
 	case "boolean", "number", "string", "userdata", "thread", "nil":
-		variable, err := NewVariableSource(c, path)
+		variableOrigin, err := c.getOrigin(path, ts.ASSIGNMENT_STATEMENT)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return variable, nil
+		return &VariableSource{
+			path:   path,
+			origin: variableOrigin,
+		}, nil
 	}
 
 	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
@@ -172,10 +199,6 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 	}
 
 	return locations, nil
-}
-
-func (c *Crawler) GetFields(path string) ([]string, error) {
-	return c.nvim.GetCompletion(path)
 }
 
 /* func (c *crawler) Debug(path string, subpath string) error {
