@@ -111,7 +111,7 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
 }
 
-func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (origin, error) {
+func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (*origin, error) {
 	var orig = origin{}
 
 	locations, err := c.getLocation(path)
@@ -119,9 +119,9 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
 		c.stats.Report(path, c.stats.MissingLocation(), c.stats.MissingOrigin(), c.stats.MissingDocumentation())
-		return orig, nil
+		return nil, nil
 	case err != nil:
-		return orig, err
+		return nil, err
 	}
 
 	locationIndex, err := slicesx.IndexFunc(locations, func(location nvim.Location) (bool, error) {
@@ -154,10 +154,10 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 
 	switch {
 	case err != nil:
-		return orig, err
+		return nil, err
 	case locationIndex == -1:
 		c.stats.Report(path, c.stats.MissingOrigin(), c.stats.MissingDocumentation())
-		return orig, nil
+		return nil, nil
 	}
 
 	functionLocation := locations[locationIndex]
@@ -171,14 +171,14 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
 		c.stats.Report(path, c.stats.MissingDocumentation())
-		return orig, nil
+		return &orig, nil
 	case err != nil:
-		return orig, err
+		return &orig, err
 	default:
 		orig.documentation = documentationBufferLines
 	}
 
-	return orig, nil
+	return &orig, nil
 }
 
 func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
@@ -249,7 +249,7 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 } */
 
 func NewCrawler(nvim *nvim.Nvim) *Crawler {
-	buffer := nvim.Options().Config().Dir() + "anydev.lua"
+	buffer := nvim.Options().Config().Dir() + "anydev.crawler.lua"
 
 	instance := Crawler{
 		nvim:   nvim,

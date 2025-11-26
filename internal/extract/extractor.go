@@ -9,14 +9,28 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type extractor struct {
-	nvim *nvim.Nvim
-}
+type extractor struct{}
 
 func (e *extractor) Extract(path string) error {
-	crawler := crawl.NewCrawler(e.nvim)
+	nvimConfigDir, err := project.GetConfigDir()
 
-	prsr := NewParser(crawler)
+	if err != nil {
+		return fmt.Errorf("Error getting nvim config location: %w", err)
+	}
+
+	nvimClient, err := nvim.New(nvim.NewConfig(nvimConfigDir))
+
+	if err != nil {
+		return fmt.Errorf("Error initialising nvim client: %v", err)
+	}
+
+	err = nvimClient.Start()
+
+	if err != nil {
+		return fmt.Errorf("Error opening nvim: %w", err)
+	}
+
+	crawler := crawl.NewCrawler(nvimClient)
 
 	source, err := crawler.CrawlRuntime(path)
 
@@ -24,8 +38,7 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	prsr.Parse(source)
-
+	e.transform(source)
 
 	outputDir, err := project.GetOutputDir()
 
@@ -42,28 +55,18 @@ func (e *extractor) Extract(path string) error {
 	return nil
 }
 
-func NewExtractor() (*extractor, error) {
-	nvimConfigDir, err := project.GetConfigDir()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error getting nvim config location: %w", err)
+func (e *extractor) transform(source crawl.Source) {
+	switch v := source.(type) {
+	case *crawl.TableSource:
+		fmt.Println(v, "table")
+	case *crawl.FunctionSource:
+		fmt.Println("function")
+	case *crawl.VariableSource:
+		fmt.Println("variable")
 	}
+	fmt.Printf("%+v", source.Origin())
+}
 
-	nvimClient, err := nvim.New(nvim.NewConfig(nvimConfigDir))
-
-	if err != nil {
-		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
-	}
-
-	err = nvimClient.Start()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error opening nvim: %w", err)
-	}
-
-	extractor := extractor{
-		nvim: nvimClient,
-	}
-
-	return &extractor, nil
+func NewExtractor() *extractor {
+	return &extractor{}
 }
