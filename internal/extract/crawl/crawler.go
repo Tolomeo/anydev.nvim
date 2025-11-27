@@ -3,6 +3,7 @@ package crawl
 import (
 	"errors"
 	"fmt"
+	"path"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
@@ -10,9 +11,8 @@ import (
 )
 
 type Crawler struct {
-	nvim   *nvim.Nvim
-	buffer string
-	stats  *statistics
+	nvim  *nvim.Nvim
+	stats *statistics
 }
 
 func (c *Crawler) Statistics() statistics {
@@ -20,7 +20,9 @@ func (c *Crawler) Statistics() statistics {
 }
 
 func (c *Crawler) scratch(lines []string) error {
-	_, err := c.nvim.Open(c.buffer)
+	buffer := path.Join(c.nvim.Options().Config().Dir(), "anydev.crawler.lua")
+
+	_, err := c.nvim.Open(buffer)
 
 	if err != nil {
 		return err
@@ -144,10 +146,10 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 			return false, err
 		}
 
-		orig.url = location.Url
-		orig.line = uint(location.TargetRange.Start.Line)
-		orig.character = uint(location.TargetRange.Start.Character)
-		orig.definition = definitionLines
+		orig.Url = location.Url
+		orig.Line = uint(location.TargetRange.Start.Line)
+		orig.Character = uint(location.TargetRange.Start.Character)
+		orig.Definition = definitionLines
 
 		return true, nil
 	})
@@ -175,7 +177,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	case err != nil:
 		return &orig, err
 	default:
-		orig.documentation = documentationBufferLines
+		orig.Documentation = documentationBufferLines
 	}
 
 	return &orig, nil
@@ -249,12 +251,9 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 } */
 
 func NewCrawler(nvim *nvim.Nvim) *Crawler {
-	buffer := nvim.Options().Config().Dir() + "anydev.crawler.lua"
-
 	instance := Crawler{
-		nvim:   nvim,
-		buffer: buffer,
-		stats:  NewStatistics(),
+		nvim:  nvim,
+		stats: NewStatistics(),
 	}
 
 	return &instance

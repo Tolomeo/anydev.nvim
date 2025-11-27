@@ -2,6 +2,7 @@ package extract
 
 import (
 	"fmt"
+	"path"
 
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -9,28 +10,19 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type extractor struct{}
+type extractor struct {
+	nvim   *nvim.Nvim
+	buffer string
+}
 
 func (e *extractor) Extract(path string) error {
-	nvimConfigDir, err := project.GetConfigDir()
-
-	if err != nil {
-		return fmt.Errorf("Error getting nvim config location: %w", err)
-	}
-
-	nvimClient, err := nvim.New(nvim.NewConfig(nvimConfigDir))
-
-	if err != nil {
-		return fmt.Errorf("Error initialising nvim client: %v", err)
-	}
-
-	err = nvimClient.Start()
+	err := e.nvim.Start()
 
 	if err != nil {
 		return fmt.Errorf("Error opening nvim: %w", err)
 	}
 
-	crawler := crawl.NewCrawler(nvimClient)
+	crawler := crawl.NewCrawler(e.nvim)
 
 	source, err := crawler.CrawlRuntime(path)
 
@@ -38,7 +30,7 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	e.transform(source)
+	e.serialize(source)
 
 	outputDir, err := project.GetOutputDir()
 
@@ -52,21 +44,134 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error collecting crawler statistics: %w", err)
 	}
 
+	err = e.nvim.Quit()
+
+	if err != nil {
+		return fmt.Errorf("Errot closing nvim process gracefully: %w", err)
+	}
+
 	return nil
 }
 
-func (e *extractor) transform(source crawl.Source) {
+func (e *extractor) scratch(lines []string) error {
+	buffer := path.Join(e.nvim.Options().Config().Dir(), "anydev.extractor.lua")
+
+	_, err := e.nvim.Open(buffer)
+
+	if err != nil {
+		return err
+	}
+
+	err = e.nvim.SetBufferLines(lines)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (e *extractor) serialize(source crawl.Source) {
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
 	case *crawl.FunctionSource:
-		fmt.Println("function")
+		e.serializeFunction(v)
 	case *crawl.VariableSource:
 		fmt.Println("variable")
 	}
-	fmt.Printf("%+v", source.Origin())
+	// fmt.Printf("%+v", source.Origin())
 }
 
-func NewExtractor() *extractor {
-	return &extractor{}
+func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
+	e.scratch(source.Origin().Definition)
+
+	_, err := e.nvim.GetBufferLines(0, -1)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(source.Origin().Url)
+	// fmt.Printf("%v", lines)
+
+	/* function fn() end
+	function fn(arg1) end
+	function fn(arg1, arg2) end
+	function fn(arg1, arg2, ...) end
+	function fn(...) end */
+	declarationQuery := `
+		(function_declaration
+			name: (identifier) @function.name
+			parameters: (parameters
+				[
+					(identifier) @function.parameter
+					(vararg_expression) @function.parameter
+					","
+				]* 
+			)
+		) @function
+	`
+
+  /* function api:fn() end
+  function api:fn(name) end
+  function api:fn(name, value) end
+  function api:fn(name, value, ...) end
+  function api:fn(...) end */
+	methodDeclarationQuery := `
+		(function_declaration
+			name: (method_index_expression
+				method: (identifier) @function.name
+			) @function.access
+			parameters: (parameters
+				[
+					(identifier) @function.parameter
+					(vararg_expression) @function.parameter
+					","
+				]* 
+			)
+		) @function
+	`
+
+  /* function api.fn() end
+  function api.fn(name) end
+  function api.fn(name, value) end
+  function api.fn(name, value, ...) end
+  function api.fn(...) end */
+	dotIndexDeclarationQuery := `
+		(function_declaration
+			name: [
+				(dot_index_expression
+						field: (identifier) @function.name
+				) @function.access
+			]
+			parameters: (parameters
+				[
+					(identifier) @function.parameter
+					(vararg_expression) @function.parameter
+					","
+				]* 
+			)
+		)
+	`
+
+	return nil
+}
+
+func NewExtractor() (*extractor, error) {
+	nvimConfigDir, err := project.GetConfigDir()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting nvim config location: %w", err)
+	}
+
+	client, err := nvim.New(nvim.NewConfig(nvimConfigDir))
+
+	if err != nil {
+		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
+	}
+
+	return &extractor{
+		nvim: client,
+	}, nil
 }

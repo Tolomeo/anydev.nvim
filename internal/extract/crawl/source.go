@@ -1,11 +1,11 @@
 package crawl
 
 type origin struct {
-	url           string
-	line          uint
-	character     uint
-	definition    []string
-	documentation []string
+	Url           string
+	Line          uint
+	Character     uint
+	Definition    []string
+	Documentation []string
 }
 
 type Source interface {
