@@ -99,61 +99,61 @@ func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
 	function fn(arg1) end
 	function fn(arg1, arg2) end
 	function fn(arg1, arg2, ...) end
-	function fn(...) end */
-	declarationQuery := `
+		function fn(...) end */
+	/* declarationQuery := `
 		(function_declaration
-			name: (identifier) @function.name
+			name: (identifier) @name
 			parameters: (parameters
-				[
-					(identifier) @function.parameter
-					(vararg_expression) @function.parameter
-					","
-				]* 
+				(identifier) @parameter
+				("," (identifier) @parameter)*
+				(vararg_expression)? @parameter
 			)
-		) @function
-	`
+		)
+	` */
 
-  /* function api:fn() end
-  function api:fn(name) end
-  function api:fn(name, value) end
-  function api:fn(name, value, ...) end
-  function api:fn(...) end */
-	methodDeclarationQuery := `
+	/* function api:fn() end
+	function api:fn(name) end
+	function api:fn(name, value) end
+	function api:fn(name, value, ...) end
+	function api:fn(...) end */
+	/* methodDeclarationQuery := `
 		(function_declaration
 			name: (method_index_expression
 				method: (identifier) @function.name
 			) @function.access
 			parameters: (parameters
-				[
-					(identifier) @function.parameter
-					(vararg_expression) @function.parameter
-					","
-				]* 
+				(identifier) @parameter
+				("," (identifier) @parameter)* 
+				(vararg_expression)? @parameter
 			)
-		) @function
-	`
+		)
+	` */
 
-  /* function api.fn() end
-  function api.fn(name) end
-  function api.fn(name, value) end
-  function api.fn(name, value, ...) end
-  function api.fn(...) end */
+	/* function api.fn() end
+	function api.fn(name) end
+	function api.fn(name, value) end
+	function api.fn(name, value, ...) end
+	function api.fn(...) end */
 	dotIndexDeclarationQuery := `
 		(function_declaration
-			name: [
-				(dot_index_expression
-						field: (identifier) @function.name
-				) @function.access
-			]
+			name: (dot_index_expression
+				field: (identifier) @name
+			)
 			parameters: (parameters
-				[
-					(identifier) @function.parameter
-					(vararg_expression) @function.parameter
-					","
-				]* 
+				(identifier) @parameter
+				("," (identifier) @parameter)*
+				(vararg_expression)? @parameter
 			)
 		)
 	`
+
+	captures, err := e.nvim.ExecTsQuery(dotIndexDeclarationQuery)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%+v", captures)
 
 	return nil
 }

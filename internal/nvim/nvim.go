@@ -289,6 +289,76 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 	return typeName, nil
 }
 
+func (n *Nvim) ExecTsQuery(query string) (map[string]any, error) {
+	err := n.StartTS()
+
+	if err != nil {
+		return map[string]any{}, err
+	}
+
+	luaCode := `
+		local args = { ... }
+		local query = args[1]
+
+		local bufnr = 0
+		local language = 'lua'
+
+		local parser = vim.treesitter.get_parser(bufnr, language)
+
+		if not parser then
+			error("Error: Treesitter parser not found")
+		end
+
+		local tree = parser:parse()[1]
+
+		if not tree then
+			error("Error: Could not parse the buffer content into a Tree-sitter tree.")
+		end
+
+		local parsedQuery = vim.treesitter.query.parse(language, query)
+
+		local queryResult = {}
+
+		for id, node in parsedQuery:iter_captures(tree:root(), bufnr) do
+			local name = parsedQuery.captures[id]
+			local row1, col1, row2, col2 = node:range()
+			local text = vim.api.nvim_buf_get_text(bufnr, row1, col1, row2, col2, {})[1]
+
+			if type(queryResult[name]) == "nil" then
+				queryResult[name] = text
+			elseif type(queryResult[name]) == "table" then
+				table.insert(queryResult[name], text)
+			else
+				queryResult[name] = { queryResult[name], text }
+			end
+		end
+
+		if not next(queryResult) then
+			return vim.NIL
+		end
+
+		return queryResult
+	`
+
+	result, err := n.ExecLua(luaCode, []any{query})
+
+	if err != nil {
+		return map[string]any{}, err
+	}
+
+	if result == nil {
+		return map[string]any{}, ErrNotFound
+	}
+
+	resultMap, ok := result.(map[string]any)
+
+	if !ok {
+		return map[string]any{}, fmt.Errorf("Error converting result into string: %v", result)
+	}
+
+	return resultMap, nil
+}
+
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
 	tsNode := ts.TsNode{}
 
@@ -353,7 +423,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return tsNode, err
+		return tsNode, fmt.Errorf("Error converting result into string: %v", result)
 	}
 
 	err = tsNode.UnmarshalJSON([]byte(stringResult))
