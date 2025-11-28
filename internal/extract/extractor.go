@@ -104,8 +104,9 @@ func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
 		(function_declaration
 			name: (identifier) @name
 			parameters: (parameters
-				(identifier) @parameter
+				(identifier)? @parameter
 				("," (identifier) @parameter)*
+				("," (vararg_expression) @parameter)?
 				(vararg_expression)? @parameter
 			)
 		)
@@ -122,8 +123,9 @@ func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
 				method: (identifier) @function.name
 			) @function.access
 			parameters: (parameters
-				(identifier) @parameter
-				("," (identifier) @parameter)* 
+				(identifier)? @parameter
+				("," (identifier) @parameter)*
+				("," (vararg_expression) @parameter)?
 				(vararg_expression)? @parameter
 			)
 		)
@@ -140,8 +142,9 @@ func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
 				field: (identifier) @name
 			)
 			parameters: (parameters
-				(identifier) @parameter
+				(identifier)? @parameter
 				("," (identifier) @parameter)*
+				("," (vararg_expression) @parameter)?
 				(vararg_expression)? @parameter
 			)
 		)
