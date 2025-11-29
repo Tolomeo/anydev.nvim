@@ -11,6 +11,18 @@
         }
       ]
     },
+		"Capture": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "node": {
+          "$ref": "#/definitions/TsNode"
+        }
+      },
+      "required": ["id", "node"]
+		},
     "TsNode": {
       "type": "object",
       "properties": {

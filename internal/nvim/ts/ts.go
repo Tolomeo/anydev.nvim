@@ -7,6 +7,35 @@ import "fmt"
 
 type BufferLines []string
 
+type Capture struct {
+	// Id corresponds to the JSON schema field "id".
+	Id string `json:"id" yaml:"id" mapstructure:"id"`
+
+	// Node corresponds to the JSON schema field "node".
+	Node TsNode `json:"node" yaml:"node" mapstructure:"node"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *Capture) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["id"]; raw != nil && !ok {
+		return fmt.Errorf("field id in Capture: required")
+	}
+	if _, ok := raw["node"]; raw != nil && !ok {
+		return fmt.Errorf("field node in Capture: required")
+	}
+	type Plain Capture
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = Capture(plain)
+	return nil
+}
+
 // Position in a text document expressed as zero-based line and character offset.
 // The offsets are based on a UTF-16 string representation. So a string of the form
 // `a𐐀b` the character offset of the character `a` is 0, the character offset of

@@ -1,6 +1,7 @@
 package nvim
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -124,6 +125,32 @@ func (n *Nvim) SetBufferLines(lines []string) error {
 
 }
 
+func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
+	request := requestMessage{
+		method: "nvim_buf_get_text",
+		params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
+	}
+
+	bufferText, err := anyx.ToSliceOf[string](result)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer text return value: %w", err)
+	}
+
+	return bufferText, nil
+}
+
 func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 	request := requestMessage{
 		method: "nvim_buf_get_lines",
@@ -141,7 +168,7 @@ func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
 	}
 
-	bufferLines, err := anyx.ToStringSlice(result)
+	bufferLines, err := anyx.ToSliceOf[string](result)
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
@@ -289,11 +316,11 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 	return typeName, nil
 }
 
-func (n *Nvim) ExecTsQuery(query string) (map[string]any, error) {
+func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
 	err := n.StartTS()
 
 	if err != nil {
-		return map[string]any{}, err
+		return []ts.Capture{}, err
 	}
 
 	luaCode := `
@@ -320,40 +347,97 @@ func (n *Nvim) ExecTsQuery(query string) (map[string]any, error) {
 		local queryResult = {}
 
 		for id, node in parsedQuery:iter_captures(tree:root(), bufnr) do
-			local name = parsedQuery.captures[id]
-			local row1, col1, row2, col2 = node:range()
-			local text = vim.api.nvim_buf_get_text(bufnr, row1, col1, row2, col2, {})[1]
+			local captureId = parsedQuery.captures[id]
 
-			if type(queryResult[name]) == "nil" then
-				queryResult[name] = text
-			elseif type(queryResult[name]) == "table" then
-				table.insert(queryResult[name], text)
-			else
-				queryResult[name] = { queryResult[name], text }
-			end
+			local nodeType = node:type()
+			local startLine, startCharacter, endLine, endCharacter = node:range(false)
+			local tsNode = {
+				type = nodeType,
+				range = {
+					start = { line = startLine, character = startCharacter },
+					["end"] = { line = endLine, character = endCharacter },
+				},
+			}
+
+			local capture = { 
+				id = captureId,
+				node = tsNode
+			}
+
+			table.insert(queryResult, capture)
 		end
 
 		if not next(queryResult) then
 			return vim.NIL
 		end
 
-		return queryResult
+		return vim.fn.json_encode(queryResult)
 	`
 
 	result, err := n.ExecLua(luaCode, []any{query})
 
 	if err != nil {
-		return map[string]any{}, err
+		return []ts.Capture{}, err
 	}
 
 	if result == nil {
-		return map[string]any{}, ErrNotFound
+		return []ts.Capture{}, ErrNotFound
 	}
 
-	resultMap, ok := result.(map[string]any)
+	stringResult, ok := result.(string)
 
 	if !ok {
-		return map[string]any{}, fmt.Errorf("Error converting result into string: %v", result)
+		return []ts.Capture{}, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
+	}
+
+	var capturedTsNodes []ts.Capture
+
+	if err := json.Unmarshal([]byte(stringResult), &capturedTsNodes); err != nil {
+		return []ts.Capture{}, fmt.Errorf("Error decoding tsNodes json response: %w", err)
+	}
+
+	return capturedTsNodes, nil
+}
+
+func (n *Nvim) ReadTsNode(node ts.TsNode) (string, error) {
+	startRow, startCol, endRow, endCol := int(node.Range.Start.Line), int(node.Range.Start.Character), int(node.Range.End.Line), int(node.Range.End.Character)
+	textContent, err := n.GetBufferText(startRow, startCol, endRow, endCol)
+
+	if err != nil {
+		return "", err
+	}
+
+	return strings.Join(textContent, ""), nil
+}
+
+// TODO: remove
+func (n *Nvim) ReadTSQueryCaptures(query string) (map[string]any, error) {
+	captures, err := n.TsQuery(query)
+
+	if err != nil {
+		return map[string]any{}, err
+	}
+
+	resultMap := make(map[string]any)
+
+	for _, capture := range captures {
+		text, err := n.ReadTsNode(capture.Node)
+
+		if err != nil {
+			return map[string]any{}, err
+		}
+
+		_, alreadyFound := resultMap[capture.Id]
+
+		if !alreadyFound {
+			resultMap[capture.Id] = text
+		} else if alreadyFoundText, isText := resultMap[capture.Id].(string); isText {
+			resultMap[capture.Id] = []string{alreadyFoundText, text}
+		} else if _, isSlice := resultMap[capture.Id].([]string); isSlice {
+			resultMap[capture.Id] = append(resultMap[capture.Id].([]string), text)
+		} else {
+			return map[string]any{}, fmt.Errorf("Unexpected result map type: %T", resultMap[capture.Id])
+		}
 	}
 
 	return resultMap, nil
@@ -475,7 +559,7 @@ func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, erro
 		return []string{}, err
 	}
 
-	bufferLines, err := anyx.ToStringSlice(result)
+	bufferLines, err := anyx.ToSliceOf[string](result)
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
@@ -501,7 +585,7 @@ func (n *Nvim) ReadTSNodeAt(cursorPosition CursorPosition, nodeType string, node
 	return bufferLines, nil
 }
 
-func (n *Nvim) StartLSP() error {
+func (n *Nvim) startLSP() error {
 	luaCode := `
 		if vim.g.lua_ls_ready == true then return end
 
@@ -549,7 +633,7 @@ func (n *Nvim) StartLSP() error {
 func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
 
-	err := n.StartLSP()
+	err := n.startLSP()
 
 	if err != nil {
 		return documentSymbols, err
@@ -585,7 +669,7 @@ func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, err
 func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverResponse, error) {
 	hover := lsp.TextDocumentHoverResponse{}
 
-	err := n.StartLSP()
+	err := n.startLSP()
 
 	if err != nil {
 		return hover, err
@@ -633,7 +717,7 @@ func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverRespons
 }
 
 func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLocation, error) {
-	err := n.StartLSP()
+	err := n.startLSP()
 
 	if err != nil {
 		return []lsp.DefinitionLocation{}, err
@@ -713,7 +797,7 @@ func (n *Nvim) GetDefinitionLocation(line uint, character uint) ([]Location, err
 }
 
 func (n *Nvim) GetCompletion(head string) ([]string, error) {
-	err := n.StartLSP()
+	err := n.startLSP()
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
@@ -726,7 +810,7 @@ func (n *Nvim) GetCompletion(head string) ([]string, error) {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
 	}
 
-	result, err := anyx.ToStringSlice(getcompletionResult)
+	result, err := anyx.ToSliceOf[string](getcompletionResult)
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
@@ -734,44 +818,6 @@ func (n *Nvim) GetCompletion(head string) ([]string, error) {
 
 	return result, nil
 }
-
-/* func (n *Nvim) GetLSPCompletion(line uint, character uint) (lsp.TextDocumentCompletionResponse, error) {
-	completion := lsp.TextDocumentCompletionResponse{}
-
-	err := n.StartLSP()
-
-	if err != nil {
-		return completion, err
-	}
-
-	luaCode := `
-		local args = {...}
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = args[1], character = args[2]}
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/completion', { textDocument = textDocumentParams, position = positionParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character})
-
-	if err != nil {
-		return completion, fmt.Errorf("Error getting completion: %v", err)
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return completion, fmt.Errorf("Error reading completion response: %v", result)
-	}
-
-	err = completion.UnmarshalJSON([]byte(stringResult))
-
-	if err != nil {
-		return completion, fmt.Errorf("Error unmarshalling completion response: %v", err)
-	}
-
-	return completion, nil
-} */
 
 func New(config Config, opts ...optionProvider) (*Nvim, error) {
 	options, err := NewOptions(config, opts...)

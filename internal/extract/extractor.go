@@ -71,16 +71,17 @@ func (e *extractor) scratch(lines []string) error {
 	return nil
 }
 
-func (e *extractor) serialize(source crawl.Source) {
+func (e *extractor) serialize(source crawl.Source) error {
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
 	case *crawl.FunctionSource:
-		e.serializeFunction(v)
+		return e.serializeFunction(v)
 	case *crawl.VariableSource:
 		fmt.Println("variable")
 	}
 	// fmt.Printf("%+v", source.Origin())
+	return nil
 }
 
 func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
@@ -150,9 +151,10 @@ func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
 		)
 	`
 
-	captures, err := e.nvim.ExecTsQuery(dotIndexDeclarationQuery)
+	captures, err := e.nvim.ReadTSQueryCaptures(dotIndexDeclarationQuery)
 
 	if err != nil {
+		fmt.Printf("%v", err)
 		return err
 	}
 

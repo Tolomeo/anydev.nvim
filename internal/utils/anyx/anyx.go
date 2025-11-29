@@ -2,24 +2,24 @@ package anyx
 
 import "fmt"
 
-func ToStringSlice(a any) ([]string, error) {
+func ToSliceOf[T any](a any) ([]T, error) {
 	sliceOfAny, ok := a.([]any)
 
 	if !ok {
-		return []string{}, fmt.Errorf("Error converting %v to array", a)
+		return []T{}, fmt.Errorf("Error converting %v to slice", a)
 	}
 
-	sliceOfStrings := make([]string, len(sliceOfAny))
+	sliceOf := make([]T, len(sliceOfAny))
 
 	for index, value := range sliceOfAny {
-		str, ok := value.(string)
+		t, ok := value.(T)
 
 		if !ok {
-			return []string{}, fmt.Errorf("Error converting %v to string", value)
+			return []T{}, fmt.Errorf("Error converting %v to string", value)
 		}
 
-		sliceOfStrings[index] = str
+		sliceOf[index] = t
 	}
 
-	return sliceOfStrings, nil
+	return sliceOf, nil
 }
