@@ -2,7 +2,35 @@
 
 package symbol
 
-type LexedFunctionArgument struct {
+type Lexed interface{}
+
+type LexedFunction struct {
+	// Access corresponds to the JSON schema field "access".
+	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
+
+	// Args corresponds to the JSON schema field "args".
+	Args []interface{} `json:"args" yaml:"args" mapstructure:"args"`
+
+	// Deprecated corresponds to the JSON schema field "deprecated".
+	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
+
+	// Doc corresponds to the JSON schema field "doc".
+	Doc []string `json:"doc" yaml:"doc" mapstructure:"doc"`
+
+	// Generics corresponds to the JSON schema field "generics".
+	Generics []LexedGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
+
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Return corresponds to the JSON schema field "return".
+	Return []LexedFunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+
+	// Visibility corresponds to the JSON schema field "visibility".
+	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
+}
+
+type LexedFunctionArg struct {
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
@@ -24,30 +52,9 @@ type LexedFunctionReturn struct {
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-type LexedFunctionSource struct {
-	// Access corresponds to the JSON schema field "access".
-	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
-
-	// Args corresponds to the JSON schema field "args".
-	Args []LexedFunctionArgument `json:"args" yaml:"args" mapstructure:"args"`
-
-	// Deprecated corresponds to the JSON schema field "deprecated".
-	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
-
-	// Doc corresponds to the JSON schema field "doc".
-	Doc []string `json:"doc" yaml:"doc" mapstructure:"doc"`
-
-	// Generics corresponds to the JSON schema field "generics".
-	Generics []LexedGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
-
-	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name" mapstructure:"name"`
-
-	// Return corresponds to the JSON schema field "return".
-	Return []LexedFunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
-
-	// Visibility corresponds to the JSON schema field "visibility".
-	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
+type LexedFunctionVararg struct {
+	// Type corresponds to the JSON schema field "type".
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type LexedGeneric struct {
@@ -57,5 +64,3 @@ type LexedGeneric struct {
 	// Types corresponds to the JSON schema field "types".
 	Types []string `json:"types" yaml:"types" mapstructure:"types"`
 }
-
-type LexedSource interface{}

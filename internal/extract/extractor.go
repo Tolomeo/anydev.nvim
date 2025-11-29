@@ -88,7 +88,7 @@ func (e *extractor) serialize(source crawl.Source) error {
 }
 
 func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
-	lexedFunction := symbol.LexedFunctionSource{}
+	lexedFunction := symbol.LexedFunction{}
 
 	err := e.lexFunctionDefinition(source.Origin().Definition, &lexedFunction)
 
@@ -101,7 +101,7 @@ func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
 	return nil
 }
 
-func (e *extractor) lexFunctionDefinition(definition []string, lexedFunction *symbol.LexedFunctionSource) error {
+func (e *extractor) lexFunctionDefinition(definition []string, function *symbol.LexedFunction) error {
 	queries := map[string]string{
 		/* function fn() end
 		function fn(arg1) end
@@ -176,26 +176,24 @@ func (e *extractor) lexFunctionDefinition(definition []string, lexedFunction *sy
 		for _, capture := range captures {
 			switch capture.Id {
 			case "name":
-				lexedFunction.Name = strings.Join(capture.Node.Text, "")
+				function.Name = strings.Join(capture.Node.Text, "")
 			case "access.class":
-				lexedFunction.Access = &classAccess
+				function.Access = &classAccess
 			case "access.instance":
-				lexedFunction.Access = &instanceAccess
+				function.Access = &instanceAccess
 			case "arg":
-				lexedFunction.Args = append(lexedFunction.Args, symbol.LexedFunctionArgument{
+				function.Args = append(function.Args, symbol.LexedFunctionArg{
 					Name: strings.Join(capture.Node.Text, ""),
 				})
 			case "vararg":
-				lexedFunction.Args = append(lexedFunction.Args, symbol.LexedFunctionArgument{
-					Name: strings.Join(capture.Node.Text, ""),
-				})
+				function.Args = append(function.Args, symbol.LexedFunctionVararg{})
 			}
 		}
 
 		return nil
 	}
 
-	return fmt.Errorf("Function source %v idn't yield any result", definition)
+	return fmt.Errorf("Function source %v didn't yield any result", definition)
 }
 
 func NewExtractor() (*extractor, error) {

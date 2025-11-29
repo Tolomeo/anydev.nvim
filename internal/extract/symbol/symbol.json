@@ -1,15 +1,15 @@
 {
-  "$ref": "#/definitions/LexedSource",
+  "$ref": "#/definitions/Lexed",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "LexedSource": {
+    "Lexed": {
       "anyOf": [
         {
           "$ref": "#/definitions/LexedFunction"
         }
       ]
     },
-    "LexedFunctionSource": {
+    "LexedFunction": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -25,7 +25,14 @@
         "args": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LexedFunctionArgument"
+            "oneOf": [
+              {
+                "$ref": "#/definitions/LexedFunctionArg"
+              },
+              {
+                "$ref": "#/definitions/LexedFunctionVararg"
+              }
+            ]
           }
         },
         "return": {
@@ -68,7 +75,7 @@
       },
       "required": ["name", "types"]
     },
-    "LexedFunctionArgument": {
+    "LexedFunctionArg": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -83,6 +90,16 @@
         }
       },
       "required": ["name", "type", "optional"]
+    },
+    "LexedFunctionVararg": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "type"]
     },
     "LexedFunctionReturn": {
       "type": "object",
