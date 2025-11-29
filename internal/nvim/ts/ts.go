@@ -164,6 +164,9 @@ type TsNode struct {
 	// Range corresponds to the JSON schema field "range".
 	Range Range `json:"range" yaml:"range" mapstructure:"range"`
 
+	// Text corresponds to the JSON schema field "text".
+	Text []string `json:"text" yaml:"text" mapstructure:"text"`
+
 	// Type corresponds to the JSON schema field "type".
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
@@ -176,6 +179,9 @@ func (j *TsNode) UnmarshalJSON(value []byte) error {
 	}
 	if _, ok := raw["range"]; raw != nil && !ok {
 		return fmt.Errorf("field range in TsNode: required")
+	}
+	if _, ok := raw["text"]; raw != nil && !ok {
+		return fmt.Errorf("field text in TsNode: required")
 	}
 	if _, ok := raw["type"]; raw != nil && !ok {
 		return fmt.Errorf("field type in TsNode: required")

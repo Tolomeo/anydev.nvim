@@ -11,7 +11,7 @@
         }
       ]
     },
-		"Capture": {
+    "Capture": {
       "type": "object",
       "properties": {
         "id": {
@@ -22,7 +22,7 @@
         }
       },
       "required": ["id", "node"]
-		},
+    },
     "TsNode": {
       "type": "object",
       "properties": {
@@ -31,9 +31,15 @@
         },
         "range": {
           "$ref": "#/definitions/Range"
+        },
+        "text": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": ["type", "range"]
+      "required": ["type", "range", "text"]
     },
     "Range": {
       "additionalProperties": false,

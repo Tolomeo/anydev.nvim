@@ -2,26 +2,60 @@
 
 package symbol
 
-// Represents programming constructs like variables, classes, interfaces etc.
-// that appear in a document. Document symbols can be hierarchical and they
-// have two ranges: one that encloses its definition and one that points to
-// its most interesting range, e.g. the range of an identifier.
-type NamespaceSymbol struct {
-	// Indicates if this symbol is deprecated.
-	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
-
-	// A human-readable string that represents a doc-comment.
-	Documentation string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
-
-	// Children of this symbol, e.g. properties of a class.
-	Fields []NamespaceSymbolFieldsElem `json:"fields,omitempty" yaml:"fields,omitempty" mapstructure:"fields,omitempty"`
-
-	// The name of this symbol. Will be displayed in the user interface and therefore
-	// must not be
-	// an empty string or a string only consisting of white spaces.
+type LexedFunctionArgument struct {
+	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Optional corresponds to the JSON schema field "optional".
+	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
+	// Type corresponds to the JSON schema field "type".
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-type NamespaceSymbolFieldsElem interface{}
+type LexedFunctionReturn struct {
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
-type Symbol interface{}
+	// Optional corresponds to the JSON schema field "optional".
+	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
+	// Type corresponds to the JSON schema field "type".
+	Type string `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+type LexedFunctionSource struct {
+	// Access corresponds to the JSON schema field "access".
+	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
+
+	// Args corresponds to the JSON schema field "args".
+	Args []LexedFunctionArgument `json:"args" yaml:"args" mapstructure:"args"`
+
+	// Deprecated corresponds to the JSON schema field "deprecated".
+	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
+
+	// Doc corresponds to the JSON schema field "doc".
+	Doc []string `json:"doc" yaml:"doc" mapstructure:"doc"`
+
+	// Generics corresponds to the JSON schema field "generics".
+	Generics []LexedGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
+
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Return corresponds to the JSON schema field "return".
+	Return []LexedFunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+
+	// Visibility corresponds to the JSON schema field "visibility".
+	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
+}
+
+type LexedGeneric struct {
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Types corresponds to the JSON schema field "types".
+	Types []string `json:"types" yaml:"types" mapstructure:"types"`
+}
+
+type LexedSource interface{}

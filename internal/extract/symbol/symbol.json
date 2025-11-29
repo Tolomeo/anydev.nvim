@@ -1,40 +1,104 @@
 {
-  "$ref": "#/definitions/Symbol",
+  "$ref": "#/definitions/LexedSource",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Symbol": {
+    "LexedSource": {
       "anyOf": [
         {
-          "$ref": "#/definitions/NamespaceSymbol"
+          "$ref": "#/definitions/LexedFunction"
         }
       ]
     },
-    "NamespaceSymbol": {
+    "LexedFunctionSource": {
+      "type": "object",
       "additionalProperties": false,
-      "description": "Represents programming constructs like variables, classes, interfaces etc.\r\nthat appear in a document. Document symbols can be hierarchical and they\r\nhave two ranges: one that encloses its definition and one that points to\r\nits most interesting range, e.g. the range of an identifier.",
       "properties": {
-        "fields": {
-          "description": "Children of this symbol, e.g. properties of a class.",
-          "items": {
-            "$ref": "#/definitions/Symbol"
-          },
-          "type": "array"
-        },
-        "deprecated": {
-          "description": "Indicates if this symbol is deprecated.",
-          "type": "boolean"
-        },
-        "documentation": {
-          "description": "A human-readable string that represents a doc-comment.",
+        "name": {
           "type": "string"
         },
-        "name": {
-          "description": "The name of this symbol. Will be displayed in the user interface and therefore must not be\r\nan empty string or a string only consisting of white spaces.",
+        "doc": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LexedFunctionArgument"
+          }
+        },
+        "return": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LexedFunctionReturn"
+          }
+        },
+        "generics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LexedGeneric"
+          }
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "access": {
+          "type": "string"
+        },
+        "visibility": {
           "type": "string"
         }
       },
-      "required": ["name", "deprecated", "children", "documentation"],
-      "type": "object"
+      "required": ["name", "doc", "args", "return", "generics", "deprecated"]
+    },
+    "LexedGeneric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["name", "types"]
+    },
+    "LexedFunctionArgument": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "required": ["name", "type", "optional"]
+    },
+    "LexedFunctionReturn": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "required": ["name", "type", "optional"]
     }
   }
 }

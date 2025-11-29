@@ -1,10 +1,13 @@
 package extract
 
 import (
+	"errors"
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
@@ -76,7 +79,7 @@ func (e *extractor) serialize(source crawl.Source) error {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
 	case *crawl.FunctionSource:
-		return e.serializeFunction(v)
+		return e.lexFunction(v)
 	case *crawl.VariableSource:
 		fmt.Println("variable")
 	}
@@ -84,83 +87,115 @@ func (e *extractor) serialize(source crawl.Source) error {
 	return nil
 }
 
-func (e *extractor) serializeFunction(source *crawl.FunctionSource) error {
-	e.scratch(source.Origin().Definition)
+func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
+	lexedFunction := symbol.LexedFunctionSource{}
 
-	_, err := e.nvim.GetBufferLines(0, -1)
+	err := e.lexFunctionDefinition(source.Origin().Definition, &lexedFunction)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error lexing function %s source: %w", source.Path(), err)
 	}
 
-	fmt.Println(source.Origin().Url)
-	// fmt.Printf("%v", lines)
+	fmt.Printf("%+v", lexedFunction)
 
-	/* function fn() end
-	function fn(arg1) end
-	function fn(arg1, arg2) end
-	function fn(arg1, arg2, ...) end
-		function fn(...) end */
-	/* declarationQuery := `
+	return nil
+}
+
+func (e *extractor) lexFunctionDefinition(definition []string, lexedFunction *symbol.LexedFunctionSource) error {
+	queries := map[string]string{
+		/* function fn() end
+		function fn(arg1) end
+		function fn(arg1, arg2) end
+		function fn(arg1, arg2, ...) end
+			function fn(...) end */
+		"declaration": `
 		(function_declaration
 			name: (identifier) @name
 			parameters: (parameters
-				(identifier)? @parameter
-				("," (identifier) @parameter)*
-				("," (vararg_expression) @parameter)?
-				(vararg_expression)? @parameter
+				(identifier)? @arg
+				("," (identifier) @arg)*
+				("," (vararg_expression) @vararg)?
+				(vararg_expression)? @vararg
 			)
 		)
-	` */
-
-	/* function api:fn() end
-	function api:fn(name) end
-	function api:fn(name, value) end
-	function api:fn(name, value, ...) end
-	function api:fn(...) end */
-	/* methodDeclarationQuery := `
+	`,
+		/* function api:fn() end
+		function api:fn(name) end
+		function api:fn(name, value) end
+		function api:fn(name, value, ...) end
+		function api:fn(...) end */
+		"methodDeclaration": `
 		(function_declaration
 			name: (method_index_expression
-				method: (identifier) @function.name
-			) @function.access
+				method: (identifier) @name
+			) @access.instance
 			parameters: (parameters
-				(identifier)? @parameter
-				("," (identifier) @parameter)*
-				("," (vararg_expression) @parameter)?
-				(vararg_expression)? @parameter
+				(identifier)? @arg
+				("," (identifier) @arg)*
+				("," (vararg_expression) @vararg)?
+				(vararg_expression)? @vararg
 			)
 		)
-	` */
-
-	/* function api.fn() end
-	function api.fn(name) end
-	function api.fn(name, value) end
-	function api.fn(name, value, ...) end
-	function api.fn(...) end */
-	dotIndexDeclarationQuery := `
+	`,
+		/* function api.fn() end
+		function api.fn(name) end
+		function api.fn(name, value) end
+		function api.fn(name, value, ...) end
+		function api.fn(...) end */
+		"dotIndexDeclaration ": `
 		(function_declaration
 			name: (dot_index_expression
 				field: (identifier) @name
-			)
+			) @access.class
 			parameters: (parameters
-				(identifier)? @parameter
-				("," (identifier) @parameter)*
-				("," (vararg_expression) @parameter)?
-				(vararg_expression)? @parameter
+				(identifier)? @arg
+				("," (identifier) @arg)*
+				("," (vararg_expression) @vararg)?
+				(vararg_expression)? @vararg
 			)
 		)
-	`
-
-	captures, err := e.nvim.ReadTSQueryCaptures(dotIndexDeclarationQuery)
-
-	if err != nil {
-		fmt.Printf("%v", err)
-		return err
+	`,
 	}
 
-	fmt.Printf("%+v", captures)
+	e.scratch(definition)
 
-	return nil
+	classAccess := "class"
+	instanceAccess := "instance"
+
+	for _, query := range queries {
+		captures, err := e.nvim.TsQuery(query)
+
+		switch {
+		case errors.Is(nvim.ErrNotFound, err):
+			continue
+		case err != nil:
+			fmt.Printf("%v", err)
+			return err
+		}
+
+		for _, capture := range captures {
+			switch capture.Id {
+			case "name":
+				lexedFunction.Name = strings.Join(capture.Node.Text, "")
+			case "access.class":
+				lexedFunction.Access = &classAccess
+			case "access.instance":
+				lexedFunction.Access = &instanceAccess
+			case "arg":
+				lexedFunction.Args = append(lexedFunction.Args, symbol.LexedFunctionArgument{
+					Name: strings.Join(capture.Node.Text, ""),
+				})
+			case "vararg":
+				lexedFunction.Args = append(lexedFunction.Args, symbol.LexedFunctionArgument{
+					Name: strings.Join(capture.Node.Text, ""),
+				})
+			}
+		}
+
+		return nil
+	}
+
+	return fmt.Errorf("Function source %v idn't yield any result", definition)
 }
 
 func NewExtractor() (*extractor, error) {
