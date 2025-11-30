@@ -252,7 +252,7 @@ func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	return result, nil
 }
 
-func (n *Nvim) StartTS() error {
+func (n *Nvim) startTS() error {
 	luaCode := `
 		if vim.g.lua_ts_ready == true then return end
 
@@ -261,6 +261,10 @@ func (n *Nvim) StartTS() error {
 		local ok = pcall(vim.treesitter.language.add, "lua")
 
 		if not ok then error("Treesitter Lua parser registration failed.") end
+
+		local ok = pcall(vim.treesitter.language.add, "luadoc")
+
+		if not ok then error("Treesitter Luadoc parser registration failed.") end
 
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = { "lua" },
@@ -317,7 +321,7 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 }
 
 func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
-	err := n.StartTS()
+	err := n.startTS()
 
 	if err != nil {
 		return []ts.Capture{}, err
@@ -449,7 +453,7 @@ func (n *Nvim) ReadTSQueryCaptures(query string) (map[string]any, error) {
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
 	tsNode := ts.TsNode{}
 
-	err := n.StartTS()
+	err := n.startTS()
 
 	if err != nil {
 		return tsNode, err
