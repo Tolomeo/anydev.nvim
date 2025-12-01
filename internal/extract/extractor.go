@@ -1,13 +1,10 @@
 package extract
 
 import (
-	"errors"
 	"fmt"
 	"path"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/extract/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
@@ -85,115 +82,6 @@ func (e *extractor) serialize(source crawl.Source) error {
 	}
 	// fmt.Printf("%+v", source.Origin())
 	return nil
-}
-
-func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
-	lexedFunction := symbol.LexedFunction{}
-
-	err := e.lexFunctionDefinition(source.Origin().Definition, &lexedFunction)
-
-	if err != nil {
-		return fmt.Errorf("Error lexing function %s source: %w", source.Path(), err)
-	}
-
-	fmt.Printf("%+v", lexedFunction)
-
-	return nil
-}
-
-func (e *extractor) lexFunctionDefinition(definition []string, function *symbol.LexedFunction) error {
-	queries := map[string]string{
-		/* function fn() end
-		function fn(arg1) end
-		function fn(arg1, arg2) end
-		function fn(arg1, arg2, ...) end
-			function fn(...) end */
-		"declaration": `
-		(function_declaration
-			name: (identifier) @name
-			parameters: (parameters
-				(identifier)? @arg
-				("," (identifier) @arg)*
-				("," (vararg_expression) @vararg)?
-				(vararg_expression)? @vararg
-			)
-		)
-	`,
-		/* function api:fn() end
-		function api:fn(name) end
-		function api:fn(name, value) end
-		function api:fn(name, value, ...) end
-		function api:fn(...) end */
-		"methodDeclaration": `
-		(function_declaration
-			name: (method_index_expression
-				method: (identifier) @name
-			) @access.instance
-			parameters: (parameters
-				(identifier)? @arg
-				("," (identifier) @arg)*
-				("," (vararg_expression) @vararg)?
-				(vararg_expression)? @vararg
-			)
-		)
-	`,
-		/* function api.fn() end
-		function api.fn(name) end
-		function api.fn(name, value) end
-		function api.fn(name, value, ...) end
-		function api.fn(...) end */
-		"dotIndexDeclaration ": `
-		(function_declaration
-			name: (dot_index_expression
-				field: (identifier) @name
-			) @access.class
-			parameters: (parameters
-				(identifier)? @arg
-				("," (identifier) @arg)*
-				("," (vararg_expression) @vararg)?
-				(vararg_expression)? @vararg
-			)
-		)
-	`,
-	}
-
-	e.scratch(definition)
-
-	classAccess := "class"
-	instanceAccess := "instance"
-
-	for _, query := range queries {
-		captures, err := e.nvim.TsQuery(query)
-
-		switch {
-		case errors.Is(nvim.ErrNotFound, err):
-			continue
-		case err != nil:
-			fmt.Printf("%v", err)
-			return err
-		}
-
-		for _, capture := range captures {
-			switch capture.Id {
-			case "name":
-				function.Name = strings.Join(capture.Node.Text, "")
-			case "access.class":
-				function.Access = &classAccess
-			case "access.instance":
-				function.Access = &instanceAccess
-			case "arg":
-				function.Args = append(function.Args, symbol.LexedFunctionArg{
-					Name: strings.Join(capture.Node.Text, ""),
-				})
-			case "vararg":
-				function.Args = append(function.Args, symbol.LexedFunctionVararg{})
-			}
-		}
-
-		return nil
-	}
-
-	return fmt.Errorf("Function source %v didn't yield any result", definition)
 }
 
 func NewExtractor() (*extractor, error) {
