@@ -37,8 +37,8 @@ generate:
 	@go generate ./...
 
 .PHONY=extract
-extract:
-	@go run ./cmd/extract
+lex:
+	@go run ./cmd/lex
 
 .PHONY=install
 install:
