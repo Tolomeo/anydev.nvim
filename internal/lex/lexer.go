@@ -10,19 +10,19 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type extractor struct {
+type lexer struct {
 	nvim   *nvim.Nvim
 	buffer string
 }
 
-func (e *extractor) Extract(path string) error {
-	err := e.nvim.Start()
+func (l *lexer) Lex(path string) error {
+	err := l.nvim.Start()
 
 	if err != nil {
 		return fmt.Errorf("Error opening nvim: %w", err)
 	}
 
-	crawler := crawl.NewCrawler(e.nvim)
+	crawler := crawl.NewCrawler(l.nvim)
 
 	source, err := crawler.CrawlRuntime(path)
 
@@ -30,7 +30,7 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	e.lex(source)
+	l.lex(source)
 
 	outputDir, err := project.GetOutputDir()
 
@@ -44,7 +44,7 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error collecting crawler statistics: %w", err)
 	}
 
-	err = e.nvim.Quit()
+	err = l.nvim.Quit()
 
 	if err != nil {
 		return fmt.Errorf("Errot closing nvim process gracefully: %w", err)
@@ -53,16 +53,16 @@ func (e *extractor) Extract(path string) error {
 	return nil
 }
 
-func (e *extractor) scratch(lines []string) error {
-	buffer := path.Join(e.nvim.Options().Config().Dir(), "anydev.extractor.lua")
+func (l *lexer) scratch(lines []string) error {
+	buffer := path.Join(l.nvim.Options().Config().Dir(), "anydev.extractor.lua")
 
-	_, err := e.nvim.Open(buffer)
+	_, err := l.nvim.Open(buffer)
 
 	if err != nil {
 		return err
 	}
 
-	err = e.nvim.SetBufferLines(lines)
+	err = l.nvim.SetBufferLines(lines)
 
 	if err != nil {
 		return err
@@ -71,12 +71,12 @@ func (e *extractor) scratch(lines []string) error {
 	return nil
 }
 
-func (e *extractor) lex(source crawl.Source) error {
+func (l *lexer) lex(source crawl.Source) error {
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
 	case *crawl.FunctionSource:
-		return e.lexFunction(v)
+		return l.lexFunction(v)
 	case *crawl.VariableSource:
 		fmt.Println("variable")
 	}
@@ -84,7 +84,7 @@ func (e *extractor) lex(source crawl.Source) error {
 	return nil
 }
 
-func NewExtractor() (*extractor, error) {
+func NewLexer() (*lexer, error) {
 	nvimConfigDir, err := project.GetConfigDir()
 
 	if err != nil {
@@ -97,7 +97,7 @@ func NewExtractor() (*extractor, error) {
 		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
 	}
 
-	return &extractor{
+	return &lexer{
 		nvim: client,
 	}, nil
 }

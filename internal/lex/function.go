@@ -79,11 +79,11 @@ func newFunctionArg(name string) symbol.LexedFunctionArg {
 	}
 }
 
-func (e *extractor) lexFunctionDefinition(functionDefinition []string, function *symbol.LexedFunction) error {
-	e.scratch(functionDefinition)
+func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *symbol.LexedFunction) error {
+	l.scratch(functionDefinition)
 
 	for _, query := range functionQueries {
-		captures, err := e.nvim.TsQuery("lua", query)
+		captures, err := l.nvim.TsQuery("lua", query)
 
 		switch {
 		case errors.Is(nvim.ErrNotFound, err):
@@ -115,17 +115,17 @@ func (e *extractor) lexFunctionDefinition(functionDefinition []string, function 
 	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
 }
 
-func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
+func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 	function := symbol.LexedFunction{}
 
-	annotations, err := e.lexAnnotations(source.Origin().Documentation)
+	annotations, err := l.lexAnnotations(source.Origin().Documentation)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
 	functionDefinition := source.Origin().Definition
-	err = e.lexFunctionDefinition(functionDefinition, &function)
+	err = l.lexFunctionDefinition(functionDefinition, &function)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)

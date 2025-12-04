@@ -39,16 +39,16 @@ var paramAnnotationQueries = map[string]string{
 			))`,
 }
 
-func (e *extractor) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
+func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, documentationLine := range dockblock {
 		for _, paramAnnotationQuery := range paramAnnotationQueries {
-			err := e.scratch([]string{documentationLine})
+			err := l.scratch([]string{documentationLine})
 
 			if err != nil {
 				return err
 			}
 
-			captures, err := e.nvim.TsQuery("luadoc", paramAnnotationQuery)
+			captures, err := l.nvim.TsQuery("luadoc", paramAnnotationQuery)
 
 			switch {
 			case errors.Is(nvim.ErrNotFound, err):
@@ -84,12 +84,12 @@ func (e *extractor) lexParamAnnotations(dockblock []string, annotations *lexedAn
 	return nil
 }
 
-func (e *extractor) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+func (l *lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotations := lexedAnnotations{
 		params: make(map[string]lexedParamAnnotation),
 	}
 
-	err := e.lexParamAnnotations(dockblock, &annotations)
+	err := l.lexParamAnnotations(dockblock, &annotations)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing annotations: %w", err)

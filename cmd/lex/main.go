@@ -9,13 +9,13 @@ import (
 const path string = "vim.validate"
 
 func main() {
-	extractor, err := lex.NewExtractor()
+	extractor, err := lex.NewLexer()
 
 	if err != nil {
 		panic(fmt.Errorf("Error extracting %s: %w", path, err))
 	}
 
-	err = extractor.Extract(path)
+	err = extractor.Lex(path)
 
 	if err != nil {
 		panic(fmt.Errorf("Error extracting %s: %w", path, err))
