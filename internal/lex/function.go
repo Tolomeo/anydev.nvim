@@ -1,12 +1,12 @@
-package extract
+package lex
 
 import (
 	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/extract/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )

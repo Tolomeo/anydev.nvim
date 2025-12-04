@@ -1,10 +1,10 @@
-package extract
+package lex
 
 import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"

@@ -1,4 +1,4 @@
-package extract
+package lex
 
 import (
 	"errors"
