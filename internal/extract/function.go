@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	functionClassAccess string = "class"
+	functionClassAccess   string = "class"
 	functionIstanceAccess string = "instance"
 )
 
@@ -84,52 +84,45 @@ func newFunctionVararg() symbol.LexedFunctionVararg {
 	}
 }
 
-func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
-	lexedFunction := symbol.LexedFunction{}
+func (e *extractor) lexFunctionDocumentation(functionDocumentation []string, function *symbol.LexedFunction) error {
+	paramAnnotationQuery := `
+		(documentation) @documentation
+	`
 
-	err := e.lexFunctionDefinition(source.Origin().Definition, &lexedFunction)
+	for _, documentationLine := range functionDocumentation {
+		err := e.scratch([]string{documentationLine})
 
-	if err != nil {
-		return fmt.Errorf("Error lexing function %s source: %w", source.Path(), err)
-	}
-
-	err = e.lexFunctionDocumentation(source.Origin().Documentation, &lexedFunction)
-
-	if err != nil {
-		return fmt.Errorf("Error lexing function %s source: %w", source.Path(), err)
-	}
-
-	fmt.Printf("%+v", lexedFunction)
-
-	return nil
-}
-
-func (e *extractor) lexFunctionDocumentation(documentation []string, function *symbol.LexedFunction) error {
-	e.scratch(documentation)
-
-	for _, argument := range function.Args {
-		switch arg := argument.(type) {
-		case symbol.LexedFunctionArg:
-			fmt.Println("arg", arg.Name)
-		case symbol.LexedFunctionVararg:
-			fmt.Println("vararg")
+		if err != nil {
+			return err
 		}
-	}
 
-	return nil
-}
+		fmt.Println(documentationLine)
 
-func (e *extractor) lexFunctionDefinition(definition []string, function *symbol.LexedFunction) error {
-	e.scratch(definition)
-
-	for _, query := range functionQueries {
-		captures, err := e.nvim.TsQuery(query)
+		captures, err := e.nvim.TsQuery("luadoc", paramAnnotationQuery)
 
 		switch {
 		case errors.Is(nvim.ErrNotFound, err):
 			continue
 		case err != nil:
-			fmt.Printf("%v", err)
+			return err
+		}
+
+		fmt.Printf("%+v\n", captures)
+	}
+
+	return nil
+}
+
+func (e *extractor) lexFunctionDefinition(functionDefinition []string, function *symbol.LexedFunction) error {
+	e.scratch(functionDefinition)
+
+	for _, query := range functionQueries {
+		captures, err := e.nvim.TsQuery("lua", query)
+
+		switch {
+		case errors.Is(nvim.ErrNotFound, err):
+			continue
+		case err != nil:
 			return err
 		}
 
@@ -142,7 +135,8 @@ func (e *extractor) lexFunctionDefinition(definition []string, function *symbol.
 			case "access.instance":
 				function.Access = &functionIstanceAccess
 			case "arg":
-				function.Args = append(function.Args, newFunctionArg(strings.Join(capture.Node.Text, "")))
+				argName := strings.Join(capture.Node.Text, "")
+				function.Args = append(function.Args, newFunctionArg(argName))
 			case "vararg":
 				function.Args = append(function.Args, newFunctionVararg())
 			}
@@ -151,5 +145,30 @@ func (e *extractor) lexFunctionDefinition(definition []string, function *symbol.
 		return nil
 	}
 
-	return fmt.Errorf("Function source %v didn't yield any result", definition)
+	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
+}
+
+func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
+	// fmt.Printf("%+v\n", source.Origin())
+
+	lexedFunction := symbol.LexedFunction{}
+
+	functionDefinition := source.Origin().Definition
+	err := e.lexFunctionDefinition(functionDefinition, &lexedFunction)
+
+	if err != nil {
+		return fmt.Errorf("Error lexing function %s definition: %w", source.Path(), err)
+	}
+
+	functionDocumentation := source.Origin().Documentation
+	err = e.lexFunctionDocumentation(functionDocumentation, &lexedFunction)
+
+	if err != nil {
+		fmt.Printf("%v", err)
+		return fmt.Errorf("Error lexing function %s documentation: %w", source.Path(), err)
+	}
+
+	// fmt.Printf("%+v", lexedFunction)
+
+	return nil
 }

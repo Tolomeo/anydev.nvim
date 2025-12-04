@@ -146,10 +146,8 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 			return false, err
 		}
 
-		orig.Url = location.Url
-		orig.Line = uint(location.TargetRange.Start.Line)
-		orig.Character = uint(location.TargetRange.Start.Character)
-		orig.Definition = definitionLines
+		orig.SetLocation(location)
+		orig.SetDefinition(definitionLines)
 
 		return true, nil
 	})
@@ -170,6 +168,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	}
 	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
 
+
 	switch {
 	case errors.Is(err, nvim.ErrNotFound):
 		c.stats.Report(path, c.stats.MissingDocumentation())
@@ -177,7 +176,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	case err != nil:
 		return &orig, err
 	default:
-		orig.Documentation = documentationBufferLines
+		orig.SetDocumentation(documentationBufferLines)
 	}
 
 	return &orig, nil

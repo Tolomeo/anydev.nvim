@@ -320,7 +320,7 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 	return typeName, nil
 }
 
-func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
+func (n *Nvim) TsQuery(language string, query string) ([]ts.Capture, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -329,10 +329,9 @@ func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
 
 	luaCode := `
 		local args = { ... }
-		local query = args[1]
-
+		local language = args[1]
+		local query = args[2]
 		local bufnr = 0
-		local language = "lua"
 
 		local parser = vim.treesitter.get_parser(bufnr, language)
 
@@ -354,8 +353,8 @@ func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
 			local captureId = parsedQuery.captures[id]
 
 			local nodeType = node:type()
-			local startLine, startCharacter, endLine, endCharacter = node:range(false)
-			local text = vim.api.nvim_buf_get_text(0, startLine, startCharacter, endLine, endCharacter, {})
+			local startLine, startCharacter, endLine, endCharacter = node:range()
+			local text = vim.api.nvim_buf_get_text(bufnr, startLine, startCharacter, endLine - 1, endCharacter - 1, {})
 
 			local tsNode = {
 				type = nodeType,
@@ -381,10 +380,10 @@ func (n *Nvim) TsQuery(query string) ([]ts.Capture, error) {
 		return vim.fn.json_encode(queryResult)
 	`
 
-	result, err := n.ExecLua(luaCode, []any{query})
+	result, err := n.ExecLua(luaCode, []any{language, query})
 
 	if err != nil {
-		return []ts.Capture{}, err
+		return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)
 	}
 
 	if result == nil {
@@ -415,39 +414,6 @@ func (n *Nvim) ReadTsNode(node ts.TsNode) (string, error) {
 	}
 
 	return strings.Join(textContent, ""), nil
-}
-
-// TODO: remove
-func (n *Nvim) ReadTSQueryCaptures(query string) (map[string]any, error) {
-	captures, err := n.TsQuery(query)
-
-	if err != nil {
-		return map[string]any{}, err
-	}
-
-	resultMap := make(map[string]any)
-
-	for _, capture := range captures {
-		text, err := n.ReadTsNode(capture.Node)
-
-		if err != nil {
-			return map[string]any{}, err
-		}
-
-		_, alreadyFound := resultMap[capture.Id]
-
-		if !alreadyFound {
-			resultMap[capture.Id] = text
-		} else if alreadyFoundText, isText := resultMap[capture.Id].(string); isText {
-			resultMap[capture.Id] = []string{alreadyFoundText, text}
-		} else if _, isSlice := resultMap[capture.Id].([]string); isSlice {
-			resultMap[capture.Id] = append(resultMap[capture.Id].([]string), text)
-		} else {
-			return map[string]any{}, fmt.Errorf("Unexpected result map type: %T", resultMap[capture.Id])
-		}
-	}
-
-	return resultMap, nil
 }
 
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {

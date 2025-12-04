@@ -30,7 +30,7 @@ func (e *extractor) Extract(path string) error {
 		return fmt.Errorf("Error crawling %s: %w", path, err)
 	}
 
-	e.serialize(source)
+	e.lex(source)
 
 	outputDir, err := project.GetOutputDir()
 
@@ -71,7 +71,7 @@ func (e *extractor) scratch(lines []string) error {
 	return nil
 }
 
-func (e *extractor) serialize(source crawl.Source) error {
+func (e *extractor) lex(source crawl.Source) error {
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
