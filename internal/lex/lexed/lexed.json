@@ -1,15 +1,15 @@
 {
-  "$ref": "#/definitions/Lexed",
+  "$ref": "#/definitions/Symbol",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Lexed": {
+    "Symbol": {
       "anyOf": [
         {
-          "$ref": "#/definitions/LexedFunction"
+          "$ref": "#/definitions/Symbol"
         }
       ]
     },
-    "LexedFunction": {
+    "Function": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -25,19 +25,19 @@
         "args": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LexedFunctionArg"
+            "$ref": "#/definitions/FunctionArg"
           }
         },
         "return": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LexedFunctionReturn"
+            "$ref": "#/definitions/FunctionReturn"
           }
         },
         "generics": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LexedGeneric"
+            "$ref": "#/definitions/Generic"
           }
         },
         "deprecated": {
@@ -52,7 +52,7 @@
       },
       "required": ["name", "doc", "args", "return", "generics", "deprecated"]
     },
-    "LexedGeneric": {
+    "Generic": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -68,7 +68,7 @@
       },
       "required": ["name", "types"]
     },
-    "LexedFunctionArg": {
+    "FunctionArg": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -90,7 +90,7 @@
       },
       "required": ["name", "type", "optional"]
     },
-    "LexedFunctionReturn": {
+    "FunctionReturn": {
       "type": "object",
       "additionalProperties": false,
       "properties": {

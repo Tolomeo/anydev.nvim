@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
@@ -71,15 +71,15 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func newFunctionArg(name string) symbol.LexedFunctionArg {
-	return symbol.LexedFunctionArg{
+func newFunctionArg(name string) lexed.FunctionArg {
+	return lexed.FunctionArg{
 		Name:     name,
-		Type:     "uknown",
+		Type:     "any",
 		Optional: false,
 	}
 }
 
-func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *symbol.LexedFunction) error {
+func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lexed.Function) error {
 	l.scratch(functionDefinition)
 
 	for _, query := range functionQueries {
@@ -116,7 +116,7 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *sym
 }
 
 func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
-	function := symbol.LexedFunction{}
+	function := lexed.Function{}
 
 	annotations, err := l.lexAnnotations(source.Origin().Documentation)
 
