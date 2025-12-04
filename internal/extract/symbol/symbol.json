@@ -25,14 +25,7 @@
         "args": {
           "type": "array",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/LexedFunctionArg"
-              },
-              {
-                "$ref": "#/definitions/LexedFunctionVararg"
-              }
-            ]
+            "$ref": "#/definitions/LexedFunctionArg"
           }
         },
         "return": {
@@ -87,19 +80,15 @@
         },
         "optional": {
           "type": "boolean"
+        },
+        "documentation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name", "type", "optional"]
-    },
-    "LexedFunctionVararg": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string"
-        }
-      },
-      "required": ["name", "type"]
     },
     "LexedFunctionReturn": {
       "type": "object",

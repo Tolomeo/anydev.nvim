@@ -9,7 +9,7 @@ type LexedFunction struct {
 	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
 
 	// Args corresponds to the JSON schema field "args".
-	Args []interface{} `json:"args" yaml:"args" mapstructure:"args"`
+	Args []LexedFunctionArg `json:"args" yaml:"args" mapstructure:"args"`
 
 	// Deprecated corresponds to the JSON schema field "deprecated".
 	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
@@ -31,6 +31,9 @@ type LexedFunction struct {
 }
 
 type LexedFunctionArg struct {
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation []string `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
@@ -48,11 +51,6 @@ type LexedFunctionReturn struct {
 	// Optional corresponds to the JSON schema field "optional".
 	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
 
-	// Type corresponds to the JSON schema field "type".
-	Type string `json:"type" yaml:"type" mapstructure:"type"`
-}
-
-type LexedFunctionVararg struct {
 	// Type corresponds to the JSON schema field "type".
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }

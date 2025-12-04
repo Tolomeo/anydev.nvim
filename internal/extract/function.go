@@ -8,6 +8,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/extract/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 var (
@@ -78,41 +79,6 @@ func newFunctionArg(name string) symbol.LexedFunctionArg {
 	}
 }
 
-func newFunctionVararg() symbol.LexedFunctionVararg {
-	return symbol.LexedFunctionVararg{
-		Type: "uknown",
-	}
-}
-
-func (e *extractor) lexFunctionDocumentation(functionDocumentation []string, function *symbol.LexedFunction) error {
-	paramAnnotationQuery := `
-		(documentation) @documentation
-	`
-
-	for _, documentationLine := range functionDocumentation {
-		err := e.scratch([]string{documentationLine})
-
-		if err != nil {
-			return err
-		}
-
-		fmt.Println(documentationLine)
-
-		captures, err := e.nvim.TsQuery("luadoc", paramAnnotationQuery)
-
-		switch {
-		case errors.Is(nvim.ErrNotFound, err):
-			continue
-		case err != nil:
-			return err
-		}
-
-		fmt.Printf("%+v\n", captures)
-	}
-
-	return nil
-}
-
 func (e *extractor) lexFunctionDefinition(functionDefinition []string, function *symbol.LexedFunction) error {
 	e.scratch(functionDefinition)
 
@@ -138,7 +104,8 @@ func (e *extractor) lexFunctionDefinition(functionDefinition []string, function 
 				argName := strings.Join(capture.Node.Text, "")
 				function.Args = append(function.Args, newFunctionArg(argName))
 			case "vararg":
-				function.Args = append(function.Args, newFunctionVararg())
+				argName := strings.Join(capture.Node.Text, "")
+				function.Args = append(function.Args, newFunctionArg(argName))
 			}
 		}
 
@@ -149,26 +116,36 @@ func (e *extractor) lexFunctionDefinition(functionDefinition []string, function 
 }
 
 func (e *extractor) lexFunction(source *crawl.FunctionSource) error {
-	// fmt.Printf("%+v\n", source.Origin())
+	function := symbol.LexedFunction{}
 
-	lexedFunction := symbol.LexedFunction{}
+	annotations, err := e.lexAnnotations(source.Origin().Documentation)
+
+	if err != nil {
+		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+	}
 
 	functionDefinition := source.Origin().Definition
-	err := e.lexFunctionDefinition(functionDefinition, &lexedFunction)
+	err = e.lexFunctionDefinition(functionDefinition, &function)
 
 	if err != nil {
-		return fmt.Errorf("Error lexing function %s definition: %w", source.Path(), err)
+		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
-	functionDocumentation := source.Origin().Documentation
-	err = e.lexFunctionDocumentation(functionDocumentation, &lexedFunction)
+	for argIndex := range function.Args {
+		name := function.Args[argIndex].Name
+		annotation, hasAnnotation := annotations.params[name]
 
-	if err != nil {
-		fmt.Printf("%v", err)
-		return fmt.Errorf("Error lexing function %s documentation: %w", source.Path(), err)
+		if !hasAnnotation {
+			//TODO: trace not found param annotation
+			continue
+		}
+
+		function.Args[argIndex].Type = annotation.Type
+		function.Args[argIndex].Optional = annotation.Optional
+		function.Args[argIndex].Documentation = annotation.Documentation
 	}
 
-	// fmt.Printf("%+v", lexedFunction)
+	fmt.Printf("%+v", function)
 
 	return nil
 }
