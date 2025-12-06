@@ -47,8 +47,9 @@ var typeFunctionQuery string = `
 					[
 						(builtin_type)
 						(table_type)
+						(member_type)
 					] @parameter.type
-				)* @parameter
+				) @parameter
 				(builtin_type)? @return.type
 			)
 		)
