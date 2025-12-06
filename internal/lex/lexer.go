@@ -27,10 +27,14 @@ func (l *lexer) Lex(path string) error {
 	source, err := crawler.CrawlRuntime(path)
 
 	if err != nil {
-		return fmt.Errorf("Error crawling %s: %w", path, err)
+		return fmt.Errorf("Error lexing %s: %w", path, err)
 	}
 
-	l.lex(source)
+	err = l.lex(source)
+
+	if err != nil {
+		return fmt.Errorf("Error lexing %s: %w", path, err)
+	}
 
 	outputDir, err := project.GetOutputDir()
 

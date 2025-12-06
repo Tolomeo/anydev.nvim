@@ -58,6 +58,12 @@
         },
         "visibility": {
           "type": "string"
+        },
+        "overloads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Function"
+          }
         }
       },
       "required": ["type", "doc", "args", "return", "generics", "deprecated"]
