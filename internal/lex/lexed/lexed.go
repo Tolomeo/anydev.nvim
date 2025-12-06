@@ -2,6 +2,21 @@
 
 package lexed
 
+type Builtin string
+
+const BuiltinAny Builtin = "any"
+const BuiltinBoolean Builtin = "boolean"
+const BuiltinFunction Builtin = "function"
+const BuiltinInteger Builtin = "integer"
+const BuiltinLightuserdata Builtin = "lightuserdata"
+const BuiltinNil Builtin = "nil"
+const BuiltinNumber Builtin = "number"
+const BuiltinString Builtin = "string"
+const BuiltinTable Builtin = "table"
+const BuiltinThread Builtin = "thread"
+const BuiltinUnknown Builtin = "unknown"
+const BuiltinUserdata Builtin = "userdata"
+
 type Function struct {
 	// Access corresponds to the JSON schema field "access".
 	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
@@ -16,7 +31,7 @@ type Function struct {
 	Doc []string `json:"doc" yaml:"doc" mapstructure:"doc"`
 
 	// Generics corresponds to the JSON schema field "generics".
-	Generics []Generic `json:"generics" yaml:"generics" mapstructure:"generics"`
+	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
@@ -39,7 +54,17 @@ type FunctionArg struct {
 	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type string `json:"type" yaml:"type" mapstructure:"type"`
+	Type FunctionArgType `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+type FunctionArgType interface{}
+
+type FunctionGeneric struct {
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Types corresponds to the JSON schema field "types".
+	Types []string `json:"types" yaml:"types" mapstructure:"types"`
 }
 
 type FunctionReturn struct {
@@ -51,14 +76,6 @@ type FunctionReturn struct {
 
 	// Type corresponds to the JSON schema field "type".
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
-}
-
-type Generic struct {
-	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name" mapstructure:"name"`
-
-	// Types corresponds to the JSON schema field "types".
-	Types []string `json:"types" yaml:"types" mapstructure:"types"`
 }
 
 type Symbol interface{}

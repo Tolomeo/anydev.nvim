@@ -74,7 +74,7 @@ var functionQueries = map[string]string{
 func newFunctionArg(name string) lexed.FunctionArg {
 	return lexed.FunctionArg{
 		Name:     name,
-		Type:     "any",
+		Type:     lexed.BuiltinUnknown,
 		Optional: false,
 	}
 }

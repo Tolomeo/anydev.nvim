@@ -5,7 +5,10 @@
     "Symbol": {
       "anyOf": [
         {
-          "$ref": "#/definitions/Symbol"
+          "$ref": "#/definitions/Function"
+        },
+        {
+          "$ref": "#/definitions/Builtin"
         }
       ]
     },
@@ -37,7 +40,7 @@
         "generics": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Generic"
+            "$ref": "#/definitions/FunctionGeneric"
           }
         },
         "deprecated": {
@@ -52,7 +55,7 @@
       },
       "required": ["name", "doc", "args", "return", "generics", "deprecated"]
     },
-    "Generic": {
+    "FunctionGeneric": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -76,7 +79,7 @@
           "type": "string"
         },
         "type": {
-          "type": "string"
+					"$ref": "#/definitions/Symbol"
         },
         "optional": {
           "type": "boolean"
@@ -105,6 +108,24 @@
         }
       },
       "required": ["name", "type", "optional"]
+    },
+    "Builtin": {
+      "description": "https://luals.github.io/wiki/annotations/#documenting-types",
+      "enum": [
+        "unknown",
+        "nil",
+        "any",
+        "boolean",
+        "string",
+        "number",
+        "integer",
+        "function",
+        "table",
+        "thread",
+        "userdata",
+        "lightuserdata"
+      ],
+      "type": "string"
     }
   }
 }
