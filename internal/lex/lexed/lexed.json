@@ -9,6 +9,9 @@
         },
         {
           "$ref": "#/definitions/Builtin"
+        },
+        {
+          "$ref": "#/definitions/Reference"
         }
       ]
     },
@@ -16,6 +19,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["function"]
+        },
         "name": {
           "type": "string"
         },
@@ -53,7 +60,7 @@
           "type": "string"
         }
       },
-      "required": ["name", "doc", "args", "return", "generics", "deprecated"]
+      "required": ["type", "doc", "args", "return", "generics", "deprecated"]
     },
     "FunctionGeneric": {
       "type": "object",
@@ -79,7 +86,7 @@
           "type": "string"
         },
         "type": {
-					"$ref": "#/definitions/Symbol"
+          "$ref": "#/definitions/Symbol"
         },
         "optional": {
           "type": "boolean"
@@ -111,21 +118,56 @@
     },
     "Builtin": {
       "description": "https://luals.github.io/wiki/annotations/#documenting-types",
-      "enum": [
-        "unknown",
-        "nil",
-        "any",
-        "boolean",
-        "string",
-        "number",
-        "integer",
-        "function",
-        "table",
-        "thread",
-        "userdata",
-        "lightuserdata"
-      ],
-      "type": "string"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["reference"]
+        },
+        "value": {
+          "type": "string",
+          "enum": [
+            "nil",
+            "any",
+            "boolean",
+            "string",
+            "number",
+            "integer",
+            "function",
+            "table",
+            "thread",
+            "userdata",
+            "lightuserdata"
+          ]
+        }
+      },
+      "required": ["type", "value"]
+    },
+    "Reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["reference"]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "value"]
+    },
+    "Unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["unknown"]
+        }
+      },
+      "required": ["type"]
     }
   }
 }

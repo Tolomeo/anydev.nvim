@@ -71,10 +71,16 @@ var functionQueries = map[string]string{
 	`,
 }
 
+func newFunction() lexed.Function {
+	return lexed.Function{
+		Type: "function",
+	}
+}
+
 func newFunctionArg(name string) lexed.FunctionArg {
 	return lexed.FunctionArg{
 		Name:     name,
-		Type:     lexed.BuiltinUnknown,
+		Type:     newUnknown(),
 		Optional: false,
 	}
 }
@@ -95,7 +101,8 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 		for _, capture := range captures {
 			switch capture.Id {
 			case "name":
-				function.Name = strings.Join(capture.Node.Text, "")
+				functionName := strings.Join(capture.Node.Text, "")
+				function.Name = &functionName
 			case "access.class":
 				function.Access = &functionClassAccess
 			case "access.instance":
@@ -116,7 +123,7 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 }
 
 func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
-	function := lexed.Function{}
+	function := newFunction()
 
 	annotations, err := l.lexAnnotations(source.Origin().Documentation)
 

@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type lexedParamAnnotation struct {
 	Name          string
-	Type          string
+	Type          lexed.Symbol
 	Optional      bool
 	Documentation []string
 }
@@ -25,8 +26,12 @@ var paramAnnotationQueries = map[string]string{
 			(param_annotation
 				(identifier) @name
 				"?"? @optional
-				(builtin_type) @type
-				(comment) @documentation
+				[
+				 (builtin_type)
+				 (function_type)
+				 (member_type)
+				] @type
+				(comment)? @documentation
 			)
 		)
 	`,
@@ -34,8 +39,12 @@ var paramAnnotationQueries = map[string]string{
 		(documentation
 			(param_annotation 
 					"..." @name
-					(builtin_type) @type
-					(comment) @documentation
+					[
+					 (builtin_type)
+					 (function_type)
+					 (member_type)
+					] @type
+					(comment)? @documentation
 			))`,
 }
 
@@ -63,12 +72,18 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				switch capture.Id {
 				case "name":
 					lexedParam.Name = strings.Join(capture.Node.Text, "")
-				case "type":
-					lexedParam.Type = strings.Join(capture.Node.Text, "")
 				case "optional":
 					lexedParam.Optional = true
 				case "documentation":
 					lexedParam.Documentation = capture.Node.Text
+				case "type":
+					lexedParamType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+
+					if err != nil {
+						return fmt.Errorf("Error lexing annotation line '%s': %w", documentationLine, err)
+					}
+
+					lexedParam.Type = lexedParamType
 				}
 			}
 

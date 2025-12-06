@@ -2,20 +2,32 @@
 
 package lexed
 
-type Builtin string
+// https://luals.github.io/wiki/annotations/#documenting-types
+type Builtin struct {
+	// Type corresponds to the JSON schema field "type".
+	Type BuiltinType `json:"type" yaml:"type" mapstructure:"type"`
 
-const BuiltinAny Builtin = "any"
-const BuiltinBoolean Builtin = "boolean"
-const BuiltinFunction Builtin = "function"
-const BuiltinInteger Builtin = "integer"
-const BuiltinLightuserdata Builtin = "lightuserdata"
-const BuiltinNil Builtin = "nil"
-const BuiltinNumber Builtin = "number"
-const BuiltinString Builtin = "string"
-const BuiltinTable Builtin = "table"
-const BuiltinThread Builtin = "thread"
-const BuiltinUnknown Builtin = "unknown"
-const BuiltinUserdata Builtin = "userdata"
+	// Value corresponds to the JSON schema field "value".
+	Value BuiltinValue `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type BuiltinType string
+
+const BuiltinTypeReference BuiltinType = "reference"
+
+type BuiltinValue string
+
+const BuiltinValueAny BuiltinValue = "any"
+const BuiltinValueBoolean BuiltinValue = "boolean"
+const BuiltinValueFunction BuiltinValue = "function"
+const BuiltinValueInteger BuiltinValue = "integer"
+const BuiltinValueLightuserdata BuiltinValue = "lightuserdata"
+const BuiltinValueNil BuiltinValue = "nil"
+const BuiltinValueNumber BuiltinValue = "number"
+const BuiltinValueString BuiltinValue = "string"
+const BuiltinValueTable BuiltinValue = "table"
+const BuiltinValueThread BuiltinValue = "thread"
+const BuiltinValueUserdata BuiltinValue = "userdata"
 
 type Function struct {
 	// Access corresponds to the JSON schema field "access".
@@ -34,10 +46,13 @@ type Function struct {
 	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name" mapstructure:"name"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Return corresponds to the JSON schema field "return".
 	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+
+	// Type corresponds to the JSON schema field "type".
+	Type FunctionType `json:"type" yaml:"type" mapstructure:"type"`
 
 	// Visibility corresponds to the JSON schema field "visibility".
 	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
@@ -78,4 +93,29 @@ type FunctionReturn struct {
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+type FunctionType string
+
+const FunctionTypeFunction FunctionType = "function"
+
+type Reference struct {
+	// Type corresponds to the JSON schema field "type".
+	Type ReferenceType `json:"type" yaml:"type" mapstructure:"type"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type ReferenceType string
+
+const ReferenceTypeReference ReferenceType = "reference"
+
 type Symbol interface{}
+
+type Unknown struct {
+	// Type corresponds to the JSON schema field "type".
+	Type UnknownType `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+type UnknownType string
+
+const UnknownTypeUnknown UnknownType = "unknown"
