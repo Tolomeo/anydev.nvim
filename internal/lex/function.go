@@ -71,12 +71,6 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func newFunction() lexed.Function {
-	return lexed.Function{
-		Type: "function",
-	}
-}
-
 func newFunctionArg(name string) lexed.FunctionArg {
 	return lexed.FunctionArg{
 		Name:     name,
@@ -130,6 +124,8 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 	if err != nil {
 		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
+
+	function.Overloads = annotations.overloads
 
 	functionDefinition := source.Origin().Definition
 	err = l.lexFunctionDefinition(functionDefinition, &function)

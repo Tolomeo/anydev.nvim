@@ -22,8 +22,8 @@ type lexedOverloadAnnotation struct {
 }
 
 type lexedAnnotations struct {
-	params    map[string]lexedParamAnnotation
-	overloads []lexedOverloadAnnotation
+	params    map[string]lexed.FunctionArg
+	overloads []lexed.FunctionOverload
 }
 
 var overloadAnnotationQuery string = `
@@ -51,31 +51,34 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		lexedOverload := lexedOverloadAnnotation{}
+		overload := lexed.FunctionOverload{}
 
 		for _, capture := range captures {
+
 			switch capture.Id {
 			case "documentation":
-				lexedOverload.Documentation = capture.Node.Text
+				overload.Documentation = capture.Node.Text
 			case "type":
-				lexedOverloadType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+				overloadType, err := l.lexType(strings.Join(capture.Node.Text, ""))
 
 				if err != nil {
 					return fmt.Errorf("Error lexing annotation line '%s': %w", docLine, err)
 				}
 
-				lexedOverloadFunctionType, isFunctionType := lexedOverloadType.(lexed.Function)
+				overloadFunction, isFunction := overloadType.(lexed.Function)
 
-				if !isFunctionType {
+				if !isFunction {
 					return fmt.Errorf("Error lexing overload annotation '%s': type is not function", docLine)
 				}
 
-				fmt.Printf("%v", lexedOverloadFunctionType)
-				// lexedOverload.Type = lexedOverloadFunctionType
+				overload.Generics = overloadFunction.Generics
+				overload.Args = overloadFunction.Args
+				overload.Documentation = overloadFunction.Doc
+				overload.Return = overloadFunction.Return
 			}
 		}
 
-		annotations.overloads = append(annotations.overloads, lexedOverload)
+		annotations.overloads = append(annotations.overloads, overload)
 	}
 
 	return nil
@@ -127,7 +130,7 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				return err
 			}
 
-			lexedParam := lexedParamAnnotation{}
+			lexedParam := lexed.FunctionArg{}
 
 			for _, capture := range captures {
 				switch capture.Id {
@@ -162,7 +165,7 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 
 func (l *lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotations := lexedAnnotations{
-		params: make(map[string]lexedParamAnnotation),
+		params: make(map[string]lexed.FunctionArg),
 	}
 
 	err := l.lexParamAnnotations(dockblock, &annotations)

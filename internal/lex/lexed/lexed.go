@@ -49,7 +49,7 @@ type Function struct {
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Overloads corresponds to the JSON schema field "overloads".
-	Overloads []Function `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
+	Overloads []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
 
 	// Return corresponds to the JSON schema field "return".
 	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
@@ -85,12 +85,23 @@ type FunctionGeneric struct {
 	Types []string `json:"types" yaml:"types" mapstructure:"types"`
 }
 
+type FunctionOverload struct {
+	// Args corresponds to the JSON schema field "args".
+	Args []FunctionArg `json:"args" yaml:"args" mapstructure:"args"`
+
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation []string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+
+	// Generics corresponds to the JSON schema field "generics".
+	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
+
+	// Return corresponds to the JSON schema field "return".
+	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+}
+
 type FunctionReturn struct {
 	// Name corresponds to the JSON schema field "name".
-	Name string `json:"name" yaml:"name" mapstructure:"name"`
-
-	// Optional corresponds to the JSON schema field "optional".
-	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
