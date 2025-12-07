@@ -354,7 +354,7 @@ func (n *Nvim) TsQuery(language string, query string) ([]ts.Capture, error) {
 
 			local nodeType = node:type()
 			local startLine, startCharacter, endLine, endCharacter = node:range()
-	    local text = { vim.treesitter.get_node_text(node, 0) }
+	    local text = vim.treesitter.get_node_text(node, bufnr)
 
 			local tsNode = {
 				type = nodeType,
@@ -430,6 +430,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 		local ancestorNodeTypes = args[1]
 		local line = args[2]
 		local character = args[3]
+		local bufnr = 0
 
 		local parser = vim.treesitter.get_parser(0, "lua")
 		local root = parser:parse()[1]:root()
@@ -457,7 +458,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 
 		local nodeType = node:type()
 		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
-		local text = vim.api.nvim_buf_get_text(0, startLine, startCharacter, endLine, endCharacter, {})
+	  local text = vim.treesitter.get_node_text(node, bufnr)
 
 		return vim.fn.json_encode({
 			type = nodeType,

@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"slices"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -68,9 +67,9 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 
 			switch capture.Id {
 			case "documentation":
-				overload.Documentation = capture.Node.Text
+				overload.Documentation = []string{capture.Node.Text}
 			case "type":
-				overloadType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+				overloadType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
 					return fmt.Errorf("Error lexing annotation line '%s': %w", docLine, err)
@@ -146,13 +145,13 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 			for _, capture := range captures {
 				switch capture.Id {
 				case "name":
-					lexedParam.Name = strings.Join(capture.Node.Text, "")
+					lexedParam.Name = capture.Node.Text
 				case "optional":
 					lexedParam.Optional = true
 				case "documentation":
-					lexedParam.Documentation = capture.Node.Text
+					lexedParam.Documentation = []string{capture.Node.Text}
 				case "type":
-					lexedParamType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+					lexedParamType, err := l.lexType(capture.Node.Text)
 
 					if err != nil {
 						return fmt.Errorf("Error lexing annotation line '%s': %w", docLine, err)

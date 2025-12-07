@@ -165,7 +165,7 @@ type TsNode struct {
 	Range Range `json:"range" yaml:"range" mapstructure:"range"`
 
 	// Text corresponds to the JSON schema field "text".
-	Text []string `json:"text" yaml:"text" mapstructure:"text"`
+	Text string `json:"text" yaml:"text" mapstructure:"text"`
 
 	// Type corresponds to the JSON schema field "type".
 	Type string `json:"type" yaml:"type" mapstructure:"type"`

@@ -3,7 +3,6 @@ package lex
 import (
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -87,18 +86,15 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 		for _, capture := range captures {
 			switch capture.Id {
 			case "name":
-				functionName := strings.Join(capture.Node.Text, "")
-				function.Name = &functionName
+				function.Name = &capture.Node.Text
 			case "access.class":
 				function.Access = &functionClassAccess
 			case "access.instance":
 				function.Access = &functionIstanceAccess
 			case "arg":
-				argName := strings.Join(capture.Node.Text, "")
-				function.Args = append(function.Args, newFunctionTypeArg(argName))
+				function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
 			case "vararg":
-				argName := strings.Join(capture.Node.Text, "")
-				function.Args = append(function.Args, newFunctionTypeArg(argName))
+				function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
 			}
 		}
 

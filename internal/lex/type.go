@@ -3,7 +3,6 @@ package lex
 import (
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -90,9 +89,9 @@ func (l *lexer) lexFunctionType(function *lexed.Function) error {
 		case "parameter":
 			lexedFunction.Args = append(lexedFunction.Args, lexed.FunctionArg{})
 		case "parameter.name":
-			lexedFunction.Args[len(lexedFunction.Args)-1].Name = strings.Join(capture.Node.Text, "")
+			lexedFunction.Args[len(lexedFunction.Args)-1].Name = capture.Node.Text
 		case "parameter.type":
-			parameterType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+			parameterType, err := l.lexType(capture.Node.Text)
 
 			if err != nil {
 				return err
@@ -140,9 +139,9 @@ func (l *lexer) lexTableType(table *lexed.Table) error {
 		case "table":
 			table.Fields = append(table.Fields, lexed.TableField{})
 		case "key":
-			table.Fields[len(table.Fields)-1].Name = strings.Join(capture.Node.Text, "")
+			table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 		case "value":
-			valueType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+			valueType, err := l.lexType(capture.Node.Text)
 
 			if err != nil {
 				return err
@@ -150,7 +149,7 @@ func (l *lexer) lexTableType(table *lexed.Table) error {
 
 			table.Fields[len(table.Fields)-1].Value = valueType
 		case "documentation":
-			table.Fields[len(table.Fields)-1].Documentation = capture.Node.Text
+			table.Fields[len(table.Fields)-1].Documentation = []string{capture.Node.Text}
 		case "error":
 			// TODO: trace that there was an error while lexing the table
 			return SyntaxError
