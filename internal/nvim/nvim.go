@@ -432,7 +432,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 		local character = args[3]
 		local bufnr = 0
 
-		local parser = vim.treesitter.get_parser(0, "lua")
+		local parser = vim.treesitter.get_parser(bufnr, "lua")
 		local root = parser:parse()[1]:root()
 
 		local node = root:descendant_for_range(line, character, line, character)
