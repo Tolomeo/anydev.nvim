@@ -71,14 +71,6 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func newFunctionArg(name string) lexed.FunctionArg {
-	return lexed.FunctionArg{
-		Name:     name,
-		Type:     newUnknown(),
-		Optional: false,
-	}
-}
-
 func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lexed.Function) error {
 	l.scratch(functionDefinition)
 
@@ -103,10 +95,10 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 				function.Access = &functionIstanceAccess
 			case "arg":
 				argName := strings.Join(capture.Node.Text, "")
-				function.Args = append(function.Args, newFunctionArg(argName))
+				function.Args = append(function.Args, newFunctionTypeArg(argName))
 			case "vararg":
 				argName := strings.Join(capture.Node.Text, "")
-				function.Args = append(function.Args, newFunctionArg(argName))
+				function.Args = append(function.Args, newFunctionTypeArg(argName))
 			}
 		}
 
@@ -117,9 +109,10 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 }
 
 func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
-	function := newFunction()
+	function := newFunctionType()
 
-	annotations, err := l.lexAnnotations(source.Origin().Documentation)
+	function.Documentation = source.Origin().Documentation
+	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)

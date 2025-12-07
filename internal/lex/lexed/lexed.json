@@ -15,22 +15,25 @@
         }
       ]
     },
+    "Documentation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "Function": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "enum": ["function"]
         },
         "name": {
           "type": "string"
         },
-        "doc": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "documentation": {
+          "$ref": "#/definitions/Documentation"
         },
         "args": {
           "type": "array",
@@ -66,7 +69,7 @@
           }
         }
       },
-      "required": ["type", "doc", "args", "return", "generics", "deprecated"]
+      "required": ["kind", "doc", "args", "return", "generics", "deprecated"]
     },
     "FunctionGeneric": {
       "type": "object",
@@ -98,15 +101,12 @@
           "type": "boolean"
         },
         "documentation": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/definitions/Documentation"
         }
       },
       "required": ["name", "type", "optional"]
     },
-		"FunctionOverload": {
+    "FunctionOverload": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -129,15 +129,11 @@
           }
         },
         "documentation": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/definitions/Documentation"
         }
       },
       "required": ["generics", "args", "return", "documentation"]
-
-		},
+    },
     "FunctionReturn": {
       "type": "object",
       "additionalProperties": false,
@@ -156,7 +152,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "enum": ["reference"]
         },
@@ -177,13 +173,13 @@
           ]
         }
       },
-      "required": ["type", "value"]
+      "required": ["kind", "value"]
     },
     "Reference": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "enum": ["reference"]
         },
@@ -191,18 +187,18 @@
           "type": "string"
         }
       },
-      "required": ["type", "value"]
+      "required": ["kind", "value"]
     },
     "Unknown": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "kind": {
           "type": "string",
           "enum": ["unknown"]
         }
       },
-      "required": ["type"]
+      "required": ["kind"]
     }
   }
 }

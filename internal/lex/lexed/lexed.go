@@ -4,16 +4,16 @@ package lexed
 
 // https://luals.github.io/wiki/annotations/#documenting-types
 type Builtin struct {
-	// Type corresponds to the JSON schema field "type".
-	Type BuiltinType `json:"type" yaml:"type" mapstructure:"type"`
+	// Kind corresponds to the JSON schema field "kind".
+	Kind BuiltinKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
 	// Value corresponds to the JSON schema field "value".
 	Value BuiltinValue `json:"value" yaml:"value" mapstructure:"value"`
 }
 
-type BuiltinType string
+type BuiltinKind string
 
-const BuiltinTypeReference BuiltinType = "reference"
+const BuiltinKindReference BuiltinKind = "reference"
 
 type BuiltinValue string
 
@@ -29,6 +29,8 @@ const BuiltinValueTable BuiltinValue = "table"
 const BuiltinValueThread BuiltinValue = "thread"
 const BuiltinValueUserdata BuiltinValue = "userdata"
 
+type Documentation []string
+
 type Function struct {
 	// Access corresponds to the JSON schema field "access".
 	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
@@ -39,11 +41,14 @@ type Function struct {
 	// Deprecated corresponds to the JSON schema field "deprecated".
 	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
 
-	// Doc corresponds to the JSON schema field "doc".
-	Doc []string `json:"doc" yaml:"doc" mapstructure:"doc"`
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
 	// Generics corresponds to the JSON schema field "generics".
 	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
+
+	// Kind corresponds to the JSON schema field "kind".
+	Kind FunctionKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
@@ -54,16 +59,13 @@ type Function struct {
 	// Return corresponds to the JSON schema field "return".
 	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
 
-	// Type corresponds to the JSON schema field "type".
-	Type FunctionType `json:"type" yaml:"type" mapstructure:"type"`
-
 	// Visibility corresponds to the JSON schema field "visibility".
 	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
 }
 
 type FunctionArg struct {
 	// Documentation corresponds to the JSON schema field "documentation".
-	Documentation []string `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
@@ -85,12 +87,16 @@ type FunctionGeneric struct {
 	Types []string `json:"types" yaml:"types" mapstructure:"types"`
 }
 
+type FunctionKind string
+
+const FunctionKindFunction FunctionKind = "function"
+
 type FunctionOverload struct {
 	// Args corresponds to the JSON schema field "args".
 	Args []FunctionArg `json:"args" yaml:"args" mapstructure:"args"`
 
 	// Documentation corresponds to the JSON schema field "documentation".
-	Documentation []string `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 
 	// Generics corresponds to the JSON schema field "generics".
 	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
@@ -107,29 +113,25 @@ type FunctionReturn struct {
 	Type string `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-type FunctionType string
-
-const FunctionTypeFunction FunctionType = "function"
-
 type Reference struct {
-	// Type corresponds to the JSON schema field "type".
-	Type ReferenceType `json:"type" yaml:"type" mapstructure:"type"`
+	// Kind corresponds to the JSON schema field "kind".
+	Kind ReferenceKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
 	// Value corresponds to the JSON schema field "value".
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
-type ReferenceType string
+type ReferenceKind string
 
-const ReferenceTypeReference ReferenceType = "reference"
+const ReferenceKindReference ReferenceKind = "reference"
 
 type Symbol interface{}
 
 type Unknown struct {
-	// Type corresponds to the JSON schema field "type".
-	Type UnknownType `json:"type" yaml:"type" mapstructure:"type"`
+	// Kind corresponds to the JSON schema field "kind".
+	Kind UnknownKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 }
 
-type UnknownType string
+type UnknownKind string
 
-const UnknownTypeUnknown UnknownType = "unknown"
+const UnknownKindUnknown UnknownKind = "unknown"

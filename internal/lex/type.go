@@ -10,29 +10,38 @@ import (
 )
 
 /*
-	 func newReference(value string) lexed.Reference {
+	 func newReferenceType(value string) lexed.Reference {
 		return lexed.Reference{
 			Type:  "reference",
 			Value: value,
 		}
 	}
 */
-func newFunction() lexed.Function {
+
+func newFunctionType() lexed.Function {
 	return lexed.Function{
-		Type: "function",
+		Kind: "function",
 	}
 }
 
-func newBuiltin(value lexed.BuiltinValue) lexed.Builtin {
+func newFunctionTypeArg(name string) lexed.FunctionArg {
+	return lexed.FunctionArg{
+		Name:     name,
+		Type:     newUnknownType(),
+		Optional: false,
+	}
+}
+
+func newBuiltinType(value lexed.BuiltinValue) lexed.Builtin {
 	return lexed.Builtin{
-		Type:  "builtin",
+		Kind:  "builtin",
 		Value: value,
 	}
 }
 
-func newUnknown() lexed.Unknown {
+func newUnknownType() lexed.Unknown {
 	return lexed.Unknown{
-		Type: "uknown",
+		Kind: "uknown",
 	}
 }
 
@@ -66,7 +75,7 @@ func (l *lexer) lexFunctionType() (lexed.Function, error) {
 		return lexed.Function{}, err
 	}
 
-	lexedFunction := newFunction()
+	lexedFunction := newFunctionType()
 
 	for _, capture := range captures {
 		switch capture.Id {
@@ -93,27 +102,27 @@ func (l *lexer) lexFunctionType() (lexed.Function, error) {
 func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	switch source {
 	case "nil":
-		return newBuiltin(lexed.BuiltinValueNil), nil
+		return newBuiltinType(lexed.BuiltinValueNil), nil
 	case "any":
-		return newBuiltin(lexed.BuiltinValueAny), nil
+		return newBuiltinType(lexed.BuiltinValueAny), nil
 	case "boolean":
-		return newBuiltin(lexed.BuiltinValueBoolean), nil
+		return newBuiltinType(lexed.BuiltinValueBoolean), nil
 	case "string":
-		return newBuiltin(lexed.BuiltinValueString), nil
+		return newBuiltinType(lexed.BuiltinValueString), nil
 	case "number":
-		return newBuiltin(lexed.BuiltinValueNumber), nil
+		return newBuiltinType(lexed.BuiltinValueNumber), nil
 	case "integer", "int":
-		return newBuiltin(lexed.BuiltinValueInteger), nil
+		return newBuiltinType(lexed.BuiltinValueInteger), nil
 	case "function":
-		return newBuiltin(lexed.BuiltinValueFunction), nil
+		return newBuiltinType(lexed.BuiltinValueFunction), nil
 	case "table":
-		return newBuiltin(lexed.BuiltinValueTable), nil
+		return newBuiltinType(lexed.BuiltinValueTable), nil
 	case "thread":
-		return newBuiltin(lexed.BuiltinValueTable), nil
+		return newBuiltinType(lexed.BuiltinValueTable), nil
 	case "userdata":
-		return newBuiltin(lexed.BuiltinValueUserdata), nil
+		return newBuiltinType(lexed.BuiltinValueUserdata), nil
 	case "lightuserdata":
-		return newBuiltin(lexed.BuiltinValueLightuserdata), nil
+		return newBuiltinType(lexed.BuiltinValueLightuserdata), nil
 	}
 
 	lines := []string{"@type " + source}
@@ -133,5 +142,5 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 		return functionType, nil
 	}
 
-	return newUnknown(), nil
+	return newUnknownType(), nil
 }

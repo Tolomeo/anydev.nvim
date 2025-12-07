@@ -73,7 +73,7 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 
 				overload.Generics = overloadFunction.Generics
 				overload.Args = overloadFunction.Args
-				overload.Documentation = overloadFunction.Doc
+				overload.Documentation = overloadFunction.Documentation
 				overload.Return = overloadFunction.Return
 			}
 		}
