@@ -112,6 +112,7 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 	function := newFunctionType()
 
 	function.Documentation = source.Origin().Documentation
+
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {

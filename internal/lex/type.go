@@ -20,7 +20,7 @@ import (
 
 func newFunctionType() lexed.Function {
 	return lexed.Function{
-		Kind: "function",
+		Kind: lexed.FunctionKindFunction,
 	}
 }
 
@@ -34,18 +34,25 @@ func newFunctionTypeArg(name string) lexed.FunctionArg {
 
 func newBuiltinType(value lexed.BuiltinValue) lexed.Builtin {
 	return lexed.Builtin{
-		Kind:  "builtin",
+		Kind:  lexed.BuiltinKindBuiltin,
 		Value: value,
 	}
 }
 
 func newUnknownType() lexed.Unknown {
 	return lexed.Unknown{
-		Kind: "uknown",
+		Kind: lexed.UnknownKindUnknown,
+	}
+}
+
+func newTableType() lexed.Table {
+	return lexed.Table{
+		Kind: lexed.TableKindTable,
 	}
 }
 
 var NoMatch = errors.New("No match")
+var SyntaxError = errors.New("Syntax error")
 
 var typeFunctionQuery string = `
 	(documentation
@@ -63,16 +70,17 @@ var typeFunctionQuery string = `
 			)
 		)
 	)
+	(ERROR) @error
 `
 
-func (l *lexer) lexFunctionType() (lexed.Function, error) {
+func (l *lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.nvim.TsQuery("luadoc", typeFunctionQuery)
 
 	switch {
 	case errors.Is(nvim.ErrNotFound, err):
-		return lexed.Function{}, NoMatch
+		return NoMatch
 	case err != nil:
-		return lexed.Function{}, err
+		return err
 	}
 
 	lexedFunction := newFunctionType()
@@ -87,20 +95,75 @@ func (l *lexer) lexFunctionType() (lexed.Function, error) {
 			parameterType, err := l.lexType(strings.Join(capture.Node.Text, ""))
 
 			if err != nil {
-				return lexed.Function{}, err
+				return err
 			}
 
 			lexedFunction.Args[len(lexedFunction.Args)-1].Type = parameterType
 		case "return.type":
 			//TODO
+		case "error":
+			//TODO: trace error
+			return SyntaxError
 		}
 	}
 
-	return lexedFunction, nil
+	return nil
+}
+
+var typeTableQuery string = `
+	(documentation
+		(type_annotation
+			(table_type
+				key: (builtin_type) @key
+				value: (builtin_type) @value
+			) @table
+			(comment)? @documentation
+		)
+	)
+	(ERROR) @error
+`
+
+func (l *lexer) lexTableType(table *lexed.Table) error {
+	captures, err := l.nvim.TsQuery("luadoc", typeTableQuery)
+
+	switch {
+	case errors.Is(nvim.ErrNotFound, err):
+		return NoMatch
+	case err != nil:
+		return err
+	}
+
+	fmt.Printf("\n\n%+v\n\n", captures)
+
+	for _, capture := range captures {
+		switch capture.Id {
+		case "table":
+			table.Fields = append(table.Fields, lexed.TableField{})
+		case "key":
+			table.Fields[len(table.Fields)-1].Name = strings.Join(capture.Node.Text, "")
+		case "value":
+			valueType, err := l.lexType(strings.Join(capture.Node.Text, ""))
+
+			if err != nil {
+				return err
+			}
+
+			table.Fields[len(table.Fields)-1].Value = valueType
+		case "documentation":
+			table.Fields[len(table.Fields)-1].Documentation = capture.Node.Text
+		case "error":
+			// TODO: trace that there was an error while lexing the table
+			return SyntaxError
+		}
+	}
+
+	return nil
 }
 
 func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	switch source {
+	case "void":
+		return newBuiltinType(lexed.BuiltinValueVoid), nil
 	case "nil":
 		return newBuiltinType(lexed.BuiltinValueNil), nil
 	case "any":
@@ -128,11 +191,14 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	lines := []string{"@type " + source}
 	err := l.scratch(lines)
 
+	fmt.Printf("%v\n\n", lines)
+
 	if err != nil {
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
-	functionType, err := l.lexFunctionType()
+	functionType := newFunctionType()
+	err = l.lexFunctionType(&functionType)
 
 	switch {
 	case errors.Is(NoMatch, err):
@@ -140,6 +206,19 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:
 		return functionType, nil
+	}
+
+	tableType := newTableType()
+	err = l.lexTableType(&tableType)
+
+	fmt.Printf("%+v\n%+v\n\n", tableType, err)
+
+	switch {
+	case errors.Is(NoMatch, err):
+	case err != nil:
+		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
+	default:
+		return tableType, nil
 	}
 
 	return newUnknownType(), nil

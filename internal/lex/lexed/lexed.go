@@ -13,7 +13,7 @@ type Builtin struct {
 
 type BuiltinKind string
 
-const BuiltinKindReference BuiltinKind = "reference"
+const BuiltinKindBuiltin BuiltinKind = "builtin"
 
 type BuiltinValue string
 
@@ -28,6 +28,7 @@ const BuiltinValueString BuiltinValue = "string"
 const BuiltinValueTable BuiltinValue = "table"
 const BuiltinValueThread BuiltinValue = "thread"
 const BuiltinValueUserdata BuiltinValue = "userdata"
+const BuiltinValueVoid BuiltinValue = "void"
 
 type Documentation []string
 
@@ -126,6 +127,31 @@ type ReferenceKind string
 const ReferenceKindReference ReferenceKind = "reference"
 
 type Symbol interface{}
+
+type Table struct {
+	// Fields corresponds to the JSON schema field "fields".
+	Fields []TableField `json:"fields" yaml:"fields" mapstructure:"fields"`
+
+	// Kind corresponds to the JSON schema field "kind".
+	Kind TableKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+}
+
+type TableField struct {
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+
+	// Name corresponds to the JSON schema field "name".
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value TableFieldValue `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type TableFieldValue interface{}
+
+type TableKind string
+
+const TableKindTable TableKind = "table"
 
 type Unknown struct {
 	// Kind corresponds to the JSON schema field "kind".

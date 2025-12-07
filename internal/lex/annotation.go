@@ -3,10 +3,12 @@ package lex
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 type lexedParamAnnotation struct {
@@ -31,8 +33,9 @@ var overloadAnnotationQuery string = `
 		(overload_annotation 
 			(function_type) @type 
 			(comment)? @documentation
-		)
+		) @overload
 	) 
+	(ERROR) @error
 `
 
 func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnnotations) error {
@@ -49,6 +52,14 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			continue
 		case err != nil:
 			return err
+		}
+
+		if hasSyntaxError := slices.ContainsFunc(captures, func(capture ts.Capture) bool {
+			return capture.Id == "error"
+		}); hasSyntaxError {
+			// TODO: trace
+			fmt.Printf("Skipping overload '%s' with a syntax error\n", docLine)
+			continue
 		}
 
 		overload := lexed.FunctionOverload{}

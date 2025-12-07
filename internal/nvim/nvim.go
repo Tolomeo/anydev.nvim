@@ -354,7 +354,7 @@ func (n *Nvim) TsQuery(language string, query string) ([]ts.Capture, error) {
 
 			local nodeType = node:type()
 			local startLine, startCharacter, endLine, endCharacter = node:range()
-			local text = vim.api.nvim_buf_get_text(bufnr, startLine, startCharacter, endLine, endCharacter, {})
+	    local text = { vim.treesitter.get_node_text(node, 0) }
 
 			local tsNode = {
 				type = nodeType,

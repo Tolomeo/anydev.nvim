@@ -5,6 +5,9 @@
     "Symbol": {
       "anyOf": [
         {
+          "$ref": "#/definitions/Table"
+        },
+        {
           "$ref": "#/definitions/Function"
         },
         {
@@ -154,11 +157,12 @@
       "properties": {
         "kind": {
           "type": "string",
-          "enum": ["reference"]
+          "enum": ["builtin"]
         },
         "value": {
           "type": "string",
           "enum": [
+            "void",
             "nil",
             "any",
             "boolean",
@@ -199,6 +203,39 @@
         }
       },
       "required": ["kind"]
+    },
+    "Table": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["table"]
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TableField"
+          }
+        }
+      },
+      "required": ["kind", "fields"]
+    },
+    "TableField": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/Symbol"
+        },
+        "documentation": {
+          "$ref": "#/definitions/Documentation"
+        }
+      },
+      "required": ["name", "value", "documentation"]
     }
   }
 }
