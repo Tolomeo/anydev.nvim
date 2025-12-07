@@ -3,38 +3,31 @@ package lex
 import (
 	"errors"
 	"fmt"
-	"slices"
+	// "slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
-
-type lexedParamAnnotation struct {
-	Name          string
-	Type          lexed.Symbol
-	Optional      bool
-	Documentation []string
-}
-
-type lexedOverloadAnnotation struct {
-	Type          lexed.Function
-	Documentation []string
-}
 
 type lexedAnnotations struct {
 	params    map[string]lexed.FunctionArg
 	overloads []lexed.FunctionOverload
 }
 
+var errorQuery string = `
+	(ERROR) @error
+`
+
 var overloadAnnotationQuery string = `
 	(documentation 
 		(overload_annotation 
-			(function_type) @type 
+			(function_type
+				(ERROR) @error
+			) @type 
 			(comment)? @documentation
 		) @overload
 	) 
-	(ERROR) @error
 `
 
 func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnnotations) error {
@@ -44,6 +37,7 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 		if err != nil {
 			return err
 		}
+
 		captures, err := l.nvim.TsQuery("luadoc", overloadAnnotationQuery)
 
 		switch {
@@ -53,11 +47,9 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		if hasSyntaxError := slices.ContainsFunc(captures, func(capture ts.Capture) bool {
-			return capture.Id == "error"
-		}); hasSyntaxError {
+		if _, err = l.nvim.TsQuery("luadoc", errorQuery); !errors.Is(nvim.ErrNotFound, err) {
 			// TODO: trace
-			fmt.Printf("Skipping overload '%s' with a syntax error\n", docLine)
+			fmt.Printf("Skipping overload annotation '%s' with syntax errors\n", docLine)
 			continue
 		}
 
@@ -138,6 +130,12 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				continue
 			case err != nil:
 				return err
+			}
+
+			if _, err = l.nvim.TsQuery("luadoc", errorQuery); !errors.Is(nvim.ErrNotFound, err) {
+				// TODO: trace
+				fmt.Printf("Skipping param annotation '%s' with syntax errors\n", docLine)
+				continue
 			}
 
 			lexedParam := lexed.FunctionArg{}

@@ -190,8 +190,6 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	lines := []string{"@type " + source}
 	err := l.scratch(lines)
 
-	fmt.Printf("%v\n\n", lines)
-
 	if err != nil {
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
@@ -209,8 +207,6 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 
 	tableType := newTableType()
 	err = l.lexTableType(&tableType)
-
-	fmt.Printf("%+v\n%+v\n\n", tableType, err)
 
 	switch {
 	case errors.Is(NoMatch, err):
