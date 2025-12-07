@@ -3,11 +3,9 @@ package lex
 import (
 	"errors"
 	"fmt"
-	// "slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 type lexedAnnotations struct {
@@ -38,19 +36,13 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		captures, err := l.nvim.TsQuery("luadoc", overloadAnnotationQuery)
+		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery, WithoutErrors: true})
 
 		switch {
 		case errors.Is(nvim.ErrNotFound, err):
 			continue
 		case err != nil:
 			return err
-		}
-
-		if _, err = l.nvim.TsQuery("luadoc", errorQuery); !errors.Is(nvim.ErrNotFound, err) {
-			// TODO: trace
-			fmt.Printf("Skipping overload annotation '%s' with syntax errors\n", docLine)
-			continue
 		}
 
 		overload := lexed.FunctionOverload{}
@@ -123,19 +115,13 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				return err
 			}
 
-			captures, err := l.nvim.TsQuery("luadoc", paramAnnotationQuery)
+			captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery, WithoutErrors: true})
 
 			switch {
 			case errors.Is(nvim.ErrNotFound, err):
 				continue
 			case err != nil:
 				return err
-			}
-
-			if _, err = l.nvim.TsQuery("luadoc", errorQuery); !errors.Is(nvim.ErrNotFound, err) {
-				// TODO: trace
-				fmt.Printf("Skipping param annotation '%s' with syntax errors\n", docLine)
-				continue
 			}
 
 			lexedParam := lexed.FunctionArg{}

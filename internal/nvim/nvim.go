@@ -320,7 +320,13 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 	return typeName, nil
 }
 
-func (n *Nvim) TsQuery(language string, query string) ([]ts.Capture, error) {
+type TsQueryConfig struct {
+	Language      string
+	Query         string
+	WithoutErrors bool
+}
+
+func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -380,7 +386,19 @@ func (n *Nvim) TsQuery(language string, query string) ([]ts.Capture, error) {
 		return vim.fn.json_encode(queryResult)
 	`
 
-	result, err := n.ExecLua(luaCode, []any{language, query})
+	if config.WithoutErrors {
+		result, err := n.ExecLua(luaCode, []any{config.Language, `(ERROR) @error`})
+
+		if err != nil {
+			return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)
+		}
+
+		if result != nil {
+			return []ts.Capture{}, ErrNotFound
+		}
+	}
+
+	result, err := n.ExecLua(luaCode, []any{config.Language, config.Query})
 
 	if err != nil {
 		return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)

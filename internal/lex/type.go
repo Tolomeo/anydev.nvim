@@ -73,7 +73,7 @@ var typeFunctionQuery string = `
 `
 
 func (l *lexer) lexFunctionType(function *lexed.Function) error {
-	captures, err := l.nvim.TsQuery("luadoc", typeFunctionQuery)
+	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case errors.Is(nvim.ErrNotFound, err):
@@ -123,7 +123,7 @@ var typeTableQuery string = `
 `
 
 func (l *lexer) lexTableType(table *lexed.Table) error {
-	captures, err := l.nvim.TsQuery("luadoc", typeTableQuery)
+	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case errors.Is(nvim.ErrNotFound, err):
