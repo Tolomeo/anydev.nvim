@@ -119,7 +119,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	locations, err := c.getLocation(path)
 
 	switch {
-	case errors.Is(err, nvim.ErrNotFound):
+	case errors.Is(err, nvim.ErrDefinitionLocationNotFound):
 		c.stats.Report(path, c.stats.MissingLocation(), c.stats.MissingOrigin(), c.stats.MissingDocumentation())
 		return nil, nil
 	case err != nil:
@@ -140,7 +140,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 		definitionLines, err := c.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
 
 		switch {
-		case errors.Is(err, nvim.ErrNotFound):
+		case errors.Is(err, nvim.ErrTsNodeNotFound):
 			return false, nil
 		case err != nil:
 			return false, err
@@ -170,7 +170,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 
 
 	switch {
-	case errors.Is(err, nvim.ErrNotFound):
+	case errors.Is(err, nvim.ErrTsNodeNotFound):
 		c.stats.Report(path, c.stats.MissingDocumentation())
 		return &orig, nil
 	case err != nil:

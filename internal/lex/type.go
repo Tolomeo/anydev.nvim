@@ -50,8 +50,7 @@ func newTableType() lexed.Table {
 	}
 }
 
-var NoMatch = errors.New("No match")
-var SyntaxError = errors.New("Syntax error")
+var ErrNoMatch = errors.New("No match")
 
 var typeFunctionQuery string = `
 	(documentation
@@ -76,20 +75,18 @@ func (l *lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
-	case errors.Is(nvim.ErrNotFound, err):
-		return NoMatch
+	case errors.Is(nvim.ErrTSQueryNoMatch, err):
+		return ErrNoMatch
 	case err != nil:
 		return err
 	}
 
-	lexedFunction := newFunctionType()
-
 	for _, capture := range captures {
 		switch capture.Id {
 		case "parameter":
-			lexedFunction.Args = append(lexedFunction.Args, lexed.FunctionArg{})
+			function.Args = append(function.Args, lexed.FunctionArg{})
 		case "parameter.name":
-			lexedFunction.Args[len(lexedFunction.Args)-1].Name = capture.Node.Text
+			function.Args[len(function.Args)-1].Name = capture.Node.Text
 		case "parameter.type":
 			parameterType, err := l.lexType(capture.Node.Text)
 
@@ -97,12 +94,9 @@ func (l *lexer) lexFunctionType(function *lexed.Function) error {
 				return err
 			}
 
-			lexedFunction.Args[len(lexedFunction.Args)-1].Type = parameterType
+			function.Args[len(function.Args)-1].Type = parameterType
 		case "return.type":
 			//TODO
-		case "error":
-			//TODO: trace error
-			return SyntaxError
 		}
 	}
 
@@ -126,13 +120,11 @@ func (l *lexer) lexTableType(table *lexed.Table) error {
 	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
-	case errors.Is(nvim.ErrNotFound, err):
-		return NoMatch
+	case errors.Is(nvim.ErrTSQueryNoMatch, err):
+		return ErrNoMatch
 	case err != nil:
 		return err
 	}
-
-	fmt.Printf("\n\n%+v\n\n", captures)
 
 	for _, capture := range captures {
 		switch capture.Id {
@@ -150,9 +142,6 @@ func (l *lexer) lexTableType(table *lexed.Table) error {
 			table.Fields[len(table.Fields)-1].Value = valueType
 		case "documentation":
 			table.Fields[len(table.Fields)-1].Documentation = []string{capture.Node.Text}
-		case "error":
-			// TODO: trace that there was an error while lexing the table
-			return SyntaxError
 		}
 	}
 
@@ -198,7 +187,7 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	err = l.lexFunctionType(&functionType)
 
 	switch {
-	case errors.Is(NoMatch, err):
+	case errors.Is(ErrNoMatch, err):
 	case err != nil:
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:
@@ -209,7 +198,7 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 	err = l.lexTableType(&tableType)
 
 	switch {
-	case errors.Is(NoMatch, err):
+	case errors.Is(ErrNoMatch, err):
 	case err != nil:
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:

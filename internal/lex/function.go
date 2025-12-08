@@ -77,7 +77,7 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
-		case errors.Is(nvim.ErrNotFound, err):
+		case errors.Is(nvim.ErrTSQueryNoMatch, err):
 			continue
 		case err != nil:
 			return err

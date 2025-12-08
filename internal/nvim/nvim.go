@@ -25,7 +25,7 @@ type Location struct {
 	Url string
 }
 
-var ErrNotFound = errors.New("Not found")
+// var ErrNotFound = errors.New("Not found")
 
 type Nvim struct {
 	options options
@@ -323,8 +323,12 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 type TsQueryConfig struct {
 	Language      string
 	Query         string
-	WithoutErrors bool
+	FailOnTreeErrors bool
 }
+
+var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
+
+var ErrTSQueryTreeErrors = errors.New("The parsed language tree contains errors")
 
 func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	err := n.startTS()
@@ -386,7 +390,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 		return vim.fn.json_encode(queryResult)
 	`
 
-	if config.WithoutErrors {
+	if config.FailOnTreeErrors {
 		result, err := n.ExecLua(luaCode, []any{config.Language, `(ERROR) @error`})
 
 		if err != nil {
@@ -394,7 +398,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 		}
 
 		if result != nil {
-			return []ts.Capture{}, ErrNotFound
+			return []ts.Capture{}, ErrTSQueryTreeErrors
 		}
 	}
 
@@ -405,7 +409,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	}
 
 	if result == nil {
-		return []ts.Capture{}, ErrNotFound
+		return []ts.Capture{}, ErrTSQueryNoMatch
 	}
 
 	stringResult, ok := result.(string)
@@ -433,6 +437,8 @@ func (n *Nvim) ReadTsNode(node ts.TsNode) (string, error) {
 
 	return strings.Join(textContent, ""), nil
 }
+
+var ErrTsNodeNotFound = errors.New("No TsNode was found")
 
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
 	tsNode := ts.TsNode{}
@@ -495,7 +501,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 	}
 
 	if result == nil {
-		return tsNode, ErrNotFound
+		return tsNode, ErrTsNodeNotFound
 	}
 
 	stringResult, ok := result.(string)
@@ -757,6 +763,8 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLoca
 	return response.Result, nil
 }
 
+var ErrDefinitionLocationNotFound = errors.New("No definition location was found")
+
 func (n *Nvim) GetDefinitionLocation(line uint, character uint) ([]Location, error) {
 	lspDefinitions, err := n.GetLSPDefinition(line, character)
 
@@ -764,7 +772,7 @@ func (n *Nvim) GetDefinitionLocation(line uint, character uint) ([]Location, err
 	case err != nil:
 		return []Location{}, err
 	case len(lspDefinitions) == 0:
-		return []Location{}, ErrNotFound
+		return []Location{}, ErrDefinitionLocationNotFound
 	}
 
 	locations, err := slicesx.MapFunc(lspDefinitions, func(lspLocation lsp.DefinitionLocation) (Location, error) {

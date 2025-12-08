@@ -13,16 +13,10 @@ type lexedAnnotations struct {
 	overloads []lexed.FunctionOverload
 }
 
-var errorQuery string = `
-	(ERROR) @error
-`
-
 var overloadAnnotationQuery string = `
 	(documentation 
 		(overload_annotation 
-			(function_type
-				(ERROR) @error
-			) @type 
+			(function_type) @type 
 			(comment)? @documentation
 		) @overload
 	) 
@@ -36,10 +30,14 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery, WithoutErrors: true})
+		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery, FailOnTreeErrors: true})
 
 		switch {
-		case errors.Is(nvim.ErrNotFound, err):
+		case errors.Is(nvim.ErrTSQueryNoMatch, err):
+			continue
+		case errors.Is(nvim.ErrTSQueryTreeErrors, err):
+			// TODO: TRACE
+			fmt.Printf("Skipping overload annotation '%s' containing syntax errors\n", docLine)
 			continue
 		case err != nil:
 			return err
@@ -115,10 +113,14 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				return err
 			}
 
-			captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery, WithoutErrors: true})
+			captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery, FailOnTreeErrors: true})
 
 			switch {
-			case errors.Is(nvim.ErrNotFound, err):
+			case errors.Is(nvim.ErrTSQueryNoMatch, err):
+				continue
+			case errors.Is(nvim.ErrTSQueryTreeErrors, err):
+				// TODO: TRACE
+				fmt.Printf("Skipping param annotation '%s' containing syntax errors\n", docLine)
 				continue
 			case err != nil:
 				return err
