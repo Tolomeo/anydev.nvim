@@ -30,14 +30,14 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery, FailOnTreeErrors: true})
+		captures, err := l.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 		switch {
-		case errors.Is(nvim.ErrTSQueryNoMatch, err):
-			continue
-		case errors.Is(nvim.ErrTSQueryTreeErrors, err):
+		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
 			// TODO: TRACE
 			fmt.Printf("Skipping overload annotation '%s' containing syntax errors\n", docLine)
+			continue
+		case errors.Is(nvim.ErrTSQueryNoMatch, err):
 			continue
 		case err != nil:
 			return err
@@ -46,7 +46,6 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 		overload := lexed.FunctionOverload{}
 
 		for _, capture := range captures {
-
 			switch capture.Id {
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
@@ -94,14 +93,16 @@ var paramAnnotationQueries = map[string]string{
 	"vararg": `
 		(documentation
 			(param_annotation 
-					"..." @name
-					[
-					 (builtin_type)
-					 (function_type)
-					 (member_type)
-					] @type
-					(comment)? @documentation
-			))`,
+				"..." @name
+				[
+				 (builtin_type)
+				 (function_type)
+				 (member_type)
+				] @type
+				(comment)? @documentation
+			)
+		)
+	`,
 }
 
 func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
@@ -113,14 +114,14 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				return err
 			}
 
-			captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery, FailOnTreeErrors: true})
+			captures, err := l.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
-			case errors.Is(nvim.ErrTSQueryNoMatch, err):
-				continue
-			case errors.Is(nvim.ErrTSQueryTreeErrors, err):
+			case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
 				// TODO: TRACE
 				fmt.Printf("Skipping param annotation '%s' containing syntax errors\n", docLine)
+				continue
+			case errors.Is(nvim.ErrTSQueryNoMatch, err):
 				continue
 			case err != nil:
 				return err

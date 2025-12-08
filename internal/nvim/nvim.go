@@ -321,14 +321,12 @@ func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
 }
 
 type TsQueryConfig struct {
-	Language      string
-	Query         string
-	FailOnTreeErrors bool
+	Language string
+	Query    string
 }
 
 var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
 
-var ErrTSQueryTreeErrors = errors.New("The parsed language tree contains errors")
 
 func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	err := n.startTS()
@@ -390,18 +388,6 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 		return vim.fn.json_encode(queryResult)
 	`
 
-	if config.FailOnTreeErrors {
-		result, err := n.ExecLua(luaCode, []any{config.Language, `(ERROR) @error`})
-
-		if err != nil {
-			return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)
-		}
-
-		if result != nil {
-			return []ts.Capture{}, ErrTSQueryTreeErrors
-		}
-	}
-
 	result, err := n.ExecLua(luaCode, []any{config.Language, config.Query})
 
 	if err != nil {
@@ -425,6 +411,22 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	}
 
 	return capturedTsNodes, nil
+}
+
+var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
+
+func (n *Nvim) SafeTsQuery(config TsQueryConfig) ([]ts.Capture, error) {
+	captures, err := n.TsQuery(config)
+
+	if err != nil{
+		return captures, err
+	}
+
+	if _, err := n.TsQuery(TsQueryConfig{Language: config.Language, Query: `(ERROR) @syntax.error`}); !errors.Is(ErrTSQueryNoMatch, err) {
+		return captures, ErrSafeTSQueryNoMatch
+	}
+
+	return captures, nil
 }
 
 func (n *Nvim) ReadTsNode(node ts.TsNode) (string, error) {
