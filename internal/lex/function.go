@@ -104,7 +104,7 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
 }
 
-func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
+func (l *lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
 	function := newFunctionType()
 
 	function.Documentation = source.Origin().Documentation
@@ -112,7 +112,7 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {
-		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+		return struct{}{}, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
 	function.Overloads = annotations.overloads
@@ -121,7 +121,7 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 	err = l.lexFunctionDefinition(functionDefinition, &function)
 
 	if err != nil {
-		return fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+		return struct{}{}, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
 	for argIndex := range function.Args {
@@ -138,7 +138,5 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) error {
 		function.Args[argIndex].Documentation = annotation.Documentation
 	}
 
-	fmt.Printf("%+v", function)
-
-	return nil
+	return function, nil
 }
