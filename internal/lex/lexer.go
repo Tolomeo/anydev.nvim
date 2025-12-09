@@ -13,6 +13,7 @@ import (
 type lexer struct {
 	nvim   *nvim.Nvim
 	result *result
+	logs   *logs
 }
 
 func (l *lexer) Lex(path string) error {
@@ -30,7 +31,18 @@ func (l *lexer) Lex(path string) error {
 		return fmt.Errorf("Error lexing %s: %w", path, err)
 	}
 
-	lexResult, err := l.lex(source)
+	lexResult := newResult()
+	l.result = lexResult
+
+	logs := newLogs()
+	l.logs = logs
+
+	defer func() {
+		l.result = nil
+		l.logs = nil
+	}()
+
+	err = l.lex(source)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing %s: %w", path, err)
@@ -48,6 +60,10 @@ func (l *lexer) Lex(path string) error {
 		return fmt.Errorf("Error writing result.json: %w", err)
 	}
 
+	if err := out.WriteFile("logs.json", logs); err != nil {
+		return fmt.Errorf("Error writing logs.json: %w", err)
+	}
+
 	if err := out.WriteFile("statistics.json", crawler.Statistics()); err != nil {
 		return fmt.Errorf("Error collecting crawler statistics: %w", err)
 	}
@@ -59,6 +75,31 @@ func (l *lexer) Lex(path string) error {
 	}
 
 	return nil
+}
+
+func (l *lexer) lex(source crawl.Source) error {
+	path := source.Path()
+
+	switch v := source.(type) {
+	case *crawl.TableSource:
+		fmt.Println(v, "table")
+		return nil
+	case *crawl.FunctionSource:
+
+		runtime, err := l.lexFunction(v)
+
+		if err != nil {
+			return nil
+		}
+
+		l.result.Runtime[path] = runtime
+		return nil
+	case *crawl.VariableSource:
+		fmt.Println("variable")
+		return nil
+	}
+
+	return fmt.Errorf("Error lexing '%s' source: unknown source type", source.Path())
 }
 
 func (l *lexer) scratch(lines []string) error {
@@ -77,36 +118,6 @@ func (l *lexer) scratch(lines []string) error {
 	}
 
 	return nil
-}
-
-func (l *lexer) lex(source crawl.Source) (*result, error) {
-	lexResult := newResult()
-	l.result = lexResult
-	defer func() { l.result = nil }()
-
-	path := source.Path()
-
-	switch v := source.(type) {
-	case *crawl.TableSource:
-		fmt.Println(v, "table")
-		return nil, nil
-	case *crawl.FunctionSource:
-
-		runtime, err := l.lexFunction(v)
-
-		if err != nil {
-			return nil, nil
-		}
-
-		lexResult.Runtime[path] = runtime
-	case *crawl.VariableSource:
-		fmt.Println("variable")
-		return nil, nil
-	default:
-		return nil, fmt.Errorf("Error lexing '%s' source: unknown source type", source.Path())
-	}
-
-	return lexResult, nil
 }
 
 func NewLexer() (*lexer, error) {
