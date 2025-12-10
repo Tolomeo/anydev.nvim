@@ -5,8 +5,6 @@ import (
 	"path"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/output"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
 type Lexer struct {
@@ -24,28 +22,6 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 			return fmt.Errorf("Error lexing %s: %w", path, err)
 		}
 	}
-
-	outputDir, err := project.GetOutputDir()
-
-	if err != nil {
-		return fmt.Errorf("Error getting output location: %w", err)
-	}
-
-	out := output.NewOutput(outputDir)
-
-	if err := out.WriteFile("result.json", l.context.Result()); err != nil {
-		return fmt.Errorf("Error writing result.json: %w", err)
-	}
-
-	if err := out.WriteFile("logs.json", l.context.logger.Logs()); err != nil {
-		return fmt.Errorf("Error writing logs.json: %w", err)
-	}
-
-	/* err = l.nvim.Quit()
-
-	if err != nil {
-		return fmt.Errorf("Errot closing nvim process gracefully: %w", err)
-	} */
 
 	return nil
 }

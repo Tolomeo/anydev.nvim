@@ -7,11 +7,11 @@ import (
 	"path/filepath"
 )
 
-type output struct {
+type Output struct {
 	directory string
 }
 
-func (o *output) WriteFile(filename string, data any) error {
+func (o *Output) WriteFile(filename string, data any) error {
 	jsonData, err := json.MarshalIndent(data, "", "    ")
 
 	if err != nil {
@@ -29,8 +29,8 @@ func (o *output) WriteFile(filename string, data any) error {
 	return nil
 }
 
-func NewOutput(directory string) *output {
-	out := output{
+func NewOutput(directory string) *Output {
+	out := Output{
 		directory: directory,
 	}
 
