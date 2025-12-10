@@ -71,8 +71,8 @@ var typeFunctionQuery string = `
 	(ERROR) @error
 `
 
-func (l *lexer) lexFunctionType(function *lexed.Function) error {
-	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+func (l *Lexer) lexFunctionType(function *lexed.Function) error {
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case errors.Is(nvim.ErrTSQueryNoMatch, err):
@@ -116,8 +116,8 @@ var typeTableQuery string = `
 	(ERROR) @error
 `
 
-func (l *lexer) lexTableType(table *lexed.Table) error {
-	captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
+func (l *Lexer) lexTableType(table *lexed.Table) error {
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case errors.Is(nvim.ErrTSQueryNoMatch, err):
@@ -148,7 +148,7 @@ func (l *lexer) lexTableType(table *lexed.Table) error {
 	return nil
 }
 
-func (l *lexer) lexType(source string) (lexed.Symbol, error) {
+func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	switch source {
 	case "void":
 		return newBuiltinType(lexed.BuiltinValueVoid), nil
@@ -205,6 +205,6 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 		return tableType, nil
 	}
 
-	l.context.Warn(fmt.Sprintf("Uknown type '%s' received", source))
+	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
 }

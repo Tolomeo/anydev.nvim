@@ -22,7 +22,7 @@ var overloadAnnotationQuery string = `
 	) 
 `
 
-func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnnotations) error {
+func (l *Lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, docLine := range dockblock {
 		err := l.scratch([]string{docLine})
 
@@ -30,11 +30,11 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 			return err
 		}
 
-		captures, err := l.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+		captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 		switch {
 		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-			l.context.Warn(fmt.Sprintf("Skipping overload annotation '%s' containing syntax errors", docLine))
+			l.context.logger.Warn(fmt.Sprintf("Skipping overload annotation '%s' containing syntax errors", docLine))
 			continue
 		case errors.Is(nvim.ErrTSQueryNoMatch, err):
 			continue
@@ -104,7 +104,7 @@ var paramAnnotationQueries = map[string]string{
 	`,
 }
 
-func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
+func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, docLine := range dockblock {
 		for _, paramAnnotationQuery := range paramAnnotationQueries {
 			err := l.scratch([]string{docLine})
@@ -113,11 +113,11 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				return err
 			}
 
-			captures, err := l.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
+			captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
 			case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-				l.context.Warn(fmt.Sprintf("Skipping param annotation '%s' containing syntax errors", docLine))
+				l.context.logger.Warn(fmt.Sprintf("Skipping param annotation '%s' containing syntax errors", docLine))
 				continue
 			case errors.Is(nvim.ErrTSQueryNoMatch, err):
 				continue
@@ -158,7 +158,7 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 	return nil
 }
 
-func (l *lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotations := lexedAnnotations{
 		params: make(map[string]lexed.FunctionArg),
 	}

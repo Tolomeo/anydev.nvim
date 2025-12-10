@@ -3,14 +3,14 @@ package log
 type logLevel string
 
 const (
-	Info logLevel = "info"
-	Warn logLevel = "warn"
+	Info  logLevel = "info"
+	Warn  logLevel = "warn"
 	Error logLevel = "error"
 )
 
 type log struct {
-	Level  logLevel `json:"level" yaml:"level"`
-	Message string `json:"message" yaml:"message"`
+	Level   logLevel `json:"level" yaml:"level"`
+	Message string   `json:"message" yaml:"message"`
 }
 
 type Logs map[string][]log
@@ -41,13 +41,25 @@ func (l *Logger) Log(newLog log) {
 	logsMap[l.key] = append(logsMap[l.key], newLog)
 }
 
+func (l *Logger) Info(message string) {
+	l.Log(log{Level: Info, Message: message})
+}
+
+func (l *Logger) Warn(message string) {
+	l.Log(log{Level: Warn, Message: message})
+}
+
+func (l *Logger) Error(message string) {
+	l.Log(log{Level: Error, Message: message})
+}
+
 func (l *Logger) Logs() *Logs {
 	return l.logs
 }
 
 func NewLog(level logLevel, message string) log {
 	return log{
-		Level: level,
+		Level:   level,
 		Message: message,
 	}
 }
@@ -56,7 +68,7 @@ func NewLogger(key string) *Logger {
 	logs := Logs{}
 
 	return &Logger{
-		key: key,
+		key:  key,
 		logs: &logs,
 	}
 }

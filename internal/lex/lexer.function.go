@@ -4,10 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	// "github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 var (
@@ -70,11 +69,11 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lexed.Function) error {
+func (l *Lexer) lexFunctionDefinition(functionDefinition []string, function *lexed.Function) error {
 	l.scratch(functionDefinition)
 
 	for _, query := range functionQueries {
-		captures, err := l.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
 		case errors.Is(nvim.ErrTSQueryNoMatch, err):
@@ -104,7 +103,7 @@ func (l *lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
 }
 
-func (l *lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
+func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
 	function := newFunctionType()
 
 	function.Documentation = source.Origin().Documentation
@@ -129,7 +128,7 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 		annotation, hasAnnotation := annotations.params[name]
 
 		if !hasAnnotation {
-			l.context.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
+			l.context.logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
 
 			continue
 		}

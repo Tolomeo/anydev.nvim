@@ -3,7 +3,9 @@ package lex
 import (
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
@@ -12,20 +14,15 @@ type result struct {
 	Types   map[string]lexed.Symbol `json:"types" yaml:"types"`
 }
 
-func newResult() *result {
-	return &result{
-		Runtime: map[string]lexed.Symbol{},
-		Types:   map[string]lexed.Symbol{},
-	}
-}
-
 type lexingContext struct {
-	path   []string
-	result *result
-	logger *log.Logger
+	path    []string
+	nvim    *nvim.Nvim
+	crawler *crawl.Crawler
+	result  *result
+	logger  *log.Logger
 }
 
-func (l *lexingContext) Provide(path string, procedure func(path string) error) error {
+func (l *lexingContext) provide(path string, procedure func(path string) error) error {
 	l.push(path)
 	defer l.pop()
 
@@ -44,29 +41,18 @@ func (l *lexingContext) pop() {
 	}
 }
 
-func (l *lexingContext) Info(message string) {
-	l.logger.Log(log.NewLog(log.Info, message))
-}
-
-func (l *lexingContext) Warn(message string) {
-	l.logger.Log(log.NewLog(log.Warn, message))
-}
-
-func (l *lexingContext) Error(message string) {
-	l.logger.Log(log.NewLog(log.Error, message))
-}
-
-func (l *lexingContext) Logs() *log.Logs {
-	return l.logger.Logs()
-}
-
 func (l *lexingContext) Result() *result {
 	return l.result
 }
 
-func newLexingContext() *lexingContext {
+func NewLexingContext(logger *log.Logger, client *nvim.Nvim, crawler *crawl.Crawler) *lexingContext {
 	return &lexingContext{
-		result: newResult(),
-		logger: log.NewLogger("_"),
+		nvim:    client,
+		crawler: crawler,
+		logger:  logger,
+		result: &result{
+			Runtime: map[string]lexed.Symbol{},
+			Types:   map[string]lexed.Symbol{},
+		},
 	}
 }

@@ -4,30 +4,21 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type lexer struct {
-	nvim    *nvim.Nvim
+type Lexer struct {
 	context *lexingContext
-	crawler *crawl.Crawler
 }
 
-func (l *lexer) Lex(paths ...string) error {
-	l.context = newLexingContext()
+func (l *Lexer) Lex(paths []string, context *lexingContext) error {
+	l.context = context
 	defer func() { l.context = nil }()
 
-	l.crawler = crawl.NewCrawler(crawl.CrawlerOptions{
-		Nvim: l.nvim,
-		Log:  l.context.Info,
-	})
-	defer func() { l.crawler = nil }()
-
 	for _, path := range paths {
-		err := l.context.Provide(path, l.lex)
+		err := l.context.provide(path, l.lex)
 
 		if err != nil {
 			return fmt.Errorf("Error lexing %s: %w", path, err)
@@ -46,23 +37,23 @@ func (l *lexer) Lex(paths ...string) error {
 		return fmt.Errorf("Error writing result.json: %w", err)
 	}
 
-	if err := out.WriteFile("logs.json", l.context.Logs()); err != nil {
+	if err := out.WriteFile("logs.json", l.context.logger.Logs()); err != nil {
 		return fmt.Errorf("Error writing logs.json: %w", err)
 	}
 
-	err = l.nvim.Quit()
+	/* err = l.nvim.Quit()
 
 	if err != nil {
 		return fmt.Errorf("Errot closing nvim process gracefully: %w", err)
-	}
+	} */
 
 	return nil
 }
 
-func (l *lexer) lex(path string) error {
+func (l *Lexer) lex(path string) error {
 	l.context.Result().Runtime[path] = struct{}{}
 
-	source, err := l.crawler.CrawlRuntime(path)
+	source, err := l.context.crawler.CrawlRuntime(path)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing %s: %w", path, err)
@@ -91,16 +82,16 @@ func (l *lexer) lex(path string) error {
 	return nil
 }
 
-func (l *lexer) scratch(lines []string) error {
-	buffer := path.Join(l.nvim.Options().Config().Dir(), "anydev.extractor.lua")
+func (l *Lexer) scratch(lines []string) error {
+	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.extractor.lua")
 
-	_, err := l.nvim.Open(buffer)
+	_, err := l.context.nvim.Open(buffer)
 
 	if err != nil {
 		return err
 	}
 
-	err = l.nvim.SetBufferLines(lines)
+	err = l.context.nvim.SetBufferLines(lines)
 
 	if err != nil {
 		return err
@@ -109,26 +100,6 @@ func (l *lexer) scratch(lines []string) error {
 	return nil
 }
 
-func NewLexer() (*lexer, error) {
-	nvimConfigDir, err := project.GetConfigDir()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error getting nvim config location: %w", err)
-	}
-
-	client, err := nvim.New(nvim.NewConfig(nvimConfigDir))
-
-	if err != nil {
-		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
-	}
-
-	err = client.Start()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error starting nvim client: %w", err)
-	}
-
-	return &lexer{
-		nvim: client,
-	}, nil
+func NewLexer() *Lexer {
+	return &Lexer{}
 }
