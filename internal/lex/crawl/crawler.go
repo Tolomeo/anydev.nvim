@@ -10,13 +10,11 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type Crawler struct {
-	nvim  *nvim.Nvim
-	stats *statistics
-}
+type logProvider func(message string)
 
-func (c *Crawler) Statistics() statistics {
-	return *c.stats
+type Crawler struct {
+	nvim *nvim.Nvim
+	log  logProvider
 }
 
 func (c *Crawler) scratch(lines []string) error {
@@ -120,7 +118,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 
 	switch {
 	case errors.Is(err, nvim.ErrDefinitionLocationNotFound):
-		c.stats.Report(path, c.stats.MissingLocation(), c.stats.MissingOrigin(), c.stats.MissingDocumentation())
+		c.log(fmt.Sprintf("Location not found for '%s' symbol path", path))
 		return nil, nil
 	case err != nil:
 		return nil, err
@@ -156,7 +154,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	case err != nil:
 		return nil, err
 	case locationIndex == -1:
-		c.stats.Report(path, c.stats.MissingOrigin(), c.stats.MissingDocumentation())
+		c.log(fmt.Sprintf("Origin not found for '%s' symbol path", path))
 		return nil, nil
 	}
 
@@ -168,10 +166,9 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	}
 	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
 
-
 	switch {
 	case errors.Is(err, nvim.ErrTsNodeNotFound):
-		c.stats.Report(path, c.stats.MissingDocumentation())
+		c.log(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
 		return &orig, nil
 	case err != nil:
 		return &orig, err
@@ -249,10 +246,15 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 	return nil
 } */
 
-func NewCrawler(nvim *nvim.Nvim) *Crawler {
+type CrawlerOptions struct {
+	Nvim *nvim.Nvim
+	Log  logProvider
+}
+
+func NewCrawler(options CrawlerOptions) *Crawler {
 	instance := Crawler{
-		nvim:  nvim,
-		stats: NewStatistics(),
+		nvim: options.Nvim,
+		log:  options.Log,
 	}
 
 	return &instance

@@ -34,8 +34,7 @@ func (l *lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 
 		switch {
 		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-			// TODO: TRACE
-			fmt.Printf("Skipping overload annotation '%s' containing syntax errors\n", docLine)
+			l.context.Warn(fmt.Sprintf("Skipping overload annotation '%s' containing syntax errors", docLine))
 			continue
 		case errors.Is(nvim.ErrTSQueryNoMatch, err):
 			continue
@@ -118,8 +117,7 @@ func (l *lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 
 			switch {
 			case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-				// TODO: TRACE
-				fmt.Printf("Skipping param annotation '%s' containing syntax errors\n", docLine)
+				l.context.Warn(fmt.Sprintf("Skipping param annotation '%s' containing syntax errors", docLine))
 				continue
 			case errors.Is(nvim.ErrTSQueryNoMatch, err):
 				continue

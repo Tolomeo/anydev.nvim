@@ -129,7 +129,8 @@ func (l *lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 		annotation, hasAnnotation := annotations.params[name]
 
 		if !hasAnnotation {
-			//TODO: trace not found param annotation
+			l.context.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
+
 			continue
 		}
 

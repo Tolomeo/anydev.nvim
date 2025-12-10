@@ -6,7 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 )
 
-const path string = "vim.validate"
+const path string = "vim.deepcopy"
 
 func main() {
 	extractor, err := lex.NewLexer()

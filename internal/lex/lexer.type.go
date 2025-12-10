@@ -205,5 +205,6 @@ func (l *lexer) lexType(source string) (lexed.Symbol, error) {
 		return tableType, nil
 	}
 
+	l.context.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
 }

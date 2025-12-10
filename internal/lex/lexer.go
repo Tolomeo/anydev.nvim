@@ -5,58 +5,33 @@ import (
 	"path"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
-type lexingContext struct {
-	result  *result
-	logs    *logs
-}
-
 type lexer struct {
 	nvim    *nvim.Nvim
 	context *lexingContext
+	crawler *crawl.Crawler
 }
 
 func (l *lexer) Lex(paths ...string) error {
-	err := l.nvim.Start()
+	l.context = newLexingContext()
+	defer func() { l.context = nil }()
 
-	if err != nil {
-		return fmt.Errorf("Error opening nvim: %w", err)
-	}
-
-	lexingContext := lexingContext{
-		result: newResult(),
-		logs:    newLogs(),
-	}
-
-	l.context = &lexingContext
-
-	defer func() {
-		l.context = nil
-	}()
+	l.crawler = crawl.NewCrawler(crawl.CrawlerOptions{
+		Nvim: l.nvim,
+		Log:  l.context.Info,
+	})
+	defer func() { l.crawler = nil }()
 
 	for _, path := range paths {
-		lexingContext.result.Runtime[path] = struct{}{}
-
-		crawler := crawl.NewCrawler(l.nvim)
-
-		source, err := crawler.CrawlRuntime(path)
+		err := l.context.Provide(path, l.lex)
 
 		if err != nil {
 			return fmt.Errorf("Error lexing %s: %w", path, err)
 		}
-
-		lexedSource, err := l.lex(source)
-
-		if err != nil {
-			return fmt.Errorf("Error lexing %s: %w", path, err)
-		}
-
-		lexingContext.result.Runtime[path] = lexedSource
 	}
 
 	outputDir, err := project.GetOutputDir()
@@ -67,11 +42,11 @@ func (l *lexer) Lex(paths ...string) error {
 
 	out := output.NewOutput(outputDir)
 
-	if err := out.WriteFile("result.json", lexingContext.result); err != nil {
+	if err := out.WriteFile("result.json", l.context.Result()); err != nil {
 		return fmt.Errorf("Error writing result.json: %w", err)
 	}
 
-	if err := out.WriteFile("logs.json", lexingContext.logs); err != nil {
+	if err := out.WriteFile("logs.json", l.context.Logs()); err != nil {
 		return fmt.Errorf("Error writing logs.json: %w", err)
 	}
 
@@ -84,25 +59,36 @@ func (l *lexer) Lex(paths ...string) error {
 	return nil
 }
 
-func (l *lexer) lex(source crawl.Source) (*lexed.Symbol, error) {
+func (l *lexer) lex(path string) error {
+	l.context.Result().Runtime[path] = struct{}{}
+
+	source, err := l.crawler.CrawlRuntime(path)
+
+	if err != nil {
+		return fmt.Errorf("Error lexing %s: %w", path, err)
+	}
+
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
-		return nil, nil
+		l.context.Result().Runtime[path] = struct{}{}
 	case *crawl.FunctionSource:
 		lexedFunction, err := l.lexFunction(v)
 
 		if err != nil {
-			return nil, err
+			return err
 		}
 
-		return &lexedFunction, nil
+		l.context.Result().Runtime[path] = lexedFunction
+		return nil
 	case *crawl.VariableSource:
 		fmt.Println("variable")
-		return nil, nil
+		l.context.Result().Runtime[path] = struct{}{}
+	default:
+		return fmt.Errorf("Error lexing '%s' source: unknown source type", path)
 	}
 
-	return nil, fmt.Errorf("Error lexing '%s' source: unknown source type", source.Path())
+	return nil
 }
 
 func (l *lexer) scratch(lines []string) error {
@@ -134,6 +120,12 @@ func NewLexer() (*lexer, error) {
 
 	if err != nil {
 		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
+	}
+
+	err = client.Start()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error starting nvim client: %w", err)
 	}
 
 	return &lexer{
