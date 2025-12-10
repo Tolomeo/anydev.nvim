@@ -27,6 +27,10 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 }
 
 func (l *Lexer) lex(path string) error {
+	if _, exists := l.context.result.Runtime[path]; exists {
+		return fmt.Errorf("Error lexing '%s': path already found", path)
+	}
+
 	l.context.Result().Runtime[path] = struct{}{}
 
 	source, err := l.context.crawler.CrawlRuntime(path)
@@ -38,7 +42,7 @@ func (l *Lexer) lex(path string) error {
 	switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
-		l.context.Result().Runtime[path] = struct{}{}
+		l.context.result.Runtime[path] = struct{}{}
 	case *crawl.FunctionSource:
 		lexedFunction, err := l.lexFunction(v)
 
@@ -50,7 +54,7 @@ func (l *Lexer) lex(path string) error {
 		return nil
 	case *crawl.VariableSource:
 		fmt.Println("variable")
-		l.context.Result().Runtime[path] = struct{}{}
+		l.context.result.Runtime[path] = struct{}{}
 	default:
 		return fmt.Errorf("Error lexing '%s' source: unknown source type", path)
 	}
@@ -59,7 +63,7 @@ func (l *Lexer) lex(path string) error {
 }
 
 func (l *Lexer) scratch(lines []string) error {
-	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.extractor.lua")
+	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
 
 	_, err := l.context.nvim.Open(buffer)
 
