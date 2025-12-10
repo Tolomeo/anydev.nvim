@@ -6,11 +6,13 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type lexedAnnotations struct {
 	params    map[string]lexed.FunctionArg
 	overloads []lexed.FunctionOverload
+	generics  []lexed.FunctionGeneric
 }
 
 var overloadAnnotationQuery string = `
@@ -74,6 +76,58 @@ func (l *Lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 	return nil
 }
 
+var genericAnnotationQuery string = `
+	(documentation 
+		(generic_annotation
+			(identifier) @generic.name
+			parent_type: (builtin_type)? @generic.type
+		) @generic
+	)
+`
+
+func (l *Lexer) lexGenericAnnotations(dockblock []string, annotations *lexedAnnotations) error {
+	for _, docLine := range dockblock {
+		err := l.scratch([]string{docLine})
+
+		captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
+
+		switch {
+		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
+			l.context.logger.Warn(fmt.Sprintf("Skipping generic annotation '%s' containing syntax errors", docLine))
+			continue
+		case errors.Is(nvim.ErrTSQueryNoMatch, err):
+			continue
+		case err != nil:
+			return err
+		}
+
+		lexedGeneric := lexed.FunctionGeneric{}
+
+		for _, capture := range captures {
+			switch capture.Id {
+			case "generic.name":
+				lexedGeneric.Name = capture.Node.Text
+			case "generic.type":
+				genericType, err := l.lexType(capture.Node.Text)
+
+				if err != nil {
+					return err
+				}
+
+				lexedGeneric.Types = append(lexedGeneric.Types, genericType)
+			}
+		}
+
+		if lexedGeneric.Name == "" {
+			return fmt.Errorf("Could not retrieve generic name for generic annotation '%s'", docLine)
+		}
+
+		annotations.generics = append(annotations.generics, lexedGeneric)
+	}
+
+	return nil
+}
+
 var paramAnnotationQueries = map[string]string{
 	"arg": `
 		(documentation
@@ -81,9 +135,10 @@ var paramAnnotationQueries = map[string]string{
 				(identifier) @name
 				"?"? @optional
 				[
-				 (builtin_type)
-				 (function_type)
-				 (member_type)
+					(identifier)
+					(builtin_type)
+					(function_type)
+					(member_type)
 				] @type
 				(comment)? @documentation
 			)
@@ -94,9 +149,10 @@ var paramAnnotationQueries = map[string]string{
 			(param_annotation 
 				"..." @name
 				[
-				 (builtin_type)
-				 (function_type)
-				 (member_type)
+					(identifier)
+					(builtin_type)
+					(function_type)
+					(member_type)
 				] @type
 				(comment)? @documentation
 			)
@@ -106,12 +162,14 @@ var paramAnnotationQueries = map[string]string{
 
 func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, docLine := range dockblock {
-		for _, paramAnnotationQuery := range paramAnnotationQueries {
-			err := l.scratch([]string{docLine})
 
-			if err != nil {
-				return err
-			}
+		err := l.scratch([]string{docLine})
+
+		if err != nil {
+			return err
+		}
+
+		for _, paramAnnotationQuery := range paramAnnotationQueries {
 
 			captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
@@ -136,6 +194,13 @@ func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 				case "documentation":
 					lexedParam.Documentation = []string{capture.Node.Text}
 				case "type":
+					if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+						return generic.Name == capture.Node.Text
+					}); isGeneric {
+						lexedParam.Type = newReferenceType(generic.Name)
+						continue
+					}
+
 					lexedParamType, err := l.lexType(capture.Node.Text)
 
 					if err != nil {
@@ -160,10 +225,19 @@ func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotations := lexedAnnotations{
-		params: make(map[string]lexed.FunctionArg),
+		params:   make(map[string]lexed.FunctionArg),
+		generics: []lexed.FunctionGeneric{},
 	}
 
-	err := l.lexParamAnnotations(dockblock, &annotations)
+	// The order matters: generics need to be lexed first because other annotations rely on them
+
+	err := l.lexGenericAnnotations(dockblock, &annotations)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing annotations: %w", err)
+	}
+
+	err = l.lexParamAnnotations(dockblock, &annotations)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing annotations: %w", err)

@@ -85,8 +85,10 @@ type FunctionGeneric struct {
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Types corresponds to the JSON schema field "types".
-	Types []string `json:"types" yaml:"types" mapstructure:"types"`
+	Types []FunctionGenericTypesElem `json:"types" yaml:"types" mapstructure:"types"`
 }
+
+type FunctionGenericTypesElem interface{}
 
 type FunctionKind string
 

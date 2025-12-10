@@ -105,7 +105,6 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 
 func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
 	function := newFunctionType()
-
 	function.Documentation = source.Origin().Documentation
 
 	annotations, err := l.lexAnnotations(function.Documentation)
@@ -115,6 +114,7 @@ func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 	}
 
 	function.Overloads = annotations.overloads
+	function.Generics = annotations.generics
 
 	functionDefinition := source.Origin().Definition
 	err = l.lexFunctionDefinition(functionDefinition, &function)
@@ -129,7 +129,6 @@ func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 
 		if !hasAnnotation {
 			l.context.logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
-
 			continue
 		}
 

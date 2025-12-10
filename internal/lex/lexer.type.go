@@ -8,14 +8,12 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-/*
-	 func newReferenceType(value string) lexed.Reference {
-		return lexed.Reference{
-			Type:  "reference",
-			Value: value,
-		}
+func newReferenceType(value string) lexed.Reference {
+	return lexed.Reference{
+		Kind:  lexed.ReferenceKindReference,
+		Value: value,
 	}
-*/
+}
 
 func newFunctionType() lexed.Function {
 	return lexed.Function{
