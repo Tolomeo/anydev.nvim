@@ -3,9 +3,11 @@ package lex
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
@@ -15,14 +17,33 @@ type lexedAnnotations struct {
 	generics  []lexed.FunctionGeneric
 }
 
-var overloadAnnotationQuery string = `
+var typeQueries = map[string]string{
+	"builtin_type":         "(builtin_type)",
+	"identifier":           "(identifier)",
+	"array_type":           "(array_type)",
+	"table_type":           "(table_type)",
+	"table_literal_type":   "(table_literal_type)",
+	"union_type":           "(union_type)",
+	"parenthesized_type":   "(parenthesized_type)",
+	"tuple_type":           "(tuple_type)",
+	"function_type":        "(function_type)",
+	"member_type":          "(member_type)",
+	"optional_type":        "(optional_type)",
+	"literal_type":         "(literal_type)",
+	"numeric_literal_type": "(numeric_literal_type)",
+	"custom_type":          "(custom_type)",
+}
+
+var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
+
+var overloadAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
 		(overload_annotation 
-			(function_type) @type 
+			%s @type 
 			(comment)? @documentation
 		) @overload
 	) 
-`
+`, typeQueries["function_type"])
 
 func (l *Lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, docLine := range dockblock {
@@ -76,14 +97,15 @@ func (l *Lexer) lexOverloadAnnotations(dockblock []string, annotations *lexedAnn
 	return nil
 }
 
-var genericAnnotationQuery string = `
+var genericAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
 		(generic_annotation
 			(identifier) @generic.name
-			parent_type: (builtin_type)? @generic.type
+			parent_type: 
+				%s? @generic.type
 		) @generic
 	)
-`
+`, anyTypeQuery)
 
 func (l *Lexer) lexGenericAnnotations(dockblock []string, annotations *lexedAnnotations) error {
 	for _, docLine := range dockblock {
@@ -129,35 +151,25 @@ func (l *Lexer) lexGenericAnnotations(dockblock []string, annotations *lexedAnno
 }
 
 var paramAnnotationQueries = map[string]string{
-	"arg": `
+	"arg": fmt.Sprintf(`
 		(documentation
 			(param_annotation
 				(identifier) @name
 				"?"? @optional
-				[
-					(identifier)
-					(builtin_type)
-					(function_type)
-					(member_type)
-				] @type
+				%s @type
 				(comment)? @documentation
 			)
 		)
-	`,
-	"vararg": `
+	`, anyTypeQuery),
+	"vararg": fmt.Sprintf(`
 		(documentation
 			(param_annotation 
 				"..." @name
-				[
-					(identifier)
-					(builtin_type)
-					(function_type)
-					(member_type)
-				] @type
+				%s @type
 				(comment)? @documentation
 			)
 		)
-	`,
+	`, anyTypeQuery),
 }
 
 func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnotations) error {
@@ -170,7 +182,6 @@ func (l *Lexer) lexParamAnnotations(dockblock []string, annotations *lexedAnnota
 		}
 
 		for _, paramAnnotationQuery := range paramAnnotationQueries {
-
 			captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
