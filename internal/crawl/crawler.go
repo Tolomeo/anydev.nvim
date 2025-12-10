@@ -10,23 +10,26 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type logProvider func(message string)
+type logger interface {
+	Info(message string)
+	Warn(message string)
+	Error(message string)
+}
 
 type Crawler struct {
-	nvim *nvim.Nvim
-	log  logProvider
+	config *CrawlerConfig
 }
 
 func (c *Crawler) scratch(lines []string) error {
-	buffer := path.Join(c.nvim.Options().Config().Dir(), "anydev.crawler.lua")
+	buffer := path.Join(c.config.nvim.Options().Config().Dir(), "anydev.crawler.lua")
 
-	_, err := c.nvim.Open(buffer)
+	_, err := c.config.nvim.Open(buffer)
 
 	if err != nil {
 		return err
 	}
 
-	err = c.nvim.SetBufferLines(lines)
+	err = c.config.nvim.SetBufferLines(lines)
 
 	if err != nil {
 		return err
@@ -46,7 +49,7 @@ func (c *Crawler) CrawlRuntime(path string) (Source, error) {
 }
 
 func (c *Crawler) getRuntimeSource(path string) (Source, error) {
-	luaType, err := c.nvim.GetLuaTypeName(path)
+	luaType, err := c.config.nvim.GetLuaTypeName(path)
 
 	if err != nil {
 		return nil, err
@@ -65,7 +68,7 @@ func (c *Crawler) getRuntimeSource(path string) (Source, error) {
 			origin: tableOrigin,
 		}
 
-		fields, err := c.nvim.GetCompletion(path)
+		fields, err := c.config.nvim.GetCompletion(path)
 
 		if err != nil {
 			return nil, err
@@ -118,14 +121,14 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 
 	switch {
 	case errors.Is(err, nvim.ErrDefinitionLocationNotFound):
-		c.log(fmt.Sprintf("Location not found for '%s' symbol path", path))
+		c.config.logger.Warn(fmt.Sprintf("Location not found for '%s' symbol path", path))
 		return nil, nil
 	case err != nil:
 		return nil, err
 	}
 
 	locationIndex, err := slicesx.IndexFunc(locations, func(location nvim.Location) (bool, error) {
-		_, err = c.nvim.Open(location.Url)
+		_, err = c.config.nvim.Open(location.Url)
 
 		if err != nil {
 			return false, err
@@ -135,7 +138,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 			Line:      uint(location.TargetRange.Start.Line),
 			Character: uint(location.TargetRange.Start.Character),
 		}
-		definitionLines, err := c.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
+		definitionLines, err := c.config.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
 
 		switch {
 		case errors.Is(err, nvim.ErrTsNodeNotFound):
@@ -154,7 +157,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	case err != nil:
 		return nil, err
 	case locationIndex == -1:
-		c.log(fmt.Sprintf("Origin not found for '%s' symbol path", path))
+		c.config.logger.Warn(fmt.Sprintf("Origin not found for '%s' symbol path", path))
 		return nil, nil
 	}
 
@@ -164,11 +167,11 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 		Line:      uint(max(0, functionLocation.TargetRange.Start.Line-1)),
 		Character: uint(functionLocation.TargetRange.Start.Character),
 	}
-	documentationBufferLines, err := c.nvim.ReadCommentBlockAt(documentationPosition)
+	documentationBufferLines, err := c.config.nvim.ReadCommentBlockAt(documentationPosition)
 
 	switch {
 	case errors.Is(err, nvim.ErrTsNodeNotFound):
-		c.log(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
+		c.config.logger.Warn(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
 		return &orig, nil
 	case err != nil:
 		return &orig, err
@@ -190,7 +193,7 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 
 	line, character := uint(0), uint(len(lines[0]))
 
-	locations, err := c.nvim.GetDefinitionLocation(line, character)
+	locations, err := c.config.nvim.GetDefinitionLocation(line, character)
 
 	if err != nil {
 		return []nvim.Location{}, err
@@ -199,63 +202,20 @@ func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 	return locations, nil
 }
 
-/* func (c *crawler) Debug(path string, subpath string) error {
-	statement := "local ref = " + path + "." + subpath
-
-	err := c.nvim.SetBufferLines([]string{
-		statement,
-	})
-
-	if err != nil {
-		return err
-	}
-
-	lines, err := c.nvim.GetBufferLines()
-
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(lines)
-
-	documentSymbols, err := c.nvim.GetLSPDocumentSymbols()
-
-	if err != nil {
-		return err
-	}
-
-	documentSymbol, ok := slicesx.FindFunc(documentSymbols.Result, func(s lsp.DocumentSymbol) bool {
-		return s.Name == "ref"
-	})
-
-	if !ok {
-		return fmt.Errorf("Error retrieving ref from document symbols: %+v", documentSymbols)
-	}
-
-	fmt.Println("Hover")
-	c.nvim.GetLSPHover(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Declaration")
-	c.nvim.GetLSPDeclaration(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Definition")
-	c.nvim.GetLSPDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("TypeDefinition")
-	c.nvim.GetLSPTypeDefinition(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-	fmt.Println("Implementation")
-	c.nvim.GetLSPImplementation(uint(documentSymbol.Range.End.Line), uint(documentSymbol.Range.End.Character))
-
-	return nil
-} */
-
-type CrawlerOptions struct {
-	Nvim *nvim.Nvim
-	Log  logProvider
+type CrawlerConfig struct {
+	nvim   *nvim.Nvim
+	logger logger
 }
 
-func NewCrawler(options CrawlerOptions) *Crawler {
-	instance := Crawler{
-		nvim: options.Nvim,
-		log:  options.Log,
+func NewCrawlerConfig(logger logger, nvim *nvim.Nvim) *CrawlerConfig {
+	return &CrawlerConfig{
+		logger: logger,
+		nvim:   nvim,
 	}
+}
 
-	return &instance
+func NewCrawler(config *CrawlerConfig) *Crawler {
+	return &Crawler{
+		config: config,
+	}
 }

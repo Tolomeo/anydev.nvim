@@ -33,21 +33,6 @@ func getClient() (*nvim.Nvim, error) {
 	return client, nil
 }
 
-func getLogger() *log.Logger {
-	return log.NewLogger("")
-}
-
-func getCrawler(client *nvim.Nvim) *crawl.Crawler {
-	return crawl.NewCrawler(crawl.CrawlerOptions{
-		Nvim: client,
-		Log:  func(message string) {},
-	})
-}
-
-func getLexer() *lex.Lexer {
-	return lex.NewLexer()
-}
-
 func getOutput() (*output.Output, error) {
 	outputDir, err := project.GetOutputDir()
 
@@ -69,11 +54,13 @@ func main() {
 		panic(err)
 	}
 
-	logger := getLogger()
-	crawler := getCrawler(client)
-	lexer := getLexer()
-	lexConfig := lex.NewLexingContext(logger, client, crawler)
+	logger := log.NewLogger("")
 
+	crawlerConfig := crawl.NewCrawlerConfig(logger, client)
+	crawler := crawl.NewCrawler(crawlerConfig)
+
+	lexConfig := lex.NewLexingContext(logger, client, crawler)
+	lexer := lex.NewLexer()
 	err = lexer.Lex(paths, lexConfig)
 
 	if err != nil {

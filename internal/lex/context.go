@@ -6,7 +6,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
 type result struct {
@@ -14,12 +13,19 @@ type result struct {
 	Types   map[string]lexed.Symbol `json:"types" yaml:"types"`
 }
 
+type logger interface {
+	SetKey(key string)
+	Info (message string);
+	Warn (message string);
+	Error (message string);
+}
+
 type lexingContext struct {
 	path    []string
 	nvim    *nvim.Nvim
 	crawler *crawl.Crawler
 	result  *result
-	logger  *log.Logger
+	logger  logger
 }
 
 func (l *lexingContext) provide(path string, procedure func(path string) error) error {
@@ -45,7 +51,7 @@ func (l *lexingContext) Result() *result {
 	return l.result
 }
 
-func NewLexingContext(logger *log.Logger, client *nvim.Nvim, crawler *crawl.Crawler) *lexingContext {
+func NewLexingContext(logger logger, client *nvim.Nvim, crawler *crawl.Crawler) *lexingContext {
 	return &lexingContext{
 		nvim:    client,
 		crawler: crawler,
