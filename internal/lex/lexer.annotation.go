@@ -16,6 +16,7 @@ type lexedAnnotations struct {
 	params    map[string]lexed.FunctionArg
 	overloads []lexed.FunctionOverload
 	generics  []lexed.FunctionGeneric
+	returns   []lexed.FunctionReturn
 }
 
 var typeQueries = map[string]string{
@@ -217,10 +218,17 @@ func (l *Lexer) lexParamAnnotation(docLine string, annotations *lexedAnnotations
 	return true, nil
 }
 
-var annotationQuery string = `(documentation) @annotation`
+var returnAnnotationQuery string = fmt.Sprintf(`
+	(documentation
+		(return_annotation
+			%s @return.type
+			(comment)? @return.documentation
+		) @return
+	)
+`, anyTypeQuery)
 
-func (l *Lexer) isAnnotation() (bool, error) {
-	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
+func (l *Lexer) lexReturnAnnotation(_ string, annotations *lexedAnnotations) (bool, error) {
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
 
 	switch {
 	case errors.Is(nvim.ErrTSQueryNoMatch, err):
@@ -229,8 +237,38 @@ func (l *Lexer) isAnnotation() (bool, error) {
 		return false, err
 	}
 
+	lexedFunctionReturn := lexed.FunctionReturn{}
+
+	for _, capture := range captures {
+		switch capture.Id {
+		case "return.name":
+			lexedFunctionReturn.Name = &capture.Node.Text
+		case "return.documentation":
+			lexedFunctionReturn.Documentation = []string{capture.Node.Text}
+		case "return.type":
+			if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+				return generic.Name == capture.Node.Text
+			}); isGeneric {
+				lexedFunctionReturn.Type = newReferenceType(generic.Name)
+				continue
+			}
+
+			lexedReturnType, err := l.lexType(capture.Node.Text)
+
+			if err != nil {
+				return false, err
+			}
+
+			lexedFunctionReturn.Type = lexedReturnType
+		}
+	}
+
+	annotations.returns = append(annotations.returns, lexedFunctionReturn)
+
 	return true, nil
 }
+
+var annotationQuery string = `(documentation) @annotation`
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotationLines, err := slicesx.FilterFunc(dockblock, func(docLine string) (bool, error) {
@@ -239,7 +277,6 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		if err != nil {
 			return false, err
 		}
-
 		_, err = l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
 
 		switch {
@@ -260,8 +297,10 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	}
 
 	annotations := lexedAnnotations{
-		params:   make(map[string]lexed.FunctionArg),
-		generics: []lexed.FunctionGeneric{},
+		params:    make(map[string]lexed.FunctionArg),
+		generics:  []lexed.FunctionGeneric{},
+		overloads: []lexed.FunctionOverload{},
+		returns:   []lexed.FunctionReturn{},
 	}
 
 	// Generics are lexed ahead of other annotations, which could make use of them
@@ -304,6 +343,14 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 			continue
 		}
 
+		matched, err = l.lexReturnAnnotation(annotationLine, &annotations)
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error lexing return annotation: %w", err)
+		case matched:
+			continue
+		}
 	}
 
 	return &annotations, nil

@@ -115,6 +115,7 @@ func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 
 	function.Overloads = annotations.overloads
 	function.Generics = annotations.generics
+	function.Return = annotations.returns
 
 	functionDefinition := source.Origin().Definition
 	err = l.lexFunctionDefinition(functionDefinition, &function)

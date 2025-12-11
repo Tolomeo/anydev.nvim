@@ -109,12 +109,17 @@ type FunctionOverload struct {
 }
 
 type FunctionReturn struct {
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type string `json:"type" yaml:"type" mapstructure:"type"`
+	Type FunctionReturnType `json:"type" yaml:"type" mapstructure:"type"`
 }
+
+type FunctionReturnType interface{}
 
 type Reference struct {
 	// Kind corresponds to the JSON schema field "kind".
