@@ -226,6 +226,21 @@ func (l *Lexer) lexParamAnnotation(docLine string, annotations *lexedAnnotations
 	return true, nil
 }
 
+var annotationQuery string = `(documentation) @annotation`
+
+func (l *Lexer) isAnnotation() (bool, error) {
+	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
+
+	switch {
+	case errors.Is(nvim.ErrTSQueryNoMatch, err):
+		return false, nil
+	case err != nil:
+		return false, err
+	}
+
+	return true, nil
+}
+
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	annotations := lexedAnnotations{
 		params:   make(map[string]lexed.FunctionArg),
@@ -240,6 +255,15 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 			return nil, err
 		}
 
+		isAnnotation, err := l.isAnnotation()
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error finding annotations in '%s' docblock line: %w", docLine, err)
+		case !isAnnotation:
+			continue
+		}
+
 		_, err = l.lexGenericAnnotation(docLine, &annotations)
 
 		if err != nil {
@@ -252,6 +276,15 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 
 		if err != nil {
 			return nil, err
+		}
+
+		isAnnotation, err := l.isAnnotation()
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error finding annotations in '%s' docblock line: %w", docLine, err)
+		case !isAnnotation:
+			continue
 		}
 
 		matched, err := l.lexParamAnnotation(docLine, &annotations)
@@ -273,8 +306,6 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		}
 
 	}
-
-	fmt.Printf("%+v\n", annotations)
 
 	return &annotations, nil
 }
