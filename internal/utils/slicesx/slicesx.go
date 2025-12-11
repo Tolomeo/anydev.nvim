@@ -1,5 +1,23 @@
 package slicesx
 
+func FilterFunc[T any](s []T, f func(T) (bool, error)) ([]T, error) {
+	st := []T{}
+
+	for _, sv := range s {
+		ok, err := f(sv)
+
+		if err != nil {
+			return st, err
+		}
+
+		if ok {
+			st = append(st, sv)
+		}
+	}
+
+	return st, nil
+}
+
 func FindFunc[T any](s []T, f func(T) bool) (T, bool) {
 	var zero T
 	for _, v := range s {

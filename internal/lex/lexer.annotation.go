@@ -46,13 +46,10 @@ var overloadAnnotationQuery string = fmt.Sprintf(`
 	) 
 `, typeQueries["function_type"])
 
-func (l *Lexer) lexOverloadAnnotation(docLine string, annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+func (l *Lexer) lexOverloadAnnotation(annotationLine string, annotations *lexedAnnotations) (bool, error) {
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-		l.context.logger.Warn(fmt.Sprintf("Skipping overload annotation '%s' containing syntax errors", docLine))
-		return false, nil
 	case errors.Is(nvim.ErrTSQueryNoMatch, err):
 		return false, nil
 	case err != nil:
@@ -69,13 +66,13 @@ func (l *Lexer) lexOverloadAnnotation(docLine string, annotations *lexedAnnotati
 			overloadType, err := l.lexType(capture.Node.Text)
 
 			if err != nil {
-				return false, fmt.Errorf("Error lexing annotation line '%s': %w", docLine, err)
+				return false, fmt.Errorf("Error lexing annotation line '%s': %w", annotationLine, err)
 			}
 
 			overloadFunction, isFunction := overloadType.(lexed.Function)
 
 			if !isFunction {
-				return false, fmt.Errorf("Error lexing overload annotation '%s': type is not function", docLine)
+				return false, fmt.Errorf("Error lexing overload annotation '%s': type is not function", annotationLine)
 			}
 
 			overload.Generics = overloadFunction.Generics
@@ -101,12 +98,9 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexGenericAnnotation(docLine string, annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-		l.context.logger.Warn(fmt.Sprintf("Skipping generic annotation '%s' containing syntax errors", docLine))
-		return false, nil
 	case errors.Is(nvim.ErrTSQueryNoMatch, err):
 		return false, nil
 	case err != nil:
@@ -165,12 +159,9 @@ func (l *Lexer) lexParamAnnotation(docLine string, annotations *lexedAnnotations
 	captures, hasCaptures, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
 		func(paramAnnotationQuery string) ([]ts.Capture, bool, error) {
-			captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
+			captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
-			case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-				l.context.logger.Warn(fmt.Sprintf("Skipping param annotation '%s' containing syntax errors", docLine))
-				return captures, false, nil
 			case errors.Is(nvim.ErrTSQueryNoMatch, err):
 				return captures, false, nil
 			case err != nil:
@@ -242,52 +233,60 @@ func (l *Lexer) isAnnotation() (bool, error) {
 }
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+	annotationLines, err := slicesx.FilterFunc(dockblock, func(docLine string) (bool, error) {
+		err := l.scratch([]string{docLine})
+
+		if err != nil {
+			return false, err
+		}
+
+		_, err = l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
+
+		switch {
+		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
+			l.context.logger.Error(fmt.Sprintf("Skipping annotation line '%s' containing syntax errors", docLine))
+			return false, nil
+		case errors.Is(nvim.ErrTSQueryNoMatch, err):
+			return false, nil
+		case err != nil:
+			return false, err
+		}
+
+		return true, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
 	annotations := lexedAnnotations{
 		params:   make(map[string]lexed.FunctionArg),
 		generics: []lexed.FunctionGeneric{},
 	}
 
 	// Generics are lexed ahead of other annotations, which could make use of them
-	for _, docLine := range dockblock {
-		err := l.scratch([]string{docLine})
+	for _, annotationLine := range annotationLines {
+		err := l.scratch([]string{annotationLine})
 
 		if err != nil {
 			return nil, err
 		}
 
-		isAnnotation, err := l.isAnnotation()
-
-		switch {
-		case err != nil:
-			return nil, fmt.Errorf("Error finding annotations in '%s' docblock line: %w", docLine, err)
-		case !isAnnotation:
-			continue
-		}
-
-		_, err = l.lexGenericAnnotation(docLine, &annotations)
+		_, err = l.lexGenericAnnotation(annotationLine, &annotations)
 
 		if err != nil {
 			return nil, fmt.Errorf("Error lexing generic annotations: %w", err)
 		}
 	}
 
-	for _, docLine := range dockblock {
-		err := l.scratch([]string{docLine})
+	for _, annotationLine := range annotationLines {
+		err := l.scratch([]string{annotationLine})
 
 		if err != nil {
 			return nil, err
 		}
 
-		isAnnotation, err := l.isAnnotation()
-
-		switch {
-		case err != nil:
-			return nil, fmt.Errorf("Error finding annotations in '%s' docblock line: %w", docLine, err)
-		case !isAnnotation:
-			continue
-		}
-
-		matched, err := l.lexParamAnnotation(docLine, &annotations)
+		matched, err := l.lexParamAnnotation(annotationLine, &annotations)
 
 		switch {
 		case err != nil:
@@ -296,7 +295,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 			continue
 		}
 
-		matched, err = l.lexOverloadAnnotation(docLine, &annotations)
+		matched, err = l.lexOverloadAnnotation(annotationLine, &annotations)
 
 		switch {
 		case err != nil:
