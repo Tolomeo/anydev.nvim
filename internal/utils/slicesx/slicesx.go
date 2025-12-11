@@ -43,3 +43,23 @@ func MapFunc[T any, U any](ts []T, f func(T) (U, error)) ([]U, error) {
 
 	return us, nil
 }
+
+func MapFindFunc[T any, R any](
+	slice []T,
+	mapper func(T) (R, bool, error),
+) (R, bool, error) {
+	var r R
+
+	for _, item := range slice {
+		result, matched, err := mapper(item)
+
+		switch {
+		case matched && err != nil:
+			return r, false, err // Stop immediately and return the error
+		case matched:
+			return result, true, nil // Success!
+		}
+	}
+
+	return r, false, nil // Not found, no error
+}
