@@ -70,9 +70,24 @@
           "items": {
             "$ref": "#/definitions/FunctionOverload"
           }
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "protected": {
+          "type": "boolean"
         }
       },
-      "required": ["kind", "doc", "args", "return", "generics", "deprecated"]
+      "required": [
+        "kind",
+        "doc",
+        "args",
+        "return",
+        "generics",
+        "deprecated",
+        "private",
+        "protected"
+      ]
     },
     "FunctionGeneric": {
       "type": "object",
@@ -84,7 +99,7 @@
         "types": {
           "type": "array",
           "items": {
-						"$ref": "#/definitions/Symbol"
+            "$ref": "#/definitions/Symbol"
           }
         }
       },
@@ -145,7 +160,7 @@
           "type": "string"
         },
         "type": {
-					"$ref": "#/definitions/Symbol"
+          "$ref": "#/definitions/Symbol"
         },
         "documentation": {
           "$ref": "#/definitions/Documentation"

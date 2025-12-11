@@ -105,6 +105,7 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 
 func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
 	function := newFunctionType()
+
 	function.Documentation = source.Origin().Documentation
 
 	annotations, err := l.lexAnnotations(function.Documentation)
@@ -113,6 +114,8 @@ func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) 
 		return struct{}{}, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
+	function.Private = annotations.private
+	function.Protected = annotations.protected
 	function.Overloads = annotations.overloads
 	function.Generics = annotations.generics
 	function.Return = annotations.returns

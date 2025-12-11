@@ -140,6 +140,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 		}
 		definitionLines, err := c.config.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
 
+
 		switch {
 		case errors.Is(err, nvim.ErrTsNodeNotFound):
 			return false, nil

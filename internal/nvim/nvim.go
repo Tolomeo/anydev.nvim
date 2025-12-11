@@ -327,7 +327,6 @@ type TsQueryConfig struct {
 
 var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
 
-
 func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	err := n.startTS()
 
@@ -418,7 +417,7 @@ var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors
 func (n *Nvim) SafeTsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	captures, err := n.TsQuery(config)
 
-	if err != nil{
+	if err != nil {
 		return captures, err
 	}
 
@@ -522,6 +521,15 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 }
 
 func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
+	line, err := n.GetBufferLines(int(cursorPosition.Line), int(cursorPosition.Line+1))
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	// normalising to the last character, if the received character exceeds the range of the line
+	cursorPosition.Character = min(cursorPosition.Character, uint(len(line[0])-1))
+
 	tsNode, err := n.GetTSNodeAt([]string{ts.COMMENT}, cursorPosition.Line, cursorPosition.Character)
 
 	if err != nil {

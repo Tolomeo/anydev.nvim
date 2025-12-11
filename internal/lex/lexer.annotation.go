@@ -13,6 +13,8 @@ import (
 )
 
 type lexedAnnotations struct {
+	private   bool
+	protected bool
 	params    map[string]lexed.FunctionArg
 	overloads []lexed.FunctionOverload
 	generics  []lexed.FunctionGeneric
@@ -268,6 +270,50 @@ func (l *Lexer) lexReturnAnnotation(_ string, annotations *lexedAnnotations) (bo
 	return true, nil
 }
 
+var privateAnnotationQuery string = `
+	(documentation 
+		(qualifier_annotation) @qualifier
+		(#match? @qualifier "\\@private")
+	)
+`
+
+func (l *Lexer) lexPrivateAnnotation(_ string, annotations *lexedAnnotations) (bool, error) {
+	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
+
+	switch {
+	case errors.Is(nvim.ErrTSQueryNoMatch, err):
+		return false, nil
+	case err != nil:
+		return false, err
+	}
+
+	annotations.private = true
+
+	return true, nil
+}
+
+var protectedAnnotationQuery string = `
+	(documentation 
+		(qualifier_annotation) @qualifier
+		(#match? @qualifier "\\@protected")
+	)
+`
+
+func (l *Lexer) lexProtectedAnnotation(_ string, annotations *lexedAnnotations) (bool, error) {
+	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
+
+	switch {
+	case errors.Is(nvim.ErrTSQueryNoMatch, err):
+		return false, nil
+	case err != nil:
+		return false, err
+	}
+
+	annotations.protected = true
+
+	return true, nil
+}
+
 var annotationQuery string = `(documentation) @annotation`
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
@@ -277,6 +323,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		if err != nil {
 			return false, err
 		}
+
 		_, err = l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
 
 		switch {
@@ -325,7 +372,25 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 			return nil, err
 		}
 
-		matched, err := l.lexParamAnnotation(annotationLine, &annotations)
+		matched, err := l.lexPrivateAnnotation(annotationLine, &annotations)
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+		case matched:
+			continue
+		}
+
+		matched, err = l.lexProtectedAnnotation(annotationLine, &annotations)
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+		case matched:
+			continue
+		}
+
+		matched, err = l.lexParamAnnotation(annotationLine, &annotations)
 
 		switch {
 		case err != nil:
