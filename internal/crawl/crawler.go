@@ -38,83 +38,99 @@ func (c *Crawler) scratch(lines []string) error {
 	return nil
 }
 
-func (c *Crawler) CrawlRuntime(path string) (Source, error) {
-	source, err := c.getRuntimeSource(path)
+func (c *Crawler) SourceRuntime(path string) (*Source, error) {
+	return c.sourceRuntime(path)
+}
+
+func (c *Crawler) sourceRuntime(path string) (*Source, error) {
+	source := Source{path: path}
+
+	pathOrigin, err := c.sourceOrigin(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return source, nil
-}
+	fmt.Printf("%+v\n", pathOrigin)
 
-func (c *Crawler) getRuntimeSource(path string) (Source, error) {
-	luaType, err := c.config.nvim.GetLuaTypeName(path)
+	fields, err := c.config.nvim.GetCompletion(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	switch luaType {
-	case "table":
-		tableOrigin, err := c.getOrigin(path, ts.ASSIGNMENT_STATEMENT)
+	for _, field := range fields {
+		child, err := c.sourceRuntime(fmt.Sprintf("%s.%s", path, field))
 
 		if err != nil {
 			return nil, err
 		}
 
-		tableSource := TableSource{
-			path:   path,
-			origin: tableOrigin,
-		}
-
-		fields, err := c.config.nvim.GetCompletion(path)
-
-		if err != nil {
-			return nil, err
-		}
-
-		for _, field := range fields {
-			child, err := c.CrawlRuntime(path + "." + field)
-
-			if err != nil {
-				return nil, err
-			}
-
-			tableSource.fields = append(tableSource.fields, &child)
-		}
-
-		return &tableSource, nil
-
-	case "function":
-		functionOrigin, err := c.getOrigin(path, ts.FUNCTION_DECLARATION, ts.ASSIGNMENT_STATEMENT)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return &FunctionSource{
-			path:   path,
-			origin: functionOrigin,
-		}, nil
-
-	case "boolean", "number", "string", "userdata", "thread", "nil":
-		variableOrigin, err := c.getOrigin(path, ts.ASSIGNMENT_STATEMENT)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return &VariableSource{
-			path:   path,
-			origin: variableOrigin,
-		}, nil
+		source.fields = append(source.fields, child)
 	}
 
-	return nil, fmt.Errorf("Unrecognized type '%s' received for path '%s'", luaType, path)
+	return &source, nil
 }
 
-func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (*origin, error) {
+func (c *Crawler) sourceOrigin(path string) (*origin, error) {
+	locations, err := c.getLocation(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	pathOrigin, pathOriginFound, err := slicesx.MapFindFunc(locations, func(location nvim.Location) (*origin, bool, error) {
+		_, err = c.config.nvim.Open(location.Url)
+
+		if err != nil {
+			return nil, false, err
+		}
+
+		line, character :=
+			uint(location.TargetRange.Start.Line),
+			uint(location.TargetRange.Start.Character)
+		node, err := c.config.nvim.GetTSNodeAt([]string{ts.ASSIGNMENT_STATEMENT, ts.FUNCTION_DECLARATION}, line, character)
+
+		if err != nil {
+			return nil, false, err
+		}
+
+		definitionOrigin := origin{
+			Url:        location.Url,
+			Line:       line,
+			Character:  character,
+			Definition: node.Text,
+		}
+
+		fmt.Println(line)
+
+		documentation, err := c.config.nvim.GetCommentBlockAt(line-1, character)
+
+		switch {
+		case errors.Is(nvim.ErrCommentBlockNotFound, err):
+			c.config.logger.Warn(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
+			return &definitionOrigin, true, nil
+		case err != nil:
+			return nil, false, err
+		}
+
+		definitionOrigin.Documentation = documentation
+
+		return &definitionOrigin, true, nil
+	})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case !pathOriginFound:
+		c.config.logger.Warn(fmt.Sprintf("Origin not found for '%s' symbol path", path))
+		return nil, nil
+	}
+
+	return pathOrigin, nil
+}
+
+/* func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (*origin, error) {
 	var orig = origin{}
 
 	locations, err := c.getLocation(path)
@@ -139,7 +155,6 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 			Character: uint(location.TargetRange.Start.Character),
 		}
 		definitionLines, err := c.config.nvim.ReadTSNodeAt(position, fieldType, fieldTypes...)
-
 
 		switch {
 		case errors.Is(err, nvim.ErrTsNodeNotFound):
@@ -181,7 +196,7 @@ func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string)
 	}
 
 	return &orig, nil
-}
+} */
 
 func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
 	lines := []string{"local ref = " + path}

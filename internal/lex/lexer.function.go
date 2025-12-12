@@ -69,8 +69,8 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunctionDefinition(functionDefinition []string, function *lexed.Function) error {
-	l.scratch(functionDefinition)
+func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed.Function) error {
+	l.scratch([]string{functionDefinition})
 
 	for _, query := range functionQueries {
 		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
@@ -103,7 +103,7 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition []string, function *lex
 	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
 }
 
-func (l *Lexer) lexFunction(source *crawl.FunctionSource) (lexed.Symbol, error) {
+func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	function := newFunctionType()
 
 	function.Documentation = source.Origin().Documentation

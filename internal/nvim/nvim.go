@@ -287,7 +287,7 @@ func (n *Nvim) startTS() error {
 	return nil
 }
 
-func (n *Nvim) GetLuaTypeName(variable string) (string, error) {
+func (n *Nvim) GetRuntimeType(variable string) (string, error) {
 	runtimePath := variable
 	parts := strings.Split(runtimePath, ".")
 
@@ -520,20 +520,25 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 	return tsNode, nil
 }
 
-func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, error) {
-	line, err := n.GetBufferLines(int(cursorPosition.Line), int(cursorPosition.Line+1))
+var ErrCommentBlockNotFound = errors.New("Comment block not found")
+
+func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
+	bufferLine, err := n.GetBufferLines(int(line), int(line)+1)
 
 	if err != nil {
-		return []string{}, err
+		return nil, err
 	}
 
 	// normalising to the last character, if the received character exceeds the range of the line
-	cursorPosition.Character = min(cursorPosition.Character, uint(len(line[0])-1))
+	character = max(0, min(character, uint(len(bufferLine[0])-1)))
 
-	tsNode, err := n.GetTSNodeAt([]string{ts.COMMENT}, cursorPosition.Line, cursorPosition.Character)
+	node, err := n.GetTSNodeAt([]string{ts.COMMENT}, line, character)
 
-	if err != nil {
-		return []string{}, err
+	switch {
+	case errors.Is(ErrTsNodeNotFound, err):
+		return nil, ErrCommentBlockNotFound
+	case err != nil:
+		return nil, err
 	}
 
 	luaCode := `
@@ -563,16 +568,16 @@ func (n *Nvim) ReadCommentBlockAt(cursorPosition CursorPosition) ([]string, erro
 		return vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true)
 	`
 
-	result, err := n.ExecLua(luaCode, []any{tsNode.Range.Start.Line, tsNode.Range.End.Line})
+	result, err := n.ExecLua(luaCode, []any{node.Range.Start.Line, node.Range.End.Line})
 
 	if err != nil {
-		return []string{}, err
+		return nil, err
 	}
 
 	bufferLines, err := anyx.ToSliceOf[string](result)
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
+		return nil, fmt.Errorf("Error reading buffer lines return value: %w", err)
 	}
 
 	return bufferLines, nil

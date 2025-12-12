@@ -10,7 +10,7 @@ type origin struct {
 	Url           string
 	Line          uint
 	Character     uint
-	Definition    []string
+	Definition    string
 	Documentation []string
 }
 
@@ -20,7 +20,7 @@ func (o *origin) SetLocation(location nvim.Location) {
 	o.Character = uint(location.TargetRange.Start.Character)
 }
 
-func (o *origin) SetDefinition(definitionLines []string) {
+func (o *origin) SetDefinition(definitionLines string) {
 	o.Definition = definitionLines
 }
 
@@ -43,51 +43,20 @@ func (o *origin) SetDocumentation(sourceDocumentationLines []string) {
 	o.Documentation = documentation
 }
 
-type Source interface {
-	Path() string
-	Origin() *origin
-}
-
-type TableSource struct {
+type Source struct {
 	path   string
 	origin *origin
 	fields []*Source
 }
 
-func (n *TableSource) Path() string {
-	return n.path
+func (s *Source) Path() string {
+	return s.path
 }
 
-func (n *TableSource) Origin() *origin {
-	return n.origin
+func (s *Source) Origin() *origin {
+	return s.origin
 }
 
-func (n *TableSource) Fields() []*Source {
-	return n.fields
-}
-
-type FunctionSource struct {
-	path   string
-	origin *origin
-}
-
-func (f *FunctionSource) Path() string {
-	return f.path
-}
-
-func (f *FunctionSource) Origin() *origin {
-	return f.origin
-}
-
-type VariableSource struct {
-	path   string
-	origin *origin
-}
-
-func (v *VariableSource) Path() string {
-	return v.path
-}
-
-func (v *VariableSource) Origin() *origin {
-	return v.origin
+func (s *Source) Fields() []*Source {
+	return s.fields
 }

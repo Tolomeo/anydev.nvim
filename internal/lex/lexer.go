@@ -3,8 +3,6 @@ package lex
 import (
 	"fmt"
 	"path"
-
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 )
 
 type Lexer struct {
@@ -33,13 +31,14 @@ func (l *Lexer) lex(path string) error {
 
 	l.context.Result().Runtime[path] = struct{}{}
 
-	source, err := l.context.crawler.CrawlRuntime(path)
+	source, err := l.context.crawler.SourceRuntime(path)
 
 	if err != nil {
 		return fmt.Errorf("Error lexing %s: %w", path, err)
 	}
 
-	switch v := source.(type) {
+	fmt.Printf("%+v\n", source)
+	/* switch v := source.(type) {
 	case *crawl.TableSource:
 		fmt.Println(v, "table")
 		l.context.result.Runtime[path] = struct{}{}
@@ -57,7 +56,7 @@ func (l *Lexer) lex(path string) error {
 		l.context.result.Runtime[path] = struct{}{}
 	default:
 		return fmt.Errorf("Error lexing '%s' source: unknown source type", path)
-	}
+	} */
 
 	return nil
 }
