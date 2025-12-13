@@ -120,23 +120,13 @@ func (c *Crawler) resolveOrigin(path string, pathOrigin *origin) (*origin, error
 			return pathOrigin, err
 		}
 
-		return c.findOrigin(path, moduleLocations...)
+		return c.findOrigin(path, moduleLocations)
 	}
 
 	return pathOrigin, nil
 }
 
-func (c *Crawler) findOrigin(path string, locations ...nvim.Location) (*origin, error) {
-	if len(locations) < 1 {
-		locs, err := c.getLocation(path)
-
-		if err != nil {
-			return nil, err
-		}
-
-		locations = append(locations, locs...)
-	}
-
+func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, error) {
 	for _, location := range locations {
 		_, err := c.config.nvim.Open(location.Url)
 
@@ -199,7 +189,13 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 }
 
 func (c *Crawler) sourceOrigin(path string) (*origin, error) {
-	pathOrigin, err := c.findOrigin(path)
+	locations, err := c.findLocations(path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	pathOrigin, err := c.findOrigin(path, locations)
 
 	if err != nil {
 		return nil, err
@@ -313,7 +309,7 @@ func (c *Crawler) getModuleLocation(moduleName string) ([]nvim.Location, error) 
 	return locations, nil
 }
 
-func (c *Crawler) getLocation(path string) ([]nvim.Location, error) {
+func (c *Crawler) findLocations(path string) ([]nvim.Location, error) {
 	lines := []string{"local ref = " + path}
 
 	err := c.scratch(lines)
