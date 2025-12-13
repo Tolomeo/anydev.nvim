@@ -4,10 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"path"
+	"regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
-	// "github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type logger interface {
@@ -89,14 +90,51 @@ var moduleRequireQuery string = `
 	)
 `
 
-func (c *Crawler) follow(path string) (*struct {
-	location nvim.Location
-	node     ts.TsNode
-}, error) {
-	locations, err := c.getLocation(path)
+func (c *Crawler) resolveOrigin(path string, pathOrigin *origin) (*origin, error) {
+	switch pathOrigin.node.Type {
+	case ts.ASSIGNMENT_STATEMENT:
+		captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
+			Start: pathOrigin.node.Range.Start.Line,
+			End:   pathOrigin.node.Range.End.Line,
+		}})
 
-	if err != nil {
-		return nil, err
+		if errors.Is(nvim.ErrTsNodeNotFound, err) {
+			return pathOrigin, nil
+		}
+
+		if err != nil {
+			return pathOrigin, err
+		}
+
+		moduleNameCapture, found := slicesx.FindFunc(captures, func(capture ts.Capture) bool {
+			return capture.Id == "require.module"
+		})
+
+		if !found {
+			return pathOrigin, fmt.Errorf("Error retrieving required module name from require statement in '%s'", pathOrigin.node.Text)
+		}
+
+		moduleLocations, err := c.getModuleLocation(moduleNameCapture.Node.Text)
+
+		if err != nil {
+			return pathOrigin, err
+		}
+
+		return c.findOrigin(path, moduleLocations...)
+	}
+
+	return pathOrigin, nil
+}
+
+func (c *Crawler) findOrigin(path string, locations ...nvim.Location) (*origin, error) {
+	if len(locations) < 1 {
+		locs, err := c.getLocation(path)
+
+		if err != nil {
+			return nil, err
+		}
+
+		locations = append(locations, locs...)
 	}
 
 	for _, location := range locations {
@@ -109,7 +147,7 @@ func (c *Crawler) follow(path string) (*struct {
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{ts.ASSIGNMENT_STATEMENT, ts.FUNCTION_DECLARATION}, line, character)
+		node, err := c.config.nvim.GetTSNodeAt([]string{ts.ASSIGNMENT_STATEMENT, ts.VARIABLE_DECLARATION, ts.FUNCTION_DECLARATION}, line, character)
 
 		if errors.Is(nvim.ErrTsNodeNotFound, err) {
 			continue
@@ -119,81 +157,72 @@ func (c *Crawler) follow(path string) (*struct {
 			return nil, err
 		}
 
-		result := struct {
-			location nvim.Location
-			node     ts.TsNode
-		}{
+		return c.resolveOrigin(path, &origin{
 			location: location,
 			node:     node,
-		}
-
-		/* if node.Type == ts.ASSIGNMENT_STATEMENT {
-			captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
-				Start: node.Range.Start.Line,
-				End:   node.Range.End.Line,
-			}})
-
-			if errors.Is(nvim.ErrTsNodeNotFound, err) {
-				return &result, nil
-			}
-
-			if err != nil {
-				return &result, err
-			}
-
-			moduleNameCapture, found := slicesx.FindFunc(captures, func(capture ts.Capture) bool {
-				return capture.Id == "require.module"
-			})
-
-			if !found {
-				return &result, fmt.Errorf("Error retrieving required module name from require statement in '%s'", node.Text)
-			}
-
-			c.getModuleLocation(moduleNameCapture.Node.Text)
-
-		} */
-
-		return &result, nil
+		})
 	}
 
 	return nil, nil
 }
 
-func (c *Crawler) sourceOrigin(path string) (*origin, error) {
-	originLocation, err := c.follow(path)
+func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
+	commentBlockLines, err := c.config.nvim.GetCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
 
-	fmt.Printf("\n\n%s\n%+v\n\n", path, originLocation)
+	if errors.Is(nvim.ErrCommentBlockNotFound, err) {
+		return false, nil
+	}
+
+	if err != nil {
+		return false, err
+	}
+
+	eCommentContent := regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
+
+	documentation := []string{}
+
+	for _, sourceLine := range commentBlockLines {
+		matches := eCommentContent.FindStringSubmatch(sourceLine)
+
+		if len(matches) < 2 {
+			documentation = append(documentation, "")
+			continue
+		}
+
+		documentation = append(documentation, matches[1])
+	}
+
+	pathOrigin.documentation = documentation
+
+	return true, nil
+
+}
+
+func (c *Crawler) sourceOrigin(path string) (*origin, error) {
+	pathOrigin, err := c.findOrigin(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if originLocation == nil {
+	if pathOrigin == nil {
 		c.config.logger.Warn(fmt.Sprintf("Origin not found for '%s' symbol path", path))
 		return nil, nil
 	}
 
-	pathOrigin := origin{
-		Url:        originLocation.location.Url,
-		Line:       uint(originLocation.location.TargetRange.Start.Line),
-		Character:  uint(originLocation.location.TargetRange.Start.Character),
-		Definition: originLocation.node.Text,
-	}
-
-	commentBlockLines, err := c.config.nvim.GetCommentBlockAt(pathOrigin.Line-1, pathOrigin.Character)
-
-	if errors.Is(nvim.ErrCommentBlockNotFound, err) {
-		c.config.logger.Warn(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
-		return &pathOrigin, nil
-	}
+	hasDocumentation, err := c.sourceOriginDocumentation(path, pathOrigin)
 
 	if err != nil {
 		return nil, err
 	}
 
-	pathOrigin.Documentation = commentBlockLines
+	if !hasDocumentation {
+		c.config.logger.Warn(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
+	}
 
-	return &pathOrigin, nil
+	fmt.Printf("\n\n%s\n%+v\n\n", path, pathOrigin)
+
+	return pathOrigin, nil
 }
 
 /* func (c *Crawler) getOrigin(path string, fieldType string, fieldTypes ...string) (*origin, error) {

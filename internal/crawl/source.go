@@ -1,46 +1,34 @@
 package crawl
 
 import (
-	"regexp"
-
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
 
 type origin struct {
-	Url           string
-	Line          uint
-	Character     uint
-	Definition    string
-	Documentation []string
+	location      nvim.Location
+	node          ts.TsNode
+	documentation []string
 }
 
-func (o *origin) SetLocation(location nvim.Location) {
-	o.Url = location.Url
-	o.Line = uint(location.TargetRange.Start.Line)
-	o.Character = uint(location.TargetRange.Start.Character)
+func (o *origin) Url() string {
+	return o.location.Url
 }
 
-func (o *origin) SetDefinition(definitionLines string) {
-	o.Definition = definitionLines
+func (o *origin) Line() uint {
+	return uint(o.location.TargetRange.Start.Line)
 }
 
-func (o *origin) SetDocumentation(sourceDocumentationLines []string) {
-	eCommentContent := regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
+func (o *origin) Character() uint {
+	return uint(o.location.TargetRange.Start.Character)
+}
 
-	documentation := []string{}
+func (o *origin) Definition() string {
+	return o.node.Text
+}
 
-	for _, sourceLine := range sourceDocumentationLines {
-		matches := eCommentContent.FindStringSubmatch(sourceLine)
-
-		if len(matches) < 2 {
-			documentation = append(documentation, "")
-			continue
-		}
-
-		documentation = append(documentation, matches[1])
-	}
-
-	o.Documentation = documentation
+func (o *origin) Documentation() []string {
+	return o.documentation
 }
 
 type Source struct {

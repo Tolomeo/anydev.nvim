@@ -106,7 +106,7 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed
 func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	function := newFunctionType()
 
-	function.Documentation = source.Origin().Documentation
+	function.Documentation = source.Origin().Documentation()
 
 	annotations, err := l.lexAnnotations(function.Documentation)
 
@@ -120,7 +120,7 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	function.Generics = annotations.generics
 	function.Return = annotations.returns
 
-	functionDefinition := source.Origin().Definition
+	functionDefinition := source.Origin().Definition()
 	err = l.lexFunctionDefinition(functionDefinition, &function)
 
 	if err != nil {

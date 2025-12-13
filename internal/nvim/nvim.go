@@ -519,15 +519,20 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 
 var ErrCommentBlockNotFound = errors.New("Comment block not found")
 
+// TODO: return nil when not found
 func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
-	bufferLine, err := n.GetBufferLines(int(line), int(line)+1)
+	lines, err := n.GetBufferLines(int(line), int(line)+1)
 
 	if err != nil {
 		return nil, err
 	}
 
+	if len(lines) < 1 {
+		return []string{}, nil
+	}
+
 	// clamping the received character to be inside the line
-	character = max(0, min(character, uint(len(bufferLine[0])-1)))
+	character = max(0, min(character, uint(len(lines[0])-1)))
 
 	node, err := n.GetTSNodeAt([]string{ts.COMMENT}, line, character)
 
