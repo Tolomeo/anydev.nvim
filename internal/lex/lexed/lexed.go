@@ -65,9 +65,6 @@ type Function struct {
 
 	// Return corresponds to the JSON schema field "return".
 	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
-
-	// Visibility corresponds to the JSON schema field "visibility".
-	Visibility *string `json:"visibility,omitempty" yaml:"visibility,omitempty" mapstructure:"visibility,omitempty"`
 }
 
 type FunctionArg struct {

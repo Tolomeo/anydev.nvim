@@ -36,6 +36,52 @@ func (j *Capture) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
+// A range in a text document expressed as (zero-based) start and end positions.
+//
+// If you want to specify a range that contains a line including the line ending
+// character(s) then use an end position denoting the start of the next line.
+// For example:
+// ```ts
+//
+//	{
+//	     start: { line: 5, character: 23 }
+//	     end : { line 6, character : 0 }
+//	}
+//
+// ```
+//
+//	The Range namespace provides helper functions to work with
+//
+// [Range](#Range) literals.
+type LineRange struct {
+	// The range's line end position.
+	End float64 `json:"end" yaml:"end" mapstructure:"end"`
+
+	// The range's line start position
+	Start float64 `json:"start" yaml:"start" mapstructure:"start"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *LineRange) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["end"]; raw != nil && !ok {
+		return fmt.Errorf("field end in LineRange: required")
+	}
+	if _, ok := raw["start"]; raw != nil && !ok {
+		return fmt.Errorf("field start in LineRange: required")
+	}
+	type Plain LineRange
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = LineRange(plain)
+	return nil
+}
+
 // Position in a text document expressed as zero-based line and character offset.
 // The offsets are based on a UTF-16 string representation. So a string of the form
 // `a𐐀b` the character offset of the character `a` is 0, the character offset of

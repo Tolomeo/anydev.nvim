@@ -323,6 +323,7 @@ func (n *Nvim) GetRuntimeType(variable string) (string, error) {
 type TsQueryConfig struct {
 	Language string
 	Query    string
+	Range *ts.LineRange
 }
 
 var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
@@ -338,6 +339,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 		local args = { ... }
 		local language = args[1]
 		local query = args[2]
+		local start, stop = arg[3], arg[4]
 		local bufnr = 0
 
 		local parser = vim.treesitter.get_parser(bufnr, language)
@@ -356,7 +358,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 
 		local queryResult = {}
 
-		for id, node in parsedQuery:iter_captures(tree:root(), bufnr) do
+		for id, node in parsedQuery:iter_captures(tree:root(), bufnr, start, stop) do
 			local captureId = parsedQuery.captures[id]
 
 			local nodeType = node:type()
@@ -387,7 +389,13 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 		return vim.fn.json_encode(queryResult)
 	`
 
-	result, err := n.ExecLua(luaCode, []any{config.Language, config.Query})
+	luaArgs := []any{config.Language, config.Query}
+
+	if (config.Range != nil) {
+		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
+	}
+	
+	result, err := n.ExecLua(luaCode, luaArgs)
 
 	if err != nil {
 		return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)
@@ -426,17 +434,6 @@ func (n *Nvim) SafeTsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 	}
 
 	return captures, nil
-}
-
-func (n *Nvim) ReadTsNode(node ts.TsNode) (string, error) {
-	startRow, startCol, endRow, endCol := int(node.Range.Start.Line), int(node.Range.Start.Character), int(node.Range.End.Line), int(node.Range.End.Character)
-	textContent, err := n.GetBufferText(startRow, startCol, endRow, endCol)
-
-	if err != nil {
-		return "", err
-	}
-
-	return strings.Join(textContent, ""), nil
 }
 
 var ErrTsNodeNotFound = errors.New("No TsNode was found")
@@ -529,7 +526,7 @@ func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
 		return nil, err
 	}
 
-	// normalising to the last character, if the received character exceeds the range of the line
+	// clamping the received character to be inside the line
 	character = max(0, min(character, uint(len(bufferLine[0])-1)))
 
 	node, err := n.GetTSNodeAt([]string{ts.COMMENT}, line, character)
@@ -578,23 +575,6 @@ func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
 
 	if err != nil {
 		return nil, fmt.Errorf("Error reading buffer lines return value: %w", err)
-	}
-
-	return bufferLines, nil
-}
-
-func (n *Nvim) ReadTSNodeAt(cursorPosition CursorPosition, nodeType string, nodeTypes ...string) ([]string, error) {
-	tsNodeTypes := append([]string{nodeType}, nodeTypes...)
-	tsNode, err := n.GetTSNodeAt(tsNodeTypes, cursorPosition.Line, cursorPosition.Character)
-
-	if err != nil {
-		return []string{}, err
-	}
-
-	bufferLines, err := n.GetBufferLines(int(tsNode.Range.Start.Line), int(tsNode.Range.End.Line+1))
-
-	if err != nil {
-		return []string{}, err
 	}
 
 	return bufferLines, nil

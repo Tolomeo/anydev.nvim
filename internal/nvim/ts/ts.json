@@ -38,6 +38,22 @@
       },
       "required": ["type", "range", "text"]
     },
+    "LineRange": {
+      "additionalProperties": false,
+      "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+      "properties": {
+        "start": {
+          "type": "number",
+          "description": "The range's line start position"
+        },
+        "end": {
+          "type": "number",
+          "description": "The range's line end position."
+        }
+      },
+      "required": ["start", "end"],
+      "type": "object"
+    },
     "Range": {
       "additionalProperties": false,
       "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
