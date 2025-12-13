@@ -46,13 +46,13 @@ func (c *Crawler) SourceRuntime(path string) (*Source, error) {
 func (c *Crawler) sourceRuntime(path string) (*Source, error) {
 	source := Source{path: path}
 
-	_, err := c.sourceOrigin(path)
+	pathOrigin, err := c.sourceOrigin(path)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// fmt.Printf("%+v\n", pathOrigin)
+	source.origin = pathOrigin
 
 	fields, err := c.config.nvim.GetCompletion(path)
 
@@ -233,8 +233,6 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 	if !hasDocumentation {
 		c.config.logger.Warn(fmt.Sprintf("Documentation not found for '%s' symbol path", path))
 	}
-
-	fmt.Printf("\n\n%s\n%+v\n\n", path, pathOrigin)
 
 	return pathOrigin, nil
 }
