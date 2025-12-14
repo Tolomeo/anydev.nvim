@@ -15,9 +15,9 @@ type result struct {
 
 type logger interface {
 	SetKey(key string)
-	Info (message string);
-	Warn (message string);
-	Error (message string);
+	Info(message string)
+	Warn(message string)
+	Error(message string)
 }
 
 type lexingContext struct {
@@ -28,7 +28,7 @@ type lexingContext struct {
 	logger  logger
 }
 
-func (l *lexingContext) provide(path string, procedure func(path string) error) error {
+func (l *lexingContext) provide(path string, procedure func(path string) (lexed.Symbol, error)) (lexed.Symbol, error) {
 	l.push(path)
 	defer l.pop()
 

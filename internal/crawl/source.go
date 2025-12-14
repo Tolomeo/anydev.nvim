@@ -23,6 +23,10 @@ func (o *origin) Character() uint {
 	return uint(o.location.TargetRange.Start.Character)
 }
 
+func (o *origin) Type() string {
+	return o.node.Type
+}
+
 func (o *origin) Definition() string {
 	return o.node.Text
 }

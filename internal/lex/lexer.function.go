@@ -110,7 +110,7 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {
-		return struct{}{}, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+		return nil, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
 	function.Private = annotations.private
@@ -123,7 +123,7 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	err = l.lexFunctionDefinition(functionDefinition, &function)
 
 	if err != nil {
-		return struct{}{}, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+		return nil, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
 	}
 
 	for argIndex := range function.Args {
@@ -140,5 +140,5 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 		function.Args[argIndex].Documentation = annotation.Documentation
 	}
 
-	return function, nil
+	return &function, nil
 }

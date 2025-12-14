@@ -58,7 +58,7 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 
 	source.origin = pathOrigin
 
-	fields, err := c.config.nvim.GetCompletion(path)
+	/* fields, err := c.config.nvim.GetCompletion(path)
 
 	if err != nil {
 		return err
@@ -76,7 +76,7 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 
 		source.fields = append(source.fields, &childSource)
 	}
-
+ */
 	return nil
 }
 
