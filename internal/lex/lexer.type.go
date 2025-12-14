@@ -73,13 +73,13 @@ func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return ErrNoMatch
 	case err != nil:
 		return err
+	case captures == nil:
+		return ErrNoMatch
 	}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "parameter":
 			function.Args = append(function.Args, lexed.FunctionArg{})
@@ -118,13 +118,13 @@ func (l *Lexer) lexTableType(table *lexed.Table) error {
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return ErrNoMatch
 	case err != nil:
 		return err
+	case captures == nil:
+		return ErrNoMatch
 	}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "table":
 			table.Fields = append(table.Fields, lexed.TableField{})

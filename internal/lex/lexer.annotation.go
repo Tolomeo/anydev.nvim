@@ -53,15 +53,15 @@ func (l *Lexer) lexOverloadAnnotation(annotationLine string, annotations *lexedA
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return false, nil
 	case err != nil:
 		return false, err
+	case captures == nil:
+		return false, nil
 	}
 
 	overload := lexed.FunctionOverload{}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "documentation":
 			overload.Documentation = []string{capture.Node.Text}
@@ -104,15 +104,15 @@ func (l *Lexer) lexGenericAnnotation(docLine string, annotations *lexedAnnotatio
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return false, nil
 	case err != nil:
 		return false, err
+	case captures == nil:
+		return false, nil
 	}
 
 	lexedGeneric := lexed.FunctionGeneric{}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "generic.name":
 			lexedGeneric.Name = capture.Node.Text
@@ -161,31 +161,30 @@ var paramAnnotationQueries = map[string]string{
 func (l *Lexer) lexParamAnnotation(docLine string, annotations *lexedAnnotations) (bool, error) {
 	captures, hasCaptures, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
-		func(paramAnnotationQuery string) ([]ts.Capture, bool, error) {
+		func(paramAnnotationQuery string) (*[]ts.Capture, bool, error) {
 			captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
-			case errors.Is(nvim.ErrTSQueryNoMatch, err):
-				return captures, false, nil
 			case err != nil:
 				return captures, false, err
+			case captures == nil:
+				return nil, false, nil
 			}
 
 			return captures, true, nil
 		},
 	)
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return false, err
-	}
-
-	if !hasCaptures {
+	case !hasCaptures:
 		return false, nil
 	}
 
 	lexedParam := lexed.FunctionArg{}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "name":
 			lexedParam.Name = capture.Node.Text
@@ -233,15 +232,15 @@ func (l *Lexer) lexReturnAnnotation(_ string, annotations *lexedAnnotations) (bo
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return false, nil
 	case err != nil:
 		return false, err
+	case captures == nil:
+		return false, nil
 	}
 
 	lexedFunctionReturn := lexed.FunctionReturn{}
 
-	for _, capture := range captures {
+	for _, capture := range *captures {
 		switch capture.Id {
 		case "return.name":
 			lexedFunctionReturn.Name = &capture.Node.Text
@@ -278,13 +277,13 @@ var privateAnnotationQuery string = `
 `
 
 func (l *Lexer) lexPrivateAnnotation(_ string, annotations *lexedAnnotations) (bool, error) {
-	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return false, nil
 	case err != nil:
 		return false, err
+	case captures == nil:
+		return false, nil
 	}
 
 	annotations.private = true
@@ -300,13 +299,13 @@ var protectedAnnotationQuery string = `
 `
 
 func (l *Lexer) lexProtectedAnnotation(_ string, annotations *lexedAnnotations) (bool, error) {
-	_, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
 
 	switch {
-	case errors.Is(nvim.ErrTSQueryNoMatch, err):
-		return false, nil
 	case err != nil:
 		return false, err
+	case captures == nil:
+		return false, nil
 	}
 
 	annotations.protected = true
@@ -324,16 +323,16 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 			return false, err
 		}
 
-		_, err = l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
+		captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
 
 		switch {
 		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
 			l.context.logger.Error(fmt.Sprintf("Skipping annotation line '%s' containing syntax errors", docLine))
 			return false, nil
-		case errors.Is(nvim.ErrTSQueryNoMatch, err):
-			return false, nil
 		case err != nil:
 			return false, err
+		case captures == nil:
+			return false, nil
 		}
 
 		return true, nil

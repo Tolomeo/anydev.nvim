@@ -25,8 +25,6 @@ type Location struct {
 	Url string
 }
 
-// var ErrNotFound = errors.New("Not found")
-
 type Nvim struct {
 	options options
 	cmd     *exec.Cmd
@@ -323,16 +321,16 @@ func (n *Nvim) GetRuntimeType(variable string) (string, error) {
 type TsQueryConfig struct {
 	Language string
 	Query    string
-	Range *ts.LineRange
+	Range    *ts.LineRange
 }
 
-var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
+// var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
 
-func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
+func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	err := n.startTS()
 
 	if err != nil {
-		return []ts.Capture{}, err
+		return nil, err
 	}
 
 	luaCode := `
@@ -391,60 +389,67 @@ func (n *Nvim) TsQuery(config TsQueryConfig) ([]ts.Capture, error) {
 
 	luaArgs := []any{config.Language, config.Query}
 
-	if (config.Range != nil) {
+	if config.Range != nil {
 		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
 	}
-	
+
 	result, err := n.ExecLua(luaCode, luaArgs)
 
-	if err != nil {
-		return []ts.Capture{}, fmt.Errorf("Nvim TSQuery error: %w", err)
-	}
-
-	if result == nil {
-		return []ts.Capture{}, ErrTSQueryNoMatch
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Nvim TSQuery error: %w", err)
+	case result == nil:
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return []ts.Capture{}, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
+		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
 	}
 
 	var capturedTsNodes []ts.Capture
 
 	if err := json.Unmarshal([]byte(stringResult), &capturedTsNodes); err != nil {
-		return []ts.Capture{}, fmt.Errorf("Error decoding tsNodes json response: %w", err)
+		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
 	}
 
-	return capturedTsNodes, nil
+	return &capturedTsNodes, nil
 }
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 
-func (n *Nvim) SafeTsQuery(config TsQueryConfig) ([]ts.Capture, error) {
+func (n *Nvim) SafeTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	captures, err := n.TsQuery(config)
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return captures, err
+	case captures == nil:
+		return nil, nil
 	}
 
-	if _, err := n.TsQuery(TsQueryConfig{Language: config.Language, Query: `(ERROR) @syntax.error`}); !errors.Is(ErrTSQueryNoMatch, err) {
-		return captures, ErrSafeTSQueryNoMatch
+	errorCaptures, err := n.TsQuery(TsQueryConfig{Language: config.Language, Query: `(ERROR) @syntax.error`})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case errorCaptures != nil:
+		return nil, ErrSafeTSQueryNoMatch
 	}
 
 	return captures, nil
 }
 
-var ErrTsNodeNotFound = errors.New("No TsNode was found")
+// var ErrTsNodeNotFound = errors.New("No TsNode was found")
 
-func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.TsNode, error) {
-	tsNode := ts.TsNode{}
+func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
+	// tsNode := ts.TsNode{}
 
 	err := n.startTS()
 
 	if err != nil {
-		return tsNode, err
+		return nil, err
 	}
 
 	luaCode := `
@@ -494,33 +499,30 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (ts.Ts
 
 	result, err := n.ExecLua(luaCode, []any{nodeTypes, line, character})
 
-	if err != nil {
-		return tsNode, err
-	}
-
-	if result == nil {
-		return tsNode, ErrTsNodeNotFound
+	switch {
+	case err != nil:
+		return nil, err
+	case result == nil:
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return tsNode, fmt.Errorf("Error converting result into string: %v", result)
+		return nil, fmt.Errorf("Error converting result into string: %v", result)
 	}
 
+	tsNode := ts.TsNode{}
 	err = tsNode.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return tsNode, fmt.Errorf("Error unmarshalling tsnode response: %w", err)
+		return nil, fmt.Errorf("Error unmarshalling tsnode response: %w", err)
 	}
 
-	return tsNode, nil
+	return &tsNode, nil
 }
 
-var ErrCommentBlockNotFound = errors.New("Comment block not found")
-
-// TODO: return nil when not found
-func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
+func (n *Nvim) GetCommentBlockAt(line uint, character uint) (*[]string, error) {
 	lines, err := n.GetBufferLines(int(line), int(line)+1)
 
 	if err != nil {
@@ -528,7 +530,7 @@ func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
 	}
 
 	if len(lines) < 1 {
-		return []string{}, nil
+		return nil, nil
 	}
 
 	// clamping the received character to be inside the line
@@ -537,10 +539,10 @@ func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
 	node, err := n.GetTSNodeAt([]string{ts.COMMENT}, line, character)
 
 	switch {
-	case errors.Is(ErrTsNodeNotFound, err):
-		return nil, ErrCommentBlockNotFound
 	case err != nil:
 		return nil, err
+	case node == nil:
+		return nil, nil
 	}
 
 	luaCode := `
@@ -582,7 +584,7 @@ func (n *Nvim) GetCommentBlockAt(line uint, character uint) ([]string, error) {
 		return nil, fmt.Errorf("Error reading buffer lines return value: %w", err)
 	}
 
-	return bufferLines, nil
+	return &bufferLines, nil
 }
 
 func (n *Nvim) startLSP() error {
@@ -763,16 +765,16 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLoca
 	return response.Result, nil
 }
 
-var ErrDefinitionLocationNotFound = errors.New("No definition location was found")
+// var ErrDefinitionLocationNotFound = errors.New("No definition location was found")
 
-func (n *Nvim) GetDefinitionLocation(line uint, character uint) ([]Location, error) {
+func (n *Nvim) GetDefinitionLocation(line uint, character uint) (*[]Location, error) {
 	lspDefinitions, err := n.GetLSPDefinition(line, character)
 
 	switch {
 	case err != nil:
-		return []Location{}, err
+		return nil, err
 	case len(lspDefinitions) == 0:
-		return []Location{}, ErrDefinitionLocationNotFound
+		return nil, nil
 	}
 
 	locations, err := slicesx.MapFunc(lspDefinitions, func(lspLocation lsp.DefinitionLocation) (Location, error) {
@@ -792,10 +794,10 @@ func (n *Nvim) GetDefinitionLocation(line uint, character uint) ([]Location, err
 	})
 
 	if err != nil {
-		return []Location{}, err
+		return nil, err
 	}
 
-	return locations, nil
+	return &locations, nil
 }
 
 func (n *Nvim) GetCompletion(head string) ([]string, error) {

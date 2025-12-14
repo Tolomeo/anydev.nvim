@@ -1,7 +1,6 @@
 package lex
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
@@ -76,13 +75,13 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed
 		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
-		case errors.Is(nvim.ErrTSQueryNoMatch, err):
-			continue
 		case err != nil:
 			return err
+		case captures == nil:
+			continue
 		}
 
-		for _, capture := range captures {
+		for _, capture := range *captures {
 			switch capture.Id {
 			case "name":
 				function.Name = &capture.Node.Text
