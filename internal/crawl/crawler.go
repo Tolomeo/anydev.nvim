@@ -39,16 +39,21 @@ func (c *Crawler) scratch(lines []string) error {
 }
 
 func (c *Crawler) SourceRuntime(path string) (*Source, error) {
-	return c.sourceRuntime(path)
-}
-
-func (c *Crawler) sourceRuntime(path string) (*Source, error) {
 	source := Source{path: path}
-
-	pathOrigin, err := c.sourceOrigin(path)
+	err := c.sourceRuntime(path, &source)
 
 	if err != nil {
 		return nil, err
+	}
+
+	return &source, nil
+}
+
+func (c *Crawler) sourceRuntime(path string, source *Source) error {
+	pathOrigin, err := c.sourceOrigin(path)
+
+	if err != nil {
+		return err
 	}
 
 	source.origin = pathOrigin
@@ -56,20 +61,23 @@ func (c *Crawler) sourceRuntime(path string) (*Source, error) {
 	fields, err := c.config.nvim.GetCompletion(path)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	for _, field := range fields {
-		child, err := c.sourceRuntime(fmt.Sprintf("%s.%s", path, field))
+	for _, fieldName := range fields {
+		childSource := Source{path: fieldName}
+		childPath := fmt.Sprintf("%s.%s", path, fieldName)
+
+		err := c.sourceRuntime(childPath, &childSource)
 
 		if err != nil {
-			return nil, err
+			return err
 		}
 
-		source.fields = append(source.fields, child)
+		source.fields = append(source.fields, &childSource)
 	}
 
-	return &source, nil
+	return nil
 }
 
 var moduleRequireQuery string = `
