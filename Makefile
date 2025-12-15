@@ -1,5 +1,5 @@
 BINARY_NAME=anydev
-TREE_SITTER_TARGET_DIR := .config/nvim/parser
+TREE_SITTER_TARGET_DIR := resources/config/parser
 
 TREE_SITTER_LUA_SRC_DIR=external/tree-sitter-lua
 
@@ -41,5 +41,6 @@ lex:
 
 .PHONY=install
 install:
+	@git submodule update --init --recursive
 	$(MAKE) tree-sitter-build
 	@go mod download
