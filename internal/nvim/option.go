@@ -29,7 +29,7 @@ func NewConfig(directory string) Config {
 }
 
 type options struct {
-	cmd       string
+	command       string
 	arguments []string
 	config    Config
 }
@@ -42,7 +42,7 @@ type optionProvider func(*options)
 
 func WithCmd(path string) optionProvider {
 	return func(o *options) {
-		o.cmd = path
+		o.command = path
 	}
 }
 
@@ -54,7 +54,7 @@ func WithArgument(argument ...string) optionProvider {
 
 func NewOptions(config Config, opts ...optionProvider) (options, error) {
 	newoptions := options{
-		cmd:    "nvim",
+		command:    "nvim",
 		config: config,
 	}
 

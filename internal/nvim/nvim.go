@@ -835,7 +835,7 @@ func New(config Config, opts ...optionProvider) (*Nvim, error) {
 
 	arguments := []string{"--embed", "--headless", "-u", options.config.InitFile()}
 	arguments = append(arguments, options.arguments...)
-	cmd := exec.Command(options.cmd, arguments...)
+	cmd := exec.Command(options.command, arguments...)
 	rpc, err := NewRpc(cmd)
 
 	if err != nil {

@@ -29,7 +29,7 @@ func getClient() (*nvim.Nvim, error) {
 	if debug {
 		client, err = nvim.New(
 			nvimConfig,
-			nvim.WithArgument(fmt.Sprintf("-V%d%s", 10, path.Join(tmpDir, "verbose.txt"))),
+			nvim.WithArgument(fmt.Sprintf("-V%d%s", 10, path.Join(tmpDir, "nvim.verbosefile"))),
 			nvim.WithArgument("--listen", path.Join(tmpDir, "nvim.server.pipe")),
 		)
 	} else {
