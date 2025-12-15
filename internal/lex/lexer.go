@@ -3,6 +3,7 @@ package lex
 import (
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -57,8 +58,13 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 
 	sourceType := sourceOrigin.Type()
 	sourceDefinition := sourceOrigin.Definition()
+	sourceDefinitionLines := strings.Split(sourceDefinition, "\n")
 
-	l.scratch([]string{sourceDefinition})
+	err = l.scratch(sourceDefinitionLines)
+
+	if err != nil {
+		return nil, err
+	}
 
 	switch sourceType {
 	case "variable_declaration":
@@ -74,8 +80,16 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 		return symbol, nil
 
 	case "function_declaration":
-		l.lexFunctionDeclaration()
-		return struct{}{}, nil
+		symbol, err := l.lexFunctionDeclaration(source)
+
+		switch {
+		case err != nil:
+			return nil, err
+		case symbol == nil:
+			return nil, fmt.Errorf("Error lexing variable declaration: no symbol found in '%s'", sourceDefinition)
+		}
+
+		return symbol, nil
 	default:
 		return nil, fmt.Errorf("Error lexing %s: Unkonw origin type '%s'", path, sourceType)
 	}
@@ -122,9 +136,8 @@ func (l *Lexer) lexTableDeclaration(source *crawl.Source) (lexed.Symbol, error) 
 	return l.lexTable(source)
 }
 
-func (l *Lexer) lexFunctionDeclaration() {
-	fmt.Println(l.context.path)
-	fmt.Println("function_declaration")
+func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, error) {
+	return l.lexFunction(source)
 }
 
 func (l *Lexer) scratch(lines []string) error {
@@ -133,13 +146,13 @@ func (l *Lexer) scratch(lines []string) error {
 	_, err := l.context.nvim.Open(buffer)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error writing to scratch buffer: %w", err)
 	}
 
 	err = l.context.nvim.SetBufferLines(lines)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error writing to scratch buffer: %w", err)
 	}
 
 	return nil

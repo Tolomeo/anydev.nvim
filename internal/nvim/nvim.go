@@ -111,16 +111,21 @@ func (n *Nvim) GetBufferName() (string, error) {
 func (n *Nvim) SetBufferLines(lines []string) error {
 	request := requestMessage{
 		method: "nvim_buf_set_lines",
-		params: []any{0, 0, -1, false, lines},
+		params: []any{0, 0, -1, true, lines},
 	}
-	_, err := n.rpc.Send(request)
+	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		return fmt.Errorf("Error trying set buffer lines: %v\n", err)
+		return err
+	}
+
+	_, err = response.Result()
+
+	if err != nil {
+		return err
 	}
 
 	return nil
-
 }
 
 func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
@@ -764,8 +769,6 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLoca
 
 	return response.Result, nil
 }
-
-// var ErrDefinitionLocationNotFound = errors.New("No definition location was found")
 
 func (n *Nvim) GetDefinitionLocation(line uint, character uint) (*[]Location, error) {
 	lspDefinitions, err := n.GetLSPDefinition(line, character)

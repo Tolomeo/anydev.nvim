@@ -2,6 +2,7 @@ package lex
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -69,7 +70,12 @@ var functionQueries = map[string]string{
 }
 
 func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed.Function) error {
-	l.scratch([]string{functionDefinition})
+	functionDefinitionLines := strings.Split(functionDefinition, "\n")
+	err := l.scratch(functionDefinitionLines)
+
+	if err != nil {
+		return err
+	}
 
 	for _, query := range functionQueries {
 		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
