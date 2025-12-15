@@ -28,8 +28,27 @@ func GetRoot() (string, error) {
 	return rootDir, nil
 }
 
+func GetResourcesDir() (string, error) {
+	if outputDir, cached := cache["resources"]; cached {
+		return outputDir, nil
+	}
+
+	rootDir, err := GetRoot()
+
+	if err != nil {
+		return "", err
+	}
+
+	dir := filepath.Join(rootDir, "resources/")
+
+	cache["output"] = dir
+
+	return dir, nil
+}
+
+
 func GetOutputDir() (string, error) {
-	if outputDir, cached := cache["output"]; cached {
+	if outputDir, cached := cache["out"]; cached {
 		return outputDir, nil
 	}
 
@@ -57,19 +76,13 @@ func GetConfigDir() (string, error) {
 		return configDir, nil
 	}
 
-	rootDir, err := GetRoot()
+	resourcesDir, err := GetResourcesDir()
 
 	if err != nil {
 		return "", err
 	}
 
-	dir := filepath.Join(rootDir, ".config/nvim/")
-
-	err = os.MkdirAll(dir, os.ModePerm)
-
-	if err != nil {
-		return "", err
-	}
+	dir := filepath.Join(resourcesDir, "config/")
 
 	cache["config"] = dir
 
