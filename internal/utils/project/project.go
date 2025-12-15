@@ -75,3 +75,27 @@ func GetConfigDir() (string, error) {
 
 	return dir, nil
 }
+
+func GetTmpDir() (string, error) {
+	if configDir, cached := cache["tmp"]; cached {
+		return configDir, nil
+	}
+
+	rootDir, err := GetRoot()
+
+	if err != nil {
+		return "", err
+	}
+
+	dir := filepath.Join(rootDir, "tmp")
+
+	err = os.MkdirAll(dir, os.ModePerm)
+
+	if err != nil {
+		return "", err
+	}
+
+	cache["config"] = dir
+
+	return dir, nil
+}
