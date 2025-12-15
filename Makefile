@@ -1,5 +1,5 @@
 BINARY_NAME=anydev
-TREE_SITTER_TARGET_DIR := .config/nvim/parsers
+TREE_SITTER_TARGET_DIR := .config/nvim/parser
 
 TREE_SITTER_LUA_SRC_DIR=external/tree-sitter-lua
 
@@ -23,8 +23,7 @@ tree-sitter-install:
 	@(cd $(TREE_SITTER_LUADOC_SRC_DIR) && npm install)
 
 .PHONY=tree-sitter-build
-# tree-sitter-build: tree-sitter-install
-tree-sitter-build:
+tree-sitter-build: tree-sitter-install
 	@echo "Building tree-sitter-lua"
 	$(MAKE) -C $(TREE_SITTER_LUA_SRC_DIR) all
 	mv "$(TREE_SITTER_LUA_SRC_DIR)/$(TREE_SITTER_LUA_SRC_FILE)" "$(TREE_SITTER_TARGET_DIR)/$(TREE_SITTER_LUA_TARGET_FILE)"
@@ -42,4 +41,5 @@ lex:
 
 .PHONY=install
 install:
+	$(MAKE) tree-sitter-build
 	@go mod download
