@@ -11,14 +11,36 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
+const debug = false
+
 func getClient() (*nvim.Nvim, error) {
+	rootDir, err := project.GetRoot()
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting root location: %w", err)
+	}
+
 	nvimConfigDir, err := project.GetConfigDir()
 
 	if err != nil {
 		return nil, fmt.Errorf("Error getting nvim config location: %w", err)
 	}
 
-	client, err := nvim.New(nvim.NewConfig(nvimConfigDir))
+	nvimConfig := nvim.NewConfig(nvimConfigDir)
+
+	var client *nvim.Nvim
+
+	if debug {
+		client, err = nvim.New(
+			nvimConfig,
+			nvim.WithArgument(fmt.Sprintf("-V10%s/debug.txt", rootDir)),
+			nvim.WithArgument("--listen", fmt.Sprintf("%s/nvim_server.pipe", rootDir)),
+		)
+	} else {
+		client, err = nvim.New(
+			nvim.NewConfig(nvimConfigDir),
+		)
+	}
 
 	if err != nil {
 		return nil, fmt.Errorf("Error initialising nvim client: %v", err)
@@ -46,7 +68,8 @@ func getOutput() (*output.Output, error) {
 }
 
 func main() {
-	var paths []string = []string{"vim.deepcopy", "vim.validate"}
+	// var paths []string = []string{"vim._defer_require", "vim.deepcopy", "vim.validate"}
+	var paths []string = []string{"vim.F"}
 
 	client, err := getClient()
 
@@ -64,6 +87,9 @@ func main() {
 	err = lexer.Lex(paths, lexConfig)
 
 	if err != nil {
+		/* fmt.Println("Errorrrrr")
+		var input string
+		_, _ = fmt.Scanln(&input) */
 		panic(err)
 	}
 

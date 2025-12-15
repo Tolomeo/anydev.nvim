@@ -37,13 +37,13 @@ func (l *lexingContext) provide(path string, procedure func(path string) (lexed.
 
 func (l *lexingContext) push(prefix string) {
 	l.path = append(l.path, prefix)
-	l.logger.SetKey(strings.Join(l.path, ""))
+	l.logger.SetKey(strings.Join(l.path, " - "))
 }
 
 func (l *lexingContext) pop() {
 	if len(l.path) > 0 {
 		l.path = l.path[:len(l.path)-1]
-		l.logger.SetKey(strings.Join(l.path, ""))
+		l.logger.SetKey(strings.Join(l.path, " - "))
 	}
 }
 

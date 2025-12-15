@@ -5,7 +5,7 @@ import (
 )
 
 type Config struct {
-	directory  string
+	directory string
 }
 
 func (c Config) Dir() string {
@@ -20,9 +20,9 @@ func (c Config) InitFile() string {
 	return c.File("init.lua")
 }
 
-func NewConfig(directory string) (Config) {
+func NewConfig(directory string) Config {
 	newconfig := Config{
-		directory:  directory,
+		directory: directory,
 	}
 
 	return newconfig
@@ -46,9 +46,9 @@ func WithCmd(path string) optionProvider {
 	}
 }
 
-func WithArguments(arguments []string) optionProvider {
+func WithArgument(argument ...string) optionProvider {
 	return func(o *options) {
-		o.arguments = arguments
+		o.arguments = append(o.arguments, argument...)
 	}
 }
 
