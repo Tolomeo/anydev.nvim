@@ -8,9 +8,12 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
+
+var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedAnnotations struct {
 	private   bool
@@ -316,6 +319,10 @@ func (l *Lexer) lexProtectedAnnotation(_ string, annotations *lexedAnnotations) 
 var annotationQuery string = `(documentation) @annotation`
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
+		return cachedAnnotations, nil
+	}
+
 	annotationLines, err := slicesx.FilterFunc(dockblock, func(docLine string) (bool, error) {
 		err := l.scratch([]string{docLine})
 
@@ -417,5 +424,6 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		}
 	}
 
+	lexedAnnotationsCache.Set(&annotations, dockblock...)
 	return &annotations, nil
 }

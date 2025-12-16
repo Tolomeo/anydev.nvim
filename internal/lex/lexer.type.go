@@ -138,8 +138,6 @@ func (l *Lexer) lexTableType(table *lexed.Table) error {
 			}
 
 			table.Fields[len(table.Fields)-1].Value = valueType
-		case "documentation":
-			table.Fields[len(table.Fields)-1].Documentation = []string{capture.Node.Text}
 		}
 	}
 

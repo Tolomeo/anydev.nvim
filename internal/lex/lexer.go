@@ -24,19 +24,34 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 
 		l.context.Result().Runtime[path] = struct{}{}
 
-		symbol, err := l.context.provide(path, l.lex)
+		err := l.context.provide(path, func(path string) error {
+			source, err := l.source(path)
+
+			if err != nil {
+				return err
+			}
+
+			symbol, err := l.lex(source)
+
+			if err != nil {
+				return err
+			}
+
+			l.context.result.Runtime[path] = symbol
+
+			return nil
+		})
 
 		if err != nil {
 			return fmt.Errorf("Error lexing %s: %w", path, err)
 		}
 
-		l.context.result.Runtime[path] = symbol
 	}
 
 	return nil
 }
 
-func (l *Lexer) lex(path string) (lexed.Symbol, error) {
+func (l *Lexer) source(path string) (*crawl.Source, error) {
 	source, err := l.context.crawler.SourceRuntime(path)
 
 	switch {
@@ -46,11 +61,16 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing %s: No source found", path)
 	}
 
+	return source, nil
+}
+
+func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
+	sourcePath := source.Path()
 	sourceOrigin := source.Origin()
 
 	if sourceOrigin == nil {
 		symbol := newUnknownType()
-		l.context.logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, path))
+		l.context.logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path()))
 		return symbol, nil
 	}
 
@@ -58,7 +78,7 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 	sourceDefinition := sourceOrigin.Definition()
 	sourceDefinitionLines := strings.Split(sourceDefinition, "\n")
 
-	err = l.scratch(sourceDefinitionLines)
+	err := l.scratch(sourceDefinitionLines)
 
 	if err != nil {
 		return nil, err
@@ -89,7 +109,7 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 
 		return symbol, nil
 	default:
-		return nil, fmt.Errorf("Error lexing %s: Unkonw origin type '%s'", path, sourceType)
+		return nil, fmt.Errorf("Error lexing %s: Unkonw origin type '%s'", sourcePath, sourceType)
 	}
 }
 
@@ -103,7 +123,7 @@ func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, erro
 		return nil, nil
 	}
 
-	err = l.lexTable(table, source)
+	err = l.lexTable(table)
 
 	if err != nil {
 		return nil, err

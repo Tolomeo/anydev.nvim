@@ -67,12 +67,6 @@
           "items": {
             "$ref": "#/definitions/FunctionOverload"
           }
-        },
-        "private": {
-          "type": "boolean"
-        },
-        "protected": {
-          "type": "boolean"
         }
       },
       "required": [
@@ -249,11 +243,14 @@
         "value": {
           "$ref": "#/definitions/Symbol"
         },
-        "documentation": {
-          "$ref": "#/definitions/Documentation"
+        "private": {
+          "type": "boolean"
+        },
+        "protected": {
+          "type": "boolean"
         }
       },
-      "required": ["name", "value", "documentation"]
+      "required": ["name", "value", "private", "protected"]
     }
   }
 }

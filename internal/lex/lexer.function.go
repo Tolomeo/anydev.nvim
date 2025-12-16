@@ -118,8 +118,6 @@ func (l *Lexer) lexFunction(function *lexed.Function) error {
 		return fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
 	}
 
-	function.Private = annotations.private
-	function.Protected = annotations.protected
 	function.Overloads = annotations.overloads
 	function.Generics = annotations.generics
 	function.Return = annotations.returns

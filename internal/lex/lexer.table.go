@@ -1,13 +1,13 @@
 package lex
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
+
 
 var tableQueries = map[string]string{
 	"tableDeclaration": `
@@ -84,25 +84,44 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 	return nil, nil
 }
 
-func (l *Lexer) lexTable(table *lexed.Table, source *crawl.Source) error {
-	fields, err := l.context.nvim.GetCompletion(source.Path())
+func (l *Lexer) lexTable(table *lexed.Table) error {
+	tablePath := l.context.current()
+	tableFields, err := l.context.nvim.GetCompletion(tablePath)
 
 	if err != nil {
 		return err
 	}
 
-	for _, fieldName := range fields {
-		fieldPath := fmt.Sprintf("%s.%s", source.Path(), fieldName)
-		fieldSymbol, err := l.context.provide(fieldPath, l.lex)
+	for _, fieldName := range tableFields {
+		tableField := lexed.TableField{Name: fieldName}
 
-		switch {
-		case err != nil:
+		err := l.context.provide(fieldName, func(path string) error {
+			source, err := l.source(l.context.current())
+
+			if err != nil {
+				return err
+			}
+
+			annotations, err := l.lexAnnotations(source.Origin().Documentation())
+
+			tableField.Private = annotations.private
+			tableField.Protected = annotations.protected
+			tableFieldValue, err := l.lex(source)
+
+			if err != nil {
+				return err
+			}
+
+			tableField.Value = tableFieldValue
+
+			return nil
+		})
+
+		if err != nil {
 			return err
-		case fieldSymbol == nil:
-			return fmt.Errorf("Error lexing table field '%s': no symbol found", fieldPath)
 		}
 
-		table.Fields = append(table.Fields, lexed.TableField{Name: fieldName, Value: fieldSymbol})
+		table.Fields = append(table.Fields, tableField)
 	}
 
 	return nil

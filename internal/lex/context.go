@@ -15,6 +15,7 @@ type result struct {
 
 type logger interface {
 	SetKey(key string)
+	DefaultKey()
 	Info(message string)
 	Warn(message string)
 	Error(message string)
@@ -28,7 +29,11 @@ type lexingContext struct {
 	logger  logger
 }
 
-func (l *lexingContext) provide(path string, procedure func(path string) (lexed.Symbol, error)) (lexed.Symbol, error) {
+func (l *lexingContext) current() string {
+	return strings.Join(l.path, ".")
+}
+
+func (l *lexingContext) provide(path string, procedure func(path string) (error)) (error) {
 	l.push(path)
 	defer l.pop()
 
@@ -37,13 +42,17 @@ func (l *lexingContext) provide(path string, procedure func(path string) (lexed.
 
 func (l *lexingContext) push(prefix string) {
 	l.path = append(l.path, prefix)
-	l.logger.SetKey(strings.Join(l.path, " - "))
+	l.logger.SetKey(l.current())
 }
 
 func (l *lexingContext) pop() {
 	if len(l.path) > 0 {
 		l.path = l.path[:len(l.path)-1]
-		l.logger.SetKey(strings.Join(l.path, " - "))
+	}
+	if len(l.path) > 0 {
+		l.logger.SetKey(l.current())
+	} else {
+		l.logger.DefaultKey()
 	}
 }
 

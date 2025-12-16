@@ -16,8 +16,13 @@ type log struct {
 type Logs map[string][]log
 
 type Logger struct {
-	key  string
-	logs *Logs
+	defaultKey string
+	key        string
+	logs       *Logs
+}
+
+func (l *Logger) DefaultKey() {
+	l.key = l.defaultKey
 }
 
 func (l *Logger) Key() string {
@@ -68,7 +73,8 @@ func NewLogger(key string) *Logger {
 	logs := Logs{}
 
 	return &Logger{
-		key:  key,
-		logs: &logs,
+		defaultKey: key,
+		key:        key,
+		logs:       &logs,
 	}
 }

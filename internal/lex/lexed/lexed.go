@@ -57,12 +57,6 @@ type Function struct {
 	// Overloads corresponds to the JSON schema field "overloads".
 	Overloads []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
 
-	// Private corresponds to the JSON schema field "private".
-	Private bool `json:"private" yaml:"private" mapstructure:"private"`
-
-	// Protected corresponds to the JSON schema field "protected".
-	Protected bool `json:"protected" yaml:"protected" mapstructure:"protected"`
-
 	// Return corresponds to the JSON schema field "return".
 	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
 }
@@ -150,11 +144,14 @@ type Table struct {
 }
 
 type TableField struct {
-	// Documentation corresponds to the JSON schema field "documentation".
-	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
-
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
+
+	// Private corresponds to the JSON schema field "private".
+	Private bool `json:"private" yaml:"private" mapstructure:"private"`
+
+	// Protected corresponds to the JSON schema field "protected".
+	Protected bool `json:"protected" yaml:"protected" mapstructure:"protected"`
 
 	// Value corresponds to the JSON schema field "value".
 	Value TableFieldValue `json:"value" yaml:"value" mapstructure:"value"`
