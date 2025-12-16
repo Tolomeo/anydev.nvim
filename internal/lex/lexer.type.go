@@ -15,8 +15,8 @@ func newReferenceType(value string) lexed.Reference {
 	}
 }
 
-func newFunctionType() lexed.Function {
-	return lexed.Function{
+func newFunctionType() *lexed.Function {
+	return &lexed.Function{
 		Kind: lexed.FunctionKindFunction,
 	}
 }
@@ -42,8 +42,8 @@ func newUnknownType() lexed.Unknown {
 	}
 }
 
-func newTableType() lexed.Table {
-	return lexed.Table{
+func newTableType() *lexed.Table {
+	return &lexed.Table{
 		Kind: lexed.TableKindTable,
 	}
 }
@@ -182,7 +182,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	}
 
 	functionType := newFunctionType()
-	err = l.lexFunctionType(&functionType)
+	err = l.lexFunctionType(functionType)
 
 	switch {
 	case errors.Is(ErrNoMatch, err):
@@ -193,7 +193,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	}
 
 	tableType := newTableType()
-	err = l.lexTableType(&tableType)
+	err = l.lexTableType(tableType)
 
 	switch {
 	case errors.Is(ErrNoMatch, err):

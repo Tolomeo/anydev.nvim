@@ -8,8 +8,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
+	"github.com/Tolomeo/anydev.nvim/internal/project"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/project"
 )
 
 const debug = true
@@ -19,7 +19,7 @@ func getClient() (*nvim.Nvim, error) {
 	tmpDir, err := project.GetTmpDir()
 
 	if err != nil {
-		return nil, fmt.Errorf("Error getting project directories: %w", err)
+		return nil, fmt.Errorf("Error reading project directories: %w", err)
 	}
 
 	nvimConfig := nvim.NewConfig(configDir)
@@ -29,8 +29,10 @@ func getClient() (*nvim.Nvim, error) {
 	if debug {
 		client, err = nvim.New(
 			nvimConfig,
-			nvim.WithArgument(fmt.Sprintf("-V%d%s", 10, path.Join(tmpDir, "nvim.verbosefile"))),
-			nvim.WithArgument("--listen", path.Join(tmpDir, "nvim.server.pipe")),
+			nvim.WithArguments(
+				fmt.Sprintf("-V%d%s", 10, path.Join(tmpDir, "nvim.verbosefile")),
+				"--listen", path.Join(tmpDir, "nvim.server.pipe"),
+			),
 		)
 	} else {
 		client, err = nvim.New(nvimConfig)

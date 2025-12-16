@@ -69,12 +69,14 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed.Function) error {
-	functionDefinitionLines := strings.Split(functionDefinition, "\n")
-	err := l.scratch(functionDefinitionLines)
+func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
+	function := newFunctionType()
+
+	definitionLines := strings.Split(source.Origin().Definition(), "\n")
+	err := l.scratch(definitionLines)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	for _, query := range functionQueries {
@@ -82,7 +84,7 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed
 
 		switch {
 		case err != nil:
-			return err
+			return nil, err
 		case captures == nil:
 			continue
 		}
@@ -102,21 +104,18 @@ func (l *Lexer) lexFunctionDefinition(functionDefinition string, function *lexed
 			}
 		}
 
-		return nil
+		function.Documentation = source.Origin().Documentation()
+		return function, nil
 	}
 
-	return fmt.Errorf("Function source %v didn't yield any result", functionDefinition)
+	return nil, nil
 }
 
-func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
-	function := newFunctionType()
-
-	function.Documentation = source.Origin().Documentation()
-
+func (l *Lexer) lexFunction(function *lexed.Function) error {
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
+		return fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
 	}
 
 	function.Private = annotations.private
@@ -124,13 +123,6 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 	function.Overloads = annotations.overloads
 	function.Generics = annotations.generics
 	function.Return = annotations.returns
-
-	functionDefinition := source.Origin().Definition()
-	err = l.lexFunctionDefinition(functionDefinition, &function)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error lexing function %s: %w", source.Path(), err)
-	}
 
 	for argIndex := range function.Args {
 		name := function.Args[argIndex].Name
@@ -146,5 +138,5 @@ func (l *Lexer) lexFunction(source *crawl.Source) (lexed.Symbol, error) {
 		function.Args[argIndex].Documentation = annotation.Documentation
 	}
 
-	return &function, nil
+	return nil
 }

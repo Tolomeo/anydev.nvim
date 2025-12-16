@@ -46,7 +46,7 @@ func WithCmd(path string) optionProvider {
 	}
 }
 
-func WithArgument(argument ...string) optionProvider {
+func WithArguments(argument ...string) optionProvider {
 	return func(o *options) {
 		o.arguments = append(o.arguments, argument...)
 	}

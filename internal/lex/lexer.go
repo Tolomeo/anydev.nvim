@@ -7,7 +7,6 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type Lexer struct {
@@ -52,7 +51,6 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 	if sourceOrigin == nil {
 		symbol := newUnknownType()
 		l.context.logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, path))
-		l.context.result.Runtime[path] = symbol
 		return symbol, nil
 	}
 
@@ -96,10 +94,7 @@ func (l *Lexer) lex(path string) (lexed.Symbol, error) {
 }
 
 func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, error) {
-	fmt.Println(l.context.path)
-	fmt.Println("variable_declaration")
-
-	table, err := l.lexTableDeclaration(source)
+	table, err := l.matchTable(source)
 
 	switch {
 	case err != nil:
@@ -108,36 +103,29 @@ func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, erro
 		return nil, nil
 	}
 
+	err = l.lexTable(table, source)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return table, nil
 }
 
-var tableDeclarationQuery string = `
-	(variable_declaration
-		(assignment_statement
-			(variable_list
-				name: (identifier))
-				(expression_list
-					value: (table_constructor) @table
-				)
-		)
-	)
-`
+func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, error) {
+	function, err := l.matchFunction(source)
 
-func (l *Lexer) lexTableDeclaration(source *crawl.Source) (lexed.Symbol, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: tableDeclarationQuery})
-
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case captures == nil:
-		return nil, nil
 	}
 
-	return l.lexTable(source)
-}
+	err = l.lexFunction(function)
 
-func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, error) {
-	return l.lexFunction(source)
+	if err != nil {
+		return nil, err
+	}
+
+	return function, nil
 }
 
 func (l *Lexer) scratch(lines []string) error {
