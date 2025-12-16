@@ -9,15 +9,16 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var tableDeclarationQuery string = `
+var tableAssignmentQuery string = `
 	(variable_declaration
 		(assignment_statement
 			(variable_list
-				name: (identifier))
-				(expression_list
-					value: (table_constructor) @table
-				)
-		)
+				name: (identifier)
+			) @table.name
+			(expression_list
+				value: (table_constructor)
+			) @table.value
+		) @table.assignment
 	)
 `
 
@@ -31,7 +32,7 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 		return nil, err
 	}
 
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: tableDeclarationQuery})
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: tableAssignmentQuery})
 
 	switch {
 	case err != nil:
