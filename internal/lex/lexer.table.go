@@ -9,7 +9,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var tableAssignmentQuery string = `
+var tableQueries = map[string]string{
+	"tableDeclaration": `
 	(variable_declaration
 		(assignment_statement
 			(variable_list
@@ -18,13 +19,39 @@ var tableAssignmentQuery string = `
 			(expression_list
 				value: (table_constructor)
 			) @table.value
-		) @table.assignment
+		)
 	)
-`
+`,
+	"tableFieldDeclaration": `
+	(assignment_statement
+		(variable_list
+			name: (dot_index_expression
+				table: (_)
+				field: (identifier) @table.name
+			)
+		)
+		(expression_list
+			value: (table_constructor) @table.value
+		)
+	)
+`,
+	"tableIndexFieldDeclaration": `
+		(assignment_statement
+			(variable_list
+				name: (bracket_index_expression
+					table: (_)
+					field: (string
+						content: (string_content) @table.name
+					)
+				)
+			)
+			(expression_list
+				value: (table_constructor) @table.value
+			)
+		)
+`}
 
 func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
-	table := newTableType()
-
 	definitionLines := strings.Split(source.Origin().Definition(), "\n")
 	err := l.scratch(definitionLines)
 
@@ -32,16 +59,29 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 		return nil, err
 	}
 
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: tableAssignmentQuery})
+	for _, query := range tableQueries {
+		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
 
-	switch {
-	case err != nil:
-		return nil, err
-	case captures == nil:
-		return nil, nil
+		switch {
+		case err != nil:
+			return nil, err
+		case captures == nil:
+			continue
+		}
+
+		table := newTableType()
+
+		for _, capture := range *captures {
+			switch capture.Id {
+			case "table.name":
+				table.Name = &capture.Node.Text
+			}
+		}
+
+		return table, nil
 	}
 
-	return table, nil
+	return nil, nil
 }
 
 func (l *Lexer) lexTable(table *lexed.Table, source *crawl.Source) error {
