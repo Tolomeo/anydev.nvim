@@ -3,10 +3,14 @@ package lex
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
+
+var ErrNoMatch = errors.New("No match")
 
 func newReferenceType(value string) lexed.Reference {
 	return lexed.Reference{
@@ -48,26 +52,38 @@ func newTableType() *lexed.Table {
 	}
 }
 
-var ErrNoMatch = errors.New("No match")
+var typeQueries = map[string]string{
+	"builtin_type":         "(builtin_type)",
+	"identifier":           "(identifier)",
+	"array_type":           "(array_type)",
+	"table_type":           "(table_type)",
+	"table_literal_type":   "(table_literal_type)",
+	"union_type":           "(union_type)",
+	"parenthesized_type":   "(parenthesized_type)",
+	"tuple_type":           "(tuple_type)",
+	"function_type":        "(function_type)",
+	"member_type":          "(member_type)",
+	"optional_type":        "(optional_type)",
+	"literal_type":         "(literal_type)",
+	"numeric_literal_type": "(numeric_literal_type)",
+	"custom_type":          "(custom_type)",
+}
 
-var typeFunctionQuery string = `
+var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
+
+var typeFunctionQuery string = fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(function_type
 				(parameter
 					(identifier) @parameter.name
-					[
-						(builtin_type)
-						(table_type)
-						(member_type)
-					] @parameter.type
+					%s @parameter.type
 				) @parameter
 				(builtin_type)? @return.type
 			)
 		)
 	)
-	(ERROR) @error
-`
+`, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
@@ -144,36 +160,46 @@ func (l *Lexer) lexTableType(table *lexed.Table) error {
 	return nil
 }
 
-func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
+func (l *Lexer) lexBuiltinType(source string) lexed.Symbol {
 	switch source {
 	case "void":
-		return newBuiltinType(lexed.BuiltinValueVoid), nil
+		return newBuiltinType(lexed.BuiltinValueVoid)
 	case "nil":
-		return newBuiltinType(lexed.BuiltinValueNil), nil
+		return newBuiltinType(lexed.BuiltinValueNil)
 	case "any":
-		return newBuiltinType(lexed.BuiltinValueAny), nil
+		return newBuiltinType(lexed.BuiltinValueAny)
 	case "boolean":
-		return newBuiltinType(lexed.BuiltinValueBoolean), nil
+		return newBuiltinType(lexed.BuiltinValueBoolean)
 	case "string":
-		return newBuiltinType(lexed.BuiltinValueString), nil
+		return newBuiltinType(lexed.BuiltinValueString)
 	case "number":
-		return newBuiltinType(lexed.BuiltinValueNumber), nil
+		return newBuiltinType(lexed.BuiltinValueNumber)
 	case "integer", "int":
-		return newBuiltinType(lexed.BuiltinValueInteger), nil
+		return newBuiltinType(lexed.BuiltinValueInteger)
 	case "function":
-		return newBuiltinType(lexed.BuiltinValueFunction), nil
+		return newBuiltinType(lexed.BuiltinValueFunction)
 	case "table":
-		return newBuiltinType(lexed.BuiltinValueTable), nil
+		return newBuiltinType(lexed.BuiltinValueTable)
 	case "thread":
-		return newBuiltinType(lexed.BuiltinValueTable), nil
+		return newBuiltinType(lexed.BuiltinValueTable)
 	case "userdata":
-		return newBuiltinType(lexed.BuiltinValueUserdata), nil
+		return newBuiltinType(lexed.BuiltinValueUserdata)
 	case "lightuserdata":
-		return newBuiltinType(lexed.BuiltinValueLightuserdata), nil
+		return newBuiltinType(lexed.BuiltinValueLightuserdata)
 	}
 
-	lines := []string{"@type " + source}
-	err := l.scratch(lines)
+	return nil
+}
+
+func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
+	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
+
+	if builtinType != nil {
+		return builtinType, nil
+	}
+
+	typeAnnotation := fmt.Sprintf("@type %s", source)
+	err := l.scratch([]string{typeAnnotation})
 
 	if err != nil {
 		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)

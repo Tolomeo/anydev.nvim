@@ -36,17 +36,19 @@ var functionQueries = map[string]string{
 	local D = function(arg, ...) end
 	local E = function(...) end */
 	"assignment": `
-		(assignment_statement
-			(variable_list
-				name: (identifier) @name
-			)
-			(expression_list
-				value: (function_definition
-					parameters: (parameters
-						(identifier)? @arg
-						("," (identifier) @arg)*
-						("," (vararg_expression) @vararg)?
-						(vararg_expression)? @vararg
+		(variable_declaration
+			(assignment_statement
+				(variable_list
+					name: (identifier) @name
+				)
+				(expression_list
+					value: (function_definition
+						parameters: (parameters
+							(identifier)? @arg
+							("," (identifier) @arg)*
+							("," (vararg_expression) @vararg)?
+							(vararg_expression)? @vararg
+						)
 					)
 				)
 			)

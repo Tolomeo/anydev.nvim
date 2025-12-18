@@ -3,7 +3,6 @@ package lex
 import (
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -23,25 +22,6 @@ type lexedAnnotations struct {
 	generics  []lexed.FunctionGeneric
 	returns   []lexed.FunctionReturn
 }
-
-var typeQueries = map[string]string{
-	"builtin_type":         "(builtin_type)",
-	"identifier":           "(identifier)",
-	"array_type":           "(array_type)",
-	"table_type":           "(table_type)",
-	"table_literal_type":   "(table_literal_type)",
-	"union_type":           "(union_type)",
-	"parenthesized_type":   "(parenthesized_type)",
-	"tuple_type":           "(tuple_type)",
-	"function_type":        "(function_type)",
-	"member_type":          "(member_type)",
-	"optional_type":        "(optional_type)",
-	"literal_type":         "(literal_type)",
-	"numeric_literal_type": "(numeric_literal_type)",
-	"custom_type":          "(custom_type)",
-}
-
-var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
 
 var overloadAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
@@ -75,7 +55,7 @@ func (l *Lexer) lexOverloadAnnotation(annotationLine string, annotations *lexedA
 				return false, fmt.Errorf("Error lexing annotation line '%s': %w", annotationLine, err)
 			}
 
-			overloadFunction, isFunction := overloadType.(lexed.Function)
+			overloadFunction, isFunction := overloadType.(*lexed.Function)
 
 			if !isFunction {
 				return false, fmt.Errorf("Error lexing overload annotation '%s': type is not function", annotationLine)
