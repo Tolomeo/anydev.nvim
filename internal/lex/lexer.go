@@ -73,45 +73,47 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 		return symbol, nil
 	}
 
-	sourceType := sourceOrigin.Type()
 	sourceDefinition := sourceOrigin.Definition()
-
 	err := l.scratch(sourceDefinition)
 
 	if err != nil {
 		return nil, err
 	}
 
-	switch sourceType {
-	case "variable_declaration":
-		symbol, err := l.lexVariableDeclaration(source)
+	table, err := l.matchTable(source)
 
-		switch {
-		case err != nil:
+	switch {
+	case err != nil:
+		return nil, err
+	case table != nil:
+		err = l.lexTable(table)
+
+		if err != nil {
 			return nil, err
-		case symbol == nil:
-			return nil, fmt.Errorf("Error lexing variable declaration: no symbol found in '%s'", sourceDefinition)
 		}
 
-		return symbol, nil
-
-	case "function_declaration":
-		symbol, err := l.lexFunctionDeclaration(source)
-
-		switch {
-		case err != nil:
-			return nil, err
-		case symbol == nil:
-			return nil, fmt.Errorf("Error lexing variable declaration: no symbol found in '%s'", sourceDefinition)
-		}
-
-		return symbol, nil
-	default:
-		return nil, fmt.Errorf("Error lexing %s: Unkonw origin type '%s'", sourcePath, sourceType)
+		return table, nil
 	}
+
+	function, err := l.matchFunction(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case function != nil:
+		err := l.lexFunction(function)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return function, nil
+	}
+
+	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, sourceOrigin)
 }
 
-func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, error) {
+/* func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, error) {
 	table, err := l.matchTable(source)
 
 	switch {
@@ -144,7 +146,7 @@ func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, erro
 	}
 
 	return function, nil
-}
+} */
 
 func (l *Lexer) scratch(lines []string) error {
 	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
