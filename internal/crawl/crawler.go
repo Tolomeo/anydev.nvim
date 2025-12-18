@@ -80,6 +80,69 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 	return nil
 }
 
+var reAssignmentQuery string = `
+	(assignment_statement
+		(variable_list
+			name: (_)
+		) @assignment.left
+		(expression_list
+			value: [
+				(dot_index_expression) @assignment.right
+				(identifier) @assignment.right
+				(vararg_expression) @assignment.meta
+			] 
+		)
+	) @assignment
+`
+
+func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
+	err := c.scratch(o.Definition())
+
+	if err != nil {
+		return nil, err
+	}
+
+	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: reAssignmentQuery})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case captures == nil:
+		return nil, nil
+	}
+
+	_, foundMeta := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+		return capture.Id == "assignment.meta"
+	})
+
+	if foundMeta {
+		return nil, nil
+	}
+
+	rightValue, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+		return capture.Id == "assignment.right"
+	})
+
+	if !found {
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.node.Text)
+	}
+
+	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
+
+	if err != nil {
+		return nil, err
+	}
+
+	rightValueOrigin, err := c.findOrigin(path, *rightValueLocations)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rightValueOrigin, nil
+
+}
+
 var moduleRequireQuery string = `
 	(assignment_statement
 		(variable_list)
@@ -98,6 +161,12 @@ var moduleRequireQuery string = `
 `
 
 func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
+	err := c.scratch(o.Definition())
+
+	if err != nil {
+		return nil, err
+	}
+
 	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
 		Start: o.node.Range.Start.Line,
 		End:   o.node.Range.End.Line,
@@ -129,6 +198,7 @@ func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return moduleOrigin, nil
 }
 
@@ -144,6 +214,16 @@ func (c *Crawler) follow(path string, pathOrigin **origin) error {
 			return err
 		case requireOrigin != nil:
 			*pathOrigin = requireOrigin
+			return nil
+		}
+
+		reAssignmentOrigin, err := c.followReAssignment(path, o)
+
+		switch {
+		case err != nil:
+			return err
+		case reAssignmentOrigin != nil:
+			*pathOrigin = reAssignmentOrigin
 			return nil
 		}
 
