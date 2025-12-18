@@ -2,16 +2,17 @@ package project
 
 import (
 	"fmt"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
 
-var cache = make(map[string]string)
+var projectCache = cache.NewCache[string]()
 
 func GetRoot() (string, error) {
-	if rootDir, cached := cache["root"]; cached {
+	if rootDir, cached := projectCache.Get("root"); cached {
 		return rootDir, nil
 	}
 
@@ -23,13 +24,13 @@ func GetRoot() (string, error) {
 
 	rootDir := strings.TrimSpace(string(root))
 
-	cache["root"] = rootDir
+	projectCache.Set(rootDir, "root")
 
 	return rootDir, nil
 }
 
 func GetResourcesDir() (string, error) {
-	if outputDir, cached := cache["resources"]; cached {
+	if outputDir, cached := projectCache.Get("resources"); cached {
 		return outputDir, nil
 	}
 
@@ -41,14 +42,13 @@ func GetResourcesDir() (string, error) {
 
 	dir := filepath.Join(rootDir, "resources/")
 
-	cache["output"] = dir
+	projectCache.Set(dir, "output")
 
 	return dir, nil
 }
 
-
 func GetOutputDir() (string, error) {
-	if outputDir, cached := cache["out"]; cached {
+	if outputDir, cached := projectCache.Get("out"); cached {
 		return outputDir, nil
 	}
 
@@ -66,13 +66,13 @@ func GetOutputDir() (string, error) {
 		return "", err
 	}
 
-	cache["output"] = dir
+	projectCache.Set(dir, "out")
 
 	return dir, nil
 }
 
 func GetConfigDir() (string, error) {
-	if configDir, cached := cache["config"]; cached {
+	if configDir, cached := projectCache.Get("config"); cached {
 		return configDir, nil
 	}
 
@@ -84,13 +84,13 @@ func GetConfigDir() (string, error) {
 
 	dir := filepath.Join(resourcesDir, "config/")
 
-	cache["config"] = dir
+	projectCache.Set(dir, "config")
 
 	return dir, nil
 }
 
 func GetTmpDir() (string, error) {
-	if configDir, cached := cache["tmp"]; cached {
+	if configDir, cached := projectCache.Get("tmp"); cached {
 		return configDir, nil
 	}
 
@@ -108,7 +108,7 @@ func GetTmpDir() (string, error) {
 		return "", err
 	}
 
-	cache["config"] = dir
+	projectCache.Set(dir, "config")
 
 	return dir, nil
 }

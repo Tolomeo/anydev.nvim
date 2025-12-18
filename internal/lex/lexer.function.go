@@ -31,6 +31,27 @@ var functionQueries = map[string]string{
 			)
 		)
 	`,
+	/* local T = function() end
+	local M = function(arg) end
+	local D = function(arg, ...) end
+	local E = function(...) end */
+	"assignment": `
+		(assignment_statement
+			(variable_list
+				name: (identifier) @name
+			)
+			(expression_list
+				value: (function_definition
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				)
+			)
+		)
+	`,
 	/* function api:fn() end
 	function api:fn(name) end
 	function api:fn(name, value) end
@@ -54,7 +75,7 @@ var functionQueries = map[string]string{
 	function api.fn(name, value) end
 	function api.fn(name, value, ...) end
 	function api.fn(...) end */
-	"dotIndexDeclaration ": `
+	"methodIndexDeclaration ": `
 		(function_declaration
 			name: (dot_index_expression
 				field: (identifier) @name
@@ -64,6 +85,57 @@ var functionQueries = map[string]string{
 				("," (identifier) @arg)*
 				("," (vararg_expression) @vararg)?
 				(vararg_expression)? @vararg
+			)
+		)
+	`,
+	/* api.fn = function() end
+	api.fn = function(name) end
+	api.fn = function(name, value) end
+	api.fn = function(name, value, ...) end
+	api.fn = function(...) end */
+	"methodAssignment": `
+		(assignment_statement
+			(variable_list
+				name: (dot_index_expression
+					field: (identifier) @name
+				) @access.class
+			)
+			(expression_list
+				value: (function_definition
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				)
+			)
+		)
+	`,
+	/* api['fn'] = function() end
+	api['fn'] = function(name) end
+	api['fn'] = function(name, value) end
+	api['fn'] = function(name, value, ...) end
+	api['fn'] = function(...) end */
+	"methodIndexAssignment": `
+		(assignment_statement
+			(variable_list
+				name: (bracket_index_expression
+					table: (_)
+					field: (string
+						content: (string_content) @name
+					)
+				) @access.class
+			)
+			(expression_list
+				value: (function_definition
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				)
 			)
 		)
 	`,
