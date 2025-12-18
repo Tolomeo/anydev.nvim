@@ -1,13 +1,10 @@
 package lex
 
 import (
-	"strings"
-
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
-
 
 var tableQueries = map[string]string{
 	"tableDeclaration": `
@@ -52,8 +49,7 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
-	definitionLines := strings.Split(source.Origin().Definition(), "\n")
-	err := l.scratch(definitionLines)
+	err := l.scratch(source.Origin().Definition())
 
 	if err != nil {
 		return nil, err

@@ -3,7 +3,6 @@ package lex
 import (
 	"fmt"
 	"path"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -76,9 +75,8 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 
 	sourceType := sourceOrigin.Type()
 	sourceDefinition := sourceOrigin.Definition()
-	sourceDefinitionLines := strings.Split(sourceDefinition, "\n")
 
-	err := l.scratch(sourceDefinitionLines)
+	err := l.scratch(sourceDefinition)
 
 	if err != nil {
 		return nil, err

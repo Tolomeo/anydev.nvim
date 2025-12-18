@@ -2,7 +2,6 @@ package lex
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -146,8 +145,7 @@ var functionQueries = map[string]string{
 func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 	function := newFunctionType()
 
-	definitionLines := strings.Split(source.Origin().Definition(), "\n")
-	err := l.scratch(definitionLines)
+	err := l.scratch(source.Origin().Definition())
 
 	if err != nil {
 		return nil, err

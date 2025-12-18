@@ -1,6 +1,8 @@
 package crawl
 
 import (
+	"strings"
+
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 )
@@ -27,8 +29,8 @@ func (o *origin) Type() string {
 	return o.node.Type
 }
 
-func (o *origin) Definition() string {
-	return o.node.Text
+func (o *origin) Definition() []string {
+	return strings.Split(o.node.Text, "\n")
 }
 
 func (o *origin) Documentation() []string {
