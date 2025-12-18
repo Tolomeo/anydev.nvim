@@ -76,7 +76,7 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 
 		source.fields = append(source.fields, &childSource)
 	}
- */
+	*/
 	return nil
 }
 
@@ -97,47 +97,55 @@ var moduleRequireQuery string = `
 	)
 `
 
-func (c *Crawler) resolveOrigin(path string, pathOrigin **origin) error {
+func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
+	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
+		Start: o.node.Range.Start.Line,
+		End:   o.node.Range.End.Line,
+	}})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case captures == nil:
+		return nil, nil
+	}
+
+	moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+		return capture.Id == "require.module"
+	})
+
+	if !found {
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.node.Text)
+	}
+
+	moduleLocations, err := c.findRequireLocations(moduleNameCapture.Node.Text)
+
+	if err != nil {
+		return nil, err
+	}
+
+	moduleOrigin, err := c.findOrigin(path, *moduleLocations)
+
+	if err != nil {
+		return nil, err
+	}
+	return moduleOrigin, nil
+}
+
+func (c *Crawler) follow(path string, pathOrigin **origin) error {
 	o := *pathOrigin
 
 	switch o.node.Type {
 	case ts.ASSIGNMENT_STATEMENT:
-		captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
-			Start: o.node.Range.Start.Line,
-			End:   o.node.Range.End.Line,
-		}})
+		requireOrigin, err := c.followRequire(path, o)
 
 		switch {
 		case err != nil:
 			return err
-		case captures == nil:
+		case requireOrigin != nil:
+			*pathOrigin = requireOrigin
 			return nil
 		}
-
-		moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
-			return capture.Id == "require.module"
-		})
-
-		if !found {
-			return fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.node.Text)
-		}
-
-		moduleLocations, err := c.findRequireLocations(moduleNameCapture.Node.Text)
-
-		switch {
-		case err != nil:
-			return err
-		case moduleLocations == nil:
-			return nil
-		}
-
-		moduleOrigin, err := c.findOrigin(path, *moduleLocations)
-
-		if err != nil {
-			return err
-		}
-
-		*pathOrigin = moduleOrigin
 
 		return nil
 	}
@@ -170,7 +178,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 			node:     *node,
 		}
 
-		err = c.resolveOrigin(path, &pathOrigin)
+		err = c.follow(path, &pathOrigin)
 
 		if err != nil {
 			return nil, err
