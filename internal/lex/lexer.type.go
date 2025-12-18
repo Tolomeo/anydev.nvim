@@ -77,13 +77,30 @@ var typeFunctionQuery string = fmt.Sprintf(`
 			(function_type
 				(parameter
 					(identifier) @parameter.name
+					":"
 					%s @parameter.type
 				) @parameter
-				(builtin_type)? @return.type
+				("," (parameter
+					(identifier) @parameter.name
+					":"
+					%s @parameter.type
+				) @parameter)*
+				("," (parameter
+					"..." @parameter.name
+					":"
+					%s @parameter.type
+				) @parameter)?
+				(parameter
+					"..." @parameter.name
+					":"
+					%s @parameter.type
+				)? @parameter
+				":"
+				%s? @return.type
 			)
 		)
 	)
-`, anyTypeQuery)
+`, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
@@ -110,7 +127,15 @@ func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 
 			function.Args[len(function.Args)-1].Type = parameterType
 		case "return.type":
-			//TODO
+			returnType, err := l.lexType(capture.Node.Text)
+
+			if err != nil {
+				return err
+			}
+
+			function.Return = append(function.Return, lexed.FunctionReturn{
+				Type: returnType,
+			})
 		}
 	}
 
