@@ -209,9 +209,12 @@
         "kind": {
           "type": "string",
           "enum": ["unknown"]
-        }
+        },
+				"documentation": {
+					"$ref": "#/definitions/Documentation"
+				}
       },
-      "required": ["kind"]
+      "required": ["kind", "documentation"]
     },
     "Table": {
       "type": "object",

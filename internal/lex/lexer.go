@@ -110,6 +110,20 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 		return function, nil
 	}
 
+	meta, err := l.matchMeta(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case meta != nil:
+		symbol, err := l.lexMeta(meta)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return symbol, nil
+	}
 	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, sourceOrigin)
 }
 

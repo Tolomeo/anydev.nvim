@@ -164,6 +164,9 @@ type TableKind string
 const TableKindTable TableKind = "table"
 
 type Unknown struct {
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+
 	// Kind corresponds to the JSON schema field "kind".
 	Kind UnknownKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 }

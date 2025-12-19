@@ -528,13 +528,12 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.T
 }
 
 func (n *Nvim) GetCommentBlockAt(line uint, character uint) (*[]string, error) {
-	lines, err := n.GetBufferLines(int(line), int(line)+1)
+	lines, err := n.GetBufferLines(int(line)-1, int(line))
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return nil, err
-	}
-
-	if len(lines) < 1 {
+	case len(lines) < 1:
 		return nil, nil
 	}
 

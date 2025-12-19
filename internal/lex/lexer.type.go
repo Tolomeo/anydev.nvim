@@ -40,8 +40,8 @@ func newBuiltinType(value lexed.BuiltinValue) lexed.Builtin {
 	}
 }
 
-func newUnknownType() lexed.Unknown {
-	return lexed.Unknown{
+func newUnknownType() *lexed.Unknown {
+	return &lexed.Unknown{
 		Kind: lexed.UnknownKindUnknown,
 	}
 }

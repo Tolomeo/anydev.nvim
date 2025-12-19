@@ -80,7 +80,7 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 	return nil
 }
 
-var reAssignmentQuery string = `
+var variableAssignmentQuery string = `
 	(assignment_statement
 		(variable_list
 			name: (_)
@@ -89,7 +89,7 @@ var reAssignmentQuery string = `
 			value: [
 				(dot_index_expression) @assignment.right
 				(identifier) @assignment.right
-				(vararg_expression) @assignment.meta
+				(vararg_expression) @assignment.right.meta
 			] 
 		)
 	) @assignment
@@ -102,7 +102,7 @@ func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: reAssignmentQuery})
+	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
 
 	switch {
 	case err != nil:
@@ -112,7 +112,7 @@ func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
 	}
 
 	_, foundMeta := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
-		return capture.Id == "assignment.meta"
+		return capture.Id == "assignment.right.meta"
 	})
 
 	if foundMeta {
@@ -143,7 +143,7 @@ func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
 
 }
 
-var moduleRequireQuery string = `
+var requireAssignmentQuery string = `
 	(assignment_statement
 		(variable_list)
 		(expression_list
@@ -167,7 +167,7 @@ func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: moduleRequireQuery, Range: &ts.LineRange{
+	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery, Range: &ts.LineRange{
 		Start: o.node.Range.Start.Line,
 		End:   o.node.Range.End.Line,
 	}})
@@ -270,7 +270,13 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 	return nil, nil
 }
 
-func (c *Crawler) sourceOriginDocumentation(_ string, pathOrigin *origin) (bool, error) {
+func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
+	_, err := c.config.nvim.Open(pathOrigin.Url())
+
+	if err != nil {
+		return false, err
+	}
+
 	commentBlockLines, err := c.config.nvim.GetCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
 
 	switch {
