@@ -44,7 +44,16 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
 }
 
 func (l *Lexer) lexMeta(unknown *lexed.Unknown) (lexed.Symbol, error) {
-	fmt.Println(unknown.Documentation)
+	annotations, err := l.lexAnnotations(unknown.Documentation)
 
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations.Type != nil {
+		return annotations.Type, nil
+	}
+
+	l.context.logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.current()))
 	return unknown, nil
 }

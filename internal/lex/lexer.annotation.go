@@ -15,12 +15,49 @@ import (
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedAnnotations struct {
+	Type      lexed.Symbol
 	private   bool
 	protected bool
 	params    map[string]lexed.FunctionArg
 	overloads []lexed.FunctionOverload
 	generics  []lexed.FunctionGeneric
 	returns   []lexed.FunctionReturn
+}
+
+var typeAnnotationQuery string = fmt.Sprintf(`
+	(documentation
+		(type_annotation
+			%s @type
+		)
+	)
+`, anyTypeQuery)
+
+func (l *Lexer) lexTypeAnnotation(annotationLine string, annotations *lexedAnnotations) (bool, error) {
+	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeAnnotationQuery})
+
+	switch {
+	case err != nil:
+		return false, err
+	case captures == nil:
+		return false, nil
+	}
+
+	typeValue, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+		return capture.Id == "type"
+	})
+
+	if !found {
+		return false, fmt.Errorf("Error reading type value from type annotation in line '%s'", annotationLine)
+	}
+
+	lexedType, err := l.lexType(typeValue.Node.Text)
+
+	if err != nil {
+		return false, err
+	}
+
+	annotations.Type = lexedType
+	return true, nil
 }
 
 var overloadAnnotationQuery string = fmt.Sprintf(`
@@ -399,6 +436,15 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		switch {
 		case err != nil:
 			return nil, fmt.Errorf("Error lexing return annotation: %w", err)
+		case matched:
+			continue
+		}
+
+		matched, err = l.lexTypeAnnotation(annotationLine, &annotations)
+
+		switch {
+		case err != nil:
+			return nil, fmt.Errorf("Error lexing type annotation: %w", err)
 		case matched:
 			continue
 		}
