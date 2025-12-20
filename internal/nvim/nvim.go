@@ -272,10 +272,12 @@ func (n *Nvim) startTS() error {
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = { "lua" },
 			callback = function(opts)
+				vim.treesitter.start(opts.buf, "luadoc")
 				vim.treesitter.start(opts.buf, "lua")
 			end,
 		})
 
+		vim.treesitter.start(0, 'luadoc')
 		vim.treesitter.start(0, 'lua')
 
 		vim.g.lua_ts_ready = true
@@ -340,97 +342,6 @@ func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 
 	luaCode := `
 		local args = { ... }
-		local language = args[1]
-		local query = args[2]
-		local start, stop = arg[3], arg[4]
-		local bufnr = 0
-
-		local parser = vim.treesitter.get_parser(bufnr, language)
-
-		if not parser then
-			error("Error: Treesitter parser not found")
-		end
-
-		local tree = parser:parse()[1]
-
-		if not tree then
-			error("Error: Could not parse the buffer content into a Tree-sitter tree.")
-		end
-
-		local parsedQuery = vim.treesitter.query.parse(language, query)
-
-		local queryResult = {}
-
-		for id, node in parsedQuery:iter_captures(tree:root(), bufnr, start, stop) do
-			local captureId = parsedQuery.captures[id]
-
-			local nodeType = node:type()
-			local startLine, startCharacter, endLine, endCharacter = node:range()
-	    local text = vim.treesitter.get_node_text(node, bufnr)
-
-			local tsNode = {
-				type = nodeType,
-				range = {
-					start = { line = startLine, character = startCharacter },
-					["end"] = { line = endLine, character = endCharacter },
-				},
-				text = text,
-			}
-
-			local capture = {
-				id = captureId,
-				node = tsNode,
-			}
-
-			table.insert(queryResult, capture)
-		end
-
-		if not next(queryResult) then
-			return vim.NIL
-		end
-
-		return vim.fn.json_encode(queryResult)
-	`
-
-	luaArgs := []any{config.Language, config.Query}
-
-	if config.Range != nil {
-		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
-	}
-
-	result, err := n.ExecLua(luaCode, luaArgs)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Nvim TSQuery error: %w", err)
-	case result == nil:
-		return nil, nil
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
-	}
-
-	var capturedTsNodes []ts.Capture
-
-	if err := json.Unmarshal([]byte(stringResult), &capturedTsNodes); err != nil {
-		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
-	}
-
-	return &capturedTsNodes, nil
-}
-
-func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*string, error) {
-	err := n.startTS()
-
-	if err != nil {
-		return nil, err
-	}
-
-	luaCode := `
-		local args = { ... }
 		local query_language = args[1]
 		local query = args[2]
 		local start, stop = arg[3], arg[4]
@@ -438,6 +349,9 @@ func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*string, error) {
 
 		local lua = "lua"
 		local luadoc = "luadoc"
+
+		-- OMG
+		vim.cmd([[normal! Go<ESC>]])
 
 		local parser = vim.treesitter.get_parser(bufnr, lua)
 
@@ -513,8 +427,124 @@ func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*string, error) {
 		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
 	}
 
-	return &stringResult, nil
+	var capturedTsNodes []ts.Capture
+
+	if err := json.Unmarshal([]byte(stringResult), &capturedTsNodes); err != nil {
+		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
+	}
+
+	if len(capturedTsNodes) < 1 {
+		return nil, nil
+	}
+
+	return &capturedTsNodes, nil
 }
+
+/* func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*[]ts.Capture, error) {
+	err := n.startTS()
+
+	if err != nil {
+		return nil, err
+	}
+
+	luaCode := `
+		local args = { ... }
+		local query_language = args[1]
+		local query = args[2]
+		local start, stop = arg[3], arg[4]
+		local bufnr = 0
+
+		local lua = "lua"
+		local luadoc = "luadoc"
+
+		-- OMG
+		vim.cmd([[normal! Go<ESC>]])
+
+		local parser = vim.treesitter.get_parser(bufnr, lua)
+
+		if not parser then
+			error("Error: could not initialize lua parser")
+		end
+
+		parser:add_child(luadoc)
+
+		local childParser = parser:children()[luadoc]
+
+		if not childParser then 
+			error("Error: could not initialize luadoc parser")
+		end
+
+		parser:parse(true)
+
+		local parsedQuery = vim.treesitter.query.parse(query_language, query)
+
+		local queryResult = {}
+
+		parser:for_each_tree(function(tree, language_tree)
+			local lang = language_tree:lang()
+
+			if query_language == lang then
+				for id, node, _ in parsedQuery:iter_captures(tree:root(), bufnr, start, stop) do
+					local captureId = parsedQuery.captures[id]
+
+					local nodeType = node:type()
+					local startLine, startCharacter, endLine, endCharacter = node:range()
+					local text = vim.treesitter.get_node_text(node, bufnr)
+
+					local tsNode = {
+						type = nodeType,
+						range = {
+							start = { line = startLine, character = startCharacter },
+							["end"] = { line = endLine, character = endCharacter },
+						},
+						text = text,
+					}
+
+					local capture = {
+						id = captureId,
+						node = tsNode,
+					}
+
+					table.insert(queryResult, capture)
+				end
+			end
+		end)
+
+		return vim.fn.json_encode(queryResult)
+	`
+
+	luaArgs := []any{config.Language, config.Query}
+
+	if config.Range != nil {
+		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
+	}
+
+	result, err := n.ExecLua(luaCode, luaArgs)
+
+	fmt.Println(result, err)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Nvim TSQuery error: %w", err)
+	case result == nil:
+		return nil, nil
+	}
+
+	stringResult, ok := result.(string)
+
+
+	if !ok {
+		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
+	}
+
+	var capturedTsNodes []ts.Capture
+
+	if err := json.Unmarshal([]byte(stringResult), &capturedTsNodes); err != nil {
+		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
+	}
+
+	return nil, nil
+} */
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 

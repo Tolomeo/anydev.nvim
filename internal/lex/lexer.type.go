@@ -216,6 +216,16 @@ func (l *Lexer) lexBuiltinType(source string) lexed.Symbol {
 	return nil
 }
 
+/* func (l *Lexer) lexTypeReference(source string) {
+	typeAnnotation := fmt.Sprintf("---@type %s", source)
+	_ = l.scratch([]string{typeAnnotation})
+
+	locations, _ := l.context.nvim.GetDefinitionLocation(0, uint(len(typeAnnotation)))
+
+	fmt.Printf("%+v", locations)
+
+} */
+
 func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
 
@@ -251,6 +261,8 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	default:
 		return tableType, nil
 	}
+
+	// l.lexTypeReference(source)
 
 	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
