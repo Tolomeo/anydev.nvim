@@ -351,7 +351,8 @@ func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		local luadoc = "luadoc"
 
 		-- OMG
-		vim.cmd([[normal! Go<ESC>]])
+		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(keys, "n", false)
 
 		local parser = vim.treesitter.get_parser(bufnr, lua)
 
@@ -458,7 +459,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		local luadoc = "luadoc"
 
 		-- OMG
-		vim.cmd([[normal! Go<ESC>]])
+		vim.cmd('normal! Go<Esc>')
 
 		local parser = vim.treesitter.get_parser(bufnr, lua)
 
@@ -470,7 +471,7 @@ func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 
 		local childParser = parser:children()[luadoc]
 
-		if not childParser then 
+		if not childParser then
 			error("Error: could not initialize luadoc parser")
 		end
 
