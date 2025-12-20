@@ -13,6 +13,7 @@ import (
 )
 
 const debug = true
+var paths []string = []string{"vim.validate", "vim.F"}
 
 func getClient() (*nvim.Nvim, error) {
 	configDir, err := project.GetConfigDir()
@@ -65,7 +66,6 @@ func getOutput() (*output.Output, error) {
 
 func main() {
 	// var paths []string = []string{"vim._defer_require", "vim.deepcopy", "vim.validate"}
-	var paths []string = []string{"vim.F"}
 
 	client, err := getClient()
 

@@ -446,8 +446,6 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return nil, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
-	fmt.Printf("\n\n%+v\n\n", annotations)
-
 	lexedAnnotationsCache.Set(&annotations, dockblock...)
 	return &annotations, nil
 }
