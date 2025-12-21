@@ -95,7 +95,7 @@ var variableAssignmentQuery string = `
 	) @assignment
 `
 
-func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
+func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, error) {
 	buffer, err := c.config.nvim.Buffer()
 
 	if err != nil {
@@ -126,6 +126,8 @@ func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
 	if foundMeta {
 		return nil, nil
 	}
+
+	fmt.Println(captures)
 
 	rightValue, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
 		return capture.Id == "assignment.right"
@@ -168,14 +170,13 @@ var requireAssignmentQuery string = `
 	)
 `
 
-func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
+func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, error) {
 	buffer, err := c.config.nvim.Buffer()
+	defer buffer.Delete()
 
 	if err != nil {
 		return nil, err
 	}
-
-	defer buffer.Delete()
 
 	err = buffer.Edit(o.Definition())
 
@@ -183,10 +184,7 @@ func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery, Range: &ts.LineRange{
-		Start: o.node.Range.Start.Line,
-		End:   o.node.Range.End.Line,
-	}})
+	captures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery})
 
 	switch {
 	case err != nil:
@@ -211,8 +209,11 @@ func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
 
 	moduleOrigin, err := c.findOrigin(path, *moduleLocations)
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return nil, err
+	case moduleOrigin == nil:
+		return nil, fmt.Errorf("Error following require statement '%s'", o.Definition())
 	}
 
 	return moduleOrigin, nil
@@ -223,23 +224,23 @@ func (c *Crawler) follow(path string, pathOrigin **origin) error {
 
 	switch o.node.Type {
 	case ts.ASSIGNMENT_STATEMENT:
-		requireOrigin, err := c.followRequire(path, o)
+		requiredOrigin, err := c.followRequireAssignment(path, o)
 
 		switch {
 		case err != nil:
 			return err
-		case requireOrigin != nil:
-			*pathOrigin = requireOrigin
+		case requiredOrigin != nil:
+			*pathOrigin = requiredOrigin
 			return nil
 		}
 
-		reAssignmentOrigin, err := c.followReAssignment(path, o)
+		variableOrigin, err := c.followVariableAssignment(path, o)
 
 		switch {
 		case err != nil:
 			return err
-		case reAssignmentOrigin != nil:
-			*pathOrigin = reAssignmentOrigin
+		case variableOrigin != nil:
+			*pathOrigin = variableOrigin
 			return nil
 		}
 

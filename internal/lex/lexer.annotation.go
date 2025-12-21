@@ -361,39 +361,6 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return cachedAnnotations, nil
 	}
 
-	/* annotationLines, err := slicesx.FilterFunc(dockblock, func(docLine string) (bool, error) {
-		err := l.scratch([]string{docLine})
-
-		if err != nil {
-			return false, err
-		}
-
-		captures, err := l.context.nvim.SafeTsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: annotationQuery})
-
-		switch {
-		case errors.Is(nvim.ErrSafeTSQueryNoMatch, err):
-			l.context.logger.Error(fmt.Sprintf("Skipping annotation line '%s' containing syntax errors", docLine))
-			return false, nil
-		case err != nil:
-			return false, err
-		case captures == nil:
-			return false, nil
-		}
-
-		return true, nil
-	})
-
-	if err != nil {
-		return nil, err
-	} */
-
-	annotations := lexedAnnotations{
-		generics:  []lexed.FunctionGeneric{},
-		params:    make(map[string]lexed.FunctionArg),
-		overloads: []lexed.FunctionOverload{},
-		returns:   []lexed.FunctionReturn{},
-	}
-
 	buffer, err := l.context.nvim.Buffer()
 
 	if err != nil {
@@ -401,6 +368,13 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	}
 
 	defer buffer.Delete()
+
+	annotations := lexedAnnotations{
+		generics:  []lexed.FunctionGeneric{},
+		params:    make(map[string]lexed.FunctionArg),
+		overloads: []lexed.FunctionOverload{},
+		returns:   []lexed.FunctionReturn{},
+	}
 
 	err = buffer.Edit(dockblock)
 
