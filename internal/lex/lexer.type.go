@@ -103,7 +103,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
-	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case err != nil:
@@ -165,7 +165,7 @@ var typeTableQuery string = `
 `
 
 func (l *Lexer) lexTableType(table *lexed.Table) error {
-	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
+	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:

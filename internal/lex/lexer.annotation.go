@@ -78,7 +78,7 @@ var overloadAnnotationQuery string = fmt.Sprintf(`
 `, typeQueries["function_type"])
 
 func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -131,7 +131,7 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexGenericAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -194,7 +194,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 	matches, hasMatches, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
 		func(paramAnnotationQuery string) (*[][]ts.Capture, bool, error) {
-			paramMatches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
+			paramMatches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
 			case err != nil:
@@ -263,7 +263,7 @@ var returnAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
 
 	switch {
 	case err != nil:
