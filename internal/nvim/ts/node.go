@@ -6,3 +6,10 @@ const (
 	FUNCTION_DECLARATION string = "function_declaration"
 	COMMENT              string = "comment"
 )
+
+func (n *TsNode) Contains(node TsNode) bool {
+	return n.Range.Start.Line <= node.Range.Start.Line &&
+		n.Range.Start.Character <= node.Range.Start.Character &&
+		n.Range.End.Line >= node.Range.End.Line &&
+		n.Range.End.Character >= node.Range.End.Character
+}

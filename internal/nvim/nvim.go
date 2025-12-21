@@ -331,8 +331,6 @@ type TsQueryConfig struct {
 	Range    *ts.LineRange
 }
 
-// var ErrTSQueryNoMatch = errors.New("The provided query didn't match any node")
-
 func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	err := n.startTS()
 
@@ -439,6 +437,144 @@ func (n *Nvim) TsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	}
 
 	return &capturedTsNodes, nil
+}
+
+func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*[][]ts.Capture, error) {
+	err := n.startTS()
+
+	if err != nil {
+		return nil, err
+	}
+
+	luaCode := `
+		local args = { ... }
+		local query_language = args[1]
+		local query = args[2]
+		local start, stop = arg[3], arg[4]
+		local bufnr = 0
+
+		local lua = "lua"
+		local luadoc = "luadoc"
+
+		-- Query injections are only recalculated when the buffer changes
+		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(keys, "n", false)
+
+		local parser = vim.treesitter.get_parser(bufnr, lua)
+
+		if not parser then
+			error("Error: could not initialize lua parser")
+		end
+
+		parser:add_child(luadoc)
+
+		local childParser = parser:children()[luadoc]
+
+		if not childParser then 
+			error("Error: could not initialize luadoc parser")
+		end
+
+		parser:parse(true)
+
+		local parsedQuery = vim.treesitter.query.parse(query_language, query)
+
+		local queryResult = {}
+
+		parser:for_each_tree(function(tree, language_tree)
+			local lang = language_tree:lang()
+
+			if query_language == lang then
+				for id, node, _ in parsedQuery:iter_captures(tree:root(), bufnr, start, stop) do
+					local captureId = parsedQuery.captures[id]
+
+					local nodeType = node:type()
+					local startLine, startCharacter, endLine, endCharacter = node:range()
+					local text = vim.treesitter.get_node_text(node, bufnr)
+
+					local tsNode = {
+						type = nodeType,
+						range = {
+							start = { line = startLine, character = startCharacter },
+							["end"] = { line = endLine, character = endCharacter },
+						},
+						text = text,
+					}
+
+					local capture = {
+						id = captureId,
+						node = tsNode,
+					}
+
+					table.insert(queryResult, capture)
+				end
+			end
+		end)
+
+		return vim.fn.json_encode(queryResult)
+	`
+
+	luaArgs := []any{config.Language}
+
+	luaArgs = append(luaArgs, fmt.Sprintf("(%s) @tsquery.match", config.Query))
+
+	if config.Range != nil {
+		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
+	}
+
+	result, err := n.ExecLua(luaCode, luaArgs)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Nvim TSQuery error: %w", err)
+	case result == nil:
+		return nil, nil
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
+	}
+
+	var captures []ts.Capture
+
+	if err := json.Unmarshal([]byte(stringResult), &captures); err != nil {
+		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
+	}
+
+	if len(captures) < 1 {
+		return nil, nil
+	}
+
+	queryCaptures, _ := slicesx.FilterFunc(captures, func(capture ts.Capture) (bool, error) {
+		return (capture.Id == "tsquery.match"), nil
+	})
+
+	queryMatches, _ := slicesx.MapFunc(queryCaptures, func(queryCapture ts.Capture) ([]ts.Capture, error) {
+		return slicesx.FilterFunc(captures, func(capture ts.Capture) (bool, error) {
+			if capture.Id == queryCapture.Id {
+				return false, nil
+			}
+
+			return queryCapture.Node.Contains(capture.Node), nil
+		})
+	})
+
+	return &queryMatches, nil
+
+	/* matches := make([][]ts.Capture, 1)
+
+	for _, capture := range captures {
+
+		switch capture.Id {
+		case "tsquery.match":
+			matches = append(matches, []ts.Capture{})
+		default:
+			matches[len(matches)-1] = append(matches[len(matches)-1], capture)
+		}
+	}
+
+	return &matches, nil */
 }
 
 /* func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*[]ts.Capture, error) {

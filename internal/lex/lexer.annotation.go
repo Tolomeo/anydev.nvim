@@ -193,60 +193,58 @@ var paramAnnotationQueries = map[string]string{
 }
 
 func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, hasCaptures, err := slicesx.MapFindFunc(
+	matches, hasMatches, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
-		func(paramAnnotationQuery string) (*[]ts.Capture, bool, error) {
-			captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
+		func(paramAnnotationQuery string) (*[][]ts.Capture, bool, error) {
+			paramMatches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
 			case err != nil:
-				return captures, false, err
-			case captures == nil:
+				return nil, false, err
+			case paramMatches == nil:
 				return nil, false, nil
 			}
 
-			return captures, true, nil
+			return paramMatches, true, nil
 		},
 	)
 
 	switch {
 	case err != nil:
 		return false, err
-	case !hasCaptures:
+	case !hasMatches:
 		return false, nil
 	}
 
-	lexedParams := []lexed.FunctionArg{}
+	for _, match := range *matches {
+		lexedParam := lexed.FunctionArg{}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "param":
-			lexedParams = append(lexedParams, lexed.FunctionArg{})
-		case "name":
-			lexedParams[len(lexedParams)-1].Name = capture.Node.Text
-		case "optional":
-			lexedParams[len(lexedParams)-1].Optional = true
-		case "documentation":
-			lexedParams[len(lexedParams)-1].Documentation = []string{capture.Node.Text}
-		case "type":
-			if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
-				return generic.Name == capture.Node.Text
-			}); isGeneric {
-				lexedParams[len(lexedParams)-1].Type = newReferenceType(generic.Name)
-				continue
+		for _, matchCapture := range match {
+			switch matchCapture.Id {
+			case "name":
+				lexedParam.Name = matchCapture.Node.Text
+			case "optional":
+				lexedParam.Optional = true
+			case "documentation":
+				lexedParam.Documentation = []string{matchCapture.Node.Text}
+			case "type":
+				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+					return generic.Name == matchCapture.Node.Text
+				}); isGeneric {
+					lexedParam.Type = newReferenceType(generic.Name)
+					continue
+				}
+
+				lexedParamType, err := l.lexType(matchCapture.Node.Text)
+
+				if err != nil {
+					return false, fmt.Errorf("Error lexing type annotations : %w", err)
+				}
+
+				lexedParam.Type = lexedParamType
 			}
-
-			lexedParamType, err := l.lexType(capture.Node.Text)
-
-			if err != nil {
-				return false, fmt.Errorf("Error lexing type annotations : %w", err)
-			}
-
-			lexedParams[len(lexedParams)-1].Type = lexedParamType
 		}
-	}
 
-	for _, lexedParam := range lexedParams {
 		if lexedParam.Name == "" {
 			return false, fmt.Errorf("Could not retrieve param name for param annotation")
 		}
