@@ -180,6 +180,27 @@ func (l *Lexer) scratch(lines []string) error {
 	return nil
 }
 
+func (l *Lexer) temp(procedure func() error) error {
+	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
+
+	_, err := l.context.nvim.Open(buffer)
+
+	previousLines, err := l.context.nvim.GetBufferLines(0, -1)
+	defer l.scratch(previousLines)
+
+	if err != nil {
+		return fmt.Errorf("Error reading scratch buffer: %w", err)
+	}
+
+	err = procedure()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func NewLexer() *Lexer {
 	return &Lexer{}
 }

@@ -95,7 +95,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 					":"
 					%s @parameter.type
 				)? @parameter
-				":"
+				":"?
 				%s? @return.type
 			)
 		)
@@ -103,50 +103,53 @@ var typeFunctionQuery string = fmt.Sprintf(`
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
-	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+
+	lines, _ := l.context.nvim.GetBufferLines(0,-1)
+	
+
+	fmt.Println(lines)
+	fmt.Printf("\nFunction captures: %+v\n", captures)
 
 	switch {
 	case err != nil:
 		return err
-	case matches == nil:
+	case captures == nil:
 		return ErrNoMatch
 	}
 
-	// TODO: here match one
-	for _, matchCaptures := range *matches {
-		args := []lexed.FunctionArg{}
-		returns := []lexed.FunctionReturn{}
+	args := []lexed.FunctionArg{}
+	returns := []lexed.FunctionReturn{}
 
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "parameter":
-				args = append(args, lexed.FunctionArg{})
-			case "parameter.name":
-				args[len(args)-1].Name = capture.Node.Text
-			case "parameter.type":
-				parameterType, err := l.lexType(capture.Node.Text)
+	for _, capture := range *captures {
+		switch capture.Id {
+		case "parameter":
+			args = append(args, lexed.FunctionArg{})
+		case "parameter.name":
+			args[len(args)-1].Name = capture.Node.Text
+		case "parameter.type":
+			parameterType, err := l.lexType(capture.Node.Text)
 
-				if err != nil {
-					return err
-				}
-
-				args[len(args)-1].Type = parameterType
-			case "return.type":
-				returnType, err := l.lexType(capture.Node.Text)
-
-				if err != nil {
-					return err
-				}
-
-				returns = append(returns, lexed.FunctionReturn{
-					Type: returnType,
-				})
+			if err != nil {
+				return err
 			}
-		}
 
-		function.Args = append(function.Args, args...)
-		function.Return = append(function.Return, returns...)
+			args[len(args)-1].Type = parameterType
+		case "return.type":
+			returnType, err := l.lexType(capture.Node.Text)
+
+			if err != nil {
+				return err
+			}
+
+			returns = append(returns, lexed.FunctionReturn{
+				Type: returnType,
+			})
+		}
 	}
+
+	function.Args = append(function.Args, args...)
+	function.Return = append(function.Return, returns...)
 
 	return nil
 }
@@ -161,7 +164,6 @@ var typeTableQuery string = `
 			(comment)? @documentation
 		)
 	)
-	(ERROR) @error
 `
 
 func (l *Lexer) lexTableType(table *lexed.Table) error {
@@ -245,7 +247,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 		return builtinType, nil
 	}
 
-	typeAnnotation := fmt.Sprintf("@type %s", source)
+	typeAnnotation := fmt.Sprintf("---@type %s", source)
 	err := l.scratch([]string{typeAnnotation})
 
 	if err != nil {
@@ -258,7 +260,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	switch {
 	case errors.Is(ErrNoMatch, err):
 	case err != nil:
-		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:
 		return functionType, nil
 	}
@@ -269,12 +271,15 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	switch {
 	case errors.Is(ErrNoMatch, err):
 	case err != nil:
-		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:
 		return tableType, nil
 	}
 
 	// l.lexTypeReference(source)
+
+	fmt.Println("no match")
+	fmt.Println(source)
 
 	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
