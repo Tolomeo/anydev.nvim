@@ -214,10 +214,11 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 		return false, nil
 	}
 
-	for _, match := range *matches {
+
+	for _, matchCaptures := range *matches {
 		lexedParam := lexed.FunctionArg{}
 
-		for _, matchCapture := range match {
+		for _, matchCapture := range matchCaptures {
 			switch matchCapture.Id {
 			case "name":
 				lexedParam.Name = matchCapture.Node.Text
@@ -244,6 +245,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 		}
 
 		if lexedParam.Name == "" {
+			fmt.Printf("\nLexed param: %+v\n\n", lexedParam)
 			return false, fmt.Errorf("Could not retrieve param name for param annotation")
 		}
 

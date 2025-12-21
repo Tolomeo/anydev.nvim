@@ -130,19 +130,29 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		return nil, err
 	}
 
+	// Query injections are only recalculated when the buffer changes
+	// so we make a (hopefully) inhert change to force their presence
+	// by adding an empty line at the end of the buffer text
 	luaCode := `
+		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(keys, "n", false)
+	`
+
+	_, err = n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return nil, err
+	}
+
+	luaCode = `
 		local args = { ... }
 		local query_language = args[1]
 		local query = args[2]
 		local start, stop = arg[3], arg[4]
-		local bufnr = 0
 
 		local lua = "lua"
 		local luadoc = "luadoc"
-
-		-- Query injections are only recalculated when the buffer changes
-		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
-		vim.api.nvim_feedkeys(keys, "n", false)
+		local bufnr = 0
 
 		local parser = vim.treesitter.get_parser(bufnr, lua)
 
@@ -193,6 +203,10 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 				end
 			end
 		end)
+
+		if not next(queryResult) then
+			return vim.NIL
+		end
 
 		return vim.fn.json_encode(queryResult)
 	`
@@ -247,6 +261,9 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
 		return nil, nil
 	}
 
+	fmt.Println("query all captures")
+	fmt.Printf("\n\n%+v\n\n", captures)
+
 	queryCaptures, _ := slicesx.FilterFunc(*captures, func(capture ts.Capture) (bool, error) {
 		return (capture.Id == "tsquery.match"), nil
 	})
@@ -260,6 +277,9 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
 			return queryCapture.Node.Contains(capture.Node), nil
 		})
 	})
+
+	fmt.Println("query all matches")
+	fmt.Printf("\n\n%+v\n\n", queryMatches)
 
 	return &queryMatches, nil
 }
@@ -277,6 +297,9 @@ func (n *Nvim) TsQueryOne(config TsQueryConfig) (*[]ts.Capture, error) {
 	case len(*matches) < 1:
 		return nil, nil
 	}
+
+	fmt.Println("query one")
+	fmt.Printf("\n\n%+v\n\n", matches)
 
 	match := (*matches)[0]
 
@@ -308,11 +331,7 @@ func (n *Nvim) SafeTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	return captures, nil
 }
 
-// var ErrTsNodeNotFound = errors.New("No TsNode was found")
-
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
-	// tsNode := ts.TsNode{}
-
 	err := n.startTS()
 
 	if err != nil {

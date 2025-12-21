@@ -8,8 +8,16 @@ const (
 )
 
 func (n *TsNode) Contains(node TsNode) bool {
+	if n.Range.Start.Line == node.Range.Start.Line &&
+		n.Range.Start.Character > node.Range.Start.Character {
+		return false
+	}
+
+	if n.Range.End.Line == node.Range.End.Line &&
+		n.Range.End.Character < node.Range.End.Character {
+		return false
+	}
+
 	return n.Range.Start.Line <= node.Range.Start.Line &&
-		n.Range.Start.Character <= node.Range.Start.Character &&
-		n.Range.End.Line >= node.Range.End.Line &&
-		n.Range.End.Character >= node.Range.End.Character
+		n.Range.End.Line >= node.Range.End.Line
 }

@@ -151,7 +151,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 		return nil, err
 	}
 
-	for _, query := range functionQueries {
+	for name, query := range functionQueries {
 		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
@@ -160,6 +160,9 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 		case captures == nil:
 			continue
 		}
+
+		fmt.Println(name)
+		fmt.Printf("\n\n+%+v\n\n", captures)
 
 		for _, capture := range *captures {
 			switch capture.Id {
@@ -176,6 +179,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 			}
 		}
 
+		fmt.Printf("\n\n+%+v\n\n", function)
 		function.Documentation = source.Origin().Documentation()
 		return function, nil
 	}

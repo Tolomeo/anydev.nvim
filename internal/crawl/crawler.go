@@ -3,7 +3,7 @@ package crawl
 import (
 	"fmt"
 	"path"
-	"regexp"
+	// "regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
@@ -102,7 +102,7 @@ func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
+	captures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
 
 	switch {
 	case err != nil:
@@ -167,7 +167,7 @@ func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery, Range: &ts.LineRange{
+	captures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery, Range: &ts.LineRange{
 		Start: o.node.Range.Start.Line,
 		End:   o.node.Range.End.Line,
 	}})
@@ -286,7 +286,9 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 		return false, nil
 	}
 
-	eCommentContent := regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
+	pathOrigin.documentation = *commentBlockLines
+
+	/* eCommentContent := regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
 
 	documentation := []string{}
 
@@ -301,7 +303,7 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 		documentation = append(documentation, matches[1])
 	}
 
-	pathOrigin.documentation = documentation
+	pathOrigin.documentation = documentation */
 
 	return true, nil
 
