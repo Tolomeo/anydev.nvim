@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"slices"
+
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
@@ -77,7 +79,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		local args = { ... }
 		local query_language = args[1]
 		local query = args[2]
-		local start, stop = arg[3], arg[4]
+		local start, stop = args[3], args[4]
 
 		local lua = "lua"
 		local luadoc = "luadoc"
@@ -143,7 +145,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	luaArgs := []any{config.Language, config.Query}
 
 	if config.Range != nil {
-		luaArgs = append(luaArgs, config.Range.Start, config.Range.End)
+		luaArgs = append(luaArgs, config.Range.Start, config.Range.End+1)
 	}
 
 	result, err := n.ExecLua(luaCode, luaArgs)
@@ -171,6 +173,8 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 
 	return &captures, nil
 }
+
+type TsQueryMatch []ts.Capture
 
 func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
 	queryAllConfig := TsQueryConfig{
@@ -235,27 +239,95 @@ func (n *Nvim) TsQueryOne(config TsQueryConfig) (*[]ts.Capture, error) {
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 
-func (n *Nvim) SafeTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
+func capturesLineRange(captures []ts.Capture) *ts.LineRange {
+	startLines, _ := slicesx.MapFunc(captures, func(capture ts.Capture) (float64, error) {
+		return capture.Node.Range.Start.Line, nil
+	})
+	endLines, _ := slicesx.MapFunc(captures, func(capture ts.Capture) (float64, error) {
+		return capture.Node.Range.End.Line, nil
+	})
+
+	return &ts.LineRange{
+		Start: slices.Min(startLines),
+		End:   slices.Max(endLines),
+	}
+}
+
+type SafeTsQueryResult struct {
+	HasError bool
+	Captures TsQueryMatch
+}
+
+func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) {
 	captures, err := n.TsQueryOne(config)
 
 	switch {
 	case err != nil:
-		return captures, err
+		return nil, err
 	case captures == nil:
 		return nil, nil
 	}
 
-	// TODO: pass range from capture
-	errorCaptures, err := n.TsQueryOne(TsQueryConfig{Language: config.Language, Query: `(ERROR) @syntax.error`})
+	errorCaptures, err := n.TsQueryAll(TsQueryConfig{
+		Language: config.Language,
+		Query:    `(ERROR) @tsquery.error`,
+		Range:    capturesLineRange(*captures),
+	})
 
 	switch {
 	case err != nil:
 		return nil, err
 	case errorCaptures != nil:
-		return nil, ErrSafeTSQueryNoMatch
+		return &SafeTsQueryResult{
+			HasError: true,
+			Captures: *captures,
+		}, nil
+	default:
+		return &SafeTsQueryResult{
+			HasError: false,
+			Captures: *captures,
+		}, nil
+	}
+}
+
+func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error) {
+	matches, err := n.TsQueryAll(config)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case matches == nil:
+		return nil, nil
 	}
 
-	return captures, nil
+	results := []SafeTsQueryResult{}
+
+	for _, matchCaptures := range *matches {
+		errorCaptures, err := n.TsQueryAll(TsQueryConfig{
+			Language: config.Language,
+			Query:    `(ERROR) @tsquery.error`,
+			Range:    capturesLineRange(matchCaptures),
+		})
+
+		// fmt.Printf("\n%+v\n\n", errorCaptures)
+
+		switch {
+		case err != nil:
+			return nil, err
+		case errorCaptures != nil:
+			results = append(results, SafeTsQueryResult{
+				HasError: true,
+				Captures: matchCaptures,
+			})
+		default:
+			results = append(results, SafeTsQueryResult{
+				HasError: false,
+				Captures: matchCaptures,
+			})
+		}
+	}
+
+	return &results, nil
 }
 
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {

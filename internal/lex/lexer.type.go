@@ -105,11 +105,6 @@ var typeFunctionQuery string = fmt.Sprintf(`
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
-	lines, _ := l.context.nvim.GetBufferLines(0, -1)
-
-	fmt.Println(lines)
-	fmt.Printf("\nFunction captures: %+v\n", captures)
-
 	switch {
 	case err != nil:
 		return err
@@ -284,9 +279,6 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	}
 
 	// l.lexTypeReference(source)
-
-	fmt.Println("no match")
-	fmt.Println(source)
 
 	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil

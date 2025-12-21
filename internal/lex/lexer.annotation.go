@@ -78,7 +78,7 @@ var overloadAnnotationQuery string = fmt.Sprintf(`
 `, typeQueries["function_type"])
 
 func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+	matches, err := l.context.nvim.SafeTsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
 
@@ -89,10 +89,15 @@ func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, err
 		return false, nil
 	}
 
-	for _, matchCaptures := range *matches {
+	for _, match := range *matches {
+		if match.HasError {
+			l.context.logger.Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.current()))
+			continue
+		}
+
 		overload := lexed.FunctionOverload{}
 
-		for _, capture := range matchCaptures {
+		for _, capture := range match.Captures {
 			switch capture.Id {
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
