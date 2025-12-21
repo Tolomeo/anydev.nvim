@@ -514,7 +514,6 @@ func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*[][]ts.Capture, error) {
 	`
 
 	luaArgs := []any{config.Language}
-
 	luaArgs = append(luaArgs, fmt.Sprintf("(%s) @tsquery.match", config.Query))
 
 	if config.Range != nil {
@@ -682,6 +681,25 @@ func (n *Nvim) TsQueryDebug(config TsQueryConfig) (*[][]ts.Capture, error) {
 
 	return nil, nil
 } */
+
+func (n *Nvim) TsQueryOne(config TsQueryConfig) (*[]ts.Capture, error) {
+	matches, err := n.TsQueryDebug(config)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case matches == nil:
+		return nil, nil
+	case len(*matches) > 1:
+		return nil, fmt.Errorf("Error executing TSQuery: too many matches, expected 1 but received %d", len(*matches))
+	case len(*matches) < 1:
+		return nil, nil
+	}
+
+	match := (*matches)[0]
+
+	return &match, nil
+}
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 

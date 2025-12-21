@@ -33,7 +33,7 @@ var typeAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexTypeAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeAnnotationQuery})
+	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -78,44 +78,44 @@ var overloadAnnotationQuery string = fmt.Sprintf(`
 `, typeQueries["function_type"])
 
 func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	switch {
 	case err != nil:
 		return false, err
-	case captures == nil:
+	case matches == nil:
 		return false, nil
 	}
 
-	overloads := []lexed.FunctionOverload{}
+	for _, matchCaptures := range *matches {
+		overload := lexed.FunctionOverload{}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "overload":
-			overloads = append(overloads, lexed.FunctionOverload{})
-		case "documentation":
-			overloads[len(overloads)-1].Documentation = []string{capture.Node.Text}
-		case "type":
-			overloadType, err := l.lexType(capture.Node.Text)
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "documentation":
+				overload.Documentation = []string{capture.Node.Text}
+			case "type":
+				overloadType, err := l.lexType(capture.Node.Text)
 
-			if err != nil {
-				return false, fmt.Errorf("Error overload annotation type: %w", err)
+				if err != nil {
+					return false, fmt.Errorf("Error overload annotation type: %w", err)
+				}
+
+				overloadFunction, isFunction := overloadType.(*lexed.Function)
+
+				if !isFunction {
+					return false, fmt.Errorf("Error lexing overload annotation type: lexed type '%+v' is not a function", overloadFunction)
+				}
+
+				overload.Generics = overloadFunction.Generics
+				overload.Args = overloadFunction.Args
+				overload.Documentation = overloadFunction.Documentation
+				overload.Return = overloadFunction.Return
 			}
-
-			overloadFunction, isFunction := overloadType.(*lexed.Function)
-
-			if !isFunction {
-				return false, fmt.Errorf("Error lexing overload annotation type: lexed type '%+v' is not a function", overloadFunction)
-			}
-
-			overloads[len(overloads)-1].Generics = overloadFunction.Generics
-			overloads[len(overloads)-1].Args = overloadFunction.Args
-			overloads[len(overloads)-1].Documentation = overloadFunction.Documentation
-			overloads[len(overloads)-1].Return = overloadFunction.Return
 		}
-	}
 
-	annotations.overloads = overloads
+		annotations.overloads = append(annotations.overloads, overload)
+	}
 
 	return true, nil
 }
@@ -131,35 +131,33 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexGenericAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
 
 	switch {
 	case err != nil:
 		return false, err
-	case captures == nil:
+	case matches == nil:
 		return false, nil
 	}
 
-	lexedGenerics := []lexed.FunctionGeneric{}
+	for _, matchCaptures := range *matches {
+		lexedGeneric := lexed.FunctionGeneric{}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "generic":
-			lexedGenerics = append(lexedGenerics, lexed.FunctionGeneric{})
-		case "generic.name":
-			lexedGenerics[len(lexedGenerics)-1].Name = capture.Node.Text
-		case "generic.type":
-			genericType, err := l.lexType(capture.Node.Text)
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "generic.name":
+				lexedGeneric.Name = capture.Node.Text
+			case "generic.type":
+				genericType, err := l.lexType(capture.Node.Text)
 
-			if err != nil {
-				return false, err
+				if err != nil {
+					return false, err
+				}
+
+				lexedGeneric.Types = append(lexedGeneric.Types, genericType)
 			}
-
-			lexedGenerics[len(lexedGenerics)-1].Types = append(lexedGenerics[len(lexedGenerics)-1].Types, genericType)
 		}
-	}
 
-	for _, lexedGeneric := range lexedGenerics {
 		if lexedGeneric.Name == "" {
 			return false, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
 		}
@@ -265,44 +263,44 @@ var returnAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
+	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
 
 	switch {
 	case err != nil:
 		return false, err
-	case captures == nil:
+	case matches == nil:
 		return false, nil
 	}
 
-	lexedFunctionReturns := []lexed.FunctionReturn{}
+	for _, matchCaptures := range *matches {
+		functionReturn := lexed.FunctionReturn{}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "return":
-			lexedFunctionReturns = append(lexedFunctionReturns, lexed.FunctionReturn{})
-		case "return.name":
-			lexedFunctionReturns[len(lexedFunctionReturns)-1].Name = &capture.Node.Text
-		case "return.documentation":
-			lexedFunctionReturns[len(lexedFunctionReturns)-1].Documentation = []string{capture.Node.Text}
-		case "return.type":
-			if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
-				return generic.Name == capture.Node.Text
-			}); isGeneric {
-				lexedFunctionReturns[len(lexedFunctionReturns)-1].Type = newReferenceType(generic.Name)
-				continue
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "return.name":
+				functionReturn.Name = &capture.Node.Text
+			case "return.documentation":
+				functionReturn.Documentation = []string{capture.Node.Text}
+			case "return.type":
+				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+					return generic.Name == capture.Node.Text
+				}); isGeneric {
+					functionReturn.Type = newReferenceType(generic.Name)
+					continue
+				}
+
+				lexedReturnType, err := l.lexType(capture.Node.Text)
+
+				if err != nil {
+					return false, err
+				}
+
+				functionReturn.Type = lexedReturnType
 			}
-
-			lexedReturnType, err := l.lexType(capture.Node.Text)
-
-			if err != nil {
-				return false, err
-			}
-
-			lexedFunctionReturns[len(lexedFunctionReturns)-1].Type = lexedReturnType
 		}
-	}
 
-	annotations.returns = lexedFunctionReturns
+		annotations.returns = append(annotations.returns, functionReturn)
+	}
 
 	return true, nil
 }
@@ -315,7 +313,7 @@ var privateAnnotationQuery string = `
 `
 
 func (l *Lexer) lexPrivateAnnotation(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
+	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -337,7 +335,7 @@ var protectedAnnotationQuery string = `
 `
 
 func (l *Lexer) lexProtectedAnnotation(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
+	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
 
 	switch {
 	case err != nil:

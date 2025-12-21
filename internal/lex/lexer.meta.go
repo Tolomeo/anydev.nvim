@@ -28,7 +28,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
 		return nil, err
 	}
 
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: metaQuery})
+	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: metaQuery})
 
 	switch {
 	case err != nil:

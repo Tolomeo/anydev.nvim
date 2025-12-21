@@ -103,40 +103,49 @@ var typeFunctionQuery string = fmt.Sprintf(`
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case err != nil:
 		return err
-	case captures == nil:
+	case matches == nil:
 		return ErrNoMatch
 	}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "parameter":
-			function.Args = append(function.Args, lexed.FunctionArg{})
-		case "parameter.name":
-			function.Args[len(function.Args)-1].Name = capture.Node.Text
-		case "parameter.type":
-			parameterType, err := l.lexType(capture.Node.Text)
+	// TODO: here match one
+	for _, matchCaptures := range *matches {
+		args := []lexed.FunctionArg{}
+		returns := []lexed.FunctionReturn{}
 
-			if err != nil {
-				return err
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "parameter":
+				args = append(args, lexed.FunctionArg{})
+			case "parameter.name":
+				args[len(args)-1].Name = capture.Node.Text
+			case "parameter.type":
+				parameterType, err := l.lexType(capture.Node.Text)
+
+				if err != nil {
+					return err
+				}
+
+				args[len(args)-1].Type = parameterType
+			case "return.type":
+				returnType, err := l.lexType(capture.Node.Text)
+
+				if err != nil {
+					return err
+				}
+
+				returns = append(returns, lexed.FunctionReturn{
+					Type: returnType,
+				})
 			}
-
-			function.Args[len(function.Args)-1].Type = parameterType
-		case "return.type":
-			returnType, err := l.lexType(capture.Node.Text)
-
-			if err != nil {
-				return err
-			}
-
-			function.Return = append(function.Return, lexed.FunctionReturn{
-				Type: returnType,
-			})
 		}
+
+		function.Args = append(function.Args, args...)
+		function.Return = append(function.Return, returns...)
 	}
 
 	return nil
@@ -156,29 +165,32 @@ var typeTableQuery string = `
 `
 
 func (l *Lexer) lexTableType(table *lexed.Table) error {
-	captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
+	matches, err := l.context.nvim.TsQueryDebug(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:
 		return err
-	case captures == nil:
+	case matches == nil:
 		return ErrNoMatch
 	}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "table":
-			table.Fields = append(table.Fields, lexed.TableField{})
-		case "key":
-			table.Fields[len(table.Fields)-1].Name = capture.Node.Text
-		case "value":
-			valueType, err := l.lexType(capture.Node.Text)
+	// TODO: here match one
+	for _, matchCaptures := range *matches {
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "table":
+				table.Fields = append(table.Fields, lexed.TableField{})
+			case "key":
+				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
+			case "value":
+				valueType, err := l.lexType(capture.Node.Text)
 
-			if err != nil {
-				return err
+				if err != nil {
+					return err
+				}
+
+				table.Fields[len(table.Fields)-1].Value = valueType
 			}
-
-			table.Fields[len(table.Fields)-1].Value = valueType
 		}
 	}
 

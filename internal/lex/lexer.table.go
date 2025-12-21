@@ -56,7 +56,7 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 	}
 
 	for _, query := range tableQueries {
-		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:

@@ -152,7 +152,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 	}
 
 	for _, query := range functionQueries {
-		captures, err := l.context.nvim.TsQuery(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:
