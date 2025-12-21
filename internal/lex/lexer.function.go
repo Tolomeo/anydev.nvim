@@ -143,13 +143,21 @@ var functionQueries = map[string]string{
 }
 
 func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
-	function := newFunctionType()
-
-	err := l.scratch(source.Origin().Definition())
+	buffer, err := l.context.nvim.Buffer()
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer buffer.Delete()
+
+	err = buffer.Edit(source.Origin().Definition())
+
+	if err != nil {
+		return nil, err
+	}
+
+	function := newFunctionType()
 
 	for name, query := range functionQueries {
 		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})

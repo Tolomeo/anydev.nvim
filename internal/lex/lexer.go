@@ -2,7 +2,6 @@ package lex
 
 import (
 	"fmt"
-	"path"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
@@ -73,8 +72,16 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 		return symbol, nil
 	}
 
+	buffer, err  := l.context.nvim.Buffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
 	sourceDefinition := sourceOrigin.Definition()
-	err := l.scratch(sourceDefinition)
+	err = buffer.Edit(sourceDefinition)
 
 	if err != nil {
 		return nil, err
@@ -162,7 +169,7 @@ func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, erro
 	return function, nil
 } */
 
-func (l *Lexer) scratch(lines []string) error {
+/* func (l *Lexer) scratch(lines []string) error {
 	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
 
 	_, err := l.context.nvim.Open(buffer)
@@ -178,9 +185,9 @@ func (l *Lexer) scratch(lines []string) error {
 	}
 
 	return nil
-}
+} */
 
-func (l *Lexer) temp(procedure func() error) error {
+/* func (l *Lexer) temp(procedure func() error) error {
 	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
 
 	_, err := l.context.nvim.Open(buffer)
@@ -199,7 +206,7 @@ func (l *Lexer) temp(procedure func() error) error {
 	}
 
 	return nil
-}
+} */
 
 func NewLexer() *Lexer {
 	return &Lexer{}

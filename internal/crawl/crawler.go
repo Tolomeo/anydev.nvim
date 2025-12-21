@@ -2,7 +2,7 @@ package crawl
 
 import (
 	"fmt"
-	"path"
+	// "path"
 	// "regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -20,7 +20,7 @@ type Crawler struct {
 	config *CrawlerConfig
 }
 
-func (c *Crawler) scratch(lines []string) error {
+/* func (c *Crawler) scratch(lines []string) error {
 	buffer := path.Join(c.config.nvim.Options().Config().Dir(), "anydev.crawler.lua")
 
 	_, err := c.config.nvim.Open(buffer)
@@ -36,7 +36,7 @@ func (c *Crawler) scratch(lines []string) error {
 	}
 
 	return nil
-}
+} */
 
 func (c *Crawler) SourceRuntime(path string) (*Source, error) {
 	source := Source{path: path}
@@ -96,7 +96,15 @@ var variableAssignmentQuery string = `
 `
 
 func (c *Crawler) followReAssignment(path string, o *origin) (*origin, error) {
-	err := c.scratch(o.Definition())
+	buffer, err := c.config.nvim.Buffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	err = buffer.Edit(o.Definition())
 
 	if err != nil {
 		return nil, err
@@ -161,7 +169,15 @@ var requireAssignmentQuery string = `
 `
 
 func (c *Crawler) followRequire(path string, o *origin) (*origin, error) {
-	err := c.scratch(o.Definition())
+	buffer, err := c.config.nvim.Buffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	err = buffer.Edit(o.Definition())
 
 	if err != nil {
 		return nil, err
@@ -343,9 +359,16 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 }
 
 func (c *Crawler) findRequireLocations(moduleName string) (*[]nvim.Location, error) {
-	lines := []string{fmt.Sprintf("local ref = require('%s')", moduleName)}
+	buffer, err := c.config.nvim.Buffer()
 
-	err := c.scratch(lines)
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	lines := []string{fmt.Sprintf("local ref = require('%s')", moduleName)}
+	err = buffer.Edit(lines)
 
 	if err != nil {
 		return nil, err
@@ -366,9 +389,16 @@ func (c *Crawler) findRequireLocations(moduleName string) (*[]nvim.Location, err
 }
 
 func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error) {
-	lines := []string{"local ref = " + path}
+	buffer, err := c.config.nvim.Buffer()
 
-	err := c.scratch(lines)
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	lines := []string{"local ref = " + path}
+	err = buffer.Edit(lines)
 
 	if err != nil {
 		return nil, err

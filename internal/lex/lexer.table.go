@@ -49,7 +49,15 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
-	err := l.scratch(source.Origin().Definition())
+	buffer, err := l.context.nvim.Buffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	err = buffer.Edit(source.Origin().Definition())
 
 	if err != nil {
 		return nil, err

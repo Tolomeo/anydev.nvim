@@ -105,8 +105,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
-	lines, _ := l.context.nvim.GetBufferLines(0,-1)
-	
+	lines, _ := l.context.nvim.GetBufferLines(0, -1)
 
 	fmt.Println(lines)
 	fmt.Printf("\nFunction captures: %+v\n", captures)
@@ -247,11 +246,19 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 		return builtinType, nil
 	}
 
-	typeAnnotation := fmt.Sprintf("---@type %s", source)
-	err := l.scratch([]string{typeAnnotation})
+	buffer, err := l.context.nvim.Buffer()
 
 	if err != nil {
-		return struct{}{}, fmt.Errorf("Error lexing type %s: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	}
+
+	defer buffer.Delete()
+
+	typeAnnotation := fmt.Sprintf("---@type %s", source)
+	err = buffer.Edit([]string{typeAnnotation})
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
 	functionType := newFunctionType()

@@ -58,18 +58,7 @@ func (l *Lexer) lexTypeAnnotations(annotations *lexedAnnotations) (bool, error) 
 		return false, fmt.Errorf("Error reading type annotation: type value not found")
 	}
 
-	var lexedType lexed.Symbol
-
-	err = l.temp(func() error {
-		lexed, err := l.lexType(types[0])
-
-		if err != nil {
-			return err
-		}
-
-		lexedType = lexed
-		return nil
-	})
+	lexedType, err := l.lexType(types[0])
 
 	if err != nil {
 		return false, err
@@ -108,18 +97,7 @@ func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, err
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
 			case "type":
-				var overloadType lexed.Symbol
-
-				err = l.temp(func() error {
-					lexedType, err := l.lexType(capture.Node.Text)
-
-					if err != nil {
-						return err
-					}
-
-					overloadType = lexedType
-					return nil
-				})
+				overloadType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
 					return false, fmt.Errorf("Error overload annotation type: %w", err)
@@ -172,18 +150,7 @@ func (l *Lexer) lexGenericAnnotations(annotations *lexedAnnotations) (bool, erro
 			case "generic.name":
 				lexedGeneric.Name = capture.Node.Text
 			case "generic.type":
-				var genericType lexed.Symbol
-
-				err = l.temp(func() error {
-					lexedType, err := l.lexType(capture.Node.Text)
-
-					if err != nil {
-						return err
-					}
-
-					genericType = lexedType
-					return nil
-				})
+				genericType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
 					return false, err
@@ -268,18 +235,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 					continue
 				}
 
-				var lexedParamType lexed.Symbol
-
-				err = l.temp(func() error {
-					lexedType, err := l.lexType(matchCapture.Node.Text)
-
-					if err != nil {
-						return err
-					}
-
-					lexedParamType = lexedType
-					return nil
-				})
+				lexedParamType, err := l.lexType(matchCapture.Node.Text)
 
 				if err != nil {
 					return false, fmt.Errorf("Error lexing type annotations : %w", err)
@@ -335,18 +291,7 @@ func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error
 					continue
 				}
 
-				var lexedReturnType lexed.Symbol
-
-				err = l.temp(func() error {
-					lexedType, err := l.lexType(capture.Node.Text)
-
-					if err != nil {
-						return err
-					}
-
-					lexedReturnType = lexedType
-					return nil
-				})
+				lexedReturnType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
 					return false, err
@@ -444,7 +389,15 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		returns:   []lexed.FunctionReturn{},
 	}
 
-	err := l.scratch(dockblock)
+	buffer, err := l.context.nvim.Buffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Delete()
+
+	err = buffer.Edit(dockblock)
 
 	if err != nil {
 		return nil, err

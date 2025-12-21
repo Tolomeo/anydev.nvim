@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"path"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
@@ -189,6 +190,61 @@ func (n *Nvim) DeleteBuffer() error {
 	return nil
 }
 
+var counter = 0
+
+type buffer struct {
+	name     string
+	previous string
+	Edit     func([]string) error
+	Delete   func() error
+}
+
+func (n *Nvim) Buffer() (*buffer, error) {
+	counter += 1
+	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
+
+	previous, err := n.GetBufferName()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &buffer{
+		name:     name,
+		previous: previous,
+		Edit: func(lines []string) error {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return fmt.Errorf("Error writing to buffer '%s': %w", name, err)
+			}
+
+			return n.SetBufferLines(lines)
+		},
+		Delete: func() error {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return err
+			}
+
+			err = n.DeleteBuffer()
+
+			if err != nil {
+				return err
+			}
+
+			_, err = n.Open(previous)
+
+			if err != nil {
+				return err
+			}
+
+			return nil
+		},
+	}, nil
+}
+
 /*
 	 func (n *Nvim) ApiInfo() (any, error) {
 		request := requestMessage{
@@ -250,7 +306,6 @@ func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 
 	return result, nil
 }
-
 
 func (n *Nvim) GetRuntimeType(variable string) (string, error) {
 	runtimePath := variable
