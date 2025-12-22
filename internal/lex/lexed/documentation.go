@@ -2,15 +2,12 @@ package lexed
 
 import (
 	"encoding/json"
-	"fmt"
 	"regexp"
 )
 
 var eCommentContent = regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
 
 func (d *Documentation) MarshalJSON() ([]byte, error) {
-	fmt.Println(d)
-
 	out := make([]string, len(*d))
 
 	for index, line := range *d {
@@ -24,6 +21,5 @@ func (d *Documentation) MarshalJSON() ([]byte, error) {
 		out[index] = line
 	}
 
-	fmt.Println(out)
 	return json.Marshal(out)
 }

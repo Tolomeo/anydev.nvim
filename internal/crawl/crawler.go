@@ -2,8 +2,6 @@ package crawl
 
 import (
 	"fmt"
-	// "path"
-	// "regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
@@ -19,24 +17,6 @@ type logger interface {
 type Crawler struct {
 	config *CrawlerConfig
 }
-
-/* func (c *Crawler) scratch(lines []string) error {
-	buffer := path.Join(c.config.nvim.Options().Config().Dir(), "anydev.crawler.lua")
-
-	_, err := c.config.nvim.Open(buffer)
-
-	if err != nil {
-		return err
-	}
-
-	err = c.config.nvim.SetBufferLines(lines)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-} */
 
 func (c *Crawler) SourceRuntime(path string) (*Source, error) {
 	source := Source{path: path}
@@ -58,25 +38,6 @@ func (c *Crawler) sourceRuntime(path string, source *Source) error {
 
 	source.origin = pathOrigin
 
-	/* fields, err := c.config.nvim.GetCompletion(path)
-
-	if err != nil {
-		return err
-	}
-
-	for _, fieldName := range fields {
-		childSource := Source{path: fieldName}
-		childPath := fmt.Sprintf("%s.%s", path, fieldName)
-
-		err := c.sourceRuntime(childPath, &childSource)
-
-		if err != nil {
-			return err
-		}
-
-		source.fields = append(source.fields, &childSource)
-	}
-	*/
 	return nil
 }
 
@@ -126,8 +87,6 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 	if foundMeta {
 		return nil, nil
 	}
-
-	fmt.Println(captures)
 
 	rightValue, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
 		return capture.Id == "assignment.right"
@@ -304,23 +263,6 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 	}
 
 	pathOrigin.documentation = *commentBlockLines
-
-	/* eCommentContent := regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
-
-	documentation := []string{}
-
-	for _, sourceLine := range *commentBlockLines {
-		matches := eCommentContent.FindStringSubmatch(sourceLine)
-
-		if len(matches) < 2 {
-			documentation = append(documentation, "")
-			continue
-		}
-
-		documentation = append(documentation, matches[1])
-	}
-
-	pathOrigin.documentation = documentation */
 
 	return true, nil
 

@@ -72,7 +72,7 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 		return symbol, nil
 	}
 
-	buffer, err  := l.context.nvim.Buffer()
+	buffer, err := l.context.nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -125,6 +125,8 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 	case meta != nil:
 		symbol, err := l.lexMeta(meta)
 
+		fmt.Printf("%+v", source.Origin())
+
 		if err != nil {
 			return nil, err
 		}
@@ -133,80 +135,6 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 	}
 	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, sourceOrigin)
 }
-
-/* func (l *Lexer) lexVariableDeclaration(source *crawl.Source) (lexed.Symbol, error) {
-	table, err := l.matchTable(source)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case table == nil:
-		return nil, nil
-	}
-
-	err = l.lexTable(table)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return table, nil
-}
-
-func (l *Lexer) lexFunctionDeclaration(source *crawl.Source) (lexed.Symbol, error) {
-	function, err := l.matchFunction(source)
-
-	if err != nil {
-		return nil, err
-	}
-
-	err = l.lexFunction(function)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return function, nil
-} */
-
-/* func (l *Lexer) scratch(lines []string) error {
-	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
-
-	_, err := l.context.nvim.Open(buffer)
-
-	if err != nil {
-		return fmt.Errorf("Error writing to scratch buffer: %w", err)
-	}
-
-	err = l.context.nvim.SetBufferLines(lines)
-
-	if err != nil {
-		return fmt.Errorf("Error writing to scratch buffer: %w", err)
-	}
-
-	return nil
-} */
-
-/* func (l *Lexer) temp(procedure func() error) error {
-	buffer := path.Join(l.context.nvim.Options().Config().Dir(), "anydev.lexer.lua")
-
-	_, err := l.context.nvim.Open(buffer)
-
-	previousLines, err := l.context.nvim.GetBufferLines(0, -1)
-	defer l.scratch(previousLines)
-
-	if err != nil {
-		return fmt.Errorf("Error reading scratch buffer: %w", err)
-	}
-
-	err = procedure()
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-} */
 
 func NewLexer() *Lexer {
 	return &Lexer{}
