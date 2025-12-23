@@ -50,7 +50,7 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 }
 
 func (l *Lexer) source(path string) (*crawl.Source, error) {
-	source, err := l.context.crawler.SourceRuntime(path)
+	source, err := l.context.crawler.Source(path)
 
 	switch {
 	case err != nil:
@@ -81,7 +81,7 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 	defer buffer.Delete()
 
 	sourceDefinition := sourceOrigin.Definition()
-	err = buffer.Edit(sourceDefinition)
+	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {
 		return nil, err

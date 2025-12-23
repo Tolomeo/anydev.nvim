@@ -376,7 +376,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		returns:   []lexed.FunctionReturn{},
 	}
 
-	err = buffer.Edit(dockblock)
+	err = buffer.SetLines(dockblock)
 
 	if err != nil {
 		return nil, err

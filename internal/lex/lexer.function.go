@@ -151,7 +151,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.Edit(source.Origin().Definition())
+	err = buffer.SetLines(source.Origin().Definition())
 
 	if err != nil {
 		return nil, err

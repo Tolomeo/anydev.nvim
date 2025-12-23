@@ -250,7 +250,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 	defer buffer.Delete()
 
 	typeAnnotation := fmt.Sprintf("---@type %s", source)
-	err = buffer.Edit([]string{typeAnnotation})
+	err = buffer.SetLines([]string{typeAnnotation})
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)

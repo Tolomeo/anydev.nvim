@@ -30,7 +30,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.Edit(source.Origin().Definition())
+	err = buffer.SetLines(source.Origin().Definition())
 
 	if err != nil {
 		return nil, err
