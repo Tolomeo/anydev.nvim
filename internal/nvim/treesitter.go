@@ -363,12 +363,17 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 
 		local tree = parser:parse(true)[1]
 		local root = tree:root()
-
 		local node = vim.treesitter.get_node({
 			bufnr = bufnr,
 			pos = { line, character},
 			ignore_injections = false,
 		})
+
+		if node == nil then
+			return vim.NIL
+		end
+
+		local targetNode = nil
 
 		while not node:equal(root) do
 			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
@@ -383,9 +388,9 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 			return vim.NIL
 		end
 
-		local nodeType = node:type()
+		local nodeType = targetNode:type()
 		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
-		local text = vim.treesitter.get_node_text(node, bufnr)
+		local text = vim.treesitter.get_node_text(targetNode, bufnr)
 
 		return vim.fn.json_encode({
 			type = nodeType,
