@@ -5,6 +5,8 @@ const (
 	ASSIGNMENT_STATEMENT string = "assignment_statement"
 	FUNCTION_DECLARATION string = "function_declaration"
 	COMMENT              string = "comment"
+	DOCUMENTATION        string = "documentation"
+	CLASS_ANNOTATION     string = "class_annotation"
 )
 
 func (n *TsNode) Contains(node TsNode) bool {

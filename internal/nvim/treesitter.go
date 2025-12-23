@@ -51,6 +51,20 @@ func (n *Nvim) startTS() error {
 		return fmt.Errorf("Error starting treesitter lua: %w", err)
 	}
 
+	// Query injections are only recalculated when the buffer changes
+	// so we make a (hopefully) inhert change to force their presence
+	// by adding an empty line at the end of the buffer text
+	luaCode = `
+		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(keys, "n", false)
+	`
+
+	_, err = n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -61,21 +75,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		return nil, err
 	}
 
-	// Query injections are only recalculated when the buffer changes
-	// so we make a (hopefully) inhert change to force their presence
-	// by adding an empty line at the end of the buffer text
 	luaCode := `
-		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
-		vim.api.nvim_feedkeys(keys, "n", false)
-	`
-
-	_, err = n.ExecLua(luaCode, []any{})
-
-	if err != nil {
-		return nil, err
-	}
-
-	luaCode = `
 		local args = { ... }
 		local query_language = args[1]
 		local query = args[2]
@@ -330,6 +330,93 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 	return &results, nil
 }
 
+func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) error {
+	err := n.startTS()
+
+	if err != nil {
+		return err
+	}
+
+	luaCode := `
+		local args = { ... }
+		local ancestorNodeTypes = args[1]
+		local line = args[2]
+		local character = args[3]
+
+		local lua = "lua"
+		local luadoc = "luadoc"
+		local bufnr = 0
+
+		local parser = vim.treesitter.get_parser(bufnr, lua)
+
+		if not parser then
+			error("Error: could not initialize lua parser")
+		end
+
+		parser:add_child(luadoc)
+
+		local childParser = parser:children()[luadoc]
+
+		if not childParser then 
+			error("Error: could not initialize luadoc parser")
+		end
+
+		local tree = parser:parse(true)[1]
+		local root = tree:root()
+
+		local node = vim.treesitter.get_node({
+			bufnr = bufnr,
+			pos = { line, character},
+			ignore_injections = false,
+		})
+
+		while not node:equal(root) do
+			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
+				targetNode = node
+				break
+			end
+
+			node = node:parent()
+		end
+
+		if targetNode == nil then
+			return vim.NIL
+		end
+
+		local nodeType = node:type()
+		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
+		local text = vim.treesitter.get_node_text(node, bufnr)
+
+		return vim.fn.json_encode({
+			type = nodeType,
+			range = {
+				start = { line = startLine, character = startCharacter },
+				["end"] = { line = endLine, character = endCharacter },
+			},
+			text = text
+		})
+	`
+
+	result, err := n.ExecLua(luaCode, []any{nodeTypes, line, character})
+
+	switch {
+	case err != nil:
+		return err
+	case result == nil:
+		return nil
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return fmt.Errorf("Error converting result into string: %v", result)
+	}
+
+	fmt.Printf("\nResult:\n%+v\n", stringResult)
+
+	return nil
+}
+
 func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
 	err := n.startTS()
 
@@ -370,7 +457,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.T
 
 		local nodeType = node:type()
 		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
-	  local text = vim.treesitter.get_node_text(node, bufnr)
+		local text = vim.treesitter.get_node_text(node, bufnr)
 
 		return vim.fn.json_encode({
 			type = nodeType,
