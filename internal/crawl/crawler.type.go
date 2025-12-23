@@ -84,11 +84,11 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{ts.CLASS_ANNOTATION}, line, character)
+		node, err := c.config.nvim.GetTSNodeAt([]string{ts.CLASS_ANNOTATION, ts.ALIAS_ANNOTATION}, line, character)
 
-		err = c.config.nvim.GetTSNodeAtTest([]string{ts.CLASS_ANNOTATION}, line, character)
+		// err = c.config.nvim.GetTSNodeAtTest([]string{ts.CLASS_ANNOTATION, ts.ALIAS_ANNOTATION}, line, character)
 
-		fmt.Printf("\nError:\n%+v\n", err)
+		// fmt.Printf("\nError:\n%+v\n", err)
 
 		switch {
 		case err != nil:

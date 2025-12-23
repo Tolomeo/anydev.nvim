@@ -125,6 +125,7 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 	case meta != nil:
 		symbol, err := l.lexMeta(meta)
 
+		fmt.Println("Meta origin:")
 		fmt.Printf("%+v", source.Origin())
 
 		if err != nil {

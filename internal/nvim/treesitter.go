@@ -330,11 +330,11 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 	return &results, nil
 }
 
-func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) error {
+func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
 	err := n.startTS()
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	luaCode := `
@@ -365,15 +365,14 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 
 		local node = nil
 
-		root_parser:for_each_tree(function (tree, parser)
-			if node ~= nil then return end
+		root_parser:for_each_tree(function(_, parser)
+			if node ~= nil then
+				return
+			end
 
-			local tree_root = tree:root()
 			local tree_node = parser:named_node_for_range({ line, character, line, character })
 
-			if tree_node == nil then return end
-
-			while not tree_node:equal(tree_root) do
+			while tree_node ~= nil do
 				if vim.tbl_contains(ancestorNodeTypes, tree_node:type()) then
 					node = tree_node
 					break
@@ -398,78 +397,6 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 				["end"] = { line = endLine, character = endCharacter },
 			},
 			text = text,
-		})
-	`
-
-	result, err := n.ExecLua(luaCode, []any{nodeTypes, line, character})
-
-	switch {
-	case err != nil:
-		return err
-	case result == nil:
-		return nil
-	}
-
-	stringResult, ok := result.(string)
-
-	if !ok {
-		return fmt.Errorf("Error converting result into string: %v", result)
-	}
-
-	fmt.Printf("\nResult:\n%+v\n", stringResult)
-
-	return nil
-}
-
-func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
-	err := n.startTS()
-
-	if err != nil {
-		return nil, err
-	}
-
-	luaCode := `
-		local args = { ... }
-		local ancestorNodeTypes = args[1]
-		local line = args[2]
-		local character = args[3]
-		local bufnr = 0
-
-		local parser = vim.treesitter.get_parser(bufnr, "lua")
-		local root = parser:parse()[1]:root()
-
-		local node = root:descendant_for_range(line, character, line, character)
-
-		if node == nil then
-			return vim.NIL
-		end
-
-		local targetNode = nil
-
-		while not node:equal(root) do
-			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
-				targetNode = node
-				break
-			end
-
-			node = node:parent()
-		end
-
-		if targetNode == nil then
-			return vim.NIL
-		end
-
-		local nodeType = node:type()
-		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
-		local text = vim.treesitter.get_node_text(node, bufnr)
-
-		return vim.fn.json_encode({
-			type = nodeType,
-			range = {
-				start = { line = startLine, character = startCharacter },
-				["end"] = { line = endLine, character = endCharacter },
-			},
-			text = text
 		})
 	`
 

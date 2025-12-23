@@ -278,7 +278,13 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 		return tableType, nil
 	}
 
-	// l.lexTypeReference(source)
+	reference, err := l.context.crawler.SourceType(source)
+
+	if err != nil {
+		fmt.Printf("Reference error: %v", err)
+	}
+
+	fmt.Printf("\nReference source:\n%+v\n\n", reference)
 
 	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
