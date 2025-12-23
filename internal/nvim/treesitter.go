@@ -347,50 +347,49 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 		local luadoc = "luadoc"
 		local bufnr = 0
 
-		local parser = vim.treesitter.get_parser(bufnr, lua)
+		local root_parser = vim.treesitter.get_parser(bufnr, lua)
 
-		if not parser then
+		if not root_parser then
 			error("Error: could not initialize lua parser")
 		end
 
-		parser:add_child(luadoc)
+		root_parser:add_child(luadoc)
 
-		local childParser = parser:children()[luadoc]
+		local childParser = root_parser:children()[luadoc]
 
-		if not childParser then 
+		if not childParser then
 			error("Error: could not initialize luadoc parser")
 		end
 
-		local tree = parser:parse(true)[1]
-		local root = tree:root()
-		local node = vim.treesitter.get_node({
-			bufnr = bufnr,
-			pos = { line, character},
-			ignore_injections = false,
-		})
+		root_parser:parse(true)
+
+		local node = nil
+
+		root_parser:for_each_tree(function (tree, parser)
+			if node ~= nil then return end
+
+			local tree_root = tree:root()
+			local tree_node = parser:named_node_for_range({ line, character, line, character })
+
+			if tree_node == nil then return end
+
+			while not tree_node:equal(tree_root) do
+				if vim.tbl_contains(ancestorNodeTypes, tree_node:type()) then
+					node = tree_node
+					break
+				end
+
+				tree_node = tree_node:parent()
+			end
+		end)
 
 		if node == nil then
 			return vim.NIL
 		end
 
-		local targetNode = nil
-
-		while not node:equal(root) do
-			if vim.tbl_contains(ancestorNodeTypes, node:type()) then
-				targetNode = node
-				break
-			end
-
-			node = node:parent()
-		end
-
-		if targetNode == nil then
-			return vim.NIL
-		end
-
-		local nodeType = targetNode:type()
-		local startLine, startCharacter, endLine, endCharacter = targetNode:range(false)
-		local text = vim.treesitter.get_node_text(targetNode, bufnr)
+		local nodeType = node:type()
+		local startLine, startCharacter, endLine, endCharacter = node:range(false)
+		local text = vim.treesitter.get_node_text(node, bufnr)
 
 		return vim.fn.json_encode({
 			type = nodeType,
@@ -398,7 +397,7 @@ func (n *Nvim) GetTSNodeAtTest(nodeTypes []string, line uint, character uint) er
 				start = { line = startLine, character = startCharacter },
 				["end"] = { line = endLine, character = endCharacter },
 			},
-			text = text
+			text = text,
 		})
 	`
 
