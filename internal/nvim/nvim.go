@@ -105,7 +105,7 @@ func (n *Nvim) GetBufferName() (string, error) {
 	return result.(string), nil
 }
 
-func (n *Nvim) SetBufferLines(lines []string) error {
+func (n *Nvim) setBufferLines(lines []string) error {
 	request := requestMessage{
 		method: "nvim_buf_set_lines",
 		params: []any{0, 0, -1, true, lines},
@@ -113,13 +113,13 @@ func (n *Nvim) SetBufferLines(lines []string) error {
 	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error sending nvim_buf_set_lines rpc message: %v\n", err)
 	}
 
 	_, err = response.Result()
 
 	if err != nil {
-		return err
+		return fmt.Errorf("Error setting buffer lines: %v\n", err)
 	}
 
 	return nil
@@ -195,7 +195,7 @@ var counter = 0
 type buffer struct {
 	name     string
 	previous string
-	Edit     func([]string) error
+	SetLines     func([]string) error
 	Delete   func() error
 }
 
@@ -212,14 +212,18 @@ func (n *Nvim) Buffer() (*buffer, error) {
 	return &buffer{
 		name:     name,
 		previous: previous,
-		Edit: func(lines []string) error {
+		SetLines: func(lines []string) error {
 			_, err := n.Open(name)
 
 			if err != nil {
 				return fmt.Errorf("Error writing to buffer '%s': %w", name, err)
 			}
 
-			return n.SetBufferLines(lines)
+			if len(lines) < 1 {
+				return n.setBufferLines([]string{""})
+			}
+
+			return n.setBufferLines(lines)
 		},
 		Delete: func() error {
 			_, err := n.Open(name)
@@ -295,7 +299,7 @@ func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error executing lua: %v\n", err)
+		return nil, fmt.Errorf("Error sending nvim_exec_lua rpc message: %v\n", err)
 	}
 
 	result, err := response.Result()
