@@ -57,7 +57,7 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 		return nil, err
 	}
 
-	captures, hasCaptures, err := slicesx.MapFindFunc(mapx.Values(variableAssignmentQueries), func(variableAssignmentQuery string) (*[]ts.Capture, bool, error) {
+	captures, hasCaptures, err := slicesx.MapFindFunc(mapx.Values(variableAssignmentQueries), func(variableAssignmentQuery string) (*nvim.TsQueryMatch, bool, error) {
 		assignmentCaptures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
 
 		switch {

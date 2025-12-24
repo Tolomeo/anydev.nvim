@@ -3,10 +3,8 @@ package lex
 import (
 	"fmt"
 
-	// "github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
@@ -200,7 +198,7 @@ var paramAnnotationQueries = map[string]string{
 func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error) {
 	matches, hasMatches, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
-		func(paramAnnotationQuery string) (*[][]ts.Capture, bool, error) {
+		func(paramAnnotationQuery string) (*[]nvim.TsQueryMatch, bool, error) {
 			paramMatches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {

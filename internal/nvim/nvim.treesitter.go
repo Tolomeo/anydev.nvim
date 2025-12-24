@@ -176,7 +176,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 
 type TsQueryMatch []ts.Capture
 
-func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
+func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
 	queryAllConfig := TsQueryConfig{
 		Language: config.Language,
 		Query:    fmt.Sprintf("(%s) @tsquery.match", config.Query),
@@ -199,7 +199,7 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
 		return (capture.Id == "tsquery.match"), nil
 	})
 
-	queryMatches, _ := slicesx.MapFunc(queryCaptures, func(queryCapture ts.Capture) ([]ts.Capture, error) {
+	queryMatches, _ := slicesx.MapFunc(queryCaptures, func(queryCapture ts.Capture) (TsQueryMatch, error) {
 		return slicesx.FilterFunc(*captures, func(capture ts.Capture) (bool, error) {
 			if capture.Id == queryCapture.Id {
 				return false, nil
@@ -215,7 +215,7 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[][]ts.Capture, error) {
 	return &queryMatches, nil
 }
 
-func (n *Nvim) TsQueryOne(config TsQueryConfig) (*[]ts.Capture, error) {
+func (n *Nvim) TsQueryOne(config TsQueryConfig) (*TsQueryMatch, error) {
 	matches, err := n.TsQueryAll(config)
 
 	switch {
