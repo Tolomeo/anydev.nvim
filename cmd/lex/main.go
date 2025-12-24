@@ -78,7 +78,7 @@ func main() {
 
 	context := context.New(logger, client)
 	lexer := lex.NewLexer()
-	err = lexer.Lex(paths, context)
+	err = lexer.LexValue(paths, context)
 
 	if err != nil {
 		/* fmt.Println("Errorrrrr")

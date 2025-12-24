@@ -20,7 +20,7 @@ type Crawler struct {
 
 func (c *Crawler) Source(path string) (*Source, error) {
 	source := Source{path: path}
-	err := c.sourceRuntime(path, &source)
+	err := c.sourceValue(path, &source)
 
 	if err != nil {
 		return nil, err

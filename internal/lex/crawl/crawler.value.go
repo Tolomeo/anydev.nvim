@@ -9,8 +9,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (c *Crawler) sourceRuntime(path string, source *Source) error {
-	pathOrigin, err := c.sourceOrigin(path)
+func (c *Crawler) sourceValue(path string, source *Source) error {
+	pathOrigin, err := c.sourceValueOrigin(path)
 
 	if err != nil {
 		return err
@@ -85,13 +85,13 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.node.Text)
 	}
 
-	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
+	rightValueLocations, err := c.findValueDefinitionLocations(rightValue.Node.Text)
 
 	if err != nil {
 		return nil, err
 	}
 
-	rightValueOrigin, err := c.findOrigin(path, *rightValueLocations)
+	rightValueOrigin, err := c.findValueOrigin(path, *rightValueLocations)
 
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ var requireAssignmentQuery string = `
 	)
 `
 
-func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, error) {
+func (c *Crawler) followRequireValueAssignment(path string, o *origin) (*origin, error) {
 	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
@@ -149,13 +149,13 @@ func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, erro
 		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.node.Text)
 	}
 
-	moduleLocations, err := c.findModuleLocations(moduleNameCapture.Node.Text)
+	moduleLocations, err := c.findModuleValueLocations(moduleNameCapture.Node.Text)
 
 	if err != nil {
 		return nil, err
 	}
 
-	moduleOrigin, err := c.findOrigin(path, *moduleLocations)
+	moduleOrigin, err := c.findValueOrigin(path, *moduleLocations)
 
 	switch {
 	case err != nil:
@@ -167,12 +167,12 @@ func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, erro
 	return moduleOrigin, nil
 }
 
-func (c *Crawler) follow(path string, pathOrigin **origin) error {
+func (c *Crawler) followValueOrigin(path string, pathOrigin **origin) error {
 	o := *pathOrigin
 
 	switch o.node.Type {
 	case treesitter.ASSIGNMENT_STATEMENT:
-		requiredOrigin, err := c.followRequireAssignment(path, o)
+		requiredOrigin, err := c.followRequireValueAssignment(path, o)
 
 		switch {
 		case err != nil:
@@ -198,7 +198,7 @@ func (c *Crawler) follow(path string, pathOrigin **origin) error {
 	return nil
 }
 
-func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, error) {
+func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*origin, error) {
 	for _, location := range locations {
 		_, err := c.context.Nvim.Open(location.Url)
 
@@ -223,7 +223,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 			node:     *node,
 		}
 
-		err = c.follow(path, &pathOrigin)
+		err = c.followValueOrigin(path, &pathOrigin)
 
 		if err != nil {
 			return nil, err
@@ -235,7 +235,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 	return nil, nil
 }
 
-func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
+func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
 	_, err := c.context.Nvim.Open(pathOrigin.Url())
 
 	if err != nil {
@@ -257,8 +257,8 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 
 }
 
-func (c *Crawler) sourceOrigin(path string) (*origin, error) {
-	locations, err := c.findDefinitionLocations(path)
+func (c *Crawler) sourceValueOrigin(path string) (*origin, error) {
+	locations, err := c.findValueDefinitionLocations(path)
 
 	switch {
 	case err != nil:
@@ -268,7 +268,7 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 		return nil, nil
 	}
 
-	pathOrigin, err := c.findOrigin(path, *locations)
+	pathOrigin, err := c.findValueOrigin(path, *locations)
 
 	switch {
 	case err != nil:
@@ -278,7 +278,7 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 		return nil, nil
 	}
 
-	hasDocumentation, err := c.sourceOriginDocumentation(path, pathOrigin)
+	hasDocumentation, err := c.sourceValueOriginDocumentation(path, pathOrigin)
 
 	switch {
 	case err != nil:
@@ -290,7 +290,7 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 	return pathOrigin, nil
 }
 
-func (c *Crawler) findModuleLocations(moduleName string) (*[]nvim.Location, error) {
+func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
@@ -320,7 +320,7 @@ func (c *Crawler) findModuleLocations(moduleName string) (*[]nvim.Location, erro
 	return locations, nil
 }
 
-func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error) {
+func (c *Crawler) findValueDefinitionLocations(path string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {

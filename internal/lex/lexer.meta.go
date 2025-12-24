@@ -58,8 +58,8 @@ func (l *Lexer) lexMeta(unknown *symbol.Unknown) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	if annotations.Type != nil {
-		return annotations.Type, nil
+	if annotations.tipe != nil {
+		return annotations.tipe, nil
 	}
 
 	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))

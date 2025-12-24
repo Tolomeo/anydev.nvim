@@ -13,7 +13,7 @@ type Lexer struct {
 	context *context.Context
 }
 
-func (l *Lexer) Lex(paths []string, context *context.Context) error {
+func (l *Lexer) LexValue(paths []string, context *context.Context) error {
 	l.context = context
 	l.crawler = crawl.NewCrawler(l.context)
 	defer func() {

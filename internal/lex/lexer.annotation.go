@@ -13,7 +13,7 @@ import (
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedAnnotations struct {
-	Type      symbol.Symbol
+	tipe      symbol.Symbol
 	private   bool
 	protected bool
 	params    map[string]symbol.FunctionArg
@@ -62,7 +62,7 @@ func (l *Lexer) lexTypeAnnotations(annotations *lexedAnnotations) (bool, error) 
 		return false, err
 	}
 
-	annotations.Type = lexedType
+	annotations.tipe = lexedType
 	return true, nil
 }
 

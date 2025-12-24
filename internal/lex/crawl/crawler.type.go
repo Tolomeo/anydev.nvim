@@ -100,7 +100,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 
 		fmt.Printf("\nType origin:\n%+v\n", location)
 
-		err = c.follow(path, &typeOrigin)
+		err = c.followValueOrigin(path, &typeOrigin)
 
 		if err != nil {
 			return nil, err
