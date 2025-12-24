@@ -5,7 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 )
 
 type Lexer struct {
@@ -68,7 +68,7 @@ func (l *Lexer) source(path string) (*crawl.Source, error) {
 	return source, nil
 }
 
-func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
+func (l *Lexer) lex(source *crawl.Source) (symbol.Symbol, error) {
 	sourcePath := source.Path()
 	sourceOrigin := source.Origin()
 

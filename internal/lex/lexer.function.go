@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -142,7 +142,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
+func (l *Lexer) matchFunction(source *crawl.Source) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -195,7 +195,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 	return nil, nil
 }
 
-func (l *Lexer) lexFunction(function *lexed.Function) error {
+func (l *Lexer) lexFunction(function *symbol.Function) error {
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {

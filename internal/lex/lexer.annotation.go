@@ -3,7 +3,7 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -13,13 +13,13 @@ import (
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedAnnotations struct {
-	Type      lexed.Symbol
+	Type      symbol.Symbol
 	private   bool
 	protected bool
-	params    map[string]lexed.FunctionArg
-	overloads []lexed.FunctionOverload
-	generics  []lexed.FunctionGeneric
-	returns   []lexed.FunctionReturn
+	params    map[string]symbol.FunctionArg
+	overloads []symbol.FunctionOverload
+	generics  []symbol.FunctionGeneric
+	returns   []symbol.FunctionReturn
 }
 
 var typeAnnotationQuery string = fmt.Sprintf(`
@@ -93,7 +93,7 @@ func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, err
 			continue
 		}
 
-		overload := lexed.FunctionOverload{}
+		overload := symbol.FunctionOverload{}
 
 		for _, capture := range match.Captures {
 			switch capture.Id {
@@ -106,7 +106,7 @@ func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, err
 					return false, fmt.Errorf("Error overload annotation type: %w", err)
 				}
 
-				overloadFunctionType, isFunctionType := overloadType.(*lexed.Function)
+				overloadFunctionType, isFunctionType := overloadType.(*symbol.Function)
 
 				if !isFunctionType {
 					return false, fmt.Errorf("Error lexing overload annotation type: lexed type '%+v' is not a function", overloadFunctionType)
@@ -146,7 +146,7 @@ func (l *Lexer) lexGenericAnnotations(annotations *lexedAnnotations) (bool, erro
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedGeneric := lexed.FunctionGeneric{}
+		lexedGeneric := symbol.FunctionGeneric{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
@@ -220,7 +220,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedParam := lexed.FunctionArg{}
+		lexedParam := symbol.FunctionArg{}
 
 		for _, matchCapture := range matchCaptures {
 			switch matchCapture.Id {
@@ -231,7 +231,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 			case "documentation":
 				lexedParam.Documentation = []string{matchCapture.Node.Text}
 			case "type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
 					return generic.Name == matchCapture.Node.Text
 				}); isGeneric {
 					lexedParam.Type = newReferenceType(generic.Name)
@@ -278,7 +278,7 @@ func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error
 	}
 
 	for _, matchCaptures := range *matches {
-		functionReturn := lexed.FunctionReturn{}
+		functionReturn := symbol.FunctionReturn{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
@@ -287,7 +287,7 @@ func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error
 			case "return.documentation":
 				functionReturn.Documentation = []string{capture.Node.Text}
 			case "return.type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic lexed.FunctionGeneric) bool {
+				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
 					return generic.Name == capture.Node.Text
 				}); isGeneric {
 					functionReturn.Type = newReferenceType(generic.Name)
@@ -368,10 +368,10 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	defer buffer.Delete()
 
 	annotations := lexedAnnotations{
-		generics:  []lexed.FunctionGeneric{},
-		params:    make(map[string]lexed.FunctionArg),
-		overloads: []lexed.FunctionOverload{},
-		returns:   []lexed.FunctionReturn{},
+		generics:  []symbol.FunctionGeneric{},
+		params:    make(map[string]symbol.FunctionArg),
+		overloads: []symbol.FunctionOverload{},
+		returns:   []symbol.FunctionReturn{},
 	}
 
 	err = buffer.SetLines(dockblock)

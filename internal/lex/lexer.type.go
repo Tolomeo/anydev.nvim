@@ -5,50 +5,50 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
 var ErrNoMatch = errors.New("No match")
 
-func newReferenceType(value string) lexed.Reference {
-	return lexed.Reference{
-		Kind:  lexed.ReferenceKindReference,
+func newReferenceType(value string) symbol.Reference {
+	return symbol.Reference{
+		Kind:  symbol.ReferenceKindReference,
 		Value: value,
 	}
 }
 
-func newFunctionType() *lexed.Function {
-	return &lexed.Function{
-		Kind: lexed.FunctionKindFunction,
+func newFunctionType() *symbol.Function {
+	return &symbol.Function{
+		Kind: symbol.FunctionKindFunction,
 	}
 }
 
-func newFunctionTypeArg(name string) lexed.FunctionArg {
-	return lexed.FunctionArg{
+func newFunctionTypeArg(name string) symbol.FunctionArg {
+	return symbol.FunctionArg{
 		Name:     name,
 		Type:     newUnknownType(),
 		Optional: false,
 	}
 }
 
-func newBuiltinType(value lexed.BuiltinValue) lexed.Builtin {
-	return lexed.Builtin{
-		Kind:  lexed.BuiltinKindBuiltin,
+func newBuiltinType(value symbol.BuiltinValue) symbol.Builtin {
+	return symbol.Builtin{
+		Kind:  symbol.BuiltinKindBuiltin,
 		Value: value,
 	}
 }
 
-func newUnknownType() *lexed.Unknown {
-	return &lexed.Unknown{
-		Kind: lexed.UnknownKindUnknown,
+func newUnknownType() *symbol.Unknown {
+	return &symbol.Unknown{
+		Kind: symbol.UnknownKindUnknown,
 	}
 }
 
-func newTableType() *lexed.Table {
-	return &lexed.Table{
-		Kind: lexed.TableKindTable,
+func newTableType() *symbol.Table {
+	return &symbol.Table{
+		Kind: symbol.TableKindTable,
 	}
 }
 
@@ -102,7 +102,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 	)
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
-func (l *Lexer) lexFunctionType(function *lexed.Function) error {
+func (l *Lexer) lexFunctionType(function *symbol.Function) error {
 	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
@@ -112,13 +112,13 @@ func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 		return ErrNoMatch
 	}
 
-	args := []lexed.FunctionArg{}
-	returns := []lexed.FunctionReturn{}
+	args := []symbol.FunctionArg{}
+	returns := []symbol.FunctionReturn{}
 
 	for _, capture := range *captures {
 		switch capture.Id {
 		case "parameter":
-			args = append(args, lexed.FunctionArg{})
+			args = append(args, symbol.FunctionArg{})
 		case "parameter.name":
 			args[len(args)-1].Name = capture.Node.Text
 		case "parameter.type":
@@ -136,7 +136,7 @@ func (l *Lexer) lexFunctionType(function *lexed.Function) error {
 				return err
 			}
 
-			returns = append(returns, lexed.FunctionReturn{
+			returns = append(returns, symbol.FunctionReturn{
 				Type: returnType,
 			})
 		}
@@ -160,7 +160,7 @@ var typeTableQuery string = `
 	)
 `
 
-func (l *Lexer) lexTableType(table *lexed.Table) error {
+func (l *Lexer) lexTableType(table *symbol.Table) error {
 	matches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
@@ -175,7 +175,7 @@ func (l *Lexer) lexTableType(table *lexed.Table) error {
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "table":
-				table.Fields = append(table.Fields, lexed.TableField{})
+				table.Fields = append(table.Fields, symbol.TableField{})
 			case "key":
 				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 			case "value":
@@ -193,32 +193,32 @@ func (l *Lexer) lexTableType(table *lexed.Table) error {
 	return nil
 }
 
-func (l *Lexer) lexBuiltinType(source string) lexed.Symbol {
+func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	switch source {
 	case "void":
-		return newBuiltinType(lexed.BuiltinValueVoid)
+		return newBuiltinType(symbol.BuiltinValueVoid)
 	case "nil":
-		return newBuiltinType(lexed.BuiltinValueNil)
+		return newBuiltinType(symbol.BuiltinValueNil)
 	case "any":
-		return newBuiltinType(lexed.BuiltinValueAny)
+		return newBuiltinType(symbol.BuiltinValueAny)
 	case "boolean":
-		return newBuiltinType(lexed.BuiltinValueBoolean)
+		return newBuiltinType(symbol.BuiltinValueBoolean)
 	case "string":
-		return newBuiltinType(lexed.BuiltinValueString)
+		return newBuiltinType(symbol.BuiltinValueString)
 	case "number":
-		return newBuiltinType(lexed.BuiltinValueNumber)
+		return newBuiltinType(symbol.BuiltinValueNumber)
 	case "integer", "int":
-		return newBuiltinType(lexed.BuiltinValueInteger)
+		return newBuiltinType(symbol.BuiltinValueInteger)
 	case "function":
-		return newBuiltinType(lexed.BuiltinValueFunction)
+		return newBuiltinType(symbol.BuiltinValueFunction)
 	case "table":
-		return newBuiltinType(lexed.BuiltinValueTable)
+		return newBuiltinType(symbol.BuiltinValueTable)
 	case "thread":
-		return newBuiltinType(lexed.BuiltinValueTable)
+		return newBuiltinType(symbol.BuiltinValueTable)
 	case "userdata":
-		return newBuiltinType(lexed.BuiltinValueUserdata)
+		return newBuiltinType(symbol.BuiltinValueUserdata)
 	case "lightuserdata":
-		return newBuiltinType(lexed.BuiltinValueLightuserdata)
+		return newBuiltinType(symbol.BuiltinValueLightuserdata)
 	}
 
 	return nil
@@ -234,7 +234,7 @@ func (l *Lexer) lexBuiltinType(source string) lexed.Symbol {
 
 } */
 
-func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
+func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
 
 	if builtinType != nil {

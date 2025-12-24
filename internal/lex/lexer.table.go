@@ -2,7 +2,7 @@ package lex
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -48,7 +48,7 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
+func (l *Lexer) matchTable(source *crawl.Source) (*symbol.Table, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -88,7 +88,7 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 	return nil, nil
 }
 
-func (l *Lexer) lexTable(table *lexed.Table) error {
+func (l *Lexer) lexTable(table *symbol.Table) error {
 	tablePath := l.context.Current()
 	tableFields, err := l.context.Nvim.GetCompletion(tablePath)
 
@@ -97,7 +97,7 @@ func (l *Lexer) lexTable(table *lexed.Table) error {
 	}
 
 	for _, fieldName := range tableFields {
-		tableField := lexed.TableField{Name: fieldName}
+		tableField := symbol.TableField{Name: fieldName}
 
 		err := l.context.Provide(fieldName, func(path string) error {
 			source, err := l.source(l.context.Current())

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -21,7 +21,7 @@ var metaQuery string = `
 	) @assignment
 `
 
-func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
+func (l *Lexer) matchMeta(source *crawl.Source) (*symbol.Unknown, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -51,7 +51,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
 	return unknown, nil
 }
 
-func (l *Lexer) lexMeta(unknown *lexed.Unknown) (lexed.Symbol, error) {
+func (l *Lexer) lexMeta(unknown *symbol.Unknown) (symbol.Symbol, error) {
 	annotations, err := l.lexAnnotations(unknown.Documentation)
 
 	if err != nil {

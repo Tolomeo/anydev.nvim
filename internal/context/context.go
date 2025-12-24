@@ -3,16 +3,16 @@ package context
 import (
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
+	"github.com/Tolomeo/anydev.nvim/internal/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type result struct {
-	Runtime map[string]lexed.Symbol `json:"runtime" yaml:"runtime"`
-	Types   map[string]lexed.Symbol `json:"types" yaml:"types"`
+	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
+	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
 }
 
-type logger interface {
+type loggerProvider interface {
 	SetKey(key string)
 	DefaultKey()
 	Info(message string)
@@ -24,7 +24,7 @@ type Context struct {
 	path    []string
 	Nvim    *nvim.Nvim
 	result  *result
-	Logger  logger
+	Logger  loggerProvider
 }
 
 func (l *Context) Current() string {
@@ -58,13 +58,13 @@ func (l *Context) Result() *result {
 	return l.result
 }
 
-func New(logger logger, client *nvim.Nvim) *Context {
+func New(logger loggerProvider, client *nvim.Nvim) *Context {
 	return &Context{
 		Nvim:    client,
 		Logger:  logger,
 		result: &result{
-			Runtime: map[string]lexed.Symbol{},
-			Types:   map[string]lexed.Symbol{},
+			Runtime: map[string]symbol.Symbol{},
+			Types:   map[string]symbol.Symbol{},
 		},
 	}
 }

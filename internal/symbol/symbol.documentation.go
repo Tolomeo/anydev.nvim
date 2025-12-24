@@ -1,4 +1,4 @@
-package lexed
+package symbol
 
 import (
 	"encoding/json"
