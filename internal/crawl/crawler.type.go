@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 func (c *Crawler) sourceType(name string, source *Source) error {
@@ -59,7 +59,7 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *origin)
 		return false, err
 	}
 
-	commentBlockLines, err := c.config.nvim.GetCommentBlockAt(typeOrigin.Line(), typeOrigin.Character())
+	commentBlockLines, err := c.readCommentBlock(typeOrigin.Line(), typeOrigin.Character())
 
 	switch {
 	case err != nil:
@@ -84,11 +84,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{ts.CLASS_ANNOTATION, ts.ALIAS_ANNOTATION}, line, character)
-
-		// err = c.config.nvim.GetTSNodeAtTest([]string{ts.CLASS_ANNOTATION, ts.ALIAS_ANNOTATION}, line, character)
-
-		// fmt.Printf("\nError:\n%+v\n", err)
+		node, err := c.config.nvim.GetTSNodeAt([]string{treesitter.CLASS_ANNOTATION, treesitter.ALIAS_ANNOTATION}, line, character)
 
 		switch {
 		case err != nil:

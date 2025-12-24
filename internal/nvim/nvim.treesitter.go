@@ -6,15 +6,14 @@ import (
 	"fmt"
 	"slices"
 
-	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type TsQueryConfig struct {
 	Language string
 	Query    string
-	Range    *ts.LineRange
+	Range    *treesitter.LineRange
 }
 
 func (n *Nvim) startTS() error {
@@ -68,7 +67,7 @@ func (n *Nvim) startTS() error {
 	return nil
 }
 
-func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
+func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]treesitter.Capture, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -165,7 +164,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 		return nil, fmt.Errorf("Error reading tsNodes query result as a string: %v", result)
 	}
 
-	var captures []ts.Capture
+	var captures []treesitter.Capture
 
 	if err := json.Unmarshal([]byte(stringResult), &captures); err != nil {
 		return nil, fmt.Errorf("Error decoding tsNodes json response: %w", err)
@@ -174,7 +173,7 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]ts.Capture, error) {
 	return &captures, nil
 }
 
-type TsQueryMatch []ts.Capture
+type TsQueryMatch []treesitter.Capture
 
 func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
 	queryAllConfig := TsQueryConfig{
@@ -195,12 +194,12 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
 	/* fmt.Println("query all captures")
 	fmt.Printf("\n\n%+v\n\n", captures) */
 
-	queryCaptures, _ := slicesx.FilterFunc(*captures, func(capture ts.Capture) (bool, error) {
+	queryCaptures, _ := slicesx.FilterFunc(*captures, func(capture treesitter.Capture) (bool, error) {
 		return (capture.Id == "tsquery.match"), nil
 	})
 
-	queryMatches, _ := slicesx.MapFunc(queryCaptures, func(queryCapture ts.Capture) (TsQueryMatch, error) {
-		return slicesx.FilterFunc(*captures, func(capture ts.Capture) (bool, error) {
+	queryMatches, _ := slicesx.MapFunc(queryCaptures, func(queryCapture treesitter.Capture) (TsQueryMatch, error) {
+		return slicesx.FilterFunc(*captures, func(capture treesitter.Capture) (bool, error) {
 			if capture.Id == queryCapture.Id {
 				return false, nil
 			}
@@ -239,15 +238,15 @@ func (n *Nvim) TsQueryOne(config TsQueryConfig) (*TsQueryMatch, error) {
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 
-func capturesLineRange(captures []ts.Capture) *ts.LineRange {
-	startLines, _ := slicesx.MapFunc(captures, func(capture ts.Capture) (float64, error) {
+func capturesLineRange(captures []treesitter.Capture) *treesitter.LineRange {
+	startLines, _ := slicesx.MapFunc(captures, func(capture treesitter.Capture) (float64, error) {
 		return capture.Node.Range.Start.Line, nil
 	})
-	endLines, _ := slicesx.MapFunc(captures, func(capture ts.Capture) (float64, error) {
+	endLines, _ := slicesx.MapFunc(captures, func(capture treesitter.Capture) (float64, error) {
 		return capture.Node.Range.End.Line, nil
 	})
 
-	return &ts.LineRange{
+	return &treesitter.LineRange{
 		Start: slices.Min(startLines),
 		End:   slices.Max(endLines),
 	}
@@ -330,7 +329,7 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 	return &results, nil
 }
 
-func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.TsNode, error) {
+func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -415,7 +414,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.T
 		return nil, fmt.Errorf("Error converting result into string: %v", result)
 	}
 
-	tsNode := ts.TsNode{}
+	tsNode := treesitter.TsNode{}
 	err = tsNode.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
@@ -423,68 +422,4 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*ts.T
 	}
 
 	return &tsNode, nil
-}
-
-func (n *Nvim) GetCommentBlockAt(line uint, character uint) (*[]string, error) {
-	lines, err := n.GetBufferLines(int(line)-1, int(line))
-
-	switch {
-	case err != nil:
-		return nil, err
-	case len(lines) < 1:
-		return nil, nil
-	}
-
-	// clamping the received character to be inside the line
-	character = max(0, min(character, uint(len(lines[0])-1)))
-
-	node, err := n.GetTSNodeAt([]string{ts.COMMENT}, line, character)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case node == nil:
-		return nil, nil
-	}
-
-	luaCode := `
-		local args = {...}
-		local startLine = args[1]
-		local endLine = args[2]
-
-		local function is_comment(ln)
-			local rest = ln:match("^%s*(.*)")
-			return rest:sub(1,2) == "--"
-		end
-
-		local previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
-
-		while previous_line and is_comment(previous_line) do
-			startLine = startLine - 1
-			previous_line = vim.api.nvim_buf_get_lines(0, startLine -1, startLine, false)[1]
-		end
-
-		local next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
-
-		while next_line and is_comment(next_line) do
-			endLine = endLine + 1
-			next_line = vim.api.nvim_buf_get_lines(0, endLine + 1, endLine + 2, false)[1]
-		end
-
-		return vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true)
-	`
-
-	result, err := n.ExecLua(luaCode, []any{node.Range.Start.Line, node.Range.End.Line})
-
-	if err != nil {
-		return nil, err
-	}
-
-	bufferLines, err := anyx.ToSliceOf[string](result)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error reading buffer lines return value: %w", err)
-	}
-
-	return &bufferLines, nil
 }

@@ -4,12 +4,12 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 type origin struct {
 	location      nvim.Location
-	node          ts.TsNode
+	node          treesitter.TsNode
 	documentation []string
 }
 

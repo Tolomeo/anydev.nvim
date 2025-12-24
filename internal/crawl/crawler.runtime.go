@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
@@ -77,7 +77,7 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 		return nil, nil
 	}
 
-	rightValue, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+	rightValue, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
 		return capture.Id == "assignment.right"
 	})
 
@@ -141,7 +141,7 @@ func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, erro
 		return nil, nil
 	}
 
-	moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture ts.Capture) bool {
+	moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
 		return capture.Id == "require.module"
 	})
 
@@ -171,7 +171,7 @@ func (c *Crawler) follow(path string, pathOrigin **origin) error {
 	o := *pathOrigin
 
 	switch o.node.Type {
-	case ts.ASSIGNMENT_STATEMENT:
+	case treesitter.ASSIGNMENT_STATEMENT:
 		requiredOrigin, err := c.followRequireAssignment(path, o)
 
 		switch {
@@ -209,7 +209,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{ts.ASSIGNMENT_STATEMENT, ts.VARIABLE_DECLARATION, ts.FUNCTION_DECLARATION}, line, character)
+		node, err := c.config.nvim.GetTSNodeAt([]string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}, line, character)
 
 		switch {
 		case err != nil:
@@ -242,7 +242,7 @@ func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bo
 		return false, err
 	}
 
-	commentBlockLines, err := c.config.nvim.GetCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
+	commentBlockLines, err := c.readCommentBlock(pathOrigin.Line()-1, pathOrigin.Character())
 
 	switch {
 	case err != nil:
