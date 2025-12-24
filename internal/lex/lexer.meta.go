@@ -22,7 +22,7 @@ var metaQuery string = `
 `
 
 func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
-	buffer, err := l.context.nvim.Buffer()
+	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*lexed.Unknown, error) {
 		return nil, err
 	}
 
-	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: metaQuery})
+	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: metaQuery})
 
 	switch {
 	case err != nil:
@@ -62,6 +62,6 @@ func (l *Lexer) lexMeta(unknown *lexed.Unknown) (lexed.Symbol, error) {
 		return annotations.Type, nil
 	}
 
-	l.context.logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.current()))
+	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
 	return unknown, nil
 }

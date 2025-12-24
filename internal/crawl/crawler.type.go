@@ -26,7 +26,7 @@ func (c *Crawler) sourceTypeOrigin(path string) (*origin, error) {
 	case err != nil:
 		return nil, err
 	case locations == nil:
-		c.config.logger.Warn(fmt.Sprintf("No locations found for '%s' type", path))
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' type", path))
 		return nil, nil
 	}
 
@@ -36,7 +36,7 @@ func (c *Crawler) sourceTypeOrigin(path string) (*origin, error) {
 	case err != nil:
 		return nil, err
 	case typeOrigin == nil:
-		c.config.logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", path))
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", path))
 		return nil, nil
 	}
 
@@ -53,7 +53,7 @@ func (c *Crawler) sourceTypeOrigin(path string) (*origin, error) {
 }
 
 func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *origin) (bool, error) {
-	_, err := c.config.nvim.Open(typeOrigin.Url())
+	_, err := c.context.Nvim.Open(typeOrigin.Url())
 
 	if err != nil {
 		return false, err
@@ -75,7 +75,7 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *origin)
 
 func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origin, error) {
 	for _, location := range locations {
-		_, err := c.config.nvim.Open(location.Url)
+		_, err := c.context.Nvim.Open(location.Url)
 
 		if err != nil {
 			return nil, err
@@ -84,7 +84,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{treesitter.CLASS_ANNOTATION, treesitter.ALIAS_ANNOTATION}, line, character)
+		node, err := c.context.Nvim.GetTSNodeAt([]string{treesitter.CLASS_ANNOTATION, treesitter.ALIAS_ANNOTATION}, line, character)
 
 		switch {
 		case err != nil:
@@ -113,7 +113,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 }
 
 func (c *Crawler) findTypeDefinitionLocations(path string) (*[]nvim.Location, error) {
-	buffer, err := c.config.nvim.Buffer()
+	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ func (c *Crawler) findTypeDefinitionLocations(path string) (*[]nvim.Location, er
 
 	line, character := uint(0), uint(len(typeAnnotation))
 
-	locations, err := c.config.nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
 
 	switch {
 	case err != nil:

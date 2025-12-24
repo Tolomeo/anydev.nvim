@@ -43,7 +43,7 @@ var variableAssignmentQueries = map[string]string{
 }
 
 func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, error) {
-	buffer, err := c.config.nvim.Buffer()
+	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 	}
 
 	captures, hasCaptures, err := slicesx.MapFindFunc(mapx.Values(variableAssignmentQueries), func(variableAssignmentQuery string) (*nvim.TsQueryMatch, bool, error) {
-		assignmentCaptures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
+		assignmentCaptures, err := c.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
 
 		switch {
 		case err != nil:
@@ -118,7 +118,7 @@ var requireAssignmentQuery string = `
 `
 
 func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, error) {
-	buffer, err := c.config.nvim.Buffer()
+	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (c *Crawler) followRequireAssignment(path string, o *origin) (*origin, erro
 		return nil, err
 	}
 
-	captures, err := c.config.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery})
+	captures, err := c.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery})
 
 	switch {
 	case err != nil:
@@ -200,7 +200,7 @@ func (c *Crawler) follow(path string, pathOrigin **origin) error {
 
 func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, error) {
 	for _, location := range locations {
-		_, err := c.config.nvim.Open(location.Url)
+		_, err := c.context.Nvim.Open(location.Url)
 
 		if err != nil {
 			return nil, err
@@ -209,7 +209,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := c.config.nvim.GetTSNodeAt([]string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}, line, character)
+		node, err := c.context.Nvim.GetTSNodeAt([]string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}, line, character)
 
 		switch {
 		case err != nil:
@@ -236,7 +236,7 @@ func (c *Crawler) findOrigin(path string, locations []nvim.Location) (*origin, e
 }
 
 func (c *Crawler) sourceOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
-	_, err := c.config.nvim.Open(pathOrigin.Url())
+	_, err := c.context.Nvim.Open(pathOrigin.Url())
 
 	if err != nil {
 		return false, err
@@ -264,7 +264,7 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 	case err != nil:
 		return nil, err
 	case locations == nil:
-		c.config.logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", path))
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", path))
 		return nil, nil
 	}
 
@@ -274,7 +274,7 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 	case err != nil:
 		return nil, err
 	case pathOrigin == nil:
-		c.config.logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", path))
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", path))
 		return nil, nil
 	}
 
@@ -284,14 +284,14 @@ func (c *Crawler) sourceOrigin(path string) (*origin, error) {
 	case err != nil:
 		return nil, err
 	case !hasDocumentation:
-		c.config.logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", path))
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", path))
 	}
 
 	return pathOrigin, nil
 }
 
 func (c *Crawler) findModuleLocations(moduleName string) (*[]nvim.Location, error) {
-	buffer, err := c.config.nvim.Buffer()
+	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -308,7 +308,7 @@ func (c *Crawler) findModuleLocations(moduleName string) (*[]nvim.Location, erro
 
 	line, character := uint(0), uint(len(lines[0])-2)
 
-	locations, err := c.config.nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
 
 	switch {
 	case err != nil:
@@ -321,7 +321,7 @@ func (c *Crawler) findModuleLocations(moduleName string) (*[]nvim.Location, erro
 }
 
 func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error) {
-	buffer, err := c.config.nvim.Buffer()
+	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -338,7 +338,7 @@ func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error)
 
 	line, character := uint(0), uint(len(assignment))
 
-	locations, err := c.config.nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
 
 	switch {
 	case err != nil:

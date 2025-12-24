@@ -3,7 +3,7 @@ package crawl
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
@@ -15,7 +15,7 @@ type logger interface {
 }
 
 type Crawler struct {
-	config *CrawlerConfig
+	context *context.Context
 }
 
 func (c *Crawler) Source(path string) (*Source, error) {
@@ -41,7 +41,7 @@ func (c *Crawler) SourceType(name string) (*Source, error) {
 }
 
 func (c *Crawler) readCommentBlock(line uint, character uint) (*[]string, error) {
-	lines, err := c.config.nvim.GetBufferLines(int(line)-1, int(line))
+	lines, err := c.context.Nvim.GetBufferLines(int(line)-1, int(line))
 
 	switch {
 	case err != nil:
@@ -53,7 +53,7 @@ func (c *Crawler) readCommentBlock(line uint, character uint) (*[]string, error)
 	// clamping the received character to be inside the line
 	character = max(0, min(character, uint(len(lines[0])-1)))
 
-	node, err := c.config.nvim.GetTSNodeAt([]string{treesitter.COMMENT}, line, character)
+	node, err := c.context.Nvim.GetTSNodeAt([]string{treesitter.COMMENT}, line, character)
 
 	switch {
 	case err != nil:
@@ -89,7 +89,7 @@ func (c *Crawler) readCommentBlock(line uint, character uint) (*[]string, error)
 		return vim.api.nvim_buf_get_lines(0, startLine, endLine + 1, true)
 	`
 
-	result, err := c.config.nvim.ExecLua(luaCode, []any{node.Range.Start.Line, node.Range.End.Line})
+	result, err := c.context.Nvim.ExecLua(luaCode, []any{node.Range.Start.Line, node.Range.End.Line})
 
 	if err != nil {
 		return nil, err
@@ -105,20 +105,8 @@ func (c *Crawler) readCommentBlock(line uint, character uint) (*[]string, error)
 
 }
 
-type CrawlerConfig struct {
-	nvim   *nvim.Nvim
-	logger logger
-}
-
-func NewCrawlerConfig(logger logger, nvim *nvim.Nvim) *CrawlerConfig {
-	return &CrawlerConfig{
-		logger: logger,
-		nvim:   nvim,
-	}
-}
-
-func NewCrawler(config *CrawlerConfig) *Crawler {
+func NewCrawler(context *context.Context) *Crawler {
 	return &Crawler{
-		config: config,
+		context: context,
 	}
 }

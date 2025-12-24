@@ -49,7 +49,7 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
-	buffer, err := l.context.nvim.Buffer()
+	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 	}
 
 	for _, query := range tableQueries {
-		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:
@@ -89,8 +89,8 @@ func (l *Lexer) matchTable(source *crawl.Source) (*lexed.Table, error) {
 }
 
 func (l *Lexer) lexTable(table *lexed.Table) error {
-	tablePath := l.context.current()
-	tableFields, err := l.context.nvim.GetCompletion(tablePath)
+	tablePath := l.context.Current()
+	tableFields, err := l.context.Nvim.GetCompletion(tablePath)
 
 	if err != nil {
 		return err
@@ -99,8 +99,8 @@ func (l *Lexer) lexTable(table *lexed.Table) error {
 	for _, fieldName := range tableFields {
 		tableField := lexed.TableField{Name: fieldName}
 
-		err := l.context.provide(fieldName, func(path string) error {
-			source, err := l.source(l.context.current())
+		err := l.context.Provide(fieldName, func(path string) error {
+			source, err := l.source(l.context.Current())
 
 			if err != nil {
 				return err

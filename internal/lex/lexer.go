@@ -3,26 +3,32 @@ package lex
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 )
 
 type Lexer struct {
-	context *lexingContext
+	crawler *crawl.Crawler
+	context *context.Context
 }
 
-func (l *Lexer) Lex(paths []string, context *lexingContext) error {
+func (l *Lexer) Lex(paths []string, context *context.Context) error {
 	l.context = context
-	defer func() { l.context = nil }()
+	l.crawler = crawl.NewCrawler(l.context)
+	defer func() {
+		l.context = nil
+		l.crawler = nil
+	}()
 
 	for _, path := range paths {
-		if _, exists := l.context.result.Runtime[path]; exists {
+		if _, exists := l.context.Result().Runtime[path]; exists {
 			return fmt.Errorf("Error lexing '%s': path already found", path)
 		}
 
 		l.context.Result().Runtime[path] = struct{}{}
 
-		err := l.context.provide(path, func(path string) error {
+		err := l.context.Provide(path, func(path string) error {
 			source, err := l.source(path)
 
 			if err != nil {
@@ -35,7 +41,7 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 				return err
 			}
 
-			l.context.result.Runtime[path] = symbol
+			l.context.Result().Runtime[path] = symbol
 
 			return nil
 		})
@@ -50,7 +56,7 @@ func (l *Lexer) Lex(paths []string, context *lexingContext) error {
 }
 
 func (l *Lexer) source(path string) (*crawl.Source, error) {
-	source, err := l.context.crawler.Source(path)
+	source, err := l.crawler.Source(path)
 
 	switch {
 	case err != nil:
@@ -68,11 +74,11 @@ func (l *Lexer) lex(source *crawl.Source) (lexed.Symbol, error) {
 
 	if sourceOrigin == nil {
 		symbol := newUnknownType()
-		l.context.logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path()))
+		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path()))
 		return symbol, nil
 	}
 
-	buffer, err := l.context.nvim.Buffer()
+	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err

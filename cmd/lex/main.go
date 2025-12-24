@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
@@ -13,7 +13,8 @@ import (
 )
 
 const debug = true
-var paths []string = []string{"vim.validate", "vim.F"}
+// var paths []string = []string{"vim.loop"}
+var paths []string = []string{"vim.F", "vim.validate"}
 
 func getClient() (*nvim.Nvim, error) {
 	configDir, err := project.GetConfigDir()
@@ -75,12 +76,9 @@ func main() {
 
 	logger := log.NewLogger("")
 
-	crawlerConfig := crawl.NewCrawlerConfig(logger, client)
-	crawler := crawl.NewCrawler(crawlerConfig)
-
-	lexConfig := lex.NewLexingContext(logger, client, crawler)
+	context := context.New(logger, client)
 	lexer := lex.NewLexer()
-	err = lexer.Lex(paths, lexConfig)
+	err = lexer.Lex(paths, context)
 
 	if err != nil {
 		/* fmt.Println("Errorrrrr")
@@ -91,7 +89,7 @@ func main() {
 
 	out, err := getOutput()
 
-	if err := out.WriteFile("result.json", lexConfig.Result()); err != nil {
+	if err := out.WriteFile("result.json", context.Result()); err != nil {
 		panic(fmt.Errorf("Error writing result.json: %w", err))
 	}
 

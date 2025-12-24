@@ -143,7 +143,7 @@ var functionQueries = map[string]string{
 }
 
 func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
-	buffer, err := l.context.nvim.Buffer()
+	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, err
@@ -160,7 +160,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*lexed.Function, error) {
 	function := newFunctionType()
 
 	for _, query := range functionQueries {
-		captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:
@@ -211,7 +211,7 @@ func (l *Lexer) lexFunction(function *lexed.Function) error {
 		annotation, hasAnnotation := annotations.params[name]
 
 		if !hasAnnotation {
-			l.context.logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
+			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
 			continue
 		}
 

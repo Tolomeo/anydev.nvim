@@ -103,7 +103,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *lexed.Function) error {
-	captures, err := l.context.nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case err != nil:
@@ -161,7 +161,7 @@ var typeTableQuery string = `
 `
 
 func (l *Lexer) lexTableType(table *lexed.Table) error {
-	matches, err := l.context.nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
+	matches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:
@@ -228,7 +228,7 @@ func (l *Lexer) lexBuiltinType(source string) lexed.Symbol {
 	typeAnnotation := fmt.Sprintf("---@type %s", source)
 	_ = l.scratch([]string{typeAnnotation})
 
-	locations, _ := l.context.nvim.GetDefinitionLocation(0, uint(len(typeAnnotation)))
+	locations, _ := l.context.Nvim.GetDefinitionLocation(0, uint(len(typeAnnotation)))
 
 	fmt.Printf("%+v", locations)
 
@@ -241,7 +241,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 		return builtinType, nil
 	}
 
-	buffer, err := l.context.nvim.Buffer()
+	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
@@ -278,7 +278,7 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 		return tableType, nil
 	}
 
-	reference, err := l.context.crawler.SourceType(source)
+	reference, err := l.crawler.SourceType(source)
 
 	if err != nil {
 		fmt.Printf("Reference error: %v", err)
@@ -286,6 +286,6 @@ func (l *Lexer) lexType(source string) (lexed.Symbol, error) {
 
 	fmt.Printf("\nReference source:\n%+v\n\n", reference)
 
-	l.context.logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
+	l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
 }
