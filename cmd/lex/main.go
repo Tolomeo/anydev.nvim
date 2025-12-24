@@ -13,8 +13,10 @@ import (
 )
 
 const debug = true
-// var paths []string = []string{"vim.loop"}
-var paths []string = []string{"vim.F", "vim.validate"}
+
+var paths []string = []string{"vim.loop"}
+
+// var paths []string = []string{"vim.F", "vim.validate"}
 
 func getClient() (*nvim.Nvim, error) {
 	configDir, err := project.GetConfigDir()
@@ -78,13 +80,16 @@ func main() {
 
 	context := context.New(logger, client)
 	lexer := lex.NewLexer()
-	err = lexer.LexValue(paths, context)
 
-	if err != nil {
-		/* fmt.Println("Errorrrrr")
-		var input string
-		_, _ = fmt.Scanln(&input) */
-		panic(err)
+	for _, path := range paths {
+		err = lexer.LexValue(path, context)
+
+		if err != nil {
+			/* fmt.Println("Errorrrrr")
+			var input string
+			_, _ = fmt.Scanln(&input) */
+			panic(err)
+		}
 	}
 
 	out, err := getOutput()

@@ -13,7 +13,7 @@ type Lexer struct {
 	context *context.Context
 }
 
-func (l *Lexer) LexValue(paths []string, context *context.Context) error {
+func (l *Lexer) LexValue(path string, context *context.Context) error {
 	l.context = context
 	l.crawler = crawl.NewCrawler(l.context)
 	defer func() {
@@ -21,35 +21,33 @@ func (l *Lexer) LexValue(paths []string, context *context.Context) error {
 		l.crawler = nil
 	}()
 
-	for _, path := range paths {
-		if _, exists := l.context.Result().Runtime[path]; exists {
-			return fmt.Errorf("Error lexing '%s': path already found", path)
-		}
+	if _, exists := l.context.Result().Runtime[path]; exists {
+		l.context.Logger.Info("Skipping '%s': lexed symbol already found")
+		return nil
+	}
 
-		l.context.Result().Runtime[path] = struct{}{}
+	l.context.Result().Runtime[path] = struct{}{}
 
-		err := l.context.Provide(path, func(path string) error {
-			source, err := l.source(path)
-
-			if err != nil {
-				return err
-			}
-
-			symbol, err := l.lex(source)
-
-			if err != nil {
-				return err
-			}
-
-			l.context.Result().Runtime[path] = symbol
-
-			return nil
-		})
+	err := l.context.Provide(path, func(path string) error {
+		source, err := l.source(path)
 
 		if err != nil {
-			return fmt.Errorf("Error lexing %s: %w", path, err)
+			return err
 		}
 
+		symbol, err := l.lex(source)
+
+		if err != nil {
+			return err
+		}
+
+		l.context.Result().Runtime[path] = symbol
+
+		return nil
+	})
+
+	if err != nil {
+		return fmt.Errorf("Error lexing %s: %w", path, err)
 	}
 
 	return nil
