@@ -8,7 +8,7 @@ import (
 	"path"
 	"strings"
 
-	lsp "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
+	ls "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
@@ -18,7 +18,7 @@ type CursorPosition struct {
 }
 
 type Location struct {
-	lsp.DefinitionLocation
+	ls.DefinitionLocation
 	Url string
 }
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	lsp "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
+	ls "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
@@ -54,8 +54,8 @@ func (n *Nvim) startLSP() error {
 	return nil
 }
 
-func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, error) {
-	documentSymbols := lsp.TextDocumentDocumentSymbolResponse{}
+func (n *Nvim) GetDocumentSymbols() (ls.TextDocumentDocumentSymbolResponse, error) {
+	documentSymbols := ls.TextDocumentDocumentSymbolResponse{}
 
 	err := n.startLSP()
 
@@ -90,8 +90,8 @@ func (n *Nvim) GetDocumentSymbols() (lsp.TextDocumentDocumentSymbolResponse, err
 	return documentSymbols, nil
 }
 
-func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverResponse, error) {
-	hover := lsp.TextDocumentHoverResponse{}
+func (n *Nvim) GetHover(line uint, character uint) (ls.TextDocumentHoverResponse, error) {
+	hover := ls.TextDocumentHoverResponse{}
 
 	err := n.startLSP()
 
@@ -140,11 +140,11 @@ func (n *Nvim) GetHover(line uint, character uint) (lsp.TextDocumentHoverRespons
 	return hover, nil
 }
 
-func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLocation, error) {
+func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]ls.DefinitionLocation, error) {
 	err := n.startLSP()
 
 	if err != nil {
-		return []lsp.DefinitionLocation{}, err
+		return []ls.DefinitionLocation{}, err
 	}
 
 	luaCode := `
@@ -168,20 +168,20 @@ func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]lsp.DefinitionLoca
 	result, err := n.ExecLua(luaCode, []any{line, character, 15000})
 
 	if err != nil {
-		return []lsp.DefinitionLocation{}, fmt.Errorf("Error getting lsp definition: %v", err)
+		return []ls.DefinitionLocation{}, fmt.Errorf("Error getting lsp definition: %v", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return []lsp.DefinitionLocation{}, fmt.Errorf("Error reading lsp definition response: %v", result)
+		return []ls.DefinitionLocation{}, fmt.Errorf("Error reading lsp definition response: %v", result)
 	}
 
-	response := lsp.TextDocumentDefinitionResponse{}
+	response := ls.TextDocumentDefinitionResponse{}
 	err = response.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return []lsp.DefinitionLocation{}, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
+		return []ls.DefinitionLocation{}, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
 	}
 
 	return response.Result, nil
@@ -197,7 +197,7 @@ func (n *Nvim) GetDefinitionLocation(line uint, character uint) (*[]Location, er
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(lspDefinitions, func(lspLocation lsp.DefinitionLocation) (Location, error) {
+	locations, err := slicesx.MapFunc(lspDefinitions, func(lspLocation ls.DefinitionLocation) (Location, error) {
 		location := Location{
 			DefinitionLocation: lspLocation,
 		}
