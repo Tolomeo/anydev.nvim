@@ -40,7 +40,6 @@ func (o *origin) Documentation() []string {
 type Source struct {
 	path   string
 	origin *origin
-	fields []*Source
 }
 
 func (s *Source) Path() string {
@@ -49,8 +48,4 @@ func (s *Source) Path() string {
 
 func (s *Source) Origin() *origin {
 	return s.origin
-}
-
-func (s *Source) Fields() []*Source {
-	return s.fields
 }
