@@ -175,6 +175,21 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]treesitter.Capture, error) 
 
 type TsQueryMatch []treesitter.Capture
 
+func (m *TsQueryMatch) LineRange() *treesitter.LineRange {
+	startLines, _ := slicesx.MapFunc(*m, func(capture treesitter.Capture) (float64, error) {
+		return capture.Node.Range.Start.Line, nil
+	})
+	endLines, _ := slicesx.MapFunc(*m, func(capture treesitter.Capture) (float64, error) {
+		return capture.Node.Range.End.Line, nil
+	})
+
+	return &treesitter.LineRange{
+		Start: slices.Min(startLines),
+		End:   slices.Max(endLines),
+	}
+
+}
+
 func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
 	queryAllConfig := TsQueryConfig{
 		Language: config.Language,
@@ -238,39 +253,25 @@ func (n *Nvim) TsQueryOne(config TsQueryConfig) (*TsQueryMatch, error) {
 
 var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 
-func capturesLineRange(captures []treesitter.Capture) *treesitter.LineRange {
-	startLines, _ := slicesx.MapFunc(captures, func(capture treesitter.Capture) (float64, error) {
-		return capture.Node.Range.Start.Line, nil
-	})
-	endLines, _ := slicesx.MapFunc(captures, func(capture treesitter.Capture) (float64, error) {
-		return capture.Node.Range.End.Line, nil
-	})
-
-	return &treesitter.LineRange{
-		Start: slices.Min(startLines),
-		End:   slices.Max(endLines),
-	}
-}
-
 type SafeTsQueryResult struct {
 	HasError bool
 	Captures TsQueryMatch
 }
 
 func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) {
-	captures, err := n.TsQueryOne(config)
+	match, err := n.TsQueryOne(config)
 
 	switch {
 	case err != nil:
 		return nil, err
-	case captures == nil:
+	case match == nil:
 		return nil, nil
 	}
 
 	errorCaptures, err := n.TsQueryAll(TsQueryConfig{
 		Language: config.Language,
 		Query:    `(ERROR) @tsquery.error`,
-		Range:    capturesLineRange(*captures),
+		Range:    match.LineRange(),
 	})
 
 	switch {
@@ -279,12 +280,12 @@ func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) 
 	case errorCaptures != nil:
 		return &SafeTsQueryResult{
 			HasError: true,
-			Captures: *captures,
+			Captures: *match,
 		}, nil
 	default:
 		return &SafeTsQueryResult{
 			HasError: false,
-			Captures: *captures,
+			Captures: *match,
 		}, nil
 	}
 }
@@ -301,11 +302,11 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 
 	results := []SafeTsQueryResult{}
 
-	for _, matchCaptures := range *matches {
+	for _, match := range *matches {
 		errorCaptures, err := n.TsQueryAll(TsQueryConfig{
 			Language: config.Language,
 			Query:    `(ERROR) @tsquery.error`,
-			Range:    capturesLineRange(matchCaptures),
+			Range:    match.LineRange(),
 		})
 
 		// fmt.Printf("\n%+v\n\n", errorCaptures)
@@ -316,12 +317,12 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 		case errorCaptures != nil:
 			results = append(results, SafeTsQueryResult{
 				HasError: true,
-				Captures: matchCaptures,
+				Captures: match,
 			})
 		default:
 			results = append(results, SafeTsQueryResult{
 				HasError: false,
-				Captures: matchCaptures,
+				Captures: match,
 			})
 		}
 	}
