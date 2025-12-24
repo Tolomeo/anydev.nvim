@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/context"
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
 type Lexer struct {

@@ -3,7 +3,7 @@ package context
 import (
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 

@@ -1,8 +1,8 @@
 package lex
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
