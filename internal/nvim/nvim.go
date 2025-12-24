@@ -8,7 +8,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/lsp"
+	lsp "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
