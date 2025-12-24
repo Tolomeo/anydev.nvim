@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 func (c *Crawler) sourceType(name string, source *Source) error {

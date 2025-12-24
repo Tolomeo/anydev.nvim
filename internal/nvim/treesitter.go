@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )

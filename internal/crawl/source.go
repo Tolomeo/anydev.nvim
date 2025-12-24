@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 type origin struct {

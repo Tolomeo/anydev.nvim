@@ -1,4 +1,4 @@
-package ts
+package treesitter
 
 const (
 	VARIABLE_DECLARATION string = "variable_declaration"

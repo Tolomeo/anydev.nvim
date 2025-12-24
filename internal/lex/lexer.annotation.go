@@ -6,7 +6,7 @@ import (
 	// "github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/lexed"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/ts"
+	ts "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
