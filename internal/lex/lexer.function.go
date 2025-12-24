@@ -3,7 +3,6 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -142,7 +141,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) matchFunction(source *crawl.Source) (*symbol.Function, error) {
+func (l *Lexer) matchFunction(source *symbol.Source) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -151,7 +150,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*symbol.Function, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin().Definition())
+	err = buffer.SetLines(source.Origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -188,7 +187,7 @@ func (l *Lexer) matchFunction(source *crawl.Source) (*symbol.Function, error) {
 		}
 
 		// fmt.Printf("\n\n+%+v\n\n", function)
-		function.Documentation = source.Origin().Documentation()
+		function.Documentation = source.Origin.Documentation
 		return function, nil
 	}
 

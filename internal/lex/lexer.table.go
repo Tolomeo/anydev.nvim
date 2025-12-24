@@ -1,7 +1,6 @@
 package lex
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -48,7 +47,7 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) matchTable(source *crawl.Source) (*symbol.Table, error) {
+func (l *Lexer) matchTable(source *symbol.Source) (*symbol.Table, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -57,7 +56,7 @@ func (l *Lexer) matchTable(source *crawl.Source) (*symbol.Table, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin().Definition())
+	err = buffer.SetLines(source.Origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -106,7 +105,7 @@ func (l *Lexer) lexTable(table *symbol.Table) error {
 				return err
 			}
 
-			annotations, err := l.lexAnnotations(source.Origin().Documentation())
+			annotations, err := l.lexAnnotations(source.Origin.Documentation)
 
 			tableField.Private = annotations.private
 			tableField.Protected = annotations.protected

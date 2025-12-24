@@ -3,7 +3,6 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -21,7 +20,7 @@ var metaQuery string = `
 	) @assignment
 `
 
-func (l *Lexer) matchMeta(source *crawl.Source) (*symbol.Unknown, error) {
+func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
 	buffer, err := l.context.Nvim.Buffer()
 
 	if err != nil {
@@ -30,7 +29,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*symbol.Unknown, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin().Definition())
+	err = buffer.SetLines(source.Origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -46,7 +45,7 @@ func (l *Lexer) matchMeta(source *crawl.Source) (*symbol.Unknown, error) {
 	}
 
 	unknown := newUnknownType()
-	unknown.Documentation = source.Origin().Documentation()
+	unknown.Documentation = source.Origin.Documentation
 
 	return unknown, nil
 }

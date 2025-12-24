@@ -55,7 +55,7 @@ func (l *Lexer) LexValue(paths []string, context *context.Context) error {
 	return nil
 }
 
-func (l *Lexer) source(path string) (*crawl.Source, error) {
+func (l *Lexer) source(path string) (*symbol.Source, error) {
 	source, err := l.crawler.Source(path)
 
 	switch {
@@ -68,13 +68,13 @@ func (l *Lexer) source(path string) (*crawl.Source, error) {
 	return source, nil
 }
 
-func (l *Lexer) lex(source *crawl.Source) (symbol.Symbol, error) {
-	sourcePath := source.Path()
-	sourceOrigin := source.Origin()
+func (l *Lexer) lex(source *symbol.Source) (symbol.Symbol, error) {
+	sourcePath := source.Path
+	sourceOrigin := source.Origin
 
 	if sourceOrigin == nil {
 		symbol := newUnknownType()
-		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path()))
+		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path))
 		return symbol, nil
 	}
 
@@ -132,7 +132,7 @@ func (l *Lexer) lex(source *crawl.Source) (symbol.Symbol, error) {
 		symbol, err := l.lexMeta(meta)
 
 		fmt.Println("Meta origin:")
-		fmt.Printf("%+v", source.Origin())
+		fmt.Printf("%+v", source.Origin)
 
 		if err != nil {
 			return nil, err

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/context"
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
@@ -18,8 +19,8 @@ type Crawler struct {
 	context *context.Context
 }
 
-func (c *Crawler) Source(path string) (*Source, error) {
-	source := Source{path: path}
+func (c *Crawler) Source(path string) (*symbol.Source, error) {
+	source := symbol.Source{Path: path}
 	err := c.sourceValue(path, &source)
 
 	if err != nil {
@@ -29,8 +30,8 @@ func (c *Crawler) Source(path string) (*Source, error) {
 	return &source, nil
 }
 
-func (c *Crawler) SourceType(name string) (*Source, error) {
-	source := Source{path: name}
+func (c *Crawler) SourceType(name string) (*symbol.Source, error) {
+	source := symbol.Source{Path: name}
 	err := c.sourceType(name, &source)
 
 	if err != nil {

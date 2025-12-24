@@ -3,20 +3,21 @@ package crawl
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (c *Crawler) sourceValue(path string, source *Source) error {
-	pathOrigin, err := c.sourceValueOrigin(path)
+func (c *Crawler) sourceValue(path string, source *symbol.Source) error {
+	origin, err := c.sourceValueOrigin(path)
 
 	if err != nil {
 		return err
 	}
 
-	source.origin = pathOrigin
+	source.Origin = origin
 
 	return nil
 }
@@ -42,7 +43,7 @@ var variableAssignmentQueries = map[string]string{
 	)`,
 }
 
-func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, error) {
+func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
 	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
@@ -82,7 +83,7 @@ func (c *Crawler) followVariableAssignment(path string, o *origin) (*origin, err
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.node.Text)
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.Node.Text)
 	}
 
 	rightValueLocations, err := c.findValueDefinitionLocations(rightValue.Node.Text)
@@ -117,7 +118,7 @@ var requireAssignmentQuery string = `
 	)
 `
 
-func (c *Crawler) followRequireValueAssignment(path string, o *origin) (*origin, error) {
+func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
 	buffer, err := c.context.Nvim.Buffer()
 
 	if err != nil {
@@ -146,7 +147,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *origin) (*origin,
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.node.Text)
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.Node.Text)
 	}
 
 	moduleLocations, err := c.findModuleValueLocations(moduleNameCapture.Node.Text)
@@ -167,10 +168,10 @@ func (c *Crawler) followRequireValueAssignment(path string, o *origin) (*origin,
 	return moduleOrigin, nil
 }
 
-func (c *Crawler) followValueOrigin(path string, pathOrigin **origin) error {
+func (c *Crawler) followValueOrigin(path string, pathOrigin **symbol.Origin) error {
 	o := *pathOrigin
 
-	switch o.node.Type {
+	switch o.Node.Type {
 	case treesitter.ASSIGNMENT_STATEMENT:
 		requiredOrigin, err := c.followRequireValueAssignment(path, o)
 
@@ -198,7 +199,7 @@ func (c *Crawler) followValueOrigin(path string, pathOrigin **origin) error {
 	return nil
 }
 
-func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*origin, error) {
+func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symbol.Origin, error) {
 	for _, location := range locations {
 		_, err := c.context.Nvim.Open(location.Url)
 
@@ -218,9 +219,9 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*orig
 			continue
 		}
 
-		pathOrigin := &origin{
-			location: location,
-			node:     *node,
+		pathOrigin := &symbol.Origin{
+			Location: location,
+			Node:     *node,
 		}
 
 		err = c.followValueOrigin(path, &pathOrigin)
@@ -235,7 +236,7 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*orig
 	return nil, nil
 }
 
-func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *origin) (bool, error) {
+func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol.Origin) (bool, error) {
 	_, err := c.context.Nvim.Open(pathOrigin.Url())
 
 	if err != nil {
@@ -251,13 +252,13 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *origin
 		return false, nil
 	}
 
-	pathOrigin.documentation = *commentBlockLines
+	pathOrigin.Documentation = *commentBlockLines
 
 	return true, nil
 
 }
 
-func (c *Crawler) sourceValueOrigin(path string) (*origin, error) {
+func (c *Crawler) sourceValueOrigin(path string) (*symbol.Origin, error) {
 	locations, err := c.findValueDefinitionLocations(path)
 
 	switch {

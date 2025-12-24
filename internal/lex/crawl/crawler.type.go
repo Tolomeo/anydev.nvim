@@ -3,23 +3,24 @@ package crawl
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) sourceType(name string, source *Source) error {
+func (c *Crawler) sourceType(name string, source *symbol.Source) error {
 	typeOrigin, err := c.sourceTypeOrigin(name)
 
 	if err != nil {
 		return err
 	}
 
-	source.origin = typeOrigin
+	source.Origin = typeOrigin
 
 	return nil
 }
 
-func (c *Crawler) sourceTypeOrigin(path string) (*origin, error) {
+func (c *Crawler) sourceTypeOrigin(path string) (*symbol.Origin, error) {
 	locations, err := c.findTypeDefinitionLocations(path)
 
 	switch {
@@ -52,7 +53,7 @@ func (c *Crawler) sourceTypeOrigin(path string) (*origin, error) {
 	return typeOrigin, nil
 }
 
-func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *origin) (bool, error) {
+func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *symbol.Origin) (bool, error) {
 	_, err := c.context.Nvim.Open(typeOrigin.Url())
 
 	if err != nil {
@@ -68,12 +69,12 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *origin)
 		return false, nil
 	}
 
-	typeOrigin.documentation = *commentBlockLines
+	typeOrigin.Documentation = *commentBlockLines
 
 	return true, nil
 }
 
-func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origin, error) {
+func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbol.Origin, error) {
 	for _, location := range locations {
 		_, err := c.context.Nvim.Open(location.Url)
 
@@ -93,9 +94,9 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*origi
 			continue
 		}
 
-		typeOrigin := &origin{
-			location: location,
-			node:     *node,
+		typeOrigin := &symbol.Origin{
+			Location: location,
+			Node:     *node,
 		}
 
 		fmt.Printf("\nType origin:\n%+v\n", location)
