@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	ls "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
@@ -25,7 +26,7 @@ type Location struct {
 type Nvim struct {
 	options options
 	cmd     *exec.Cmd
-	rpc     *rpc
+	rpc     *msgpackrpc.MsgpackRpc
 }
 
 func (n *Nvim) Options() options {
@@ -37,9 +38,9 @@ func (n *Nvim) Start() error {
 }
 
 func (n *Nvim) Quit() error {
-	request := requestMessage{
-		method: "nvim_command",
-		params: []any{"qa!"},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{"qa!"},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -58,9 +59,9 @@ func (n *Nvim) Quit() error {
 }
 
 func (n *Nvim) Open(file string) (string, error) {
-	request := requestMessage{
-		method: "nvim_command",
-		params: []any{"edit" + file},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{"edit" + file},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -72,9 +73,9 @@ func (n *Nvim) Open(file string) (string, error) {
 }
 
 func (n *Nvim) Write() error {
-	request := requestMessage{
-		method: "nvim_command",
-		params: []any{"write"},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{"write"},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -86,9 +87,9 @@ func (n *Nvim) Write() error {
 }
 
 func (n *Nvim) GetBufferName() (string, error) {
-	request := requestMessage{
-		method: "nvim_buf_get_name",
-		params: []any{0},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_name",
+		Params: []any{0},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -106,9 +107,9 @@ func (n *Nvim) GetBufferName() (string, error) {
 }
 
 func (n *Nvim) setBufferLines(lines []string) error {
-	request := requestMessage{
-		method: "nvim_buf_set_lines",
-		params: []any{0, 0, -1, true, lines},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_set_lines",
+		Params: []any{0, 0, -1, true, lines},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -126,9 +127,9 @@ func (n *Nvim) setBufferLines(lines []string) error {
 }
 
 func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
-	request := requestMessage{
-		method: "nvim_buf_get_text",
-		params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_text",
+		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -152,9 +153,9 @@ func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int)
 }
 
 func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
-	request := requestMessage{
-		method: "nvim_buf_get_lines",
-		params: []any{0, start, end, false},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_lines",
+		Params: []any{0, start, end, false},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -178,9 +179,9 @@ func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 }
 
 func (n *Nvim) DeleteBuffer() error {
-	request := requestMessage{
-		method: "nvim_buf_delete",
-		params: []any{0, struct{ force bool }{force: true}}}
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_delete",
+		Params: []any{0, struct{ force bool }{force: true}}}
 	_, err := n.rpc.Send(request)
 
 	if err != nil {
@@ -251,7 +252,7 @@ func (n *Nvim) Buffer() (*buffer, error) {
 
 /*
 	 func (n *Nvim) ApiInfo() (any, error) {
-		request := requestMessage{
+		request := msgpackrpc.RequestMessage{
 			method: "nvim_get_api_info",
 			params: []any{},
 		}
@@ -272,9 +273,9 @@ func (n *Nvim) Buffer() (*buffer, error) {
 */
 
 func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
-	request := requestMessage{
-		method: "nvim_call_function",
-		params: []any{function, functionArgs},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_call_function",
+		Params: []any{function, functionArgs},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -292,9 +293,9 @@ func (n *Nvim) CallFunction(function string, functionArgs []any) (any, error) {
 }
 
 func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
-	request := requestMessage{
-		method: "nvim_exec_lua",
-		params: []any{lua, args},
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_exec_lua",
+		Params: []any{lua, args},
 	}
 	response, err := n.rpc.Send(request)
 
@@ -354,7 +355,8 @@ func New(config Config, opts ...optionProvider) (*Nvim, error) {
 	arguments := []string{"--embed", "--headless", "-i", "NONE", "-u", options.config.InitFile()}
 	arguments = append(arguments, options.arguments...)
 	cmd := exec.Command(options.command, arguments...)
-	rpc, err := NewRpc(cmd)
+
+	rpc, err := msgpackrpc.New(cmd)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error connecting to nvim rpc: %v", err)

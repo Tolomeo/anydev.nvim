@@ -1,4 +1,4 @@
-package nvim
+package msgpackrpc
 
 import (
 	"bufio"
@@ -12,17 +12,17 @@ import (
 
 var mu sync.Mutex
 
-type requestMessage struct {
-	method string
-	params []any
+type RequestMessage struct {
+	Method string
+	Params []any
 }
 
-type responseMessage struct {
+type ResponseMessage struct {
 	error  any
 	result any
 }
 
-func (r responseMessage) Result() (any, error) {
+func (r ResponseMessage) Result() (any, error) {
 	if r.error != nil {
 		return nil, fmt.Errorf("Error response: %v", r.error)
 	}
@@ -30,13 +30,13 @@ func (r responseMessage) Result() (any, error) {
 	return r.result, nil
 }
 
-type rpc struct {
+type MsgpackRpc struct {
 	requestId int8
 	writer    io.WriteCloser
 	reader    *bufio.Reader
 }
 
-func (r *rpc) getMessageId() int8 {
+func (r *MsgpackRpc) getMessageId() int8 {
 	mu.Lock()
 	requestId := r.requestId
 	// the requestId folds and repeats from the start when we reach max count permitted by int8
@@ -46,7 +46,7 @@ func (r *rpc) getMessageId() int8 {
 	return requestId
 }
 
-func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
+func (r *MsgpackRpc) Send(request RequestMessage) (*ResponseMessage, error) {
 	messageId := r.getMessageId()
 
 	// fmt.Printf("RPC request %s: [%d, %s]\n", time.Now(), messageId, request.method)
@@ -81,12 +81,12 @@ func (r *rpc) Send(request requestMessage) (*responseMessage, error) {
 
 // https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md#request-message
 // [type, msgid, method, params]
-func (r *rpc) requestToMessagePackRequest(request requestMessage, messageId int8) ([]byte, error) {
+func (r *MsgpackRpc) requestToMessagePackRequest(request RequestMessage, messageId int8) ([]byte, error) {
 	message := []any{
 		int8(0),
 		messageId,
-		request.method,
-		request.params,
+		request.Method,
+		request.Params,
 	}
 
 	return msgpack.Marshal(message)
@@ -94,7 +94,7 @@ func (r *rpc) requestToMessagePackRequest(request requestMessage, messageId int8
 
 // https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md#response-message
 // [type, msgid, error, result]
-func (r *rpc) messagePackResponseToResponse(messagePackResponse []any, messageId int8) (*responseMessage, error) {
+func (r *MsgpackRpc) messagePackResponseToResponse(messagePackResponse []any, messageId int8) (*ResponseMessage, error) {
 	if len(messagePackResponse) < 4 {
 		return nil, fmt.Errorf("Invalid response length received: %v", r)
 	}
@@ -107,13 +107,13 @@ func (r *rpc) messagePackResponseToResponse(messagePackResponse []any, messageId
 		return nil, fmt.Errorf("Out of sync response received: %v", r)
 	}
 
-	return &responseMessage{
+	return &ResponseMessage{
 		error:  messagePackResponse[2],
 		result: messagePackResponse[3],
 	}, nil
 }
 
-func NewRpc(cmd *exec.Cmd) (*rpc, error) {
+func New(cmd *exec.Cmd) (*MsgpackRpc, error) {
 	stdin, err := cmd.StdinPipe()
 
 	if err != nil {
@@ -129,7 +129,7 @@ func NewRpc(cmd *exec.Cmd) (*rpc, error) {
 	writer := stdin
 	reader := bufio.NewReader(stdout)
 
-	return &rpc{
+	return &MsgpackRpc{
 		writer: writer,
 		reader: reader,
 	}, nil
