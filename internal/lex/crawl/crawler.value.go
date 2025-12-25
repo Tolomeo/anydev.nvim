@@ -309,7 +309,7 @@ func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location,
 
 	line, character := uint(0), uint(len(lines[0])-2)
 
-	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:
@@ -339,7 +339,7 @@ func (c *Crawler) findValueDefinitionLocations(path string) (*[]nvim.Location, e
 
 	line, character := uint(0), uint(len(assignment))
 
-	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:

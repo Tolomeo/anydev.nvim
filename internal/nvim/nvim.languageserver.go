@@ -4,48 +4,20 @@ import (
 	"fmt"
 	"net/url"
 
-	ls "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 func (n *Nvim) startLSP() error {
-	luaCode := `
-		if vim.g.lua_ls_ready == true then return end
+	script, err := scripts.Read("start-lsp")
 
-		local args = {...}
-		local delay = args[1]
+	if err != nil {
+		return fmt.Errorf("Error starting lua lsp: %v", err)
+	}
 
-		vim.g.lua_ls_ready = false
-
-		local lsp_inflight_events = {}
-
-		vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
-
-		vim.api.nvim_create_autocmd("LspProgress", {
-			group = "LuaLSReady",
-			callback = function(args)
-				local value = args.data.params.value
-				local token = args.data.params.token
-
-				if value.kind == "begin" then
-					lsp_inflight_events[token] = value
-				elseif value.kind == "end" then
-					lsp_inflight_events[token] = nil
-				end
-
-				vim.g.lua_ls_ready = next(lsp_inflight_events) == nil
-			end,
-		})
-
-		vim.lsp.enable("lua_ls")
-
-		vim.wait(delay, function()
-			return vim.g.lua_ls_ready == true
-		end)
-	`
-
-	_, err := n.ExecLua(luaCode, []any{30000})
+	_, err = n.ExecLua(script, []any{30000})
 
 	if err != nil {
 		return fmt.Errorf("Error starting lua lsp: %v", err)
@@ -54,79 +26,75 @@ func (n *Nvim) startLSP() error {
 	return nil
 }
 
-func (n *Nvim) GetDocumentSymbols() (ls.TextDocumentDocumentSymbolResponse, error) {
-	documentSymbols := ls.TextDocumentDocumentSymbolResponse{}
+func (n *Nvim) GetDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
+	documentSymbols := languageserver.TextDocumentDocumentSymbolResponse{}
 
 	err := n.startLSP()
 
 	if err != nil {
-		return documentSymbols, err
+		return nil, err
 	}
 
-	luaCode := `
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', { textDocument = textDocumentParams }, 2000)
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{})
+	script, err := scripts.Read("get-lsp-document-symbols")
 
 	if err != nil {
-		return documentSymbols, fmt.Errorf("Error getting document symbols: %v", err)
+		return nil, fmt.Errorf("Error getting document symbols: %v", err)
+	}
+
+	result, err := n.ExecLua(script, []any{})
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting document symbols: %v", err)
+	}
+
+	if result == nil {
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return documentSymbols, fmt.Errorf("Error reading document symbols response: %v", result)
+		return nil, fmt.Errorf("Error reading document symbols response: %v", result)
 	}
 
 	err = documentSymbols.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return documentSymbols, fmt.Errorf("Error unmarshalling document symbols response: %v", err)
+		return nil, fmt.Errorf("Error unmarshalling document symbols response: %v", err)
 	}
 
-	return documentSymbols, nil
+	return &documentSymbols, nil
 }
 
-func (n *Nvim) GetHover(line uint, character uint) (ls.TextDocumentHoverResponse, error) {
-	hover := ls.TextDocumentHoverResponse{}
+func (n *Nvim) GetHover(line uint, character uint) (*languageserver.TextDocumentHoverResponse, error) {
+	hover := languageserver.TextDocumentHoverResponse{}
 
 	err := n.startLSP()
 
 	if err != nil {
-		return hover, err
+		return nil, err
 	}
 
-	luaCode := `
-		local args = { ... }
-		local line = args[1]
-		local character = args[2]
-		local position = { line = line, character = character }
-		local textDocument = vim.lsp.util.make_text_document_params(0)
-		local timeout = args[3]
-
-		local result = vim.lsp.buf_request_sync(
-			0,
-			"textDocument/hover",
-			{ textDocument = textDocument, position = position },
-			timeout
-		)
-
-		return vim.fn.json_encode(result[1])
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character, 15000})
+	script, err := scripts.Read("get-lsp-hover")
 
 	if err != nil {
-		return hover, fmt.Errorf("Error getting lsp hover response: %v", err)
+		return nil, err
+	}
+
+	result, err := n.ExecLua(script, []any{line, character, 15000})
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting lsp hover response: %v", err)
+	}
+
+	if result == nil {
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return hover, fmt.Errorf("Error reading lsp hover response: %v", result)
+		return nil, fmt.Errorf("Error reading lsp hover response: %v", result)
 	}
 
 	// fmt.Println(stringResult)
@@ -134,70 +102,60 @@ func (n *Nvim) GetHover(line uint, character uint) (ls.TextDocumentHoverResponse
 	err = hover.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return hover, fmt.Errorf("Error unmarshalling lsp hover response: %v", err)
+		return nil, fmt.Errorf("Error unmarshalling lsp hover response: %v", err)
 	}
 
-	return hover, nil
+	return &hover, nil
 }
 
-func (n *Nvim) GetLSPDefinition(line uint, character uint) ([]ls.DefinitionLocation, error) {
+func (n *Nvim) GetLSPDefinitions(line uint, character uint) (*[]languageserver.DefinitionLocation, error) {
 	err := n.startLSP()
 
 	if err != nil {
-		return []ls.DefinitionLocation{}, err
+		return nil, err
 	}
 
-	luaCode := `
-		local args = {...}
-		local line = args[1]
-		local character = args[2]
-		local delay = args[3]
-		local textDocumentParams = vim.lsp.util.make_text_document_params(0)
-		local positionParams = {line = line, character = character}
-		local lspResponse, err = vim.lsp.buf_request_sync(0, 'textDocument/definition', { textDocument = textDocumentParams, position = positionParams }, delay)
-
-		if err ~= nil then
-			error(err)
-		end
-
-		local result = next(lspResponse[1]) and lspResponse[1] or { result = {} }
-
-		return vim.fn.json_encode(result)
-	`
-
-	result, err := n.ExecLua(luaCode, []any{line, character, 15000})
+	script, err := scripts.Read("get-lsp-definition-locations")
 
 	if err != nil {
-		return []ls.DefinitionLocation{}, fmt.Errorf("Error getting lsp definition: %v", err)
+		return nil, err
+	}
+
+	result, err := n.ExecLua(script, []any{line, character, 15000})
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting lsp definition: %v", err)
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return []ls.DefinitionLocation{}, fmt.Errorf("Error reading lsp definition response: %v", result)
+		return nil, fmt.Errorf("Error reading lsp definition response: %v", result)
 	}
 
-	response := ls.TextDocumentDefinitionResponse{}
+	response := languageserver.TextDocumentDefinitionResponse{}
 	err = response.UnmarshalJSON([]byte(stringResult))
 
 	if err != nil {
-		return []ls.DefinitionLocation{}, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
+		return nil, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
 	}
 
-	return response.Result, nil
+	return &response.Result, nil
 }
 
-func (n *Nvim) GetDefinitionLocation(line uint, character uint) (*[]Location, error) {
-	lspDefinitions, err := n.GetLSPDefinition(line, character)
+func (n *Nvim) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
+	lspDefinitions, err := n.GetLSPDefinitions(line, character)
 
 	switch {
 	case err != nil:
 		return nil, err
-	case len(lspDefinitions) == 0:
+	case lspDefinitions == nil:
+		return nil, nil
+	case len(*lspDefinitions) == 0:
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(lspDefinitions, func(lspLocation ls.DefinitionLocation) (Location, error) {
+	locations, err := slicesx.MapFunc(*lspDefinitions, func(lspLocation languageserver.DefinitionLocation) (Location, error) {
 		location := Location{
 			DefinitionLocation: lspLocation,
 		}

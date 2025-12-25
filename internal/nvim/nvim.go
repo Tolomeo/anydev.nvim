@@ -8,18 +8,18 @@ import (
 	"path"
 	"strings"
 
-	ls "github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
-
+ 
 type CursorPosition struct {
 	Line      uint
 	Character uint
 }
 
 type Location struct {
-	ls.DefinitionLocation
+	languageserver.DefinitionLocation
 	Url string
 }
 

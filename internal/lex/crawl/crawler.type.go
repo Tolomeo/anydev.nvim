@@ -127,7 +127,7 @@ func (c *Crawler) findTypeDefinitionLocations(path string) (*[]nvim.Location, er
 
 	line, character := uint(0), uint(len(typeAnnotation))
 
-	locations, err := c.context.Nvim.GetDefinitionLocation(line, character)
+	locations, err := c.context.Nvim.GetDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:
