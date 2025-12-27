@@ -38,49 +38,29 @@ func (c *Crawler) sourceType(name string, source *symbol.TypeSource) error {
 	return nil
 }
 
+// TODO enum
 var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineRange) treesitter.Query{
 	"alias": func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
-			Query: fmt.Sprintf(`
-			(alias_annotation) @alias
-			(#match? @alias "\\@alias %s")
-		`, regexp.QuoteMeta(aliasName)),
+			Query: fmt.Sprintf(`(
+				(alias_annotation) @alias
+				(#match? @alias "\\@alias %s")
+			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
 	},
 	"class": func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
-			Query: fmt.Sprintf(`
-			(alias_annotation) @alias
-			(#match? @alias "\\@alias %s")
-		`, regexp.QuoteMeta(aliasName)),
+			Query: fmt.Sprintf(`(
+				(class_annotation) @alias
+				(#match? @class "\\@class %s")
+			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
 	},
 }
-
-/* var findAliasOriginQuery = func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
-	return treesitter.Query{
-		Language: "luadoc",
-		Query: fmt.Sprintf(`
-			(alias_annotation) @alias
-			(#match? @alias "\\@alias %s")
-		`, regexp.QuoteMeta(aliasName)),
-		Range: lineRange,
-	}
-}
-var findClassOriginQuery = func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
-	return treesitter.Query{
-		Language: "luadoc",
-		Query: fmt.Sprintf(`
-			(alias_annotation) @alias
-			(#match? @alias "\\@alias %s")
-		`, regexp.QuoteMeta(aliasName)),
-		Range: lineRange,
-	}
-} */
 
 func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbol.TypeOrigin, error) {
 	for _, location := range locations {
