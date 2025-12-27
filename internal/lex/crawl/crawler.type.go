@@ -71,6 +71,9 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 		}
 
 		for customType, matchNameQuery := range customTypeQueries {
+			tsRange := location.TargetRange.AsTreesitter()
+			lineRange := tsRange.LineRange()
+
 			definition, err := c.context.Nvim.GetTSNodeAt([]string{customType}, uint(location.TargetRange.Start.Line), uint(location.TargetRange.Start.Character))
 
 			switch {
@@ -78,11 +81,6 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 				return nil, err
 			case definition == nil:
 				continue
-			}
-
-			lineRange := treesitter.LineRange{
-				Start: location.TargetRange.Start.Line,
-				End:   location.TargetRange.End.Line,
 			}
 
 			match, err := c.context.Nvim.TsQueryOne(matchNameQuery(path, &lineRange))
