@@ -241,7 +241,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return builtinType, nil
 	}
 
-	buffer, err := l.context.Nvim.Buffer()
+	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)

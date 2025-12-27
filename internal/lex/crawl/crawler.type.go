@@ -118,7 +118,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 }
 
 func (c *Crawler) findTypeDefinitionLocations(path string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim.Buffer()
+	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err

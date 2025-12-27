@@ -78,7 +78,7 @@ func (l *Lexer) lexValue(source *symbol.Source) (symbol.Symbol, error) {
 		return symbol, nil
 	}
 
-	buffer, err := l.context.Nvim.Buffer()
+	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err

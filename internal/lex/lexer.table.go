@@ -48,7 +48,7 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) matchTable(source *symbol.Source) (*symbol.Table, error) {
-	buffer, err := l.context.Nvim.Buffer()
+	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err

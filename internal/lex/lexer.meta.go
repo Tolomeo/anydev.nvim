@@ -21,7 +21,7 @@ var metaQuery string = `
 `
 
 func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
-	buffer, err := l.context.Nvim.Buffer()
+	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err

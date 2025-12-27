@@ -202,7 +202,7 @@ type buffer struct {
 	Delete   func() error
 }
 
-func (n *Nvim) Buffer() (*buffer, error) {
+func (n *Nvim) NewBuffer() (*buffer, error) {
 	counter += 1
 	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
 
@@ -314,7 +314,7 @@ func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	return result, nil
 }
 
-func (n *Nvim) GetRuntimeType(variable string) (string, error) {
+func (n *Nvim) GetValueType(variable string) (string, error) {
 	runtimePath := variable
 	parts := strings.Split(runtimePath, ".")
 

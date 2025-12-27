@@ -360,7 +360,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return cachedAnnotations, nil
 	}
 
-	buffer, err := l.context.Nvim.Buffer()
+	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err

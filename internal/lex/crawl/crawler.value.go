@@ -44,7 +44,7 @@ var variableAssignmentQueries = map[string]string{
 }
 
 func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
-	buffer, err := c.context.Nvim.Buffer()
+	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -119,7 +119,7 @@ var requireAssignmentQuery string = `
 `
 
 func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
-	buffer, err := c.context.Nvim.Buffer()
+	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -292,7 +292,7 @@ func (c *Crawler) sourceValueOrigin(path string) (*symbol.Origin, error) {
 }
 
 func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim.Buffer()
+	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -322,7 +322,7 @@ func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location,
 }
 
 func (c *Crawler) findValueDefinitionLocations(path string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim.Buffer()
+	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
 		return nil, err
