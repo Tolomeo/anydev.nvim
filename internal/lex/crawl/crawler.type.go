@@ -40,7 +40,7 @@ func (c *Crawler) sourceType(name string, source *symbol.TypeSource) error {
 
 // TODO enum
 var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineRange) treesitter.Query{
-	"alias": func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
+	treesitter.ALIAS_ANNOTATION: func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
@@ -50,12 +50,12 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 			Range: lineRange,
 		}
 	},
-	"class": func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
+	treesitter.CLASS_ANNOTATION: func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
-				(class_annotation) @alias
-				(#match? @class "\\@class %s")
+				(class_annotation) @class_annotation
+				(#match? @class_annotation "\\@class %s")
 			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
@@ -70,13 +70,22 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 			return nil, err
 		}
 
-		lineRange := treesitter.LineRange{
-			Start: location.TargetRange.Start.Line,
-			End:   location.TargetRange.End.Line,
-		}
+		for customType, matchNameQuery := range customTypeQueries {
+			definition, err := c.context.Nvim.GetTSNodeAt([]string{customType}, uint(location.TargetRange.Start.Line), uint(location.TargetRange.Start.Character))
 
-		for _, query := range customTypeQueries {
-			match, err := c.context.Nvim.TsQueryOne(query(path, &lineRange))
+			switch {
+			case err != nil:
+				return nil, err
+			case definition == nil:
+				continue
+			}
+
+			lineRange := treesitter.LineRange{
+				Start: location.TargetRange.Start.Line,
+				End:   location.TargetRange.End.Line,
+			}
+
+			match, err := c.context.Nvim.TsQueryOne(matchNameQuery(path, &lineRange))
 
 			switch {
 			case err != nil:
@@ -100,6 +109,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 
 			typeOrigin := &symbol.TypeOrigin{
 				Location:      location,
+				Definition:    *definition,
 				Documentation: *documentation,
 			}
 
