@@ -56,7 +56,7 @@ func (l *Lexer) matchTable(source *symbol.Source) (*symbol.Table, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin.Definition())
+	err = buffer.SetLines(source.Origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (l *Lexer) lexTable(table *symbol.Table) error {
 				return err
 			}
 
-			annotations, err := l.lexAnnotations(source.Origin.Documentation)
+			annotations, err := l.lexAnnotations(source.Origin.DocumentationLines())
 
 			tableField.Private = annotations.private
 			tableField.Protected = annotations.protected

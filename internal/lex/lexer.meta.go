@@ -29,7 +29,7 @@ func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin.Definition())
+	err = buffer.SetLines(source.Origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
 	}
 
 	unknown := newUnknownType()
-	unknown.Documentation = source.Origin.Documentation
+	unknown.Documentation = source.Origin.DocumentationLines()
 
 	return unknown, nil
 }

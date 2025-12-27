@@ -5,12 +5,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
-type logger interface {
-	Info(message string)
-	Warn(message string)
-	Error(message string)
-}
-
 type Crawler struct {
 	context *context.Context
 }

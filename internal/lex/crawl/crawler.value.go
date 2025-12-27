@@ -52,7 +52,7 @@ func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symb
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(o.Definition())
+	err = buffer.SetLines(o.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symb
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.Node.Text)
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", o.DefinitionLines())
 	}
 
 	rightValueLocations, err := c.findValueDefinitionLocations(rightValue.Node.Text)
@@ -127,7 +127,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(o.Definition())
+	err = buffer.SetLines(o.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -147,7 +147,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.Node.Text)
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", o.DefinitionLines())
 	}
 
 	moduleLocations, err := c.findModuleValueLocations(moduleNameCapture.Node.Text)
@@ -162,7 +162,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 	case err != nil:
 		return nil, err
 	case moduleOrigin == nil:
-		return nil, fmt.Errorf("Error following require statement '%s'", o.Definition())
+		return nil, fmt.Errorf("Error following require statement '%s'", o.DefinitionLines())
 	}
 
 	return moduleOrigin, nil
@@ -171,7 +171,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 func (c *Crawler) followValueOrigin(path string, pathOrigin **symbol.Origin) error {
 	o := *pathOrigin
 
-	switch o.Node.Type {
+	switch o.Type() {
 	case treesitter.ASSIGNMENT_STATEMENT:
 		requiredOrigin, err := c.followRequireValueAssignment(path, o)
 
@@ -220,8 +220,8 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symb
 		}
 
 		pathOrigin := &symbol.Origin{
-			Location: location,
-			Node:     *node,
+			Location:   location,
+			Definition: *node,
 		}
 
 		err = c.followValueOrigin(path, &pathOrigin)
@@ -243,16 +243,16 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol
 		return false, err
 	}
 
-	commentBlockLines, err := c.context.Nvim.GetCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
+	documentation, err := c.context.Nvim.GetTsCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
 
 	switch {
 	case err != nil:
 		return false, err
-	case commentBlockLines == nil:
+	case documentation == nil:
 		return false, nil
 	}
 
-	pathOrigin.Documentation = *commentBlockLines
+	pathOrigin.Documentation = documentation
 
 	return true, nil
 

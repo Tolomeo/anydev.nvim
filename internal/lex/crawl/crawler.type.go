@@ -65,16 +65,16 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *symbol.
 		return false, err
 	}
 
-	commentBlockLines, err := c.context.Nvim.GetCommentBlockAt(typeOrigin.Line(), typeOrigin.Character())
+	documentation, err := c.context.Nvim.GetTsCommentBlockAt(typeOrigin.Line(), typeOrigin.Character())
 
 	switch {
 	case err != nil:
 		return false, err
-	case commentBlockLines == nil:
+	case documentation == nil:
 		return false, nil
 	}
 
-	typeOrigin.Documentation = *commentBlockLines
+	typeOrigin.Documentation = documentation
 
 	return true, nil
 }
@@ -117,13 +117,20 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 
 		fmt.Printf("\nCommentBlock: %+v\n\n", block)
 
-		documentation, err := c.context.Nvim.GetCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+		documentation, err := c.context.Nvim.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+
+		switch {
+		case err != nil:
+			return nil, err
+		case documentation == nil:
+			continue
+		}
 
 		fmt.Printf("\nDocumentation: %+v\n", documentation)
 
 		typeOrigin := &symbol.Origin{
 			Location:      location,
-			Documentation: *documentation,
+			Documentation: documentation,
 		}
 
 		fmt.Printf("\nType origin:\n%+v\n", location)

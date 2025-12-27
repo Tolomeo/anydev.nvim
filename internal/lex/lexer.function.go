@@ -150,7 +150,7 @@ func (l *Lexer) matchFunction(source *symbol.Source) (*symbol.Function, error) {
 
 	defer buffer.Delete()
 
-	err = buffer.SetLines(source.Origin.Definition())
+	err = buffer.SetLines(source.Origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -187,7 +187,7 @@ func (l *Lexer) matchFunction(source *symbol.Source) (*symbol.Function, error) {
 		}
 
 		// fmt.Printf("\n\n+%+v\n\n", function)
-		function.Documentation = source.Origin.Documentation
+		function.Documentation = source.Origin.DocumentationLines()
 		return function, nil
 	}
 
