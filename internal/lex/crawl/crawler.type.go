@@ -2,6 +2,7 @@ package crawl
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -24,7 +25,7 @@ func (c *Crawler) sourceTypeOrigin(path string) (*symbol.Origin, error) {
 	locations, err := c.findTypeDefinitionLocations(path)
 
 	for _, loc := range *locations {
-		fmt.Printf("\n\nLocations: %+v", loc)
+		fmt.Printf("\n\nLocation: %+v\n", loc)
 	}
 
 	switch {
@@ -78,6 +79,17 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *symbol.
 	return true, nil
 }
 
+var findAliasOriginQuery = func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
+	return treesitter.Query{
+		Language: "luadoc",
+		Query: fmt.Sprintf(`
+			(alias_annotation) @alias
+			(#match? @alias "\\@alias %s")
+		`, regexp.QuoteMeta(aliasName)),
+		Range: lineRange,
+	}
+}
+
 func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbol.Origin, error) {
 	for _, location := range locations {
 		_, err := c.context.Nvim.Open(location.Url)
@@ -86,21 +98,28 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 			return nil, err
 		}
 
-		line, character :=
-			uint(location.TargetRange.Start.Line),
-			uint(location.TargetRange.Start.Character)
-		node, err := c.context.Nvim.GetTSNodeAt([]string{treesitter.CLASS_ANNOTATION, treesitter.ALIAS_ANNOTATION}, line, character)
+		lineRange := treesitter.LineRange{
+			Start: location.TargetRange.Start.Line,
+			End: location.TargetRange.End.Line,
+		}
+		match, err := c.context.Nvim.TsQueryOne(findAliasOriginQuery(path, &lineRange))
 
 		switch {
 		case err != nil:
 			return nil, err
-		case node == nil:
+		case match == nil:
 			continue
 		}
 
+		fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location,  match, match.Range())
+
+		documentation, err := c.context.Nvim.GetCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+
+		fmt.Printf("\nDocumentation: %+v\n", documentation)
+
 		typeOrigin := &symbol.Origin{
 			Location: location,
-			Node:     *node,
+			Documentation: *documentation,
 		}
 
 		fmt.Printf("\nType origin:\n%+v\n", location)

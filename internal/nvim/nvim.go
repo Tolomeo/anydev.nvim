@@ -348,7 +348,7 @@ func (n *Nvim) GetValueType(variable string) (string, error) {
 }
 
 func (n *Nvim) GetCommentBlockAt(line uint, character uint) (*[]string, error) {
-	lines, err := n.GetBufferLines(int(line)-1, int(line))
+	lines, err := n.GetBufferLines(int(line), int(line)+1)
 
 	switch {
 	case err != nil:

@@ -11,12 +11,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-/* type TsQueryConfig struct {
-	Language string
-	Query    string
-	Range    *treesitter.LineRange
-} */
-
 func (n *Nvim) startTS() error {
 	script, err := scripts.Read("start-ts")
 
@@ -105,6 +99,38 @@ func (m *TsQueryMatch) LineRange() *treesitter.LineRange {
 	return &treesitter.LineRange{
 		Start: slices.Min(startLines),
 		End:   slices.Max(endLines),
+	}
+}
+
+// TODO: create a custom slicesx.MaxFunc util
+func (m *TsQueryMatch) Range() *treesitter.Range {
+	lineRange := m.LineRange()
+
+	startRangeCaptures, _ := slicesx.FilterFunc(*m, func(capture treesitter.Capture) (bool, error) {
+		return capture.Node.Range.Start.Line == lineRange.Start, nil
+	})
+
+	startCharacters, _ := slicesx.MapFunc(startRangeCaptures, func(capture treesitter.Capture) (float64, error) {
+		return capture.Node.Range.Start.Character, nil
+	})
+
+	endRangeCaptures, _ := slicesx.FilterFunc(*m, func(capture treesitter.Capture) (bool, error) {
+		return capture.Node.Range.End.Line == lineRange.End, nil
+	})
+
+	endCharacters, _ := slicesx.MapFunc(endRangeCaptures, func(capture treesitter.Capture) (float64, error) {
+		return capture.Node.Range.End.Character, nil
+	})
+
+	return &treesitter.Range{
+		Start: treesitter.Position{
+			Line:      lineRange.Start,
+			Character: slices.Min(startCharacters),
+		},
+		End: treesitter.Position{
+			Line:      lineRange.End,
+			Character: slices.Max(endCharacters),
+		},
 	}
 
 }
