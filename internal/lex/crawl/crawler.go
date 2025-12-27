@@ -9,8 +9,8 @@ type Crawler struct {
 	context *context.Context
 }
 
-func (c *Crawler) SourceValue(path string) (*symbol.Source, error) {
-	source := symbol.Source{Path: path}
+func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
+	source := symbol.ValueSource{Path: path}
 	err := c.sourceValue(path, &source)
 
 	if err != nil {
@@ -20,8 +20,8 @@ func (c *Crawler) SourceValue(path string) (*symbol.Source, error) {
 	return &source, nil
 }
 
-func (c *Crawler) SourceType(name string) (*symbol.Source, error) {
-	source := symbol.Source{Path: name}
+func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
+	source := symbol.TypeSource{Path: name}
 	err := c.sourceType(name, &source)
 
 	if err != nil {

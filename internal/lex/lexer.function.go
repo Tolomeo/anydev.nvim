@@ -141,7 +141,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) matchFunction(source *symbol.Source) (*symbol.Function, error) {
+func (l *Lexer) matchFunction(source *symbol.ValueSource) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {

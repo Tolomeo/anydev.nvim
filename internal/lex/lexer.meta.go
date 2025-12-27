@@ -20,7 +20,7 @@ var metaQuery string = `
 	) @assignment
 `
 
-func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
+func (l *Lexer) matchMeta(source *symbol.ValueSource) (*symbol.Unknown, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {

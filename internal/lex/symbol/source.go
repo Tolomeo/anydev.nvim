@@ -7,29 +7,29 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Origin struct {
+type ValueOrigin struct {
 	Location      nvim.Location
 	Definition    treesitter.TsNode
 	Documentation *treesitter.TsNode
 }
 
-func (o *Origin) Url() string {
+func (o *ValueOrigin) Url() string {
 	return o.Location.Url
 }
 
-func (o *Origin) Line() uint {
+func (o *ValueOrigin) Line() uint {
 	return uint(o.Location.TargetRange.Start.Line)
 }
 
-func (o *Origin) Character() uint {
+func (o *ValueOrigin) Character() uint {
 	return uint(o.Location.TargetRange.Start.Character)
 }
 
-func (o *Origin) Type() string {
+func (o *ValueOrigin) Type() string {
 	return o.Definition.Type
 }
 
-func (o *Origin) DefinitionLines() []string {
+func (o *ValueOrigin) DefinitionLines() []string {
 	/* if o.Definition == nil {
 		return []string{}
 	} */
@@ -37,11 +37,50 @@ func (o *Origin) DefinitionLines() []string {
 	return strings.Split(o.Definition.Text, "\n")
 }
 
-func (o *Origin) DocumentationLines() []string {
+func (o *ValueOrigin) DocumentationLines() []string {
 	return strings.Split(o.Documentation.Text, "\n")
 }
 
-type Source struct {
+type ValueSource struct {
 	Path   string
-	Origin *Origin
+	Origin *ValueOrigin
+}
+
+type TypeOrigin struct {
+	Location      nvim.Location
+	Definition    treesitter.TsNode
+	Documentation treesitter.TsNode
+}
+
+func (o *TypeOrigin) Url() string {
+	return o.Location.Url
+}
+
+func (o *TypeOrigin) Line() uint {
+	return uint(o.Location.TargetRange.Start.Line)
+}
+
+func (o *TypeOrigin) Character() uint {
+	return uint(o.Location.TargetRange.Start.Character)
+}
+
+func (o *TypeOrigin) Type() string {
+	return o.Definition.Type
+}
+
+func (o *TypeOrigin) DefinitionLines() []string {
+	/* if o.Definition == nil {
+		return []string{}
+	} */
+
+	return strings.Split(o.Definition.Text, "\n")
+}
+
+func (o *TypeOrigin) DocumentationLines() []string {
+	return strings.Split(o.Documentation.Text, "\n")
+}
+
+type TypeSource struct {
+	Path string
+	Origin *TypeOrigin
 }

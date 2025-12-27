@@ -10,7 +10,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (c *Crawler) sourceValue(path string, source *symbol.Source) error {
+func (c *Crawler) sourceValue(path string, source *symbol.ValueSource) error {
 	origin, err := c.sourceValueOrigin(path)
 
 	if err != nil {
@@ -43,7 +43,7 @@ var variableAssignmentQueries = map[string]string{
 	)`,
 }
 
-func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
+func (c *Crawler) followVariableAssignment(path string, o *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -118,7 +118,7 @@ var requireAssignmentQuery string = `
 	)
 `
 
-func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*symbol.Origin, error) {
+func (c *Crawler) followRequireValueAssignment(path string, o *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -168,7 +168,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 	return moduleOrigin, nil
 }
 
-func (c *Crawler) followValueOrigin(path string, pathOrigin **symbol.Origin) error {
+func (c *Crawler) followValueOrigin(path string, pathOrigin **symbol.ValueOrigin) error {
 	o := *pathOrigin
 
 	switch o.Type() {
@@ -199,7 +199,7 @@ func (c *Crawler) followValueOrigin(path string, pathOrigin **symbol.Origin) err
 	return nil
 }
 
-func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symbol.Origin, error) {
+func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symbol.ValueOrigin, error) {
 	for _, location := range locations {
 		_, err := c.context.Nvim.Open(location.Url)
 
@@ -219,7 +219,7 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symb
 			continue
 		}
 
-		pathOrigin := &symbol.Origin{
+		pathOrigin := &symbol.ValueOrigin{
 			Location:   location,
 			Definition: *node,
 		}
@@ -236,7 +236,7 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symb
 	return nil, nil
 }
 
-func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol.Origin) (bool, error) {
+func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol.ValueOrigin) (bool, error) {
 	_, err := c.context.Nvim.Open(pathOrigin.Url())
 
 	if err != nil {
@@ -258,7 +258,7 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol
 
 }
 
-func (c *Crawler) sourceValueOrigin(path string) (*symbol.Origin, error) {
+func (c *Crawler) sourceValueOrigin(path string) (*symbol.ValueOrigin, error) {
 	locations, err := c.findValueDefinitionLocations(path)
 
 	switch {

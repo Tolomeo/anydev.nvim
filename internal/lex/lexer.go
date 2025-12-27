@@ -55,7 +55,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	return nil
 }
 
-func (l *Lexer) sourceValue(path string) (*symbol.Source, error) {
+func (l *Lexer) sourceValue(path string) (*symbol.ValueSource, error) {
 	source, err := l.crawler.SourceValue(path)
 
 	switch {
@@ -68,7 +68,7 @@ func (l *Lexer) sourceValue(path string) (*symbol.Source, error) {
 	return source, nil
 }
 
-func (l *Lexer) lexValue(source *symbol.Source) (symbol.Symbol, error) {
+func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	sourcePath := source.Path
 	sourceOrigin := source.Origin
 
