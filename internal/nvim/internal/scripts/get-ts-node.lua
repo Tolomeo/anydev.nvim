@@ -7,6 +7,8 @@ local lua = "lua"
 local luadoc = "luadoc"
 local bufnr = 0
 
+local function get_tsnode() end
+
 local root_parser = vim.treesitter.get_parser(bufnr, lua)
 
 if not root_parser then

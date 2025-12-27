@@ -100,7 +100,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 
 		lineRange := treesitter.LineRange{
 			Start: location.TargetRange.Start.Line,
-			End: location.TargetRange.End.Line,
+			End:   location.TargetRange.End.Line,
 		}
 		match, err := c.context.Nvim.TsQueryOne(findAliasOriginQuery(path, &lineRange))
 
@@ -111,14 +111,18 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 			continue
 		}
 
-		fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location,  match, match.Range())
+		fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
+
+		block, _ := c.context.Nvim.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+
+		fmt.Printf("\nCommentBlock: %+v\n\n", block)
 
 		documentation, err := c.context.Nvim.GetCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
 
 		fmt.Printf("\nDocumentation: %+v\n", documentation)
 
 		typeOrigin := &symbol.Origin{
-			Location: location,
+			Location:      location,
 			Documentation: *documentation,
 		}
 

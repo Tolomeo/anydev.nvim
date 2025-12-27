@@ -312,3 +312,56 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*tree
 
 	return &tsNode, nil
 }
+
+func (n *Nvim) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
+	lines, err := n.GetBufferLines(int(line), int(line)+1)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case len(lines) < 1:
+		return nil, nil
+	}
+
+	// clamping the received character to be inside the line
+	character = max(0, min(character, uint(len(lines[0])-1)))
+
+	node, err := n.GetTSNodeAt([]string{treesitter.COMMENT}, line, character)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case node == nil:
+		return nil, nil
+	}
+
+	script, err := scripts.Read("get-ts-commentblock")
+
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := n.ExecLua(script, []any{node.Range.Start.Line, node.Range.End.Line})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case result == nil:
+		return nil, nil
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return nil, fmt.Errorf("Error converting result into string: %v", result)
+	}
+
+	tsNode := treesitter.TsNode{}
+	err = tsNode.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return nil, fmt.Errorf("Error unmarshalling tsnode response: %w", err)
+	}
+
+	return &tsNode, nil
+}
