@@ -11,11 +11,11 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type TsQueryConfig struct {
+/* type TsQueryConfig struct {
 	Language string
 	Query    string
 	Range    *treesitter.LineRange
-}
+} */
 
 func (n *Nvim) startTS() error {
 	script, err := scripts.Read("start-ts")
@@ -47,7 +47,7 @@ func (n *Nvim) startTS() error {
 	return nil
 }
 
-func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]treesitter.Capture, error) {
+func (n *Nvim) execTsQuery(query treesitter.Query) (*[]treesitter.Capture, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -60,10 +60,10 @@ func (n *Nvim) execTsQuery(config TsQueryConfig) (*[]treesitter.Capture, error) 
 		return nil, err
 	}
 
-	scriptArgs := []any{config.Language, config.Query}
+	scriptArgs := []any{query.Language, query.Query}
 
-	if config.Range != nil {
-		scriptArgs = append(scriptArgs, config.Range.Start, config.Range.End+1)
+	if query.Range != nil {
+		scriptArgs = append(scriptArgs, query.Range.Start, query.Range.End+1)
 	}
 
 	result, err := n.ExecLua(script, scriptArgs)
@@ -109,8 +109,8 @@ func (m *TsQueryMatch) LineRange() *treesitter.LineRange {
 
 }
 
-func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
-	queryAllConfig := TsQueryConfig{
+func (n *Nvim) TsQueryAll(config treesitter.Query) (*[]TsQueryMatch, error) {
+	queryAllConfig := treesitter.Query{
 		Language: config.Language,
 		Query:    fmt.Sprintf("(%s) @tsquery.match", config.Query),
 		Range:    config.Range,
@@ -148,8 +148,8 @@ func (n *Nvim) TsQueryAll(config TsQueryConfig) (*[]TsQueryMatch, error) {
 	return &queryMatches, nil
 }
 
-func (n *Nvim) TsQueryOne(config TsQueryConfig) (*TsQueryMatch, error) {
-	matches, err := n.TsQueryAll(config)
+func (n *Nvim) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
+	matches, err := n.TsQueryAll(query)
 
 	switch {
 	case err != nil:
@@ -177,8 +177,8 @@ type SafeTsQueryResult struct {
 	Captures TsQueryMatch
 }
 
-func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) {
-	match, err := n.TsQueryOne(config)
+func (n *Nvim) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+	match, err := n.TsQueryOne(query)
 
 	switch {
 	case err != nil:
@@ -187,8 +187,8 @@ func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) 
 		return nil, nil
 	}
 
-	errorCaptures, err := n.TsQueryAll(TsQueryConfig{
-		Language: config.Language,
+	errorCaptures, err := n.TsQueryAll(treesitter.Query{
+		Language: query.Language,
 		Query:    `(ERROR) @tsquery.error`,
 		Range:    match.LineRange(),
 	})
@@ -209,8 +209,8 @@ func (n *Nvim) SafeTsQueryOne(config TsQueryConfig) (*SafeTsQueryResult, error) 
 	}
 }
 
-func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error) {
-	matches, err := n.TsQueryAll(config)
+func (n *Nvim) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
+	matches, err := n.TsQueryAll(query)
 
 	switch {
 	case err != nil:
@@ -222,8 +222,8 @@ func (n *Nvim) SafeTsQueryAll(config TsQueryConfig) (*[]SafeTsQueryResult, error
 	results := []SafeTsQueryResult{}
 
 	for _, match := range *matches {
-		errorCaptures, err := n.TsQueryAll(TsQueryConfig{
-			Language: config.Language,
+		errorCaptures, err := n.TsQueryAll(treesitter.Query{
+			Language: query.Language,
 			Query:    `(ERROR) @tsquery.error`,
 			Range:    match.LineRange(),
 		})
@@ -259,7 +259,7 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*tree
 	script, err := scripts.Read("get-ts-node")
 
 	if err != nil {
-		return nil, fmt.Errorf("Error reading GetTSNodeAt script source: %w", err)
+		return nil, err
 	}
 
 	result, err := n.ExecLua(string(script), []any{nodeTypes, line, character})

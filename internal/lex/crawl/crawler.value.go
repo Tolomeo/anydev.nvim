@@ -59,7 +59,7 @@ func (c *Crawler) followVariableAssignment(path string, o *symbol.Origin) (*symb
 	}
 
 	captures, hasCaptures, err := slicesx.MapFindFunc(mapx.Values(variableAssignmentQueries), func(variableAssignmentQuery string) (*nvim.TsQueryMatch, bool, error) {
-		assignmentCaptures, err := c.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: variableAssignmentQuery})
+		assignmentCaptures, err := c.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: variableAssignmentQuery})
 
 		switch {
 		case err != nil:
@@ -133,7 +133,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.Origin) (*
 		return nil, err
 	}
 
-	captures, err := c.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: requireAssignmentQuery})
+	captures, err := c.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: requireAssignmentQuery})
 
 	switch {
 	case err != nil:
@@ -243,7 +243,7 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol
 		return false, err
 	}
 
-	commentBlockLines, err := c.readCommentBlock(pathOrigin.Line()-1, pathOrigin.Character())
+	commentBlockLines, err := c.context.Nvim.GetCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
 
 	switch {
 	case err != nil:

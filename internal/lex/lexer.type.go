@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
@@ -103,7 +103,7 @@ var typeFunctionQuery string = fmt.Sprintf(`
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
 
 func (l *Lexer) lexFunctionType(function *symbol.Function) error {
-	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeFunctionQuery})
+	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: typeFunctionQuery})
 
 	switch {
 	case err != nil:
@@ -161,7 +161,7 @@ var typeTableQuery string = `
 `
 
 func (l *Lexer) lexTableType(table *symbol.Table) error {
-	matches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: typeTableQuery})
+	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:
@@ -278,13 +278,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
-	reference, err := l.crawler.SourceType(source)
-
-	if err != nil {
-		fmt.Printf("Reference error: %v", err)
-	}
-
-	fmt.Printf("\nReference source:\n%+v\n\n", reference)
+	l.lexCustomType(source)
 
 	l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil

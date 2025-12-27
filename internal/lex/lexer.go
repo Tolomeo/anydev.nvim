@@ -14,11 +14,13 @@ type Lexer struct {
 }
 
 func (l *Lexer) LexValue(path string, context *context.Context) error {
+	currentContext := l.context
+	currentCrawler := l.crawler
 	l.context = context
 	l.crawler = crawl.NewCrawler(l.context)
 	defer func() {
-		l.context = nil
-		l.crawler = nil
+		l.context = currentContext
+		l.crawler = currentCrawler
 	}()
 
 	if _, exists := l.context.Result().Runtime[path]; exists {
@@ -28,14 +30,14 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 
 	l.context.Result().Runtime[path] = struct{}{}
 
-	err := l.context.Provide(path, func(path string) error {
-		source, err := l.source(path)
+	err := l.context.Push(path, func(path string) error {
+		source, err := l.sourceValue(path)
 
 		if err != nil {
 			return err
 		}
 
-		symbol, err := l.lex(source)
+		symbol, err := l.lexValue(source)
 
 		if err != nil {
 			return err
@@ -53,8 +55,8 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	return nil
 }
 
-func (l *Lexer) source(path string) (*symbol.Source, error) {
-	source, err := l.crawler.Source(path)
+func (l *Lexer) sourceValue(path string) (*symbol.Source, error) {
+	source, err := l.crawler.SourceValue(path)
 
 	switch {
 	case err != nil:
@@ -66,7 +68,7 @@ func (l *Lexer) source(path string) (*symbol.Source, error) {
 	return source, nil
 }
 
-func (l *Lexer) lex(source *symbol.Source) (symbol.Symbol, error) {
+func (l *Lexer) lexValue(source *symbol.Source) (symbol.Symbol, error) {
 	sourcePath := source.Path
 	sourceOrigin := source.Origin
 

@@ -23,6 +23,10 @@ func (c *Crawler) sourceType(name string, source *symbol.Source) error {
 func (c *Crawler) sourceTypeOrigin(path string) (*symbol.Origin, error) {
 	locations, err := c.findTypeDefinitionLocations(path)
 
+	for _, loc := range *locations {
+		fmt.Printf("\n\nLocations: %+v", loc)
+	}
+
 	switch {
 	case err != nil:
 		return nil, err
@@ -60,7 +64,7 @@ func (c *Crawler) sourceTypeOriginDocumentation(name string, typeOrigin *symbol.
 		return false, err
 	}
 
-	commentBlockLines, err := c.readCommentBlock(typeOrigin.Line(), typeOrigin.Character())
+	commentBlockLines, err := c.context.Nvim.GetCommentBlockAt(typeOrigin.Line(), typeOrigin.Character())
 
 	switch {
 	case err != nil:

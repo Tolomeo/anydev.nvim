@@ -8,8 +8,10 @@ import (
 	"path"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
  
@@ -343,6 +345,50 @@ func (n *Nvim) GetRuntimeType(variable string) (string, error) {
 	}
 
 	return typeName, nil
+}
+
+func (n *Nvim) GetCommentBlockAt(line uint, character uint) (*[]string, error) {
+	lines, err := n.GetBufferLines(int(line)-1, int(line))
+
+	switch {
+	case err != nil:
+		return nil, err
+	case len(lines) < 1:
+		return nil, nil
+	}
+
+	// clamping the received character to be inside the line
+	character = max(0, min(character, uint(len(lines[0])-1)))
+
+	node, err := n.GetTSNodeAt([]string{treesitter.COMMENT}, line, character)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case node == nil:
+		return nil, nil
+	}
+
+	script, err := scripts.Read("get-commentblock")
+
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := n.ExecLua(script, []any{node.Range.Start.Line, node.Range.End.Line})
+
+	if err != nil {
+		return nil, err
+	}
+
+	bufferLines, err := anyx.ToSliceOf[string](result)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error reading buffer lines return value: %w", err)
+	}
+
+	return &bufferLines, nil
+
 }
 
 func New(config Config, opts ...optionProvider) (*Nvim, error) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 var metaQuery string = `
@@ -35,7 +35,8 @@ func (l *Lexer) matchMeta(source *symbol.Source) (*symbol.Unknown, error) {
 		return nil, err
 	}
 
-	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: metaQuery})
+
+	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: metaQuery})
 
 	switch {
 	case err != nil:

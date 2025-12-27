@@ -21,37 +21,44 @@ type loggerProvider interface {
 }
 
 type Context struct {
-	path    []string
-	Nvim    *nvim.Nvim
-	result  *result
-	Logger  loggerProvider
+	path   []string
+	Nvim   *nvim.Nvim
+	result *result
+	Logger loggerProvider
 }
 
 func (l *Context) Current() string {
 	return strings.Join(l.path, ".")
 }
 
-func (l *Context) Provide(path string, procedure func(path string) (error)) (error) {
-	l.push(path)
-	defer l.pop()
+func (l *Context) Push(path string, procedure func(path string) error) error {
+	l.path = append(l.path, path)
+	l.Logger.SetKey(l.Current())
+	defer func() {
+		if len(l.path) > 0 {
+			l.path = l.path[:len(l.path)-1]
+		}
+		if len(l.path) > 0 {
+			l.Logger.SetKey(l.Current())
+		} else {
+			l.Logger.DefaultKey()
+		}
+	}()
 
 	return procedure(path)
 }
 
-func (l *Context) push(prefix string) {
-	l.path = append(l.path, prefix)
+func (l *Context) Fork(path string, procedure func(path string) error) error {
+	currentPath := l.path
+	l.path = []string{path}
 	l.Logger.SetKey(l.Current())
-}
 
-func (l *Context) pop() {
-	if len(l.path) > 0 {
-		l.path = l.path[:len(l.path)-1]
-	}
-	if len(l.path) > 0 {
+	defer func() {
+		l.path = currentPath
 		l.Logger.SetKey(l.Current())
-	} else {
-		l.Logger.DefaultKey()
-	}
+	}()
+
+	return procedure(path)
 }
 
 func (l *Context) Result() *result {
@@ -60,8 +67,8 @@ func (l *Context) Result() *result {
 
 func New(logger loggerProvider, client *nvim.Nvim) *Context {
 	return &Context{
-		Nvim:    client,
-		Logger:  logger,
+		Nvim:   client,
+		Logger: logger,
 		result: &result{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},

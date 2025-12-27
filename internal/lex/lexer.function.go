@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 var (
@@ -159,7 +159,7 @@ func (l *Lexer) matchFunction(source *symbol.Source) (*symbol.Function, error) {
 	function := newFunctionType()
 
 	for _, query := range functionQueries {
-		captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:

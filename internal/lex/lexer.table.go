@@ -2,7 +2,7 @@ package lex
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 var tableQueries = map[string]string{
@@ -63,7 +63,7 @@ func (l *Lexer) matchTable(source *symbol.Source) (*symbol.Table, error) {
 	}
 
 	for _, query := range tableQueries {
-		captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "lua", Query: query})
+		captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:
@@ -98,8 +98,8 @@ func (l *Lexer) lexTable(table *symbol.Table) error {
 	for _, fieldName := range tableFields {
 		tableField := symbol.TableField{Name: fieldName}
 
-		err := l.context.Provide(fieldName, func(path string) error {
-			source, err := l.source(l.context.Current())
+		err := l.context.Push(fieldName, func(path string) error {
+			source, err := l.sourceValue(l.context.Current())
 
 			if err != nil {
 				return err
@@ -109,7 +109,7 @@ func (l *Lexer) lexTable(table *symbol.Table) error {
 
 			tableField.Private = annotations.private
 			tableField.Protected = annotations.protected
-			tableFieldValue, err := l.lex(source)
+			tableFieldValue, err := l.lexValue(source)
 
 			if err != nil {
 				return err

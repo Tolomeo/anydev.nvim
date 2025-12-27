@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
@@ -31,7 +32,7 @@ var typeAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexTypeAnnotations(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: typeAnnotationQuery})
+	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: typeAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -76,7 +77,7 @@ var overloadAnnotationQuery string = fmt.Sprintf(`
 `, typeQueries["function_type"])
 
 func (l *Lexer) lexOverloadAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.Nvim.SafeTsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: overloadAnnotationQuery})
+	matches, err := l.context.Nvim.SafeTsQueryAll(treesitter.Query{Language: "luadoc", Query: overloadAnnotationQuery})
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
 
@@ -136,7 +137,7 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexGenericAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: genericAnnotationQuery})
+	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: genericAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -199,7 +200,7 @@ func (l *Lexer) lexParamAnnotations(annotations *lexedAnnotations) (bool, error)
 	matches, hasMatches, err := slicesx.MapFindFunc(
 		mapx.Values(paramAnnotationQueries),
 		func(paramAnnotationQuery string) (*[]nvim.TsQueryMatch, bool, error) {
-			paramMatches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: paramAnnotationQuery})
+			paramMatches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: paramAnnotationQuery})
 
 			switch {
 			case err != nil:
@@ -268,7 +269,7 @@ var returnAnnotationQuery string = fmt.Sprintf(`
 `, anyTypeQuery)
 
 func (l *Lexer) lexReturnAnnotations(annotations *lexedAnnotations) (bool, error) {
-	matches, err := l.context.Nvim.TsQueryAll(nvim.TsQueryConfig{Language: "luadoc", Query: returnAnnotationQuery})
+	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: returnAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -318,7 +319,7 @@ var privateAnnotationQuery string = `
 `
 
 func (l *Lexer) lexPrivateAnnotation(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: privateAnnotationQuery})
+	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: privateAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -340,7 +341,7 @@ var protectedAnnotationQuery string = `
 `
 
 func (l *Lexer) lexProtectedAnnotation(annotations *lexedAnnotations) (bool, error) {
-	captures, err := l.context.Nvim.TsQueryOne(nvim.TsQueryConfig{Language: "luadoc", Query: protectedAnnotationQuery})
+	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: protectedAnnotationQuery})
 
 	switch {
 	case err != nil:
