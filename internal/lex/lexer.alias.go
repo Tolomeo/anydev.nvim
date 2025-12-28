@@ -48,9 +48,14 @@ func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error)
 }
 
 var enumAliasQuery = fmt.Sprintf(`
-	(continuation
-		%s @enumAlias.type
-	)
+	[
+		(alias_annotation
+			(identifier) @enumAlias.name
+		)
+		(continuation
+			%s @enumAlias.type
+		)
+	]
 `, anyTypeQuery)
 
 func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
@@ -63,9 +68,18 @@ func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, nil
 	}
 
+	enumMembers := []string{}
+
 	for _, match := range *matches {
-		fmt.Println(match)
+		for _, capture := range match {
+			switch capture.Id {
+			case "enumAlias.type":
+				enumMembers = append(enumMembers, capture.Node.Text)
+			}
+		}
 	}
+
+	fmt.Println(enumMembers)
 
 	return nil, nil
 
