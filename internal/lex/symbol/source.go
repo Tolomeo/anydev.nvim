@@ -68,19 +68,27 @@ func (o *TypeOrigin) Type() string {
 	return o.Definition.Type
 }
 
+func (o *TypeOrigin) DefinitionText() string {
+	return o.Definition.Text
+}
+
 func (o *TypeOrigin) DefinitionLines() []string {
 	/* if o.Definition == nil {
 		return []string{}
 	} */
 
-	return strings.Split(o.Definition.Text, "\n")
+	return strings.Split(o.DefinitionText(), "\n")
+}
+
+func (o *TypeOrigin) DocumentationText() string {
+	return o.Documentation.Text
 }
 
 func (o *TypeOrigin) DocumentationLines() []string {
-	return strings.Split(o.Documentation.Text, "\n")
+	return strings.Split(o.DocumentationText(), "\n")
 }
 
 type TypeSource struct {
-	Path string
+	Path   string
 	Origin *TypeOrigin
 }

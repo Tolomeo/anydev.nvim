@@ -234,6 +234,43 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 
 } */
 
+func (l *Lexer) lexReference(name string) error {
+	if _, exists := l.context.Result().Types[name]; exists {
+		l.context.Logger.Info("Skipping '%s': lexed type already found")
+		return nil
+	}
+
+	l.context.Result().Types[name] = struct{}{}
+
+	l.context.Fork(name, func(name string) error {
+		typeSource, err := l.crawler.SourceType(name)
+
+		if err != nil {
+			fmt.Printf("Reference error: %v", err)
+		}
+
+		fmt.Printf("\nReference source:\n%+v\n\n", typeSource.Origin)
+
+		aliasType, err := l.lexAlias(typeSource)
+
+		fmt.Printf("\nType: %+v\n\n", typeSource.Origin.Definition)
+
+		switch {
+		case err != nil:
+			return err
+		case aliasType != nil:
+			l.context.Result().Types[name] = aliasType
+			return nil
+		}
+
+		l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", name))
+		l.context.Result().Types[name] = newUnknownType()
+		return nil
+	})
+
+	return nil
+}
+
 func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
 
@@ -278,7 +315,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
-	l.lexCustomType(source)
+	l.lexReference(source)
 
 	l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil
