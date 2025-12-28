@@ -13,10 +13,10 @@ import (
 // So those false positives are excluded with the not-eq predicate
 var simpleAliasQuery = fmt.Sprintf(`
 	(alias_annotation
-		(identifier) @name
-		%s @type
-		(comment)? @documentation
-		(#not-eq? @type "")
+		(identifier) @alias.name
+		%s @alias.type
+		(comment)? @alias.documentation
+		(#not-eq? @alias.type "")
 	)
 `, anyTypeQuery)
 
@@ -31,7 +31,7 @@ func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error)
 	}
 
 	typeCapture, typeCaptureFound := slicesx.FindFunc(*match, func(capture treesitter.Capture) bool {
-		return capture.Id == "type"
+		return capture.Id == "alias.type"
 	})
 
 	if !typeCaptureFound {
@@ -45,6 +45,30 @@ func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error)
 	}
 
 	return lexedAliasType, nil
+}
+
+var enumAliasQuery = fmt.Sprintf(`
+	(continuation
+		%s @enumAlias.type
+	)
+`, anyTypeQuery)
+
+func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
+	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: enumAliasQuery})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case matches == nil:
+		return nil, nil
+	}
+
+	for _, match := range *matches {
+		fmt.Println(match)
+	}
+
+	return nil, nil
+
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
@@ -81,6 +105,15 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, err
 	case simpleAliasType != nil:
 		return simpleAliasType, nil
+	}
+
+	enumAliasType, err := l.lexEnumAlias(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case enumAliasType != nil:
+		return enumAliasType, nil
 	}
 
 	return newBuiltinType(symbol.BuiltinValueVoid), nil
