@@ -2,6 +2,20 @@
 
 package symbol
 
+type Array struct {
+	// Items corresponds to the JSON schema field "items".
+	Items ArrayItems `json:"items" yaml:"items" mapstructure:"items"`
+
+	// Kind corresponds to the JSON schema field "kind".
+	Kind ArrayKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+}
+
+type ArrayItems interface{}
+
+type ArrayKind string
+
+const ArrayKindArray ArrayKind = "array"
+
 // https://luals.github.io/wiki/annotations/#documenting-types
 type Builtin struct {
 	// Kind corresponds to the JSON schema field "kind".
@@ -118,6 +132,18 @@ type FunctionReturn struct {
 
 type FunctionReturnType interface{}
 
+type NumberLiteral struct {
+	// Kind corresponds to the JSON schema field "kind".
+	Kind NumberLiteralKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value float64 `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type NumberLiteralKind string
+
+const NumberLiteralKindNumberliteral NumberLiteralKind = "numberliteral"
+
 type Reference struct {
 	// Kind corresponds to the JSON schema field "kind".
 	Kind ReferenceKind `json:"kind" yaml:"kind" mapstructure:"kind"`
@@ -129,6 +155,18 @@ type Reference struct {
 type ReferenceKind string
 
 const ReferenceKindReference ReferenceKind = "reference"
+
+type StringLiteral struct {
+	// Kind corresponds to the JSON schema field "kind".
+	Kind StringLiteralKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type StringLiteralKind string
+
+const StringLiteralKindStringliteral StringLiteralKind = "stringliteral"
 
 type Symbol interface{}
 
@@ -162,6 +200,20 @@ type TableFieldValue interface{}
 type TableKind string
 
 const TableKindTable TableKind = "table"
+
+type Union struct {
+	// Kind corresponds to the JSON schema field "kind".
+	Kind UnionKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// Types corresponds to the JSON schema field "types".
+	Types []UnionTypesElem `json:"types" yaml:"types" mapstructure:"types"`
+}
+
+type UnionKind string
+
+const UnionKindUnion UnionKind = "union"
+
+type UnionTypesElem interface{}
 
 type Unknown struct {
 	// Documentation corresponds to the JSON schema field "documentation".

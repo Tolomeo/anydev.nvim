@@ -210,9 +210,9 @@
           "type": "string",
           "enum": ["unknown"]
         },
-				"documentation": {
-					"$ref": "#/definitions/Documentation"
-				}
+        "documentation": {
+          "$ref": "#/definitions/Documentation"
+        }
       },
       "required": ["kind", "documentation"]
     },
@@ -224,9 +224,9 @@
           "type": "string",
           "enum": ["table"]
         },
-				"name": {
-					"type":"string"
-				},
+        "name": {
+          "type": "string"
+        },
         "fields": {
           "type": "array",
           "items": {
@@ -254,6 +254,65 @@
         }
       },
       "required": ["name", "value", "private", "protected"]
+    },
+    "Union": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["union"]
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Symbol"
+          }
+        }
+      },
+      "required": ["kind", "types"]
+    },
+    "StringLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["stringliteral"]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["kind", "value"]
+    },
+    "NumberLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["numberliteral"]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": ["kind", "value"]
+    },
+    "Array": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["array"]
+        },
+        "items": {
+          "$ref": "#/definitions/Symbol"
+        }
+      },
+      "required": ["kind", "items"]
     }
   }
 }

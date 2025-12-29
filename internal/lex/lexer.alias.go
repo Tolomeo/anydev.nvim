@@ -58,7 +58,7 @@ var enumAliasQuery = fmt.Sprintf(`
 	]
 `, anyTypeQuery)
 
-func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
+func (l *Lexer) lexEnumAlias(_ *symbol.TypeSource) (symbol.Symbol, error) {
 	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: enumAliasQuery})
 
 	switch {
@@ -86,6 +86,8 @@ func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
+	fmt.Println(source.Path)
+
 	if source.Origin.Type() != "alias_annotation" {
 		return nil, nil
 	}
@@ -104,7 +106,7 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 	name := source.Path
 	definitionText := origin.DefinitionText()
 	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
-	documentationText := source.Origin.DocumentationText()
+	documentationText := origin.DocumentationText()
 	patchedDocumentationLines := strings.Split(
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
 		"\n",

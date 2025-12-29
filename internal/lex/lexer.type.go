@@ -271,6 +271,177 @@ func (l *Lexer) lexReference(name string) error {
 	return nil
 }
 
+var typeArrayQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(array_type 
+				(_) @array.itemstype 
+			) @array
+		)
+	)
+`}
+
+func newArrayType(items symbol.Symbol) *symbol.Array {
+	return &symbol.Array{
+		Kind:  symbol.ArrayKindArray,
+		Items: items,
+	}
+}
+
+func (l *Lexer) lexArray(source string) (*symbol.Array, error) {
+	match, err := l.context.Nvim.TsQueryOne(typeArrayQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
+		case "array.itemstype":
+			itemsType, err := l.lexType(matchCapture.Node.Text)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return newArrayType(itemsType), nil
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieve items type value from the array type '%s'", source)
+}
+
+var typeUnionQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(union_type
+				(_)* @union.type
+			) @union
+		)
+	)
+`}
+
+func newUnionType(types ...symbol.Symbol) *symbol.Union {
+	unionTypes := []symbol.UnionTypesElem{}
+
+	for _, typ := range types {
+		unionTypes = append(unionTypes, typ)
+	}
+
+	return &symbol.Union{
+		Kind:  symbol.UnionKindUnion,
+		Types: unionTypes,
+	}
+}
+
+func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
+	match, err := l.context.Nvim.TsQueryOne(typeUnionQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	unionTypes := []symbol.Symbol{}
+
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
+		case "union.type":
+			lexedType, err := l.lexType(matchCapture.Node.Text)
+
+			if err != nil {
+				return nil, err
+			}
+
+			unionTypes = append(unionTypes, lexedType)
+		}
+	}
+
+	if len(unionTypes) < 2 {
+		return nil, fmt.Errorf("Could not retrieve all types in the union type '%s'", source)
+	}
+
+	return newUnionType(unionTypes...), nil
+}
+
+var typeGroupQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(parenthesized_type 
+				(_) @group.type
+			) @group
+		)
+	)
+`}
+
+func (l *Lexer) lexGroup(source string) (symbol.Symbol, error) {
+	match, err := l.context.Nvim.TsQueryOne(typeGroupQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
+		case "group.type":
+			return l.lexType(matchCapture.Node.Text)
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieve the type value of the grouped type '%s'", source)
+}
+
+var typeStringLiteralQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(literal_type) @stringliteral
+		)
+	)
+`}
+
+func newStringLiteral(value string) *symbol.StringLiteral {
+	return &symbol.StringLiteral{
+		Kind:  symbol.StringLiteralKindStringliteral,
+		Value: value,
+	}
+}
+
+func (l *Lexer) lexStringLiteral(source string) (*symbol.StringLiteral, error) {
+	match, err := l.context.Nvim.TsQueryOne(typeStringLiteralQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, matchCpture := range *match {
+		switch matchCpture.Id {
+		case "stringliteral":
+			return newStringLiteral(matchCpture.Node.Text), nil
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
+}
+
 func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
 
@@ -304,6 +475,15 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return functionType, nil
 	}
 
+	lexedArray, err := l.lexArray(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedArray != nil:
+		return lexedArray, nil
+	}
+
 	tableType := newTableType()
 	err = l.lexTableType(tableType)
 
@@ -313,6 +493,33 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	default:
 		return tableType, nil
+	}
+
+	lexedUnion, err := l.lexUnion(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedUnion != nil:
+		return lexedUnion, nil
+	}
+
+	lexedGroupedType, err := l.lexGroup(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedGroupedType != nil:
+		return lexedGroupedType, nil
+	}
+
+	lexedStringLiteral, err := l.lexStringLiteral(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedStringLiteral != nil:
+		return lexedStringLiteral, nil
 	}
 
 	l.lexReference(source)
