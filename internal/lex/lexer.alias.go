@@ -60,8 +60,6 @@ var enumAliasQuery = treesitter.Query{
 func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
 	matches, err := l.context.Nvim.TsQueryAll(enumAliasQuery)
 
-	fmt.Println(matches, err)
-
 	switch {
 	case err != nil:
 		return nil, err
@@ -73,16 +71,9 @@ func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
 
 	for _, matchCaptures := range *matches {
 		for _, capture := range matchCaptures {
-			fmt.Println("capture")
-			fmt.Println(source.Path)
-			fmt.Println(capture)
-
 			switch capture.Id {
 			case "enumAlias.type":
 				lexedType, err := l.lexType(capture.Node.Text)
-
-				fmt.Println("Lexed union type")
-				fmt.Println(lexedType, err)
 
 				if err != nil {
 					return nil, err
@@ -93,8 +84,6 @@ func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
 		}
 	}
 
-	fmt.Println("after loop")
-	fmt.Println(source.Path)
 	// fmt.Println(source.Path)
 	/* for _, member := range enumMembers {
 		fmt.Println(member)
@@ -105,7 +94,7 @@ func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
 		return nil, fmt.Errorf("Could not retrieve enum members from enum alias '%s'", source.Path)
 	}
 
-	return newUnionType(enumMembers...), nil
+	return newUnionType(enumMembers), nil
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
@@ -139,13 +128,6 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 
 	simpleAliasType, err := l.lexSimpleAlias(source)
 
-	fmt.Println(source.Path)
-	if source.Path == "vim.validate.Validator" {
-		lines, _ := buffer.ReadLines()
-		fmt.Println(lines)
-		fmt.Println(simpleAliasType)
-	}
-
 	switch {
 	case err != nil:
 		return nil, err
@@ -154,11 +136,6 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 	}
 
 	enumAliasType, err := l.lexEnumAlias(source)
-
-	if source.Path == "vim.validate.Validator" {
-		fmt.Println(enumAliasType)
-	}
-	// fmt.Println(enumAliasType)
 
 	switch {
 	case err != nil:

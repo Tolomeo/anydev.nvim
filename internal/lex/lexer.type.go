@@ -163,9 +163,6 @@ func (l *Lexer) lexFunctionType(function *symbol.Function) error {
 		return ErrNoMatch
 	}
 
-	fmt.Println("function captures")
-	fmt.Println(captures)
-
 	args := []symbol.FunctionArg{}
 	returns := []symbol.FunctionReturn{}
 
@@ -284,7 +281,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 		return newReferenceType(name), nil
 	}
 
-	l.context.Result().Types[name] = newUnionType()
+	l.context.Result().Types[name] = newUnknownType()
 
 	l.context.Fork(name, func(name string) error {
 		typeSource, err := l.crawler.SourceType(name)
@@ -374,7 +371,7 @@ var typeUnionQuery = treesitter.Query{
 	)
 `}
 
-func newUnionType(types ...symbol.Symbol) *symbol.Union {
+func newUnionType(types []symbol.Symbol) *symbol.Union {
 	unionTypes := []symbol.UnionTypesElem{}
 
 	for _, typ := range types {
@@ -408,7 +405,15 @@ func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
 				return nil, err
 			}
 
-			unionTypes = append(unionTypes, lexedType)
+			// Flattening nested unions
+			switch t := lexedType.(type) {
+			case symbol.Union:
+				for _, lexedUnionType := range t.Types {
+					unionTypes = append(unionTypes, lexedUnionType)
+				}
+			default:
+				unionTypes = append(unionTypes, lexedType)
+			}
 		}
 	}
 
@@ -416,7 +421,7 @@ func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
 		return nil, fmt.Errorf("Could not retrieve all types in the union type '%s'", source)
 	}
 
-	return newUnionType(unionTypes...), nil
+	return newUnionType(unionTypes), nil
 }
 
 var typeGroupQuery = treesitter.Query{
