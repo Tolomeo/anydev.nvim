@@ -283,7 +283,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 
 	l.context.Result().Types[name] = newUnknownType()
 
-	l.context.Fork(name, func(name string) error {
+	err := l.context.Fork(name, func(name string) error {
 		typeSource, err := l.crawler.SourceType(name)
 
 		if err != nil {
@@ -307,9 +307,12 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 		}
 
 		l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", name))
-		l.context.Result().Types[name] = newUnknownType()
 		return nil
 	})
+
+	if err != nil {
+		return nil, err
+	}
 
 	return newReferenceType(name), nil
 }
@@ -361,15 +364,15 @@ func (l *Lexer) lexArray(source string) (*symbol.Array, error) {
 
 var typeUnionQuery = treesitter.Query{
 	Language: "luadoc",
-	Query: `
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(union_type
-				(_)+ @union.type
+				(%s) @union.type
+				(%s) @union.type
 			) @union
 		)
-	)
-`}
+	)`, anyTypeQuery, anyTypeQuery)}
 
 func newUnionType(types []symbol.Symbol) *symbol.Union {
 	unionTypes := []symbol.UnionTypesElem{}
@@ -419,6 +422,13 @@ func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
 
 	if len(unionTypes) < 2 {
 		return nil, fmt.Errorf("Could not retrieve all types in the union type '%s'", source)
+	}
+
+	fmt.Println(source)
+	fmt.Println(match)
+	for _, u := range unionTypes {
+		fmt.Println(u)
+
 	}
 
 	return newUnionType(unionTypes), nil
