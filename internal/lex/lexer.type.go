@@ -12,8 +12,8 @@ import (
 
 var ErrNoMatch = errors.New("No match")
 
-func newReferenceType(value string) symbol.Reference {
-	return symbol.Reference{
+func newReferenceType(value string) *symbol.Reference {
+	return &symbol.Reference{
 		Kind:  symbol.ReferenceKindReference,
 		Value: value,
 	}
@@ -71,7 +71,55 @@ var typeQueries = map[string]string{
 
 var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
 
-var typeFunctionQuery string = fmt.Sprintf(`
+var typeOptionalQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation 
+			(optional_type
+				(_) @optional.type
+			) @optional
+		)
+	)
+	`,
+}
+
+func newOptional(typ *symbol.Symbol) *symbol.Optional {
+	return &symbol.Optional{
+		Kind: symbol.OptionalKindOptional,
+		Type: typ,
+	}
+}
+
+func (l *Lexer) lexOptional(source string) (*symbol.Optional, error) {
+	match, err := l.context.Nvim.TsQueryOne(typeOptionalQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, capture := range *match {
+		switch capture.Id {
+		case "optional.type":
+			lexedType, err := l.lexType(capture.Node.Text)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return newOptional(&lexedType), nil
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieved type from optional type '%s'", source)
+}
+
+var typeFunctionQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(function_type
@@ -95,15 +143,18 @@ var typeFunctionQuery string = fmt.Sprintf(`
 					":"
 					%s @parameter.type
 				)? @parameter
-				":"?
-				%s? @return.type
+				(":"
+					(%s) @return.type
+					("," (%s) @return.type)*
+				)? @return
 			)
 		)
 	)
-`, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery)
+`, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery),
+}
 
 func (l *Lexer) lexFunctionType(function *symbol.Function) error {
-	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: typeFunctionQuery})
+	captures, err := l.context.Nvim.TsQueryOne(typeFunctionQuery)
 
 	switch {
 	case err != nil:
@@ -111,6 +162,9 @@ func (l *Lexer) lexFunctionType(function *symbol.Function) error {
 	case captures == nil:
 		return ErrNoMatch
 	}
+
+	fmt.Println("function captures")
+	fmt.Println(captures)
 
 	args := []symbol.FunctionArg{}
 	returns := []symbol.FunctionReturn{}
@@ -224,36 +278,28 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	return nil
 }
 
-/* func (l *Lexer) lexTypeReference(source string) {
-	typeAnnotation := fmt.Sprintf("---@type %s", source)
-	_ = l.scratch([]string{typeAnnotation})
-
-	locations, _ := l.context.Nvim.GetDefinitionLocation(0, uint(len(typeAnnotation)))
-
-	fmt.Printf("%+v", locations)
-
-} */
-
-func (l *Lexer) lexReference(name string) error {
-	if _, exists := l.context.Result().Types[name]; exists {
-		l.context.Logger.Info("Skipping '%s': lexed type already found")
-		return nil
+func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
+	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
+		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
+		return newReferenceType(name), nil
 	}
 
-	l.context.Result().Types[name] = struct{}{}
+	l.context.Result().Types[name] = newUnionType()
 
 	l.context.Fork(name, func(name string) error {
 		typeSource, err := l.crawler.SourceType(name)
 
 		if err != nil {
-			fmt.Printf("Reference error: %v", err)
+			return err
 		}
 
-		fmt.Printf("\nReference source:\n%+v\n\n", typeSource.Origin)
+		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
 
 		aliasType, err := l.lexAlias(typeSource)
 
-		fmt.Printf("\nType: %+v\n\n", typeSource.Origin.Definition)
+		// fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, aliasType)
+
+		// fmt.Printf("\nType: %+v\n\n", typeSource.Origin.Definition)
 
 		switch {
 		case err != nil:
@@ -268,7 +314,7 @@ func (l *Lexer) lexReference(name string) error {
 		return nil
 	})
 
-	return nil
+	return newReferenceType(name), nil
 }
 
 var typeArrayQuery = treesitter.Query{
@@ -322,7 +368,7 @@ var typeUnionQuery = treesitter.Query{
 	(documentation
 		(type_annotation
 			(union_type
-				(_)* @union.type
+				(_)+ @union.type
 			) @union
 		)
 	)
@@ -432,10 +478,10 @@ func (l *Lexer) lexStringLiteral(source string) (*symbol.StringLiteral, error) {
 		return nil, nil
 	}
 
-	for _, matchCpture := range *match {
-		switch matchCpture.Id {
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
 		case "stringliteral":
-			return newStringLiteral(matchCpture.Node.Text), nil
+			return newStringLiteral(matchCapture.Node.Text), nil
 		}
 	}
 
@@ -495,6 +541,15 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
+	lexedOptional, err := l.lexOptional(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedOptional != nil:
+		return lexedOptional, nil
+	}
+
 	lexedUnion, err := l.lexUnion(source)
 
 	switch {
@@ -522,7 +577,14 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedStringLiteral, nil
 	}
 
-	l.lexReference(source)
+	lexedReference, err := l.lexReference(source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedReference != nil:
+		return lexedReference, nil
+	}
 
 	l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
 	return newUnknownType(), nil

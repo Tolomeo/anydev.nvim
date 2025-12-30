@@ -11,17 +11,19 @@ import (
 
 // Luadoc matches an empty type node even when the type is not present
 // So those false positives are excluded with the not-eq predicate
-var simpleAliasQuery = fmt.Sprintf(`
+var simpleAliasQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(alias_annotation
 		(identifier) @alias.name
 		%s @alias.type
 		(comment)? @alias.documentation
 		(#not-eq? @alias.type "")
-	)
-`, anyTypeQuery)
+	)`, anyTypeQuery),
+}
 
 func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
-	match, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "luadoc", Query: simpleAliasQuery})
+	match, err := l.context.Nvim.TsQueryOne(simpleAliasQuery)
 
 	switch {
 	case err != nil:
@@ -47,19 +49,18 @@ func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error)
 	return lexedAliasType, nil
 }
 
-var enumAliasQuery = fmt.Sprintf(`
-	[
-		(alias_annotation
-			(identifier) @enumAlias.name
-		)
-		(continuation
-			%s @enumAlias.type
-		)
-	]
-`, anyTypeQuery)
+var enumAliasQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(continuation
+		%s @enumAlias.type
+	)
+`, anyTypeQuery)}
 
-func (l *Lexer) lexEnumAlias(_ *symbol.TypeSource) (symbol.Symbol, error) {
-	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: enumAliasQuery})
+func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
+	matches, err := l.context.Nvim.TsQueryAll(enumAliasQuery)
+
+	fmt.Println(matches, err)
 
 	switch {
 	case err != nil:
@@ -68,25 +69,47 @@ func (l *Lexer) lexEnumAlias(_ *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, nil
 	}
 
-	enumMembers := []string{}
+	enumMembers := []symbol.Symbol{}
 
-	for _, match := range *matches {
-		for _, capture := range match {
+	for _, matchCaptures := range *matches {
+		for _, capture := range matchCaptures {
+			fmt.Println("capture")
+			fmt.Println(source.Path)
+			fmt.Println(capture)
+
 			switch capture.Id {
 			case "enumAlias.type":
-				enumMembers = append(enumMembers, capture.Node.Text)
+				lexedType, err := l.lexType(capture.Node.Text)
+
+				fmt.Println("Lexed union type")
+				fmt.Println(lexedType, err)
+
+				if err != nil {
+					return nil, err
+				}
+
+				enumMembers = append(enumMembers, lexedType)
 			}
 		}
 	}
 
-	fmt.Println(enumMembers)
+	fmt.Println("after loop")
+	fmt.Println(source.Path)
+	// fmt.Println(source.Path)
+	/* for _, member := range enumMembers {
+		fmt.Println(member)
 
-	return nil, nil
+	} */
 
+	if len(enumMembers) < 1 {
+		return nil, fmt.Errorf("Could not retrieve enum members from enum alias '%s'", source.Path)
+	}
+
+	return newUnionType(enumMembers...), nil
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
-	fmt.Println(source.Path)
+	// fmt.Println(source.Path)
 
 	if source.Origin.Type() != "alias_annotation" {
 		return nil, nil
@@ -116,6 +139,13 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 
 	simpleAliasType, err := l.lexSimpleAlias(source)
 
+	fmt.Println(source.Path)
+	if source.Path == "vim.validate.Validator" {
+		lines, _ := buffer.ReadLines()
+		fmt.Println(lines)
+		fmt.Println(simpleAliasType)
+	}
+
 	switch {
 	case err != nil:
 		return nil, err
@@ -125,6 +155,11 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 
 	enumAliasType, err := l.lexEnumAlias(source)
 
+	if source.Path == "vim.validate.Validator" {
+		fmt.Println(enumAliasType)
+	}
+	// fmt.Println(enumAliasType)
+
 	switch {
 	case err != nil:
 		return nil, err
@@ -132,5 +167,5 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return enumAliasType, nil
 	}
 
-	return newBuiltinType(symbol.BuiltinValueVoid), nil
+	return nil, fmt.Errorf("Could not lex alias type '%s'", source.Path)
 }

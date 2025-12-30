@@ -144,6 +144,20 @@ type NumberLiteralKind string
 
 const NumberLiteralKindNumberliteral NumberLiteralKind = "numberliteral"
 
+type Optional struct {
+	// Kind corresponds to the JSON schema field "kind".
+	Kind OptionalKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// Type corresponds to the JSON schema field "type".
+	Type OptionalType `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+type OptionalKind string
+
+const OptionalKindOptional OptionalKind = "optional"
+
+type OptionalType interface{}
+
 type Reference struct {
 	// Kind corresponds to the JSON schema field "kind".
 	Kind ReferenceKind `json:"kind" yaml:"kind" mapstructure:"kind"`

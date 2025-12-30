@@ -313,6 +313,20 @@
         }
       },
       "required": ["kind", "items"]
+    },
+    "Optional": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["optional"]
+        },
+        "type": {
+          "$ref": "#/definitions/Symbol"
+        }
+      },
+      "required": ["kind", "type"]
     }
   }
 }

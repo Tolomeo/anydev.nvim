@@ -12,7 +12,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
- 
+
 type CursorPosition struct {
 	Line      uint
 	Character uint
@@ -194,10 +194,11 @@ func (n *Nvim) DeleteBuffer() error {
 var counter = 0
 
 type buffer struct {
-	name     string
-	previous string
-	SetLines     func([]string) error
-	Delete   func() error
+	name      string
+	previous  string
+	ReadLines func() ([]string, error)
+	SetLines  func([]string) error
+	Delete    func() error
 }
 
 func (n *Nvim) NewBuffer() (*buffer, error) {
@@ -213,6 +214,21 @@ func (n *Nvim) NewBuffer() (*buffer, error) {
 	return &buffer{
 		name:     name,
 		previous: previous,
+		ReadLines: func() ([]string, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return []string{}, fmt.Errorf("Error reading buffer '%s': %w", name, err)
+			}
+
+			lines, err := n.GetBufferLines(0, -1)
+
+			if err != nil {
+				return []string{}, fmt.Errorf("Error reading buffer '%s': %w", name, err)
+			}
+
+			return lines, nil
+		},
 		SetLines: func(lines []string) error {
 			_, err := n.Open(name)
 

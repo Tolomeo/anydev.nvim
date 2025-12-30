@@ -131,8 +131,8 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	case meta != nil:
 		symbol, err := l.lexMeta(meta)
 
-		fmt.Println("Meta origin:")
-		fmt.Printf("%+v", source.Origin)
+		/* fmt.Println("Meta origin:")
+		fmt.Printf("%+v", source.Origin) */
 
 		if err != nil {
 			return nil, err

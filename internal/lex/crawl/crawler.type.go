@@ -92,7 +92,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 				continue
 			}
 
-			fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
+			// fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
 
 			documentation, err := c.context.Nvim.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
 
@@ -103,7 +103,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 				continue
 			}
 
-			fmt.Printf("\nDocumentation: %+v\n", documentation)
+			// fmt.Printf("\nDocumentation: %+v\n", documentation)
 
 			typeOrigin := &symbol.TypeOrigin{
 				Location:      location,
@@ -111,7 +111,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 				Documentation: *documentation,
 			}
 
-			fmt.Printf("\nType origin:\n%+v\n", location)
+			// fmt.Printf("\nType origin:\n%+v\n", location)
 
 			return typeOrigin, nil
 		}
