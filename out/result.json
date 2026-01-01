@@ -1,0 +1,497 @@
+{
+    "runtime": {
+        "vim.F": {
+            "fields": [
+                {
+                    "name": "if_nil",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "kind": "reference",
+                                    "value": "T"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Returns the first argument which is not nil.",
+                            "",
+                            " If all arguments are nil, returns nil.",
+                            "",
+                            " Examples:",
+                            "",
+                            " ```lua",
+                            " local a = nil",
+                            " local b = nil",
+                            " local c = 42",
+                            " local d = true",
+                            " assert(vim.F.if_nil(a, b, c, d) == 42)",
+                            " ```",
+                            "",
+                            "@generic T",
+                            "@param ... T",
+                            "@return T"
+                        ],
+                        "generics": [
+                            {
+                                "name": "T",
+                                "types": null
+                            }
+                        ],
+                        "kind": "function",
+                        "name": "if_nil",
+                        "return": [
+                            {
+                                "type": {
+                                    "kind": "reference",
+                                    "value": "T"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "nil_wrap",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "fn",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Wrap a function to return nil if it fails, otherwise the value"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "nil_wrap",
+                        "return": []
+                    }
+                },
+                {
+                    "name": "npcall",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "fn",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            },
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Nil pcall."
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "npcall",
+                        "return": []
+                    }
+                },
+                {
+                    "name": "ok_or_nil",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "status",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            },
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Use in combination with pcall"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "ok_or_nil",
+                        "return": []
+                    }
+                },
+                {
+                    "name": "pack_len",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " like {...} except preserve the length explicitly"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "pack_len",
+                        "return": []
+                    }
+                },
+                {
+                    "name": "unpack_len",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "args": [
+                            {
+                                "name": "t",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " like unpack() but use the length set by F.pack_len if present"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "unpack_len",
+                        "return": []
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "F"
+        },
+        "vim.validate": {
+            "access": "class",
+            "args": [
+                {
+                    "documentation": [
+                        " Argument name"
+                    ],
+                    "name": "name",
+                    "optional": false,
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                },
+                {
+                    "documentation": [
+                        " Argument value"
+                    ],
+                    "name": "value",
+                    "optional": false,
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                },
+                {
+                    "name": "validator",
+                    "optional": false,
+                    "type": {
+                        "kind": "reference",
+                        "value": "vim.validate.Validator"
+                    }
+                },
+                {
+                    "documentation": [
+                        " Argument is optional (may be omitted)"
+                    ],
+                    "name": "optional",
+                    "optional": true,
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                },
+                {
+                    "documentation": [
+                        " message when validation fails"
+                    ],
+                    "name": "message",
+                    "optional": true,
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            ],
+            "deprecated": false,
+            "documentation": [
+                " Validate function arguments.",
+                "",
+                " This function has two valid forms:",
+                "",
+                " 1. `vim.validate(name, value, validator[, optional][, message])`",
+                "",
+                "     Validates that argument {name} with value {value} satisfies",
+                "     {validator}. If {optional} is given and is `true`, then {value} may be",
+                "     `nil`. If {message} is given, then it is used as the expected type in the",
+                "     error message.",
+                "",
+                "     Example:",
+                "",
+                "     ```lua",
+                "       function vim.startswith(s, prefix)",
+                "         vim.validate('s', s, 'string')",
+                "         vim.validate('prefix', prefix, 'string')",
+                "         -- ...",
+                "       end",
+                "     ```",
+                "",
+                " 2. `vim.validate(spec)` (deprecated)",
+                "     where `spec` is of type",
+                "    `table\u003cstring,[value:any, validator: vim.validate.Validator, optional_or_msg? : boolean|string]\u003e)`",
+                "",
+                "     Validates a argument specification.",
+                "     Specs are evaluated in alphanumeric order, until the first failure.",
+                "",
+                "     Example:",
+                "",
+                "     ```lua",
+                "       function user.new(name, age, hobbies)",
+                "         vim.validate{",
+                "           name={name, 'string'},",
+                "           age={age, 'number'},",
+                "           hobbies={hobbies, 'table'},",
+                "         }",
+                "         -- ...",
+                "       end",
+                "     ```",
+                "",
+                " Examples with explicit argument values (can be run directly):",
+                "",
+                " ```lua",
+                " vim.validate('arg1', {'foo'}, 'table')",
+                "    --\u003e NOP (success)",
+                " vim.validate('arg2', 'foo', 'string')",
+                "    --\u003e NOP (success)",
+                "",
+                " vim.validate('arg1', 1, 'table')",
+                "    --\u003e error('arg1: expected table, got number')",
+                "",
+                " vim.validate('arg1', 3, function(a) return (a % 2) == 0 end, 'even number')",
+                "    --\u003e error('arg1: expected even number, got 3')",
+                " ```",
+                "",
+                " If multiple types are valid they can be given as a list.",
+                "",
+                " ```lua",
+                " vim.validate('arg1', {'foo'}, {'table', 'string'})",
+                " vim.validate('arg2', 'foo', {'table', 'string'})",
+                " -- NOP (success)",
+                "",
+                " vim.validate('arg1', 1, {'string', 'table'})",
+                " -- error('arg1: expected string|table, got number')",
+                " ```",
+                "",
+                " @note `validator` set to a value returned by |lua-type()| provides the",
+                " best performance.",
+                "",
+                " @param name string Argument name",
+                " @param value any Argument value",
+                " @param validator vim.validate.Validator",
+                "   - (`string|string[]`): Any value that can be returned from |lua-type()| in addition to",
+                "     `'callable'`: `'boolean'`, `'callable'`, `'function'`, `'nil'`, `'number'`, `'string'`, `'table'`,",
+                "     `'thread'`, `'userdata'`.",
+                "   - (`fun(val:any): boolean, string?`) A function that returns a boolean and an optional",
+                "     string message.",
+                " @param optional? boolean Argument is optional (may be omitted)",
+                " @param message? string message when validation fails",
+                " @overload fun(name: string, val: any, validator: vim.validate.Validator, message: string)",
+                " @overload fun(spec: table\u003cstring,[any, vim.validate.Validator, boolean|string]\u003e)"
+            ],
+            "generics": [],
+            "kind": "function",
+            "name": "validate",
+            "overloads": [
+                {
+                    "args": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "val",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        },
+                        {
+                            "name": "validator",
+                            "optional": false,
+                            "type": {
+                                "kind": "reference",
+                                "value": "vim.validate.Validator"
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "documentation": [],
+                    "generics": null,
+                    "return": null
+                }
+            ],
+            "return": []
+        }
+    },
+    "types": {
+        "type": {
+            "kind": "union",
+            "types": [
+                {
+                    "kind": "stringliteral",
+                    "value": "\"nil\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"number\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"string\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"boolean\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"table\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"function\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"thread\""
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "\"userdata\""
+                }
+            ]
+        },
+        "vim.validate.Validator": {
+            "kind": "union",
+            "types": [
+                {
+                    "kind": "reference",
+                    "value": "type"
+                },
+                {
+                    "kind": "stringliteral",
+                    "value": "'callable'"
+                },
+                {
+                    "items": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "reference",
+                                "value": "type"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'callable'"
+                            }
+                        ]
+                    },
+                    "kind": "array"
+                },
+                {
+                    "args": [
+                        {
+                            "name": "v",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "deprecated": false,
+                    "generics": null,
+                    "kind": "function",
+                    "return": [
+                        {
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        },
+                        {
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
