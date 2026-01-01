@@ -54,7 +54,7 @@ func (l *Lexer) matchTable(source *symbol.ValueSource) (*symbol.Table, error) {
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	err = buffer.SetLines(source.Origin.DefinitionLines())
 

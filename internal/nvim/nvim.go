@@ -58,10 +58,24 @@ func (n *Nvim) Quit() error {
 	return nil
 }
 
+func (n *Nvim) Redir(file string) error {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{fmt.Sprintf("redir! %s", file)},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (n *Nvim) Open(file string) (string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
-		Params: []any{"edit" + file},
+		Params: []any{fmt.Sprintf("edit %s", file)},
 	}
 	_, err := n.rpc.Send(request)
 
@@ -198,20 +212,17 @@ type buffer struct {
 	previous  string
 	ReadLines func() ([]string, error)
 	SetLines  func([]string) error
-	Delete    func() error
+	Close     func() error
 }
 
-func (n *Nvim) NewBuffer() (*buffer, error) {
-	counter += 1
-	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
-
+func (n *Nvim) OpenBuffer(name string) (*buffer, error) {
 	previous, err := n.GetBufferName()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &buffer{
+	buf := &buffer{
 		name:     name,
 		previous: previous,
 		ReadLines: func() ([]string, error) {
@@ -242,7 +253,7 @@ func (n *Nvim) NewBuffer() (*buffer, error) {
 
 			return n.setBufferLines(lines)
 		},
-		Delete: func() error {
+		Close: func() error {
 			_, err := n.Open(name)
 
 			if err != nil {
@@ -263,7 +274,16 @@ func (n *Nvim) NewBuffer() (*buffer, error) {
 
 			return nil
 		},
-	}, nil
+	}
+
+	return buf, nil
+}
+
+func (n *Nvim) NewBuffer() (*buffer, error) {
+	counter += 1
+	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
+
+	return n.OpenBuffer(name)
 }
 
 /*

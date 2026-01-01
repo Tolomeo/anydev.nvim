@@ -127,7 +127,7 @@ func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.Location, err
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	typeAnnotation := fmt.Sprintf("---@type %s", path)
 	err = buffer.SetLines([]string{typeAnnotation})

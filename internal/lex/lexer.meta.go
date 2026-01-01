@@ -27,7 +27,7 @@ func (l *Lexer) matchMeta(source *symbol.ValueSource) (*symbol.Unknown, error) {
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	err = buffer.SetLines(source.Origin.DefinitionLines())
 

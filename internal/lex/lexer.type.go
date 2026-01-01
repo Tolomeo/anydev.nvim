@@ -424,13 +424,6 @@ func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
 		return nil, fmt.Errorf("Could not retrieve all types in the union type '%s'", source)
 	}
 
-	fmt.Println(source)
-	fmt.Println(match)
-	for _, u := range unionTypes {
-		fmt.Println(u)
-
-	}
-
 	return newUnionType(unionTypes), nil
 }
 
@@ -516,7 +509,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	typeAnnotation := fmt.Sprintf("---@type %s", source)
 	err = buffer.SetLines([]string{typeAnnotation})
@@ -601,6 +594,6 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedReference, nil
 	}
 
-	l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", source))
+	l.context.Logger.Warn(fmt.Sprintf("Unknown type '%s' received", source))
 	return newUnknownType(), nil
 }

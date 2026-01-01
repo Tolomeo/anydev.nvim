@@ -110,7 +110,7 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers

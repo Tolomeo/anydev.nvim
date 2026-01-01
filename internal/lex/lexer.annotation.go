@@ -366,7 +366,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	annotations := lexedAnnotations{
 		generics:  []symbol.FunctionGeneric{},

@@ -148,7 +148,7 @@ func (l *Lexer) matchFunction(source *symbol.ValueSource) (*symbol.Function, err
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	err = buffer.SetLines(source.Origin.DefinitionLines())
 

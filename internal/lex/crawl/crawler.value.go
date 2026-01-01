@@ -50,7 +50,7 @@ func (c *Crawler) followVariableAssignment(path string, o *symbol.ValueOrigin) (
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	err = buffer.SetLines(o.DefinitionLines())
 
@@ -125,7 +125,7 @@ func (c *Crawler) followRequireValueAssignment(path string, o *symbol.ValueOrigi
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	err = buffer.SetLines(o.DefinitionLines())
 
@@ -298,7 +298,7 @@ func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location,
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	lines := []string{fmt.Sprintf("local ref = require('%s')", moduleName)}
 	err = buffer.SetLines(lines)
@@ -328,7 +328,7 @@ func (c *Crawler) findValueDefinitionLocations(path string) (*[]nvim.Location, e
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	assignment := "local ref = " + path
 	err = buffer.SetLines([]string{assignment})

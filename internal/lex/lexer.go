@@ -84,7 +84,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	defer buffer.Delete()
+	defer buffer.Close()
 
 	sourceDefinition := sourceOrigin.DefinitionLines()
 	err = buffer.SetLines(sourceDefinition)
