@@ -14,6 +14,9 @@ vim.api.nvim_create_augroup("LuaLSReady", { clear = true })
 vim.api.nvim_create_autocmd("LspProgress", {
 	group = "LuaLSReady",
 	callback = function(autocmd_args)
+		local message = string.format("[anydev:LspProgress]:%s", autocmd_args.data.params.value.kind)
+		vim.cmd(string.format("echom '%s'", message))
+
 		local value = autocmd_args.data.params.value
 		local token = autocmd_args.data.params.token
 
