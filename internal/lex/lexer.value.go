@@ -184,9 +184,9 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 		case "access.instance":
 			function.Access = &symbol.FunctionIstanceAccess
 		case "arg":
-			function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
+			function.Args = append(function.Args, *symbol.NewFunctionArg(capture.Node.Text))
 		case "vararg":
-			function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
+			function.Args = append(function.Args, *symbol.NewFunctionArg(capture.Node.Text))
 		}
 	}
 

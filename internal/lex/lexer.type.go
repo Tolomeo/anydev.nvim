@@ -10,15 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
-func newFunctionTypeArg(name string) symbol.FunctionArg {
-	return symbol.FunctionArg{
-		Name:     name,
-		Type:     symbol.NewUnknown(),
-		Optional: false,
-	}
-}
-
-
 func newTableType() *symbol.Table {
 	return &symbol.Table{
 		Kind: symbol.TableKindTable,
