@@ -10,19 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
-/* func newReferenceType(value string) *symbol.Reference {
-	return &symbol.Reference{
-		Kind:  symbol.ReferenceKindReference,
-		Value: value,
-	}
-} */
-
-func newFunctionType() *symbol.Function {
-	return &symbol.Function{
-		Kind: symbol.FunctionKindFunction,
-	}
-}
-
 func newFunctionTypeArg(name string) symbol.FunctionArg {
 	return symbol.FunctionArg{
 		Name:     name,
@@ -161,7 +148,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 		return nil, nil
 	}
 
-	function := newFunctionType()
+	function := symbol.NewFunction()
 	args := []symbol.FunctionArg{}
 	returns := []symbol.FunctionReturn{}
 

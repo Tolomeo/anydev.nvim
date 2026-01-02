@@ -8,10 +8,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var (
-	functionClassAccess   string = "class"
-	functionIstanceAccess string = "instance"
-)
 
 var functionQueries = map[string]string{
 	/* function fn() end
@@ -176,7 +172,7 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 		return nil, nil
 	}
 
-	function := newFunctionType()
+	function := symbol.NewFunction()
 	function.Documentation = source.Origin.DocumentationLines()
 
 	for _, capture := range *match {
@@ -184,9 +180,9 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 		case "name":
 			function.Name = &capture.Node.Text
 		case "access.class":
-			function.Access = &functionClassAccess
+			function.Access = &symbol.FunctionClassAccess
 		case "access.instance":
-			function.Access = &functionIstanceAccess
+			function.Access = &symbol.FunctionIstanceAccess
 		case "arg":
 			function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
 		case "vararg":
