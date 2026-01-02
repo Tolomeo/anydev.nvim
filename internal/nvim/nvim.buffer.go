@@ -9,7 +9,6 @@ import (
 
 type Buffer struct {
 	name                   string
-	previous               string
 	ReadLines              func() ([]string, error)
 	SetLines               func([]string) error
 	Close                  func() error
@@ -22,17 +21,8 @@ type Buffer struct {
 }
 
 func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
-	fmt.Println("Opening buffer", name)
-
-	previous, err := n.getBufferName()
-
-	if err != nil {
-		return nil, err
-	}
-
 	buf := &Buffer{
 		name:     name,
-		previous: previous,
 		ReadLines: func() ([]string, error) {
 			_, err := n.open(name)
 
@@ -116,7 +106,6 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 			return n.getDefinitionLocations(line, character)
 		},
 		Close: func() error {
-			fmt.Println("Closing buffer", name)
 			_, err := n.open(name)
 
 			if err != nil {
@@ -129,17 +118,11 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 				return err
 			}
 
-			_, err = n.open(previous)
-
-			if err != nil {
-				return err
-			}
-
 			return nil
 		},
 	}
 
-	_, err = n.open(name)
+	_, err := n.open(name)
 
 	if err != nil {
 		return nil, err
