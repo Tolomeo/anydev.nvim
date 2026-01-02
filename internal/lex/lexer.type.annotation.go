@@ -236,7 +236,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
 					return generic.Name == matchCapture.Node.Text
 				}); isGeneric {
-					lexedParam.Type = newReferenceType(generic.Name)
+					lexedParam.Type = symbol.NewReference(generic.Name)
 					continue
 				}
 
@@ -292,7 +292,7 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
 					return generic.Name == capture.Node.Text
 				}); isGeneric {
-					functionReturn.Type = newReferenceType(generic.Name)
+					functionReturn.Type = symbol.NewReference(generic.Name)
 					continue
 				}
 

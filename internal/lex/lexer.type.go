@@ -1,7 +1,6 @@
 package lex
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -11,14 +10,12 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
-var ErrNoMatch = errors.New("No match")
-
-func newReferenceType(value string) *symbol.Reference {
+/* func newReferenceType(value string) *symbol.Reference {
 	return &symbol.Reference{
 		Kind:  symbol.ReferenceKindReference,
 		Value: value,
 	}
-}
+} */
 
 func newFunctionType() *symbol.Function {
 	return &symbol.Function{
@@ -282,7 +279,7 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
 		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
-		return newReferenceType(name), nil
+		return symbol.NewReference(name), nil
 	}
 
 	l.context.Result().Types[name] = newUnknownType()
@@ -318,7 +315,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 		return nil, err
 	}
 
-	return newReferenceType(name), nil
+	return symbol.NewReference(name), nil
 }
 
 var typeArrayQuery = treesitter.Query{
