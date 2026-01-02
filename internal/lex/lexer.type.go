@@ -42,13 +42,6 @@ var typeOptionalQuery = treesitter.Query{
 	`,
 }
 
-func newOptional(typ *symbol.Symbol) *symbol.Optional {
-	return &symbol.Optional{
-		Kind: symbol.OptionalKindOptional,
-		Type: typ,
-	}
-}
-
 func (l *Lexer) lexOptional(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
 	match, err := buffer.TsQueryOne(typeOptionalQuery)
 
@@ -68,7 +61,7 @@ func (l *Lexer) lexOptional(buffer *nvim.Buffer, source string) (*symbol.Optiona
 				return nil, err
 			}
 
-			return newOptional(&lexedType), nil
+			return symbol.NewOptional(&lexedType), nil
 		}
 	}
 
