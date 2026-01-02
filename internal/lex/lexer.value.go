@@ -293,7 +293,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 		return nil, nil
 	}
 
-	table := newTableType()
+	table := symbol.NewTable()
 
 	for _, capture := range *match {
 		switch capture.Id {

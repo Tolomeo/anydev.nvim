@@ -10,12 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
-func newTableType() *symbol.Table {
-	return &symbol.Table{
-		Kind: symbol.TableKindTable,
-	}
-}
-
 var typeQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",
 	"identifier":           "(identifier)",
@@ -186,7 +180,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 		return nil, nil
 	}
 
-	table := newTableType()
+	table := symbol.NewTable()
 
 	// TODO: here match one
 	for _, matchCaptures := range *matches {
