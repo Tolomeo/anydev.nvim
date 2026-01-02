@@ -209,10 +209,6 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symb
 
 		defer buffer.Close()
 
-		fmt.Println("Finding origin for value", path, location.Url)
-		bufname, _ := c.context.Nvim.GetBufferName()
-		fmt.Println("Current buffer", bufname)
-
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)

@@ -5,12 +5,10 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
-	"path"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
@@ -73,7 +71,7 @@ func (n *Nvim) Redir(file string) error {
 	return nil
 }
 
-func (n *Nvim) Open(file string) (string, error) {
+func (n *Nvim) open(file string) (string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
 		Params: []any{fmt.Sprintf("edit %s", file)},
@@ -87,7 +85,7 @@ func (n *Nvim) Open(file string) (string, error) {
 	return file, nil
 }
 
-func (n *Nvim) Write() error {
+func (n *Nvim) write() error {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
 		Params: []any{"write"},
@@ -101,7 +99,7 @@ func (n *Nvim) Write() error {
 	return nil
 }
 
-func (n *Nvim) GetBufferName() (string, error) {
+func (n *Nvim) getBufferName() (string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_get_name",
 		Params: []any{0},
@@ -141,7 +139,7 @@ func (n *Nvim) setBufferLines(lines []string) error {
 	return nil
 }
 
-func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
+func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_get_text",
 		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
@@ -167,7 +165,7 @@ func (n *Nvim) GetBufferText(startRow int, startCol int, endRow int, endCol int)
 	return bufferText, nil
 }
 
-func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
+func (n *Nvim) getBufferLines(start int, end int) ([]string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_get_lines",
 		Params: []any{0, start, end, false},
@@ -193,7 +191,7 @@ func (n *Nvim) GetBufferLines(start int, end int) ([]string, error) {
 	return bufferLines, nil
 }
 
-func (n *Nvim) DeleteBuffer() error {
+func (n *Nvim) deleteBuffer() error {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_delete",
 		Params: []any{0, struct{ force bool }{force: true}}}
@@ -208,153 +206,6 @@ func (n *Nvim) DeleteBuffer() error {
 
 var counter = 0
 
-type Buffer struct {
-	name                   string
-	previous               string
-	ReadLines              func() ([]string, error)
-	SetLines               func([]string) error
-	Close                  func() error
-	GetTSNodeAt            func([]string, uint, uint) (*treesitter.TsNode, error)
-	GetTsCommentBlockAt    func(uint, uint) (*treesitter.TsNode, error)
-	TsQueryOne             func(treesitter.Query) (*TsQueryMatch, error)
-	TsQueryAll             func(treesitter.Query) (*[]TsQueryMatch, error)
-	SafeTsQueryAll         func(treesitter.Query) (*[]SafeTsQueryResult, error)
-	GetDefinitionLocations func(uint, uint) (*[]Location, error)
-}
-
-func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
-	fmt.Println("Opening buffer", name)
-
-	previous, err := n.GetBufferName()
-
-	if err != nil {
-		return nil, err
-	}
-
-	buf := &Buffer{
-		name:     name,
-		previous: previous,
-		ReadLines: func() ([]string, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return []string{}, fmt.Errorf("Error reading buffer '%s': %w", name, err)
-			}
-
-			lines, err := n.GetBufferLines(0, -1)
-
-			if err != nil {
-				return []string{}, fmt.Errorf("Error reading buffer '%s': %w", name, err)
-			}
-
-			return lines, nil
-		},
-		SetLines: func(lines []string) error {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return fmt.Errorf("Error writing to buffer '%s': %w", name, err)
-			}
-
-			if len(lines) < 1 {
-				return n.setBufferLines([]string{""})
-			}
-
-			return n.setBufferLines(lines)
-		},
-		GetTSNodeAt: func(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.GetTSNodeAt(nodeTypes, line, character)
-		},
-		GetTsCommentBlockAt: func(line uint, character uint) (*treesitter.TsNode, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.GetTsCommentBlockAt(line, character)
-		},
-		TsQueryOne: func(query treesitter.Query) (*TsQueryMatch, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.TsQueryOne(query)
-		},
-		TsQueryAll: func(query treesitter.Query) (*[]TsQueryMatch, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.TsQueryAll(query)
-		},
-		SafeTsQueryAll: func(query treesitter.Query) (*[]SafeTsQueryResult, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.SafeTsQueryAll(query)
-		},
-		GetDefinitionLocations: func(line uint, character uint) (*[]Location, error) {
-			_, err := n.Open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.GetDefinitionLocations(line, character)
-		},
-		Close: func() error {
-			fmt.Println("Closing buffer", name)
-			_, err := n.Open(name)
-
-			if err != nil {
-				return err
-			}
-
-			err = n.DeleteBuffer()
-
-			if err != nil {
-				return err
-			}
-
-			_, err = n.Open(previous)
-
-			if err != nil {
-				return err
-			}
-
-			return nil
-		},
-	}
-
-	_, err = n.Open(name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return buf, nil
-}
-
-func (n *Nvim) NewBuffer() (*Buffer, error) {
-	counter += 1
-	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
-
-	return n.OpenBuffer(name)
-}
 
 /*
 	 func (n *Nvim) ApiInfo() (any, error) {

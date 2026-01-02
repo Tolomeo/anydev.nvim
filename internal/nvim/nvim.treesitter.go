@@ -135,7 +135,7 @@ func (m *TsQueryMatch) Range() *treesitter.Range {
 
 }
 
-func (n *Nvim) TsQueryAll(config treesitter.Query) (*[]TsQueryMatch, error) {
+func (n *Nvim) tsQueryAll(config treesitter.Query) (*[]TsQueryMatch, error) {
 	queryAllConfig := treesitter.Query{
 		Language: config.Language,
 		Query:    fmt.Sprintf("(%s) @tsquery.match", config.Query),
@@ -174,8 +174,8 @@ func (n *Nvim) TsQueryAll(config treesitter.Query) (*[]TsQueryMatch, error) {
 	return &queryMatches, nil
 }
 
-func (n *Nvim) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
-	matches, err := n.TsQueryAll(query)
+func (n *Nvim) tsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
+	matches, err := n.tsQueryAll(query)
 
 	switch {
 	case err != nil:
@@ -203,8 +203,8 @@ type SafeTsQueryResult struct {
 	Captures TsQueryMatch
 }
 
-func (n *Nvim) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
-	match, err := n.TsQueryOne(query)
+func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+	match, err := n.tsQueryOne(query)
 
 	switch {
 	case err != nil:
@@ -213,7 +213,7 @@ func (n *Nvim) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error
 		return nil, nil
 	}
 
-	errorCaptures, err := n.TsQueryAll(treesitter.Query{
+	errorCaptures, err := n.tsQueryAll(treesitter.Query{
 		Language: query.Language,
 		Query:    `(ERROR) @tsquery.error`,
 		Range:    match.LineRange(),
@@ -235,8 +235,8 @@ func (n *Nvim) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error
 	}
 }
 
-func (n *Nvim) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
-	matches, err := n.TsQueryAll(query)
+func (n *Nvim) safeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
+	matches, err := n.tsQueryAll(query)
 
 	switch {
 	case err != nil:
@@ -248,7 +248,7 @@ func (n *Nvim) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, err
 	results := []SafeTsQueryResult{}
 
 	for _, match := range *matches {
-		errorCaptures, err := n.TsQueryAll(treesitter.Query{
+		errorCaptures, err := n.tsQueryAll(treesitter.Query{
 			Language: query.Language,
 			Query:    `(ERROR) @tsquery.error`,
 			Range:    match.LineRange(),
@@ -275,7 +275,7 @@ func (n *Nvim) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, err
 	return &results, nil
 }
 
-func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
+func (n *Nvim) getTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
 	err := n.startTS()
 
 	if err != nil {
@@ -313,8 +313,8 @@ func (n *Nvim) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*tree
 	return &tsNode, nil
 }
 
-func (n *Nvim) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
-	lines, err := n.GetBufferLines(int(line), int(line)+1)
+func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
+	lines, err := n.getBufferLines(int(line), int(line)+1)
 
 	switch {
 	case err != nil:
@@ -326,7 +326,7 @@ func (n *Nvim) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	// clamping the received character to be inside the line
 	character = max(0, min(character, uint(len(lines[0])-1)))
 
-	node, err := n.GetTSNodeAt([]string{treesitter.COMMENT}, line, character)
+	node, err := n.getTSNodeAt([]string{treesitter.COMMENT}, line, character)
 
 	switch {
 	case err != nil:
