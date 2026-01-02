@@ -13,16 +13,11 @@ import (
 func newFunctionTypeArg(name string) symbol.FunctionArg {
 	return symbol.FunctionArg{
 		Name:     name,
-		Type:     newUnknownType(),
+		Type:     symbol.NewUnknown(),
 		Optional: false,
 	}
 }
 
-func newUnknownType() *symbol.Unknown {
-	return &symbol.Unknown{
-		Kind: symbol.UnknownKindUnknown,
-	}
-}
 
 func newTableType() *symbol.Table {
 	return &symbol.Table{
@@ -262,7 +257,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 		return symbol.NewReference(name), nil
 	}
 
-	l.context.Result().Types[name] = newUnknownType()
+	l.context.Result().Types[name] = symbol.NewUnknown()
 
 	err := l.context.Fork(name, func(name string) error {
 		typeSource, err := l.crawler.SourceType(name)
@@ -572,5 +567,5 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	}
 
 	l.context.Logger.Warn(fmt.Sprintf("Unknown type '%s' received", source))
-	return newUnknownType(), nil
+	return symbol.NewUnknown(), nil
 }

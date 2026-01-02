@@ -380,7 +380,7 @@ func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) 
 		return nil, nil
 	}
 
-	unknown := newUnknownType()
+	unknown := symbol.NewUnknown()
 	unknown.Documentation = source.Origin.DocumentationLines()
 
 	annotations, err := l.lexAnnotations(unknown.Documentation)

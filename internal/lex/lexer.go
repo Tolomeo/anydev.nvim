@@ -73,7 +73,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	sourceOrigin := source.Origin
 
 	if sourceOrigin == nil {
-		symbol := newUnknownType()
+		symbol := symbol.NewUnknown()
 		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path))
 		return symbol, nil
 	}
