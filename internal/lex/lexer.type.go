@@ -283,13 +283,6 @@ var typeArrayQuery = treesitter.Query{
 	)
 `}
 
-func newArrayType(items symbol.Symbol) *symbol.Array {
-	return &symbol.Array{
-		Kind:  symbol.ArrayKindArray,
-		Items: items,
-	}
-}
-
 func (l *Lexer) lexArray(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(typeArrayQuery)
 
@@ -309,7 +302,7 @@ func (l *Lexer) lexArray(buffer *nvim.Buffer, source string) (*symbol.Array, err
 				return nil, err
 			}
 
-			return newArrayType(itemsType), nil
+			return symbol.NewArray(itemsType), nil
 		}
 	}
 
