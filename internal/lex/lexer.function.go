@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
@@ -141,7 +142,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) matchFunction(source *symbol.ValueSource) (*symbol.Function, error) {
+func (l *Lexer) lexFunction(source *symbol.ValueSource) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -156,49 +157,47 @@ func (l *Lexer) matchFunction(source *symbol.ValueSource) (*symbol.Function, err
 		return nil, err
 	}
 
-	function := newFunctionType()
+	var match *nvim.TsQueryMatch
 
 	for _, query := range functionQueries {
 		captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
 
-		switch {
-		case err != nil:
+		if err != nil {
 			return nil, err
-		case captures == nil:
-			continue
 		}
 
-		/* fmt.Println(name)
-		fmt.Printf("\n\n+%+v\n\n", captures) */
-
-		for _, capture := range *captures {
-			switch capture.Id {
-			case "name":
-				function.Name = &capture.Node.Text
-			case "access.class":
-				function.Access = &functionClassAccess
-			case "access.instance":
-				function.Access = &functionIstanceAccess
-			case "arg":
-				function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
-			case "vararg":
-				function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
-			}
+		if captures != nil {
+			match = captures
+			break
 		}
-
-		// fmt.Printf("\n\n+%+v\n\n", function)
-		function.Documentation = source.Origin.DocumentationLines()
-		return function, nil
 	}
 
-	return nil, nil
-}
+	if match == nil {
+		return nil, nil
+	}
 
-func (l *Lexer) lexFunction(function *symbol.Function) error {
+	function := newFunctionType()
+	function.Documentation = source.Origin.DocumentationLines()
+
+	for _, capture := range *match {
+		switch capture.Id {
+		case "name":
+			function.Name = &capture.Node.Text
+		case "access.class":
+			function.Access = &functionClassAccess
+		case "access.instance":
+			function.Access = &functionIstanceAccess
+		case "arg":
+			function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
+		case "vararg":
+			function.Args = append(function.Args, newFunctionTypeArg(capture.Node.Text))
+		}
+	}
+
 	annotations, err := l.lexAnnotations(function.Documentation)
 
 	if err != nil {
-		return fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
+		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
 	}
 
 	function.Overloads = annotations.overloads
@@ -219,5 +218,5 @@ func (l *Lexer) lexFunction(function *symbol.Function) error {
 		function.Args[argIndex].Documentation = annotation.Documentation
 	}
 
-	return nil
+	return function, nil
 }

@@ -20,7 +20,7 @@ var metaQuery string = `
 	) @assignment
 `
 
-func (l *Lexer) matchMeta(source *symbol.ValueSource) (*symbol.Unknown, error) {
+func (l *Lexer) lexMeta(source *symbol.ValueSource) (symbol.Symbol, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -48,10 +48,6 @@ func (l *Lexer) matchMeta(source *symbol.ValueSource) (*symbol.Unknown, error) {
 	unknown := newUnknownType()
 	unknown.Documentation = source.Origin.DocumentationLines()
 
-	return unknown, nil
-}
-
-func (l *Lexer) lexMeta(unknown *symbol.Unknown) (symbol.Symbol, error) {
 	annotations, err := l.lexAnnotations(unknown.Documentation)
 
 	if err != nil {
@@ -59,9 +55,10 @@ func (l *Lexer) lexMeta(unknown *symbol.Unknown) (symbol.Symbol, error) {
 	}
 
 	if annotations.tipe != nil {
-		return annotations.tipe, nil
+		return &annotations.tipe, nil
 	}
 
 	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
 	return unknown, nil
 }
+

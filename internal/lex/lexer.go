@@ -93,53 +93,33 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	table, err := l.matchTable(source)
+	table, err := l.lexTable(source)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case table != nil:
-		err = l.lexTable(table)
-
-		if err != nil {
-			return nil, err
-		}
-
 		return table, nil
 	}
 
-	function, err := l.matchFunction(source)
+	function, err := l.lexFunction(source)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case function != nil:
-		err := l.lexFunction(function)
-
-		if err != nil {
-			return nil, err
-		}
-
 		return function, nil
 	}
 
-	meta, err := l.matchMeta(source)
+	meta, err := l.lexMeta(source)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case meta != nil:
-		symbol, err := l.lexMeta(meta)
-
-		/* fmt.Println("Meta origin:")
-		fmt.Printf("%+v", source.Origin) */
-
-		if err != nil {
-			return nil, err
-		}
-
-		return symbol, nil
+		return meta, nil
 	}
+
 	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, sourceOrigin)
 }
 
