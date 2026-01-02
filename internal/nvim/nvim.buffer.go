@@ -21,7 +21,7 @@ type Buffer struct {
 }
 
 func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
-	buf := &Buffer{
+	buffer := &Buffer{
 		name:     name,
 		ReadLines: func() ([]string, error) {
 			_, err := n.open(name)
@@ -128,7 +128,7 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 		return nil, err
 	}
 
-	return buf, nil
+	return buffer, nil
 }
 
 var bufferCounter = 0

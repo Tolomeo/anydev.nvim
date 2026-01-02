@@ -154,16 +154,17 @@ var typeFunctionQuery = treesitter.Query{
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery),
 }
 
-func (l *Lexer) lexFunctionType(buffer *nvim.Buffer, function *symbol.Function) error {
+func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 	captures, err := buffer.TsQueryOne(typeFunctionQuery)
 
 	switch {
 	case err != nil:
-		return err
+		return nil, err
 	case captures == nil:
-		return ErrNoMatch
+		return nil, nil
 	}
 
+	function := newFunctionType()
 	args := []symbol.FunctionArg{}
 	returns := []symbol.FunctionReturn{}
 
@@ -177,7 +178,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer, function *symbol.Function) 
 			parameterType, err := l.lexType(capture.Node.Text)
 
 			if err != nil {
-				return err
+				return nil, err
 			}
 
 			args[len(args)-1].Type = parameterType
@@ -185,7 +186,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer, function *symbol.Function) 
 			returnType, err := l.lexType(capture.Node.Text)
 
 			if err != nil {
-				return err
+				return nil, err
 			}
 
 			returns = append(returns, symbol.FunctionReturn{
@@ -197,7 +198,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer, function *symbol.Function) 
 	function.Args = append(function.Args, args...)
 	function.Return = append(function.Return, returns...)
 
-	return nil
+	return function, nil
 }
 
 var typeTableQuery string = `
@@ -212,15 +213,17 @@ var typeTableQuery string = `
 	)
 `
 
-func (l *Lexer) lexTableType(buffer *nvim.Buffer, table *symbol.Table) error {
+func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:
-		return err
+		return nil, err
 	case matches == nil:
-		return ErrNoMatch
+		return nil, nil
 	}
+
+	table := newTableType()
 
 	// TODO: here match one
 	for _, matchCaptures := range *matches {
@@ -234,7 +237,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer, table *symbol.Table) error {
 				valueType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
-					return err
+					return nil, err
 				}
 
 				table.Fields[len(table.Fields)-1].Value = valueType
@@ -242,7 +245,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer, table *symbol.Table) error {
 		}
 	}
 
-	return nil
+	return table, nil
 }
 
 func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
@@ -519,14 +522,12 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
-	functionType := newFunctionType()
-	err = l.lexFunctionType(buffer, functionType)
+	functionType, err := l.lexFunctionType(buffer)
 
 	switch {
-	case errors.Is(ErrNoMatch, err):
 	case err != nil:
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	default:
+	case functionType != nil:
 		return functionType, nil
 	}
 
@@ -539,14 +540,12 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedArray, nil
 	}
 
-	tableType := newTableType()
-	err = l.lexTableType(buffer, tableType)
+	tableType, err := l.lexTableType(buffer)
 
 	switch {
-	case errors.Is(ErrNoMatch, err):
 	case err != nil:
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	default:
+	case tableType != nil:
 		return tableType, nil
 	}
 
