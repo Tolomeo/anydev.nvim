@@ -18,13 +18,6 @@ func newFunctionTypeArg(name string) symbol.FunctionArg {
 	}
 }
 
-func newBuiltinType(value symbol.BuiltinValue) symbol.Builtin {
-	return symbol.Builtin{
-		Kind:  symbol.BuiltinKindBuiltin,
-		Value: value,
-	}
-}
-
 func newUnknownType() *symbol.Unknown {
 	return &symbol.Unknown{
 		Kind: symbol.UnknownKindUnknown,
@@ -235,29 +228,29 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	switch source {
 	case "void":
-		return newBuiltinType(symbol.BuiltinValueVoid)
+		return symbol.NewVoid()
 	case "nil":
-		return newBuiltinType(symbol.BuiltinValueNil)
+		return symbol.NewNil()
 	case "any":
-		return newBuiltinType(symbol.BuiltinValueAny)
+		return symbol.NewAny()
 	case "boolean":
-		return newBuiltinType(symbol.BuiltinValueBoolean)
+		return symbol.NewBoolean()
 	case "string":
-		return newBuiltinType(symbol.BuiltinValueString)
+		return symbol.NewString()
 	case "number":
-		return newBuiltinType(symbol.BuiltinValueNumber)
+		return symbol.NewNumber()
 	case "integer", "int":
-		return newBuiltinType(symbol.BuiltinValueInteger)
+		return symbol.NewInteger()
 	case "function":
-		return newBuiltinType(symbol.BuiltinValueFunction)
+		return symbol.NewBuiltinFunction()
 	case "table":
-		return newBuiltinType(symbol.BuiltinValueTable)
+		return symbol.NewBuiltinTable()
 	case "thread":
-		return newBuiltinType(symbol.BuiltinValueTable)
+		return symbol.NewThread()
 	case "userdata":
-		return newBuiltinType(symbol.BuiltinValueUserdata)
+		return symbol.NewUserdata()
 	case "lightuserdata":
-		return newBuiltinType(symbol.BuiltinValueLightuserdata)
+		return symbol.NewLightUserdata()
 	}
 
 	return nil
