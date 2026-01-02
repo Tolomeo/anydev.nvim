@@ -328,19 +328,6 @@ var typeUnionQuery = treesitter.Query{
 		)
 	)`, anyTypeQuery, anyTypeQuery)}
 
-func newUnionType(types []symbol.Symbol) *symbol.Union {
-	unionTypes := []symbol.UnionTypesElem{}
-
-	for _, typ := range types {
-		unionTypes = append(unionTypes, typ)
-	}
-
-	return &symbol.Union{
-		Kind:  symbol.UnionKindUnion,
-		Types: unionTypes,
-	}
-}
-
 func (l *Lexer) lexUnion(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(typeUnionQuery)
 
@@ -378,7 +365,7 @@ func (l *Lexer) lexUnion(buffer *nvim.Buffer, source string) (*symbol.Union, err
 		return nil, fmt.Errorf("Could not retrieve all types in the union type '%s'", source)
 	}
 
-	return newUnionType(unionTypes), nil
+	return symbol.NewUnion(unionTypes), nil
 }
 
 var typeGroupQuery = treesitter.Query{

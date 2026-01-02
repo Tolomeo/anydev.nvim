@@ -520,7 +520,7 @@ func (l *Lexer) lexEnumAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (*s
 		return nil, fmt.Errorf("Could not retrieve enum members from enum alias '%s'", source.Path)
 	}
 
-	return newUnionType(enumMembers), nil
+	return symbol.NewUnion(enumMembers), nil
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
