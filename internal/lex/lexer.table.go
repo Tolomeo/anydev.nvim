@@ -63,7 +63,7 @@ func (l *Lexer) matchTable(source *symbol.ValueSource) (*symbol.Table, error) {
 	}
 
 	for _, query := range tableQueries {
-		captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
+		captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:

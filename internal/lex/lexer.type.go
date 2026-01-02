@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
@@ -91,8 +92,8 @@ func newOptional(typ *symbol.Symbol) *symbol.Optional {
 	}
 }
 
-func (l *Lexer) lexOptional(source string) (*symbol.Optional, error) {
-	match, err := l.context.Nvim.TsQueryOne(typeOptionalQuery)
+func (l *Lexer) lexOptional(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
+	match, err := buffer.TsQueryOne(typeOptionalQuery)
 
 	switch {
 	case err != nil:
@@ -153,8 +154,8 @@ var typeFunctionQuery = treesitter.Query{
 `, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery),
 }
 
-func (l *Lexer) lexFunctionType(function *symbol.Function) error {
-	captures, err := l.context.Nvim.TsQueryOne(typeFunctionQuery)
+func (l *Lexer) lexFunctionType(buffer *nvim.Buffer, function *symbol.Function) error {
+	captures, err := buffer.TsQueryOne(typeFunctionQuery)
 
 	switch {
 	case err != nil:
@@ -211,8 +212,8 @@ var typeTableQuery string = `
 	)
 `
 
-func (l *Lexer) lexTableType(table *symbol.Table) error {
-	matches, err := l.context.Nvim.TsQueryAll(treesitter.Query{Language: "luadoc", Query: typeTableQuery})
+func (l *Lexer) lexTableType(buffer *nvim.Buffer, table *symbol.Table) error {
+	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: typeTableQuery})
 
 	switch {
 	case err != nil:
@@ -336,8 +337,8 @@ func newArrayType(items symbol.Symbol) *symbol.Array {
 	}
 }
 
-func (l *Lexer) lexArray(source string) (*symbol.Array, error) {
-	match, err := l.context.Nvim.TsQueryOne(typeArrayQuery)
+func (l *Lexer) lexArray(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
+	match, err := buffer.TsQueryOne(typeArrayQuery)
 
 	switch {
 	case err != nil:
@@ -387,8 +388,8 @@ func newUnionType(types []symbol.Symbol) *symbol.Union {
 	}
 }
 
-func (l *Lexer) lexUnion(source string) (*symbol.Union, error) {
-	match, err := l.context.Nvim.TsQueryOne(typeUnionQuery)
+func (l *Lexer) lexUnion(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
+	match, err := buffer.TsQueryOne(typeUnionQuery)
 
 	switch {
 	case err != nil:
@@ -439,8 +440,8 @@ var typeGroupQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexGroup(source string) (symbol.Symbol, error) {
-	match, err := l.context.Nvim.TsQueryOne(typeGroupQuery)
+func (l *Lexer) lexGroup(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
+	match, err := buffer.TsQueryOne(typeGroupQuery)
 
 	switch {
 	case err != nil:
@@ -476,8 +477,8 @@ func newStringLiteral(value string) *symbol.StringLiteral {
 	}
 }
 
-func (l *Lexer) lexStringLiteral(source string) (*symbol.StringLiteral, error) {
-	match, err := l.context.Nvim.TsQueryOne(typeStringLiteralQuery)
+func (l *Lexer) lexStringLiteral(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
+	match, err := buffer.TsQueryOne(typeStringLiteralQuery)
 
 	switch {
 	case err != nil:
@@ -519,7 +520,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	}
 
 	functionType := newFunctionType()
-	err = l.lexFunctionType(functionType)
+	err = l.lexFunctionType(buffer, functionType)
 
 	switch {
 	case errors.Is(ErrNoMatch, err):
@@ -529,7 +530,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return functionType, nil
 	}
 
-	lexedArray, err := l.lexArray(source)
+	lexedArray, err := l.lexArray(buffer, source)
 
 	switch {
 	case err != nil:
@@ -539,7 +540,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 	}
 
 	tableType := newTableType()
-	err = l.lexTableType(tableType)
+	err = l.lexTableType(buffer, tableType)
 
 	switch {
 	case errors.Is(ErrNoMatch, err):
@@ -549,7 +550,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
-	lexedOptional, err := l.lexOptional(source)
+	lexedOptional, err := l.lexOptional(buffer, source)
 
 	switch {
 	case err != nil:
@@ -558,7 +559,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedOptional, nil
 	}
 
-	lexedUnion, err := l.lexUnion(source)
+	lexedUnion, err := l.lexUnion(buffer, source)
 
 	switch {
 	case err != nil:
@@ -567,7 +568,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedUnion, nil
 	}
 
-	lexedGroupedType, err := l.lexGroup(source)
+	lexedGroupedType, err := l.lexGroup(buffer, source)
 
 	switch {
 	case err != nil:
@@ -576,7 +577,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedGroupedType, nil
 	}
 
-	lexedStringLiteral, err := l.lexStringLiteral(source)
+	lexedStringLiteral, err := l.lexStringLiteral(buffer, source)
 
 	switch {
 	case err != nil:

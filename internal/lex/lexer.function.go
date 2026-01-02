@@ -159,7 +159,7 @@ func (l *Lexer) matchFunction(source *symbol.ValueSource) (*symbol.Function, err
 	function := newFunctionType()
 
 	for _, query := range functionQueries {
-		captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
+		captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
 
 		switch {
 		case err != nil:

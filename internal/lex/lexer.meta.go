@@ -36,7 +36,7 @@ func (l *Lexer) matchMeta(source *symbol.ValueSource) (*symbol.Unknown, error) {
 	}
 
 
-	captures, err := l.context.Nvim.TsQueryOne(treesitter.Query{Language: "lua", Query: metaQuery})
+	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: metaQuery})
 
 	switch {
 	case err != nil:
