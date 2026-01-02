@@ -142,7 +142,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunction(source *symbol.ValueSource) (*symbol.Function, error) {
+func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -263,7 +263,7 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) lexTable(source *symbol.ValueSource) (*symbol.Table, error) {
+func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -360,7 +360,7 @@ var metaQuery string = `
 	) @assignment
 `
 
-func (l *Lexer) lexMeta(source *symbol.ValueSource) (symbol.Symbol, error) {
+func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {

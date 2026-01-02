@@ -93,7 +93,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	table, err := l.lexTable(source)
+	table, err := l.lexTableValue(source)
 
 	switch {
 	case err != nil:
@@ -102,7 +102,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return table, nil
 	}
 
-	function, err := l.lexFunction(source)
+	function, err := l.lexFunctionValue(source)
 
 	switch {
 	case err != nil:
@@ -111,7 +111,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return function, nil
 	}
 
-	meta, err := l.lexMeta(source)
+	meta, err := l.lexMetaValue(source)
 
 	switch {
 	case err != nil:
