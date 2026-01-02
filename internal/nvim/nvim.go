@@ -5,21 +5,13 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
-	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
 type CursorPosition struct {
 	Line      uint
 	Character uint
-}
-
-type Location struct {
-	languageserver.DefinitionLocation
-	Url string
 }
 
 type Nvim struct {
@@ -71,141 +63,7 @@ func (n *Nvim) Redir(file string) error {
 	return nil
 }
 
-func (n *Nvim) open(file string) (string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_command",
-		Params: []any{fmt.Sprintf("edit %s", file)},
-	}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return file, fmt.Errorf("Error opening %s: %v\n", file, err)
-	}
-
-	return file, nil
-}
-
-func (n *Nvim) write() error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_command",
-		Params: []any{"write"},
-	}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error trying to write buffer: %v\n", err)
-	}
-
-	return nil
-}
-
-func (n *Nvim) getBufferName() (string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_name",
-		Params: []any{0},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return "", fmt.Errorf("Error reading buffer name: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return "", fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	return result.(string), nil
-}
-
-func (n *Nvim) setBufferLines(lines []string) error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_set_lines",
-		Params: []any{0, 0, -1, true, lines},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error sending nvim_buf_set_lines rpc message: %v\n", err)
-	}
-
-	_, err = response.Result()
-
-	if err != nil {
-		return fmt.Errorf("Error setting buffer lines: %v\n", err)
-	}
-
-	return nil
-}
-
-func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_text",
-		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
-	}
-
-	bufferText, err := anyx.ToSliceOf[string](result)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text return value: %w", err)
-	}
-
-	return bufferText, nil
-}
-
-func (n *Nvim) getBufferLines(start int, end int) ([]string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_lines",
-		Params: []any{0, start, end, false},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer name: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	bufferLines, err := anyx.ToSliceOf[string](result)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
-	}
-
-	return bufferLines, nil
-}
-
-func (n *Nvim) deleteBuffer() error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_delete",
-		Params: []any{0, struct{ force bool }{force: true}}}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error trying to delete buffer: %v\n", err)
-	}
-
-	return nil
-}
-
 var counter = 0
-
 
 /*
 	 func (n *Nvim) ApiInfo() (any, error) {
@@ -267,39 +125,6 @@ func (n *Nvim) ExecLua(lua string, args []any) (any, error) {
 	}
 
 	return result, nil
-}
-
-func (n *Nvim) GetValueType(variable string) (string, error) {
-	runtimePath := variable
-	parts := strings.Split(runtimePath, ".")
-
-	switch len(parts) {
-	case 1:
-	default:
-		tail := parts[len(parts)-1]
-		// https://www.lua.org/manual/5.1/manual.html#2.1
-		switch tail {
-		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
-			head := parts[:len(parts)-1]
-			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
-		}
-	}
-
-	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
-
-	result, err := n.ExecLua(luaCode, []any{})
-
-	if err != nil {
-		return "", fmt.Errorf("Error getting the type of %s: %w", variable, err)
-	}
-
-	typeName, ok := result.(string)
-
-	if !ok {
-		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", runtimePath)
-	}
-
-	return typeName, nil
 }
 
 func New(config Config, opts ...optionProvider) (*Nvim, error) {

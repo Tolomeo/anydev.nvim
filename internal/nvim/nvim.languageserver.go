@@ -3,12 +3,18 @@ package nvim
 import (
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
+
+type Location struct {
+	languageserver.DefinitionLocation
+	Url string
+}
 
 func (n *Nvim) startLSP() error {
 	script, err := scripts.Read("start-lsp")
@@ -26,7 +32,7 @@ func (n *Nvim) startLSP() error {
 	return nil
 }
 
-func (n *Nvim) GetDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
+func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := languageserver.TextDocumentDocumentSymbolResponse{}
 
 	err := n.startLSP()
@@ -66,7 +72,7 @@ func (n *Nvim) GetDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolR
 	return &documentSymbols, nil
 }
 
-func (n *Nvim) GetHover(line uint, character uint) (*languageserver.TextDocumentHoverResponse, error) {
+func (n *Nvim) getHover(line uint, character uint) (*languageserver.TextDocumentHoverResponse, error) {
 	hover := languageserver.TextDocumentHoverResponse{}
 
 	err := n.startLSP()
@@ -108,7 +114,7 @@ func (n *Nvim) GetHover(line uint, character uint) (*languageserver.TextDocument
 	return &hover, nil
 }
 
-func (n *Nvim) GetLSPDefinitions(line uint, character uint) (*[]languageserver.DefinitionLocation, error) {
+func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.DefinitionLocation, error) {
 	err := n.startLSP()
 
 	if err != nil {
@@ -143,8 +149,8 @@ func (n *Nvim) GetLSPDefinitions(line uint, character uint) (*[]languageserver.D
 	return &response.Result, nil
 }
 
-func (n *Nvim) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
-	lspDefinitions, err := n.GetLSPDefinitions(line, character)
+func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, error) {
+	lspDefinitions, err := n.getLSPDefinitions(line, character)
 
 	switch {
 	case err != nil:
@@ -199,4 +205,37 @@ func (n *Nvim) GetCompletion(head string) ([]string, error) {
 	}
 
 	return result, nil
+}
+
+func (n *Nvim) GetValueType(variable string) (string, error) {
+	runtimePath := variable
+	parts := strings.Split(runtimePath, ".")
+
+	switch len(parts) {
+	case 1:
+	default:
+		tail := parts[len(parts)-1]
+		// https://www.lua.org/manual/5.1/manual.html#2.1
+		switch tail {
+		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
+			head := parts[:len(parts)-1]
+			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
+		}
+	}
+
+	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
+
+	result, err := n.ExecLua(luaCode, []any{})
+
+	if err != nil {
+		return "", fmt.Errorf("Error getting the type of %s: %w", variable, err)
+	}
+
+	typeName, ok := result.(string)
+
+	if !ok {
+		return "", fmt.Errorf("Error getting the type of %s: Error converting the result to a string", runtimePath)
+	}
+
+	return typeName, nil
 }
