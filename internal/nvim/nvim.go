@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
@@ -269,6 +270,7 @@ func New(config Config, opts ...optionProvider) (*Nvim, error) {
 	arguments := []string{"--embed", "--headless", "-i", "NONE", "-u", options.config.InitFile()}
 	arguments = append(arguments, options.arguments...)
 	cmd := exec.Command(options.command, arguments...)
+	cmd.Env = append(os.Environ(), "NVIM_APPNAME=anydev")
 
 	rpc, err := msgpackrpc.New(cmd)
 
