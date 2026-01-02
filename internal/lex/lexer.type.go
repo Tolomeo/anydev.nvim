@@ -403,13 +403,6 @@ var typeStringLiteralQuery = treesitter.Query{
 	)
 `}
 
-func newStringLiteral(value string) *symbol.StringLiteral {
-	return &symbol.StringLiteral{
-		Kind:  symbol.StringLiteralKindStringliteral,
-		Value: value,
-	}
-}
-
 func (l *Lexer) lexStringLiteral(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(typeStringLiteralQuery)
 
@@ -423,7 +416,7 @@ func (l *Lexer) lexStringLiteral(buffer *nvim.Buffer, source string) (*symbol.St
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "stringliteral":
-			return newStringLiteral(matchCapture.Node.Text), nil
+			return symbol.NewStringLiteral(matchCapture.Node.Text), nil
 		}
 	}
 
