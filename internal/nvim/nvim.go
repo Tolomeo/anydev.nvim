@@ -10,6 +10,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
@@ -207,22 +208,30 @@ func (n *Nvim) DeleteBuffer() error {
 
 var counter = 0
 
-type buffer struct {
-	name      string
-	previous  string
-	ReadLines func() ([]string, error)
-	SetLines  func([]string) error
-	Close     func() error
+type Buffer struct {
+	name                   string
+	previous               string
+	ReadLines              func() ([]string, error)
+	SetLines               func([]string) error
+	Close                  func() error
+	GetTSNodeAt            func([]string, uint, uint) (*treesitter.TsNode, error)
+	GetTsCommentBlockAt    func(uint, uint) (*treesitter.TsNode, error)
+	TsQueryOne             func(treesitter.Query) (*TsQueryMatch, error)
+	TsQueryAll             func(treesitter.Query) (*[]TsQueryMatch, error)
+	SafeTsQueryAll         func(treesitter.Query) (*[]SafeTsQueryResult, error)
+	GetDefinitionLocations func(uint, uint) (*[]Location, error)
 }
 
-func (n *Nvim) OpenBuffer(name string) (*buffer, error) {
+func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
+	fmt.Println("Opening buffer", name)
+
 	previous, err := n.GetBufferName()
 
 	if err != nil {
 		return nil, err
 	}
 
-	buf := &buffer{
+	buf := &Buffer{
 		name:     name,
 		previous: previous,
 		ReadLines: func() ([]string, error) {
@@ -253,7 +262,62 @@ func (n *Nvim) OpenBuffer(name string) (*buffer, error) {
 
 			return n.setBufferLines(lines)
 		},
+		GetTSNodeAt: func(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.GetTSNodeAt(nodeTypes, line, character)
+		},
+		GetTsCommentBlockAt: func(line uint, character uint) (*treesitter.TsNode, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.GetTsCommentBlockAt(line, character)
+		},
+		TsQueryOne: func(query treesitter.Query) (*TsQueryMatch, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.TsQueryOne(query)
+		},
+		TsQueryAll: func(query treesitter.Query) (*[]TsQueryMatch, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.TsQueryAll(query)
+		},
+		SafeTsQueryAll: func(query treesitter.Query) (*[]SafeTsQueryResult, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.SafeTsQueryAll(query)
+		},
+		GetDefinitionLocations: func(line uint, character uint) (*[]Location, error) {
+			_, err := n.Open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.GetDefinitionLocations(line, character)
+		},
 		Close: func() error {
+			fmt.Println("Closing buffer", name)
 			_, err := n.Open(name)
 
 			if err != nil {
@@ -276,10 +340,16 @@ func (n *Nvim) OpenBuffer(name string) (*buffer, error) {
 		},
 	}
 
+	_, err = n.Open(name)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return buf, nil
 }
 
-func (n *Nvim) NewBuffer() (*buffer, error) {
+func (n *Nvim) NewBuffer() (*Buffer, error) {
 	counter += 1
 	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
 

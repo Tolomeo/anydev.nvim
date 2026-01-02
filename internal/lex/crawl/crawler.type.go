@@ -64,17 +64,19 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 
 func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbol.TypeOrigin, error) {
 	for _, location := range locations {
-		_, err := c.context.Nvim.Open(location.Url)
+		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
 		if err != nil {
 			return nil, err
 		}
 
+		defer buffer.Close()
+
 		for customType, matchNameQuery := range customTypeQueries {
 			tsRange := location.TargetRange.AsTreesitter()
 			lineRange := tsRange.LineRange()
 
-			definition, err := c.context.Nvim.GetTSNodeAt([]string{customType}, uint(location.TargetRange.Start.Line), uint(location.TargetRange.Start.Character))
+			definition, err := buffer.GetTSNodeAt([]string{customType}, uint(location.TargetRange.Start.Line), uint(location.TargetRange.Start.Character))
 
 			switch {
 			case err != nil:
@@ -83,7 +85,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 				continue
 			}
 
-			match, err := c.context.Nvim.TsQueryOne(matchNameQuery(path, &lineRange))
+			match, err := buffer.TsQueryOne(matchNameQuery(path, &lineRange))
 
 			switch {
 			case err != nil:
@@ -94,7 +96,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 
 			// fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
 
-			documentation, err := c.context.Nvim.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+			documentation, err := buffer.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
 
 			switch {
 			case err != nil:
@@ -133,8 +135,7 @@ func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.Location, err
 	err = buffer.SetLines([]string{typeAnnotation})
 
 	line, character := uint(0), uint(len(typeAnnotation))
-
-	locations, err := c.context.Nvim.GetDefinitionLocations(line, character)
+	locations, err := buffer.GetDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:

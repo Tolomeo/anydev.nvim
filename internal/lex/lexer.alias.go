@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
@@ -22,8 +23,8 @@ var simpleAliasQuery = treesitter.Query{
 	)`, anyTypeQuery),
 }
 
-func (l *Lexer) lexSimpleAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
-	match, err := l.context.Nvim.TsQueryOne(simpleAliasQuery)
+func (l *Lexer) lexSimpleAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (symbol.Symbol, error) {
+	match, err := buffer.TsQueryOne(simpleAliasQuery)
 
 	switch {
 	case err != nil:
@@ -57,8 +58,8 @@ var enumAliasQuery = treesitter.Query{
 	)
 `, anyTypeQuery)}
 
-func (l *Lexer) lexEnumAlias(source *symbol.TypeSource) (*symbol.Union, error) {
-	matches, err := l.context.Nvim.TsQueryAll(enumAliasQuery)
+func (l *Lexer) lexEnumAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (*symbol.Union, error) {
+	matches, err := buffer.TsQueryAll(enumAliasQuery)
 
 	switch {
 	case err != nil:
@@ -126,7 +127,7 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 
 	buffer.SetLines(patchedDocumentationLines)
 
-	simpleAliasType, err := l.lexSimpleAlias(source)
+	simpleAliasType, err := l.lexSimpleAlias(buffer, source)
 
 	switch {
 	case err != nil:
@@ -135,7 +136,7 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return simpleAliasType, nil
 	}
 
-	enumAliasType, err := l.lexEnumAlias(source)
+	enumAliasType, err := l.lexEnumAlias(buffer, source)
 
 	switch {
 	case err != nil:
