@@ -18,7 +18,7 @@ func (n *Nvim) startTS() error {
 		return err
 	}
 
-	_, err = n.ExecLua(script, []any{30000})
+	_, err = n.execLua(script, []any{30000})
 
 	if err != nil {
 		return fmt.Errorf("Error starting treesitter lua: %w", err)
@@ -32,7 +32,7 @@ func (n *Nvim) startTS() error {
 		vim.api.nvim_feedkeys(keys, "n", false)
 	`
 
-	_, err = n.ExecLua(luaCode, []any{})
+	_, err = n.execLua(luaCode, []any{})
 
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func (n *Nvim) execTsQuery(query treesitter.Query) (*[]treesitter.Capture, error
 		scriptArgs = append(scriptArgs, query.Range.Start, query.Range.End+1)
 	}
 
-	result, err := n.ExecLua(script, scriptArgs)
+	result, err := n.execLua(script, scriptArgs)
 
 	// fmt.Printf("\nQuery: \n%v\n%v\n%v\n", config.Query, result, err)
 
@@ -288,7 +288,7 @@ func (n *Nvim) getTSNodeAt(nodeTypes []string, line uint, character uint) (*tree
 		return nil, err
 	}
 
-	result, err := n.ExecLua(string(script), []any{nodeTypes, line, character})
+	result, err := n.execLua(string(script), []any{nodeTypes, line, character})
 
 	switch {
 	case err != nil:
@@ -341,7 +341,7 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 		return nil, err
 	}
 
-	result, err := n.ExecLua(script, []any{node.Range.Start.Line, node.Range.End.Line})
+	result, err := n.execLua(script, []any{node.Range.Start.Line, node.Range.End.Line})
 
 	switch {
 	case err != nil:

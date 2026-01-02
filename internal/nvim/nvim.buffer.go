@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
 type Buffer struct {
@@ -150,142 +148,11 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 	return buf, nil
 }
 
+var bufferCounter = 0
+
 func (n *Nvim) NewBuffer() (*Buffer, error) {
-	counter += 1
-	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", counter))
+	bufferCounter += 1
+	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", bufferCounter))
 
 	return n.OpenBuffer(name)
-}
-
-func (n *Nvim) open(file string) (string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_command",
-		Params: []any{fmt.Sprintf("edit %s", file)},
-	}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return file, fmt.Errorf("Error opening %s: %v\n", file, err)
-	}
-
-	return file, nil
-}
-
-func (n *Nvim) write() error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_command",
-		Params: []any{"write"},
-	}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error trying to write buffer: %v\n", err)
-	}
-
-	return nil
-}
-
-func (n *Nvim) getBufferName() (string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_name",
-		Params: []any{0},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return "", fmt.Errorf("Error reading buffer name: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return "", fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	return result.(string), nil
-}
-
-func (n *Nvim) setBufferLines(lines []string) error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_set_lines",
-		Params: []any{0, 0, -1, true, lines},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error sending nvim_buf_set_lines rpc message: %v\n", err)
-	}
-
-	_, err = response.Result()
-
-	if err != nil {
-		return fmt.Errorf("Error setting buffer lines: %v\n", err)
-	}
-
-	return nil
-}
-
-func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_text",
-		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
-	}
-
-	bufferText, err := anyx.ToSliceOf[string](result)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer text return value: %w", err)
-	}
-
-	return bufferText, nil
-}
-
-func (n *Nvim) getBufferLines(start int, end int) ([]string, error) {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_get_lines",
-		Params: []any{0, start, end, false},
-	}
-	response, err := n.rpc.Send(request)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer name: %v\n", err)
-	}
-
-	result, err := response.Result()
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
-	}
-
-	bufferLines, err := anyx.ToSliceOf[string](result)
-
-	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
-	}
-
-	return bufferLines, nil
-}
-
-func (n *Nvim) deleteBuffer() error {
-	request := msgpackrpc.RequestMessage{
-		Method: "nvim_buf_delete",
-		Params: []any{0, struct{ force bool }{force: true}}}
-	_, err := n.rpc.Send(request)
-
-	if err != nil {
-		return fmt.Errorf("Error trying to delete buffer: %v\n", err)
-	}
-
-	return nil
 }

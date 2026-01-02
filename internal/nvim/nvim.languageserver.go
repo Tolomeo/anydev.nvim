@@ -23,7 +23,7 @@ func (n *Nvim) startLSP() error {
 		return fmt.Errorf("Error starting lua lsp: %v", err)
 	}
 
-	_, err = n.ExecLua(script, []any{30000})
+	_, err = n.execLua(script, []any{30000})
 
 	if err != nil {
 		return fmt.Errorf("Error starting lua lsp: %v", err)
@@ -47,7 +47,7 @@ func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolR
 		return nil, fmt.Errorf("Error getting document symbols: %v", err)
 	}
 
-	result, err := n.ExecLua(script, []any{})
+	result, err := n.execLua(script, []any{})
 
 	if err != nil {
 		return nil, fmt.Errorf("Error getting document symbols: %v", err)
@@ -87,7 +87,7 @@ func (n *Nvim) getHover(line uint, character uint) (*languageserver.TextDocument
 		return nil, err
 	}
 
-	result, err := n.ExecLua(script, []any{line, character, 15000})
+	result, err := n.execLua(script, []any{line, character, 15000})
 
 	if err != nil {
 		return nil, fmt.Errorf("Error getting lsp hover response: %v", err)
@@ -127,7 +127,7 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.D
 		return nil, err
 	}
 
-	result, err := n.ExecLua(script, []any{line, character, 15000})
+	result, err := n.execLua(script, []any{line, character, 15000})
 
 	if err != nil {
 		return nil, fmt.Errorf("Error getting lsp definition: %v", err)
@@ -192,7 +192,7 @@ func (n *Nvim) GetCompletion(head string) ([]string, error) {
 	}
 
 	cmd := "lua " + head + "."
-	getcompletionResult, err := n.CallFunction("getcompletion", []any{cmd, "cmdline"})
+	getcompletionResult, err := n.callFunction("getcompletion", []any{cmd, "cmdline"})
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
@@ -225,7 +225,7 @@ func (n *Nvim) GetValueType(variable string) (string, error) {
 
 	luaCode := fmt.Sprintf("return type(%s)", runtimePath)
 
-	result, err := n.ExecLua(luaCode, []any{})
+	result, err := n.execLua(luaCode, []any{})
 
 	if err != nil {
 		return "", fmt.Errorf("Error getting the type of %s: %w", variable, err)
