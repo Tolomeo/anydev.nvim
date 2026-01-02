@@ -220,3 +220,183 @@ func (l *Lexer) lexFunction(source *symbol.ValueSource) (*symbol.Function, error
 
 	return function, nil
 }
+
+var tableQueries = map[string]string{
+	"tableDeclaration": `
+	(variable_declaration
+		(assignment_statement
+			(variable_list
+				name: (identifier)
+			) @table.name
+			(expression_list
+				value: (table_constructor)
+			) @table.value
+		)
+	)
+`,
+	"tableFieldDeclaration": `
+	(assignment_statement
+		(variable_list
+			name: (dot_index_expression
+				table: (_)
+				field: (identifier) @table.name
+			)
+		)
+		(expression_list
+			value: (table_constructor) @table.value
+		)
+	)
+`,
+	"tableIndexFieldDeclaration": `
+		(assignment_statement
+			(variable_list
+				name: (bracket_index_expression
+					table: (_)
+					field: (string
+						content: (string_content) @table.name
+					)
+				)
+			)
+			(expression_list
+				value: (table_constructor) @table.value
+			)
+		)
+`}
+
+func (l *Lexer) lexTable(source *symbol.ValueSource) (*symbol.Table, error) {
+	buffer, err := l.context.Nvim.NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	err = buffer.SetLines(source.Origin.DefinitionLines())
+
+	if err != nil {
+		return nil, err
+	}
+
+	var match *nvim.TsQueryMatch
+
+	for _, query := range tableQueries {
+		captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: query})
+
+		if err != nil {
+			return nil, err
+		}
+
+		if captures != nil {
+			match = captures
+			break
+		}
+	}
+
+	if match == nil {
+		return nil, nil
+	}
+
+	table := newTableType()
+
+	for _, capture := range *match {
+		switch capture.Id {
+		case "table.name":
+			table.Name = &capture.Node.Text
+		}
+	}
+
+	tableFields, err := l.context.Nvim.GetCompletion(source.Path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, fieldName := range tableFields {
+		tableField := symbol.TableField{Name: fieldName}
+
+		err := l.context.Push(fieldName, func(path string) error {
+			source, err := l.sourceValue(l.context.Current())
+
+			if err != nil {
+				return err
+			}
+
+			annotations, err := l.lexAnnotations(source.Origin.DocumentationLines())
+
+			tableField.Private = annotations.private
+			tableField.Protected = annotations.protected
+			tableFieldValue, err := l.lexValue(source)
+
+			if err != nil {
+				return err
+			}
+
+			tableField.Value = tableFieldValue
+
+			return nil
+		})
+
+		if err != nil {
+			return nil, err
+		}
+
+		table.Fields = append(table.Fields, tableField)
+	}
+
+	return table, nil
+}
+
+var metaQuery string = `
+	(assignment_statement
+		(variable_list
+			name: (_)
+		) @assignment.left
+		(expression_list
+			value: [
+				(vararg_expression) @assignment.right
+			] 
+		)
+	) @assignment
+`
+
+func (l *Lexer) lexMeta(source *symbol.ValueSource) (symbol.Symbol, error) {
+	buffer, err := l.context.Nvim.NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	err = buffer.SetLines(source.Origin.DefinitionLines())
+
+	if err != nil {
+		return nil, err
+	}
+
+	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: metaQuery})
+
+	switch {
+	case err != nil:
+		return nil, err
+	case captures == nil:
+		return nil, nil
+	}
+
+	unknown := newUnknownType()
+	unknown.Documentation = source.Origin.DocumentationLines()
+
+	annotations, err := l.lexAnnotations(unknown.Documentation)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations.tipe != nil {
+		return &annotations.tipe, nil
+	}
+
+	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
+	return unknown, nil
+}
