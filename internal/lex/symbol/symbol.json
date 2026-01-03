@@ -38,13 +38,13 @@
         "documentation": {
           "$ref": "#/definitions/Documentation"
         },
-        "args": {
+        "arguments": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FunctionArg"
+            "$ref": "#/definitions/FunctionArgument"
           }
         },
-        "return": {
+        "returns": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/FunctionReturn"
@@ -71,9 +71,9 @@
       },
       "required": [
         "kind",
-        "doc",
-        "args",
-        "return",
+        "documentation",
+        "arguments",
+        "returns",
         "generics",
         "deprecated",
         "private",
@@ -96,7 +96,7 @@
       },
       "required": ["name", "types"]
     },
-    "FunctionArg": {
+    "FunctionArgument": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -125,13 +125,13 @@
             "$ref": "#/definitions/FunctionGeneric"
           }
         },
-        "args": {
+        "arguments": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/FunctionArg"
+            "$ref": "#/definitions/FunctionArgument"
           }
         },
-        "return": {
+        "returns": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/FunctionReturn"
@@ -141,7 +141,7 @@
           "$ref": "#/definitions/Documentation"
         }
       },
-      "required": ["generics", "args", "return", "documentation"]
+      "required": ["generics", "arguments", "returns", "documentation"]
     },
     "FunctionReturn": {
       "type": "object",

@@ -18,7 +18,7 @@ type lexedAnnotations struct {
 	tipe      symbol.Symbol
 	private   bool
 	protected bool
-	params    map[string]symbol.FunctionArg
+	params    map[string]symbol.FunctionArgument
 	overloads []symbol.FunctionOverload
 	generics  []symbol.FunctionGeneric
 	returns   []symbol.FunctionReturn
@@ -115,9 +115,9 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 				}
 
 				overload.Generics = overloadFunctionType.Generics
-				overload.Args = overloadFunctionType.Args
+				overload.Arguments = overloadFunctionType.Arguments
 				overload.Documentation = overloadFunctionType.Documentation
-				overload.Return = overloadFunctionType.Return
+				overload.Returns = overloadFunctionType.Returns
 			}
 		}
 
@@ -222,7 +222,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedParam := symbol.FunctionArg{}
+		lexedParam := symbol.FunctionArgument{}
 
 		for _, matchCapture := range matchCaptures {
 			switch matchCapture.Id {
@@ -371,7 +371,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 
 	annotations := lexedAnnotations{
 		generics:  []symbol.FunctionGeneric{},
-		params:    make(map[string]symbol.FunctionArg),
+		params:    make(map[string]symbol.FunctionArgument),
 		overloads: []symbol.FunctionOverload{},
 		returns:   []symbol.FunctionReturn{},
 	}

@@ -50,14 +50,14 @@ type Function struct {
 	// Access corresponds to the JSON schema field "access".
 	Access *string `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
 
-	// Args corresponds to the JSON schema field "args".
-	Args []FunctionArg `json:"args" yaml:"args" mapstructure:"args"`
+	// Arguments corresponds to the JSON schema field "arguments".
+	Arguments []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
 
 	// Deprecated corresponds to the JSON schema field "deprecated".
 	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
 
 	// Documentation corresponds to the JSON schema field "documentation".
-	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 
 	// Generics corresponds to the JSON schema field "generics".
 	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
@@ -71,11 +71,11 @@ type Function struct {
 	// Overloads corresponds to the JSON schema field "overloads".
 	Overloads []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
 
-	// Return corresponds to the JSON schema field "return".
-	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+	// Returns corresponds to the JSON schema field "returns".
+	Returns []FunctionReturn `json:"returns" yaml:"returns" mapstructure:"returns"`
 }
 
-type FunctionArg struct {
+type FunctionArgument struct {
 	// Documentation corresponds to the JSON schema field "documentation".
 	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
@@ -86,10 +86,10 @@ type FunctionArg struct {
 	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
 
 	// Type corresponds to the JSON schema field "type".
-	Type FunctionArgType `json:"type" yaml:"type" mapstructure:"type"`
+	Type FunctionArgumentType `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-type FunctionArgType interface{}
+type FunctionArgumentType interface{}
 
 type FunctionGeneric struct {
 	// Name corresponds to the JSON schema field "name".
@@ -106,8 +106,8 @@ type FunctionKind string
 const FunctionKindFunction FunctionKind = "function"
 
 type FunctionOverload struct {
-	// Args corresponds to the JSON schema field "args".
-	Args []FunctionArg `json:"args" yaml:"args" mapstructure:"args"`
+	// Arguments corresponds to the JSON schema field "arguments".
+	Arguments []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
 
 	// Documentation corresponds to the JSON schema field "documentation".
 	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
@@ -115,8 +115,8 @@ type FunctionOverload struct {
 	// Generics corresponds to the JSON schema field "generics".
 	Generics []FunctionGeneric `json:"generics" yaml:"generics" mapstructure:"generics"`
 
-	// Return corresponds to the JSON schema field "return".
-	Return []FunctionReturn `json:"return" yaml:"return" mapstructure:"return"`
+	// Returns corresponds to the JSON schema field "returns".
+	Returns []FunctionReturn `json:"returns" yaml:"returns" mapstructure:"returns"`
 }
 
 type FunctionReturn struct {

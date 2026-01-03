@@ -115,13 +115,13 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 	}
 
 	function := symbol.NewFunction()
-	args := []symbol.FunctionArg{}
+	args := []symbol.FunctionArgument{}
 	returns := []symbol.FunctionReturn{}
 
 	for _, capture := range *captures {
 		switch capture.Id {
 		case "parameter":
-			args = append(args, symbol.FunctionArg{})
+			args = append(args, symbol.FunctionArgument{})
 		case "parameter.name":
 			args[len(args)-1].Name = capture.Node.Text
 		case "parameter.type":
@@ -145,8 +145,8 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 		}
 	}
 
-	function.Args = append(function.Args, args...)
-	function.Return = append(function.Return, returns...)
+	function.Arguments = append(function.Arguments, args...)
+	function.Returns = append(function.Returns, returns...)
 
 	return function, nil
 }

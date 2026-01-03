@@ -11,8 +11,8 @@ func NewFunction() *Function {
 	}
 }
 
-func NewFunctionArg(name string) *FunctionArg {
-	return &FunctionArg{
+func NewFunctionArgument(name string) *FunctionArgument {
+	return &FunctionArgument{
 		Name:     name,
 		Type:     NewUnknown(),
 		Optional: false,

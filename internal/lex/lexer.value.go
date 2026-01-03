@@ -8,7 +8,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-
 var functionQueries = map[string]string{
 	/* function fn() end
 	function fn(arg1) end
@@ -184,9 +183,9 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 		case "access.instance":
 			function.Access = &symbol.FunctionIstanceAccess
 		case "arg":
-			function.Args = append(function.Args, *symbol.NewFunctionArg(capture.Node.Text))
+			function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(capture.Node.Text))
 		case "vararg":
-			function.Args = append(function.Args, *symbol.NewFunctionArg(capture.Node.Text))
+			function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(capture.Node.Text))
 		}
 	}
 
@@ -198,20 +197,20 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 
 	function.Overloads = annotations.overloads
 	function.Generics = annotations.generics
-	function.Return = annotations.returns
+	function.Returns = annotations.returns
 
-	for argIndex := range function.Args {
-		name := function.Args[argIndex].Name
+	for argIndex := range function.Arguments {
+		name := function.Arguments[argIndex].Name
 		annotation, hasAnnotation := annotations.params[name]
 
 		if !hasAnnotation {
-			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Args[argIndex].Type, function.Args[argIndex].Name))
+			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
-		function.Args[argIndex].Type = annotation.Type
-		function.Args[argIndex].Optional = annotation.Optional
-		function.Args[argIndex].Documentation = annotation.Documentation
+		function.Arguments[argIndex].Type = annotation.Type
+		function.Arguments[argIndex].Optional = annotation.Optional
+		function.Arguments[argIndex].Documentation = annotation.Documentation
 	}
 
 	return function, nil
