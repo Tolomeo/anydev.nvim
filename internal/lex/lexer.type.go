@@ -248,13 +248,15 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	switch {
 	case err != nil:
 		return nil, err
-	case lexedAnnotations.class != nil:
-		// Replacing the name which was captured as patched with the original one
-		lexedAnnotations.class.Name = name
-		return lexedAnnotations.class, nil
+	case lexedAnnotations.class == nil:
+		return nil, nil
 	}
 
-	return nil, nil
+	class := lexedAnnotations.class
+	// Replacing the name which was captured as patched with the original one
+	class.Name = name
+
+	return class, nil
 }
 
 func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
@@ -276,6 +278,7 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	case err != nil:
 		return nil, err
 	case lexedAnnotations.alias != nil:
+		// TODO: replace the name of the returned type with the original name
 		return lexedAnnotations.alias, nil
 	}
 
