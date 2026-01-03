@@ -301,7 +301,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 		}
 	}
 
-	tableFields, err := l.context.Nvim.GetCompletion(source.Path)
+	tableFields, err := l.context.Nvim.GetValueCompletion(source.Path)
 
 	if err != nil {
 		return nil, err

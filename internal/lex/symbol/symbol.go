@@ -185,6 +185,9 @@ const StringLiteralKindStringliteral StringLiteralKind = "stringliteral"
 type Symbol interface{}
 
 type Table struct {
+	// Documentation corresponds to the JSON schema field "documentation".
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+
 	// Fields corresponds to the JSON schema field "fields".
 	Fields []TableField `json:"fields" yaml:"fields" mapstructure:"fields"`
 

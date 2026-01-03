@@ -255,6 +255,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	class := lexedAnnotations.class
 	// Replacing the name which was captured as patched with the original one
 	class.Name = name
+	class.Documentation = origin.DocumentationLines()
 
 	return class, nil
 }
@@ -277,12 +278,15 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	switch {
 	case err != nil:
 		return nil, err
-	case lexedAnnotations.alias != nil:
-		// TODO: replace the name of the returned type with the original name
-		return lexedAnnotations.alias, nil
+	case lexedAnnotations.alias == nil:
+		return nil, nil
 	}
 
-	return nil, nil
+	// TODO: replace the name of the returned type with the original name
+	// TODO: attach documentation
+	alias := lexedAnnotations.alias
+
+	return alias, nil
 }
 
 func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {

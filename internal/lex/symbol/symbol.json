@@ -227,6 +227,9 @@
         "name": {
           "type": "string"
         },
+        "documentation": {
+          "$ref": "#/definitions/Documentation"
+        },
         "fields": {
           "type": "array",
           "items": {
@@ -234,7 +237,7 @@
           }
         }
       },
-      "required": ["kind", "name", "fields"]
+      "required": ["kind", "name", "documentation", "fields"]
     },
     "TableField": {
       "type": "object",

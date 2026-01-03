@@ -184,31 +184,31 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 	return &locations, nil
 }
 
-func (n *Nvim) GetCompletion(head string) ([]string, error) {
+func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
 	err := n.startLSP()
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
 	}
 
-	cmd := "lua " + head + "."
+	cmd := fmt.Sprintf("lua %s.", value)
 	getcompletionResult, err := n.callFunction("getcompletion", []any{cmd, "cmdline"})
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
 	}
 
 	result, err := anyx.ToSliceOf[string](getcompletionResult)
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error getting completion for %s: %w", head, err)
+		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
 	}
 
 	return result, nil
 }
 
-func (n *Nvim) GetValueType(variable string) (string, error) {
-	runtimePath := variable
+func (n *Nvim) GetValueType(value string) (string, error) {
+	runtimePath := value
 	parts := strings.Split(runtimePath, ".")
 
 	switch len(parts) {
@@ -228,7 +228,7 @@ func (n *Nvim) GetValueType(variable string) (string, error) {
 	result, err := n.execLua(luaCode, []any{})
 
 	if err != nil {
-		return "", fmt.Errorf("Error getting the type of %s: %w", variable, err)
+		return "", fmt.Errorf("Error getting the type of %s: %w", value, err)
 	}
 
 	typeName, ok := result.(string)
