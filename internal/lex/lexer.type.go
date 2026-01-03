@@ -229,6 +229,31 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	return nil
 }
 
+func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
+	// Replacing all dots in the alias name with underscores
+	// because apparently luadoc would not permit to use dots in identifiers
+	origin := source.Origin
+	name := source.Path
+	definitionText := origin.DefinitionText()
+	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
+	documentationText := origin.DocumentationText()
+	patchedDocumentationLines := strings.Split(
+		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
+		"\n",
+	)
+
+	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case lexedAnnotations.alias != nil:
+		return lexedAnnotations.alias, nil
+	}
+
+	return nil, nil
+}
+
 func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
 		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))

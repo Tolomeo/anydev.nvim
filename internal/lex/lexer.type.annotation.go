@@ -2,7 +2,6 @@ package lex
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -357,95 +356,6 @@ func (l *Lexer) lexProtectedAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 	return true, nil
 }
 
-func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
-	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
-		return cachedAnnotations, nil
-	}
-
-	buffer, err := l.context.Nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	annotations := lexedAnnotations{
-		type_:     nil,
-		private:   false,
-		protected: false,
-		params:    make(map[string]symbol.FunctionArgument),
-		overloads: []symbol.FunctionOverload{},
-		generics:  []symbol.FunctionGeneric{},
-		returns:   []symbol.FunctionReturn{},
-		alias:     nil,
-	}
-
-	err = buffer.SetLines(dockblock)
-
-	if err != nil {
-		return nil, err
-	}
-
-	// Generics are lexed ahead of other annotations, which could read them
-	_, err = l.lexGenericAnnotations(buffer, &annotations)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error lexing generic annotations: %w", err)
-	}
-
-	_, err = l.lexPrivateAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
-	}
-
-	_, err = l.lexProtectedAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
-	}
-
-	_, err = l.lexParamAnnotations(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing param annotation: %w", err)
-	}
-
-	_, err = l.lexOverloadAnnotations(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing overload annotation: %w", err)
-	}
-
-	_, err = l.lexReturnAnnotations(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing return annotation: %w", err)
-	}
-
-	_, err = l.lexTypeAnnotations(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	_, err = l.lexAliasAnnotations(buffer, &annotations)
-
-	if err != nil {
-		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
-	}
-
-	lexedAnnotationsCache.Set(&annotations, dockblock...)
-	return &annotations, nil
-}
-
 // Luadoc matches an empty type node even when the type is not present
 // So those false positives are excluded with the not-eq predicate
 var simpleAliasQuery = treesitter.Query{
@@ -557,31 +467,6 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 	return true, nil
 }
 
-func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
-	// Replacing all dots in the alias name with underscores
-	// because apparently luadoc would not permit to use dots in identifiers
-	origin := source.Origin
-	name := source.Path
-	definitionText := origin.DefinitionText()
-	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
-	documentationText := origin.DocumentationText()
-	patchedDocumentationLines := strings.Split(
-		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
-		"\n",
-	)
-
-	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case lexedAnnotations.alias != nil:
-		return lexedAnnotations.alias, nil
-	}
-
-	return nil, nil
-}
-
 func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	found, err := l.lexSimpleAliasAnnotation(buffer, annotations)
 
@@ -602,4 +487,93 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	}
 
 	return false, nil
+}
+
+func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
+		return cachedAnnotations, nil
+	}
+
+	buffer, err := l.context.Nvim.NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	annotations := lexedAnnotations{
+		type_:     nil,
+		private:   false,
+		protected: false,
+		params:    make(map[string]symbol.FunctionArgument),
+		overloads: []symbol.FunctionOverload{},
+		generics:  []symbol.FunctionGeneric{},
+		returns:   []symbol.FunctionReturn{},
+		alias:     nil,
+	}
+
+	err = buffer.SetLines(dockblock)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Generics are lexed ahead of other annotations, which could read them
+	_, err = l.lexGenericAnnotations(buffer, &annotations)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing generic annotations: %w", err)
+	}
+
+	_, err = l.lexPrivateAnnotation(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+	}
+
+	_, err = l.lexProtectedAnnotation(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+	}
+
+	_, err = l.lexParamAnnotations(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing param annotation: %w", err)
+	}
+
+	_, err = l.lexOverloadAnnotations(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing overload annotation: %w", err)
+	}
+
+	_, err = l.lexReturnAnnotations(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing return annotation: %w", err)
+	}
+
+	_, err = l.lexTypeAnnotations(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type annotation: %w", err)
+	}
+
+	_, err = l.lexAliasAnnotations(buffer, &annotations)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
+	}
+
+	lexedAnnotationsCache.Set(&annotations, dockblock...)
+	return &annotations, nil
 }

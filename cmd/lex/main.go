@@ -14,9 +14,8 @@ import (
 
 const debug = true
 
-var paths []string = []string{"vim.loop"}
-
-// var paths []string = []string{"vim.F", "vim.validate"}
+// var paths []string = []string{"vim.loop"}
+var paths []string = []string{"vim.F", "vim.validate"}
 
 func getClient() (*nvim.Nvim, error) {
 	configDir, err := project.GetConfigDir()
@@ -30,7 +29,9 @@ func getClient() (*nvim.Nvim, error) {
 
 	var client *nvim.Nvim
 
-	if debug {
+	if !debug {
+		client, err = nvim.New(nvimConfig)
+	} else {
 		client, err = nvim.New(
 			nvimConfig,
 			nvim.WithArguments(
@@ -38,8 +39,6 @@ func getClient() (*nvim.Nvim, error) {
 				"--listen", path.Join(tmpDir, "nvim.server.pipe"),
 			),
 		)
-	} else {
-		client, err = nvim.New(nvimConfig)
 	}
 
 	if err != nil {
@@ -77,11 +76,11 @@ func main() {
 	}
 
 	logger := log.NewLogger("")
-
-	context := context.New(logger, client)
 	lexer := lex.NewLexer()
+	out, err := getOutput()
 
 	for _, path := range paths {
+		context := context.New(logger, client)
 		err = lexer.LexValue(path, context)
 
 		if err != nil {
@@ -90,17 +89,18 @@ func main() {
 			_, _ = fmt.Scanln(&input) */
 			panic(err)
 		}
+
+		if err := out.WriteFile(fmt.Sprintf("%s.result.json", path), context.Result()); err != nil {
+			panic(fmt.Errorf("Error writing result.json: %w", err))
+		}
+
+		if err := out.WriteFile(fmt.Sprintf("%s.logs.json", path), logger.Logs()); err != nil {
+			panic(fmt.Errorf("Error writing logs.json: %w", err))
+		}
 	}
 
-	out, err := getOutput()
-
-	if err := out.WriteFile("result.json", context.Result()); err != nil {
-		panic(fmt.Errorf("Error writing result.json: %w", err))
-	}
-
-	if err := out.WriteFile("logs.json", logger.Logs()); err != nil {
-		panic(fmt.Errorf("Error writing logs.json: %w", err))
-	}
+	/* fmt.Println("hey")
+	fmt.Scanln() */
 
 	/* err = client.Quit()
 
