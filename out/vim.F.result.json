@@ -1,0 +1,211 @@
+{
+    "runtime": {
+        "vim.F": {
+            "fields": [
+                {
+                    "name": "if_nil",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "kind": "reference",
+                                    "value": "T"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Returns the first argument which is not nil.",
+                            "",
+                            " If all arguments are nil, returns nil.",
+                            "",
+                            " Examples:",
+                            "",
+                            " ```lua",
+                            " local a = nil",
+                            " local b = nil",
+                            " local c = 42",
+                            " local d = true",
+                            " assert(vim.F.if_nil(a, b, c, d) == 42)",
+                            " ```",
+                            "",
+                            "@generic T",
+                            "@param ... T",
+                            "@return T"
+                        ],
+                        "generics": [
+                            {
+                                "name": "T",
+                                "types": null
+                            }
+                        ],
+                        "kind": "function",
+                        "name": "if_nil",
+                        "returns": [
+                            {
+                                "type": {
+                                    "kind": "reference",
+                                    "value": "T"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "nil_wrap",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "fn",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Wrap a function to return nil if it fails, otherwise the value"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "nil_wrap",
+                        "returns": []
+                    }
+                },
+                {
+                    "name": "npcall",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "fn",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            },
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Nil pcall."
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "npcall",
+                        "returns": []
+                    }
+                },
+                {
+                    "name": "ok_or_nil",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "status",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            },
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " Use in combination with pcall"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "ok_or_nil",
+                        "returns": []
+                    }
+                },
+                {
+                    "name": "pack_len",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "...",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " like {...} except preserve the length explicitly"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "pack_len",
+                        "returns": []
+                    }
+                },
+                {
+                    "name": "unpack_len",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "access": "class",
+                        "arguments": [
+                            {
+                                "name": "t",
+                                "optional": false,
+                                "type": {
+                                    "documentation": [],
+                                    "kind": "unknown"
+                                }
+                            }
+                        ],
+                        "deprecated": false,
+                        "documentation": [
+                            " like unpack() but use the length set by F.pack_len if present"
+                        ],
+                        "generics": [],
+                        "kind": "function",
+                        "name": "unpack_len",
+                        "returns": []
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "F"
+        }
+    },
+    "types": {}
+}
