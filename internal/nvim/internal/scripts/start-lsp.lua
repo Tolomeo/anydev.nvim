@@ -1,12 +1,19 @@
 local args = { ... }
 local delay = args[1]
-local settle_time = 500
+local settle_time = 1500
 
 vim.g.lsp_activity = vim.g.lsp_activity and vim.g.lsp_activity or { last = vim.loop.now(), activity = {} }
 
 vim.api.nvim_create_autocmd("LspProgress", {
 	group = vim.api.nvim_create_augroup("LuaLSReady", { clear = true }),
 	callback = function(autocmd_args)
+		local message = string.format(
+			"[Anydev:LspProgress:%s]:%s",
+			autocmd_args.data.params.value.kind,
+			vim.api.nvim_buf_get_name(0)
+		)
+		vim.cmd(string.format("echom '%s'", message))
+
 		local value = autocmd_args.data.params.value
 		local token = autocmd_args.data.params.token
 
