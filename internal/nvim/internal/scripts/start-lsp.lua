@@ -1,6 +1,6 @@
 local args = { ... }
 local delay = args[1]
-local settle_time = 1500
+local settle_time = 2500
 
 vim.g.lsp_activity = vim.g.lsp_activity and vim.g.lsp_activity or { last = vim.loop.now(), activity = {} }
 

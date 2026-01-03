@@ -42,7 +42,7 @@ var typeOptionalQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptional(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
+func (l *Lexer) lexOptionalType(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
 	match, err := buffer.TsQueryOne(typeOptionalQuery)
 
 	switch {
@@ -229,7 +229,7 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	return nil
 }
 
-func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
+func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	origin := source.Origin
@@ -254,7 +254,7 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 	return nil, nil
 }
 
-func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
+func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
 		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
 		return symbol.NewReference(name), nil
@@ -271,7 +271,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 
 		fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
 
-		aliasType, err := l.lexAlias(typeSource)
+		aliasType, err := l.lexAliasType(typeSource)
 
 		// fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, aliasType)
 
@@ -308,7 +308,7 @@ var typeArrayQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexArray(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
+func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(typeArrayQuery)
 
 	switch {
@@ -346,7 +346,7 @@ var typeUnionQuery = treesitter.Query{
 		)
 	)`, anyTypeQuery, anyTypeQuery)}
 
-func (l *Lexer) lexUnion(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
+func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(typeUnionQuery)
 
 	switch {
@@ -398,7 +398,7 @@ var typeGroupQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexGroup(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
+func (l *Lexer) lexGroupType(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
 	match, err := buffer.TsQueryOne(typeGroupQuery)
 
 	switch {
@@ -428,7 +428,7 @@ var typeStringLiteralQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexStringLiteral(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
+func (l *Lexer) lexStringLiteralType(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(typeStringLiteralQuery)
 
 	switch {
@@ -479,7 +479,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return functionType, nil
 	}
 
-	lexedArray, err := l.lexArray(buffer, source)
+	lexedArray, err := l.lexArrayType(buffer, source)
 
 	switch {
 	case err != nil:
@@ -497,7 +497,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
-	lexedOptional, err := l.lexOptional(buffer, source)
+	lexedOptional, err := l.lexOptionalType(buffer, source)
 
 	switch {
 	case err != nil:
@@ -506,7 +506,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedOptional, nil
 	}
 
-	lexedUnion, err := l.lexUnion(buffer, source)
+	lexedUnion, err := l.lexUnionType(buffer, source)
 
 	switch {
 	case err != nil:
@@ -515,7 +515,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedUnion, nil
 	}
 
-	lexedGroupedType, err := l.lexGroup(buffer, source)
+	lexedGroupedType, err := l.lexGroupType(buffer, source)
 
 	switch {
 	case err != nil:
@@ -524,7 +524,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedGroupedType, nil
 	}
 
-	lexedStringLiteral, err := l.lexStringLiteral(buffer, source)
+	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)
 
 	switch {
 	case err != nil:
@@ -533,7 +533,7 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedStringLiteral, nil
 	}
 
-	lexedReference, err := l.lexReference(source)
+	lexedReference, err := l.lexReferenceType(source)
 
 	switch {
 	case err != nil:
