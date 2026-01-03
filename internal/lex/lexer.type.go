@@ -244,7 +244,7 @@ func (l *Lexer) lexReference(name string) (*symbol.Reference, error) {
 			return err
 		}
 
-		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
+		fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
 
 		aliasType, err := l.lexAlias(typeSource)
 

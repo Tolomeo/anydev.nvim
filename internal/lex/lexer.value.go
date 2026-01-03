@@ -388,8 +388,8 @@ func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) 
 		return nil, err
 	}
 
-	if annotations.tipe != nil {
-		return &annotations.tipe, nil
+	if annotations.type_ != nil {
+		return &annotations.type_, nil
 	}
 
 	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))

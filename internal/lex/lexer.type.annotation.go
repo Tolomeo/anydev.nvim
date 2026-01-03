@@ -15,13 +15,14 @@ import (
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedAnnotations struct {
-	tipe      symbol.Symbol
+	type_     symbol.Symbol
 	private   bool
 	protected bool
 	params    map[string]symbol.FunctionArgument
 	overloads []symbol.FunctionOverload
 	generics  []symbol.FunctionGeneric
 	returns   []symbol.FunctionReturn
+	alias     symbol.Symbol
 }
 
 var typeAnnotationQuery string = fmt.Sprintf(`
@@ -64,7 +65,7 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 		return false, err
 	}
 
-	annotations.tipe = lexedType
+	annotations.type_ = lexedType
 	return true, nil
 }
 
@@ -370,10 +371,14 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	defer buffer.Close()
 
 	annotations := lexedAnnotations{
-		generics:  []symbol.FunctionGeneric{},
+		type_:     nil,
+		private:   false,
+		protected: false,
 		params:    make(map[string]symbol.FunctionArgument),
 		overloads: []symbol.FunctionOverload{},
+		generics:  []symbol.FunctionGeneric{},
 		returns:   []symbol.FunctionReturn{},
+		alias:     nil,
 	}
 
 	err = buffer.SetLines(dockblock)
@@ -431,6 +436,12 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return nil, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
+	_, err = l.lexAliasAnnotations(buffer, &annotations)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
+	}
+
 	lexedAnnotationsCache.Set(&annotations, dockblock...)
 	return &annotations, nil
 }
@@ -448,14 +459,14 @@ var simpleAliasQuery = treesitter.Query{
 	)`, anyTypeQuery),
 }
 
-func (l *Lexer) lexSimpleAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (symbol.Symbol, error) {
+func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	match, err := buffer.TsQueryOne(simpleAliasQuery)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return false, err
 	case match == nil:
-		return nil, nil
+		return false, nil
 	}
 
 	typeCapture, typeCaptureFound := slicesx.FindFunc(*match, func(capture treesitter.Capture) bool {
@@ -463,34 +474,56 @@ func (l *Lexer) lexSimpleAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (
 	})
 
 	if !typeCaptureFound {
-		return nil, fmt.Errorf("Error retrieving type value from alias annotation '%s'", source.Origin.DocumentationText())
+		return false, fmt.Errorf("Error retrieving type value from simple alias annotation")
 	}
 
 	lexedAliasType, err := l.lexType(typeCapture.Node.Text)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
-	return lexedAliasType, nil
+	annotations.alias = lexedAliasType
+	return true, nil
 }
 
+// Luadoc matches an empty type node even when the type is not present
+// That means that enum aliases have an empty type node defined
 var enumAliasQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
+	(alias_annotation
+		(identifier) @alias.name
+		(%s) @alias.type
+		(comment)? @alias.documentation
+		(#eq? @alias.type "")
+	)`, anyTypeQuery),
+}
+var enumAliasMemberQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(continuation
-		%s @enumAlias.type
+		(%s) @alias.type
 	)
 `, anyTypeQuery)}
 
-func (l *Lexer) lexEnumAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (*symbol.Union, error) {
-	matches, err := buffer.TsQueryAll(enumAliasQuery)
+func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+	match, err := buffer.TsQueryOne(enumAliasQuery)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return false, err
+	case match == nil:
+		return false, nil
+	}
+
+	matches, err := buffer.TsQueryAll(enumAliasMemberQuery)
+
+	switch {
+	case err != nil:
+		return false, err
 	case matches == nil:
-		return nil, nil
+		return false, fmt.Errorf("Could not find members for enum alias")
 	}
 
 	enumMembers := []symbol.Symbol{}
@@ -498,11 +531,11 @@ func (l *Lexer) lexEnumAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (*s
 	for _, matchCaptures := range *matches {
 		for _, capture := range matchCaptures {
 			switch capture.Id {
-			case "enumAlias.type":
+			case "alias.type":
 				lexedType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
-					return nil, err
+					return false, err
 				}
 
 				enumMembers = append(enumMembers, lexedType)
@@ -517,27 +550,14 @@ func (l *Lexer) lexEnumAlias(buffer *nvim.Buffer, source *symbol.TypeSource) (*s
 	} */
 
 	if len(enumMembers) < 1 {
-		return nil, fmt.Errorf("Could not retrieve enum members from enum alias '%s'", source.Path)
+		return false, fmt.Errorf("Could not retrieve enum members from enum alias")
 	}
 
-	return symbol.NewUnion(enumMembers), nil
+	annotations.alias = symbol.NewUnion(enumMembers)
+	return true, nil
 }
 
 func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
-	// fmt.Println(source.Path)
-
-	if source.Origin.Type() != "alias_annotation" {
-		return nil, nil
-	}
-
-	buffer, err := l.context.Nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	origin := source.Origin
@@ -550,25 +570,36 @@ func (l *Lexer) lexAlias(source *symbol.TypeSource) (symbol.Symbol, error) {
 		"\n",
 	)
 
-	buffer.SetLines(patchedDocumentationLines)
-
-	simpleAliasType, err := l.lexSimpleAlias(buffer, source)
+	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
 
 	switch {
 	case err != nil:
 		return nil, err
-	case simpleAliasType != nil:
-		return simpleAliasType, nil
+	case lexedAnnotations.alias != nil:
+		return lexedAnnotations.alias, nil
 	}
 
-	enumAliasType, err := l.lexEnumAlias(buffer, source)
+	return nil, nil
+}
+
+func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+	found, err := l.lexSimpleAliasAnnotation(buffer, annotations)
 
 	switch {
 	case err != nil:
-		return nil, err
-	case enumAliasType != nil:
-		return enumAliasType, nil
+		return false, err
+	case found:
+		return true, nil
 	}
 
-	return nil, fmt.Errorf("Could not lex alias type '%s'", source.Path)
+	found, err = l.lexEnumAliasAnnotation(buffer, annotations)
+
+	switch {
+	case err != nil:
+		return false, err
+	case found:
+		return true, nil
+	}
+
+	return false, nil
 }
