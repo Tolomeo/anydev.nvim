@@ -523,6 +523,13 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 
 	class := symbol.NewTable()
 
+	for _, capture := range *match {
+		switch capture.Id {
+		case "class.name":
+			class.Name = capture.Node.Text
+		}
+	}
+
 	fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
 
 	switch {

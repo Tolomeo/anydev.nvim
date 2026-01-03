@@ -234,8 +234,9 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	// because apparently luadoc would not permit to use dots in identifiers
 	origin := source.Origin
 	name := source.Path
+	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := origin.DefinitionText()
-	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
+	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
 	documentationText := origin.DocumentationText()
 	patchedDocumentationLines := strings.Split(
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
@@ -248,6 +249,8 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	case err != nil:
 		return nil, err
 	case lexedAnnotations.class != nil:
+		// Replacing the name which was captured as patched with the original one
+		lexedAnnotations.class.Name = name
 		return lexedAnnotations.class, nil
 	}
 

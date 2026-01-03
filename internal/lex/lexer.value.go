@@ -297,7 +297,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 	for _, capture := range *match {
 		switch capture.Id {
 		case "table.name":
-			table.Name = &capture.Node.Text
+			table.Name = capture.Node.Text
 		}
 	}
 
