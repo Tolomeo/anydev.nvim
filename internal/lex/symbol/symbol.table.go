@@ -5,3 +5,7 @@ func NewTable() *Table {
 		Kind: TableKindTable,
 	}
 }
+
+func NewTableField() *TableField {
+	return &TableField {}
+}

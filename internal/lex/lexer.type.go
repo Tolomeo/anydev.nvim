@@ -229,6 +229,31 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	return nil
 }
 
+func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
+	// Replacing all dots in the alias name with underscores
+	// because apparently luadoc would not permit to use dots in identifiers
+	origin := source.Origin
+	name := source.Path
+	definitionText := origin.DefinitionText()
+	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
+	documentationText := origin.DocumentationText()
+	patchedDocumentationLines := strings.Split(
+		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
+		"\n",
+	)
+
+	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case lexedAnnotations.class != nil:
+		return lexedAnnotations.class, nil
+	}
+
+	return nil, nil
+}
+
 func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
@@ -269,7 +294,7 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 			return err
 		}
 
-		fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
+		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
 
 		aliasType, err := l.lexAliasType(typeSource)
 
@@ -282,6 +307,16 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 			return err
 		case aliasType != nil:
 			l.context.Result().Types[name] = aliasType
+			return nil
+		}
+
+		classType, err := l.lexClassType(typeSource)
+
+		switch {
+		case err != nil:
+			return err
+		case classType != nil:
+			l.context.Result().Types[name] = classType
 			return nil
 		}
 

@@ -22,6 +22,7 @@ type lexedAnnotations struct {
 	generics  []symbol.FunctionGeneric
 	returns   []symbol.FunctionReturn
 	alias     symbol.Symbol
+	class     *symbol.Table
 }
 
 var typeAnnotationQuery string = fmt.Sprintf(`
@@ -489,6 +490,75 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	return false, nil
 }
 
+var classAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+		(documentation
+			(class_annotation
+				(identifier) @class.name
+			) @class
+		)`,
+}
+var classFieldAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+		(documentation
+			(field_annotation
+				(identifier) @field.name
+				(%s) @field.type
+				(comment)? @field.documentation
+			) @field
+		)`, anyTypeQuery),
+}
+
+func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+	match, err := buffer.TsQueryOne(classAnnotationQuery)
+
+	switch {
+	case err != nil:
+		return false, err
+	case match == nil:
+		return false, nil
+	}
+
+	class := symbol.NewTable()
+
+	fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
+
+	switch {
+	case err != nil:
+		return false, err
+	case fieldMatches == nil:
+		l.context.Logger.Warn(fmt.Sprintf("Class '%s' with no fields", l.context.Current()))
+		return true, nil
+	}
+
+	for _, fieldCaptures := range *fieldMatches {
+		classField := symbol.NewTableField()
+
+		for _, fieldCapture := range fieldCaptures {
+			// TODO: field.documentation
+			switch fieldCapture.Id {
+			case "field.name":
+				classField.Name = fieldCapture.Node.Text
+			case "field.type":
+				lexedFieldType, err := l.lexType(fieldCapture.Node.Text)
+
+				if err != nil {
+					return true, err
+				}
+
+				classField.Value = lexedFieldType
+			}
+		}
+
+		class.Fields = append(class.Fields, *classField)
+	}
+
+	annotations.class = class
+	return true, nil
+}
+
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		return cachedAnnotations, nil
@@ -511,6 +581,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		generics:  []symbol.FunctionGeneric{},
 		returns:   []symbol.FunctionReturn{},
 		alias:     nil,
+		class:     nil,
 	}
 
 	err = buffer.SetLines(dockblock)
@@ -569,6 +640,12 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	}
 
 	_, err = l.lexAliasAnnotations(buffer, &annotations)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
+	}
+
+	_, err = l.lexClassAnnotation(buffer, &annotations)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
