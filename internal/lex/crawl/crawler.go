@@ -22,7 +22,7 @@ func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 
 func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
 	source := symbol.TypeSource{Path: name}
-	err := c.sourceType(name, &source)
+	err := c.sourceType(&source)
 
 	if err != nil {
 		return nil, err

@@ -7,8 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Origin interface {
-}
+type Origin interface {}
 
 type Source interface {
 	Url() string

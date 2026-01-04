@@ -10,18 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-/* func (c *Crawler) sourceValue(path string, source *symbol.ValueSource) error {
-	origin, err := c.sourceValueOrigin(path)
-
-	if err != nil {
-		return err
-	}
-
-	source.Origin = origin
-
-	return nil
-} */
-
 var variableAssignmentQueries = map[string]string{
 	"dotIndexAssignment": `
 	(assignment_statement
