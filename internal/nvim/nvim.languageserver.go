@@ -184,6 +184,53 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 	return &locations, nil
 }
 
+func (n *Nvim) getTypeCompletion(line uint, character uint) ([]string, error) {
+	err := n.startLSP()
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	script, err := scripts.Read("get-lsp-completion")
+
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := n.execLua(script, []any{line, character, 15000})
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error getting lsp definition: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return []string{}, fmt.Errorf("Error reading lsp definition response: %v", result)
+	}
+
+	response := languageserver.TextDocumentCompletionResponse{}
+	err = response.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error unmarshalling lsp definition response: %w", err)
+	}
+
+	if response.Result.IsIncomplete {
+		return []string{}, fmt.Errorf("Error reading lsp type completion: the completion response is marked as incomplete")
+	}
+
+	completion, _ := slicesx.MapFunc(response.Result.Items, func(item languageserver.CompletionItem) (string, error) {
+		if item.InsertText == nil {
+			return item.Label, nil
+		}
+
+		return *item.InsertText, nil
+	})
+
+	return completion, nil
+}
+
 func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
 	err := n.startLSP()
 
