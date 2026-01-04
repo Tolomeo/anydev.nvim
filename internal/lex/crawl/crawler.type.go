@@ -62,7 +62,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 	},
 }
 
-func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbol.TypeOrigin, error) {
+func (c *Crawler) findTypeOrigin(path string, locations []nvim.TypeDefinitionLocation) (*symbol.TypeOrigin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
@@ -122,7 +122,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.Location) (*symbo
 	return nil, nil
 }
 
-func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.Location, error) {
+func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.TypeDefinitionLocation, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -132,10 +132,11 @@ func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.Location, err
 	defer buffer.Close()
 
 	typeAnnotation := fmt.Sprintf("---@type %s", path)
-	err = buffer.SetLines([]string{typeAnnotation})
+	ref := "local ref"
+	err = buffer.SetLines([]string{typeAnnotation, ref})
 
-	line, character := uint(0), uint(len(typeAnnotation))
-	locations, err := buffer.GetDefinitionLocations(line, character)
+	line, character := uint(1), uint(len(ref))
+	locations, err := buffer.GetTypeDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:

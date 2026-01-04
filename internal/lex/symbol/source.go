@@ -47,7 +47,7 @@ type ValueSource struct {
 }
 
 type TypeOrigin struct {
-	Location      nvim.Location
+	Location      nvim.TypeDefinitionLocation
 	Definition    treesitter.TsNode
 	Documentation treesitter.TsNode
 }
