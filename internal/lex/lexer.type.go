@@ -276,9 +276,9 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		return nil, err
 	}
 
-	fmt.Println(name)
+	// fmt.Println(name)
 	classFields, err := buffer.GetTypeCompletion(2, uint(len(completion)))
-	fmt.Println(classFields)
+	// fmt.Println(classFields)
 
 	if err != nil {
 		return nil, err
@@ -295,7 +295,6 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		err := l.context.Push(fieldName, func(path string) error {
 			classField := symbol.TableField{Name: fieldName}
 			source, err := l.crawler.SourceTypeMember(name, fieldName)
-			origin := source.GetOrigin()
 
 			switch {
 			case err != nil:
@@ -534,6 +533,36 @@ func (l *Lexer) lexGroupType(buffer *nvim.Buffer, source string) (symbol.Symbol,
 	return nil, fmt.Errorf("Could not retrieve the type value of the grouped type '%s'", source)
 }
 
+var typeNumericLiteralQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(numeric_literal_type) @literal.number
+		) @literal
+	)`,
+}
+
+func (l *Lexer) lexNumericLiteralType(buffer *nvim.Buffer, source string) (*symbol.NumericLiteral, error) {
+	match, err := buffer.TsQueryOne(typeNumericLiteralQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
+		case "literal.number":
+			return symbol.NewNumericLiteral(matchCapture.Node.Text), nil
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
+}
+
 var typeStringLiteralQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
@@ -638,6 +667,16 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	case lexedGroupedType != nil:
 		return lexedGroupedType, nil
+	}
+
+
+	lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedNumericLiteral != nil:
+		return lexedNumericLiteral, nil
 	}
 
 	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)

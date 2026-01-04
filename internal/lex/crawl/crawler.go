@@ -57,10 +57,23 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		return nil, err
 	case memberOrigin == nil:
 		return nil, nil
+	default:
+		source.SetOrigin(memberOrigin)
 	}
 
-	source.SetOrigin(memberOrigin)
-	source.Origin = memberOrigin
+	documentation, err := c.sourceValueOriginDocumentation(&source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case documentation == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
+		return nil, nil
+	default:
+		source.GetOrigin().SetDocumentation(documentation)
+
+	}
+
 	return &source, nil
 }
 

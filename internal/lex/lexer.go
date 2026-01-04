@@ -37,7 +37,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 			return err
 		}
 
-		fmt.Printf("\n%+v\n", source.Origin.DocumentationLines())
+		// fmt.Printf("\n%+v\n", source.Origin.DocumentationLines())
 
 		symbol, err := l.lexValue(source)
 

@@ -289,16 +289,16 @@
       },
       "required": ["kind", "value"]
     },
-    "NumberLiteral": {
+    "NumericLiteral": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "kind": {
           "type": "string",
-          "enum": ["numberliteral"]
+          "enum": ["numericliteral"]
         },
         "value": {
-          "type": "number"
+          "type": "string"
         }
       },
       "required": ["kind", "value"]

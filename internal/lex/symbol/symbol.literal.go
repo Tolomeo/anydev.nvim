@@ -6,3 +6,10 @@ func NewStringLiteral(value string) *StringLiteral {
 		Value: value,
 	}
 }
+
+func NewNumericLiteral(value string) *NumericLiteral {
+	return &NumericLiteral{
+		Kind: NumericLiteralKindNumericliteral,
+		Value: value,
+	}
+}

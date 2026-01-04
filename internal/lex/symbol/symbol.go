@@ -132,17 +132,17 @@ type FunctionReturn struct {
 
 type FunctionReturnType interface{}
 
-type NumberLiteral struct {
+type NumericLiteral struct {
 	// Kind corresponds to the JSON schema field "kind".
-	Kind NumberLiteralKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+	Kind NumericLiteralKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
 	// Value corresponds to the JSON schema field "value".
-	Value float64 `json:"value" yaml:"value" mapstructure:"value"`
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
-type NumberLiteralKind string
+type NumericLiteralKind string
 
-const NumberLiteralKindNumberliteral NumberLiteralKind = "numberliteral"
+const NumericLiteralKindNumericliteral NumericLiteralKind = "numericliteral"
 
 type Optional struct {
 	// Kind corresponds to the JSON schema field "kind".
