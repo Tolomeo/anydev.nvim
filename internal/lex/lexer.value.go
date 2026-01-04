@@ -8,6 +8,60 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
+func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
+	sourcePath := source.Identifier()
+
+	if source.GetOrigin() == nil {
+		symbol := symbol.NewUnknown()
+		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Identifier()))
+		return symbol, nil
+	}
+
+	buffer, err := l.context.Nvim.NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	sourceDefinition := source.GetOrigin().DefinitionLines()
+	err = buffer.SetLines(sourceDefinition)
+
+	if err != nil {
+		return nil, err
+	}
+
+	table, err := l.lexTableValue(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case table != nil:
+		return table, nil
+	}
+
+	function, err := l.lexFunctionValue(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case function != nil:
+		return function, nil
+	}
+
+	meta, err := l.lexMetaValue(source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case meta != nil:
+		return meta, nil
+	}
+
+	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, source.GetOrigin())
+}
+
 var functionQueries = map[string]string{
 	/* function fn() end
 	function fn(arg1) end
@@ -137,7 +191,7 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, error) {
+func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -258,7 +312,7 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error) {
+func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -301,7 +355,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 		}
 	}
 
-	tableFields, err := l.context.Nvim.GetValueCompletion(source.Path)
+	tableFields, err := l.context.Nvim.GetValueCompletion(source.Identifier())
 
 	if err != nil {
 		return nil, err
@@ -357,7 +411,7 @@ var metaQuery = treesitter.Query{
 	) @assignment`,
 }
 
-func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) {
+func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {

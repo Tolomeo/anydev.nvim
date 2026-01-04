@@ -70,60 +70,6 @@ func (l *Lexer) sourceValue(path string) (*symbol.ValueSource, error) {
 	return source, nil
 }
 
-func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
-	sourcePath := source.Path
-
-	if source.Origin == nil {
-		symbol := symbol.NewUnknown()
-		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path))
-		return symbol, nil
-	}
-
-	buffer, err := l.context.Nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	sourceDefinition := source.GetOrigin().DefinitionLines()
-	err = buffer.SetLines(sourceDefinition)
-
-	if err != nil {
-		return nil, err
-	}
-
-	table, err := l.lexTableValue(source)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case table != nil:
-		return table, nil
-	}
-
-	function, err := l.lexFunctionValue(source)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case function != nil:
-		return function, nil
-	}
-
-	meta, err := l.lexMetaValue(source)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case meta != nil:
-		return meta, nil
-	}
-
-	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, source.Origin)
-}
-
 func NewLexer() *Lexer {
 	return &Lexer{}
 }
