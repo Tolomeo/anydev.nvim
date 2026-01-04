@@ -11,7 +11,7 @@ type Crawler struct {
 
 func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 	source := symbol.ValueSource{Path: path}
-	err := c.sourceValue(path, &source)
+	err := c.sourceValueOrigin(&source)
 
 	if err != nil {
 		return nil, err

@@ -10,7 +10,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (c *Crawler) sourceValue(path string, source *symbol.ValueSource) error {
+/* func (c *Crawler) sourceValue(path string, source *symbol.ValueSource) error {
 	origin, err := c.sourceValueOrigin(path)
 
 	if err != nil {
@@ -20,7 +20,7 @@ func (c *Crawler) sourceValue(path string, source *symbol.ValueSource) error {
 	source.Origin = origin
 
 	return nil
-}
+} */
 
 var variableAssignmentQueries = map[string]string{
 	"dotIndexAssignment": `
@@ -238,8 +238,8 @@ func (c *Crawler) findValueOrigin(path string, locations []nvim.Location) (*symb
 	return nil, nil
 }
 
-func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol.ValueOrigin) (bool, error) {
-	buffer, err := c.context.Nvim.OpenBuffer(pathOrigin.Url())
+func (c *Crawler) sourceValueOriginDocumentation(source *symbol.ValueSource, pathOrigin *symbol.ValueOrigin) (bool, error) {
+	buffer, err := c.context.Nvim.OpenBuffer(source.Url())
 
 	if err != nil {
 		return false, err
@@ -247,7 +247,7 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol
 
 	defer buffer.Close()
 
-	documentation, err := buffer.GetTsCommentBlockAt(pathOrigin.Line()-1, pathOrigin.Character())
+	documentation, err := buffer.GetTsCommentBlockAt(source.Line()-1, source.Character())
 
 	switch {
 	case err != nil:
@@ -262,37 +262,38 @@ func (c *Crawler) sourceValueOriginDocumentation(path string, pathOrigin *symbol
 
 }
 
-func (c *Crawler) sourceValueOrigin(path string) (*symbol.ValueOrigin, error) {
-	locations, err := c.findValueDefinitionLocations(path)
+func (c *Crawler) sourceValueOrigin(source *symbol.ValueSource) error {
+	locations, err := c.findValueDefinitionLocations(source.Path)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return err
 	case locations == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", path))
-		return nil, nil
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Path))
+		return nil
 	}
 
-	pathOrigin, err := c.findValueOrigin(path, *locations)
+	pathOrigin, err := c.findValueOrigin(source.Path, *locations)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return err
 	case pathOrigin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", path))
-		return nil, nil
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
+		return nil
 	}
 
-	hasDocumentation, err := c.sourceValueOriginDocumentation(path, pathOrigin)
+	hasDocumentation, err := c.sourceValueOriginDocumentation(source, pathOrigin)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return  err
 	case !hasDocumentation:
-		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", path))
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Path))
 	}
 
-	return pathOrigin, nil
+	source.Origin = pathOrigin
+	return nil
 }
 
 func (c *Crawler) findModuleValueLocations(moduleName string) (*[]nvim.Location, error) {
