@@ -721,12 +721,13 @@ func (j *TextDocumentCompletionResponse) UnmarshalJSON(value []byte) error {
 	return nil
 }
 
-type CompletionItemDocumentation_1 = MarkupContent
 type TextDocumentDefinitionResponse struct {
 	// The result of a request. This member is REQUIRED on success.
 	// This member MUST NOT exist if there was an error invoking the method.
 	Result []DefinitionLocation `json:"result" yaml:"result" mapstructure:"result"`
 }
+
+type CompletionItemDocumentation_1 = MarkupContent
 
 // UnmarshalJSON implements json.Unmarshaler.
 func (j *TextDocumentDefinitionResponse) UnmarshalJSON(value []byte) error {
@@ -797,7 +798,7 @@ func (j *TextDocumentHoverResponse) UnmarshalJSON(value []byte) error {
 type TextDocumentTypeDefinitionResponse struct {
 	// The result of a request. This member is REQUIRED on success.
 	// This member MUST NOT exist if there was an error invoking the method.
-	Result []Location `json:"result" yaml:"result" mapstructure:"result"`
+	Result []TypeDefinitionLocation `json:"result" yaml:"result" mapstructure:"result"`
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
@@ -815,5 +816,54 @@ func (j *TextDocumentTypeDefinitionResponse) UnmarshalJSON(value []byte) error {
 		return err
 	}
 	*j = TextDocumentTypeDefinitionResponse(plain)
+	return nil
+}
+
+// Represents a location inside a resource, such as a line
+// inside a text file.
+//
+//	The Location namespace provides helper functions to work with
+//
+// [Location](#Location) literals.
+type TypeDefinitionLocation struct {
+	// OriginSelectionRange corresponds to the JSON schema field
+	// "originSelectionRange".
+	OriginSelectionRange Range `json:"originSelectionRange" yaml:"originSelectionRange" mapstructure:"originSelectionRange"`
+
+	// TargetRange corresponds to the JSON schema field "targetRange".
+	TargetRange Range `json:"targetRange" yaml:"targetRange" mapstructure:"targetRange"`
+
+	// TargetSelectionRange corresponds to the JSON schema field
+	// "targetSelectionRange".
+	TargetSelectionRange Range `json:"targetSelectionRange" yaml:"targetSelectionRange" mapstructure:"targetSelectionRange"`
+
+	// TargetUri corresponds to the JSON schema field "targetUri".
+	TargetUri DocumentUri `json:"targetUri" yaml:"targetUri" mapstructure:"targetUri"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TypeDefinitionLocation) UnmarshalJSON(value []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(value, &raw); err != nil {
+		return err
+	}
+	if _, ok := raw["originSelectionRange"]; raw != nil && !ok {
+		return fmt.Errorf("field originSelectionRange in TypeDefinitionLocation: required")
+	}
+	if _, ok := raw["targetRange"]; raw != nil && !ok {
+		return fmt.Errorf("field targetRange in TypeDefinitionLocation: required")
+	}
+	if _, ok := raw["targetSelectionRange"]; raw != nil && !ok {
+		return fmt.Errorf("field targetSelectionRange in TypeDefinitionLocation: required")
+	}
+	if _, ok := raw["targetUri"]; raw != nil && !ok {
+		return fmt.Errorf("field targetUri in TypeDefinitionLocation: required")
+	}
+	type Plain TypeDefinitionLocation
+	var plain Plain
+	if err := json.Unmarshal(value, &plain); err != nil {
+		return err
+	}
+	*j = TypeDefinitionLocation(plain)
 	return nil
 }

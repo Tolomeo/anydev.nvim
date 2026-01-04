@@ -87,7 +87,7 @@
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/Location"
+                "$ref": "#/definitions/TypeDefinitionLocation"
               },
               "type": "array"
             },
@@ -236,6 +236,26 @@
         }
       },
       "required": ["uri", "range"],
+      "type": "object"
+    },
+    "TypeDefinitionLocation": {
+      "additionalProperties": false,
+      "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
+      "properties": {
+        "originSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetUri": {
+          "$ref": "#/definitions/DocumentUri"
+        }
+      },
+      "required": ["originSelectionRange", "targetRange", "targetSelectionRange", "targetUri"],
       "type": "object"
     },
     "DefinitionLocation": {

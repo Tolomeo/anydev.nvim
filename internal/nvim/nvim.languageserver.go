@@ -11,6 +11,11 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
+type TypeDefinitionLocation struct {
+	languageserver.TypeDefinitionLocation
+	Url string
+}
+
 type Location struct {
 	languageserver.DefinitionLocation
 	Url string
@@ -147,6 +152,76 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.D
 	}
 
 	return &response.Result, nil
+}
+
+func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserver.TypeDefinitionLocation, error) {
+	err := n.startLSP()
+
+	if err != nil {
+		return nil, err
+	}
+
+	script, err := scripts.Read("get-lsp-type-definition-locations")
+
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := n.execLua(script, []any{line, character, 15000})
+
+	if err != nil {
+		return nil, fmt.Errorf("Error getting lsp type definition: %v", err)
+	}
+
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return nil, fmt.Errorf("Error reading lsp definition response: %v", result)
+	}
+
+	response := languageserver.TextDocumentTypeDefinitionResponse{}
+	err = response.UnmarshalJSON([]byte(stringResult))
+
+	if err != nil {
+		return nil, fmt.Errorf("Error unmarshalling lsp type definition response: %w", err)
+	}
+
+	return &response.Result, nil
+}
+
+func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]TypeDefinitionLocation, error) {
+	lspTypeDefinitions, err := n.getLspTypeDefinitions(line, character)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case lspTypeDefinitions == nil:
+		return nil, nil
+	case len(*lspTypeDefinitions) == 0:
+		return nil, nil
+	}
+
+	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.TypeDefinitionLocation) (TypeDefinitionLocation, error) {
+		location := TypeDefinitionLocation{
+			TypeDefinitionLocation: lspLocation,
+		}
+
+		url, err := url.Parse(string(location.TypeDefinitionLocation.TargetUri))
+
+		if err != nil {
+			return TypeDefinitionLocation{}, err
+		}
+
+		location.Url = url.Path
+
+		return location, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &locations, nil
 }
 
 func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, error) {

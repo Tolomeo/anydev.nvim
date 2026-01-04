@@ -8,17 +8,18 @@ import (
 )
 
 type Buffer struct {
-	name                   string
-	ReadLines              func() ([]string, error)
-	SetLines               func([]string) error
-	Close                  func() error
-	GetTSNodeAt            func([]string, uint, uint) (*treesitter.TsNode, error)
-	GetTsCommentBlockAt    func(uint, uint) (*treesitter.TsNode, error)
-	TsQueryOne             func(treesitter.Query) (*TsQueryMatch, error)
-	TsQueryAll             func(treesitter.Query) (*[]TsQueryMatch, error)
-	SafeTsQueryAll         func(treesitter.Query) (*[]SafeTsQueryResult, error)
-	GetDefinitionLocations func(uint, uint) (*[]Location, error)
-	GetTypeCompletion      func(uint, uint) ([]string, error)
+	name                       string
+	ReadLines                  func() ([]string, error)
+	SetLines                   func([]string) error
+	Close                      func() error
+	GetTSNodeAt                func([]string, uint, uint) (*treesitter.TsNode, error)
+	GetTsCommentBlockAt        func(uint, uint) (*treesitter.TsNode, error)
+	TsQueryOne                 func(treesitter.Query) (*TsQueryMatch, error)
+	TsQueryAll                 func(treesitter.Query) (*[]TsQueryMatch, error)
+	SafeTsQueryAll             func(treesitter.Query) (*[]SafeTsQueryResult, error)
+	GetDefinitionLocations     func(uint, uint) (*[]Location, error)
+	GetTypeCompletion          func(uint, uint) ([]string, error)
+	GetTypeDefinitionLocations func(uint, uint) (*[]TypeDefinitionLocation, error)
 }
 
 func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
@@ -114,6 +115,15 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 			}
 
 			return n.getTypeCompletion(line, character)
+		},
+		GetTypeDefinitionLocations: func(line uint, character uint) (*[]TypeDefinitionLocation, error) {
+			_, err := n.open(name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			return n.getTypeDefinitionLocations(line, character)
 		},
 		Close: func() error {
 			_, err := n.open(name)
