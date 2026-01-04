@@ -303,6 +303,17 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 				return nil
 			}
 
+			annotations, err := l.lexAnnotations(source.DocumentationLines())
+			classField.Private = annotations.private
+			classField.Protected = annotations.protected
+			classFieldValue, err := l.lexValue(source)
+
+			if err != nil {
+				return err
+			}
+
+			classField.Value = classFieldValue
+
 			class.Fields = append(class.Fields, classField)
 			return nil
 		})

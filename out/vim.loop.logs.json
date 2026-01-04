@@ -173,6 +173,64 @@
             "message": "Skipping 'uv' field 'send_buffer_size': already lexed"
         }
     ],
+    "uv.accept": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'client_stream'"
+        }
+    ],
+    "uv.async_send": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'async'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type '...'"
+        }
+    ],
+    "uv.cancel": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'req'"
+        }
+    ],
+    "uv.chdir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'cwd'"
+        }
+    ],
+    "uv.check_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'check'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.check_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'check'"
+        }
+    ],
+    "uv.close": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
     "uv.errno": [
         {
             "level": "info",
@@ -495,64 +553,1472 @@
             "message": "Skipping 'uv.errno' field 'UNKNOWN': already lexed"
         }
     ],
-    "vim.F": [
-        {
-            "level": "warn",
-            "message": "No documentation found for 'vim.F' symbol"
-        }
-    ],
-    "vim.F.nil_wrap": [
+    "uv.fileno": [
         {
             "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fn'"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
         }
     ],
-    "vim.F.npcall": [
+    "uv.fs_access": [
         {
             "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fn'"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.fs_chmod": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.fs_chown": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'uid'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'gid'"
+        }
+    ],
+    "uv.fs_close": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.fs_closedir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'dir'"
+        }
+    ],
+    "uv.fs_copyfile": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'new_path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.fs_event_getpath": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_event'"
+        }
+    ],
+    "uv.fs_event_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_event'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.fs_event_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_event'"
+        }
+    ],
+    "uv.fs_fchmod": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.fs_fchown": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'uid'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'gid'"
+        }
+    ],
+    "uv.fs_fdatasync": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.fs_fstat": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.fs_fsync": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.fs_ftruncate": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'offset'"
+        }
+    ],
+    "uv.fs_futime": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'atime'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mtime'"
+        }
+    ],
+    "uv.fs_lchown": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'uid'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'gid'"
+        }
+    ],
+    "uv.fs_link": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'new_path'"
+        }
+    ],
+    "uv.fs_lstat": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_lutime": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'atime'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mtime'"
+        }
+    ],
+    "uv.fs_mkdir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.fs_mkdtemp": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'template'"
+        }
+    ],
+    "uv.fs_mkstemp": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'template'"
+        }
+    ],
+    "uv.fs_open": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.fs_opendir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_poll_getpath": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_poll'"
+        }
+    ],
+    "uv.fs_poll_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_poll'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'interval'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.fs_poll_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs_poll'"
+        }
+    ],
+    "uv.fs_read": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'size'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'offset'"
+        }
+    ],
+    "uv.fs_readdir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'dir'"
+        }
+    ],
+    "uv.fs_readlink": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_realpath": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_rename": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'new_path'"
+        }
+    ],
+    "uv.fs_rmdir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_scandir": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.fs_scandir_next": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fs'"
+        }
+    ],
+    "uv.fs_sendfile": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'out_fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'in_fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'in_offset'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'size'"
+        }
+    ],
+    "uv.fs_stat": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_statfs": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_symlink": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'new_path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.fs_unlink": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        }
+    ],
+    "uv.fs_utime": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'atime'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mtime'"
+        }
+    ],
+    "uv.fs_write": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'offset'"
+        }
+    ],
+    "uv.getaddrinfo": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'service'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'hints'"
+        }
+    ],
+    "uv.getnameinfo": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'address'"
+        }
+    ],
+    "uv.guess_handle": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.handle_get_type": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.has_ref": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.idle_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'idle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.idle_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'idle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'check'"
+        }
+    ],
+    "uv.if_indextoiid": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'ifindex'"
+        }
+    ],
+    "uv.if_indextoname": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'ifindex'"
+        }
+    ],
+    "uv.is_active": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.is_closing": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.is_readable": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        }
+    ],
+    "uv.is_writable": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        }
+    ],
+    "uv.kill": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pid'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signum'"
+        }
+    ],
+    "uv.listen": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'backlog'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.loop_configure": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'option'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'value'"
+        }
+    ],
+    "uv.new_async": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.new_pipe": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'ipc'"
+        }
+    ],
+    "uv.new_poll": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.new_socket_poll": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.new_tcp": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.new_thread": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'options'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'entry'"
         },
         {
             "level": "info",
             "message": "Using '\u0026{[] unknown}' for undocumented argument type '...'"
         }
     ],
-    "vim.F.ok_or_nil": [
+    "uv.new_tty": [
         {
             "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'status'"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'readable'"
+        }
+    ],
+    "uv.new_udp": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.new_work": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'work_callback'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'after_work_callback'"
+        }
+    ],
+    "uv.os_getenv": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'name'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'size'"
+        }
+    ],
+    "uv.os_getpriority": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pid'"
+        }
+    ],
+    "uv.os_setenv": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'name'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'value'"
+        }
+    ],
+    "uv.os_setpriority": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pid'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'priority'"
+        }
+    ],
+    "uv.pipe": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'read_flags'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'write_flags'"
+        }
+    ],
+    "uv.pipe_bind": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'name'"
+        }
+    ],
+    "uv.pipe_chmod": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.pipe_connect": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'name'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.pipe_getpeername": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        }
+    ],
+    "uv.pipe_getsockname": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        }
+    ],
+    "uv.pipe_open": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.pipe_pending_count": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        }
+    ],
+    "uv.pipe_pending_instances": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'count'"
+        }
+    ],
+    "uv.pipe_pending_type": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'pipe'"
+        }
+    ],
+    "uv.poll_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'poll'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'events'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.poll_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'poll'"
+        }
+    ],
+    "uv.prepare_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'prepare'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.prepare_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'prepare'"
+        }
+    ],
+    "uv.process_get_pid": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'process'"
+        }
+    ],
+    "uv.process_kill": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'process'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signum'"
+        }
+    ],
+    "uv.queue_work": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'work_ctx'"
         },
         {
             "level": "info",
             "message": "Using '\u0026{[] unknown}' for undocumented argument type '...'"
         }
     ],
-    "vim.F.pack_len": [
+    "uv.random": [
         {
             "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type '...'"
-        }
-    ],
-    "vim.F.unpack_len": [
-        {
-            "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type 't'"
-        }
-    ],
-    "vim.validate": [
-        {
-            "level": "info",
-            "message": "Skipping 'vim.validate.Validator': lexed type already found"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'len'"
         },
         {
-            "level": "warn",
-            "message": "Skipping overload annotation in 'vim.validate' because it contains syntax errors"
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
         }
     ],
-    "vim.validate.Validator": [
+    "uv.read_start": [
         {
             "level": "info",
-            "message": "Skipping 'type': lexed type already found"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.read_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        }
+    ],
+    "uv.recv_buffer_size": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'size'"
+        }
+    ],
+    "uv.ref": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.req_get_type": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'req'"
+        }
+    ],
+    "uv.run": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.send_buffer_size": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'size'"
+        }
+    ],
+    "uv.set_process_title": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'title'"
+        }
+    ],
+    "uv.setgid": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'id'"
+        }
+    ],
+    "uv.setuid": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'id'"
+        }
+    ],
+    "uv.shutdown": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.signal_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signal'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signum'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.signal_start_oneshot": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signal'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signum'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.signal_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'signal'"
+        }
+    ],
+    "uv.sleep": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'msec'"
+        }
+    ],
+    "uv.socketpair": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'socktype'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'protocol'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags1'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags2'"
+        }
+    ],
+    "uv.spawn": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'path'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'options'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'on_exit'"
+        }
+    ],
+    "uv.stream_get_write_queue_size": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        }
+    ],
+    "uv.stream_set_blocking": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'blocking'"
+        }
+    ],
+    "uv.tcp_bind": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.tcp_close_reset": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.tcp_connect": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.tcp_getpeername": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        }
+    ],
+    "uv.tcp_getsockname": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        }
+    ],
+    "uv.tcp_keepalive": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'enable'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'delay'"
+        }
+    ],
+    "uv.tcp_nodelay": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'enable'"
+        }
+    ],
+    "uv.tcp_open": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'sock'"
+        }
+    ],
+    "uv.tcp_simultaneous_accepts": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'enable'"
+        }
+    ],
+    "uv.tcp_write_queue_size": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tcp'"
+        }
+    ],
+    "uv.thread_equal": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'thread'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'other_thread'"
+        }
+    ],
+    "uv.thread_join": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'thread'"
+        }
+    ],
+    "uv.timer_again": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        }
+    ],
+    "uv.timer_get_due_in": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        }
+    ],
+    "uv.timer_get_repeat": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        }
+    ],
+    "uv.timer_set_repeat": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'repeat_'"
+        }
+    ],
+    "uv.timer_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timeout'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'repeat_'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.timer_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'timer'"
+        }
+    ],
+    "uv.translate_sys_error": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'errcode'"
+        }
+    ],
+    "uv.try_write": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        }
+    ],
+    "uv.try_write2": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'send_handle'"
+        }
+    ],
+    "uv.tty_get_winsize": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tty'"
+        }
+    ],
+    "uv.tty_set_mode": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'tty'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'mode'"
+        }
+    ],
+    "uv.tty_set_vterm_state": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'state'"
+        }
+    ],
+    "uv.udp_bind": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'flags'"
+        }
+    ],
+    "uv.udp_connect": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        }
+    ],
+    "uv.udp_get_send_queue_count": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        }
+    ],
+    "uv.udp_get_send_queue_size": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        }
+    ],
+    "uv.udp_getpeername": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        }
+    ],
+    "uv.udp_getsockname": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        }
+    ],
+    "uv.udp_open": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'fd'"
+        }
+    ],
+    "uv.udp_recv_start": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.udp_recv_stop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        }
+    ],
+    "uv.udp_send": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.udp_set_broadcast": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'on'"
+        }
+    ],
+    "uv.udp_set_membership": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'multicast_addr'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'interface_addr'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'membership'"
+        }
+    ],
+    "uv.udp_set_multicast_interface": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'interface_addr'"
+        }
+    ],
+    "uv.udp_set_multicast_loop": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'on'"
+        }
+    ],
+    "uv.udp_set_multicast_ttl": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'ttl'"
+        }
+    ],
+    "uv.udp_set_source_membership": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'multicast_addr'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'interface_addr'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'source_addr'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'membership'"
+        }
+    ],
+    "uv.udp_set_ttl": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'ttl'"
+        }
+    ],
+    "uv.udp_try_send": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'udp'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'host'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'port'"
+        }
+    ],
+    "uv.unref": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'handle'"
+        }
+    ],
+    "uv.walk": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.write": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
+        }
+    ],
+    "uv.write2": [
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'stream'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'data'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'send_handle'"
+        },
+        {
+            "level": "info",
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'callback'"
         }
     ]
 }
