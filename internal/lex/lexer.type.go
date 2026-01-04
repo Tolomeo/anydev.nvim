@@ -2,6 +2,7 @@ package lex
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
@@ -282,20 +283,34 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		classField := symbol.TableField{Name: fieldName}
+		if found := slices.ContainsFunc(class.Fields, func(field symbol.TableField) bool {
+			return field.Name == fieldName
+		}); found {
+			l.context.Logger.Info(fmt.Sprintf("Skipping '%s' field '%s': already lexed", name, fieldName))
+			continue
+		}
 
-		l.crawler.SourceTypeMember(name, fieldName)
-		/* err := l.context.Push(fieldName, func(path string) error {
-			source, err := l.sourceType(path)
+		err := l.context.Push(fieldName, func(path string) error {
+			classField := symbol.TableField{Name: fieldName}
+			source, err := l.crawler.SourceTypeMember(name, fieldName)
 
+			switch {
+			case err != nil:
+				return err
+			case source == nil:
+				l.context.Logger.Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", name, fieldName))
+				classField.Value = symbol.NewUnknown()
+				return nil
+			}
+
+			class.Fields = append(class.Fields, classField)
 			return nil
 		})
 
 		if err != nil {
 			return nil, err
-		} */
-		
-		class.Fields = append(class.Fields, classField)
+		}
+
 	}
 
 	return class, nil

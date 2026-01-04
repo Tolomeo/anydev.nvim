@@ -50,23 +50,17 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		return nil, nil
 	}
 
-	fmt.Println(name, member)
-	fmt.Println(locations)
-	fmt.Println()
-	/* pathOrigin, err := c.findValueOrigin(*locations)
+	memberOrigin, err := c.findValueOrigin(*locations)
 
 	switch {
 	case err != nil:
-		return err
-	case pathOrigin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
-		return nil
-	default:
-		source.Origin = pathOrigin
+		return nil, err
+	case memberOrigin == nil:
+		return nil, nil
 	}
 
-	source.Origin = origin */
-	return nil, nil
+	source.Origin = memberOrigin
+	return &source, nil
 }
 
 func NewCrawler(context *context.Context) *Crawler {
