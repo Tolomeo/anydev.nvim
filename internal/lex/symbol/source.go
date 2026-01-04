@@ -67,7 +67,7 @@ func (s *ValueSource) DocumentationLines() []string {
 }
 
 type TypeOrigin struct {
-	Location      nvim.TypeDefinitionLocation
+	Location      nvim.Location
 	Definition    treesitter.TsNode
 	Documentation treesitter.TsNode
 }

@@ -11,11 +11,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type TypeDefinitionLocation struct {
-	languageserver.Location
-	Url string
-}
-
 type Location struct {
 	languageserver.Location
 	Url string
@@ -189,7 +184,7 @@ func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserv
 	return &response.Result, nil
 }
 
-func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]TypeDefinitionLocation, error) {
+func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	lspTypeDefinitions, err := n.getLspTypeDefinitions(line, character)
 
 	switch {
@@ -201,15 +196,15 @@ func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]TypeDef
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.Location) (TypeDefinitionLocation, error) {
-		location := TypeDefinitionLocation{
+	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.Location) (Location, error) {
+		location := Location{
 			Location: lspLocation,
 		}
 
 		url, err := url.Parse(string(location.Location.TargetUri))
 
 		if err != nil {
-			return TypeDefinitionLocation{}, err
+			return Location{}, err
 		}
 
 		location.Url = url.Path

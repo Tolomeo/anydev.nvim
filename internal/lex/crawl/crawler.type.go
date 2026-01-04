@@ -63,7 +63,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 	},
 }
 
-func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.TypeDefinitionLocation) (*symbol.TypeOrigin, error) {
+func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Location) (*symbol.TypeOrigin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
@@ -123,7 +123,7 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Typ
 	return nil, nil
 }
 
-func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.TypeDefinitionLocation, error) {
+func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {

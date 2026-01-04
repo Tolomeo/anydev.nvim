@@ -19,7 +19,7 @@ type Buffer struct {
 	SafeTsQueryAll             func(treesitter.Query) (*[]SafeTsQueryResult, error)
 	GetDefinitionLocations     func(uint, uint) (*[]Location, error)
 	GetTypeCompletion          func(uint, uint) ([]string, error)
-	GetTypeDefinitionLocations func(uint, uint) (*[]TypeDefinitionLocation, error)
+	GetTypeDefinitionLocations func(uint, uint) (*[]Location, error)
 }
 
 func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
@@ -116,7 +116,7 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 
 			return n.getTypeCompletion(line, character)
 		},
-		GetTypeDefinitionLocations: func(line uint, character uint) (*[]TypeDefinitionLocation, error) {
+		GetTypeDefinitionLocations: func(line uint, character uint) (*[]Location, error) {
 			_, err := n.open(name)
 
 			if err != nil {
