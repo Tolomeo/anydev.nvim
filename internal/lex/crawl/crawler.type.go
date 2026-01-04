@@ -11,7 +11,7 @@ import (
 )
 
 func (c *Crawler) sourceType(source *symbol.TypeSource) error {
-	locations, err := c.getTypeDefinitionLocations(source)
+	locations, err := c.getTypeDefinitionLocations(source.Path)
 
 	/* for _, loc := range *locations {
 		fmt.Printf("\n\nLocation: %+v\n", loc)
@@ -123,7 +123,7 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Typ
 	return nil, nil
 }
 
-func (c *Crawler) getTypeDefinitionLocations(source *symbol.TypeSource, typeField ...string) (*[]nvim.TypeDefinitionLocation, error) {
+func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.TypeDefinitionLocation, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -132,14 +132,14 @@ func (c *Crawler) getTypeDefinitionLocations(source *symbol.TypeSource, typeFiel
 
 	defer buffer.Close()
 
-	typeAnnotation := fmt.Sprintf("---@type %s", source.Path)
+	typeAnnotation := fmt.Sprintf("---@type %s", typeName)
 	ref := "local ref"
 	refAccess := strings.Join(append([]string{"ref"}, typeField...), ".")
 	err = buffer.SetLines([]string{typeAnnotation, ref, refAccess})
 
-	lines, _:= buffer.ReadLines()
-	
-	fmt.Println(lines)
+	if err != nil {
+		return nil, err
+	}
 
 	line, character := uint(2), uint(len(refAccess))
 	locations, err := buffer.GetTypeDefinitionLocations(line, character)

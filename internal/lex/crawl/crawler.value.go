@@ -257,7 +257,7 @@ func (c *Crawler) sourceValueOrigin(source *symbol.ValueSource) error {
 		return nil
 	}
 
-	pathOrigin.Documentation = documentation
+	source.Origin.Documentation = documentation
 	return nil
 }
 

@@ -7,9 +7,10 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Origin interface {}
+type Origin interface{}
 
 type Source interface {
+	Identifier() string
 	Url() string
 	Line() uint
 	Character() uint
@@ -27,6 +28,10 @@ type ValueOrigin struct {
 type ValueSource struct {
 	Path   string
 	Origin *ValueOrigin
+}
+
+func (s *ValueSource) Identifier() string {
+	return s.Path
 }
 
 func (s *ValueSource) Url() string {
@@ -54,6 +59,10 @@ func (s *ValueSource) DefinitionLines() []string {
 }
 
 func (s *ValueSource) DocumentationLines() []string {
+	if s.Origin.Documentation == nil {
+		return []string{}
+	}
+
 	return strings.Split(s.Origin.Documentation.Text, "\n")
 }
 
@@ -66,6 +75,10 @@ type TypeOrigin struct {
 type TypeSource struct {
 	Path   string
 	Origin *TypeOrigin
+}
+
+func (s *TypeSource) Identifier() string {
+	return s.Path
 }
 
 func (s *TypeSource) Url() string {

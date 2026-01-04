@@ -281,10 +281,11 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		return nil, err
 	}
 
-	/* for _, fieldName := range classFields {
+	for _, fieldName := range classFields {
 		classField := symbol.TableField{Name: fieldName}
 
-		err := l.context.Push(fieldName, func(path string) error {
+		l.crawler.SourceTypeMember(name, fieldName)
+		/* err := l.context.Push(fieldName, func(path string) error {
 			source, err := l.sourceType(path)
 
 			return nil
@@ -292,10 +293,10 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 
 		if err != nil {
 			return nil, err
-		}
+		} */
 		
 		class.Fields = append(class.Fields, classField)
-	} */
+	}
 
 	return class, nil
 }

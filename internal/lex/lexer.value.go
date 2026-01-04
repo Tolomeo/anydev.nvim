@@ -342,7 +342,9 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 	return table, nil
 }
 
-var metaQuery string = `
+var metaQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
 	(assignment_statement
 		(variable_list
 			name: (_)
@@ -352,8 +354,8 @@ var metaQuery string = `
 				(vararg_expression) @assignment.right
 			] 
 		)
-	) @assignment
-`
+	) @assignment`,
+}
 
 func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
@@ -370,7 +372,7 @@ func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) 
 		return nil, err
 	}
 
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: metaQuery})
+	captures, err := buffer.TsQueryOne(metaQuery)
 
 	switch {
 	case err != nil:
