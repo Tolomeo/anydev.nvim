@@ -146,7 +146,7 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.Origin.DefinitionLines())
+	err = buffer.SetLines(source.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -172,7 +172,7 @@ func (l *Lexer) lexFunctionValue(source *symbol.ValueSource) (*symbol.Function, 
 	}
 
 	function := symbol.NewFunction()
-	function.Documentation = source.Origin.DocumentationLines()
+	function.Documentation = source.DocumentationLines()
 
 	for _, capture := range *match {
 		switch capture.Id {
@@ -267,7 +267,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.Origin.DefinitionLines())
+	err = buffer.SetLines(source.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -317,7 +317,7 @@ func (l *Lexer) lexTableValue(source *symbol.ValueSource) (*symbol.Table, error)
 				return err
 			}
 
-			annotations, err := l.lexAnnotations(source.Origin.DocumentationLines())
+			annotations, err := l.lexAnnotations(source.DocumentationLines())
 
 			tableField.Private = annotations.private
 			tableField.Protected = annotations.protected
@@ -364,7 +364,7 @@ func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) 
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.Origin.DefinitionLines())
+	err = buffer.SetLines(source.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -380,7 +380,7 @@ func (l *Lexer) lexMetaValue(source *symbol.ValueSource) (symbol.Symbol, error) 
 	}
 
 	unknown := symbol.NewUnknown()
-	unknown.Documentation = source.Origin.DocumentationLines()
+	unknown.Documentation = source.DocumentationLines()
 
 	annotations, err := l.lexAnnotations(unknown.Documentation)
 

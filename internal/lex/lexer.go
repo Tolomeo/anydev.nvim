@@ -70,9 +70,8 @@ func (l *Lexer) sourceValue(path string) (*symbol.ValueSource, error) {
 
 func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 	sourcePath := source.Path
-	sourceOrigin := source.Origin
 
-	if sourceOrigin == nil {
+	if source.Origin == nil {
 		symbol := symbol.NewUnknown()
 		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Path))
 		return symbol, nil
@@ -86,7 +85,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	sourceDefinition := sourceOrigin.DefinitionLines()
+	sourceDefinition := source.DefinitionLines()
 	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {
@@ -120,7 +119,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 		return meta, nil
 	}
 
-	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, sourceOrigin)
+	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, source.Origin)
 }
 
 func NewLexer() *Lexer {
