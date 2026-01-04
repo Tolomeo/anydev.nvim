@@ -3,6 +3,7 @@ package crawl
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -122,7 +123,7 @@ func (c *Crawler) findTypeOrigin(path string, locations []nvim.TypeDefinitionLoc
 	return nil, nil
 }
 
-func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.TypeDefinitionLocation, error) {
+func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.TypeDefinitionLocation, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -131,11 +132,16 @@ func (c *Crawler) getTypeDefinitionLocations(path string) (*[]nvim.TypeDefinitio
 
 	defer buffer.Close()
 
-	typeAnnotation := fmt.Sprintf("---@type %s", path)
+	typeAnnotation := fmt.Sprintf("---@type %s", typeName)
 	ref := "local ref"
-	err = buffer.SetLines([]string{typeAnnotation, ref})
+	refAccess := strings.Join(append([]string{"ref"}, typeField...), ".")
+	err = buffer.SetLines([]string{typeAnnotation, ref, refAccess})
 
-	line, character := uint(1), uint(len(ref))
+	lines, _:= buffer.ReadLines()
+	
+	fmt.Println(lines)
+
+	line, character := uint(2), uint(len(refAccess))
 	locations, err := buffer.GetTypeDefinitionLocations(line, character)
 
 	switch {
