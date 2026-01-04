@@ -37,6 +37,8 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 			return err
 		}
 
+		fmt.Printf("\n%+v\n", source.Origin.DocumentationLines())
+
 		symbol, err := l.lexValue(source)
 
 		if err != nil {
@@ -85,7 +87,7 @@ func (l *Lexer) lexValue(source *symbol.ValueSource) (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	sourceDefinition := source.DefinitionLines()
+	sourceDefinition := source.GetOrigin().DefinitionLines()
 	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {

@@ -35,7 +35,7 @@ func (c *Crawler) sourceType(source *symbol.TypeSource) error {
 		return nil
 	}
 
-	source.Origin = origin
+	source.SetOrigin(origin)
 	return nil
 }
 

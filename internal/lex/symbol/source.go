@@ -7,16 +7,22 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Origin interface{}
-
-type Source interface {
-	Identifier() string
+type Origin interface {
 	Url() string
 	Line() uint
 	Character() uint
-	Type() uint
+	Type() string
+	DefinitionText() string
 	DefinitionLines() []string
+	DocumentationText() string
 	DocumentationLines() []string
+	SetDocumentation(*treesitter.TsNode)
+}
+
+type Source interface {
+	Identifier() string
+	GetOrigin() Origin
+	SetOrigin(Origin)
 }
 
 type ValueOrigin struct {
@@ -25,45 +31,65 @@ type ValueOrigin struct {
 	Documentation *treesitter.TsNode
 }
 
+func (o *ValueOrigin) Url() string {
+	return o.Location.Url
+}
+
+func (o *ValueOrigin) Line() uint {
+	return uint(o.Location.TargetRange.Start.Line)
+}
+
+func (o *ValueOrigin) Character() uint {
+	return uint(o.Location.TargetRange.Start.Character)
+}
+
+func (o *ValueOrigin) Type() string {
+	return o.Definition.Type
+}
+
+func (o *ValueOrigin) DefinitionText() string {
+	return o.Definition.Text
+}
+
+func (o *ValueOrigin) DefinitionLines() []string {
+	/* if o.Definition == nil {
+		return []string{}
+	} */
+
+	return strings.Split(o.Definition.Text, "\n")
+}
+
+func (o *ValueOrigin) DocumentationText() string {
+	return o.Documentation.Text
+}
+
+func (o *ValueOrigin) DocumentationLines() []string {
+	if o.Documentation == nil {
+		return []string{}
+	}
+
+	return strings.Split(o.Documentation.Text, "\n")
+}
+
+func (o *ValueOrigin) SetDocumentation(documentation *treesitter.TsNode) {
+	o.Documentation = documentation
+}
+
 type ValueSource struct {
 	Path   string
-	Origin *ValueOrigin
+	Origin Origin
 }
 
 func (s *ValueSource) Identifier() string {
 	return s.Path
 }
 
-func (s *ValueSource) Url() string {
-	return s.Origin.Location.Url
+func (s *ValueSource) GetOrigin() Origin {
+	return s.Origin
 }
 
-func (s *ValueSource) Line() uint {
-	return uint(s.Origin.Location.TargetRange.Start.Line)
-}
-
-func (s *ValueSource) Character() uint {
-	return uint(s.Origin.Location.TargetRange.Start.Character)
-}
-
-func (s *ValueSource) Type() string {
-	return s.Origin.Definition.Type
-}
-
-func (s *ValueSource) DefinitionLines() []string {
-	/* if o.Definition == nil {
-		return []string{}
-	} */
-
-	return strings.Split(s.Origin.Definition.Text, "\n")
-}
-
-func (s *ValueSource) DocumentationLines() []string {
-	if s.Origin.Documentation == nil {
-		return []string{}
-	}
-
-	return strings.Split(s.Origin.Documentation.Text, "\n")
+func (s *ValueSource) SetOrigin(origin Origin) {
+	s.Origin = origin
 }
 
 type TypeOrigin struct {
@@ -72,47 +98,59 @@ type TypeOrigin struct {
 	Documentation treesitter.TsNode
 }
 
+func (o *TypeOrigin) Url() string {
+	return o.Location.Url
+}
+
+func (o *TypeOrigin) Line() uint {
+	return uint(o.Location.TargetRange.Start.Line)
+}
+
+func (o *TypeOrigin) Character() uint {
+	return uint(o.Location.TargetRange.Start.Character)
+}
+
+func (o *TypeOrigin) Type() string {
+	return o.Definition.Type
+}
+
+func (o *TypeOrigin) DefinitionText() string {
+	return o.Definition.Text
+}
+
+func (o *TypeOrigin) DefinitionLines() []string {
+	/* if o.Definition == nil {
+		return []string{}
+	} */
+
+	return strings.Split(o.DefinitionText(), "\n")
+}
+
+func (o *TypeOrigin) DocumentationText() string {
+	return o.Documentation.Text
+}
+
+func (o *TypeOrigin) DocumentationLines() []string {
+	return strings.Split(o.DocumentationText(), "\n")
+}
+
+func (o *TypeOrigin) SetDocumentation(documentation *treesitter.TsNode) {
+	o.Documentation = *documentation
+}
+
 type TypeSource struct {
 	Path   string
-	Origin *TypeOrigin
+	Origin Origin
 }
 
 func (s *TypeSource) Identifier() string {
 	return s.Path
 }
 
-func (s *TypeSource) Url() string {
-	return s.Origin.Location.Url
+func (s *TypeSource) GetOrigin() Origin {
+	return s.Origin
 }
 
-func (s *TypeSource) Line() uint {
-	return uint(s.Origin.Location.TargetRange.Start.Line)
-}
-
-func (s *TypeSource) Character() uint {
-	return uint(s.Origin.Location.TargetRange.Start.Character)
-}
-
-func (s *TypeSource) Type() string {
-	return s.Origin.Definition.Type
-}
-
-func (s *TypeSource) DefinitionText() string {
-	return s.Origin.Definition.Text
-}
-
-func (s *TypeSource) DefinitionLines() []string {
-	/* if o.Definition == nil {
-		return []string{}
-	} */
-
-	return strings.Split(s.DefinitionText(), "\n")
-}
-
-func (s *TypeSource) DocumentationText() string {
-	return s.Origin.Documentation.Text
-}
-
-func (s *TypeSource) DocumentationLines() []string {
-	return strings.Split(s.DocumentationText(), "\n")
+func (s *TypeSource) SetOrigin(origin Origin) {
+	s.Origin = origin
 }

@@ -233,11 +233,13 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	name := source.Path
+	name := source.Identifier()
+	origin := source.GetOrigin()
+
 	patchedName := strings.ReplaceAll(name, ".", "_")
-	definitionText := source.DefinitionText()
+	definitionText := origin.DefinitionText()
 	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
-	documentationText := source.DocumentationText()
+	documentationText := origin.DocumentationText()
 	patchedDocumentationLines := strings.Split(
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
 		"\n",
@@ -255,7 +257,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	class := lexedAnnotations.class
 	// Replacing the name which was captured as patched with the original one
 	class.Name = name
-	class.Documentation = source.DocumentationLines()
+	class.Documentation = origin.DocumentationLines()
 
 	buffer, err := l.context.Nvim.NewBuffer()
 
@@ -293,6 +295,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		err := l.context.Push(fieldName, func(path string) error {
 			classField := symbol.TableField{Name: fieldName}
 			source, err := l.crawler.SourceTypeMember(name, fieldName)
+			origin := source.GetOrigin()
 
 			switch {
 			case err != nil:
@@ -303,7 +306,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 				return nil
 			}
 
-			annotations, err := l.lexAnnotations(source.DocumentationLines())
+			annotations, err := l.lexAnnotations(origin.DocumentationLines())
 			classField.Private = annotations.private
 			classField.Protected = annotations.protected
 			classFieldValue, err := l.lexValue(source)
@@ -331,9 +334,11 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	name := source.Path
-	definitionText := source.DefinitionText()
+	origin := source.GetOrigin()
+
+	definitionText := origin.DefinitionText()
 	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
-	documentationText := source.DocumentationText()
+	documentationText := origin.DocumentationText()
 	patchedDocumentationLines := strings.Split(
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
 		"\n",

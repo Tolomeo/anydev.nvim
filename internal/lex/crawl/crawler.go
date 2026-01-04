@@ -59,6 +59,7 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		return nil, nil
 	}
 
+	source.SetOrigin(memberOrigin)
 	source.Origin = memberOrigin
 	return &source, nil
 }

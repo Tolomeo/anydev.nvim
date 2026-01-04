@@ -31,7 +31,7 @@ var variableAssignmentQueries = map[string]string{
 	)`,
 }
 
-func (c *Crawler) followVariableAssignment(source *symbol.ValueSource) (*symbol.ValueOrigin, error) {
+func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -40,7 +40,7 @@ func (c *Crawler) followVariableAssignment(source *symbol.ValueSource) (*symbol.
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.DefinitionLines())
+	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (c *Crawler) followVariableAssignment(source *symbol.ValueSource) (*symbol.
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", source.DefinitionLines())
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", source.GetOrigin().DefinitionLines())
 	}
 
 	rightValueLocations, err := c.findValueDefinitionLocations(rightValue.Node.Text)
@@ -106,7 +106,7 @@ var requireAssignmentQuery string = `
 	)
 `
 
-func (c *Crawler) followRequireValueAssignment(source *symbol.ValueSource) (*symbol.ValueOrigin, error) {
+func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -115,7 +115,7 @@ func (c *Crawler) followRequireValueAssignment(source *symbol.ValueSource) (*sym
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.DefinitionLines())
+	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (c *Crawler) followRequireValueAssignment(source *symbol.ValueSource) (*sym
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", source.DefinitionLines())
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", source.GetOrigin().DefinitionLines())
 	}
 
 	moduleLocations, err := c.findModuleValueLocations(moduleNameCapture.Node.Text)
@@ -150,14 +150,14 @@ func (c *Crawler) followRequireValueAssignment(source *symbol.ValueSource) (*sym
 	case err != nil:
 		return nil, err
 	case moduleOrigin == nil:
-		return nil, fmt.Errorf("Error following require statement '%s'", source.DefinitionLines())
+		return nil, fmt.Errorf("Error following require statement '%s'", source.GetOrigin().DefinitionLines())
 	}
 
 	return moduleOrigin, nil
 }
 
-func (c *Crawler) followValueOrigin(source *symbol.ValueSource) error {
-	switch source.Type() {
+func (c *Crawler) followValueOrigin(source symbol.Source) error {
+	switch source.GetOrigin().Type() {
 	case treesitter.ASSIGNMENT_STATEMENT:
 		requiredOrigin, err := c.followRequireValueAssignment(source)
 
@@ -165,7 +165,7 @@ func (c *Crawler) followValueOrigin(source *symbol.ValueSource) error {
 		case err != nil:
 			return err
 		case requiredOrigin != nil:
-			source.Origin = requiredOrigin
+			source.SetOrigin(requiredOrigin)
 			return nil
 		}
 
@@ -175,7 +175,7 @@ func (c *Crawler) followValueOrigin(source *symbol.ValueSource) error {
 		case err != nil:
 			return err
 		case variableOrigin != nil:
-			source.Origin = variableOrigin
+			source.SetOrigin(variableOrigin)
 			return nil
 		}
 
@@ -218,14 +218,14 @@ func (c *Crawler) findValueOrigin(locations []nvim.Location) (*symbol.ValueOrigi
 	return nil, nil
 }
 
-func (c *Crawler) sourceValueOrigin(source *symbol.ValueSource) error {
-	locations, err := c.findValueDefinitionLocations(source.Path)
+func (c *Crawler) sourceValueOrigin(source symbol.Source) error {
+	locations, err := c.findValueDefinitionLocations(source.Identifier())
 
 	switch {
 	case err != nil:
 		return err
 	case locations == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Path))
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Identifier()))
 		return nil
 	}
 
@@ -235,10 +235,10 @@ func (c *Crawler) sourceValueOrigin(source *symbol.ValueSource) error {
 	case err != nil:
 		return err
 	case pathOrigin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Identifier()))
 		return nil
 	default:
-		source.Origin = pathOrigin
+		source.SetOrigin(pathOrigin)
 	}
 
 	err = c.followValueOrigin(source)
@@ -253,16 +253,16 @@ func (c *Crawler) sourceValueOrigin(source *symbol.ValueSource) error {
 	case err != nil:
 		return err
 	case documentation == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Path))
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
 		return nil
 	}
 
-	source.Origin.Documentation = documentation
+	source.GetOrigin().SetDocumentation(documentation)
 	return nil
 }
 
-func (c *Crawler) sourceValueOriginDocumentation(source *symbol.ValueSource) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim.OpenBuffer(source.Url())
+func (c *Crawler) sourceValueOriginDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
+	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
 
 	if err != nil {
 		return nil, err
@@ -270,7 +270,7 @@ func (c *Crawler) sourceValueOriginDocumentation(source *symbol.ValueSource) (*t
 
 	defer buffer.Close()
 
-	documentationBlock, err := buffer.GetTsCommentBlockAt(source.Line()-1, source.Character())
+	documentationBlock, err := buffer.GetTsCommentBlockAt(source.GetOrigin().Line()-1, source.GetOrigin().Character())
 
 	switch {
 	case err != nil:
