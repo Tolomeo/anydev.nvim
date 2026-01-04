@@ -12,12 +12,12 @@ import (
 )
 
 type TypeDefinitionLocation struct {
-	languageserver.TypeDefinitionLocation
+	languageserver.Location
 	Url string
 }
 
 type Location struct {
-	languageserver.DefinitionLocation
+	languageserver.Location
 	Url string
 }
 
@@ -119,7 +119,7 @@ func (n *Nvim) getHover(line uint, character uint) (*languageserver.TextDocument
 	return &hover, nil
 }
 
-func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.DefinitionLocation, error) {
+func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.Location, error) {
 	err := n.startLSP()
 
 	if err != nil {
@@ -154,7 +154,7 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.D
 	return &response.Result, nil
 }
 
-func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserver.TypeDefinitionLocation, error) {
+func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserver.Location, error) {
 	err := n.startLSP()
 
 	if err != nil {
@@ -201,12 +201,12 @@ func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]TypeDef
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.TypeDefinitionLocation) (TypeDefinitionLocation, error) {
+	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.Location) (TypeDefinitionLocation, error) {
 		location := TypeDefinitionLocation{
-			TypeDefinitionLocation: lspLocation,
+			Location: lspLocation,
 		}
 
-		url, err := url.Parse(string(location.TypeDefinitionLocation.TargetUri))
+		url, err := url.Parse(string(location.Location.TargetUri))
 
 		if err != nil {
 			return TypeDefinitionLocation{}, err
@@ -236,12 +236,12 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(*lspDefinitions, func(lspLocation languageserver.DefinitionLocation) (Location, error) {
+	locations, err := slicesx.MapFunc(*lspDefinitions, func(lspLocation languageserver.Location) (Location, error) {
 		location := Location{
-			DefinitionLocation: lspLocation,
+			Location: lspLocation,
 		}
 
-		url, err := url.Parse(string(location.DefinitionLocation.TargetUri))
+		url, err := url.Parse(string(location.Location.TargetUri))
 
 		if err != nil {
 			return Location{}, err

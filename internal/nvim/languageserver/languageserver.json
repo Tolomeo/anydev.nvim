@@ -6,7 +6,7 @@
       "properties": {
         "result": {
           "items": {
-            "$ref": "#/definitions/DefinitionLocation"
+            "$ref": "#/definitions/Location"
           },
           "type": "array",
           "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
@@ -87,7 +87,7 @@
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/TypeDefinitionLocation"
+                "$ref": "#/definitions/Location"
               },
               "type": "array"
             },
@@ -225,40 +225,6 @@
       "type": "object"
     },
     "Location": {
-      "additionalProperties": false,
-      "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
-      "properties": {
-        "range": {
-          "$ref": "#/definitions/Range"
-        },
-        "uri": {
-          "$ref": "#/definitions/DocumentUri"
-        }
-      },
-      "required": ["uri", "range"],
-      "type": "object"
-    },
-    "TypeDefinitionLocation": {
-      "additionalProperties": false,
-      "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
-      "properties": {
-        "originSelectionRange": {
-          "$ref": "#/definitions/Range"
-        },
-        "targetRange": {
-          "$ref": "#/definitions/Range"
-        },
-        "targetSelectionRange": {
-          "$ref": "#/definitions/Range"
-        },
-        "targetUri": {
-          "$ref": "#/definitions/DocumentUri"
-        }
-      },
-      "required": ["originSelectionRange", "targetRange", "targetSelectionRange", "targetUri"],
-      "type": "object"
-    },
-    "DefinitionLocation": {
       "additionalProperties": false,
       "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
       "properties": {
