@@ -1,4 +1,5 @@
 ---@type vim.lsp.Config
+---@see https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json
 return {
 	-- Command and arguments to start the server.
 	cmd = { "lua-language-server" },
@@ -26,12 +27,16 @@ return {
 					"${3rd}/luv/library",
 					"${3rd}/busted/library",
 				},
+				maxPreload = 999999,
 				-- https://github.com/neovim/nvim-lspconfig/issues/3189#issuecomment-3021345989
 				-- TODO: config path from current dir
 				--[[ library = vim.tbl_filter(function(d)
 					return not d:find(vim.fn.stdpath("config"), 1, true)
 				end, vim.api.nvim_get_runtime_file("", true)), ]]
 			},
+			completion = {
+				maxSuggestCount = 999999
+			}
 		},
 	},
 }
