@@ -675,14 +675,14 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedGroupedType, nil
 	}
 
-	/* lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
+	lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
 
 	switch {
 	case err != nil:
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	case lexedNumericLiteral != nil:
 		return lexedNumericLiteral, nil
-	} */
+	}
 
 	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)
 
