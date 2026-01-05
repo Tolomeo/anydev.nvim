@@ -129,8 +129,11 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.L
 
 	result, err := n.execLua(script, []any{line, character, 15000})
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return nil, fmt.Errorf("Error getting lsp definition: %v", err)
+	case result == nil:
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
@@ -164,8 +167,11 @@ func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserv
 
 	result, err := n.execLua(script, []any{line, character, 15000})
 
-	if err != nil {
+	switch {
+	case err != nil:
 		return nil, fmt.Errorf("Error getting lsp type definition: %v", err)
+	case result == nil:
+		return nil, nil
 	}
 
 	stringResult, ok := result.(string)

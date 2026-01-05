@@ -24,12 +24,39 @@ func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 
 func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
 	source := symbol.TypeSource{Path: name}
-	err := c.sourceType(&source)
+	/* err := c.sourceType(&source)
 
 	if err != nil {
 		return nil, err
 	}
 
+	return &source, nil */
+
+	locations, err := c.getTypeDefinitionLocations(source.Path)
+
+	/* for _, loc := range *locations {
+		fmt.Printf("\n\nLocation: %+v\n", loc)
+	} */
+
+	switch {
+	case err != nil:
+		return nil, err
+	case locations == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' type", source.Path))
+		return nil, nil
+	}
+
+	origin, err := c.findTypeOrigin(&source, *locations)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case origin == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
+		return nil, nil
+	}
+
+	source.SetOrigin(origin)
 	return &source, nil
 }
 

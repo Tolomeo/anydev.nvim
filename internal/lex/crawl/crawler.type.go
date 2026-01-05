@@ -10,12 +10,9 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) sourceType(source *symbol.TypeSource) error {
+/* func (c *Crawler) sourceType(source *symbol.TypeSource) error {
 	locations, err := c.getTypeDefinitionLocations(source.Path)
 
-	/* for _, loc := range *locations {
-		fmt.Printf("\n\nLocation: %+v\n", loc)
-	} */
 
 	switch {
 	case err != nil:
@@ -37,7 +34,7 @@ func (c *Crawler) sourceType(source *symbol.TypeSource) error {
 
 	source.SetOrigin(origin)
 	return nil
-}
+} */
 
 // TODO enum
 var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineRange) treesitter.Query{

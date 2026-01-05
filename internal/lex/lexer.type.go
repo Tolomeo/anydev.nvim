@@ -335,6 +335,8 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	name := source.Path
 	origin := source.GetOrigin()
 
+	fmt.Println("alias", name)
+
 	definitionText := origin.DefinitionText()
 	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
 	documentationText := origin.DocumentationText()
@@ -368,15 +370,19 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 	l.context.Result().Types[name] = symbol.NewUnknown()
 
 	err := l.context.Fork(name, func(name string) error {
-		typeSource, err := l.crawler.SourceType(name)
+		fmt.Println("reference", name)
+		source, err := l.crawler.SourceType(name)
 
-		if err != nil {
+		switch {
+		case err != nil:
 			return err
+		case source == nil:
+			return nil
 		}
 
 		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
 
-		aliasType, err := l.lexAliasType(typeSource)
+		lexedAliasType, err := l.lexAliasType(source)
 
 		// fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, aliasType)
 
@@ -385,18 +391,18 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 		switch {
 		case err != nil:
 			return err
-		case aliasType != nil:
-			l.context.Result().Types[name] = aliasType
+		case lexedAliasType != nil:
+			l.context.Result().Types[name] = lexedAliasType
 			return nil
 		}
 
-		classType, err := l.lexClassType(typeSource)
+		lexedClassType, err := l.lexClassType(source)
 
 		switch {
 		case err != nil:
 			return err
-		case classType != nil:
-			l.context.Result().Types[name] = classType
+		case lexedClassType != nil:
+			l.context.Result().Types[name] = lexedClassType
 			return nil
 		}
 
@@ -669,15 +675,14 @@ func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
 		return lexedGroupedType, nil
 	}
 
-
-	lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
+	/* lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
 
 	switch {
 	case err != nil:
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	case lexedNumericLiteral != nil:
 		return lexedNumericLiteral, nil
-	}
+	} */
 
 	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)
 

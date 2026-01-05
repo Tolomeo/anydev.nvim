@@ -2,10 +2,12 @@ local args = { ... }
 local line = args[1]
 local character = args[2]
 local delay = args[3]
-local textDocumentParams = vim.lsp.util.make_text_document_params(0)
+
+local bufnr = 0
+local textDocumentParams = vim.lsp.util.make_text_document_params(bufnr)
 local positionParams = { line = line, character = character }
 local lspResponse, err = vim.lsp.buf_request_sync(
-	0,
+	bufnr,
 	"textDocument/definition",
 	{ textDocument = textDocumentParams, position = positionParams },
 	delay
@@ -19,6 +21,10 @@ if lspResponse == nil then
 	return vim.NIL
 end
 
-local result = next(lspResponse[1]) and lspResponse[1] or { result = {} }
+local _, lspClientResponse = next(lspResponse)
 
-return vim.fn.json_encode(result)
+if lspClientResponse == nil or next(lspClientResponse) == nil then
+	return vim.NIL
+end
+
+return vim.fn.json_encode(lspClientResponse)
