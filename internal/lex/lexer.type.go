@@ -298,8 +298,8 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 				return err
 			}
 
-			classField.Private = annotations.private
-			classField.Protected = annotations.protected
+			classField.Private = annotations.Private
+			classField.Protected = annotations.Protected
 
 			classFieldValue, err := l.lexValue(source)
 

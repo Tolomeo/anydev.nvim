@@ -19,11 +19,16 @@ type lexedTypeAnnotation struct {
 	Documentation []string
 }
 
+type lexedGenericAnnotation struct {
+	Name string
+	Types []string
+}
+
 type lexedAnnotations struct {
 	Type     *lexedTypeAnnotation
-	private   bool
-	protected bool
-	generics  []symbol.FunctionGeneric
+	Private   bool
+	Protected bool
+	Generics  []lexedGenericAnnotation
 	params    map[string]symbol.FunctionArgument
 	returns   []symbol.FunctionReturn
 	overloads []symbol.FunctionOverload
@@ -64,13 +69,6 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 
 	annotations.Type = &lexed
 	return true, nil
-	/* lexedType, err := l.lexType(types[0])
-
-	if err != nil {
-		return false, err
-	}
-
-	return true, nil */
 }
 
 var overloadAnnotationQuery string = fmt.Sprintf(`
@@ -153,20 +151,14 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedGeneric := symbol.FunctionGeneric{}
+		lexedGeneric := lexedGenericAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "generic.name":
 				lexedGeneric.Name = capture.Node.Text
 			case "generic.type":
-				genericType, err := l.lexType(capture.Node.Text)
-
-				if err != nil {
-					return false, err
-				}
-
-				lexedGeneric.Types = append(lexedGeneric.Types, genericType)
+				lexedGeneric.Types = append(lexedGeneric.Types, capture.Node.Text)
 			}
 		}
 
@@ -174,7 +166,7 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 			return false, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
 		}
 
-		annotations.generics = append(annotations.generics, lexedGeneric)
+		annotations.Generics = append(annotations.Generics, lexedGeneric)
 	}
 
 	return true, nil
@@ -238,7 +230,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 			case "documentation":
 				lexedParam.Documentation = []string{matchCapture.Node.Text}
 			case "type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
+				if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
 					return generic.Name == matchCapture.Node.Text
 				}); isGeneric {
 					lexedParam.Type = symbol.NewReference(generic.Name)
@@ -294,7 +286,7 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 			case "return.documentation":
 				functionReturn.Documentation = []string{capture.Node.Text}
 			case "return.type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.generics, func(generic symbol.FunctionGeneric) bool {
+				if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
 					return generic.Name == capture.Node.Text
 				}); isGeneric {
 					functionReturn.Type = symbol.NewReference(generic.Name)
@@ -334,7 +326,7 @@ func (l *Lexer) lexPrivateAnnotation(buffer *nvim.Buffer, annotations *lexedAnno
 		return false, nil
 	}
 
-	annotations.private = true
+	annotations.Private = true
 
 	return true, nil
 }
@@ -356,7 +348,7 @@ func (l *Lexer) lexProtectedAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 		return false, nil
 	}
 
-	annotations.protected = true
+	annotations.Protected = true
 
 	return true, nil
 }
@@ -629,9 +621,9 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 
 	annotations := lexedAnnotations{
 		Type:     nil,
-		private:   false,
-		protected: false,
-		generics:  []symbol.FunctionGeneric{},
+		Private:   false,
+		Protected: false,
+		Generics:  []lexedGenericAnnotation{},
 		params:    map[string]symbol.FunctionArgument{},
 		returns:   []symbol.FunctionReturn{},
 		overloads: []symbol.FunctionOverload{},

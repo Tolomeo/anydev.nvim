@@ -6,6 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
@@ -250,7 +251,20 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 	}
 
 	function.Overloads = annotations.overloads
-	function.Generics = annotations.generics
+
+	for _, genericAnnotation := range annotations.Generics {
+		genericName := genericAnnotation.Name
+		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(typeString string) (symbol.Symbol, error) {
+			return l.lexType(typeString)
+		})
+
+		if err != nil {
+			return nil, err
+		}
+
+		function.Generics = append(function.Generics, *symbol.NewFunctionGeneric(genericName, genericTypes...))
+	}
+		
 	function.Returns = annotations.returns
 
 	for argIndex := range function.Arguments {
@@ -375,8 +389,8 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 
 			annotations, err := l.lexAnnotations(source.GetOrigin().DefinitionLines())
 
-			tableField.Private = annotations.private
-			tableField.Protected = annotations.protected
+			tableField.Private = annotations.Private
+			tableField.Protected = annotations.Protected
 			tableFieldValue, err := l.lexValue(source)
 
 			if err != nil {
