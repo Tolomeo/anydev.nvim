@@ -265,22 +265,20 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		function.Generics = append(function.Generics, *symbol.NewFunctionGeneric(genericName, genericTypes...))
 	}
 
-	function.Returns = annotations.returns
-
 	for argIndex := range function.Arguments {
 		name := function.Arguments[argIndex].Name
 
-		paramAnnotation, hasParamAnnotation := annotations.params[name]
+		paramAnnotation, hasParamAnnotation := annotations.Params[name]
 
 		if !hasParamAnnotation {
 			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
-		if genericAnnotation, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
+		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 			return generic.Name == paramAnnotation.Type
 		}); isGeneric {
-			function.Arguments[argIndex].Type = symbol.NewReference(genericAnnotation.Name)
+			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
 			argumentType, err := l.lexType(paramAnnotation.Type)
 
@@ -293,6 +291,29 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 
 		function.Arguments[argIndex].Optional = paramAnnotation.Optional
 		function.Arguments[argIndex].Documentation = paramAnnotation.Documentation
+	}
+
+	for _, returnAnnotation := range annotations.Returns {
+		functionReturn := symbol.FunctionReturn{
+			Name:          returnAnnotation.Name,
+			Documentation: returnAnnotation.Documentation,
+		}
+
+		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
+			return generic.Name == returnAnnotation.Type
+		}); isGeneric {
+			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
+		} else {
+			typ, err := l.lexType(returnAnnotation.Type)
+
+			if err != nil {
+				return nil, err
+			}
+
+			functionReturn.Type = typ
+		}
+
+		function.Returns = append(function.Returns, functionReturn)
 	}
 
 	return function, nil

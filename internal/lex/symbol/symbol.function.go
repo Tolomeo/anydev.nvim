@@ -9,6 +9,7 @@ func NewFunction() *Function {
 	return &Function{
 		Kind: FunctionKindFunction,
 		Generics: []FunctionGeneric{},
+		Returns: []FunctionReturn{},
 	}
 }
 
@@ -32,3 +33,4 @@ func NewFunctionGeneric(name string, types ...Symbol) *FunctionGeneric {
 		Types: genericTypes,
 	}
 }
+

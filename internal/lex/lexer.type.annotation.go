@@ -24,11 +24,16 @@ type lexedGenericAnnotation struct {
 	Types []string
 }
 
-// typedef LexedParam = {name:String, type:LexedType, optional:Bool};
+type lexedReturnAnnotation struct {
+	Name          *string
+	Type          string
+	Documentation []string
+}
+
 type lexedParamAnnotation struct {
-	Name     string
-	Type     string
-	Optional bool
+	Name          string
+	Type          string
+	Optional      bool
 	Documentation []string
 }
 
@@ -37,8 +42,8 @@ type lexedAnnotations struct {
 	Private   bool
 	Protected bool
 	Generics  []lexedGenericAnnotation
-	params    map[string]lexedParamAnnotation
-	returns   []symbol.FunctionReturn
+	Params    map[string]lexedParamAnnotation
+	Returns   []lexedReturnAnnotation
 	overloads []symbol.FunctionOverload
 	aliases   map[string]symbol.Symbol
 	classes   map[string]*symbol.Table
@@ -239,20 +244,6 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 				lexedParam.Documentation = []string{matchCapture.Node.Text}
 			case "type":
 				lexedParam.Type = matchCapture.Node.Text
-				/* if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
-					return generic.Name == matchCapture.Node.Text
-				}); isGeneric {
-					lexedParam.Type = symbol.NewReference(generic.Name)
-					continue
-				}
-
-				lexedParamType, err := l.lexType(matchCapture.Node.Text)
-
-				if err != nil {
-					return false, fmt.Errorf("Error lexing type annotations : %w", err)
-				}
-
-				lexedParam.Type = lexedParamType */
 			}
 		}
 
@@ -260,7 +251,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 			return false, fmt.Errorf("Could not retrieve param name for param annotation")
 		}
 
-		annotations.params[lexedParam.Name] = lexedParam
+		annotations.Params[lexedParam.Name] = lexedParam
 	}
 
 	return true, nil
@@ -286,16 +277,17 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 	}
 
 	for _, matchCaptures := range *matches {
-		functionReturn := symbol.FunctionReturn{}
+		returnAnnotation := lexedReturnAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "return.name":
-				functionReturn.Name = &capture.Node.Text
+				returnAnnotation.Name = &capture.Node.Text
 			case "return.documentation":
-				functionReturn.Documentation = []string{capture.Node.Text}
+				returnAnnotation.Documentation = []string{capture.Node.Text}
 			case "return.type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
+				returnAnnotation.Type = capture.Node.Text
+				/* if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
 					return generic.Name == capture.Node.Text
 				}); isGeneric {
 					functionReturn.Type = symbol.NewReference(generic.Name)
@@ -308,11 +300,11 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 					return false, err
 				}
 
-				functionReturn.Type = lexedReturnType
+				functionReturn.Type = lexedReturnType */
 			}
 		}
 
-		annotations.returns = append(annotations.returns, functionReturn)
+		annotations.Returns = append(annotations.Returns, returnAnnotation)
 	}
 
 	return true, nil
@@ -633,8 +625,8 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		Private:   false,
 		Protected: false,
 		Generics:  []lexedGenericAnnotation{},
-		params:    map[string]lexedParamAnnotation{},
-		returns:   []symbol.FunctionReturn{},
+		Params:    map[string]lexedParamAnnotation{},
+		Returns:   []lexedReturnAnnotation{},
 		overloads: []symbol.FunctionOverload{},
 		aliases:   map[string]symbol.Symbol{},
 		classes:   map[string]*symbol.Table{},
