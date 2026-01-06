@@ -15,21 +15,29 @@ import (
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
 type lexedTypeAnnotation struct {
-	Type         string
+	Type          string
 	Documentation []string
 }
 
 type lexedGenericAnnotation struct {
-	Name string
+	Name  string
 	Types []string
 }
 
+// typedef LexedParam = {name:String, type:LexedType, optional:Bool};
+type lexedParamAnnotation struct {
+	Name     string
+	Type     string
+	Optional bool
+	Documentation []string
+}
+
 type lexedAnnotations struct {
-	Type     *lexedTypeAnnotation
+	Type      *lexedTypeAnnotation
 	Private   bool
 	Protected bool
 	Generics  []lexedGenericAnnotation
-	params    map[string]symbol.FunctionArgument
+	params    map[string]lexedParamAnnotation
 	returns   []symbol.FunctionReturn
 	overloads []symbol.FunctionOverload
 	aliases   map[string]symbol.Symbol
@@ -219,7 +227,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedParam := symbol.FunctionArgument{}
+		lexedParam := lexedParamAnnotation{}
 
 		for _, matchCapture := range matchCaptures {
 			switch matchCapture.Id {
@@ -230,7 +238,8 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 			case "documentation":
 				lexedParam.Documentation = []string{matchCapture.Node.Text}
 			case "type":
-				if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
+				lexedParam.Type = matchCapture.Node.Text
+				/* if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
 					return generic.Name == matchCapture.Node.Text
 				}); isGeneric {
 					lexedParam.Type = symbol.NewReference(generic.Name)
@@ -243,7 +252,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 					return false, fmt.Errorf("Error lexing type annotations : %w", err)
 				}
 
-				lexedParam.Type = lexedParamType
+				lexedParam.Type = lexedParamType */
 			}
 		}
 
@@ -620,11 +629,11 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	defer buffer.Close()
 
 	annotations := lexedAnnotations{
-		Type:     nil,
+		Type:      nil,
 		Private:   false,
 		Protected: false,
 		Generics:  []lexedGenericAnnotation{},
-		params:    map[string]symbol.FunctionArgument{},
+		params:    map[string]lexedParamAnnotation{},
 		returns:   []symbol.FunctionReturn{},
 		overloads: []symbol.FunctionOverload{},
 		aliases:   map[string]symbol.Symbol{},

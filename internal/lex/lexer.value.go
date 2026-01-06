@@ -264,21 +264,35 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 
 		function.Generics = append(function.Generics, *symbol.NewFunctionGeneric(genericName, genericTypes...))
 	}
-		
+
 	function.Returns = annotations.returns
 
 	for argIndex := range function.Arguments {
 		name := function.Arguments[argIndex].Name
-		annotation, hasAnnotation := annotations.params[name]
 
-		if !hasAnnotation {
+		paramAnnotation, hasParamAnnotation := annotations.params[name]
+
+		if !hasParamAnnotation {
 			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
-		function.Arguments[argIndex].Type = annotation.Type
-		function.Arguments[argIndex].Optional = annotation.Optional
-		function.Arguments[argIndex].Documentation = annotation.Documentation
+		if genericAnnotation, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
+			return generic.Name == paramAnnotation.Type
+		}); isGeneric {
+			function.Arguments[argIndex].Type = symbol.NewReference(genericAnnotation.Name)
+		} else {
+			argumentType, err := l.lexType(paramAnnotation.Type)
+
+			if err != nil {
+				return nil, err
+			}
+
+			function.Arguments[argIndex].Type = argumentType
+		}
+
+		function.Arguments[argIndex].Optional = paramAnnotation.Optional
+		function.Arguments[argIndex].Documentation = paramAnnotation.Documentation
 	}
 
 	return function, nil
