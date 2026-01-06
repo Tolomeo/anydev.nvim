@@ -451,31 +451,44 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 		}
 
 		enumAliasName := nameCapture.Node.Text
+		nextLines, err := buffer.NextLineIterator(uint(matchCaptures.LineRange().Start))
 
-		enumAliasMemberMatches, err := buffer.TsQueryAll(enumAliasMemberQuery)
-
-		switch {
-		case err != nil:
+		if err != nil {
 			return false, err
-		case enumAliasMemberMatches == nil:
-			return false, fmt.Errorf("Could not find members for enum alias")
 		}
 
 		enumAliasMembers := []symbol.Symbol{}
 
-		for _, matchCaptures := range *enumAliasMemberMatches {
-			for _, capture := range matchCaptures {
-				switch capture.Id {
-				case "alias.type":
-					lexedType, err := l.lexType(capture.Node.Text)
-
-					if err != nil {
-						return false, err
-					}
-
-					enumAliasMembers = append(enumAliasMembers, lexedType)
-				}
+		for line, err := range nextLines {
+			if err != nil {
+				return false, err
 			}
+
+			enumAliasMemberMatch, err := line.TsQueryOne(enumAliasMemberQuery)
+
+			if err != nil {
+				return false, nil
+			}
+
+			if enumAliasMemberMatch == nil {
+				break
+			}
+
+			enumAliasMemberTypeCapture, found := slicesx.FindFunc(*enumAliasMemberMatch, func(capture treesitter.Capture) bool {
+				return capture.Id == "alias.type"
+			})
+
+			if !found {
+				return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias member type")
+			}
+
+			enumAliasMemberLexedType, err := l.lexType(enumAliasMemberTypeCapture.Node.Text)
+
+			if err != nil {
+				return false, err
+			}
+
+			enumAliasMembers = append(enumAliasMembers, enumAliasMemberLexedType)
 		}
 
 		if len(enumAliasMembers) < 1 {
