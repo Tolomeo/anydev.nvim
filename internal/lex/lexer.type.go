@@ -2,7 +2,7 @@ package lex
 
 import (
 	"fmt"
-	"slices"
+	// "slices"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
@@ -239,45 +239,30 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := origin.DefinitionText()
 	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
+
 	documentationText := origin.DocumentationText()
-	patchedDocumentationLines := strings.Split(
-		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
-		"\n",
-	)
+	patchedDocumentationText := strings.Replace(documentationText, definitionText, patchedDefinitionText, 1)
+	patchedDocumentationLines := strings.Split(patchedDocumentationText, "\n")
 
 	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case lexedAnnotations.class == nil:
+	}
+
+	class, found := lexedAnnotations.classes[patchedName]
+
+	if !found {
 		return nil, nil
 	}
 
-	class := lexedAnnotations.class
 	// Replacing the name which was captured as patched with the original one
 	class.Name = name
+	// TODO: the documentation is gathered by the annotations lexer
 	class.Documentation = origin.DocumentationLines()
 
-	buffer, err := l.context.Nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	annotation := fmt.Sprintf("---@type %s", name)
-	ref := "local ref"
-	completion := "ref."
-	err = buffer.SetLines([]string{annotation, ref, completion})
-
-	if err != nil {
-		return nil, err
-	}
-
 	// fmt.Println(name)
-	classFields, err := buffer.GetTypeCompletion(2, uint(len(completion)))
+	classFields, err := l.context.Nvim.GetTypeCompletion(name)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -285,14 +270,16 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		if found := slices.ContainsFunc(class.Fields, func(field symbol.TableField) bool {
+		/* if found := slices.ContainsFunc(class.Fields, func(field symbol.TableField) bool {
 			return field.Name == fieldName
 		}); found {
 			l.context.Logger.Info(fmt.Sprintf("Skipping '%s' field '%s': already lexed", name, fieldName))
 			continue
-		}
+		} */
 
 		err := l.context.Push(fieldName, func(path string) error {
+			fmt.Println("Lexing:", l.context.Current())
+
 			classField := symbol.TableField{Name: fieldName}
 			source, err := l.crawler.SourceTypeMember(name, fieldName)
 
@@ -306,8 +293,14 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 			}
 
 			annotations, err := l.lexAnnotations(origin.DocumentationLines())
+
+			if err != nil {
+				return err
+			}
+
 			classField.Private = annotations.private
 			classField.Protected = annotations.protected
+
 			classFieldValue, err := l.lexValue(source)
 
 			if err != nil {
@@ -315,7 +308,6 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 			}
 
 			classField.Value = classFieldValue
-
 			class.Fields = append(class.Fields, classField)
 			return nil
 		})
@@ -335,30 +327,31 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 	name := source.Path
 	origin := source.GetOrigin()
 
-	fmt.Println("alias", name)
-
+	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := origin.DefinitionText()
-	patchedDefinitionText := strings.Replace(definitionText, name, strings.ReplaceAll(name, ".", "_"), 1)
+	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
+
 	documentationText := origin.DocumentationText()
-	patchedDocumentationLines := strings.Split(
-		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1),
-		"\n",
-	)
+	patchedDocumentationText :=
+		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1)
+	patchedDocumentationLines := strings.Split(patchedDocumentationText, "\n")
 
 	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case lexedAnnotations.alias == nil:
-		return nil, nil
 	}
 
 	// TODO: replace the name of the returned type with the original name
 	// TODO: attach documentation
-	alias := lexedAnnotations.alias
 
-	return alias, nil
+	lexedAlias, found := lexedAnnotations.aliases[patchedName]
+
+	if !found {
+		return nil, nil
+	}
+
+	return lexedAlias, nil
 }
 
 func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
@@ -370,7 +363,8 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 	l.context.Result().Types[name] = symbol.NewUnknown()
 
 	err := l.context.Fork(name, func(name string) error {
-		fmt.Println("reference", name)
+		fmt.Println("Lexing:", l.context.Current())
+
 		source, err := l.crawler.SourceType(name)
 
 		switch {

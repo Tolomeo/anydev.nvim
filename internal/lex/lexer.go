@@ -31,6 +31,8 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	l.context.Result().Runtime[path] = struct{}{}
 
 	err := l.context.Push(path, func(path string) error {
+		fmt.Println("Lexing:", l.context.Current())
+
 		source, err := l.sourceValue(path)
 
 		if err != nil {

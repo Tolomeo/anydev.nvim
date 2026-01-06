@@ -17,12 +17,12 @@ type lexedAnnotations struct {
 	type_     symbol.Symbol
 	private   bool
 	protected bool
-	params    map[string]symbol.FunctionArgument
-	overloads []symbol.FunctionOverload
 	generics  []symbol.FunctionGeneric
+	params    map[string]symbol.FunctionArgument
 	returns   []symbol.FunctionReturn
-	alias     symbol.Symbol
-	class     *symbol.Table
+	overloads []symbol.FunctionOverload
+	aliases   map[string]symbol.Symbol
+	classes   map[string]*symbol.Table
 }
 
 var typeAnnotationQuery string = fmt.Sprintf(`
@@ -371,30 +371,43 @@ var simpleAliasQuery = treesitter.Query{
 }
 
 func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	match, err := buffer.TsQueryOne(simpleAliasQuery)
+	matches, err := buffer.TsQueryAll(simpleAliasQuery)
 
 	switch {
 	case err != nil:
 		return false, err
-	case match == nil:
+	case matches == nil:
 		return false, nil
 	}
 
-	typeCapture, typeCaptureFound := slicesx.FindFunc(*match, func(capture treesitter.Capture) bool {
-		return capture.Id == "alias.type"
-	})
+	for _, matchCaptures := range *matches {
+		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
+			return capture.Id == "alias.name"
+		})
 
-	if !typeCaptureFound {
-		return false, fmt.Errorf("Error retrieving type value from simple alias annotation")
+		if !found {
+			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias name")
+		}
+
+		aliasName := nameCapture.Node.Text
+
+		typeCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
+			return capture.Id == "alias.name"
+		})
+
+		if !found {
+			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias type")
+		}
+
+		lexedAliasType, err := l.lexType(typeCapture.Node.Text)
+
+		if err != nil {
+			return false, err
+		}
+
+		annotations.aliases[aliasName] = lexedAliasType
 	}
 
-	lexedAliasType, err := l.lexType(typeCapture.Node.Text)
-
-	if err != nil {
-		return false, err
-	}
-
-	annotations.alias = lexedAliasType
 	return true, nil
 }
 
@@ -418,7 +431,7 @@ var enumAliasMemberQuery = treesitter.Query{
 	)
 `, anyTypeQuery)}
 
-func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+/* func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	match, err := buffer.TsQueryOne(enumAliasQuery)
 
 	switch {
@@ -454,19 +467,13 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 		}
 	}
 
-	// fmt.Println(source.Path)
-	/* for _, member := range enumMembers {
-		fmt.Println(member)
-
-	} */
-
 	if len(enumMembers) < 1 {
 		return false, fmt.Errorf("Could not retrieve enum members from enum alias")
 	}
 
 	annotations.alias = symbol.NewUnion(enumMembers)
 	return true, nil
-}
+} */
 
 func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	found, err := l.lexSimpleAliasAnnotation(buffer, annotations)
@@ -478,26 +485,30 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 		return true, nil
 	}
 
-	found, err = l.lexEnumAliasAnnotation(buffer, annotations)
+	/* found, err = l.lexEnumAliasAnnotation(buffer, annotations)
 
 	switch {
 	case err != nil:
 		return false, err
 	case found:
 		return true, nil
-	}
+	} */
 
 	return false, nil
 }
 
 var classAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
-	Query: `
+	Query: fmt.Sprintf(`
 		(documentation
 			(class_annotation
 				(identifier) @class.name
+				(":" 
+					. (%s) @class.parent
+					("," (%s) @class.parent)*
+				)?
 			) @class
-		)`,
+		)`, anyTypeQuery, anyTypeQuery),
 }
 var classFieldAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
@@ -512,25 +523,33 @@ var classFieldAnnotationQuery = treesitter.Query{
 }
 
 func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	match, err := buffer.TsQueryOne(classAnnotationQuery)
+	matches, err := buffer.TsQueryAll(classAnnotationQuery)
 
 	switch {
 	case err != nil:
 		return false, err
-	case match == nil:
+	case matches == nil:
 		return false, nil
 	}
 
-	class := symbol.NewTable()
 
-	for _, capture := range *match {
-		switch capture.Id {
-		case "class.name":
-			class.Name = capture.Node.Text
+	for _, matchCaptures := range *matches {
+		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
+			return capture.Id == "class.name"
+		})
+
+		if !found {
+			return false, fmt.Errorf("Error lexing class annotation: could not find captured alias name")
 		}
+
+		className := nameCapture.Node.Text
+
+		class := symbol.NewTable()
+		class.Name = className
+		annotations.classes[className] = class
 	}
 
-	fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
+	/* fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -562,7 +581,7 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 		class.Fields = append(class.Fields, *classField)
 	}
 
-	annotations.class = class
+	annotations.classes = class */
 	return true, nil
 }
 
@@ -583,12 +602,12 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		type_:     nil,
 		private:   false,
 		protected: false,
-		params:    make(map[string]symbol.FunctionArgument),
-		overloads: []symbol.FunctionOverload{},
 		generics:  []symbol.FunctionGeneric{},
+		params:    map[string]symbol.FunctionArgument{},
 		returns:   []symbol.FunctionReturn{},
-		alias:     nil,
-		class:     nil,
+		overloads: []symbol.FunctionOverload{},
+		aliases:   map[string]symbol.Symbol{},
+		classes:   map[string]*symbol.Table{},
 	}
 
 	err = buffer.SetLines(dockblock)

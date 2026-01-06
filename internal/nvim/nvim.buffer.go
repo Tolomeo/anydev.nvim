@@ -107,15 +107,6 @@ func (n *Nvim) OpenBuffer(name string) (*Buffer, error) {
 
 			return n.getDefinitionLocations(line, character)
 		},
-		GetTypeCompletion: func(line, character uint) ([]string, error) {
-			_, err := n.open(name)
-
-			if err != nil {
-				return nil, err
-			}
-
-			return n.getTypeCompletion(line, character)
-		},
 		GetTypeDefinitionLocations: func(line uint, character uint) (*[]Location, error) {
 			_, err := n.open(name)
 

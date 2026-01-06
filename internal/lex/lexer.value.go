@@ -365,6 +365,8 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		tableField := symbol.TableField{Name: fieldName}
 
 		err := l.context.Push(fieldName, func(path string) error {
+			fmt.Println("Lexing:", l.context.Current())
+
 			source, err := l.sourceValue(l.context.Current())
 
 			if err != nil {

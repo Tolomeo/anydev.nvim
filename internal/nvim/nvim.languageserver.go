@@ -260,8 +260,17 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 	return &locations, nil
 }
 
-func (n *Nvim) getTypeCompletion(line uint, character uint) ([]string, error) {
-	err := n.startLSP()
+func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
+	buffer, err := n.NewBuffer()
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	defer buffer.Close()
+
+
+	err = n.startLSP()
 
 	if err != nil {
 		return []string{}, err
@@ -273,6 +282,16 @@ func (n *Nvim) getTypeCompletion(line uint, character uint) ([]string, error) {
 		return nil, err
 	}
 
+	annotation := fmt.Sprintf("---@type %s", name)
+	ref := "local ref"
+	trigger := "ref."
+	err = buffer.SetLines([]string{annotation, ref, trigger})
+
+	if err != nil {
+		return nil, err
+	}
+
+	line, character := uint(2), uint(len(trigger))
 	result, err := n.execLua(script, []any{line, character, 15000})
 
 	if err != nil {
