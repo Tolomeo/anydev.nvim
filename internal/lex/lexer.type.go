@@ -342,6 +342,7 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
+	fmt.Println("Annotations", fmt.Sprintf("%+v", lexedAnnotations))
 	// TODO: replace the name of the returned type with the original name
 	// TODO: attach documentation
 
@@ -355,6 +356,7 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 }
 
 func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
+
 	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
 		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
 		return symbol.NewReference(name), nil
@@ -374,13 +376,13 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 			return nil
 		}
 
-		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, typeSource.Origin)
+		fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, source.Origin)
+		fmt.Printf("\nType: %+v\n\n", source.Origin.DefinitionText())
 
 		lexedAliasType, err := l.lexAliasType(source)
 
-		// fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, aliasType)
+		fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, lexedAliasType)
 
-		// fmt.Printf("\nType: %+v\n\n", typeSource.Origin.Definition)
 
 		switch {
 		case err != nil:
@@ -392,6 +394,8 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 
 		lexedClassType, err := l.lexClassType(source)
 
+		fmt.Printf("\nLexed '%s' class: %+v\n\n", name, lexedClassType)
+
 		switch {
 		case err != nil:
 			return err
@@ -400,7 +404,6 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 			return nil
 		}
 
-		l.context.Logger.Warn(fmt.Sprintf("Uknown type '%s' received", name))
 		return nil
 	})
 

@@ -431,49 +431,62 @@ var enumAliasMemberQuery = treesitter.Query{
 	)
 `, anyTypeQuery)}
 
-/* func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	match, err := buffer.TsQueryOne(enumAliasQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case match == nil:
-		return false, nil
-	}
-
-	matches, err := buffer.TsQueryAll(enumAliasMemberQuery)
+func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(enumAliasQuery)
 
 	switch {
 	case err != nil:
 		return false, err
 	case matches == nil:
-		return false, fmt.Errorf("Could not find members for enum alias")
+		return false, nil
 	}
-
-	enumMembers := []symbol.Symbol{}
 
 	for _, matchCaptures := range *matches {
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "alias.type":
-				lexedType, err := l.lexType(capture.Node.Text)
+		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
+			return capture.Id == "alias.name"
+		})
 
-				if err != nil {
-					return false, err
+		if !found {
+			return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias name")
+		}
+
+		enumAliasName := nameCapture.Node.Text
+
+		enumAliasMemberMatches, err := buffer.TsQueryAll(enumAliasMemberQuery)
+
+		switch {
+		case err != nil:
+			return false, err
+		case enumAliasMemberMatches == nil:
+			return false, fmt.Errorf("Could not find members for enum alias")
+		}
+
+		enumAliasMembers := []symbol.Symbol{}
+
+		for _, matchCaptures := range *enumAliasMemberMatches {
+			for _, capture := range matchCaptures {
+				switch capture.Id {
+				case "alias.type":
+					lexedType, err := l.lexType(capture.Node.Text)
+
+					if err != nil {
+						return false, err
+					}
+
+					enumAliasMembers = append(enumAliasMembers, lexedType)
 				}
-
-				enumMembers = append(enumMembers, lexedType)
 			}
 		}
+
+		if len(enumAliasMembers) < 1 {
+			return false, fmt.Errorf("Could not retrieve enum members from enum alias")
+		}
+
+		annotations.aliases[enumAliasName] = symbol.NewUnion(enumAliasMembers)
 	}
 
-	if len(enumMembers) < 1 {
-		return false, fmt.Errorf("Could not retrieve enum members from enum alias")
-	}
-
-	annotations.alias = symbol.NewUnion(enumMembers)
 	return true, nil
-} */
+}
 
 func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	found, err := l.lexSimpleAliasAnnotation(buffer, annotations)
@@ -485,14 +498,14 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 		return true, nil
 	}
 
-	/* found, err = l.lexEnumAliasAnnotation(buffer, annotations)
+	found, err = l.lexEnumAliasAnnotation(buffer, annotations)
 
 	switch {
 	case err != nil:
 		return false, err
 	case found:
 		return true, nil
-	} */
+	}
 
 	return false, nil
 }
@@ -531,7 +544,6 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 	case matches == nil:
 		return false, nil
 	}
-
 
 	for _, matchCaptures := range *matches {
 		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
