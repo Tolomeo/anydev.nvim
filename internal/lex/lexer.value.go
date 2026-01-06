@@ -442,14 +442,19 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 
 	annotations, err := l.lexAnnotations(source.GetOrigin().DocumentationLines())
 
+	switch {
+	case err != nil:
+		return nil, err
+	case annotations.Type == nil:
+		l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
+		return unknown, nil
+	}
+
+	lexedType, err := l.lexType(annotations.Type.Type)
+
 	if err != nil {
 		return nil, err
 	}
 
-	if annotations.type_ != nil {
-		return &annotations.type_, nil
-	}
-
-	l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
-	return unknown, nil
+	return lexedType, nil
 }

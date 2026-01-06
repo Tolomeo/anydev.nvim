@@ -2,6 +2,7 @@ package lex
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -13,8 +14,13 @@ import (
 
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
+type lexedTypeAnnotation struct {
+	Type         string
+	Documentation []string
+}
+
 type lexedAnnotations struct {
-	type_     symbol.Symbol
+	Type     *lexedTypeAnnotation
 	private   bool
 	protected bool
 	generics  []symbol.FunctionGeneric
@@ -25,12 +31,14 @@ type lexedAnnotations struct {
 	classes   map[string]*symbol.Table
 }
 
+// TODO: support for multiple comma-separated types
 var typeAnnotationQuery string = fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			%s @type
+			(%s) @type.type
+			(comment)? @type.documentation
 		)
-	) @typeannotation
+	) @type
 `, anyTypeQuery)
 
 func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
@@ -43,30 +51,26 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 		return false, nil
 	}
 
-	types := []string{}
+	lexed := lexedTypeAnnotation{}
 
 	for _, capture := range *captures {
 		switch capture.Id {
-		case "type":
-			types = append(types, capture.Node.Text)
+		case "type.type":
+			lexed.Type = capture.Node.Text
+		case "type.documentation":
+			lexed.Documentation = strings.Split(capture.Node.Text, "\n")
 		}
 	}
 
-	switch {
-	case len(types) > 1:
-		return false, fmt.Errorf("Error reading type annotation: too many annotations received (%d), expected 1", len(types))
-	case len(types) < 1:
-		return false, fmt.Errorf("Error reading type annotation: type value not found")
-	}
-
-	lexedType, err := l.lexType(types[0])
+	annotations.Type = &lexed
+	return true, nil
+	/* lexedType, err := l.lexType(types[0])
 
 	if err != nil {
 		return false, err
 	}
 
-	annotations.type_ = lexedType
-	return true, nil
+	return true, nil */
 }
 
 var overloadAnnotationQuery string = fmt.Sprintf(`
@@ -624,7 +628,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	defer buffer.Close()
 
 	annotations := lexedAnnotations{
-		type_:     nil,
+		Type:     nil,
 		private:   false,
 		protected: false,
 		generics:  []symbol.FunctionGeneric{},
