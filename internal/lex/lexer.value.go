@@ -252,8 +252,8 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 
 	for _, genericAnnotation := range annotations.Generics {
 		genericName := genericAnnotation.Name
-		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(typeString string) (symbol.Symbol, error) {
-			return l.lexType(typeString)
+		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType lexedType) (symbol.Symbol, error) {
+			return l.lexType(genericType)
 		})
 
 		if err != nil {
@@ -274,7 +274,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		}
 
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == paramAnnotation.Type
+			return generic.Name == paramAnnotation.Type.Name
 		}); isGeneric {
 			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
@@ -297,7 +297,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		functionReturn.Documentation = returnAnnotation.Documentation
 
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == returnAnnotation.Type
+			return generic.Name == returnAnnotation.Type.Name
 		}); isGeneric {
 			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
 		} else {

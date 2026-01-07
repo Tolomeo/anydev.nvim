@@ -13,37 +13,41 @@ import (
 
 var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
 
+type lexedType struct {
+	Name string
+}
+
 type lexedTypeAnnotation struct {
-	Type          string
+	Type          lexedType
 	Documentation []string
 }
 
 type lexedGenericAnnotation struct {
 	Name  string
-	Types []string
+	Types []lexedType
 }
 
 type lexedReturnAnnotation struct {
 	Name          *string
-	Type          string
+	Type          lexedType
 	Documentation []string
 }
 
 type lexedParamAnnotation struct {
 	Name          string
-	Type          string
+	Type          lexedType
 	Optional      bool
 	Documentation []string
 }
 
 type lexedOverloadAnnotation struct {
-	Type          string
+	Type          lexedType
 	Documentation []string
 }
 
 type lexedAliasAnnotation struct {
 	Name          string
-	Type          string
+	Type          lexedType
 	Documentation []string
 }
 
@@ -89,7 +93,7 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 	for _, capture := range *captures {
 		switch capture.Id {
 		case "type.type":
-			lexed.Type = capture.Node.Text
+			lexed.Type = lexedType{capture.Node.Text}
 		case "type.documentation":
 			lexed.Documentation = strings.Split(capture.Node.Text, "\n")
 		}
@@ -133,7 +137,7 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
 			case "type":
-				overload.Type = capture.Node.Text
+				overload.Type = lexedType{capture.Node.Text}
 			}
 		}
 
@@ -171,7 +175,7 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 			case "generic.name":
 				lexedGeneric.Name = capture.Node.Text
 			case "generic.type":
-				lexedGeneric.Types = append(lexedGeneric.Types, capture.Node.Text)
+				lexedGeneric.Types = append(lexedGeneric.Types, lexedType{capture.Node.Text})
 			}
 		}
 
@@ -234,16 +238,16 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	for _, matchCaptures := range *matches {
 		lexedParam := lexedParamAnnotation{}
 
-		for _, matchCapture := range matchCaptures {
-			switch matchCapture.Id {
+		for _, capture := range matchCaptures {
+			switch capture.Id {
 			case "name":
-				lexedParam.Name = matchCapture.Node.Text
+				lexedParam.Name = capture.Node.Text
 			case "optional":
 				lexedParam.Optional = true
 			case "documentation":
-				lexedParam.Documentation = []string{matchCapture.Node.Text}
+				lexedParam.Documentation = []string{capture.Node.Text}
 			case "type":
-				lexedParam.Type = matchCapture.Node.Text
+				lexedParam.Type = lexedType{capture.Node.Text}
 			}
 		}
 
@@ -286,7 +290,7 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 			case "return.documentation":
 				returnAnnotation.Documentation = []string{capture.Node.Text}
 			case "return.type":
-				returnAnnotation.Type = capture.Node.Text
+				returnAnnotation.Type = lexedType{capture.Node.Text}
 			}
 		}
 
@@ -371,7 +375,7 @@ func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexed
 			case "alias.name":
 				alias.Name = capture.Node.Text
 			case "alias.type":
-				alias.Type = capture.Node.Text
+				alias.Type = lexedType{capture.Node.Text}
 			case "alias.documentation":
 				alias.Documentation = append(alias.Documentation, capture.Node.Text)
 			}
@@ -381,7 +385,7 @@ func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexed
 			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias name")
 		}
 
-		if alias.Type == "" {
+		if alias.Type.Name == "" {
 			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias type")
 		}
 
@@ -472,7 +476,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 			return false, fmt.Errorf("Could not retrieve enum members from enum alias")
 		}
 
-		enumAlias.Type = strings.Join(enumAliasMembers, "|")
+		enumAlias.Type = lexedType{strings.Join(enumAliasMembers, "|")}
 
 		annotations.Aliases[enumAlias.Name] = enumAlias
 	}

@@ -56,13 +56,13 @@ func (l *Lexer) lexOptionalType(buffer *nvim.Buffer, source string) (*symbol.Opt
 	for _, capture := range *match {
 		switch capture.Id {
 		case "optional.type":
-			lexedType, err := l.lexType(capture.Node.Text)
+			optionalType, err := l.lexType(lexedType{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
 			}
 
-			return symbol.NewOptional(&lexedType), nil
+			return symbol.NewOptional(&optionalType), nil
 		}
 	}
 
@@ -126,7 +126,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 		case "parameter.name":
 			args[len(args)-1].Name = capture.Node.Text
 		case "parameter.type":
-			parameterType, err := l.lexType(capture.Node.Text)
+			parameterType, err := l.lexType(lexedType{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -134,7 +134,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 
 			args[len(args)-1].Type = parameterType
 		case "return.type":
-			returnType, err := l.lexType(capture.Node.Text)
+			returnType, err := l.lexType(lexedType{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -185,7 +185,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 			case "key":
 				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 			case "value":
-				valueType, err := l.lexType(capture.Node.Text)
+				valueType, err := l.lexType(lexedType{capture.Node.Text})
 
 				if err != nil {
 					return nil, err
@@ -393,7 +393,7 @@ func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "array.itemstype":
-			itemsType, err := l.lexType(matchCapture.Node.Text)
+			itemsType, err := l.lexType(lexedType{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -433,7 +433,7 @@ func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "union.type":
-			lexedType, err := l.lexType(matchCapture.Node.Text)
+			lexedType, err := l.lexType(lexedType{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -487,7 +487,7 @@ func (l *Lexer) lexGroupType(buffer *nvim.Buffer, source string) (symbol.Symbol,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "group.type":
-			return l.lexType(matchCapture.Node.Text)
+			return l.lexType(lexedType{matchCapture.Node.Text})
 		}
 	}
 
@@ -554,7 +554,8 @@ func (l *Lexer) lexStringLiteralType(buffer *nvim.Buffer, source string) (*symbo
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexType(source string) (symbol.Symbol, error) {
+func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
+	source := strings.TrimSpace(typ.Name)
 	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
 
 	if builtinType != nil {

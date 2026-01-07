@@ -116,7 +116,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 		}
 
 		fmt.Printf(fmt.Sprintf("No types found for '%s' name", name))
-		l.context.Logger.Warn(fmt.Sprintf("No references found for '%s' name", name))
+		l.context.Logger.Warn(fmt.Sprintf("No type definitions found for '%s' name", name))
 		return nil
 	})
 
