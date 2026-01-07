@@ -36,6 +36,9 @@ return {
 			},
 			completion = {
 				maxSuggestCount = 999999
+			},
+			diagnostics = {
+				enable = false
 			}
 		},
 	},

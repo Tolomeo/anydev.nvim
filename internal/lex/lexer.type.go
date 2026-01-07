@@ -78,22 +78,22 @@ var typeFunctionQuery = treesitter.Query{
 				(parameter
 					(identifier) @parameter.name
 					":"
-					%s @parameter.type
+					(%s) @parameter.type
 				) @parameter
 				("," (parameter
 					(identifier) @parameter.name
 					":"
-					%s @parameter.type
+					(%s) @parameter.type
 				) @parameter)*
 				("," (parameter
 					"..." @parameter.name
 					":"
-					%s @parameter.type
+					(%s) @parameter.type
 				) @parameter)?
 				(parameter
 					"..." @parameter.name
 					":"
-					%s @parameter.type
+					(%s) @parameter.type
 				)? @parameter
 				(":"
 					(%s) @return.type
@@ -278,7 +278,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		} */
 
 		err := l.context.Push(fieldName, func(path string) error {
-			fmt.Println("Lexing:", l.context.Current())
+			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
 			classField := symbol.TableField{Name: fieldName}
 			source, err := l.crawler.SourceTypeMember(name, fieldName)
@@ -359,55 +359,7 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 }
 
 func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
-
-	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
-		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
-		return symbol.NewReference(name), nil
-	}
-
-	l.context.Result().Types[name] = symbol.NewUnknown()
-
-	err := l.context.Fork(name, func(name string) error {
-		fmt.Println("Lexing:", l.context.Current())
-
-		source, err := l.crawler.SourceType(name)
-
-		switch {
-		case err != nil:
-			return err
-		case source == nil:
-			return nil
-		}
-
-		fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, source.Origin)
-		fmt.Printf("\nType: %+v\n\n", source.Origin.DefinitionText())
-
-		lexedAliasType, err := l.lexAliasType(source)
-
-		fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, lexedAliasType)
-
-		switch {
-		case err != nil:
-			return err
-		case lexedAliasType != nil:
-			l.context.Result().Types[name] = lexedAliasType
-			return nil
-		}
-
-		lexedClassType, err := l.lexClassType(source)
-
-		fmt.Printf("\nLexed '%s' class: %+v\n\n", name, lexedClassType)
-
-		switch {
-		case err != nil:
-			return err
-		case lexedClassType != nil:
-			l.context.Result().Types[name] = lexedClassType
-			return nil
-		}
-
-		return nil
-	})
+	err := l.LexType(name, l.context)
 
 	if err != nil {
 		return nil, err

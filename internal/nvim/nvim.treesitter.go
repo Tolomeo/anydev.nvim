@@ -24,20 +24,6 @@ func (n *Nvim) startTS() error {
 		return fmt.Errorf("Error starting treesitter lua: %w", err)
 	}
 
-	// Query injections are only recalculated when the buffer changes
-	// so we make a (hopefully) inhert change to force their presence
-	// by adding an empty line at the end of the buffer text
-	luaCode := `
-		local keys = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
-		vim.api.nvim_feedkeys(keys, "n", false)
-	`
-
-	_, err = n.execLua(luaCode, []any{})
-
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 

@@ -102,7 +102,7 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 var overloadAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
 		(overload_annotation 
-			%s @type 
+			(%s) @type 
 			(comment)? @documentation
 		)
 	)
@@ -148,7 +148,7 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 		(generic_annotation
 			(identifier) @generic.name
 			parent_type: 
-				%s? @generic.type
+				(%s)? @generic.type
 		)
 	) @generic
 `, anyTypeQuery)
@@ -191,7 +191,7 @@ var paramAnnotationQueries = map[string]string{
 			(param_annotation
 				(identifier) @name
 				"?"? @optional
-				%s @type
+				(%s) @type
 				(comment)? @documentation
 			)
 		) @param
@@ -200,7 +200,7 @@ var paramAnnotationQueries = map[string]string{
 		(documentation
 			(param_annotation 
 				"..." @name
-				%s @type
+				(%s) @type
 				(comment)? @documentation
 			)
 		) @param
@@ -260,7 +260,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 var returnAnnotationQuery string = fmt.Sprintf(`
 	(documentation
 		(return_annotation
-			%s @return.type
+			(%s) @return.type
 			(comment)? @return.documentation
 		)
 	) @return
@@ -347,7 +347,7 @@ var simpleAliasQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 	(alias_annotation
 		(identifier) @alias.name
-		%s @alias.type
+		(%s) @alias.type
 		(comment)? @alias.documentation
 		(#not-eq? @alias.type "")
 	)`, anyTypeQuery),
@@ -515,7 +515,8 @@ var classAnnotationQuery = treesitter.Query{
 			) @class
 		)`, anyTypeQuery, anyTypeQuery),
 }
-var classFieldAnnotationQuery = treesitter.Query{
+
+/* var classFieldAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 		(documentation
@@ -525,7 +526,7 @@ var classFieldAnnotationQuery = treesitter.Query{
 				(comment)? @field.documentation
 			) @field
 		)`, anyTypeQuery),
-}
+} */
 
 func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(classAnnotationQuery)
@@ -541,7 +542,7 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 		class := lexedClassAnnotation{}
 
 		for _, capture := range matchCaptures {
-			switch capture.Id{
+			switch capture.Id {
 			case "class.name":
 				class.Name = capture.Node.Text
 			case "class.parent":
@@ -596,6 +597,7 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
+		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
 		return cachedAnnotations, nil
 	}
 
@@ -685,6 +687,8 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
+
+	fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
 
 	lexedAnnotationsCache.Set(&annotations, dockblock...)
 	return &annotations, nil
