@@ -10,6 +10,7 @@ func NewFunction() *Function {
 		Kind: FunctionKindFunction,
 		Generics: []FunctionGeneric{},
 		Returns: []FunctionReturn{},
+		Overloads: []FunctionOverload{},
 	}
 }
 
@@ -34,3 +35,10 @@ func NewFunctionGeneric(name string, types ...Symbol) *FunctionGeneric {
 	}
 }
 
+func NewFunctionOverload() *FunctionOverload {
+	return &FunctionOverload{}
+}
+
+func NewFunctionReturn() *FunctionReturn {
+	return &FunctionReturn{}
+}

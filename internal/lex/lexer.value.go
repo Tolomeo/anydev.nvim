@@ -250,8 +250,6 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
 	}
 
-	function.Overloads = annotations.overloads
-
 	for _, genericAnnotation := range annotations.Generics {
 		genericName := genericAnnotation.Name
 		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(typeString string) (symbol.Symbol, error) {
@@ -294,10 +292,9 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 	}
 
 	for _, returnAnnotation := range annotations.Returns {
-		functionReturn := symbol.FunctionReturn{
-			Name:          returnAnnotation.Name,
-			Documentation: returnAnnotation.Documentation,
-		}
+		functionReturn := symbol.NewFunctionReturn()
+		functionReturn.Name = returnAnnotation.Name
+		functionReturn.Documentation = returnAnnotation.Documentation
 
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 			return generic.Name == returnAnnotation.Type
@@ -313,7 +310,29 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 			functionReturn.Type = typ
 		}
 
-		function.Returns = append(function.Returns, functionReturn)
+		function.Returns = append(function.Returns, *functionReturn)
+	}
+
+	for _, overloadAnnotation := range annotations.Overloads {
+		overloadType, err := l.lexType(overloadAnnotation.Type)
+
+		if err != nil {
+			return nil, fmt.Errorf("Error lexing function overload annotation type: %w", err)
+		}
+
+		overloadFunctionType, isFunctionType := overloadType.(*symbol.Function)
+
+		if !isFunctionType {
+			return nil, fmt.Errorf("Error lexing function overload annotation type: lexed type '%+v' is not a function", overloadFunctionType)
+		}
+
+		functionOverload := symbol.NewFunctionOverload()
+		functionOverload.Generics = overloadFunctionType.Generics
+		functionOverload.Arguments = overloadFunctionType.Arguments
+		functionOverload.Documentation = overloadFunctionType.Documentation
+		functionOverload.Returns = overloadFunctionType.Returns
+
+		function.Overloads = append(function.Overloads, *functionOverload)
 	}
 
 	return function, nil

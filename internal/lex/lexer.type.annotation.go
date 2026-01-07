@@ -37,6 +37,11 @@ type lexedParamAnnotation struct {
 	Documentation []string
 }
 
+type lexedOverloadAnnotation struct {
+	Type          string
+	Documentation []string
+}
+
 type lexedAnnotations struct {
 	Type      *lexedTypeAnnotation
 	Private   bool
@@ -44,7 +49,7 @@ type lexedAnnotations struct {
 	Generics  []lexedGenericAnnotation
 	Params    map[string]lexedParamAnnotation
 	Returns   []lexedReturnAnnotation
-	overloads []symbol.FunctionOverload
+	Overloads []lexedOverloadAnnotation
 	aliases   map[string]symbol.Symbol
 	classes   map[string]*symbol.Table
 }
@@ -111,14 +116,15 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 			continue
 		}
 
-		overload := symbol.FunctionOverload{}
+		overload := lexedOverloadAnnotation{}
 
 		for _, capture := range match.Captures {
 			switch capture.Id {
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
 			case "type":
-				overloadType, err := l.lexType(capture.Node.Text)
+				overload.Type = capture.Node.Text
+				/* overloadType, err := l.lexType(capture.Node.Text)
 
 				if err != nil {
 					return false, fmt.Errorf("Error overload annotation type: %w", err)
@@ -133,11 +139,11 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 				overload.Generics = overloadFunctionType.Generics
 				overload.Arguments = overloadFunctionType.Arguments
 				overload.Documentation = overloadFunctionType.Documentation
-				overload.Returns = overloadFunctionType.Returns
+				overload.Returns = overloadFunctionType.Returns */
 			}
 		}
 
-		annotations.overloads = append(annotations.overloads, overload)
+		annotations.Overloads = append(annotations.Overloads, overload)
 	}
 
 	return true, nil
@@ -627,7 +633,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		Generics:  []lexedGenericAnnotation{},
 		Params:    map[string]lexedParamAnnotation{},
 		Returns:   []lexedReturnAnnotation{},
-		overloads: []symbol.FunctionOverload{},
+		Overloads: []lexedOverloadAnnotation{},
 		aliases:   map[string]symbol.Symbol{},
 		classes:   map[string]*symbol.Table{},
 	}
