@@ -54,10 +54,6 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 			continue
 		} */
 
-		if fieldName != "run" {
-			continue
-		}
-
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
