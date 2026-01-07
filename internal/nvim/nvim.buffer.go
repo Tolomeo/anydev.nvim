@@ -113,7 +113,9 @@ func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*Buffer, error], er
 		return nil, err
 	}
 
-	lines, err := b.nvim.getBufferLines(int(startLine+1), -1)
+	lines, err := b.nvim.getBufferLines(0, -1)
+
+	// fmt.Println(lines)
 
 	if err != nil {
 		return nil, err

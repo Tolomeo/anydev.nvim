@@ -441,7 +441,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 			return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias name")
 		}
 
-		nextLines, err := buffer.NextLineIterator(uint(matchCaptures.LineRange().Start))
+		nextLines, err := buffer.NextLineIterator(uint(matchCaptures.LineRange().Start + 1))
 
 		if err != nil {
 			return false, err
