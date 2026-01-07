@@ -250,13 +250,13 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		return nil, err
 	}
 
-	class, found := lexedAnnotations.classes[patchedName]
+	_, foundClassAnnotation := lexedAnnotations.Classes[patchedName]
 
-	if !found {
+	if !foundClassAnnotation {
 		return nil, nil
 	}
 
-	// Replacing the name which was captured as patched with the original one
+	class := symbol.NewTable()
 	class.Name = name
 	// TODO: the documentation is gathered by the annotations lexer
 	class.Documentation = origin.DocumentationLines()

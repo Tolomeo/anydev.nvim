@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
@@ -48,6 +47,11 @@ type lexedAliasAnnotation struct {
 	Documentation []string
 }
 
+type lexedClassAnnotation struct {
+	Name    string
+	Parents []string
+}
+
 type lexedAnnotations struct {
 	Type      *lexedTypeAnnotation
 	Private   bool
@@ -57,7 +61,7 @@ type lexedAnnotations struct {
 	Returns   []lexedReturnAnnotation
 	Overloads []lexedOverloadAnnotation
 	Aliases   map[string]lexedAliasAnnotation
-	classes   map[string]*symbol.Table
+	Classes   map[string]lexedClassAnnotation
 }
 
 // TODO: support for multiple comma-separated types
@@ -469,7 +473,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 		}
 
 		enumAlias.Type = strings.Join(enumAliasMembers, "|")
-		
+
 		annotations.Aliases[enumAlias.Name] = enumAlias
 	}
 
@@ -534,19 +538,24 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 	}
 
 	for _, matchCaptures := range *matches {
-		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
-			return capture.Id == "class.name"
-		})
+		class := lexedClassAnnotation{}
 
-		if !found {
-			return false, fmt.Errorf("Error lexing class annotation: could not find captured alias name")
+		for _, capture := range matchCaptures {
+			switch capture.Id{
+			case "class.name":
+				class.Name = capture.Node.Text
+			case "class.parent":
+				class.Parents = append(class.Parents, capture.Node.Text)
+			}
 		}
 
-		className := nameCapture.Node.Text
+		if class.Name == "" {
+			return false, fmt.Errorf("Error lexing class annotation: could not find captured class name")
+		}
 
-		class := symbol.NewTable()
-		class.Name = className
-		annotations.classes[className] = class
+		// class := symbol.NewTable()
+
+		annotations.Classes[class.Name] = class
 	}
 
 	/* fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
@@ -607,7 +616,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		Returns:   []lexedReturnAnnotation{},
 		Overloads: []lexedOverloadAnnotation{},
 		Aliases:   map[string]lexedAliasAnnotation{},
-		classes:   map[string]*symbol.Table{},
+		Classes:   map[string]lexedClassAnnotation{},
 	}
 
 	err = buffer.SetLines(dockblock)
