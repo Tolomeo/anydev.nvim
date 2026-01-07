@@ -42,6 +42,12 @@ type lexedOverloadAnnotation struct {
 	Documentation []string
 }
 
+type lexedAliasAnnotation struct {
+	Name          string
+	Type          string
+	Documentation []string
+}
+
 type lexedAnnotations struct {
 	Type      *lexedTypeAnnotation
 	Private   bool
@@ -50,7 +56,7 @@ type lexedAnnotations struct {
 	Params    map[string]lexedParamAnnotation
 	Returns   []lexedReturnAnnotation
 	Overloads []lexedOverloadAnnotation
-	aliases   map[string]symbol.Symbol
+	Aliases   map[string]lexedAliasAnnotation
 	classes   map[string]*symbol.Table
 }
 
@@ -124,22 +130,6 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 				overload.Documentation = []string{capture.Node.Text}
 			case "type":
 				overload.Type = capture.Node.Text
-				/* overloadType, err := l.lexType(capture.Node.Text)
-
-				if err != nil {
-					return false, fmt.Errorf("Error overload annotation type: %w", err)
-				}
-
-				overloadFunctionType, isFunctionType := overloadType.(*symbol.Function)
-
-				if !isFunctionType {
-					return false, fmt.Errorf("Error lexing overload annotation type: lexed type '%+v' is not a function", overloadFunctionType)
-				}
-
-				overload.Generics = overloadFunctionType.Generics
-				overload.Arguments = overloadFunctionType.Arguments
-				overload.Documentation = overloadFunctionType.Documentation
-				overload.Returns = overloadFunctionType.Returns */
 			}
 		}
 
@@ -293,20 +283,6 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 				returnAnnotation.Documentation = []string{capture.Node.Text}
 			case "return.type":
 				returnAnnotation.Type = capture.Node.Text
-				/* if generic, isGeneric := slicesx.FindFunc(annotations.Generics, func(generic lexedGenericAnnotation) bool {
-					return generic.Name == capture.Node.Text
-				}); isGeneric {
-					functionReturn.Type = symbol.NewReference(generic.Name)
-					continue
-				}
-
-				lexedReturnType, err := l.lexType(capture.Node.Text)
-
-				if err != nil {
-					return false, err
-				}
-
-				functionReturn.Type = lexedReturnType */
 			}
 		}
 
@@ -384,31 +360,28 @@ func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexed
 	}
 
 	for _, matchCaptures := range *matches {
-		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
-			return capture.Id == "alias.name"
-		})
+		alias := lexedAliasAnnotation{}
 
-		if !found {
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "alias.name":
+				alias.Name = capture.Node.Text
+			case "alias.type":
+				alias.Type = capture.Node.Text
+			case "alias.documentation":
+				alias.Documentation = append(alias.Documentation, capture.Node.Text)
+			}
+		}
+
+		if alias.Name == "" {
 			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias name")
 		}
 
-		aliasName := nameCapture.Node.Text
-
-		typeCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
-			return capture.Id == "alias.name"
-		})
-
-		if !found {
+		if alias.Type == "" {
 			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias type")
 		}
 
-		lexedAliasType, err := l.lexType(typeCapture.Node.Text)
-
-		if err != nil {
-			return false, err
-		}
-
-		annotations.aliases[aliasName] = lexedAliasType
+		annotations.Aliases[alias.Name] = alias
 	}
 
 	return true, nil
@@ -445,22 +418,25 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 	}
 
 	for _, matchCaptures := range *matches {
-		nameCapture, found := slicesx.FindFunc(matchCaptures, func(capture treesitter.Capture) bool {
-			return capture.Id == "alias.name"
-		})
+		enumAlias := lexedAliasAnnotation{}
+		enumAliasMembers := []string{}
 
-		if !found {
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "alias.name":
+				enumAlias.Name = capture.Node.Text
+			}
+		}
+
+		if enumAlias.Name == "" {
 			return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias name")
 		}
 
-		enumAliasName := nameCapture.Node.Text
 		nextLines, err := buffer.NextLineIterator(uint(matchCaptures.LineRange().Start))
 
 		if err != nil {
 			return false, err
 		}
-
-		enumAliasMembers := []symbol.Symbol{}
 
 		for line, err := range nextLines {
 			if err != nil {
@@ -485,20 +461,16 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 				return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias member type")
 			}
 
-			enumAliasMemberLexedType, err := l.lexType(enumAliasMemberTypeCapture.Node.Text)
-
-			if err != nil {
-				return false, err
-			}
-
-			enumAliasMembers = append(enumAliasMembers, enumAliasMemberLexedType)
+			enumAliasMembers = append(enumAliasMembers, enumAliasMemberTypeCapture.Node.Text)
 		}
 
 		if len(enumAliasMembers) < 1 {
 			return false, fmt.Errorf("Could not retrieve enum members from enum alias")
 		}
 
-		annotations.aliases[enumAliasName] = symbol.NewUnion(enumAliasMembers)
+		enumAlias.Type = strings.Join(enumAliasMembers, "|")
+		
+		annotations.Aliases[enumAlias.Name] = enumAlias
 	}
 
 	return true, nil
@@ -634,7 +606,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		Params:    map[string]lexedParamAnnotation{},
 		Returns:   []lexedReturnAnnotation{},
 		Overloads: []lexedOverloadAnnotation{},
-		aliases:   map[string]symbol.Symbol{},
+		Aliases:   map[string]lexedAliasAnnotation{},
 		classes:   map[string]*symbol.Table{},
 	}
 

@@ -342,14 +342,17 @@ func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	fmt.Println("Annotations", fmt.Sprintf("%+v", lexedAnnotations))
-	// TODO: replace the name of the returned type with the original name
-	// TODO: attach documentation
-
-	lexedAlias, found := lexedAnnotations.aliases[patchedName]
+	alias, found := lexedAnnotations.Aliases[patchedName]
 
 	if !found {
 		return nil, nil
+	}
+
+	// TODO: attach documentation
+	lexedAlias, err := l.lexType(alias.Type)
+
+	if err != nil {
+		return nil, err
 	}
 
 	return lexedAlias, nil
@@ -382,7 +385,6 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 		lexedAliasType, err := l.lexAliasType(source)
 
 		fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, lexedAliasType)
-
 
 		switch {
 		case err != nil:
@@ -488,6 +490,10 @@ func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union,
 			// Flattening nested unions
 			switch t := lexedType.(type) {
 			case symbol.Union:
+				for _, lexedUnionType := range t.Types {
+					unionTypes = append(unionTypes, lexedUnionType)
+				}
+			case *symbol.Union:
 				for _, lexedUnionType := range t.Types {
 					unionTypes = append(unionTypes, lexedUnionType)
 				}
