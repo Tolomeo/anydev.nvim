@@ -840,20 +840,22 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 	return function, nil
 }
 
-var typeTableQuery string = `
+var typeTableQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(table_type
-				key: (builtin_type) @key
-				value: (builtin_type) @value
+				key: (%s) @key
+				value: (%s) @value
 			) @table
 			(comment)? @documentation
 		)
-	)
-`
+	)`, anyTypeQuery, anyTypeQuery),
+}
 
 func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
-	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: typeTableQuery})
+	matches, err := buffer.TsQueryAll(typeTableQuery)
 
 	switch {
 	case err != nil:
@@ -869,7 +871,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "table":
-				table.Fields = append(table.Fields, symbol.TableField{})
+				table.Fields = append(table.Fields, *symbol.NewTableField())
 			case "key":
 				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 			case "value":
@@ -964,6 +966,55 @@ func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array,
 	}
 
 	return nil, fmt.Errorf("Could not retrieve items type value from the array type '%s'", source)
+}
+
+var tableLiteralQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(documentation
+		(type_annotation
+			(table_literal_type
+				field: ((%s) @table.key 
+				(%s) @table.value) @table.field 
+				(","
+					field: ((%s) @table.key 
+					(%s) @table.value)
+				) @table.field
+			) @table
+		)
+	)`, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery),
+}
+
+func (l *Lexer) lexLiteralTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
+	match, err := buffer.TsQueryOne(tableLiteralQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	table := symbol.NewTable()
+
+	for _, capture := range *match {
+		switch capture.Id {
+		case "table.field":
+			table.Fields = append(table.Fields, *symbol.NewTableField())
+		case "table.key":
+			table.Fields[len(table.Fields)-1].Name = capture.Node.Text
+		case "table.value":
+			value, err := l.lexType(lexedType{capture.Node.Text})
+
+			if err != nil {
+				return nil, err
+			}
+
+			table.Fields[len(table.Fields)-1].Value = value
+		}
+	}
+
+	return table, nil
 }
 
 var typeUnionQuery = treesitter.Query{
@@ -1162,6 +1213,15 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	case tableType != nil:
 		return tableType, nil
+	}
+
+	literalTableType, err := l.lexLiteralTableType(buffer)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case literalTableType != nil:
+		return literalTableType, nil
 	}
 
 	lexedOptional, err := l.lexOptionalType(buffer, source)
