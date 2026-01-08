@@ -1,30 +1,26 @@
 local args = { ... }
 local delay = args[1]
 
-local ok = pcall(vim.treesitter.language.add, "lua")
-
-if not ok then
-	error("Treesitter Lua parser registration failed.")
-end
-
-ok = pcall(vim.treesitter.language.add, "luadoc")
-
-if not ok then
-	error("Treesitter Luadoc parser registration failed.")
-end
-
 local bufnr = 0
 local lua = "lua"
 local luadoc = "luadoc"
 
-vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("LuaTSReady", { clear = true }),
-	pattern = { lua },
-	callback = function(opts)
-		vim.treesitter.start(opts.buf, luadoc)
-		vim.treesitter.start(opts.buf, lua)
-	end,
-})
+if vim.g.ts_ready ~= true then
+	local ok = pcall(vim.treesitter.language.add, "lua")
+
+	if not ok then
+		error("Treesitter Lua parser registration failed.")
+	end
+
+	ok = pcall(vim.treesitter.language.add, "luadoc")
+
+	if not ok then
+		error("Treesitter Luadoc parser registration failed.")
+	end
+
+	vim.g._ts_force_sync_parsing = true
+	vim.g.ts_ready = true
+end
 
 vim.treesitter.start(bufnr, luadoc)
 vim.treesitter.start(bufnr, lua)
@@ -35,8 +31,9 @@ vim.treesitter.start(bufnr, lua)
 local add_empty_line = vim.api.nvim_replace_termcodes("Go<Esc>", true, false, true)
 vim.api.nvim_feedkeys(add_empty_line, "n", false)
 
--- Forcing treesitter to parse all trees
-vim.treesitter.get_parser(bufnr, lua):parse(true)
+vim.wait(1, function()
+	return false
+end, 1, false)
 
 -- Removing the added line
 local remove_line = vim.api.nvim_replace_termcodes("Gdd<Esc>", true, false, true)

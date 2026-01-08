@@ -21,12 +21,10 @@ if not childParser then
 	error("Error: could not initialize luadoc parser")
 end
 
-parser:parse(true)
-
 local parsedQuery = vim.treesitter.query.parse(query_language, query)
-
 local queryResult = {}
 
+parser:parse(true)
 parser:for_each_tree(function(tree, language_tree)
 	local lang = language_tree:lang()
 
