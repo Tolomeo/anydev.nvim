@@ -190,8 +190,10 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 	return true, nil
 }
 
-var paramAnnotationQueries = map[string]string{
-	"arg": fmt.Sprintf(`
+var paramAnnotationQueries = map[string]treesitter.Query{
+	"arg": {
+		Language: "luadoc",
+		Query: fmt.Sprintf(`
 		(documentation
 			(param_annotation
 				(identifier) @name
@@ -201,42 +203,41 @@ var paramAnnotationQueries = map[string]string{
 			)
 		) @param
 	`, anyTypeQuery),
-	"vararg": fmt.Sprintf(`
+	},
+	"vararg": {
+		Language: "luadoc",
+		Query: fmt.Sprintf(`
 		(documentation
 			(param_annotation 
 				"..." @name
 				(%s) @type
 				(comment)? @documentation
 			)
-		) @param
-	`, anyTypeQuery),
+		) @param`, anyTypeQuery),
+	},
 }
 
 func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, hasMatches, err := slicesx.MapFindFunc(
-		mapx.Values(paramAnnotationQueries),
-		func(paramAnnotationQuery string) (*[]nvim.TsQueryMatch, bool, error) {
-			paramMatches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: paramAnnotationQuery})
+	matches := []nvim.TsQueryMatch{}
 
-			switch {
-			case err != nil:
-				return nil, false, err
-			case paramMatches == nil:
-				return nil, false, nil
-			}
+	for _, paramAnnotationQuery := range paramAnnotationQueries {
+		paramAnnotationMatches, err := buffer.TsQueryAll(paramAnnotationQuery)
 
-			return paramMatches, true, nil
-		},
-	)
+		switch {
+		case err != nil:
+			return false, err
+		case paramAnnotationMatches == nil:
+			continue
+		}
 
-	switch {
-	case err != nil:
-		return false, err
-	case !hasMatches:
+		matches = append(matches, *paramAnnotationMatches...)
+	}
+
+	if len(matches) == 0 {
 		return false, nil
 	}
 
-	for _, matchCaptures := range *matches {
+	for _, matchCaptures := range matches {
 		lexedParam := lexedParamAnnotation{}
 
 		for _, capture := range matchCaptures {
