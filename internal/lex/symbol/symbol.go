@@ -16,6 +16,23 @@ type ArrayKind string
 
 const ArrayKindArray ArrayKind = "array"
 
+type BooleanLiteral struct {
+	// Kind corresponds to the JSON schema field "kind".
+	Kind BooleanLiteralKind `json:"kind" yaml:"kind" mapstructure:"kind"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value BooleanLiteralValue `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type BooleanLiteralKind string
+
+const BooleanLiteralKindBooleanliteral BooleanLiteralKind = "booleanliteral"
+
+type BooleanLiteralValue string
+
+const BooleanLiteralValueFalse BooleanLiteralValue = "false"
+const BooleanLiteralValueTrue BooleanLiteralValue = "true"
+
 // https://luals.github.io/wiki/annotations/#documenting-types
 type Builtin struct {
 	// Kind corresponds to the JSON schema field "kind".

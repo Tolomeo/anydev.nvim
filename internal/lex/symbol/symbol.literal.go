@@ -9,7 +9,15 @@ func NewStringLiteral(value string) *StringLiteral {
 
 func NewNumericLiteral(value string) *NumericLiteral {
 	return &NumericLiteral{
-		Kind: NumericLiteralKindNumericliteral,
+		Kind:  NumericLiteralKindNumericliteral,
 		Value: value,
+	}
+}
+
+func NewBooleanLiteral(value string) *BooleanLiteral {
+
+	return &BooleanLiteral{
+		Kind:  BooleanLiteralKindBooleanliteral,
+		Value: BooleanLiteralValue(value),
 	}
 }

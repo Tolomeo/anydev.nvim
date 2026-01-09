@@ -303,6 +303,21 @@
       },
       "required": ["kind", "value"]
     },
+		"BooleanLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["booleanliteral"]
+        },
+        "value": {
+          "type": "string",
+					"enum": ["true", "false"]
+        }
+      },
+      "required": ["kind", "value"]
+		},
     "Array": {
       "type": "object",
       "additionalProperties": false,

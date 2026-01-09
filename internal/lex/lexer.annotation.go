@@ -1156,6 +1156,37 @@ func (l *Lexer) lexNumericLiteralType(buffer *nvim.Buffer, source string) (*symb
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
+var typeBooleanLiteralQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation
+		(type_annotation
+			(identifier) @literal.value
+		) @literal
+		(#any-of? @literal.value "true" "false")
+	)`,
+}
+
+func (l *Lexer) lexBooleanLiteralType(buffer *nvim.Buffer) (*symbol.BooleanLiteral, error) {
+	match, err := buffer.TsQueryOne(typeBooleanLiteralQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	for _, matchCapture := range *match {
+		switch matchCapture.Id {
+		case "literal.value":
+			return symbol.NewBooleanLiteral(matchCapture.Node.Text), nil
+		}
+	}
+
+	return nil, fmt.Errorf("Could not retrieve the value of the string literal type")
+}
+
 var typeStringLiteralQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
@@ -1279,6 +1310,15 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	case lexedNumericLiteral != nil:
 		return lexedNumericLiteral, nil
+	}
+
+	lexedBooleanLiteral, err := l.lexBooleanLiteralType(buffer)
+
+	switch {
+	case err != nil:
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	case lexedBooleanLiteral != nil:
+		return lexedBooleanLiteral, nil
 	}
 
 	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)
