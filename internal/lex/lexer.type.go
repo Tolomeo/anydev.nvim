@@ -57,7 +57,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
-			classField := symbol.TableField{Name: fieldName}
+			classField := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
 			source, err := l.crawler.SourceTypeMember(name, fieldName)
 
 			switch {
@@ -65,7 +65,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 				return err
 			case source == nil:
 				l.context.Logger.Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", name, fieldName))
-				classField.Value = symbol.NewUnknown()
+				class.Fields = append(class.Fields, classField)
 				return nil
 			}
 

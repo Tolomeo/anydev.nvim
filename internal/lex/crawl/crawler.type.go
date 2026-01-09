@@ -13,7 +13,6 @@ import (
 /* func (c *Crawler) sourceType(source *symbol.TypeSource) error {
 	locations, err := c.getTypeDefinitionLocations(source.Path)
 
-
 	switch {
 	case err != nil:
 		return err

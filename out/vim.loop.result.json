@@ -1116,6 +1116,15 @@
                     }
                 },
                 {
+                    "name": "errno",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
                     "name": "exepath",
                     "private": false,
                     "protected": false,
@@ -25268,7 +25277,35 @@
                 "@field speed number",
                 "@field times uv.cpu_info.cpu.times"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "model",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "speed",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "times",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.cpu_info.cpu"
         },
@@ -25666,7 +25703,35 @@
                 "@field ficlone       boolean",
                 "@field ficlone_force boolean"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "excl",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ficlone",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ficlone_force",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_copyfile.flags_t"
         },
@@ -25709,7 +25774,26 @@
                 "@field change boolean|nil",
                 "@field rename boolean|nil"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "change",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "rename",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_event_start.callback.events"
         },
@@ -25720,7 +25804,35 @@
                 "@field stat        boolean|nil # default: false",
                 "@field recursive   boolean|nil # default: false"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "recursive",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "stat",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "watch_entry",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_event_start.flags"
         },
@@ -26063,7 +26175,26 @@
                 "@field name string",
                 "@field type string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "name",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "type",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_readdir.entry"
         },
@@ -26231,7 +26362,161 @@
                 "@field birthtime uv.fs_stat.result.time",
                 "@field type      string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "atime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "birthtime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "blksize",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "blocks",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ctime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "dev",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "flags",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "gen",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "gid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ino",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "mode",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "mtime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "nlink",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "rdev",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "size",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "type",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "uid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_stat.result"
         },
@@ -26281,7 +26566,71 @@
                 "@field files  integer",
                 "@field ffree  integer"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "bavail",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "bfree",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "blocks",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "bsize",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ffree",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "files",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "type",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_statfs.result"
         },
@@ -26295,7 +26644,26 @@
                 "@field dir boolean",
                 "@field junction boolean"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "dir",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "junction",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.fs_symlink.flags"
         },
@@ -26383,7 +26751,98 @@
                 "@field numericserv boolean",
                 "@field canonname   boolean"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "addrconfig",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "all",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "canonname",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "numerichost",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "numericserv",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "passive",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "protocol",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "socktype",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "v4mapped",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.getaddrinfo.hints"
         },
@@ -26398,7 +26857,62 @@
                 "@field protocol  string",
                 "@field canonname string|nil"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "addr",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "canonname",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "port",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "protocol",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "socktype",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.getaddrinfo.result"
         },
@@ -26411,7 +26925,35 @@
                 "@field port   integer",
                 "@field family string|integer"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ip",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "port",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.getnameinfo.address"
         },
@@ -26469,7 +27011,152 @@
                 "@field nvcsw    integer                    # voluntary context switches",
                 "@field nivcsw   integer                    # involuntary context switches"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "idrss",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "inblock",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "isrss",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ixrss",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "majflt",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "maxrss",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "minflt",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "msgrcv",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "msgsnd",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "nivcsw",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "nsignals",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "nswap",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "nvcsw",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "oublock",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "stime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "utime",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.getrusage.result"
         },
@@ -26483,7 +27170,53 @@
                 "@field internal boolean",
                 "@field mac      string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "internal",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ip",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "mac",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "netmask",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.interface_addresses.addr"
         },
@@ -27184,7 +27917,17 @@
                 "@class uv.new_thread.options : table",
                 "@field stack_size integer"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "stack_size",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.new_thread.options"
         },
@@ -27197,7 +27940,26 @@
                 "",
                 "@field family uv.new_udp.flags.family|nil"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "mmsgs",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.new_udp.flags"
         },
@@ -27248,7 +28010,53 @@
                 "@field shell string",
                 "@field homedir string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "gid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "homedir",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "shell",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "uid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "username",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.os_get_passwd.info"
         },
@@ -27260,7 +28068,44 @@
                 "@field version string",
                 "@field machine string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "machine",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "release",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "sysname",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "version",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.os_uname.info"
         },
@@ -27270,7 +28115,26 @@
                 "@field read integer",
                 "@field write integer"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "read",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "write",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.pipe.fds"
         },
@@ -27281,7 +28145,17 @@
                 "@class uv.pipe.read_flags : table",
                 "@field nonblock boolean|false"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "nonblock",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.pipe.read_flags"
         },
@@ -27292,7 +28166,17 @@
                 "@class uv.pipe.write_flags : table",
                 "@field nonblock boolean|false"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "nonblock",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.pipe.write_flags"
         },
@@ -27697,7 +28581,35 @@
                 "@field family string|uv.socket.family",
                 "@field port integer"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ip",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "port",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.socketinfo"
         },
@@ -27716,7 +28628,17 @@
                 " Opens the specified socket handle for `OVERLAPPED` or `FIONBIO`/`O_NONBLOCK` I/O usage. This is recommended for handles that will be used by libuv, and not usually recommended otherwise.",
                 "@field nonblock true|false"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "nonblock",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.socketpair.flags"
         },
@@ -27810,7 +28732,89 @@
                 " Set the file descriptors that will be made available to the child process. The convention is that the first entries are stdin, stdout, and stderr. (**Note**: On Windows, file descriptors after the third are available to the child process only if the child processes uses the MSVCRT runtime.)",
                 "@field stdio { [1]: uv.spawn.options.stdio, [2]: uv.spawn.options.stdio, [3]: uv.spawn.options.stdio }"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "args",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "cwd",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "detached",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "env",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "gid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "hide",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "stdio",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "uid",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "verbatim",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.spawn.options"
         },
@@ -27821,7 +28825,17 @@
                 "@class uv.tcp_bind.flags : table",
                 "@field ipv6only boolean"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "ipv6only",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.tcp_bind.flags"
         },
@@ -27863,7 +28877,26 @@
                 "@field ipv6only boolean",
                 "@field reuseaddr boolean"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "ipv6only",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "reuseaddr",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.udp_bind.flags"
         },
@@ -27942,7 +28975,35 @@
                 "@field port integer",
                 "@field family uv.socket.family|string"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "family",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "ip",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "port",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.udp_recv_start.callback.addr"
         },
@@ -27952,7 +29013,26 @@
                 "@field partial boolean|nil",
                 "@field mmsg_chunk boolean|nil"
             ],
-            "fields": [],
+            "fields": [
+                {
+                    "name": "mmsg_chunk",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                },
+                {
+                    "name": "partial",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "documentation": [],
+                        "kind": "unknown"
+                    }
+                }
+            ],
             "kind": "table",
             "name": "uv.udp_recv_start.callback.flags"
         },
@@ -32400,7 +33480,7 @@
         "uv.uv_getaddrinfo_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
@@ -32533,10 +33613,10 @@
         },
         "uv.uv_getnameinfo_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
                 "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
