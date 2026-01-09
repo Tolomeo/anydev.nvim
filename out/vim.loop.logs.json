@@ -11,12 +11,6 @@
             "message": "No origin found for 'fun(...:uv.threadargs)' symbol"
         }
     ],
-    "table\u003cstring, uv.interface_addresses.addr\u003e": [
-        {
-            "level": "warn",
-            "message": "No origin found for 'table\u003cstring, uv.interface_addresses.addr\u003e' symbol"
-        }
-    ],
     "uv.accept": [
         {
             "level": "info",
@@ -2363,6 +2357,36 @@
             "message": "Skipping 'uv.error.name': lexed type already found"
         }
     ],
+    "uv.interface_addresses.addr.family": [
+        {
+            "level": "warn",
+            "message": "Using unknown for 'uv.interface_addresses.addr' field 'family', with no origin"
+        }
+    ],
+    "uv.interface_addresses.addr.internal": [
+        {
+            "level": "warn",
+            "message": "Using unknown for 'uv.interface_addresses.addr' field 'internal', with no origin"
+        }
+    ],
+    "uv.interface_addresses.addr.ip": [
+        {
+            "level": "warn",
+            "message": "Using unknown for 'uv.interface_addresses.addr' field 'ip', with no origin"
+        }
+    ],
+    "uv.interface_addresses.addr.mac": [
+        {
+            "level": "warn",
+            "message": "Using unknown for 'uv.interface_addresses.addr' field 'mac', with no origin"
+        }
+    ],
+    "uv.interface_addresses.addr.netmask": [
+        {
+            "level": "warn",
+            "message": "Using unknown for 'uv.interface_addresses.addr' field 'netmask', with no origin"
+        }
+    ],
     "uv.is_active": [
         {
             "level": "info",
@@ -3144,11 +3168,11 @@
     "uv.queue_work": [
         {
             "level": "info",
-            "message": "Using '\u0026{[] unknown}' for undocumented argument type 'work_ctx'"
+            "message": "Skipping 'uv.luv_work_ctx_t': lexed type already found"
         },
         {
             "level": "info",
-            "message": "Skipping 'uv.threadargs': lexed type already found"
+            "message": "Using '\u0026{[] unknown}' for undocumented argument type '...'"
         },
         {
             "level": "info",
@@ -3167,10 +3191,6 @@
         {
             "level": "info",
             "message": "Skipping 'uv.error.name': lexed type already found"
-        },
-        {
-            "level": "info",
-            "message": "Skipping '{}': lexed type already found"
         },
         {
             "level": "info",
@@ -6753,18 +6773,6 @@
         {
             "level": "info",
             "message": "Skipping 'uv.callback': lexed type already found"
-        }
-    ],
-    "{ [1]: integer, [2]: integer }": [
-        {
-            "level": "warn",
-            "message": "No origin found for '{ [1]: integer, [2]: integer }' symbol"
-        }
-    ],
-    "{}": [
-        {
-            "level": "warn",
-            "message": "No origin found for '{}' symbol"
         }
     ]
 }

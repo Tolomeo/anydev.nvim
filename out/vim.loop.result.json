@@ -14,10 +14,6 @@
             "documentation": [],
             "kind": "unknown"
         },
-        "table\u003cstring, uv.interface_addresses.addr\u003e": {
-            "documentation": [],
-            "kind": "unknown"
-        },
         "uv": {
             "documentation": [
                 " The luv project provides access to the multi-platform support library",
@@ -13928,8 +13924,20 @@
                         "returns": [
                             {
                                 "type": {
-                                    "kind": "reference",
-                                    "value": "table\u003cstring, uv.interface_addresses.addr\u003e"
+                                    "documentation": [],
+                                    "fields": [
+                                        {
+                                            "name": "string",
+                                            "private": false,
+                                            "protected": false,
+                                            "value": {
+                                                "kind": "reference",
+                                                "value": "uv.interface_addresses.addr"
+                                            }
+                                        }
+                                    ],
+                                    "kind": "table",
+                                    "name": ""
                                 }
                             }
                         ]
@@ -18532,16 +18540,16 @@
                                 "name": "work_ctx",
                                 "optional": false,
                                 "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                                    "kind": "reference",
+                                    "value": "uv.luv_work_ctx_t"
                                 }
                             },
                             {
                                 "name": "...",
                                 "optional": false,
                                 "type": {
-                                    "kind": "reference",
-                                    "value": "uv.threadargs"
+                                    "documentation": [],
+                                    "kind": "unknown"
                                 }
                             }
                         ],
@@ -18649,8 +18657,10 @@
                                             "value": "0"
                                         },
                                         {
-                                            "kind": "reference",
-                                            "value": "{}"
+                                            "documentation": [],
+                                            "fields": [],
+                                            "kind": "table",
+                                            "name": ""
                                         }
                                     ]
                                 }
@@ -18840,8 +18850,10 @@
                                             "value": "0"
                                         },
                                         {
-                                            "kind": "reference",
-                                            "value": "{}"
+                                            "documentation": [],
+                                            "fields": [],
+                                            "kind": "table",
+                                            "name": ""
                                         }
                                     ]
                                 }
@@ -25264,7 +25276,7 @@
                 "@field speed number",
                 "@field times uv.cpu_info.cpu.times"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.cpu_info.cpu"
         },
@@ -25685,7 +25697,7 @@
                 "@field change boolean|nil",
                 "@field rename boolean|nil"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_event_start.callback.events"
         },
@@ -25696,7 +25708,7 @@
                 "@field stat        boolean|nil # default: false",
                 "@field recursive   boolean|nil # default: false"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_event_start.flags"
         },
@@ -26039,7 +26051,7 @@
                 "@field name string",
                 "@field type string"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_readdir.entry"
         },
@@ -26207,7 +26219,7 @@
                 "@field birthtime uv.fs_stat.result.time",
                 "@field type      string"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_stat.result"
         },
@@ -26257,7 +26269,7 @@
                 "@field files  integer",
                 "@field ffree  integer"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_statfs.result"
         },
@@ -26271,7 +26283,7 @@
                 "@field dir boolean",
                 "@field junction boolean"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.fs_symlink.flags"
         },
@@ -26359,7 +26371,7 @@
                 "@field numericserv boolean",
                 "@field canonname   boolean"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.getaddrinfo.hints"
         },
@@ -26374,7 +26386,7 @@
                 "@field protocol  string",
                 "@field canonname string|nil"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.getaddrinfo.result"
         },
@@ -26387,7 +26399,7 @@
                 "@field port   integer",
                 "@field family string|integer"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.getnameinfo.address"
         },
@@ -26445,9 +26457,23 @@
                 "@field nvcsw    integer                    # voluntary context switches",
                 "@field nivcsw   integer                    # involuntary context switches"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.getrusage.result"
+        },
+        "uv.interface_addresses.addr": {
+            "documentation": [
+                "@class uv.interface_addresses.addr",
+                "",
+                "@field ip       string",
+                "@field family   string",
+                "@field netmask  string",
+                "@field internal boolean",
+                "@field mac      string"
+            ],
+            "fields": [],
+            "kind": "table",
+            "name": "uv.interface_addresses.addr"
         },
         "uv.listen.callback": {
             "kind": "reference",
@@ -27133,7 +27159,7 @@
                 "@class uv.new_thread.options : table",
                 "@field stack_size integer"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.new_thread.options"
         },
@@ -27146,7 +27172,7 @@
                 "",
                 "@field family uv.new_udp.flags.family|nil"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.new_udp.flags"
         },
@@ -27171,7 +27197,7 @@
                 "@field shell string",
                 "@field homedir string"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.os_get_passwd.info"
         },
@@ -27183,7 +27209,7 @@
                 "@field version string",
                 "@field machine string"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.os_uname.info"
         },
@@ -27193,7 +27219,7 @@
                 "@field read integer",
                 "@field write integer"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.pipe.fds"
         },
@@ -27204,7 +27230,7 @@
                 "@class uv.pipe.read_flags : table",
                 "@field nonblock boolean|false"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.pipe.read_flags"
         },
@@ -27215,7 +27241,7 @@
                 "@class uv.pipe.write_flags : table",
                 "@field nonblock boolean|false"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.pipe.write_flags"
         },
@@ -27620,13 +27646,15 @@
                 "@field family string|uv.socket.family",
                 "@field port integer"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.socketinfo"
         },
         "uv.socketpair.fds": {
-            "kind": "reference",
-            "value": "{ [1]: integer, [2]: integer }"
+            "documentation": [],
+            "fields": [],
+            "kind": "table",
+            "name": ""
         },
         "uv.socketpair.flags": {
             "documentation": [
@@ -27637,7 +27665,7 @@
                 " Opens the specified socket handle for `OVERLAPPED` or `FIONBIO`/`O_NONBLOCK` I/O usage. This is recommended for handles that will be used by libuv, and not usually recommended otherwise.",
                 "@field nonblock true|false"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.socketpair.flags"
         },
@@ -27731,7 +27759,7 @@
                 " Set the file descriptors that will be made available to the child process. The convention is that the first entries are stdin, stdout, and stderr. (**Note**: On Windows, file descriptors after the third are available to the child process only if the child processes uses the MSVCRT runtime.)",
                 "@field stdio { [1]: uv.spawn.options.stdio, [2]: uv.spawn.options.stdio, [3]: uv.spawn.options.stdio }"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.spawn.options"
         },
@@ -27742,7 +27770,7 @@
                 "@class uv.tcp_bind.flags : table",
                 "@field ipv6only boolean"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.tcp_bind.flags"
         },
@@ -27784,7 +27812,7 @@
                 "@field ipv6only boolean",
                 "@field reuseaddr boolean"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.udp_bind.flags"
         },
@@ -27863,7 +27891,7 @@
                 "@field port integer",
                 "@field family uv.socket.family|string"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.udp_recv_start.callback.addr"
         },
@@ -27873,7 +27901,7 @@
                 "@field partial boolean|nil",
                 "@field mmsg_chunk boolean|nil"
             ],
-            "fields": null,
+            "fields": [],
             "kind": "table",
             "name": "uv.udp_recv_start.callback.flags"
         },
@@ -29846,13 +29874,13 @@
         },
         "uv.uv_connect_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
-                "@class uv.uv_getnameinfo_t : uv.uv_req_t",
+                "@class uv_uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
             "fields": [
@@ -32189,7 +32217,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -32323,7 +32351,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -32457,7 +32485,7 @@
                 "@class uv_uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -51913,7 +51941,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -52066,14 +52094,6 @@
         "uv.write2.callback": {
             "kind": "reference",
             "value": "uv.callback"
-        },
-        "{ [1]: integer, [2]: integer }": {
-            "documentation": [],
-            "kind": "unknown"
-        },
-        "{}": {
-            "documentation": [],
-            "kind": "unknown"
         }
     }
 }
