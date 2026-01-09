@@ -31,6 +31,49 @@ var variableAssignmentQueries = map[string]string{
 	)`,
 }
 
+func (c *Crawler) sourceValueOrigin(source symbol.Source) error {
+	locations, err := c.findValueDefinitionLocations(source.Identifier())
+
+	switch {
+	case err != nil:
+		return err
+	case locations == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Identifier()))
+		return nil
+	}
+
+	pathOrigin, err := c.findValueOrigin(*locations)
+
+	switch {
+	case err != nil:
+		return err
+	case pathOrigin == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Identifier()))
+		return nil
+	default:
+		source.SetOrigin(pathOrigin)
+	}
+
+	err = c.followValueOrigin(source)
+
+	if err != nil {
+		return err
+	}
+
+	documentation, err := c.sourceValueOriginDocumentation(source)
+
+	switch {
+	case err != nil:
+		return err
+	case documentation == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
+		return nil
+	}
+
+	source.GetOrigin().SetDocumentation(documentation)
+	return nil
+}
+
 func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
@@ -195,10 +238,11 @@ func (c *Crawler) findValueOrigin(locations []nvim.Location) (*symbol.ValueOrigi
 
 		defer buffer.Close()
 
+		targetNodes := []string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		node, err := buffer.GetTSNodeAt([]string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}, line, character)
+		node, err := buffer.GetTSNodeAt(targetNodes, line, character)
 
 		switch {
 		case err != nil:
@@ -216,49 +260,6 @@ func (c *Crawler) findValueOrigin(locations []nvim.Location) (*symbol.ValueOrigi
 	}
 
 	return nil, nil
-}
-
-func (c *Crawler) sourceValueOrigin(source symbol.Source) error {
-	locations, err := c.findValueDefinitionLocations(source.Identifier())
-
-	switch {
-	case err != nil:
-		return err
-	case locations == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Identifier()))
-		return nil
-	}
-
-	pathOrigin, err := c.findValueOrigin(*locations)
-
-	switch {
-	case err != nil:
-		return err
-	case pathOrigin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Identifier()))
-		return nil
-	default:
-		source.SetOrigin(pathOrigin)
-	}
-
-	err = c.followValueOrigin(source)
-
-	if err != nil {
-		return err
-	}
-
-	documentation, err := c.sourceValueOriginDocumentation(source)
-
-	switch {
-	case err != nil:
-		return err
-	case documentation == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
-		return nil
-	}
-
-	source.GetOrigin().SetDocumentation(documentation)
-	return nil
 }
 
 func (c *Crawler) sourceValueOriginDocumentation(source symbol.Source) (*treesitter.TsNode, error) {

@@ -42,7 +42,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
-				(#match? @alias "^\\@alias *%s($|[^a-zA-Z0-9_])")
+				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
@@ -52,7 +52,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
-				(#match? @class_annotation "^\\@class *%s($|[^a-zA-Z0-9_])")
+				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
@@ -73,7 +73,11 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 			tsRange := location.TargetRange.AsTreesitter()
 			lineRange := tsRange.LineRange()
 
-			definition, err := buffer.GetTSNodeAt([]string{nodeType}, uint(location.TargetRange.Start.Line), uint(location.TargetRange.Start.Character))
+			targetNodes := []string{nodeType}
+			line, character :=
+				uint(location.TargetRange.Start.Line),
+				uint(location.TargetRange.Start.Character)
+			definition, err := buffer.GetTSNodeAt(targetNodes, line, character)
 
 			switch {
 			case err != nil:
