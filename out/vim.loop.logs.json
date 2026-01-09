@@ -5,12 +5,6 @@
             "message": "No locations found for 'false' type"
         }
     ],
-    "fun(...:uv.threadargs)": [
-        {
-            "level": "warn",
-            "message": "No origin found for 'fun(...:uv.threadargs)' symbol"
-        }
-    ],
     "uv.accept": [
         {
             "level": "info",
@@ -2605,6 +2599,12 @@
             "message": "Skipping 'uv.error.name': lexed type already found"
         }
     ],
+    "uv.new_async.callback": [
+        {
+            "level": "info",
+            "message": "Skipping 'uv.threadargs': lexed type already found"
+        }
+    ],
     "uv.new_check": [
         {
             "level": "info",
@@ -2794,13 +2794,13 @@
     "uv.new_work.after_work_callback": [
         {
             "level": "info",
-            "message": "Skipping 'fun(...:uv.threadargs)': lexed type already found"
+            "message": "Skipping 'uv.threadargs': lexed type already found"
         }
     ],
     "uv.new_work.work_callback": [
         {
             "level": "info",
-            "message": "Skipping 'fun(...:uv.threadargs)': lexed type already found"
+            "message": "Skipping 'uv.threadargs': lexed type already found"
         }
     ],
     "uv.os_get_passwd.info.gid": [

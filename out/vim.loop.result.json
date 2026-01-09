@@ -10,10 +10,6 @@
             "documentation": [],
             "kind": "unknown"
         },
-        "fun(...:uv.threadargs)": {
-            "documentation": [],
-            "kind": "unknown"
-        },
         "uv": {
             "documentation": [
                 " The luv project provides access to the multi-platform support library",
@@ -27149,8 +27145,21 @@
             "name": "uv.luv_work_ctx_t"
         },
         "uv.new_async.callback": {
-            "kind": "reference",
-            "value": "fun(...:uv.threadargs)"
+            "arguments": [
+                {
+                    "name": "...",
+                    "optional": false,
+                    "type": {
+                        "kind": "reference",
+                        "value": "uv.threadargs"
+                    }
+                }
+            ],
+            "deprecated": false,
+            "documentation": [],
+            "generics": [],
+            "kind": "function",
+            "returns": []
         },
         "uv.new_thread.options": {
             "documentation": [
@@ -27181,12 +27190,38 @@
             "value": "uv.socket.family"
         },
         "uv.new_work.after_work_callback": {
-            "kind": "reference",
-            "value": "fun(...:uv.threadargs)"
+            "arguments": [
+                {
+                    "name": "...",
+                    "optional": false,
+                    "type": {
+                        "kind": "reference",
+                        "value": "uv.threadargs"
+                    }
+                }
+            ],
+            "deprecated": false,
+            "documentation": [],
+            "generics": [],
+            "kind": "function",
+            "returns": []
         },
         "uv.new_work.work_callback": {
-            "kind": "reference",
-            "value": "fun(...:uv.threadargs)"
+            "arguments": [
+                {
+                    "name": "...",
+                    "optional": false,
+                    "type": {
+                        "kind": "reference",
+                        "value": "uv.threadargs"
+                    }
+                }
+            ],
+            "deprecated": false,
+            "documentation": [],
+            "generics": [],
+            "kind": "function",
+            "returns": []
         },
         "uv.os_get_passwd.info": {
             "documentation": [
@@ -29874,13 +29909,13 @@
         },
         "uv.uv_connect_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
-                "@class uv_uv_getnameinfo_t : uv.uv_req_t",
+                "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
             "fields": [
@@ -32215,9 +32250,9 @@
         "uv.uv_fs_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -32348,10 +32383,10 @@
         },
         "uv.uv_getaddrinfo_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -32483,9 +32518,9 @@
         "uv.uv_getnameinfo_t": {
             "documentation": [
                 "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",

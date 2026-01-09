@@ -169,7 +169,7 @@ func (n *Nvim) tsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	case matches == nil:
 		return nil, nil
 	case len(*matches) > 1:
-		return nil, fmt.Errorf("Error executing TSQuery: too many matches, expected 1 but received %d", len(*matches))
+		return nil, fmt.Errorf("Error executing TSQuery: too many matches, expected 1 but received %d <%+v>", len(*matches), matches)
 	case len(*matches) < 1:
 		return nil, nil
 	}

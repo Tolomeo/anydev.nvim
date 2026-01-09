@@ -767,7 +767,7 @@ var typeFunctionQuery = treesitter.Query{
 					(identifier) @parameter.name
 					":"
 					(%s) @parameter.type
-				) @parameter
+				)? @parameter
 				("," (parameter
 					(identifier) @parameter.name
 					":"
