@@ -36,25 +36,23 @@ import (
 } */
 
 // TODO enum
-var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineRange) treesitter.Query{
-	treesitter.ALIAS_ANNOTATION: func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
+var customTypeQueries = map[string]func(name string) treesitter.Query{
+	treesitter.ALIAS_ANNOTATION: func(aliasName string) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
 				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
-			Range: lineRange,
 		}
 	},
-	treesitter.CLASS_ANNOTATION: func(aliasName string, lineRange *treesitter.LineRange) treesitter.Query {
+	treesitter.CLASS_ANNOTATION: func(aliasName string) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
 				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
-			Range: lineRange,
 		}
 	},
 }
@@ -69,11 +67,11 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 
 		defer buffer.Close()
 
-		for nodeType, matchNameQuery := range customTypeQueries {
+		for searchNode, searchQuery := range customTypeQueries {
 			tsRange := location.TargetRange.AsTreesitter()
 			lineRange := tsRange.LineRange()
 
-			targetNodes := []string{nodeType}
+			targetNodes := []string{searchNode}
 			line, character :=
 				uint(location.TargetRange.Start.Line),
 				uint(location.TargetRange.Start.Character)
@@ -86,7 +84,9 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 				continue
 			}
 
-			match, err := buffer.TsQueryOne(matchNameQuery(source.Path, &lineRange))
+			query := searchQuery(source.Path)
+			query.Range = &lineRange
+			match, err := buffer.TsQueryOne(query)
 
 			switch {
 			case err != nil:
@@ -108,15 +108,11 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 
 			// fmt.Printf("\nDocumentation: %+v\n", documentation)
 
-			typeOrigin := &symbol.TypeOrigin{
-				Location:      location,
-				Definition:    *definition,
+			return &symbol.TypeOrigin{
+				Location:   location,
+				Definition: *definition,
 				Documentation: *documentation,
-			}
-
-			// fmt.Printf("\nType origin:\n%+v\n", location)
-
-			return typeOrigin, nil
+			}, nil
 		}
 	}
 

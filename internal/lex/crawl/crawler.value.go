@@ -31,48 +31,6 @@ var variableAssignmentQueries = map[string]string{
 	)`,
 }
 
-func (c *Crawler) sourceValueOrigin(source symbol.Source) error {
-	locations, err := c.findValueDefinitionLocations(source.Identifier())
-
-	switch {
-	case err != nil:
-		return err
-	case locations == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Identifier()))
-		return nil
-	}
-
-	pathOrigin, err := c.findValueOrigin(*locations)
-
-	switch {
-	case err != nil:
-		return err
-	case pathOrigin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Identifier()))
-		return nil
-	default:
-		source.SetOrigin(pathOrigin)
-	}
-
-	err = c.followValueOrigin(source)
-
-	if err != nil {
-		return err
-	}
-
-	documentation, err := c.sourceValueOriginDocumentation(source)
-
-	switch {
-	case err != nil:
-		return err
-	case documentation == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
-		return nil
-	}
-
-	source.GetOrigin().SetDocumentation(documentation)
-	return nil
-}
 
 func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
@@ -123,7 +81,7 @@ func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueO
 		return nil, err
 	}
 
-	rightValueOrigin, err := c.findValueOrigin(*rightValueLocations)
+	rightValueOrigin, err := c.findValueOrigin(source, *rightValueLocations)
 
 	if err != nil {
 		return nil, err
@@ -187,7 +145,7 @@ func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.Va
 		return nil, err
 	}
 
-	moduleOrigin, err := c.findValueOrigin(*moduleLocations)
+	moduleOrigin, err := c.findValueOrigin(source, *moduleLocations)
 
 	switch {
 	case err != nil:
@@ -228,7 +186,13 @@ func (c *Crawler) followValueOrigin(source symbol.Source) error {
 	return nil
 }
 
-func (c *Crawler) findValueOrigin(locations []nvim.Location) (*symbol.ValueOrigin, error) {
+var valueOriginQueries = map[string]func(name string) treesitter.Query{
+	treesitter.ASSIGNMENT_STATEMENT: nil,
+	treesitter.VARIABLE_DECLARATION: nil,
+	treesitter.FUNCTION_DECLARATION: nil,
+}
+
+func (c *Crawler) findValueOrigin(source symbol.Source, locations []nvim.Location) (*symbol.ValueOrigin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
@@ -238,25 +202,46 @@ func (c *Crawler) findValueOrigin(locations []nvim.Location) (*symbol.ValueOrigi
 
 		defer buffer.Close()
 
-		targetNodes := []string{treesitter.ASSIGNMENT_STATEMENT, treesitter.VARIABLE_DECLARATION, treesitter.FUNCTION_DECLARATION}
-		line, character :=
-			uint(location.TargetRange.Start.Line),
-			uint(location.TargetRange.Start.Character)
-		node, err := buffer.GetTSNodeAt(targetNodes, line, character)
+		for searchNode, searchQuery := range valueOriginQueries {
+			tsRange := location.TargetRange.AsTreesitter()
+			lineRange := tsRange.LineRange()
 
-		switch {
-		case err != nil:
-			return nil, err
-		case node == nil:
-			continue
+			targetNodes := []string{searchNode}
+			line, character :=
+				uint(location.TargetRange.Start.Line),
+				uint(location.TargetRange.Start.Character)
+			node, err := buffer.GetTSNodeAt(targetNodes, line, character)
+
+			switch {
+			case err != nil:
+				return nil, err
+			case node == nil:
+				continue
+			}
+
+			if searchQuery == nil {
+				return &symbol.ValueOrigin{
+					Location:   location,
+					Definition: *node,
+				}, nil
+			}
+
+			query := (searchQuery)(source.Identifier())
+			query.Range = &lineRange
+			match, err := buffer.TsQueryOne(query)
+
+			switch {
+			case err != nil:
+				return nil, err
+			case match == nil:
+				continue
+			}
+
+			return &symbol.ValueOrigin{
+				Location:   location,
+				Definition: *node,
+			}, nil
 		}
-
-		pathOrigin := &symbol.ValueOrigin{
-			Location:   location,
-			Definition: *node,
-		}
-
-		return pathOrigin, nil
 	}
 
 	return nil, nil

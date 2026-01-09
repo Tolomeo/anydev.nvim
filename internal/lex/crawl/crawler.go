@@ -13,12 +13,45 @@ type Crawler struct {
 
 func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 	source := symbol.ValueSource{Path: path}
-	err := c.sourceValueOrigin(&source)
+	locations, err := c.findValueDefinitionLocations(source.Identifier())
+
+	switch {
+	case err != nil:
+		return nil, err
+	case locations == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' symbol", source.Identifier()))
+		return nil, nil
+	}
+
+	pathOrigin, err := c.findValueOrigin(&source, *locations)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case pathOrigin == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Identifier()))
+		return nil, nil
+	default:
+		source.SetOrigin(pathOrigin)
+	}
+
+	err = c.followValueOrigin(&source)
 
 	if err != nil {
 		return nil, err
 	}
 
+	documentation, err := c.sourceValueOriginDocumentation(&source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case documentation == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
+		return &source, nil
+	}
+
+	source.GetOrigin().SetDocumentation(documentation)
 	return &source, nil
 }
 
@@ -77,7 +110,7 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		return nil, nil
 	}
 
-	memberOrigin, err := c.findValueOrigin(*locations)
+	memberOrigin, err := c.findValueOrigin(&source, *locations)
 
 	switch {
 	case err != nil:
@@ -98,7 +131,6 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		return nil, nil
 	default:
 		source.GetOrigin().SetDocumentation(documentation)
-
 	}
 
 	return &source, nil
