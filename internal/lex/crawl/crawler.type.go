@@ -43,7 +43,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
-				(#match? @alias "\\@alias %s")
+				(#match? @alias "^\\@alias *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}
@@ -53,7 +53,7 @@ var customTypeQueries = map[string]func(name string, lineRange *treesitter.LineR
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
-				(#match? @class_annotation "\\@class %s")
+				(#match? @class_annotation "^\\@class *%s($|[^a-zA-Z0-9_])")
 			)`, regexp.QuoteMeta(aliasName)),
 			Range: lineRange,
 		}

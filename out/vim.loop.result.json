@@ -25647,8 +25647,28 @@
             "value": "uv.callback_with_success"
         },
         "uv.fs_copyfile.flags": {
-            "documentation": [],
-            "kind": "unknown"
+            "kind": "union",
+            "types": [
+                {
+                    "kind": "reference",
+                    "value": "uv.fs_copyfile.flags_t"
+                },
+                {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            ]
+        },
+        "uv.fs_copyfile.flags_t": {
+            "documentation": [
+                "@class uv.fs_copyfile.flags_t : table",
+                "@field excl          boolean",
+                "@field ficlone       boolean",
+                "@field ficlone_force boolean"
+            ],
+            "fields": [],
+            "kind": "table",
+            "name": "uv.fs_copyfile.flags_t"
         },
         "uv.fs_event_start.callback": {
             "arguments": [
@@ -29905,12 +29925,12 @@
         },
         "uv.uv_connect_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
@@ -32246,7 +32266,7 @@
         "uv.uv_fs_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
@@ -32379,8 +32399,8 @@
         },
         "uv.uv_getaddrinfo_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
@@ -32513,12 +32533,12 @@
         },
         "uv.uv_getnameinfo_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
