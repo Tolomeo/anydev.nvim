@@ -694,7 +694,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
 
-	fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
+	// fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
 
 	lexedAnnotationsCache.Set(&annotations, dockblock...)
 	return &annotations, nil

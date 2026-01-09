@@ -99,7 +99,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 		case err != nil:
 			return err
 		case lexedAliasType != nil:
-			fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, lexedAliasType)
+			// fmt.Printf("\nLexed '%s' alias: %+v\n\n", name, lexedAliasType)
 			l.context.Result().Types[name] = lexedAliasType
 			return nil
 		}

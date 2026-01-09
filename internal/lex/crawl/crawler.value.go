@@ -6,33 +6,36 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-var variableAssignmentQueries = map[string]string{
-	"dotIndexAssignment": `
-	(assignment_statement
-		(variable_list
-			name: (_)
-		) @assignment.left
-		(expression_list
-			value: (dot_index_expression) @assignment.right 
-		)
-	)`,
-	"identifierAssignment": `
-	(assignment_statement
-		(variable_list
-			name: (_)
-		) @assignment.left
-		(expression_list
-			value: (identifier) @assignment.right 
-		)
-	)`,
+var variableAssignmentQueries = map[string]treesitter.Query{
+	"dotIndexAssignment": {
+		Language: "lua",
+		Query: `
+		(assignment_statement
+			(variable_list
+				name: (_)
+			) @assignment.left
+			(expression_list
+				value: (dot_index_expression) @assignment.right 
+			)
+		)`},
+	"identifierAssignment": {
+		Language: "lua",
+		Query: `
+		(assignment_statement
+			(variable_list
+				name: (_)
+			) @assignment.left
+			(expression_list
+				value: (identifier) @assignment.right 
+			)
+		)`,
+	},
 }
 
-
-func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
+func (c *Crawler) followVariableAssignment(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -41,29 +44,28 @@ func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueO
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
+	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
 	}
 
-	captures, hasCaptures, err := slicesx.MapFindFunc(mapx.Values(variableAssignmentQueries), func(variableAssignmentQuery string) (*nvim.TsQueryMatch, bool, error) {
-		assignmentCaptures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: variableAssignmentQuery})
+	var captures *nvim.TsQueryMatch = nil
+
+	for _, variableAssignmentQuery := range variableAssignmentQueries {
+		assignmentCaptures, err := buffer.TsQueryOne(variableAssignmentQuery)
 
 		switch {
 		case err != nil:
-			return nil, false, err
+			return nil, err
 		case assignmentCaptures == nil:
-			return nil, false, nil
+			continue
 		}
 
-		return assignmentCaptures, true, nil
-	})
+		captures = assignmentCaptures
+	}
 
-	switch {
-	case err != nil:
-		return nil, err
-	case !hasCaptures:
+	if captures == nil {
 		return nil, nil
 	}
 
@@ -72,7 +74,7 @@ func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueO
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", source.GetOrigin().DefinitionLines())
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.DefinitionLines())
 	}
 
 	rightValueLocations, err := c.findValueDefinitionLocations(rightValue.Node.Text)
@@ -90,7 +92,9 @@ func (c *Crawler) followVariableAssignment(source symbol.Source) (*symbol.ValueO
 	return rightValueOrigin, nil
 }
 
-var requireAssignmentQuery string = `
+var requireAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
 	(assignment_statement
 		(variable_list)
 		(expression_list
@@ -104,10 +108,10 @@ var requireAssignmentQuery string = `
 			)
 		) @require
 		(#eq? @require.call "require")
-	)
-`
+	)`,
+}
 
-func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.ValueOrigin, error) {
+func (c *Crawler) followRequireValueAssignment(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -116,13 +120,13 @@ func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.Va
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
+	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
 	}
 
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "lua", Query: requireAssignmentQuery})
+	captures, err := buffer.TsQueryOne(requireAssignmentQuery)
 
 	switch {
 	case err != nil:
@@ -136,7 +140,7 @@ func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.Va
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", source.GetOrigin().DefinitionLines())
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.DefinitionLines())
 	}
 
 	moduleLocations, err := c.findModuleValueLocations(moduleNameCapture.Node.Text)
@@ -151,39 +155,35 @@ func (c *Crawler) followRequireValueAssignment(source symbol.Source) (*symbol.Va
 	case err != nil:
 		return nil, err
 	case moduleOrigin == nil:
-		return nil, fmt.Errorf("Error following require statement '%s'", source.GetOrigin().DefinitionLines())
+		return nil, fmt.Errorf("Error following require statement '%s'", origin.DefinitionLines())
 	}
 
 	return moduleOrigin, nil
 }
 
-func (c *Crawler) followValueOrigin(source symbol.Source) error {
-	switch source.GetOrigin().Type() {
+func (c *Crawler) followValueOrigin(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
+	switch origin.Type() {
 	case treesitter.ASSIGNMENT_STATEMENT:
-		requiredOrigin, err := c.followRequireValueAssignment(source)
+		requiredOrigin, err := c.followRequireValueAssignment(source, origin)
 
 		switch {
 		case err != nil:
-			return err
+			return nil, err
 		case requiredOrigin != nil:
-			source.SetOrigin(requiredOrigin)
-			return nil
+			return requiredOrigin, nil
 		}
 
-		variableOrigin, err := c.followVariableAssignment(source)
+		variableOrigin, err := c.followVariableAssignment(source, origin)
 
 		switch {
 		case err != nil:
-			return err
+			return nil, err
 		case variableOrigin != nil:
-			source.SetOrigin(variableOrigin)
-			return nil
+			return variableOrigin, nil
 		}
-
-		return nil
 	}
 
-	return nil
+	return origin, nil
 }
 
 var valueOriginQueries = map[string]func(name string) treesitter.Query{
@@ -219,28 +219,23 @@ func (c *Crawler) findValueOrigin(source symbol.Source, locations []nvim.Locatio
 				continue
 			}
 
-			if searchQuery == nil {
-				return &symbol.ValueOrigin{
-					Location:   location,
-					Definition: *node,
-				}, nil
+			if searchQuery != nil {
+				query := (searchQuery)(source.Identifier())
+				query.Range = &lineRange
+				match, err := buffer.TsQueryOne(query)
+
+				switch {
+				case err != nil:
+					return nil, err
+				case match == nil:
+					continue
+				}
 			}
 
-			query := (searchQuery)(source.Identifier())
-			query.Range = &lineRange
-			match, err := buffer.TsQueryOne(query)
-
-			switch {
-			case err != nil:
-				return nil, err
-			case match == nil:
-				continue
-			}
-
-			return &symbol.ValueOrigin{
+			return c.followValueOrigin(source, &symbol.ValueOrigin{
 				Location:   location,
 				Definition: *node,
-			}, nil
+			})
 		}
 	}
 

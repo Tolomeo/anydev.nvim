@@ -60,7 +60,7 @@ func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 		return meta, nil
 	}
 
-	return nil, fmt.Errorf("Error lexing %s: unknown origin [%+v]", sourcePath, source.GetOrigin())
+	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", sourcePath, source.GetOrigin())
 }
 
 var functionQueries = map[string]string{

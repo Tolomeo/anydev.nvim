@@ -35,11 +35,11 @@ func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 		source.SetOrigin(pathOrigin)
 	}
 
-	err = c.followValueOrigin(&source)
+	/* err = c.followValueOrigin(&source)
 
 	if err != nil {
 		return nil, err
-	}
+	} */
 
 	documentation, err := c.sourceValueOriginDocumentation(&source)
 

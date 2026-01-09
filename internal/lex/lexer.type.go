@@ -99,7 +99,7 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 }
 
 func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
-	fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
+	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	name := source.Path
