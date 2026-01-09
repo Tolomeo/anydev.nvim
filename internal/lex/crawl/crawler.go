@@ -90,6 +90,18 @@ func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
 	}
 
 	source.SetOrigin(origin)
+
+	documentation, err := c.sourceTypeOriginDocumentation(&source)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case documentation == nil:
+		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
+		return &source, nil
+	}
+
+	source.GetOrigin().SetDocumentation(documentation)
 	return &source, nil
 }
 

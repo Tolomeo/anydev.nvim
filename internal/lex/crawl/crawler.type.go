@@ -97,26 +97,47 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 
 			// fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
 
-			documentation, err := buffer.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
+			/* documentation, err := buffer.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
 
 			switch {
 			case err != nil:
 				return nil, err
 			case documentation == nil:
 				continue
-			}
+			} */
 
 			// fmt.Printf("\nDocumentation: %+v\n", documentation)
 
 			return &symbol.TypeOrigin{
-				Location:   location,
-				Definition: *definition,
-				Documentation: *documentation,
+				Location:      location,
+				Definition:    *definition,
+				// Documentation: *documentation,
 			}, nil
 		}
 	}
 
 	return nil, nil
+}
+
+func (c *Crawler) sourceTypeOriginDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
+	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
+
+	if err != nil {
+		return  nil, err
+	}
+
+	defer buffer.Close()
+
+	documentationBlock, err := buffer.GetTsCommentBlockAt(source.GetOrigin().Line(), source.GetOrigin().Character())
+
+	switch {
+	case err != nil:
+		return  nil, err
+	case documentationBlock == nil:
+		return nil, nil
+	}
+
+	return documentationBlock, nil
 }
 
 func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.Location, error) {
