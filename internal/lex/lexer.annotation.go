@@ -12,7 +12,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-var lexedAnnotationsCache = cache.NewCache[*lexedAnnotations]()
+var lexedAnnotationsCache = cache.NewCache[lexedAnnotations]()
 
 type lexedType struct {
 	Name string
@@ -604,16 +604,8 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
-		return cachedAnnotations, nil
+		return &cachedAnnotations, nil
 	}
-
-	buffer, err := l.context.Nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
 
 	annotations := lexedAnnotations{
 		Type:      nil,
@@ -626,6 +618,14 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 		Aliases:   map[string]lexedAliasAnnotation{},
 		Classes:   map[string]lexedClassAnnotation{},
 	}
+
+	buffer, err := l.context.Nvim.NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
 
 	err = buffer.SetLines(dockblock)
 
@@ -696,7 +696,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 
 	// fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
 
-	lexedAnnotationsCache.Set(&annotations, dockblock...)
+	lexedAnnotationsCache.Set(annotations, dockblock...)
 	return &annotations, nil
 }
 

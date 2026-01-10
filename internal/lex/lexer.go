@@ -31,7 +31,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	l.context.Result().Runtime[path] = symbol.NewUnknown()
 
 	err := l.context.Push(path, func(path string) error {
-		fmt.Printf("\nLexing: %s\n", l.context.Current())
+		fmt.Printf("\nLexing: %s value\n", l.context.Current())
 
 		source, err := l.sourceValue(path)
 
@@ -77,7 +77,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	l.context.Result().Types[name] = symbol.NewUnknown()
 
 	err := l.context.Fork(name, func(name string) error {
-		fmt.Printf("\nLexing: %s\n", l.context.Current())
+		fmt.Printf("\nLexing: %s type\n", l.context.Current())
 
 		source, err := l.crawler.SourceType(name)
 
