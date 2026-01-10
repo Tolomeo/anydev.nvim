@@ -16,7 +16,7 @@ type Origin interface {
 	DefinitionLines() []string
 	DocumentationText() string
 	DocumentationLines() []string
-	SetDocumentation(*treesitter.TsNode)
+	SetDocumentation(treesitter.TsNode)
 }
 
 type Source interface {
@@ -28,7 +28,7 @@ type Source interface {
 type ValueOrigin struct {
 	Location      nvim.Location
 	Definition    treesitter.TsNode
-	Documentation *treesitter.TsNode
+	Documentation treesitter.TsNode
 }
 
 func (o *ValueOrigin) Url() string {
@@ -64,14 +64,10 @@ func (o *ValueOrigin) DocumentationText() string {
 }
 
 func (o *ValueOrigin) DocumentationLines() []string {
-	if o.Documentation == nil {
-		return []string{}
-	}
-
 	return strings.Split(o.Documentation.Text, "\n")
 }
 
-func (o *ValueOrigin) SetDocumentation(documentation *treesitter.TsNode) {
+func (o *ValueOrigin) SetDocumentation(documentation treesitter.TsNode) {
 	o.Documentation = documentation
 }
 
@@ -119,10 +115,6 @@ func (o *TypeOrigin) DefinitionText() string {
 }
 
 func (o *TypeOrigin) DefinitionLines() []string {
-	/* if o.Definition == nil {
-		return []string{}
-	} */
-
 	return strings.Split(o.DefinitionText(), "\n")
 }
 
@@ -134,8 +126,8 @@ func (o *TypeOrigin) DocumentationLines() []string {
 	return strings.Split(o.DocumentationText(), "\n")
 }
 
-func (o *TypeOrigin) SetDocumentation(documentation *treesitter.TsNode) {
-	o.Documentation = *documentation
+func (o *TypeOrigin) SetDocumentation(documentation treesitter.TsNode) {
+	o.Documentation = documentation
 }
 
 type TypeSource struct {

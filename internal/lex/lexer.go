@@ -127,7 +127,8 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	return nil
 }
 
-func (l *Lexer) sourceValue(path string) (*symbol.ValueSource, error) {
+// TODO: remove
+func (l *Lexer) sourceValue(path string) (symbol.Source, error) {
 	source, err := l.crawler.SourceValue(path)
 
 	switch {

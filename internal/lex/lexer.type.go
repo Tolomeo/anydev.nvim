@@ -7,7 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
-func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
+func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	name := source.Identifier()
@@ -51,6 +51,12 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 			return field.Name == fieldName
 		}); found {
 			l.context.Logger.Info(fmt.Sprintf("Skipping '%s' field '%s': already lexed", name, fieldName))
+			continue
+		} */
+
+		// fmt.Println(fieldName)
+
+		/* if fieldName != "fs_access" {
 			continue
 		} */
 
@@ -98,11 +104,11 @@ func (l *Lexer) lexClassType(source *symbol.TypeSource) (*symbol.Table, error) {
 	return class, nil
 }
 
-func (l *Lexer) lexAliasType(source *symbol.TypeSource) (symbol.Symbol, error) {
+func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {
 	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	name := source.Path
+	name := source.Identifier()
 	origin := source.GetOrigin()
 
 	patchedName := strings.ReplaceAll(name, ".", "_")

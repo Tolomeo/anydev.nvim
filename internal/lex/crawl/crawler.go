@@ -11,7 +11,7 @@ type Crawler struct {
 	context *context.Context
 }
 
-func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
+func (c *Crawler) SourceValue(path string) (symbol.Source, error) {
 	source := symbol.ValueSource{Path: path}
 	locations, err := c.findValueDefinitionLocations(source.Identifier())
 
@@ -51,11 +51,11 @@ func (c *Crawler) SourceValue(path string) (*symbol.ValueSource, error) {
 		return &source, nil
 	}
 
-	source.GetOrigin().SetDocumentation(documentation)
+	source.GetOrigin().SetDocumentation(*documentation)
 	return &source, nil
 }
 
-func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
+func (c *Crawler) SourceType(name string) (symbol.Source, error) {
 	source := symbol.TypeSource{Path: name}
 	/* err := c.sourceType(&source)
 
@@ -101,11 +101,11 @@ func (c *Crawler) SourceType(name string) (*symbol.TypeSource, error) {
 		return &source, nil
 	}
 
-	source.GetOrigin().SetDocumentation(documentation)
+	source.GetOrigin().SetDocumentation(*documentation)
 	return &source, nil
 }
 
-func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSource, error) {
+func (c *Crawler) SourceTypeMember(name string, member string) (symbol.Source, error) {
 	source := symbol.ValueSource{Path: fmt.Sprintf("%s.%s", name, member)}
 
 	locations, err := c.getTypeDefinitionLocations(name, member)
@@ -142,7 +142,7 @@ func (c *Crawler) SourceTypeMember(name string, member string) (*symbol.ValueSou
 		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
 		return nil, nil
 	default:
-		source.GetOrigin().SetDocumentation(documentation)
+		source.GetOrigin().SetDocumentation(*documentation)
 	}
 
 	return &source, nil

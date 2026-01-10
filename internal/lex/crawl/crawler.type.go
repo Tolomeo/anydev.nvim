@@ -10,54 +10,29 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-/* func (c *Crawler) sourceType(source *symbol.TypeSource) error {
-	locations, err := c.getTypeDefinitionLocations(source.Path)
-
-	switch {
-	case err != nil:
-		return err
-	case locations == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No locations found for '%s' type", source.Path))
-		return nil
-	}
-
-	origin, err := c.findTypeOrigin(source, *locations)
-
-	switch {
-	case err != nil:
-		return err
-	case origin == nil:
-		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
-		return nil
-	}
-
-	source.SetOrigin(origin)
-	return nil
-} */
-
 // TODO enum
-var customTypeQueries = map[string]func(name string) treesitter.Query{
-	treesitter.ALIAS_ANNOTATION: func(aliasName string) treesitter.Query {
+var typeOriginQueries = map[string]func(string) treesitter.Query{
+	treesitter.ALIAS_ANNOTATION: func(name string) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
 				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(aliasName)),
+			)`, regexp.QuoteMeta(name)),
 		}
 	},
-	treesitter.CLASS_ANNOTATION: func(aliasName string) treesitter.Query {
+	treesitter.CLASS_ANNOTATION: func(name string) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
 				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(aliasName)),
+			)`, regexp.QuoteMeta(name)),
 		}
 	},
 }
 
-func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Location) (*symbol.TypeOrigin, error) {
+func (c *Crawler) findTypeOrigin(source symbol.Source, locations []nvim.Location) (*symbol.TypeOrigin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
@@ -67,7 +42,7 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 
 		defer buffer.Close()
 
-		for searchNode, searchQuery := range customTypeQueries {
+		for searchNode, searchQuery := range typeOriginQueries {
 			tsRange := location.TargetRange.AsTreesitter()
 			lineRange := tsRange.LineRange()
 
@@ -84,7 +59,7 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 				continue
 			}
 
-			query := searchQuery(source.Path)
+			query := searchQuery(source.Identifier())
 			query.Range = &lineRange
 			match, err := buffer.TsQueryOne(query)
 
@@ -95,22 +70,9 @@ func (c *Crawler) findTypeOrigin(source *symbol.TypeSource, locations []nvim.Loc
 				continue
 			}
 
-			// fmt.Printf("\nFoundLocation: %+v\n\nMatch: %+v\n\nMatchRange: %+v\n\n", location, match, match.Range())
-
-			/* documentation, err := buffer.GetTsCommentBlockAt(uint(match.Range().Start.Line), uint(match.Range().Start.Character))
-
-			switch {
-			case err != nil:
-				return nil, err
-			case documentation == nil:
-				continue
-			} */
-
-			// fmt.Printf("\nDocumentation: %+v\n", documentation)
-
 			return &symbol.TypeOrigin{
-				Location:      location,
-				Definition:    *definition,
+				Location:   location,
+				Definition: *definition,
 				// Documentation: *documentation,
 			}, nil
 		}
@@ -123,7 +85,7 @@ func (c *Crawler) sourceTypeOriginDocumentation(source symbol.Source) (*treesitt
 	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
 
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	defer buffer.Close()
@@ -132,7 +94,7 @@ func (c *Crawler) sourceTypeOriginDocumentation(source symbol.Source) (*treesitt
 
 	switch {
 	case err != nil:
-		return  nil, err
+		return nil, err
 	case documentationBlock == nil:
 		return nil, nil
 	}
