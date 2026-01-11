@@ -84,7 +84,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			field.Private = fieldAnnotations.Private
 			field.Protected = fieldAnnotations.Protected
 
-			fieldValue, err := l.lexValue(fieldSource)
+			fieldValue, err := l.lex(fieldSource)
 
 			if err != nil {
 				return err

@@ -11,13 +11,6 @@ import (
 
 func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 	sourcePath := source.Identifier()
-
-	if source.GetOrigin() == nil {
-		symbol := symbol.NewUnknown()
-		l.context.Logger.Warn(fmt.Sprintf("Using '%v' for symbol '%s' without origin", symbol, source.Identifier()))
-		return symbol, nil
-	}
-
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -445,7 +438,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 
 			tableField.Private = annotations.Private
 			tableField.Protected = annotations.Protected
-			tableFieldValue, err := l.lexValue(tableFieldSource)
+			tableFieldValue, err := l.lex(tableFieldSource)
 
 			if err != nil {
 				return err

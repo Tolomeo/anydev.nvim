@@ -6,6 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 type Lexer struct {
@@ -33,7 +34,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	err := l.context.Push(path, func(path string) error {
 		fmt.Printf("\nLexing: %s value\n", l.context.Current())
 
-		source, err := l.sourceValue(path)
+		source, err := l.crawler.SourceValue(path)
 
 		if err != nil {
 			return err
@@ -41,7 +42,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 
 		// fmt.Printf("\n%+v\n", source.Origin.DocumentationLines())
 
-		symbol, err := l.lexValue(source)
+		symbol, err := l.lex(source)
 
 		if err != nil {
 			return err
@@ -125,6 +126,21 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	}
 
 	return nil
+}
+
+func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
+	switch source.GetOrigin().Type() {
+	case treesitter.ASSIGNMENT_STATEMENT,
+		treesitter.VARIABLE_DECLARATION,
+		treesitter.FUNCTION_DECLARATION:
+		return l.lexValue(source)
+	case treesitter.ALIAS_ANNOTATION:
+		return l.lexAliasType(source)
+	case treesitter.CLASS_ANNOTATION:
+		return l.lexClassType(source)
+	}
+
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)
 }
 
 // TODO: remove

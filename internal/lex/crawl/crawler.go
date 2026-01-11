@@ -65,7 +65,7 @@ func (c *Crawler) SourceType(name string) (symbol.Source, error) {
 
 	return &source, nil */
 
-	locations, err := c.getTypeDefinitionLocations(source.Path)
+	locations, err := c.findTypeDefinitionLocations(source.Path)
 
 	/* for _, loc := range *locations {
 		fmt.Printf("\n\nLocation: %+v\n", loc)
@@ -79,7 +79,7 @@ func (c *Crawler) SourceType(name string) (symbol.Source, error) {
 		return nil, nil
 	}
 
-	origin, err := c.findTypeOrigin(&source, *locations)
+	origin, err := c.findOrigin(&source, *locations)
 
 	switch {
 	case err != nil:
@@ -87,9 +87,9 @@ func (c *Crawler) SourceType(name string) (symbol.Source, error) {
 	case origin == nil:
 		c.context.Logger.Warn(fmt.Sprintf("No origin found for '%s' symbol", source.Path))
 		return nil, nil
+	default:
+		source.SetOrigin(origin)
 	}
-
-	source.SetOrigin(origin)
 
 	documentation, err := c.sourceTypeDefinitionDocumentation(&source)
 
@@ -99,16 +99,17 @@ func (c *Crawler) SourceType(name string) (symbol.Source, error) {
 	case documentation == nil:
 		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
 		return &source, nil
+	default:
+		source.GetOrigin().SetDocumentation(*documentation)
 	}
 
-	source.GetOrigin().SetDocumentation(*documentation)
 	return &source, nil
 }
 
 func (c *Crawler) SourceTypeMember(name string, member string) (symbol.Source, error) {
 	source := symbol.ValueSource{Path: fmt.Sprintf("%s.%s", name, member)}
 
-	locations, err := c.getTypeDefinitionLocations(name, member)
+	locations, err := c.findTypeDefinitionLocations(name, member)
 
 	/* for _, loc := range *locations {
 		fmt.Printf("\n\nLocation: %+v\n", loc)
@@ -122,7 +123,7 @@ func (c *Crawler) SourceTypeMember(name string, member string) (symbol.Source, e
 		return nil, nil
 	}
 
-	memberOrigin, err := c.findValueOrigin(&source, *locations)
+	memberOrigin, err := c.findOrigin(&source, *locations)
 
 	switch {
 	case err != nil:

@@ -160,7 +160,7 @@ func (c *Crawler) followModuleRequireAssignment(source symbol.Source, origin sym
 		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.DefinitionLines())
 	}
 
-	moduleLocations, err := c.findModuleLocations(moduleNameCapture.Node.Text)
+	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
 
 	if err != nil {
 		return nil, err
