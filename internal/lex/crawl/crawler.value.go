@@ -9,33 +9,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-var variableAssignmentQueries = map[string]treesitter.Query{
-	"dotIndexAssignment": {
-		Language: "lua",
-		Query: `
-		(assignment_statement
-			(variable_list
-				name: (_)
-			) @assignment.left
-			(expression_list
-				value: (dot_index_expression) @assignment.right 
-			)
-		)`},
-	"identifierAssignment": {
-		Language: "lua",
-		Query: `
-		(assignment_statement
-			(variable_list
-				name: (_)
-			) @assignment.left
-			(expression_list
-				value: (identifier) @assignment.right 
-			)
-		)`,
-	},
-}
-
-func (c *Crawler) followVariableAssignment(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
+func (c *Crawler) followValueVariableAssignment(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -90,25 +64,6 @@ func (c *Crawler) followVariableAssignment(source symbol.Source, origin *symbol.
 	}
 
 	return rightValueOrigin, nil
-}
-
-var requireAssignmentQuery = treesitter.Query{
-	Language: "lua",
-	Query: `
-	(assignment_statement
-		(variable_list)
-		(expression_list
-			value: (function_call
-				name: (identifier) @require.call
-				arguments: (arguments
-					(string
-						content: (string_content) @require.module
-					)
-				)
-			)
-		) @require
-		(#eq? @require.call "require")
-	)`,
 }
 
 func (c *Crawler) followRequireValueAssignment(source symbol.Source, origin *symbol.ValueOrigin) (*symbol.ValueOrigin, error) {
@@ -173,7 +128,7 @@ func (c *Crawler) followValueOrigin(source symbol.Source, origin *symbol.ValueOr
 			return requiredOrigin, nil
 		}
 
-		variableOrigin, err := c.followVariableAssignment(source, origin)
+		variableOrigin, err := c.followValueVariableAssignment(source, origin)
 
 		switch {
 		case err != nil:

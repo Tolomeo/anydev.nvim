@@ -81,27 +81,6 @@ func (c *Crawler) findTypeOrigin(source symbol.Source, locations []nvim.Location
 	return nil, nil
 }
 
-func (c *Crawler) sourceTypeOriginDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	documentationBlock, err := buffer.GetTsCommentBlockAt(source.GetOrigin().Line(), source.GetOrigin().Character())
-
-	switch {
-	case err != nil:
-		return nil, err
-	case documentationBlock == nil:
-		return nil, nil
-	}
-
-	return documentationBlock, nil
-}
-
 func (c *Crawler) getTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
