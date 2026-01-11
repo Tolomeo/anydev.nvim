@@ -601,10 +601,10 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 	return true, nil
 }
 
-func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
+func (l *Lexer) lexAnnotations(dockblock []string) (lexedAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
-		return &cachedAnnotations, nil
+		return cachedAnnotations, nil
 	}
 
 	annotations := lexedAnnotations{
@@ -622,7 +622,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	buffer, err := l.context.Nvim.NewBuffer()
 
 	if err != nil {
-		return nil, err
+		return annotations, err
 	}
 
 	defer buffer.Close()
@@ -630,74 +630,74 @@ func (l *Lexer) lexAnnotations(dockblock []string) (*lexedAnnotations, error) {
 	err = buffer.SetLines(dockblock)
 
 	if err != nil {
-		return nil, err
+		return annotations, err
 	}
 
 	// Generics are lexed ahead of other annotations, which could read them
 	_, err = l.lexGenericAnnotations(buffer, &annotations)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing generic annotations: %w", err)
+		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
 	}
 
 	_, err = l.lexPrivateAnnotation(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
 	}
 
 	_, err = l.lexProtectedAnnotation(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing private annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
 	}
 
 	_, err = l.lexParamAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing param annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing param annotation: %w", err)
 	}
 
 	_, err = l.lexOverloadAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing overload annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing overload annotation: %w", err)
 	}
 
 	_, err = l.lexReturnAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing return annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
 	}
 
 	_, err = l.lexTypeAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("Error lexing type annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
 	_, err = l.lexAliasAnnotations(buffer, &annotations)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
+		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
 
 	_, err = l.lexClassAnnotation(buffer, &annotations)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing alias annotations: %w", err)
+		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
 
 	// fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
 
 	lexedAnnotationsCache.Set(annotations, dockblock...)
-	return &annotations, nil
+	return annotations, nil
 }
 
 var typeQueries = map[string]string{

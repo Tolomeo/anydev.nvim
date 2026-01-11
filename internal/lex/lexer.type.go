@@ -36,7 +36,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	class := symbol.NewTable()
 	class.Name = name
 	// TODO: the documentation is gathered by the annotations lexer
-	class.Documentation = origin.DocumentationLines()
+	// class.Documentation = origin.DocumentationLines()
 
 	// fmt.Println(name)
 	classFields, err := l.context.Nvim.GetTypeCompletion(name)
