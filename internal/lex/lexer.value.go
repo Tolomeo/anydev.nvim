@@ -244,7 +244,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		}
 	}
 
-	annotations, err := l.lexAnnotations(function.Documentation)
+	annotations, err := l.lexAtAnnotations(function.Documentation)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
@@ -252,8 +252,8 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 
 	for _, genericAnnotation := range annotations.Generics {
 		genericName := genericAnnotation.Name
-		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType lexedType) (symbol.Symbol, error) {
-			return l.lexType(genericType)
+		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (symbol.Symbol, error) {
+			return l.lexTypeAnnotation(genericType)
 		})
 
 		if err != nil {
@@ -278,7 +278,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		}); isGeneric {
 			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			argumentType, err := l.lexType(paramAnnotation.Type)
+			argumentType, err := l.lexTypeAnnotation(paramAnnotation.Type)
 
 			if err != nil {
 				return nil, err
@@ -301,7 +301,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		}); isGeneric {
 			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			typ, err := l.lexType(returnAnnotation.Type)
+			typ, err := l.lexTypeAnnotation(returnAnnotation.Type)
 
 			if err != nil {
 				return nil, err
@@ -314,7 +314,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 	}
 
 	for _, overloadAnnotation := range annotations.Overloads {
-		overloadType, err := l.lexType(overloadAnnotation.Type)
+		overloadType, err := l.lexTypeAnnotation(overloadAnnotation.Type)
 
 		if err != nil {
 			return nil, fmt.Errorf("Error lexing function overload annotation type: %w", err)
@@ -441,7 +441,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 				return err
 			}
 
-			annotations, err := l.lexAnnotations(source.GetOrigin().DefinitionLines())
+			annotations, err := l.lexAtAnnotations(source.GetOrigin().DefinitionLines())
 
 			tableField.Private = annotations.Private
 			tableField.Protected = annotations.Protected
@@ -508,7 +508,7 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = source.GetOrigin().DocumentationLines()
 
-	annotations, err := l.lexAnnotations(source.GetOrigin().DocumentationLines())
+	annotations, err := l.lexAtAnnotations(source.GetOrigin().DocumentationLines())
 
 	switch {
 	case err != nil:
@@ -518,7 +518,7 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 		return unknown, nil
 	}
 
-	lexedType, err := l.lexType(annotations.Type.Type)
+	lexedType, err := l.lexTypeAnnotation(annotations.Type.Type)
 
 	if err != nil {
 		return nil, err

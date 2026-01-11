@@ -12,75 +12,75 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-var lexedAnnotationsCache = cache.NewCache[lexedAnnotations]()
+var lexedAnnotationsCache = cache.NewCache[AtAnnotations]()
 
-type lexedType struct {
+type TypeAnnotation struct {
 	Name string
 }
 
-type lexedTypeAnnotation struct {
-	Type          lexedType
+type AtTypeAnnotation struct {
+	Type          TypeAnnotation
 	Documentation []string
 }
 
-type lexedGenericAnnotation struct {
+type AtGenericAnnotation struct {
 	Name  string
-	Types []lexedType
+	Types []TypeAnnotation
 }
 
-type lexedReturnAnnotation struct {
+type AtReturnAnnotation struct {
 	Name          *string
-	Type          lexedType
+	Type          TypeAnnotation
 	Documentation []string
 }
 
-type lexedParamAnnotation struct {
+type AtParamAnnotation struct {
 	Name          string
-	Type          lexedType
+	Type          TypeAnnotation
 	Optional      bool
 	Documentation []string
 }
 
-type lexedOverloadAnnotation struct {
-	Type          lexedType
+type AtOverloadAnnotation struct {
+	Type          TypeAnnotation
 	Documentation []string
 }
 
-type lexedAliasAnnotation struct {
+type AtAliasAnnotation struct {
 	Name          string
-	Type          lexedType
+	Type          TypeAnnotation
 	Documentation []string
 }
 
-type lexedClassAnnotation struct {
+type AtClassAnnotation struct {
 	Name    string
 	Parents []string
 }
 
-type lexedAnnotations struct {
-	Type      *lexedTypeAnnotation
+type AtAnnotations struct {
+	Type      *AtTypeAnnotation
 	Private   bool
 	Protected bool
-	Generics  []lexedGenericAnnotation
-	Params    map[string]lexedParamAnnotation
-	Returns   []lexedReturnAnnotation
-	Overloads []lexedOverloadAnnotation
-	Aliases   map[string]lexedAliasAnnotation
-	Classes   map[string]lexedClassAnnotation
+	Generics  []AtGenericAnnotation
+	Params    map[string]AtParamAnnotation
+	Returns   []AtReturnAnnotation
+	Overloads []AtOverloadAnnotation
+	Aliases   map[string]AtAliasAnnotation
+	Classes   map[string]AtClassAnnotation
 }
 
 // TODO: support for multiple comma-separated types
-var typeAnnotationQuery string = fmt.Sprintf(`
+var atTypeAnnotationQuery string = fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(%s) @type.type
 			(comment)? @type.documentation
 		)
 	) @type
-`, anyTypeQuery)
+`, anyTypeAnnotationQuery)
 
-func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: typeAnnotationQuery})
+func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atTypeAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -89,12 +89,12 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 		return false, nil
 	}
 
-	lexed := lexedTypeAnnotation{}
+	lexed := AtTypeAnnotation{}
 
 	for _, capture := range *captures {
 		switch capture.Id {
 		case "type.type":
-			lexed.Type = lexedType{capture.Node.Text}
+			lexed.Type = TypeAnnotation{capture.Node.Text}
 		case "type.documentation":
 			lexed.Documentation = strings.Split(capture.Node.Text, "\n")
 		}
@@ -104,17 +104,17 @@ func (l *Lexer) lexTypeAnnotations(buffer *nvim.Buffer, annotations *lexedAnnota
 	return true, nil
 }
 
-var overloadAnnotationQuery string = fmt.Sprintf(`
+var atOverloadAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
 		(overload_annotation 
 			(%s) @type 
 			(comment)? @documentation
 		)
 	)
-`, typeQueries["function_type"])
+`, typeAnnotationQueries["function_type"])
 
-func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.SafeTsQueryAll(treesitter.Query{Language: "luadoc", Query: overloadAnnotationQuery})
+func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.SafeTsQueryAll(treesitter.Query{Language: "luadoc", Query: atOverloadAnnotationQuery})
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
 
@@ -131,14 +131,14 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 			continue
 		}
 
-		overload := lexedOverloadAnnotation{}
+		overload := AtOverloadAnnotation{}
 
 		for _, capture := range match.Captures {
 			switch capture.Id {
 			case "documentation":
 				overload.Documentation = []string{capture.Node.Text}
 			case "type":
-				overload.Type = lexedType{capture.Node.Text}
+				overload.Type = TypeAnnotation{capture.Node.Text}
 			}
 		}
 
@@ -148,7 +148,7 @@ func (l *Lexer) lexOverloadAnnotations(buffer *nvim.Buffer, annotations *lexedAn
 	return true, nil
 }
 
-var genericAnnotationQuery string = fmt.Sprintf(`
+var atGenericAnnotationQuery string = fmt.Sprintf(`
 	(documentation 
 		(generic_annotation
 			(identifier) @generic.name
@@ -156,10 +156,10 @@ var genericAnnotationQuery string = fmt.Sprintf(`
 				(%s)? @generic.type
 		)
 	) @generic
-`, anyTypeQuery)
+`, anyTypeAnnotationQuery)
 
-func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: genericAnnotationQuery})
+func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: atGenericAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -169,14 +169,14 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedGeneric := lexedGenericAnnotation{}
+		lexedGeneric := AtGenericAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "generic.name":
 				lexedGeneric.Name = capture.Node.Text
 			case "generic.type":
-				lexedGeneric.Types = append(lexedGeneric.Types, lexedType{capture.Node.Text})
+				lexedGeneric.Types = append(lexedGeneric.Types, TypeAnnotation{capture.Node.Text})
 			}
 		}
 
@@ -190,7 +190,7 @@ func (l *Lexer) lexGenericAnnotations(buffer *nvim.Buffer, annotations *lexedAnn
 	return true, nil
 }
 
-var paramAnnotationQueries = map[string]treesitter.Query{
+var atParamAnnotationQueries = map[string]treesitter.Query{
 	"arg": {
 		Language: "luadoc",
 		Query: fmt.Sprintf(`
@@ -202,7 +202,7 @@ var paramAnnotationQueries = map[string]treesitter.Query{
 				(comment)? @documentation
 			)
 		) @param
-	`, anyTypeQuery),
+	`, anyTypeAnnotationQuery),
 	},
 	"vararg": {
 		Language: "luadoc",
@@ -213,14 +213,14 @@ var paramAnnotationQueries = map[string]treesitter.Query{
 				(%s) @type
 				(comment)? @documentation
 			)
-		) @param`, anyTypeQuery),
+		) @param`, anyTypeAnnotationQuery),
 	},
 }
 
-func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
+func (l *Lexer) lexAtParamAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
 	matches := []nvim.TsQueryMatch{}
 
-	for _, paramAnnotationQuery := range paramAnnotationQueries {
+	for _, paramAnnotationQuery := range atParamAnnotationQueries {
 		paramAnnotationMatches, err := buffer.TsQueryAll(paramAnnotationQuery)
 
 		switch {
@@ -238,7 +238,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	}
 
 	for _, matchCaptures := range matches {
-		lexedParam := lexedParamAnnotation{}
+		lexedParam := AtParamAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
@@ -249,7 +249,7 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 			case "documentation":
 				lexedParam.Documentation = []string{capture.Node.Text}
 			case "type":
-				lexedParam.Type = lexedType{capture.Node.Text}
+				lexedParam.Type = TypeAnnotation{capture.Node.Text}
 			}
 		}
 
@@ -263,17 +263,17 @@ func (l *Lexer) lexParamAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	return true, nil
 }
 
-var returnAnnotationQuery string = fmt.Sprintf(`
+var atReturnAnnotationQuery string = fmt.Sprintf(`
 	(documentation
 		(return_annotation
 			(%s) @return.type
 			(comment)? @return.documentation
 		)
 	) @return
-`, anyTypeQuery)
+`, anyTypeAnnotationQuery)
 
-func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: returnAnnotationQuery})
+func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: atReturnAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -283,7 +283,7 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 	}
 
 	for _, matchCaptures := range *matches {
-		returnAnnotation := lexedReturnAnnotation{}
+		returnAnnotation := AtReturnAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
@@ -292,7 +292,7 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 			case "return.documentation":
 				returnAnnotation.Documentation = []string{capture.Node.Text}
 			case "return.type":
-				returnAnnotation.Type = lexedType{capture.Node.Text}
+				returnAnnotation.Type = TypeAnnotation{capture.Node.Text}
 			}
 		}
 
@@ -302,15 +302,15 @@ func (l *Lexer) lexReturnAnnotations(buffer *nvim.Buffer, annotations *lexedAnno
 	return true, nil
 }
 
-var privateAnnotationQuery string = `
+var atPrivateAnnotationQuery string = `
 	(documentation 
 		(qualifier_annotation) @qualifier
 		(#match? @qualifier "\\@private")
 	)
 `
 
-func (l *Lexer) lexPrivateAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: privateAnnotationQuery})
+func (l *Lexer) lexAtPrivateAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atPrivateAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -324,15 +324,15 @@ func (l *Lexer) lexPrivateAnnotation(buffer *nvim.Buffer, annotations *lexedAnno
 	return true, nil
 }
 
-var protectedAnnotationQuery string = `
+var atProtectedAnnotationQuery string = `
 	(documentation 
 		(qualifier_annotation) @qualifier
 		(#match? @qualifier "\\@protected")
 	)
 `
 
-func (l *Lexer) lexProtectedAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: protectedAnnotationQuery})
+func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atProtectedAnnotationQuery})
 
 	switch {
 	case err != nil:
@@ -348,7 +348,7 @@ func (l *Lexer) lexProtectedAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 
 // Luadoc matches an empty type node even when the type is not present
 // So those false positives are excluded with the not-eq predicate
-var simpleAliasQuery = treesitter.Query{
+var simpleAtAliasQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(alias_annotation
@@ -356,11 +356,11 @@ var simpleAliasQuery = treesitter.Query{
 		(%s) @alias.type
 		(comment)? @alias.documentation
 		(#not-eq? @alias.type "")
-	)`, anyTypeQuery),
+	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(simpleAliasQuery)
+func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(simpleAtAliasQuery)
 
 	switch {
 	case err != nil:
@@ -370,14 +370,14 @@ func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexed
 	}
 
 	for _, matchCaptures := range *matches {
-		alias := lexedAliasAnnotation{}
+		alias := AtAliasAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "alias.name":
 				alias.Name = capture.Node.Text
 			case "alias.type":
-				alias.Type = lexedType{capture.Node.Text}
+				alias.Type = TypeAnnotation{capture.Node.Text}
 			case "alias.documentation":
 				alias.Documentation = append(alias.Documentation, capture.Node.Text)
 			}
@@ -399,7 +399,7 @@ func (l *Lexer) lexSimpleAliasAnnotation(buffer *nvim.Buffer, annotations *lexed
 
 // Luadoc matches an empty type node even when the type is not present
 // That means that enum aliases have an empty type node defined
-var enumAliasQuery = treesitter.Query{
+var enumAtAliasQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(alias_annotation
@@ -407,18 +407,18 @@ var enumAliasQuery = treesitter.Query{
 		(%s) @alias.type
 		(comment)? @alias.documentation
 		(#eq? @alias.type "")
-	)`, anyTypeQuery),
+	)`, anyTypeAnnotationQuery),
 }
-var enumAliasMemberQuery = treesitter.Query{
+var enumAtAliasMemberQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(continuation
 		(%s) @alias.type
 	)
-`, anyTypeQuery)}
+`, anyTypeAnnotationQuery)}
 
-func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(enumAliasQuery)
+func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(enumAtAliasQuery)
 
 	switch {
 	case err != nil:
@@ -428,7 +428,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 	}
 
 	for _, matchCaptures := range *matches {
-		enumAlias := lexedAliasAnnotation{}
+		enumAlias := AtAliasAnnotation{}
 		enumAliasMembers := []string{}
 
 		for _, capture := range matchCaptures {
@@ -453,7 +453,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 				return false, err
 			}
 
-			enumAliasMemberMatch, err := line.TsQueryOne(enumAliasMemberQuery)
+			enumAliasMemberMatch, err := line.TsQueryOne(enumAtAliasMemberQuery)
 
 			if err != nil {
 				return false, nil
@@ -478,7 +478,7 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 			return false, fmt.Errorf("Could not retrieve enum members from enum alias")
 		}
 
-		enumAlias.Type = lexedType{strings.Join(enumAliasMembers, "|")}
+		enumAlias.Type = TypeAnnotation{strings.Join(enumAliasMembers, "|")}
 
 		annotations.Aliases[enumAlias.Name] = enumAlias
 	}
@@ -486,8 +486,8 @@ func (l *Lexer) lexEnumAliasAnnotation(buffer *nvim.Buffer, annotations *lexedAn
 	return true, nil
 }
 
-func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	found, err := l.lexSimpleAliasAnnotation(buffer, annotations)
+func (l *Lexer) lexAtAliasAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	found, err := l.lexSimpleAtAliasAnnotation(buffer, annotations)
 
 	switch {
 	case err != nil:
@@ -496,7 +496,7 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 		return true, nil
 	}
 
-	found, err = l.lexEnumAliasAnnotation(buffer, annotations)
+	found, err = l.lexEnumAtAliasAnnotation(buffer, annotations)
 
 	switch {
 	case err != nil:
@@ -508,7 +508,7 @@ func (l *Lexer) lexAliasAnnotations(buffer *nvim.Buffer, annotations *lexedAnnot
 	return false, nil
 }
 
-var classAnnotationQuery = treesitter.Query{
+var atClassAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 		(documentation
@@ -519,7 +519,7 @@ var classAnnotationQuery = treesitter.Query{
 					("," (%s) @class.parent)*
 				)?
 			) @class
-		)`, anyTypeQuery, anyTypeQuery),
+		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
 /* var classFieldAnnotationQuery = treesitter.Query{
@@ -534,8 +534,8 @@ var classAnnotationQuery = treesitter.Query{
 		)`, anyTypeQuery),
 } */
 
-func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(classAnnotationQuery)
+func (l *Lexer) lexAtClassAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(atClassAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -545,7 +545,7 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 	}
 
 	for _, matchCaptures := range *matches {
-		class := lexedClassAnnotation{}
+		class := AtClassAnnotation{}
 
 		for _, capture := range matchCaptures {
 			switch capture.Id {
@@ -601,22 +601,22 @@ func (l *Lexer) lexClassAnnotation(buffer *nvim.Buffer, annotations *lexedAnnota
 	return true, nil
 }
 
-func (l *Lexer) lexAnnotations(dockblock []string) (lexedAnnotations, error) {
+func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
 		return cachedAnnotations, nil
 	}
 
-	annotations := lexedAnnotations{
+	annotations := AtAnnotations{
 		Type:      nil,
 		Private:   false,
 		Protected: false,
-		Generics:  []lexedGenericAnnotation{},
-		Params:    map[string]lexedParamAnnotation{},
-		Returns:   []lexedReturnAnnotation{},
-		Overloads: []lexedOverloadAnnotation{},
-		Aliases:   map[string]lexedAliasAnnotation{},
-		Classes:   map[string]lexedClassAnnotation{},
+		Generics:  []AtGenericAnnotation{},
+		Params:    map[string]AtParamAnnotation{},
+		Returns:   []AtReturnAnnotation{},
+		Overloads: []AtOverloadAnnotation{},
+		Aliases:   map[string]AtAliasAnnotation{},
+		Classes:   map[string]AtClassAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim.NewBuffer()
@@ -634,61 +634,61 @@ func (l *Lexer) lexAnnotations(dockblock []string) (lexedAnnotations, error) {
 	}
 
 	// Generics are lexed ahead of other annotations, which could read them
-	_, err = l.lexGenericAnnotations(buffer, &annotations)
+	_, err = l.lexAtGenericAnnotations(buffer, &annotations)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
 	}
 
-	_, err = l.lexPrivateAnnotation(buffer, &annotations)
+	_, err = l.lexAtPrivateAnnotation(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
 	}
 
-	_, err = l.lexProtectedAnnotation(buffer, &annotations)
+	_, err = l.lexAtProtectedAnnotation(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
 	}
 
-	_, err = l.lexParamAnnotations(buffer, &annotations)
+	_, err = l.lexAtParamAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing param annotation: %w", err)
 	}
 
-	_, err = l.lexOverloadAnnotations(buffer, &annotations)
+	_, err = l.lexAtOverloadAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing overload annotation: %w", err)
 	}
 
-	_, err = l.lexReturnAnnotations(buffer, &annotations)
+	_, err = l.lexAtReturnAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
 	}
 
-	_, err = l.lexTypeAnnotations(buffer, &annotations)
+	_, err = l.lexAtTypeAnnotations(buffer, &annotations)
 
 	switch {
 	case err != nil:
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
-	_, err = l.lexAliasAnnotations(buffer, &annotations)
+	_, err = l.lexAtAliasAnnotations(buffer, &annotations)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
 
-	_, err = l.lexClassAnnotation(buffer, &annotations)
+	_, err = l.lexAtClassAnnotations(buffer, &annotations)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
@@ -700,7 +700,7 @@ func (l *Lexer) lexAnnotations(dockblock []string) (lexedAnnotations, error) {
 	return annotations, nil
 }
 
-var typeQueries = map[string]string{
+var typeAnnotationQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",
 	"identifier":           "(identifier)",
 	"array_type":           "(array_type)",
@@ -717,9 +717,9 @@ var typeQueries = map[string]string{
 	"custom_type":          "(custom_type)",
 }
 
-var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
+var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAnnotationQueries), " "))
 
-var typeOptionalQuery = treesitter.Query{
+var optionalTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -732,8 +732,8 @@ var typeOptionalQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalType(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
-	match, err := buffer.TsQueryOne(typeOptionalQuery)
+func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
+	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -745,7 +745,7 @@ func (l *Lexer) lexOptionalType(buffer *nvim.Buffer, source string) (*symbol.Opt
 	for _, capture := range *match {
 		switch capture.Id {
 		case "optional.type":
-			optionalType, err := l.lexType(lexedType{capture.Node.Text})
+			optionalType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -758,7 +758,7 @@ func (l *Lexer) lexOptionalType(buffer *nvim.Buffer, source string) (*symbol.Opt
 	return nil, fmt.Errorf("Could not retrieved type from optional type '%s'", source)
 }
 
-var typeFunctionQuery = treesitter.Query{
+var functionTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(documentation
@@ -791,11 +791,11 @@ var typeFunctionQuery = treesitter.Query{
 			)
 		)
 	)
-`, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery, anyTypeQuery),
+`, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
-	captures, err := buffer.TsQueryOne(typeFunctionQuery)
+func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.Buffer) (*symbol.Function, error) {
+	captures, err := buffer.TsQueryOne(functionTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -815,7 +815,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 		case "parameter.name":
 			args[len(args)-1].Name = capture.Node.Text
 		case "parameter.type":
-			parameterType, err := l.lexType(lexedType{capture.Node.Text})
+			parameterType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -823,7 +823,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 
 			args[len(args)-1].Type = parameterType
 		case "return.type":
-			returnType, err := l.lexType(lexedType{capture.Node.Text})
+			returnType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -841,7 +841,7 @@ func (l *Lexer) lexFunctionType(buffer *nvim.Buffer) (*symbol.Function, error) {
 	return function, nil
 }
 
-var typeTableQuery = treesitter.Query{
+var tableTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(documentation
@@ -852,11 +852,11 @@ var typeTableQuery = treesitter.Query{
 			) @table
 			(comment)? @documentation
 		)
-	)`, anyTypeQuery, anyTypeQuery),
+	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
-	matches, err := buffer.TsQueryAll(typeTableQuery)
+func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, error) {
+	matches, err := buffer.TsQueryAll(tableTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -876,7 +876,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 			case "key":
 				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 			case "value":
-				valueType, err := l.lexType(lexedType{capture.Node.Text})
+				valueType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 				if err != nil {
 					return nil, err
@@ -890,7 +890,7 @@ func (l *Lexer) lexTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
 	return table, nil
 }
 
-func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
+func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Symbol {
 	switch source {
 	case "void":
 		return symbol.NewVoid()
@@ -921,7 +921,7 @@ func (l *Lexer) lexBuiltinType(source string) symbol.Symbol {
 	return nil
 }
 
-func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
+func (l *Lexer) lexReferenceTypeAnnotation(name string) (*symbol.Reference, error) {
 	err := l.LexType(name, l.context)
 
 	if err != nil {
@@ -931,7 +931,7 @@ func (l *Lexer) lexReferenceType(name string) (*symbol.Reference, error) {
 	return symbol.NewReference(name), nil
 }
 
-var typeArrayQuery = treesitter.Query{
+var arrayTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -943,8 +943,8 @@ var typeArrayQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
-	match, err := buffer.TsQueryOne(typeArrayQuery)
+func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
+	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -956,7 +956,7 @@ func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "array.itemstype":
-			itemsType, err := l.lexType(lexedType{matchCapture.Node.Text})
+			itemsType, err := l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -969,7 +969,7 @@ func (l *Lexer) lexArrayType(buffer *nvim.Buffer, source string) (*symbol.Array,
 	return nil, fmt.Errorf("Could not retrieve items type value from the array type '%s'", source)
 }
 
-var tableLiteralQueries = map[string]treesitter.Query{
+var literalTableAnnotationQueries = map[string]treesitter.Query{
 	"empty": {
 		Language: "luadoc",
 		Query: `
@@ -998,12 +998,12 @@ var tableLiteralQueries = map[string]treesitter.Query{
 						(%s) @table.value
 				) @table
 			)
-		)`, anyTypeQuery, anyTypeQuery),
+		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 	},
 }
 
-func (l *Lexer) lexLiteralTableType(buffer *nvim.Buffer) (*symbol.Table, error) {
-	for _, query := range tableLiteralQueries {
+func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, error) {
+	for _, query := range literalTableAnnotationQueries {
 		match, err := buffer.TsQueryOne(query)
 
 		switch {
@@ -1022,7 +1022,7 @@ func (l *Lexer) lexLiteralTableType(buffer *nvim.Buffer) (*symbol.Table, error) 
 				tableField.Name = capture.Node.Text
 				table.Fields = append(table.Fields, tableField)
 			case "table.value":
-				value, err := l.lexType(lexedType{capture.Node.Text})
+				value, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 				if err != nil {
 					return nil, err
@@ -1038,7 +1038,7 @@ func (l *Lexer) lexLiteralTableType(buffer *nvim.Buffer) (*symbol.Table, error) 
 	return nil, nil
 }
 
-var typeUnionQuery = treesitter.Query{
+var unionTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(documentation
@@ -1048,10 +1048,10 @@ var typeUnionQuery = treesitter.Query{
 				(%s) @union.type
 			) @union
 		)
-	)`, anyTypeQuery, anyTypeQuery)}
+	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)}
 
-func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
-	match, err := buffer.TsQueryOne(typeUnionQuery)
+func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
+	match, err := buffer.TsQueryOne(unionTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1065,7 +1065,7 @@ func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "union.type":
-			lexedType, err := l.lexType(lexedType{matchCapture.Node.Text})
+			lexedType, err := l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -1094,7 +1094,7 @@ func (l *Lexer) lexUnionType(buffer *nvim.Buffer, source string) (*symbol.Union,
 	return symbol.NewUnion(unionTypes), nil
 }
 
-var typeGroupQuery = treesitter.Query{
+var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -1106,8 +1106,8 @@ var typeGroupQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexGroupType(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
-	match, err := buffer.TsQueryOne(typeGroupQuery)
+func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
+	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1119,14 +1119,14 @@ func (l *Lexer) lexGroupType(buffer *nvim.Buffer, source string) (symbol.Symbol,
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "group.type":
-			return l.lexType(lexedType{matchCapture.Node.Text})
+			return l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
 		}
 	}
 
 	return nil, fmt.Errorf("Could not retrieve the type value of the grouped type '%s'", source)
 }
 
-var typeNumericLiteralQuery = treesitter.Query{
+var literalNumberTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -1136,8 +1136,8 @@ var typeNumericLiteralQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexNumericLiteralType(buffer *nvim.Buffer, source string) (*symbol.NumericLiteral, error) {
-	match, err := buffer.TsQueryOne(typeNumericLiteralQuery)
+func (l *Lexer) lexLiteralNumberTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.NumericLiteral, error) {
+	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1156,7 +1156,7 @@ func (l *Lexer) lexNumericLiteralType(buffer *nvim.Buffer, source string) (*symb
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-var typeBooleanLiteralQuery = treesitter.Query{
+var literalBooleanTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -1167,8 +1167,8 @@ var typeBooleanLiteralQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexBooleanLiteralType(buffer *nvim.Buffer) (*symbol.BooleanLiteral, error) {
-	match, err := buffer.TsQueryOne(typeBooleanLiteralQuery)
+func (l *Lexer) lexLiteralBooleanTypeAnnotation(buffer *nvim.Buffer) (*symbol.BooleanLiteral, error) {
+	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1187,7 +1187,7 @@ func (l *Lexer) lexBooleanLiteralType(buffer *nvim.Buffer) (*symbol.BooleanLiter
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type")
 }
 
-var typeStringLiteralQuery = treesitter.Query{
+var literalStringTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(documentation
@@ -1197,8 +1197,8 @@ var typeStringLiteralQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexStringLiteralType(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
-	match, err := buffer.TsQueryOne(typeStringLiteralQuery)
+func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
+	match, err := buffer.TsQueryOne(literalStringTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1217,9 +1217,9 @@ func (l *Lexer) lexStringLiteralType(buffer *nvim.Buffer, source string) (*symbo
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
+func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Symbol, error) {
 	source := strings.TrimSpace(typ.Name)
-	builtinType := l.lexBuiltinType(strings.TrimSpace(source))
+	builtinType := l.lexBuiltinTypeAnnotation(strings.TrimSpace(source))
 
 	if builtinType != nil {
 		return builtinType, nil
@@ -1240,7 +1240,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
-	functionType, err := l.lexFunctionType(buffer)
+	functionType, err := l.lexFunctionTypeAnnotation(buffer)
 
 	switch {
 	case err != nil:
@@ -1249,7 +1249,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return functionType, nil
 	}
 
-	lexedArray, err := l.lexArrayType(buffer, source)
+	lexedArray, err := l.lexArrayTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1258,7 +1258,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedArray, nil
 	}
 
-	tableType, err := l.lexTableType(buffer)
+	tableType, err := l.lexTableTypeAnnotation(buffer)
 
 	switch {
 	case err != nil:
@@ -1267,7 +1267,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return tableType, nil
 	}
 
-	literalTableType, err := l.lexLiteralTableType(buffer)
+	literalTableType, err := l.lexLiteralTableTypeAnnotation(buffer)
 
 	switch {
 	case err != nil:
@@ -1276,7 +1276,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return literalTableType, nil
 	}
 
-	lexedOptional, err := l.lexOptionalType(buffer, source)
+	lexedOptional, err := l.lexOptionalTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1285,7 +1285,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedOptional, nil
 	}
 
-	lexedUnion, err := l.lexUnionType(buffer, source)
+	lexedUnion, err := l.lexUnionTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1294,7 +1294,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedUnion, nil
 	}
 
-	lexedGroupedType, err := l.lexGroupType(buffer, source)
+	lexedGroupedType, err := l.lexParenthesizedTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1303,7 +1303,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedGroupedType, nil
 	}
 
-	lexedNumericLiteral, err := l.lexNumericLiteralType(buffer, source)
+	lexedNumericLiteral, err := l.lexLiteralNumberTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1312,7 +1312,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedNumericLiteral, nil
 	}
 
-	lexedBooleanLiteral, err := l.lexBooleanLiteralType(buffer)
+	lexedBooleanLiteral, err := l.lexLiteralBooleanTypeAnnotation(buffer)
 
 	switch {
 	case err != nil:
@@ -1321,7 +1321,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedBooleanLiteral, nil
 	}
 
-	lexedStringLiteral, err := l.lexStringLiteralType(buffer, source)
+	lexedStringLiteral, err := l.lexLiteralStringTypeAnnotation(buffer, source)
 
 	switch {
 	case err != nil:
@@ -1330,7 +1330,7 @@ func (l *Lexer) lexType(typ lexedType) (symbol.Symbol, error) {
 		return lexedStringLiteral, nil
 	}
 
-	lexedReference, err := l.lexReferenceType(source)
+	lexedReference, err := l.lexReferenceTypeAnnotation(source)
 
 	switch {
 	case err != nil:

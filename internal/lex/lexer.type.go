@@ -8,38 +8,38 @@ import (
 )
 
 func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
-	// Replacing all dots in the alias name with underscores
+	// Replacing all dots in the alias className with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	name := source.Identifier()
-	origin := source.GetOrigin()
+	className := source.Identifier()
+	classOrigin := source.GetOrigin()
 
-	patchedName := strings.ReplaceAll(name, ".", "_")
-	definitionText := origin.DefinitionText()
-	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
+	classPatchedName := strings.ReplaceAll(className, ".", "_")
+	classDefinitionText := classOrigin.DefinitionText()
+	classPatchedDefinitionText := strings.Replace(classDefinitionText, className, classPatchedName, 1)
 
-	documentationText := origin.DocumentationText()
-	patchedDocumentationText := strings.Replace(documentationText, definitionText, patchedDefinitionText, 1)
-	patchedDocumentationLines := strings.Split(patchedDocumentationText, "\n")
+	classDocumentationText := classOrigin.DocumentationText()
+	classPatchedDocumentationText := strings.Replace(classDocumentationText, classDefinitionText, classPatchedDefinitionText, 1)
+	classPatchedDocumentationLines := strings.Split(classPatchedDocumentationText, "\n")
 
-	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
+	classAnnotations, err := l.lexAtAnnotations(classPatchedDocumentationLines)
 
 	if err != nil {
 		return nil, err
 	}
 
-	_, foundClassAnnotation := lexedAnnotations.Classes[patchedName]
+	_, foundClassAnnotation := classAnnotations.Classes[classPatchedName]
 
 	if !foundClassAnnotation {
 		return nil, nil
 	}
 
 	class := symbol.NewTable()
-	class.Name = name
+	class.Name = className
 	// TODO: the documentation is gathered by the annotations lexer
-	// class.Documentation = origin.DocumentationLines()
+	class.Documentation = classOrigin.DocumentationLines()
 
 	// fmt.Println(name)
-	classFields, err := l.context.Nvim.GetTypeCompletion(name)
+	classFields, err := l.context.Nvim.GetTypeCompletion(className)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -63,35 +63,35 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
-			classField := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
-			source, err := l.crawler.SourceTypeMember(name, fieldName)
+			field := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
+			fieldSource, err := l.crawler.SourceTypeMember(className, fieldName)
 
 			switch {
 			case err != nil:
 				return err
-			case source == nil:
-				l.context.Logger.Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", name, fieldName))
-				class.Fields = append(class.Fields, classField)
+			case fieldSource == nil:
+				l.context.Logger.Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", className, fieldName))
+				class.Fields = append(class.Fields, field)
 				return nil
 			}
 
-			annotations, err := l.lexAnnotations(origin.DocumentationLines())
+			fieldAnnotations, err := l.lexAtAnnotations(fieldSource.GetOrigin().DocumentationLines())
 
 			if err != nil {
 				return err
 			}
 
-			classField.Private = annotations.Private
-			classField.Protected = annotations.Protected
+			field.Private = fieldAnnotations.Private
+			field.Protected = fieldAnnotations.Protected
 
-			classFieldValue, err := l.lexValue(source)
+			fieldValue, err := l.lexValue(fieldSource)
 
 			if err != nil {
 				return err
 			}
 
-			classField.Value = classFieldValue
-			class.Fields = append(class.Fields, classField)
+			field.Value = fieldValue
+			class.Fields = append(class.Fields, field)
 			return nil
 		})
 
@@ -120,7 +120,7 @@ func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1)
 	patchedDocumentationLines := strings.Split(patchedDocumentationText, "\n")
 
-	lexedAnnotations, err := l.lexAnnotations(patchedDocumentationLines)
+	lexedAnnotations, err := l.lexAtAnnotations(patchedDocumentationLines)
 
 	if err != nil {
 		return nil, err
@@ -133,7 +133,7 @@ func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {
 	}
 
 	// TODO: attach documentation
-	lexedAlias, err := l.lexType(alias.Type)
+	lexedAlias, err := l.lexTypeAnnotation(alias.Type)
 
 	if err != nil {
 		return nil, err
