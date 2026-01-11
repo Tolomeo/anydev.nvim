@@ -435,17 +435,17 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
-			source, err := l.sourceValue(l.context.Current())
+			tableFieldSource, err := l.sourceValue(l.context.Current())
 
 			if err != nil {
 				return err
 			}
 
-			annotations, err := l.lexAtAnnotations(source.GetOrigin().DefinitionLines())
+			annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
 
 			tableField.Private = annotations.Private
 			tableField.Protected = annotations.Protected
-			tableFieldValue, err := l.lexValue(source)
+			tableFieldValue, err := l.lexValue(tableFieldSource)
 
 			if err != nil {
 				return err

@@ -52,10 +52,6 @@ func (o *ValueOrigin) DefinitionText() string {
 }
 
 func (o *ValueOrigin) DefinitionLines() []string {
-	/* if o.Definition == nil {
-		return []string{}
-	} */
-
 	return strings.Split(o.Definition.Text, "\n")
 }
 
