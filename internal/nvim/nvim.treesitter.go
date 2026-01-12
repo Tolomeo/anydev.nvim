@@ -352,12 +352,14 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	return &tsNode, nil
 }
 
+type TsNodeQueryMap map[string]*treesitter.Query
+
 type TsNodeQueryMatch struct {
 	Node  treesitter.TsNode
-	Match TsQueryMatch
+	Match *TsQueryMatch
 }
 
-func (n *Nvim) tsNodeQueryAt(queryMap map[string]treesitter.Query, line uint, character uint) (*TsNodeQueryMatch, error) {
+func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
 	targetNodes := mapx.Keys(queryMap)
 
 	node, err := n.getTSNodeAt(targetNodes, line, character)
@@ -370,6 +372,13 @@ func (n *Nvim) tsNodeQueryAt(queryMap map[string]treesitter.Query, line uint, ch
 	}
 
 	nodeQuery := queryMap[node.Type]
+
+	if nodeQuery == nil {
+		return &TsNodeQueryMatch{
+			Node: *node,
+		}, nil
+	}
+
 	nodeRange := node.Range.LineRange()
 	rangedNodeQuery := treesitter.Query{
 		Language: nodeQuery.Language,
@@ -386,8 +395,9 @@ func (n *Nvim) tsNodeQueryAt(queryMap map[string]treesitter.Query, line uint, ch
 		return nil, nil
 	}
 
+	// TODO: remove all matches stricly not contained in the node
 	return &TsNodeQueryMatch{
 		Node:  *node,
-		Match: *match,
+		Match: match,
 	}, nil
 }

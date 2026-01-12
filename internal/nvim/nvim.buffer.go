@@ -106,6 +106,15 @@ func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Locat
 
 	return b.nvim.getTypeDefinitionLocations(line, character)
 }
+func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
+	_, err := b.nvim.open(b.name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return b.nvim.queryTsNodeAt(tsNodeQueryMap, line, character)
+}
 func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*Buffer, error], error) {
 	_, err := b.nvim.open(b.name)
 

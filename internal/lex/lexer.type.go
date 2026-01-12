@@ -55,7 +55,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 		} */
 
 		err := l.context.Push(fieldName, func(path string) error {
-			fmt.Printf("\nLexing: %s\n", l.context.Current())
+			fmt.Printf("\nLexing: '%s' class: '%s' field\n", className, fieldName)
 
 			field := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
 			fieldSource, err := l.crawler.SourceType(fieldName, className)
