@@ -64,8 +64,6 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			field := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
 			fieldSource, err := l.crawler.SourceType(fieldName, className)
 
-			fmt.Printf("\nField source: %+v\n", fieldSource)
-
 			switch {
 			case err != nil:
 				return err
@@ -105,11 +103,26 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 }
 
 func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
+	annotations, err := l.lexAtAnnotations(source.GetOrigin().DocumentationLines())
 
-	fmt.Printf("\nField origin: %+v\n", source.GetOrigin())
+	if err != nil {
+		return nil, err
+	}
 
-	return symbol.NewUnknown(), nil
+	field, found := annotations.Fields[source.Name()]
 
+	if !found {
+		return nil, nil
+
+	}
+
+	lexedField, err := l.lexTypeAnnotation(field.Type)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return lexedField, nil
 }
 
 func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {

@@ -12,7 +12,8 @@ type Crawler struct {
 }
 
 func (c *Crawler) SourceValue(path string) (symbol.Source, error) {
-	source := symbol.ValueSource{Name: path}
+	source := symbol.NewValueSource(path)
+
 	locations, err := c.findDefinitionLocations(source.Identifier())
 
 	switch {
@@ -23,7 +24,7 @@ func (c *Crawler) SourceValue(path string) (symbol.Source, error) {
 		return nil, nil
 	}
 
-	valueOrigin, err := c.findOrigin(*locations, &source)
+	valueOrigin, err := c.findOrigin(*locations, source)
 
 	switch {
 	case err != nil:
@@ -41,24 +42,24 @@ func (c *Crawler) SourceValue(path string) (symbol.Source, error) {
 		return nil, err
 	} */
 
-	documentation, err := c.sourceDocumentation(&source)
+	documentation, err := c.sourceDocumentation(source)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case documentation == nil:
 		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
-		return &source, nil
+		return source, nil
 	}
 
 	source.GetOrigin().SetDocumentation(*documentation)
-	return &source, nil
+	return source, nil
 }
 
 func (c *Crawler) SourceType(typeName string, parentTypeName string) (symbol.Source, error) {
-	source := symbol.TypeSource{Name: typeName, ParentName: parentTypeName}
+	source := symbol.NewTypeSource(typeName, parentTypeName)
 
-	locations, err := c.findTypeDefinitionLocations(&source)
+	locations, err := c.findTypeDefinitionLocations(source)
 
 	fmt.Printf("\nType name: %s\nLocations: %+v\n", source.Identifier(), locations)
 
@@ -70,7 +71,7 @@ func (c *Crawler) SourceType(typeName string, parentTypeName string) (symbol.Sou
 		return nil, nil
 	}
 
-	origin, err := c.findOrigin(*locations, &source)
+	origin, err := c.findOrigin(*locations, source)
 
 	switch {
 	case err != nil:
@@ -82,19 +83,19 @@ func (c *Crawler) SourceType(typeName string, parentTypeName string) (symbol.Sou
 		source.SetOrigin(origin)
 	}
 
-	documentation, err := c.sourceDocumentation(&source)
+	documentation, err := c.sourceDocumentation(source)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case documentation == nil:
 		c.context.Logger.Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
-		return &source, nil
+		return source, nil
 	default:
 		source.GetOrigin().SetDocumentation(*documentation)
 	}
 
-	return &source, nil
+	return source, nil
 }
 
 func NewCrawler(context *context.Context) *Crawler {

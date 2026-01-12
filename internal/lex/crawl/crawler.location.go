@@ -78,10 +78,10 @@ func (c *Crawler) findTypeDefinitionLocations(source *symbol.TypeSource) (*[]nvi
 
 	lines := []string{}
 
-	if source.ParentName == "" {
-		lines = append(lines, fmt.Sprintf("---@type %s", source.Name))
+	if source.ParentName() == "" {
+		lines = append(lines, fmt.Sprintf("---@type %s", source.Name()))
 	} else {
-		lines = append(lines, fmt.Sprintf("---@type %s", source.ParentName), "local ref", fmt.Sprintf("ref.%s", source.Name))
+		lines = append(lines, fmt.Sprintf("---@type %s", source.ParentName()), "local ref", fmt.Sprintf("ref.%s", source.Name()))
 	}
 
 	fmt.Println(lines)

@@ -33,22 +33,12 @@ var findOriginQueries = map[string]func(symbol.Source) treesitter.Query{
 		}
 	},
 	treesitter.FIELD_ANNOTATION: func(source symbol.Source) treesitter.Query {
-		fieldName := source.Identifier()
-
-		switch s := source.(type) {
-		case *symbol.TypeSource:
-			if s.ParentName == "" {
-				break
-			}
-			fieldName = s.Name
-		}
-
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(field_annotation) @field_annotation
 				(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(fieldName)),
+				)`, regexp.QuoteMeta(source.Name())),
 		}
 	},
 }

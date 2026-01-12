@@ -57,6 +57,12 @@ type AtClassAnnotation struct {
 	Parents []string
 }
 
+type AtFieldAnnotation struct {
+	Name          string
+	Type          TypeAnnotation
+	Documentation []string
+}
+
 type AtAnnotations struct {
 	Type      *AtTypeAnnotation
 	Private   bool
@@ -67,6 +73,7 @@ type AtAnnotations struct {
 	Overloads []AtOverloadAnnotation
 	Aliases   map[string]AtAliasAnnotation
 	Classes   map[string]AtClassAnnotation
+	Fields    map[string]AtFieldAnnotation
 }
 
 // TODO: support for multiple comma-separated types
@@ -601,6 +608,52 @@ func (l *Lexer) lexAtClassAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 	return true, nil
 }
 
+var atFieldAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+		(documentation
+			(field_annotation
+				(identifier) @field.name
+				(%s) @field.type
+				(comment)? @field.documentation
+			) @field
+		)`, anyTypeAnnotationQuery),
+}
+
+func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	matches, err := buffer.TsQueryAll(atFieldAnnotationQuery)
+
+	switch {
+	case err != nil:
+		return false, err
+	case matches == nil:
+		return false, nil
+	}
+
+	for _, matchCaptures := range *matches {
+		field := AtFieldAnnotation{}
+
+		for _, capture := range matchCaptures {
+			switch capture.Id {
+			case "field.name":
+				field.Name = capture.Node.Text
+			case "field.type":
+				field.Type = TypeAnnotation{capture.Node.Text}
+			case "field.documentation":
+				field.Documentation = []string{capture.Node.Text}
+			}
+		}
+
+		if field.Name == "" {
+			return false, fmt.Errorf("Error lexing field annotation: could not find captured field name")
+		}
+
+		annotations.Fields[field.Name] = field
+	}
+
+	return true, nil
+}
+
 func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
@@ -617,6 +670,7 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		Overloads: []AtOverloadAnnotation{},
 		Aliases:   map[string]AtAliasAnnotation{},
 		Classes:   map[string]AtClassAnnotation{},
+		Fields:    map[string]AtFieldAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim.NewBuffer()
@@ -692,6 +746,12 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
+	}
+
+	_, err = l.lexAtFieldAnnotations(buffer, &annotations)
+
+	if err != nil {
+		return annotations, err
 	}
 
 	// fmt.Printf("\nLexedAnnotations: %+v\n", annotations)

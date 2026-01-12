@@ -20,6 +20,7 @@ type Origin interface {
 }
 
 type Source interface {
+	Name() string
 	Identifier() string
 	GetOrigin() Origin
 	SetOrigin(Origin)
@@ -68,20 +69,30 @@ func (o *ValueOrigin) SetDocumentation(documentation treesitter.TsNode) {
 }
 
 type ValueSource struct {
-	Name   string
-	Origin Origin
+	name   string
+	origin Origin
+}
+
+func (s *ValueSource) Name() string {
+	return s.name
 }
 
 func (s *ValueSource) Identifier() string {
-	return s.Name
+	return s.name
 }
 
 func (s *ValueSource) GetOrigin() Origin {
-	return s.Origin
+	return s.origin
 }
 
 func (s *ValueSource) SetOrigin(origin Origin) {
-	s.Origin = origin
+	s.origin = origin
+}
+
+func NewValueSource(name string) *ValueSource {
+	return &ValueSource{
+		name: name,
+	}
 }
 
 type TypeOrigin struct {
@@ -127,16 +138,24 @@ func (o *TypeOrigin) SetDocumentation(documentation treesitter.TsNode) {
 }
 
 type TypeSource struct {
-	ParentName string
-	Name       string
-	origin     Origin
+	parent string
+	name   string
+	origin Origin
+}
+
+func (s *TypeSource) ParentName() string {
+	return s.parent
+}
+
+func (s *TypeSource) Name() string {
+	return s.name
 }
 
 func (s *TypeSource) Identifier() string {
-	if s.ParentName == "" {
-		return s.Name
+	if s.parent == "" {
+		return s.name
 	}
-	return strings.Join([]string{s.ParentName, s.Name}, ".")
+	return strings.Join([]string{s.parent, s.name}, ".")
 }
 
 func (s *TypeSource) GetOrigin() Origin {
@@ -145,4 +164,11 @@ func (s *TypeSource) GetOrigin() Origin {
 
 func (s *TypeSource) SetOrigin(origin Origin) {
 	s.origin = origin
+}
+
+func NewTypeSource(name string, parent string) *TypeSource {
+	return &TypeSource{
+		parent: parent,
+		name:   name,
+	}
 }
