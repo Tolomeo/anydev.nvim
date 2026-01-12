@@ -68,12 +68,12 @@ func (o *ValueOrigin) SetDocumentation(documentation treesitter.TsNode) {
 }
 
 type ValueSource struct {
-	Path   string
+	Name   string
 	Origin Origin
 }
 
 func (s *ValueSource) Identifier() string {
-	return s.Path
+	return s.Name
 }
 
 func (s *ValueSource) GetOrigin() Origin {
@@ -127,18 +127,22 @@ func (o *TypeOrigin) SetDocumentation(documentation treesitter.TsNode) {
 }
 
 type TypeSource struct {
-	Path   string
-	Origin Origin
+	ParentName string
+	Name       string
+	origin     Origin
 }
 
 func (s *TypeSource) Identifier() string {
-	return s.Path
+	if s.ParentName == "" {
+		return s.Name
+	}
+	return strings.Join([]string{s.ParentName, s.Name}, ".")
 }
 
 func (s *TypeSource) GetOrigin() Origin {
-	return s.Origin
+	return s.origin
 }
 
 func (s *TypeSource) SetOrigin(origin Origin) {
-	s.Origin = origin
+	s.origin = origin
 }

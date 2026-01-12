@@ -1,9 +1,26 @@
 package crawl
 
 import (
+	"fmt"
+
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
+
+func (c *Crawler) sourceDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
+	switch source.GetOrigin().Type() {
+	case treesitter.ASSIGNMENT_STATEMENT,
+		treesitter.VARIABLE_DECLARATION,
+		treesitter.FUNCTION_DECLARATION:
+		return c.sourceDefinitionDocumentation(source)
+	case treesitter.ALIAS_ANNOTATION,
+		treesitter.CLASS_ANNOTATION,
+		treesitter.FIELD_ANNOTATION:
+		return c.sourceTypeDefinitionDocumentation(source)
+	}
+
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)
+}
 
 func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
 	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())

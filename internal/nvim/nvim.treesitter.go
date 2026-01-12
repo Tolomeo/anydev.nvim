@@ -2,12 +2,12 @@ package nvim
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
@@ -182,7 +182,7 @@ func (n *Nvim) tsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	return &match, nil
 }
 
-var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
+// var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
 
 type SafeTsQueryResult struct {
 	HasError bool
@@ -350,4 +350,44 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	}
 
 	return &tsNode, nil
+}
+
+type TsNodeQueryMatch struct {
+	Node  treesitter.TsNode
+	Match TsQueryMatch
+}
+
+func (n *Nvim) tsNodeQueryAt(queryMap map[string]treesitter.Query, line uint, character uint) (*TsNodeQueryMatch, error) {
+	targetNodes := mapx.Keys(queryMap)
+
+	node, err := n.getTSNodeAt(targetNodes, line, character)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case node == nil:
+		return nil, nil
+	}
+
+	nodeQuery := queryMap[node.Type]
+	nodeRange := node.Range.LineRange()
+	rangedNodeQuery := treesitter.Query{
+		Language: nodeQuery.Language,
+		Query:    nodeQuery.Query,
+		Range:    &nodeRange,
+	}
+
+	match, err := n.tsQueryOne(rangedNodeQuery)
+
+	switch {
+	case err != nil:
+		return nil, err
+	case match == nil:
+		return nil, nil
+	}
+
+	return &TsNodeQueryMatch{
+		Node:  *node,
+		Match: *match,
+	}, nil
 }

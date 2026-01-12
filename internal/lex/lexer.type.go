@@ -54,17 +54,17 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			continue
 		} */
 
-		// fmt.Println(fieldName)
-
-		/* if fieldName != "fs_access" {
+		if className == "uv" && fieldName != "errno" {
 			continue
-		} */
+		}
 
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: %s\n", l.context.Current())
 
 			field := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
-			fieldSource, err := l.crawler.SourceTypeMember(className, fieldName)
+			fieldSource, err := l.crawler.SourceType(fieldName, className)
+
+			fmt.Printf("\nField source: %+v\n", fieldSource)
 
 			switch {
 			case err != nil:
@@ -102,6 +102,14 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	}
 
 	return class, nil
+}
+
+func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
+
+	fmt.Printf("\nField origin: %+v\n", source.GetOrigin())
+
+	return symbol.NewUnknown(), nil
+
 }
 
 func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {

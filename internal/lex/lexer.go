@@ -80,7 +80,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	err := l.context.Fork(name, func(name string) error {
 		fmt.Printf("\nLexing: %s type\n", l.context.Current())
 
-		source, err := l.crawler.SourceType(name)
+		source, err := l.crawler.SourceType(name, "")
 
 		switch {
 		case err != nil:
@@ -138,6 +138,8 @@ func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
 		return l.lexAliasType(source)
 	case treesitter.CLASS_ANNOTATION:
 		return l.lexClassType(source)
+	case treesitter.FIELD_ANNOTATION:
+		return l.lexFieldType(source)
 	}
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)

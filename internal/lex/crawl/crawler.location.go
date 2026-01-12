@@ -2,8 +2,8 @@ package crawl
 
 import (
 	"fmt"
-	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -67,7 +67,7 @@ func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error)
 	return locations, nil
 }
 
-func (c *Crawler) findTypeDefinitionLocations(typeName string, typeField ...string) (*[]nvim.Location, error) {
+func (c *Crawler) findTypeDefinitionLocations(source *symbol.TypeSource) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim.NewBuffer()
 
 	if err != nil {
@@ -76,17 +76,26 @@ func (c *Crawler) findTypeDefinitionLocations(typeName string, typeField ...stri
 
 	defer buffer.Close()
 
-	typeAnnotation := fmt.Sprintf("---@type %s", typeName)
-	ref := "local ref"
-	refAccess := strings.Join(append([]string{"ref"}, typeField...), ".")
-	err = buffer.SetLines([]string{typeAnnotation, ref, refAccess})
+	lines := []string{}
+
+	if source.ParentName == "" {
+		lines = append(lines, fmt.Sprintf("---@type %s", source.Name))
+	} else {
+		lines = append(lines, fmt.Sprintf("---@type %s", source.ParentName), "local ref", fmt.Sprintf("ref.%s", source.Name))
+	}
+
+	fmt.Println(lines)
+
+	err = buffer.SetLines(lines)
 
 	if err != nil {
 		return nil, err
 	}
 
-	line, character := uint(2), uint(len(refAccess))
-	locations, err := buffer.GetTypeDefinitionLocations(line, character)
+	lastLineIndex := len(lines) - 1
+	lastLine := lines[lastLineIndex]
+	line, character := uint(lastLineIndex), uint(len(lastLine))
+	locations, err := buffer.GetDefinitionLocations(line, character)
 
 	switch {
 	case err != nil:

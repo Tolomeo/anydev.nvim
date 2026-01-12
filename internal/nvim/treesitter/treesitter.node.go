@@ -7,6 +7,7 @@ const (
 	COMMENT              string = "comment"
 	DOCUMENTATION        string = "documentation"
 	CLASS_ANNOTATION     string = "class_annotation"
+	FIELD_ANNOTATION     string = "field_annotation"
 	ALIAS_ANNOTATION     string = "alias_annotation"
 )
 

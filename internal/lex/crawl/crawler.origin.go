@@ -10,31 +10,50 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-var findOriginQueries = map[string]func(name string) treesitter.Query{
+var findOriginQueries = map[string]func(symbol.Source) treesitter.Query{
 	treesitter.ASSIGNMENT_STATEMENT: nil,
 	treesitter.VARIABLE_DECLARATION: nil,
 	treesitter.FUNCTION_DECLARATION: nil,
-	treesitter.ALIAS_ANNOTATION: func(name string) treesitter.Query {
+	treesitter.ALIAS_ANNOTATION: func(source symbol.Source) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
 				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(name)),
+			)`, regexp.QuoteMeta(source.Identifier())),
 		}
 	},
-	treesitter.CLASS_ANNOTATION: func(name string) treesitter.Query {
+	treesitter.CLASS_ANNOTATION: func(source symbol.Source) treesitter.Query {
 		return treesitter.Query{
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
 				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(name)),
+			)`, regexp.QuoteMeta(source.Identifier())),
+		}
+	},
+	treesitter.FIELD_ANNOTATION: func(source symbol.Source) treesitter.Query {
+		fieldName := source.Identifier()
+
+		switch s := source.(type) {
+		case *symbol.TypeSource:
+			if s.ParentName == "" {
+				break
+			}
+			fieldName = s.Name
+		}
+
+		return treesitter.Query{
+			Language: "luadoc",
+			Query: fmt.Sprintf(`(
+				(field_annotation) @field_annotation
+				(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
+				)`, regexp.QuoteMeta(fieldName)),
 		}
 	},
 }
 
-func (c *Crawler) findOrigin(source symbol.Source, locations []nvim.Location) (symbol.Origin, error) {
+func (c *Crawler) findOrigin(locations []nvim.Location, source symbol.Source) (symbol.Origin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
 
@@ -62,7 +81,8 @@ func (c *Crawler) findOrigin(source symbol.Source, locations []nvim.Location) (s
 			}
 
 			if nodeQuery != nil {
-				query := (nodeQuery)(source.Identifier())
+				query := nodeQuery(source)
+				fmt.Println(query.Query)
 				query.Range = &lineRange
 				match, err := buffer.TsQueryOne(query)
 
@@ -166,7 +186,7 @@ func (c *Crawler) followModuleRequireAssignment(source symbol.Source, origin sym
 		return nil, err
 	}
 
-	moduleOrigin, err := c.findOrigin(source, *moduleLocations)
+	moduleOrigin, err := c.findOrigin(*moduleLocations, source)
 
 	switch {
 	case err != nil:
@@ -252,7 +272,7 @@ func (c *Crawler) followVariableAssignment(source symbol.Source, origin symbol.O
 		return nil, err
 	}
 
-	rightValueOrigin, err := c.findOrigin(source, *rightValueLocations)
+	rightValueOrigin, err := c.findOrigin(*rightValueLocations, source)
 
 	if err != nil {
 		return nil, err
