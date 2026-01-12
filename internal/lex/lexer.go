@@ -111,7 +111,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 		case err != nil:
 			return err
 		case lexedClassType != nil:
-			fmt.Printf("\nLexed '%s' class: %+v\n\n", name, lexedClassType)
+			// fmt.Printf("\nLexed '%s' class: %+v\n\n", name, lexedClassType)
 			l.context.Result().Types[name] = lexedClassType
 			return nil
 		}

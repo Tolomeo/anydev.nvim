@@ -1120,816 +1120,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [
-                            " A table value which exposes error constants as a map, where the key is the error name (without the UV_ prefix) and its value is a negative number.",
-                            "",
-                            "@class uv.errno : table",
-                            "",
-                            "@field E2BIG           integer # argument list too long.",
-                            "@field EACCES          integer # permission denied.",
-                            "@field EADDRINUSE      integer # address already in use.",
-                            "@field EADDRNOTAVAIL   integer # address not available.",
-                            "@field EAFNOSUPPORT    integer # address family not supported.",
-                            "@field EAGAIN          integer # resource temporarily unavailable.",
-                            "@field EAI_ADDRFAMILY  integer # address family not supported.",
-                            "@field EAI_AGAIN       integer # temporary failure.",
-                            "@field EAI_BADFLAGS    integer # bad ai_flags value.",
-                            "@field EAI_BADHINTS    integer # invalid value for hints.",
-                            "@field EAI_CANCELED    integer # request canceled.",
-                            "@field EAI_FAIL        integer # permanent failure.",
-                            "@field EAI_FAMILY      integer # ai_family not supported.",
-                            "@field EAI_MEMORY      integer # out of memory.",
-                            "@field EAI_NODATA      integer # no address.",
-                            "@field EAI_NONAME      integer # unknown node or service.",
-                            "@field EAI_OVERFLOW    integer # argument buffer overflow.",
-                            "@field EAI_PROTOCOL    integer # resolved protocol is unknown.",
-                            "@field EAI_SERVICE     integer # service not available for socket type.",
-                            "@field EAI_SOCKTYPE    integer # socket type not supported.",
-                            "@field EALREADY        integer # connection already in progress.",
-                            "@field EBADF           integer # bad file descriptor.",
-                            "@field EBUSY           integer # resource busy or locked.",
-                            "@field ECANCELED       integer # operation canceled.",
-                            "@field ECHARSET        integer # invalid Unicode character.",
-                            "@field ECONNABORTED    integer # software caused connection abort.",
-                            "@field ECONNREFUSED    integer # connection refused.",
-                            "@field ECONNRESET      integer # connection reset by peer.",
-                            "@field EDESTADDRREQ    integer # destination address required.",
-                            "@field EEXIST          integer # file already exists.",
-                            "@field EFAULT          integer # bad address in system call argument.",
-                            "@field EFBIG           integer # file too large.",
-                            "@field EFTYPE          integer # inappropriate file type or format.",
-                            "@field EHOSTUNREACH    integer # host is unreachable.",
-                            "@field EILSEQ          integer # illegal byte sequence.",
-                            "@field EINTR           integer # interrupted system call.",
-                            "@field EINVAL          integer # invalid argument.",
-                            "@field EIO             integer # i/o error.",
-                            "@field EISCONN         integer # socket is already connected.",
-                            "@field EISDIR          integer # illegal operation on a directory.",
-                            "@field ELOOP           integer # too many symbolic links encountered.",
-                            "@field EMFILE          integer # too many open files.",
-                            "@field EMLINK          integer # too many links.",
-                            "@field EMSGSIZE        integer # message too long.",
-                            "@field ENAMETOOLONG    integer # name too long.",
-                            "@field ENETDOWN        integer # network is down.",
-                            "@field ENETUNREACH     integer # network is unreachable.",
-                            "@field ENFILE          integer # file table overflow.",
-                            "@field ENOBUFS         integer # no buffer space available.",
-                            "@field ENODEV          integer # no such device.",
-                            "@field ENOENT          integer # no such file or directory.",
-                            "@field ENOMEM          integer # not enough memory.",
-                            "@field ENONET          integer # machine is not on the network.",
-                            "@field ENOPROTOOPT     integer # protocol not available.",
-                            "@field ENOSPC          integer # no space left on device.",
-                            "@field ENOSYS          integer # function not implemented.",
-                            "@field ENOTCONN        integer # socket is not connected.",
-                            "@field ENOTDIR         integer # not a directory.",
-                            "@field ENOTEMPTY       integer # directory not empty.",
-                            "@field ENOTSOCK        integer # socket operation on non-socket.",
-                            "@field ENOTSUP         integer # operation not supported on socket.",
-                            "@field ENOTTY          integer # inappropriate ioctl for device.",
-                            "@field ENXIO           integer # no such device or address.",
-                            "@field EOF             integer # end of file.",
-                            "@field EOVERFLOW       integer # value too large for defined data type.",
-                            "@field EPERM           integer # operation not permitted.",
-                            "@field EPIPE           integer # broken pipe.",
-                            "@field EPROTO          integer # protocol error.",
-                            "@field EPROTONOSUPPORT integer # protocol not supported.",
-                            "@field EPROTOTYPE      integer # protocol wrong type for socket.",
-                            "@field ERANGE          integer # result too large.",
-                            "@field EROFS           integer # read-only file system.",
-                            "@field ESHUTDOWN       integer # cannot send after transport endpoint shutdown.",
-                            "@field ESOCKTNOSUPPORT integer # socket type not supported.",
-                            "@field ESPIPE          integer # invalid seek.",
-                            "@field ESRCH           integer # no such process.",
-                            "@field ETIMEDOUT       integer # connection timed out.",
-                            "@field ETXTBSY         integer # text file is busy.",
-                            "@field EXDEV           integer # cross-device link not permitted.",
-                            "@field UNKNOWN         integer # unknown error."
-                        ],
-                        "fields": [
-                            {
-                                "name": "E2BIG",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EACCES",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EADDRINUSE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EADDRNOTAVAIL",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAFNOSUPPORT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAGAIN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_ADDRFAMILY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_AGAIN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_BADFLAGS",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_BADHINTS",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_CANCELED",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_FAIL",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_FAMILY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_MEMORY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_NODATA",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_NONAME",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_OVERFLOW",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_PROTOCOL",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_SERVICE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EAI_SOCKTYPE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EALREADY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EBADF",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EBUSY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ECANCELED",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ECHARSET",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ECONNABORTED",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ECONNREFUSED",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ECONNRESET",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EDESTADDRREQ",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EEXIST",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EFAULT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EFBIG",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EFTYPE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EHOSTUNREACH",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EILSEQ",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EINTR",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EINVAL",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EIO",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EISCONN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EISDIR",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ELOOP",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EMFILE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EMLINK",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EMSGSIZE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENAMETOOLONG",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENETDOWN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENETUNREACH",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENFILE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOBUFS",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENODEV",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOENT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOMEM",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENONET",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOPROTOOPT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOSPC",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOSYS",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTCONN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTDIR",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTEMPTY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTSOCK",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTSUP",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENOTTY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ENXIO",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EOF",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EOVERFLOW",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EPERM",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EPIPE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EPROTO",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EPROTONOSUPPORT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EPROTOTYPE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ERANGE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EROFS",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ESHUTDOWN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ESOCKTNOSUPPORT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ESPIPE",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ESRCH",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ETIMEDOUT",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "ETXTBSY",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "EXDEV",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            },
-                            {
-                                "name": "UNKNOWN",
-                                "private": false,
-                                "protected": false,
-                                "value": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            }
-                        ],
-                        "kind": "table",
-                        "name": "uv.errno"
+                        "kind": "reference",
+                        "value": "uv.errno"
                     }
                 },
                 {
@@ -26091,8 +25283,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -26100,8 +25292,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "number"
                     }
                 },
                 {
@@ -26109,13 +25301,884 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.cpu_info.cpu.times"
                     }
                 }
             ],
             "kind": "table",
             "name": "uv.cpu_info.cpu"
+        },
+        "uv.cpu_info.cpu.times": {
+            "documentation": [
+                "@class uv.cpu_info.cpu.times : table",
+                "@field user number",
+                "@field nice number",
+                "@field sys  number",
+                "@field idle number",
+                "@field irq  number"
+            ],
+            "fields": [
+                {
+                    "name": "idle",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                },
+                {
+                    "name": "irq",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                },
+                {
+                    "name": "nice",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                },
+                {
+                    "name": "sys",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                },
+                {
+                    "name": "user",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "uv.cpu_info.cpu.times"
+        },
+        "uv.errno": {
+            "documentation": [
+                " A table value which exposes error constants as a map, where the key is the error name (without the UV_ prefix) and its value is a negative number.",
+                "",
+                "@class uv.errno : table",
+                "",
+                "@field E2BIG           integer # argument list too long.",
+                "@field EACCES          integer # permission denied.",
+                "@field EADDRINUSE      integer # address already in use.",
+                "@field EADDRNOTAVAIL   integer # address not available.",
+                "@field EAFNOSUPPORT    integer # address family not supported.",
+                "@field EAGAIN          integer # resource temporarily unavailable.",
+                "@field EAI_ADDRFAMILY  integer # address family not supported.",
+                "@field EAI_AGAIN       integer # temporary failure.",
+                "@field EAI_BADFLAGS    integer # bad ai_flags value.",
+                "@field EAI_BADHINTS    integer # invalid value for hints.",
+                "@field EAI_CANCELED    integer # request canceled.",
+                "@field EAI_FAIL        integer # permanent failure.",
+                "@field EAI_FAMILY      integer # ai_family not supported.",
+                "@field EAI_MEMORY      integer # out of memory.",
+                "@field EAI_NODATA      integer # no address.",
+                "@field EAI_NONAME      integer # unknown node or service.",
+                "@field EAI_OVERFLOW    integer # argument buffer overflow.",
+                "@field EAI_PROTOCOL    integer # resolved protocol is unknown.",
+                "@field EAI_SERVICE     integer # service not available for socket type.",
+                "@field EAI_SOCKTYPE    integer # socket type not supported.",
+                "@field EALREADY        integer # connection already in progress.",
+                "@field EBADF           integer # bad file descriptor.",
+                "@field EBUSY           integer # resource busy or locked.",
+                "@field ECANCELED       integer # operation canceled.",
+                "@field ECHARSET        integer # invalid Unicode character.",
+                "@field ECONNABORTED    integer # software caused connection abort.",
+                "@field ECONNREFUSED    integer # connection refused.",
+                "@field ECONNRESET      integer # connection reset by peer.",
+                "@field EDESTADDRREQ    integer # destination address required.",
+                "@field EEXIST          integer # file already exists.",
+                "@field EFAULT          integer # bad address in system call argument.",
+                "@field EFBIG           integer # file too large.",
+                "@field EFTYPE          integer # inappropriate file type or format.",
+                "@field EHOSTUNREACH    integer # host is unreachable.",
+                "@field EILSEQ          integer # illegal byte sequence.",
+                "@field EINTR           integer # interrupted system call.",
+                "@field EINVAL          integer # invalid argument.",
+                "@field EIO             integer # i/o error.",
+                "@field EISCONN         integer # socket is already connected.",
+                "@field EISDIR          integer # illegal operation on a directory.",
+                "@field ELOOP           integer # too many symbolic links encountered.",
+                "@field EMFILE          integer # too many open files.",
+                "@field EMLINK          integer # too many links.",
+                "@field EMSGSIZE        integer # message too long.",
+                "@field ENAMETOOLONG    integer # name too long.",
+                "@field ENETDOWN        integer # network is down.",
+                "@field ENETUNREACH     integer # network is unreachable.",
+                "@field ENFILE          integer # file table overflow.",
+                "@field ENOBUFS         integer # no buffer space available.",
+                "@field ENODEV          integer # no such device.",
+                "@field ENOENT          integer # no such file or directory.",
+                "@field ENOMEM          integer # not enough memory.",
+                "@field ENONET          integer # machine is not on the network.",
+                "@field ENOPROTOOPT     integer # protocol not available.",
+                "@field ENOSPC          integer # no space left on device.",
+                "@field ENOSYS          integer # function not implemented.",
+                "@field ENOTCONN        integer # socket is not connected.",
+                "@field ENOTDIR         integer # not a directory.",
+                "@field ENOTEMPTY       integer # directory not empty.",
+                "@field ENOTSOCK        integer # socket operation on non-socket.",
+                "@field ENOTSUP         integer # operation not supported on socket.",
+                "@field ENOTTY          integer # inappropriate ioctl for device.",
+                "@field ENXIO           integer # no such device or address.",
+                "@field EOF             integer # end of file.",
+                "@field EOVERFLOW       integer # value too large for defined data type.",
+                "@field EPERM           integer # operation not permitted.",
+                "@field EPIPE           integer # broken pipe.",
+                "@field EPROTO          integer # protocol error.",
+                "@field EPROTONOSUPPORT integer # protocol not supported.",
+                "@field EPROTOTYPE      integer # protocol wrong type for socket.",
+                "@field ERANGE          integer # result too large.",
+                "@field EROFS           integer # read-only file system.",
+                "@field ESHUTDOWN       integer # cannot send after transport endpoint shutdown.",
+                "@field ESOCKTNOSUPPORT integer # socket type not supported.",
+                "@field ESPIPE          integer # invalid seek.",
+                "@field ESRCH           integer # no such process.",
+                "@field ETIMEDOUT       integer # connection timed out.",
+                "@field ETXTBSY         integer # text file is busy.",
+                "@field EXDEV           integer # cross-device link not permitted.",
+                "@field UNKNOWN         integer # unknown error."
+            ],
+            "fields": [
+                {
+                    "name": "E2BIG",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EACCES",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EADDRINUSE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EADDRNOTAVAIL",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAFNOSUPPORT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAGAIN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_ADDRFAMILY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_AGAIN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_BADFLAGS",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_BADHINTS",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_CANCELED",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_FAIL",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_FAMILY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_MEMORY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_NODATA",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_NONAME",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_OVERFLOW",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_PROTOCOL",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_SERVICE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EAI_SOCKTYPE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EALREADY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EBADF",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EBUSY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ECANCELED",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ECHARSET",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ECONNABORTED",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ECONNREFUSED",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ECONNRESET",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EDESTADDRREQ",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EEXIST",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EFAULT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EFBIG",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EFTYPE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EHOSTUNREACH",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EILSEQ",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EINTR",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EINVAL",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EIO",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EISCONN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EISDIR",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ELOOP",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EMFILE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EMLINK",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EMSGSIZE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENAMETOOLONG",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENETDOWN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENETUNREACH",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENFILE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOBUFS",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENODEV",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOENT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOMEM",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENONET",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOPROTOOPT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOSPC",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOSYS",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTCONN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTDIR",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTEMPTY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTSOCK",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTSUP",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENOTTY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ENXIO",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EOF",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EOVERFLOW",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EPERM",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EPIPE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EPROTO",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EPROTONOSUPPORT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EPROTOTYPE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ERANGE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EROFS",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ESHUTDOWN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ESOCKTNOSUPPORT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ESPIPE",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ESRCH",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ETIMEDOUT",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "ETXTBSY",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "EXDEV",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "UNKNOWN",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "uv.errno"
         },
         "uv.error.message": {
             "kind": "builtin",
@@ -26517,8 +26580,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -26526,8 +26589,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -26535,8 +26598,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -26588,8 +26651,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -26597,8 +26669,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 }
             ],
@@ -26618,8 +26699,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -26627,8 +26717,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -26636,8 +26735,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 }
             ],
@@ -26989,8 +27097,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -26998,8 +27106,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 }
             ],
@@ -27176,8 +27284,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.fs_stat.result.time"
                     }
                 },
                 {
@@ -27185,8 +27293,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.fs_stat.result.time"
                     }
                 },
                 {
@@ -27194,8 +27302,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27203,8 +27311,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27212,8 +27320,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.fs_stat.result.time"
                     }
                 },
                 {
@@ -27221,8 +27329,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27230,8 +27338,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27239,8 +27347,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27248,8 +27356,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27257,8 +27365,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27266,8 +27374,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27275,8 +27383,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.fs_stat.result.time"
                     }
                 },
                 {
@@ -27284,8 +27392,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27293,8 +27401,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27302,8 +27410,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27311,8 +27419,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -27320,13 +27428,42 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
             "kind": "table",
             "name": "uv.fs_stat.result"
+        },
+        "uv.fs_stat.result.time": {
+            "documentation": [
+                "@class uv.fs_stat.result.time",
+                "@field sec integer",
+                "@field nsec integer"
+            ],
+            "fields": [
+                {
+                    "name": "nsec",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "sec",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "uv.fs_stat.result.time"
         },
         "uv.fs_statfs.callback": {
             "arguments": [
@@ -27380,8 +27517,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27389,8 +27526,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27398,8 +27535,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27407,8 +27544,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27416,8 +27553,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27425,8 +27562,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27434,8 +27571,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -27458,8 +27595,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27467,8 +27604,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -27565,8 +27702,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27574,8 +27711,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27583,8 +27720,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27592,8 +27729,21 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.family"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27601,8 +27751,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27610,8 +27760,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27619,8 +27769,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -27628,8 +27778,21 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.protocol"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27637,8 +27800,21 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.type"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27646,8 +27822,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -27671,8 +27847,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -27680,8 +27856,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27689,8 +27874,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.family"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27698,8 +27892,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27707,8 +27910,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -27716,8 +27919,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 }
             ],
@@ -27739,8 +27942,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        ]
                     }
                 },
                 {
@@ -27748,8 +27960,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -27757,8 +27969,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -27825,8 +28037,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27834,8 +28046,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27843,8 +28055,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27852,8 +28064,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27861,8 +28073,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27870,8 +28082,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27879,8 +28091,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27888,8 +28100,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27897,8 +28109,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27906,8 +28118,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27915,8 +28127,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27924,8 +28136,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27933,8 +28145,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27942,8 +28154,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -27951,8 +28163,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.getrusage.result.time_t"
                     }
                 },
                 {
@@ -27960,13 +28172,42 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "reference",
+                        "value": "uv.getrusage.result.time_t"
                     }
                 }
             ],
             "kind": "table",
             "name": "uv.getrusage.result"
+        },
+        "uv.getrusage.result.time_t": {
+            "documentation": [
+                "@class uv.getrusage.result.time_t",
+                "@field sec integer",
+                "@field usec integer"
+            ],
+            "fields": [
+                {
+                    "name": "sec",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "name": "usec",
+                    "private": false,
+                    "protected": false,
+                    "value": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            ],
+            "kind": "table",
+            "name": "uv.getrusage.result.time_t"
         },
         "uv.interface_addresses.addr": {
             "documentation": [
@@ -27984,8 +28225,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -27993,8 +28234,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -28002,8 +28243,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28011,8 +28252,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28020,8 +28261,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 }
             ],
@@ -28731,8 +28972,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -28754,8 +28995,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "reference",
+                                "value": "uv.new_udp.flags.family"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -28763,8 +29013,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 }
             ],
@@ -28824,8 +29083,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -28833,8 +29092,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28842,8 +29101,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28851,8 +29110,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -28860,8 +29119,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 }
             ],
@@ -28882,8 +29141,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28891,8 +29150,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28900,8 +29159,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -28909,8 +29168,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 }
             ],
@@ -28929,8 +29188,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 },
                 {
@@ -28938,8 +29197,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -28959,8 +29218,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "false"
+                            }
+                        ]
                     }
                 }
             ],
@@ -28980,8 +29248,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "false"
+                            }
+                        ]
                     }
                 }
             ],
@@ -29395,8 +29672,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.family"
+                            }
+                        ]
                     }
                 },
                 {
@@ -29404,8 +29690,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -29413,8 +29699,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -29442,8 +29728,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "booleanliteral",
+                                "value": "true"
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "false"
+                            }
+                        ]
                     }
                 }
             ],
@@ -29546,8 +29841,11 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "kind": "array"
                     }
                 },
                 {
@@ -29555,8 +29853,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -29564,8 +29862,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -29574,7 +29872,19 @@
                     "protected": false,
                     "value": {
                         "documentation": [],
-                        "kind": "unknown"
+                        "fields": [
+                            {
+                                "name": "string",
+                                "private": false,
+                                "protected": false,
+                                "value": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
                     }
                 },
                 {
@@ -29582,8 +29892,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -29591,8 +29901,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -29601,7 +29911,9 @@
                     "protected": false,
                     "value": {
                         "documentation": [],
-                        "kind": "unknown"
+                        "fields": [],
+                        "kind": "table",
+                        "name": ""
                     }
                 },
                 {
@@ -29609,8 +29921,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -29618,8 +29930,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -29639,8 +29951,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -29691,8 +30003,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 },
                 {
@@ -29700,8 +30012,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "boolean"
                     }
                 }
             ],
@@ -29789,8 +30101,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "reference",
+                                "value": "uv.socket.family"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
                     }
                 },
                 {
@@ -29798,8 +30119,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "string"
                     }
                 },
                 {
@@ -29807,8 +30128,8 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "builtin",
+                        "value": "integer"
                     }
                 }
             ],
@@ -29827,8 +30148,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 },
                 {
@@ -29836,8 +30166,17 @@
                     "private": false,
                     "protected": false,
                     "value": {
-                        "documentation": [],
-                        "kind": "unknown"
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        ]
                     }
                 }
             ],
@@ -34154,9 +34493,9 @@
         "uv.uv_fs_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -34287,10 +34626,10 @@
         },
         "uv.uv_getaddrinfo_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -34422,9 +34761,9 @@
         "uv.uv_getnameinfo_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -53880,7 +54219,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",

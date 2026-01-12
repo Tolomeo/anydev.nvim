@@ -656,7 +656,7 @@ func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 
 func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
-		fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
+		// fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
 		return cachedAnnotations, nil
 	}
 

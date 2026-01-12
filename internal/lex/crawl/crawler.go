@@ -61,8 +61,6 @@ func (c *Crawler) SourceType(typeName string, parentTypeName string) (symbol.Sou
 
 	locations, err := c.findTypeDefinitionLocations(source)
 
-	fmt.Printf("\nType name: %s\nLocations: %+v\n", source.Identifier(), locations)
-
 	switch {
 	case err != nil:
 		return nil, err
