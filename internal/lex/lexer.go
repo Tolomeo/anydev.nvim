@@ -116,7 +116,6 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 			return nil
 		}
 
-		fmt.Printf(fmt.Sprintf("No types found for '%s' name", name))
 		l.context.Logger.Warn(fmt.Sprintf("No type definitions found for '%s' name", name))
 		return nil
 	})
@@ -143,20 +142,6 @@ func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
 	}
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)
-}
-
-// TODO: remove
-func (l *Lexer) sourceValue(path string) (symbol.Source, error) {
-	source, err := l.crawler.SourceValue(path)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing %s: %w", path, err)
-	case source == nil:
-		return nil, fmt.Errorf("Error lexing %s: No source found", path)
-	}
-
-	return source, nil
 }
 
 func NewLexer() *Lexer {

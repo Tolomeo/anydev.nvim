@@ -219,6 +219,9 @@ type TableField struct {
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
+	// Optional corresponds to the JSON schema field "optional".
+	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
 	// Private corresponds to the JSON schema field "private".
 	Private bool `json:"private" yaml:"private" mapstructure:"private"`
 

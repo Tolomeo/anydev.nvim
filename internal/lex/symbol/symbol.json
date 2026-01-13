@@ -254,9 +254,12 @@
         },
         "protected": {
           "type": "boolean"
+        },
+        "optional": {
+          "type": "boolean"
         }
       },
-      "required": ["name", "value", "private", "protected"]
+      "required": ["name", "value", "private", "protected", "optional"]
     },
     "Union": {
       "type": "object",
@@ -303,7 +306,7 @@
       },
       "required": ["kind", "value"]
     },
-		"BooleanLiteral": {
+    "BooleanLiteral": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -313,11 +316,11 @@
         },
         "value": {
           "type": "string",
-					"enum": ["true", "false"]
+          "enum": ["true", "false"]
         }
       },
       "required": ["kind", "value"]
-		},
+    },
     "Array": {
       "type": "object",
       "additionalProperties": false,

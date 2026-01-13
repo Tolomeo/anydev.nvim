@@ -60,20 +60,21 @@ type AtClassAnnotation struct {
 type AtFieldAnnotation struct {
 	Name          string
 	Type          TypeAnnotation
+	Optional      bool
 	Documentation []string
 }
 
 type AtAnnotations struct {
-	Type      *AtTypeAnnotation
-	Private   bool
-	Protected bool
-	Generics  []AtGenericAnnotation
-	Params    map[string]AtParamAnnotation
-	Returns   []AtReturnAnnotation
-	Overloads []AtOverloadAnnotation
-	Aliases   map[string]AtAliasAnnotation
-	Classes   map[string]AtClassAnnotation
-	Fields    map[string]AtFieldAnnotation
+	AtType      *AtTypeAnnotation
+	AtPrivate   bool
+	AtProtected bool
+	AtGenerics  []AtGenericAnnotation
+	AtParams    map[string]AtParamAnnotation
+	AtReturns   []AtReturnAnnotation
+	AtOverloads []AtOverloadAnnotation
+	AtAliases   map[string]AtAliasAnnotation
+	AtClasses   map[string]AtClassAnnotation
+	AtFields    map[string]AtFieldAnnotation
 }
 
 // TODO: support for multiple comma-separated types
@@ -107,7 +108,7 @@ func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotat
 		}
 	}
 
-	annotations.Type = &lexed
+	annotations.AtType = &lexed
 	return true, nil
 }
 
@@ -149,7 +150,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 			}
 		}
 
-		annotations.Overloads = append(annotations.Overloads, overload)
+		annotations.AtOverloads = append(annotations.AtOverloads, overload)
 	}
 
 	return true, nil
@@ -191,7 +192,7 @@ func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.Buffer, annotations *AtAnno
 			return false, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
 		}
 
-		annotations.Generics = append(annotations.Generics, lexedGeneric)
+		annotations.AtGenerics = append(annotations.AtGenerics, lexedGeneric)
 	}
 
 	return true, nil
@@ -264,7 +265,7 @@ func (l *Lexer) lexAtParamAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 			return false, fmt.Errorf("Could not retrieve param name for param annotation")
 		}
 
-		annotations.Params[lexedParam.Name] = lexedParam
+		annotations.AtParams[lexedParam.Name] = lexedParam
 	}
 
 	return true, nil
@@ -303,7 +304,7 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnot
 			}
 		}
 
-		annotations.Returns = append(annotations.Returns, returnAnnotation)
+		annotations.AtReturns = append(annotations.AtReturns, returnAnnotation)
 	}
 
 	return true, nil
@@ -326,7 +327,7 @@ func (l *Lexer) lexAtPrivateAnnotation(buffer *nvim.Buffer, annotations *AtAnnot
 		return false, nil
 	}
 
-	annotations.Private = true
+	annotations.AtPrivate = true
 
 	return true, nil
 }
@@ -348,7 +349,7 @@ func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnn
 		return false, nil
 	}
 
-	annotations.Protected = true
+	annotations.AtProtected = true
 
 	return true, nil
 }
@@ -398,7 +399,7 @@ func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtA
 			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias type")
 		}
 
-		annotations.Aliases[alias.Name] = alias
+		annotations.AtAliases[alias.Name] = alias
 	}
 
 	return true, nil
@@ -487,7 +488,7 @@ func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnn
 
 		enumAlias.Type = TypeAnnotation{strings.Join(enumAliasMembers, "|")}
 
-		annotations.Aliases[enumAlias.Name] = enumAlias
+		annotations.AtAliases[enumAlias.Name] = enumAlias
 	}
 
 	return true, nil
@@ -567,44 +568,9 @@ func (l *Lexer) lexAtClassAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 			return false, fmt.Errorf("Error lexing class annotation: could not find captured class name")
 		}
 
-		// class := symbol.NewTable()
-
-		annotations.Classes[class.Name] = class
+		annotations.AtClasses[class.Name] = class
 	}
 
-	/* fieldMatches, err := buffer.TsQueryAll(classFieldAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case fieldMatches == nil:
-		l.context.Logger.Warn(fmt.Sprintf("Class '%s' with no fields", l.context.Current()))
-		return true, nil
-	}
-
-	for _, fieldCaptures := range *fieldMatches {
-		classField := symbol.NewTableField()
-
-		for _, fieldCapture := range fieldCaptures {
-			// TODO: field.documentation
-			switch fieldCapture.Id {
-			case "field.name":
-				classField.Name = fieldCapture.Node.Text
-			case "field.type":
-				lexedFieldType, err := l.lexType(fieldCapture.Node.Text)
-
-				if err != nil {
-					return true, err
-				}
-
-				classField.Value = lexedFieldType
-			}
-		}
-
-		class.Fields = append(class.Fields, *classField)
-	}
-
-	annotations.classes = class */
 	return true, nil
 }
 
@@ -614,6 +580,7 @@ var atFieldAnnotationQuery = treesitter.Query{
 		(documentation
 			(field_annotation
 				(identifier) @field.name
+				"?"? @field.optional
 				(%s) @field.type
 				(comment)? @field.documentation
 			) @field
@@ -637,6 +604,8 @@ func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 			switch capture.Id {
 			case "field.name":
 				field.Name = capture.Node.Text
+			case "field.optional":
+				field.Optional = true
 			case "field.type":
 				field.Type = TypeAnnotation{capture.Node.Text}
 			case "field.documentation":
@@ -648,7 +617,7 @@ func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 			return false, fmt.Errorf("Error lexing field annotation: could not find captured field name")
 		}
 
-		annotations.Fields[field.Name] = field
+		annotations.AtFields[field.Name] = field
 	}
 
 	return true, nil
@@ -661,16 +630,16 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	}
 
 	annotations := AtAnnotations{
-		Type:      nil,
-		Private:   false,
-		Protected: false,
-		Generics:  []AtGenericAnnotation{},
-		Params:    map[string]AtParamAnnotation{},
-		Returns:   []AtReturnAnnotation{},
-		Overloads: []AtOverloadAnnotation{},
-		Aliases:   map[string]AtAliasAnnotation{},
-		Classes:   map[string]AtClassAnnotation{},
-		Fields:    map[string]AtFieldAnnotation{},
+		AtType:      nil,
+		AtPrivate:   false,
+		AtProtected: false,
+		AtGenerics:  []AtGenericAnnotation{},
+		AtParams:    map[string]AtParamAnnotation{},
+		AtReturns:   []AtReturnAnnotation{},
+		AtOverloads: []AtOverloadAnnotation{},
+		AtAliases:   map[string]AtAliasAnnotation{},
+		AtClasses:   map[string]AtClassAnnotation{},
+		AtFields:    map[string]AtFieldAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim.NewBuffer()
@@ -1047,15 +1016,15 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 				(table_literal_type
 					field:
 						([
-							("[" (number) @table.key "]")
-							(%s) @table.key
+							("[" (number) @table.field.key "]")
+							(%s) @table.field.key
 						])
 						.
-						"?"?
+						"?"? @table.field.optional
 						.
 						":"
 						.
-						(%s) @table.value
+						(%s) @table.field.value
 				) @table
 			)
 		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
@@ -1077,11 +1046,13 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Tabl
 
 		for _, capture := range *match {
 			switch capture.Id {
-			case "table.key":
+			case "table.field.key":
 				tableField := *symbol.NewTableField()
 				tableField.Name = capture.Node.Text
 				table.Fields = append(table.Fields, tableField)
-			case "table.value":
+			case "table.field.optional":
+				table.Fields[len(table.Fields)-1].Optional = true
+			case "table.field.value":
 				value, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
 				if err != nil {

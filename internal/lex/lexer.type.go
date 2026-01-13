@@ -27,7 +27,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 		return nil, err
 	}
 
-	_, foundClassAnnotation := classAnnotations.Classes[classPatchedName]
+	_, foundClassAnnotation := classAnnotations.AtClasses[classPatchedName]
 
 	if !foundClassAnnotation {
 		return nil, nil
@@ -75,16 +75,21 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 				return err
 			}
 
-			field.Private = fieldAnnotations.Private
-			field.Protected = fieldAnnotations.Protected
+			field.Private = fieldAnnotations.AtPrivate
+			field.Protected = fieldAnnotations.AtProtected
 
-			fieldValue, err := l.lex(fieldSource)
+			lexedFieldValue, err := l.lex(fieldSource)
 
-			if err != nil {
+			switch {
+			case err != nil:
 				return err
+			case lexedFieldValue == nil:
+				l.context.Logger.Warn(fmt.Sprintf("No types found for type '%s' field %s", className, fieldName))
+				field.Value = symbol.NewUnknown()
+			default:
+				field.Value = lexedFieldValue
 			}
 
-			field.Value = fieldValue
 			class.Fields = append(class.Fields, field)
 			return nil
 		})
@@ -105,7 +110,7 @@ func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	field, found := annotations.Fields[source.Name()]
+	field, found := annotations.AtFields[source.Name()]
 
 	if !found {
 		return nil, nil
@@ -143,7 +148,7 @@ func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {
 		return nil, err
 	}
 
-	alias, found := lexedAnnotations.Aliases[patchedName]
+	alias, found := lexedAnnotations.AtAliases[patchedName]
 
 	if !found {
 		return nil, nil
