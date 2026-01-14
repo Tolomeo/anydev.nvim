@@ -164,7 +164,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 }
 
 var atGenericAnnotationQuery = treesitter.Query{
-	Language: "laudoc",
+	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(documentation
 		(generic_annotation
@@ -223,54 +223,35 @@ func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.Buffer, annotations *AtAnno
 	return true, nil
 }
 
-var atParamAnnotationQueries = map[string]treesitter.Query{
-	"arg": {
-		Language: "luadoc",
-		Query: fmt.Sprintf(`
-		(documentation
-			(param_annotation
-				(identifier) @name
-				"?"? @optional
-				(%s) @type
-				(comment)? @documentation
-			)
+var atParamAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(documentation
+		(param_annotation
+			"@param"
+			.
+			([("...") (identifier)]) @name
+			.
+			"?"? @optional
+			.
+			(%s) @type
+			.
+			(comment)? @documentation
 		) @param
-	`, anyTypeAnnotationQuery),
-	},
-	"vararg": {
-		Language: "luadoc",
-		Query: fmt.Sprintf(`
-		(documentation
-			(param_annotation 
-				"..." @name
-				(%s) @type
-				(comment)? @documentation
-			)
-		) @param`, anyTypeAnnotationQuery),
-	},
+	)`, anyTypeAnnotationQuery),
 }
 
 func (l *Lexer) lexAtParamAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	matches := []nvim.TsQueryMatch{}
+	matches, err := buffer.TsQueryAll(atParamAnnotationQuery)
 
-	for _, paramAnnotationQuery := range atParamAnnotationQueries {
-		paramAnnotationMatches, err := buffer.TsQueryAll(paramAnnotationQuery)
-
-		switch {
-		case err != nil:
-			return false, err
-		case paramAnnotationMatches == nil:
-			continue
-		}
-
-		matches = append(matches, *paramAnnotationMatches...)
+	switch {
+	case err != nil:
+		return false, err
+	case matches == nil:
+		return false, err
 	}
 
-	if len(matches) == 0 {
-		return false, nil
-	}
-
-	for _, matchCaptures := range matches {
+	for _, matchCaptures := range *matches {
 		lexedParam := AtParamAnnotation{}
 
 		for _, capture := range matchCaptures {
@@ -296,17 +277,22 @@ func (l *Lexer) lexAtParamAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 	return true, nil
 }
 
-var atReturnAnnotationQuery string = fmt.Sprintf(`
+var atReturnAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(documentation
 		(return_annotation
+			"@return"
+			.
 			(%s) @return.type
+			.
 			(comment)? @return.documentation
-		)
-	) @return
-`, anyTypeAnnotationQuery)
+		) @return
+	)`, anyTypeAnnotationQuery),
+}
 
 func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: atReturnAnnotationQuery})
+	matches, err := buffer.TsQueryAll(atReturnAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -1039,10 +1025,12 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 		(documentation
 			(type_annotation
 				(table_literal_type
-					field:
+					"{"
+					.
+					field: (
 						([
-							("[" (number) @table.field.key "]")
-							(%s) @table.field.key
+							(identifier) @table.field.key
+							("[" . ((number) @table.field.key) . "]")
 						])
 						.
 						"?"? @table.field.optional
@@ -1050,6 +1038,22 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 						":"
 						.
 						(%s) @table.field.value
+					)
+					.
+					("," field: (
+						([
+							(identifier) @table.field.key
+							("[" . ((number) @table.field.key) . "]")
+						])
+						.
+						"?"? @table.field.optional
+						.
+						":"
+						.
+						(%s) @table.field.value
+					))*
+					.
+					"}"
 				) @table
 			)
 		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
