@@ -35,9 +35,13 @@ return {
 				end, vim.api.nvim_get_runtime_file("", true)), ]]
 			},
 			completion = {
-				maxSuggestCount = 999999
+				-- Avoiding incomplete coompletion responses
+				maxSuggestCount = 999999,
+				-- Avoiding duplicate completion items for functions with overloads
+				showParams = false
 			},
 			diagnostics = {
+				-- No need
 				enable = false
 			}
 		},
