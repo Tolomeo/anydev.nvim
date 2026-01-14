@@ -77,7 +77,9 @@ type AtAnnotations struct {
 	AtFields    map[string]AtFieldAnnotation
 }
 
-var atTypeAnnotationQuery string = fmt.Sprintf(`
+var atTypeAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			"@type"
@@ -86,10 +88,11 @@ var atTypeAnnotationQuery string = fmt.Sprintf(`
 			("," . (%s) @type.type)*
 			(comment)? @type.documentation
 		) @type
-	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)
+	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+}
 
 func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atTypeAnnotationQuery})
+	captures, err := buffer.TsQueryOne(atTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -113,17 +116,20 @@ func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotat
 	return true, nil
 }
 
-var atOverloadAnnotationQuery string = fmt.Sprintf(`
+var atOverloadAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
 	(documentation 
 		(overload_annotation 
 			(%s) @type 
 			(comment)? @documentation
 		)
 	)
-`, typeAnnotationQueries["function_type"])
+`, typeAnnotationQueries["function_type"]),
+}
 
 func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.SafeTsQueryAll(treesitter.Query{Language: "luadoc", Query: atOverloadAnnotationQuery})
+	matches, err := buffer.SafeTsQueryAll(atOverloadAnnotationQuery)
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
 
@@ -157,18 +163,36 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 	return true, nil
 }
 
-var atGenericAnnotationQuery string = fmt.Sprintf(`
-	(documentation 
+var atGenericAnnotationQuery = treesitter.Query{
+	Language: "laudoc",
+	Query: fmt.Sprintf(`
+	(documentation
 		(generic_annotation
+			.
 			(identifier) @generic.name
-			parent_type: 
-				(%s)? @generic.type
-		)
-	) @generic
-`, anyTypeAnnotationQuery)
+			.
+			(":"
+				.
+				parent_type:
+					(%s) @generic.type
+			)?
+			.
+			(","
+				.
+				(identifier) @generic.name
+				.
+				(":"
+					.
+					parent_type:
+						(%s) @generic.type
+				)?
+			)*
+		) @generic
+	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+}
 
 func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: atGenericAnnotationQuery})
+	matches, err := buffer.TsQueryAll(atGenericAnnotationQuery)
 
 	switch {
 	case err != nil:
