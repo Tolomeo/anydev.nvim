@@ -114,7 +114,6 @@ func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
 
 	if !found {
 		return nil, nil
-
 	}
 
 	lexedField, err := l.lexTypeAnnotation(field.Type)

@@ -19,7 +19,7 @@ type TypeAnnotation struct {
 }
 
 type AtTypeAnnotation struct {
-	Type          TypeAnnotation
+	Types         []TypeAnnotation
 	Documentation []string
 }
 
@@ -77,15 +77,16 @@ type AtAnnotations struct {
 	AtFields    map[string]AtFieldAnnotation
 }
 
-// TODO: support for multiple comma-separated types
 var atTypeAnnotationQuery string = fmt.Sprintf(`
 	(documentation
 		(type_annotation
+			"@type"
+			.
 			(%s) @type.type
+			("," . (%s) @type.type)*
 			(comment)? @type.documentation
-		)
-	) @type
-`, anyTypeAnnotationQuery)
+		) @type
+	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)
 
 func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
 	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atTypeAnnotationQuery})
@@ -97,18 +98,18 @@ func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotat
 		return false, nil
 	}
 
-	lexed := AtTypeAnnotation{}
+	atType := AtTypeAnnotation{}
 
 	for _, capture := range *captures {
 		switch capture.Id {
 		case "type.type":
-			lexed.Type = TypeAnnotation{capture.Node.Text}
+			atType.Types = append(atType.Types, TypeAnnotation{capture.Node.Text})
 		case "type.documentation":
-			lexed.Documentation = strings.Split(capture.Node.Text, "\n")
+			atType.Documentation = strings.Split(capture.Node.Text, "\n")
 		}
 	}
 
-	annotations.AtType = &lexed
+	annotations.AtType = &atType
 	return true, nil
 }
 

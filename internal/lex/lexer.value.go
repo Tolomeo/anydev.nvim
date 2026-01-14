@@ -509,9 +509,11 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	case annotations.AtType == nil:
 		l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
 		return unknown, nil
+	case len(annotations.AtType.Types) < 1:
+		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Current())
 	}
 
-	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Type)
+	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Types[0])
 
 	if err != nil {
 		return nil, err
