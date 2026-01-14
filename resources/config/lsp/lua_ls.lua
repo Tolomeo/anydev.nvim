@@ -27,6 +27,7 @@ return {
 					"${3rd}/luv/library",
 					"${3rd}/busted/library",
 				},
+				-- Index everything
 				maxPreload = 999999,
 				-- https://github.com/neovim/nvim-lspconfig/issues/3189#issuecomment-3021345989
 				-- TODO: config path from current dir
@@ -35,10 +36,12 @@ return {
 				end, vim.api.nvim_get_runtime_file("", true)), ]]
 			},
 			completion = {
-				-- Avoiding incomplete coompletion responses
+				-- No incomplete completion responses
 				maxSuggestCount = 999999,
-				-- Avoiding duplicate completion items for functions with overloads
-				showParams = false
+				-- No duplicated completion items for functions with overloads
+				showParams = false,
+				-- No completion items from text
+				workspaceWord = false
 			},
 			diagnostics = {
 				-- No need
