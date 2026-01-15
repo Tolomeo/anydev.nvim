@@ -208,6 +208,9 @@ type Table struct {
 	// Fields corresponds to the JSON schema field "fields".
 	Fields []TableField `json:"fields" yaml:"fields" mapstructure:"fields"`
 
+	// Indexes corresponds to the JSON schema field "indexes".
+	Indexes []TableIndex `json:"indexes,omitempty" yaml:"indexes,omitempty" mapstructure:"indexes,omitempty"`
+
 	// Kind corresponds to the JSON schema field "kind".
 	Kind TableKind `json:"kind" yaml:"kind" mapstructure:"kind"`
 
@@ -233,6 +236,27 @@ type TableField struct {
 }
 
 type TableFieldValue interface{}
+
+type TableIndex struct {
+	// Key corresponds to the JSON schema field "key".
+	Key TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
+
+	// Optional corresponds to the JSON schema field "optional".
+	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
+	// Private corresponds to the JSON schema field "private".
+	Private bool `json:"private" yaml:"private" mapstructure:"private"`
+
+	// Protected corresponds to the JSON schema field "protected".
+	Protected bool `json:"protected" yaml:"protected" mapstructure:"protected"`
+
+	// Value corresponds to the JSON schema field "value".
+	Value TableIndexValue `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+type TableIndexKey interface{}
+
+type TableIndexValue interface{}
 
 type TableKind string
 

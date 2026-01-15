@@ -173,6 +173,7 @@ var atGenericAnnotationQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 	(documentation
 		(generic_annotation
+			"@generic"
 			.
 			(identifier) @generic.name
 			.
@@ -929,34 +930,38 @@ var tableTypeAnnotationQuery = treesitter.Query{
 }
 
 func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, error) {
-	matches, err := buffer.TsQueryAll(tableTypeAnnotationQuery)
+	match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
 	switch {
 	case err != nil:
 		return nil, err
-	case matches == nil:
+	case match == nil:
 		return nil, nil
 	}
 
 	table := symbol.NewTable()
 
 	// TODO: here match one
-	for _, matchCaptures := range *matches {
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "table":
-				table.Fields = append(table.Fields, *symbol.NewTableField())
-			case "key":
-				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
-			case "value":
-				valueType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+	for _, capture := range *match {
+		switch capture.Id {
+		case "table":
+			table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
+		case "key":
+			keyType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 
-				if err != nil {
-					return nil, err
-				}
-
-				table.Fields[len(table.Fields)-1].Value = valueType
+			if err != nil {
+				return nil, err
 			}
+
+			table.Indexes[len(table.Indexes)-1].Key = keyType
+		case "value":
+			valueType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+
+			if err != nil {
+				return nil, err
+			}
+
+			table.Indexes[len(table.Indexes)-1].Value = valueType
 		}
 	}
 
@@ -1059,35 +1064,35 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 			(type_annotation
 				(table_literal_type
 					"{"
-					.
-					field: (
-						([
-							(identifier) @table.field.key
-							("[" . ((number) @table.field.key) . "]")
-						])
-						.
-						"?"? @table.field.optional
-						.
-						":"
-						.
-						(%s) @table.field.value
-					)
-					.
-					("," field: (
-						([
-							(identifier) @table.field.key
-							("[" . ((number) @table.field.key) . "]")
-						])
-						.
-						"?"? @table.field.optional
-						.
-						":"
-						.
-						(%s) @table.field.value
-					))*
-					.
+					field: ([
+						(
+							"["
+							.
+							(_) @table.index.key
+							.
+							"]"
+							.
+							"?"? @table.index.optional
+							.
+							":"
+							.
+							(%s) @table.index.value
+						) @table.index
+						(
+							(identifier) @table.field.name
+							.
+							"?"? @table.field.optional
+							.
+							":"
+							.
+							(%s) @table.field.value
+						) @table.field
+					]
+					","?
+					)+
 					"}"
 				) @table
+				(comment)? @table.documentation
 			)
 		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 	},
@@ -1108,20 +1113,38 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Tabl
 
 		for _, capture := range *match {
 			switch capture.Id {
-			case "table.field.key":
-				tableField := *symbol.NewTableField()
-				tableField.Name = capture.Node.Text
-				table.Fields = append(table.Fields, tableField)
+
+			case "table.field.name":
+				table.Fields = append(table.Fields, *symbol.NewTableField())
+				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
 			case "table.field.optional":
 				table.Fields[len(table.Fields)-1].Optional = true
 			case "table.field.value":
-				value, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
-
+				lexedValue, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 				if err != nil {
 					return nil, err
 				}
+				table.Fields[len(table.Fields)-1].Value = lexedValue
 
-				table.Fields[len(table.Fields)-1].Value = value
+			case "table.index.key":
+				table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
+				lexedKey, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+				if err != nil {
+					return nil, err
+				}
+				table.Indexes[len(table.Indexes)-1].Key = lexedKey
+			case "table.index.optional":
+				table.Indexes[len(table.Indexes)-1].Optional = true
+			case "table.index.value":
+				lexedValue, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+				if err != nil {
+					return nil, err
+				}
+				table.Indexes[len(table.Indexes)-1].Value = lexedValue
+
+			case "table.documentation":
+				table.Documentation = []string{capture.Node.Text}
+
 			}
 		}
 

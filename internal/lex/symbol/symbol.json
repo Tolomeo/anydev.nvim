@@ -235,6 +235,12 @@
           "items": {
             "$ref": "#/definitions/TableField"
           }
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TableIndex"
+          }
         }
       },
       "required": ["kind", "name", "documentation", "fields"]
@@ -260,6 +266,28 @@
         }
       },
       "required": ["name", "value", "private", "protected", "optional"]
+    },
+    "TableIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/Symbol"
+        },
+        "value": {
+          "$ref": "#/definitions/Symbol"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "protected": {
+          "type": "boolean"
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "required": ["key", "value", "private", "protected", "optional"]
     },
     "Union": {
       "type": "object",

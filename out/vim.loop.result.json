@@ -429,7 +429,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns an estimate of the default amount of parallelism a program should use. Always returns a non-zero value.",
@@ -462,7 +462,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get backend file descriptor. Only kqueue, epoll, and event ports are supported.",
@@ -507,7 +507,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the poll timeout. The return value is in milliseconds, or -1 for no timeout.",
@@ -939,7 +939,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns information about the CPU(s) on the system as a table of tables for each",
@@ -1031,7 +1031,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current working directory.",
@@ -1108,7 +1108,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Disables inheritance for file descriptors / handles that this process inherited",
@@ -1145,7 +1145,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the executable path.",
@@ -7016,7 +7016,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the amount of memory available to the process in bytes based on limits",
@@ -7046,7 +7046,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current free system memory in bytes.",
@@ -7073,7 +7073,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the title of the current process.",
@@ -7150,7 +7150,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current total system memory in bytes.",
@@ -7356,7 +7356,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the group ID of the process.",
@@ -7543,7 +7543,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " **Deprecated:** Please use `uv.os_getpid()` instead.",
@@ -7562,7 +7562,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the resource usage.",
@@ -7661,7 +7661,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cross-platform implementation of `gettimeofday(2)`. Returns the seconds and",
@@ -7739,7 +7739,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the user ID of the process.",
@@ -7947,7 +7947,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns a current high-resolution time in nanoseconds as a number. This is",
@@ -8347,7 +8347,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns address information about the network interfaces on the system in a",
@@ -8364,9 +8364,13 @@
                             {
                                 "type": {
                                     "documentation": [],
-                                    "fields": [
+                                    "fields": [],
+                                    "indexes": [
                                         {
-                                            "name": "string",
+                                            "key": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
                                             "optional": false,
                                             "private": false,
                                             "protected": false,
@@ -8870,7 +8874,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the load average as a triad. Not supported on Windows.",
@@ -8911,7 +8915,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if there are referenced active handles, active requests, or",
@@ -8989,7 +8993,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Closes all internal loop resources. In normal execution, the loop will",
@@ -9188,7 +9192,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " If the loop is running, returns a string indicating the mode in use. If the loop",
@@ -9225,7 +9229,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Retrieve the amount of time the event loop has been idle in the kernel’s event",
@@ -9360,7 +9364,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_check_t`. Returns the Lua userdata wrapping",
@@ -9438,7 +9442,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_fs_event_t`. Returns the Lua userdata wrapping",
@@ -9516,7 +9520,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_fs_poll_t`. Returns the Lua userdata wrapping",
@@ -9594,7 +9598,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_idle_t`. Returns the Lua userdata wrapping",
@@ -9859,7 +9863,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_prepare_t`. Returns the Lua userdata wrapping",
@@ -9937,7 +9941,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_signal_t`. Returns the Lua userdata wrapping",
@@ -10303,7 +10307,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Creates and initializes a new `uv_timer_t`. Returns the Lua userdata wrapping",
@@ -10689,7 +10693,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current timestamp in milliseconds. The timestamp is cached at the",
@@ -10722,7 +10726,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns all environmental variables as a dynamic table of names associated with",
@@ -10739,9 +10743,13 @@
                             {
                                 "type": {
                                     "documentation": [],
-                                    "fields": [
+                                    "fields": [],
+                                    "indexes": [
                                         {
-                                            "name": "string",
+                                            "key": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
                                             "optional": false,
                                             "private": false,
                                             "protected": false,
@@ -10765,7 +10773,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns password file information.",
@@ -10897,7 +10905,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the hostname.",
@@ -10924,7 +10932,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current process ID.",
@@ -10951,7 +10959,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the parent process ID.",
@@ -11065,7 +11073,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " **Warning:** This function is not thread safe.",
@@ -11337,7 +11345,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " **Warning:** This function is not thread safe.",
@@ -11414,7 +11422,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns system information.",
@@ -11441,7 +11449,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " **Warning:** This function is not thread safe.",
@@ -12726,7 +12734,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " The same as `uv.print_all_handles()` except only active handles are printed.",
@@ -12749,7 +12757,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Prints all handles associated with the main loop to stderr. The format is",
@@ -13603,7 +13611,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the resident set size (RSS) for the current process.",
@@ -14748,7 +14756,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the event loop, causing `uv.run()` to end as soon as possible. This",
@@ -15998,7 +16006,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the handle for the thread in which this is called.",
@@ -16715,7 +16723,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the current state of whether console virtual terminal sequences are handled",
@@ -16888,7 +16896,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " To be called when the program exits. Resets TTY settings to default values for",
@@ -18910,7 +18918,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Update the event loop's concept of \"now\". Libuv caches the current time at the",
@@ -18934,7 +18942,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the current system uptime in seconds.",
@@ -19011,7 +19019,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the libuv version packed into a single integer. 8 bits are used for each",
@@ -19040,7 +19048,7 @@
                     "protected": false,
                     "value": {
                         "access": "class",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the libuv version number as a string. For example, this would be \"1.2.3\"",
@@ -22601,7 +22609,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Closes a directory stream returned by a successful `uv.fs_opendir()` call.",
@@ -22704,7 +22712,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Iterates over the directory stream `luv_dir_t` returned by a successful",
@@ -22869,7 +22877,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Waits for the `thread` to finish executing its entry function.",
@@ -23830,9 +23838,13 @@
         },
         "uv.socketpair.fds": {
             "documentation": [],
-            "fields": [
+            "fields": [],
+            "indexes": [
                 {
-                    "name": "1",
+                    "key": {
+                        "kind": "numericliteral",
+                        "value": "1"
+                    },
                     "optional": false,
                     "private": false,
                     "protected": false,
@@ -23842,7 +23854,10 @@
                     }
                 },
                 {
-                    "name": "2",
+                    "key": {
+                        "kind": "numericliteral",
+                        "value": "2"
+                    },
                     "optional": false,
                     "private": false,
                     "protected": false,
@@ -24019,9 +24034,13 @@
                     "protected": false,
                     "value": {
                         "documentation": [],
-                        "fields": [
+                        "fields": [],
+                        "indexes": [
                             {
-                                "name": "string",
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
                                 "optional": false,
                                 "private": false,
                                 "protected": false,
@@ -24062,9 +24081,13 @@
                     "protected": false,
                     "value": {
                         "documentation": [],
-                        "fields": [
+                        "fields": [],
+                        "indexes": [
                             {
-                                "name": "1",
+                                "key": {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                },
                                 "optional": false,
                                 "private": false,
                                 "protected": false,
@@ -24074,7 +24097,10 @@
                                 }
                             },
                             {
-                                "name": "2",
+                                "key": {
+                                    "kind": "numericliteral",
+                                    "value": "2"
+                                },
                                 "optional": false,
                                 "private": false,
                                 "protected": false,
@@ -24084,7 +24110,10 @@
                                 }
                             },
                             {
-                                "name": "3",
+                                "key": {
+                                    "kind": "numericliteral",
+                                    "value": "3"
+                                },
                                 "optional": false,
                                 "private": false,
                                 "protected": false,
@@ -24462,7 +24491,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -24548,7 +24577,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -24589,7 +24618,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -24666,7 +24695,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -24751,7 +24780,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -24930,7 +24959,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -25145,7 +25174,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -25223,7 +25252,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -25309,7 +25338,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -25350,7 +25379,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -25427,7 +25456,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -25512,7 +25541,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -25691,7 +25720,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -25897,7 +25926,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the handle, the callback will no longer be called.",
@@ -25974,7 +26003,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -25992,13 +26021,13 @@
         },
         "uv.uv_connect_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
-                "@class uv.uv_getnameinfo_t : uv.uv_req_t",
+                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv_uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
             "fields": [
@@ -26009,7 +26038,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -26088,7 +26117,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -26182,7 +26211,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -26268,7 +26297,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -26309,7 +26338,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the path being monitored by the handle.",
@@ -26386,7 +26415,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -26463,7 +26492,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -26548,7 +26577,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -26727,7 +26756,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -26952,7 +26981,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the handle, the callback will no longer be called.",
@@ -27029,7 +27058,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -27101,7 +27130,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -27187,7 +27216,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -27228,7 +27257,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the path being monitored by the handle.",
@@ -27305,7 +27334,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -27382,7 +27411,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -27467,7 +27496,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -27646,7 +27675,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -27873,7 +27902,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the handle, the callback will no longer be called.",
@@ -27950,7 +27979,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -27971,7 +28000,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -27985,7 +28014,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -28064,7 +28093,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -28107,7 +28136,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -28121,7 +28150,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -28200,7 +28229,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -28243,9 +28272,9 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
@@ -28257,7 +28286,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -28336,7 +28365,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -28432,7 +28461,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -28518,7 +28547,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -28559,7 +28588,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -28636,7 +28665,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -28721,7 +28750,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -28900,7 +28929,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -29019,7 +29048,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -29105,7 +29134,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -29191,7 +29220,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -29232,7 +29261,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -29309,7 +29338,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -29394,7 +29423,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -29573,7 +29602,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -29866,7 +29895,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -30332,7 +30361,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -30418,7 +30447,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -30459,7 +30488,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the stream's write queue size.",
@@ -30489,7 +30518,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the name of the Unix domain socket or the named pipe to which the handle is",
@@ -30567,7 +30596,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the name of the Unix domain socket or the named pipe.",
@@ -30644,7 +30673,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -30721,7 +30750,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -30806,7 +30835,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -30886,7 +30915,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is readable, `false` otherwise.",
@@ -30916,7 +30945,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is writable, `false` otherwise.",
@@ -31135,7 +31164,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the pending pipe count for the named pipe.",
@@ -31197,7 +31226,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Used to receive handles over IPC pipes.",
@@ -31331,7 +31360,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop reading data from the stream.",
@@ -31511,7 +31540,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -32004,7 +32033,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -32308,7 +32337,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -32394,7 +32423,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -32435,7 +32464,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -32512,7 +32541,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -32597,7 +32626,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -32776,7 +32805,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -33002,7 +33031,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop polling the file descriptor, the callback will no longer be called.",
@@ -33079,7 +33108,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -33158,7 +33187,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -33244,7 +33273,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -33285,7 +33314,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -33362,7 +33391,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -33447,7 +33476,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -33626,7 +33655,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -33832,7 +33861,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the handle, the callback will no longer be called.",
@@ -33909,7 +33938,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -33980,7 +34009,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -34066,7 +34095,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the handle's pid.",
@@ -34096,7 +34125,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -34137,7 +34166,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -34214,7 +34243,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -34299,7 +34328,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -34576,7 +34605,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -34695,7 +34724,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -34728,7 +34757,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -34807,7 +34836,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -34864,7 +34893,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -34943,7 +34972,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -35072,7 +35101,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -35158,7 +35187,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -35199,7 +35228,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -35276,7 +35305,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -35361,7 +35390,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -35540,7 +35569,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -35869,7 +35898,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the handle, the callback will no longer be called.",
@@ -35946,7 +35975,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -36120,7 +36149,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -36206,7 +36235,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -36247,7 +36276,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the stream's write queue size.",
@@ -36277,7 +36306,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -36354,7 +36383,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -36439,7 +36468,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -36519,7 +36548,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is readable, `false` otherwise.",
@@ -36549,7 +36578,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is writable, `false` otherwise.",
@@ -36782,7 +36811,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop reading data from the stream.",
@@ -36962,7 +36991,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -37455,7 +37484,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -38160,7 +38189,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -38246,7 +38275,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -38287,7 +38316,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the stream's write queue size.",
@@ -38317,7 +38346,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the address of the peer connected to the handle.",
@@ -38394,7 +38423,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the current address to which the handle is bound.",
@@ -38471,7 +38500,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -38548,7 +38577,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -38633,7 +38662,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -38713,7 +38742,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is readable, `false` otherwise.",
@@ -38743,7 +38772,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is writable, `false` otherwise.",
@@ -39251,7 +39280,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop reading data from the stream.",
@@ -39431,7 +39460,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -40017,7 +40046,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -40247,7 +40276,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " **Deprecated:** Please use `uv.stream_get_write_queue_size()` instead."
@@ -40276,7 +40305,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the timer, and if it is repeating restart it using the repeat value as the",
@@ -40394,7 +40423,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -40480,7 +40509,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the timer due value or 0 if it has expired. The time is relative to `uv.now()`.",
@@ -40509,7 +40538,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the timer repeat value.",
@@ -40536,7 +40565,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -40577,7 +40606,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -40654,7 +40683,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -40739,7 +40768,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -40918,7 +40947,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -41184,7 +41213,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop the timer, the callback will not be called anymore.",
@@ -41261,7 +41290,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -41448,7 +41477,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -41534,7 +41563,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -41575,7 +41604,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the current Window width and height.",
@@ -41652,7 +41681,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the stream's write queue size.",
@@ -41682,7 +41711,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -41759,7 +41788,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -41844,7 +41873,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -41924,7 +41953,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is readable, `false` otherwise.",
@@ -41954,7 +41983,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the stream is writable, `false` otherwise.",
@@ -42187,7 +42216,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop reading data from the stream.",
@@ -42367,7 +42396,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -42954,7 +42983,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -43184,12 +43213,12 @@
         "uv.uv_udp_send_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
-                "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_connect_t     : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
-                "@class uv.uv_getnameinfo_t : uv.uv_req_t",
+                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv_uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
             "fields": [
@@ -43200,7 +43229,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -43279,7 +43308,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
@@ -43576,7 +43605,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Gets the platform dependent file descriptor equivalent.",
@@ -43662,7 +43691,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the handle's send queue count.",
@@ -43692,7 +43721,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the handle's send queue size.",
@@ -43722,7 +43751,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
@@ -43763,7 +43792,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the remote IP and port of the UDP handle on connected UDP handles.",
@@ -43840,7 +43869,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Get the local IP and port of the UDP handle.",
@@ -43917,7 +43946,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle referenced, `false` if not.",
@@ -43994,7 +44023,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is active, `false` if it's inactive.",
@@ -44079,7 +44108,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns `true` if the handle is closing or closed, `false` otherwise.",
@@ -44444,7 +44473,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Stop listening for incoming datagrams.",
@@ -44521,7 +44550,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Reference the given handle.",
@@ -45562,7 +45591,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Un-reference the given handle. References are idempotent, that is, if a handle",
@@ -45583,7 +45612,7 @@
                 "@class uv.uv_fs_t          : uv.uv_req_t",
                 "@class uv.uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv.uv_shutdown_t    : uv.uv_req_t",
+                "@class uv_uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
@@ -45597,7 +45626,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Cancel a pending request. Fails if the request is executing or has finished",
@@ -45676,7 +45705,7 @@
                     "protected": false,
                     "value": {
                         "access": "instance",
-                        "arguments": null,
+                        "arguments": [],
                         "deprecated": false,
                         "documentation": [
                             " Returns the name of the struct for a given request (e.g. `\"fs\"` for `uv_fs_t`)",
