@@ -860,6 +860,7 @@ var functionTypeAnnotationQuery = treesitter.Query{
 					(%s) @return.type
 					("," (%s) @return.type)*
 				)? @return
+				(comment)? @function.documentation
 			)
 		)
 	)

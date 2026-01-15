@@ -9,6 +9,7 @@ func NewFunction() *Function {
 	return &Function{
 		Kind: FunctionKindFunction,
 		Generics: []FunctionGeneric{},
+		Arguments: []FunctionArgument{},
 		Returns: []FunctionReturn{},
 		Overloads: []FunctionOverload{},
 	}
