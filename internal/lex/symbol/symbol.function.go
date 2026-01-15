@@ -7,19 +7,11 @@ var (
 
 func NewFunction() *Function {
 	return &Function{
-		Kind: FunctionKindFunction,
-		Generics: []FunctionGeneric{},
+		Kind:      FunctionKindFunction,
+		Generics:  []FunctionGeneric{},
 		Arguments: []FunctionArgument{},
-		Returns: []FunctionReturn{},
+		Returns:   []FunctionReturn{},
 		Overloads: []FunctionOverload{},
-	}
-}
-
-func NewFunctionArgument(name string) *FunctionArgument {
-	return &FunctionArgument{
-		Name:     name,
-		Type:     NewUnknown(),
-		Optional: false,
 	}
 }
 
@@ -36,10 +28,18 @@ func NewFunctionGeneric(name string, types ...Symbol) *FunctionGeneric {
 	}
 }
 
-func NewFunctionOverload() *FunctionOverload {
-	return &FunctionOverload{}
+func NewFunctionArgument(name string) *FunctionArgument {
+	return &FunctionArgument{
+		Name:     name,
+		Type:     NewUnknown(),
+		Optional: false,
+	}
 }
 
 func NewFunctionReturn() *FunctionReturn {
 	return &FunctionReturn{}
+}
+
+func NewFunctionOverload() *FunctionOverload {
+	return &FunctionOverload{}
 }
