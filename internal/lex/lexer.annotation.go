@@ -82,11 +82,12 @@ var atTypeAnnotationQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			"@type"
+			"@type" . (%s) @type.type
 			.
-			(%s) @type.type
 			("," . (%s) @type.type)*
+			.
 			(comment)? @type.documentation
+			.
 		) @type
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
@@ -121,8 +122,12 @@ var atOverloadAnnotationQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 	(documentation 
 		(overload_annotation 
+			"@overload"
+			.
 			(%s) @type 
+			.
 			(comment)? @documentation
+			.
 		)
 	)
 `, typeAnnotationQueries["function_type"]),
@@ -237,6 +242,7 @@ var atParamAnnotationQuery = treesitter.Query{
 			(%s) @type
 			.
 			(comment)? @documentation
+			.
 		) @param
 	)`, anyTypeAnnotationQuery),
 }
@@ -287,6 +293,7 @@ var atReturnAnnotationQuery = treesitter.Query{
 			(%s) @return.type
 			.
 			(comment)? @return.documentation
+			.
 		) @return
 	)`, anyTypeAnnotationQuery),
 }
@@ -321,15 +328,16 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnot
 	return true, nil
 }
 
-var atPrivateAnnotationQuery string = `
+var atPrivateAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
 	(documentation 
-		(qualifier_annotation) @qualifier
-		(#match? @qualifier "\\@private")
-	)
-`
+		(qualifier_annotation "@private") @private
+	)`,
+}
 
 func (l *Lexer) lexAtPrivateAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atPrivateAnnotationQuery})
+	captures, err := buffer.TsQueryOne(atPrivateAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -343,15 +351,16 @@ func (l *Lexer) lexAtPrivateAnnotation(buffer *nvim.Buffer, annotations *AtAnnot
 	return true, nil
 }
 
-var atProtectedAnnotationQuery string = `
+var atProtectedAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
 	(documentation 
-		(qualifier_annotation) @qualifier
-		(#match? @qualifier "\\@protected")
-	)
-`
+		(qualifier_annotation "@protected") @protected
+	)`,
+}
 
 func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(treesitter.Query{Language: "luadoc", Query: atProtectedAnnotationQuery})
+	captures, err := buffer.TsQueryOne(atProtectedAnnotationQuery)
 
 	switch {
 	case err != nil:
@@ -370,10 +379,17 @@ func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnn
 var simpleAtAliasQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
-	(alias_annotation
-		(identifier) @alias.name
-		(%s) @alias.type
-		(comment)? @alias.documentation
+	(documentation
+		(alias_annotation
+			"@alias"
+			.
+			(identifier) @alias.name
+			.
+			(%s) @alias.type
+			.
+			(comment)? @alias.documentation
+			.
+		) @alias
 		(#not-eq? @alias.type "")
 	)`, anyTypeAnnotationQuery),
 }
@@ -421,10 +437,17 @@ func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtA
 var enumAtAliasQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
-	(alias_annotation
-		(identifier) @alias.name
-		(%s) @alias.type
-		(comment)? @alias.documentation
+	(documentation
+		(alias_annotation
+			"@alias"
+			.
+			(identifier) @alias.name
+			.
+			(%s) @alias.type
+			.
+			(comment)? @alias.documentation
+			.
+		) @alias
 		(#eq? @alias.type "")
 	)`, anyTypeAnnotationQuery),
 }
@@ -532,7 +555,10 @@ var atClassAnnotationQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 		(documentation
 			(class_annotation
+				"@class"
+				.
 				(identifier) @class.name
+				.
 				(":" 
 					. (%s) @class.parent
 					("," (%s) @class.parent)*
@@ -590,10 +616,16 @@ var atFieldAnnotationQuery = treesitter.Query{
 	Query: fmt.Sprintf(`
 		(documentation
 			(field_annotation
+				"@field"
+				.
 				(identifier) @field.name
+				.
 				"?"? @field.optional
+				.
 				(%s) @field.type
+				.
 				(comment)? @field.documentation
+				.
 			) @field
 		)`, anyTypeAnnotationQuery),
 }
@@ -1015,7 +1047,7 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 		Query: `
 		(documentation
 			(type_annotation
-				(table_literal_type) @table
+				(table_literal_type . "{" . "}" . ) @table
 			)
 		)`,
 	},

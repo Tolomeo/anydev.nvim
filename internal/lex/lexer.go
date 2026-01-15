@@ -7,6 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 )
 
 type Lexer struct {
@@ -127,18 +128,52 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	return nil
 }
 
+var lexedCache = cache.NewCache[symbol.Symbol]()
+
 func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
+	cacheId := []string{
+		source.GetOrigin().Url(),
+		fmt.Sprintf("%d", source.GetOrigin().Line()),
+		fmt.Sprintf("%d", source.GetOrigin().Character()),
+	}
+
+	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
+		fmt.Printf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", source.Identifier(), cacheId)
+		l.context.Logger.Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", source.Identifier(), cacheId))
+		return cachedSymbol, nil
+	}
+
 	switch source.GetOrigin().Type() {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
-		return l.lexValue(source)
+		lexed, err := l.lexValue(source)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(lexed, cacheId...)
+		return lexed, nil
 	case treesitter.ALIAS_ANNOTATION:
-		return l.lexAliasType(source)
+		lexed, err := l.lexAliasType(source)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(lexed, cacheId...)
+		return lexed, nil
 	case treesitter.CLASS_ANNOTATION:
-		return l.lexClassType(source)
+		lexed, err := l.lexClassType(source)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(lexed, cacheId...)
+		return lexed, nil
 	case treesitter.FIELD_ANNOTATION:
-		return l.lexFieldType(source)
+		lexed, err := l.lexFieldType(source)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(lexed, cacheId...)
+		return lexed, nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)

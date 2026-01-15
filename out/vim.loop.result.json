@@ -24062,7 +24062,38 @@
                     "protected": false,
                     "value": {
                         "documentation": [],
-                        "fields": [],
+                        "fields": [
+                            {
+                                "name": "1",
+                                "optional": false,
+                                "private": false,
+                                "protected": false,
+                                "value": {
+                                    "kind": "reference",
+                                    "value": "uv.spawn.options.stdio"
+                                }
+                            },
+                            {
+                                "name": "2",
+                                "optional": false,
+                                "private": false,
+                                "protected": false,
+                                "value": {
+                                    "kind": "reference",
+                                    "value": "uv.spawn.options.stdio"
+                                }
+                            },
+                            {
+                                "name": "3",
+                                "optional": false,
+                                "private": false,
+                                "protected": false,
+                                "value": {
+                                    "kind": "reference",
+                                    "value": "uv.spawn.options.stdio"
+                                }
+                            }
+                        ],
                         "kind": "table",
                         "name": ""
                     }
@@ -24090,6 +24121,23 @@
             ],
             "kind": "table",
             "name": "uv.spawn.options"
+        },
+        "uv.spawn.options.stdio": {
+            "kind": "union",
+            "types": [
+                {
+                    "kind": "builtin",
+                    "value": "integer"
+                },
+                {
+                    "kind": "reference",
+                    "value": "uv.uv_stream_t"
+                },
+                {
+                    "kind": "builtin",
+                    "value": "nil"
+                }
+            ]
         },
         "uv.tcp_bind.flags": {
             "documentation": [
@@ -25944,13 +25992,13 @@
         },
         "uv.uv_connect_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
-                "@class uv_uv_getnameinfo_t : uv.uv_req_t",
+                "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
             "fields": [
@@ -27921,7 +27969,7 @@
         "uv.uv_fs_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
@@ -28056,8 +28104,8 @@
         },
         "uv.uv_getaddrinfo_t": {
             "documentation": [
-                "@class uv_uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv.uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
@@ -28193,11 +28241,11 @@
         "uv.uv_getnameinfo_t": {
             "documentation": [
                 "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
                 "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
-                "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
+                "@class uv_uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
                 "@class uv.uv_work_t        : uv.uv_req_t"
             ],
@@ -43135,10 +43183,10 @@
         },
         "uv.uv_udp_send_t": {
             "documentation": [
-                "@class uv.uv_fs_t          : uv.uv_req_t",
-                "@class uv.uv_write_t       : uv.uv_req_t",
+                "@class uv_uv_fs_t          : uv.uv_req_t",
+                "@class uv_uv_write_t       : uv.uv_req_t",
                 "@class uv.uv_connect_t     : uv.uv_req_t",
-                "@class uv_uv_shutdown_t    : uv.uv_req_t",
+                "@class uv.uv_shutdown_t    : uv.uv_req_t",
                 "@class uv.uv_udp_send_t    : uv.uv_req_t",
                 "@class uv.uv_getaddrinfo_t : uv.uv_req_t",
                 "@class uv.uv_getnameinfo_t : uv.uv_req_t",
