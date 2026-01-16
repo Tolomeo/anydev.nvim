@@ -61,20 +61,25 @@ type AtFieldAnnotation struct {
 	Name          string
 	Type          TypeAnnotation
 	Optional      bool
+	Private       bool
+	Protected     bool
+	Package       bool
 	Documentation []string
 }
 
 type AtAnnotations struct {
-	AtType      *AtTypeAnnotation
-	AtPrivate   bool
-	AtProtected bool
-	AtGenerics  []AtGenericAnnotation
-	AtParams    map[string]AtParamAnnotation
-	AtReturns   []AtReturnAnnotation
-	AtOverloads []AtOverloadAnnotation
-	AtAliases   map[string]AtAliasAnnotation
-	AtClasses   map[string]AtClassAnnotation
-	AtFields    map[string]AtFieldAnnotation
+	AtType       *AtTypeAnnotation
+	AtPrivate    bool
+	AtProtected  bool
+	AtPackage    bool
+	AtDeprecated bool
+	AtGenerics   []AtGenericAnnotation
+	AtParams     map[string]AtParamAnnotation
+	AtReturns    []AtReturnAnnotation
+	AtOverloads  []AtOverloadAnnotation
+	AtAliases    map[string]AtAliasAnnotation
+	AtClasses    map[string]AtClassAnnotation
+	AtFields     map[string]AtFieldAnnotation
 }
 
 var atTypeAnnotationQuery = treesitter.Query{
@@ -329,6 +334,29 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnot
 	return true, nil
 }
 
+var atDeprecatedAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation 
+		(deprecated_annotation) @deprecated
+	)`,
+}
+
+func (l *Lexer) lexAtDeprecatedAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	captures, err := buffer.TsQueryOne(atDeprecatedAnnotationQuery)
+
+	switch {
+	case err != nil:
+		return false, err
+	case captures == nil:
+		return false, nil
+	}
+
+	annotations.AtPrivate = true
+
+	return true, nil
+}
+
 var atPrivateAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
@@ -371,6 +399,29 @@ func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnn
 	}
 
 	annotations.AtProtected = true
+
+	return true, nil
+}
+
+var atPackageAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(documentation 
+		(package_annotation) @package
+	)`,
+}
+
+func (l *Lexer) lexAtPackageAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+	captures, err := buffer.TsQueryOne(atPackageAnnotationQuery)
+
+	switch {
+	case err != nil:
+		return false, err
+	case captures == nil:
+		return false, nil
+	}
+
+	annotations.AtPackage = true
 
 	return true, nil
 }
@@ -558,6 +609,8 @@ var atClassAnnotationQuery = treesitter.Query{
 			(class_annotation
 				"@class"
 				.
+				"(exact)"?
+				.
 				(identifier) @class.name
 				.
 				(":" 
@@ -619,6 +672,13 @@ var atFieldAnnotationQuery = treesitter.Query{
 			(field_annotation
 				"@field"
 				.
+				([
+					(qualifier "public")
+					(qualifier "private") @field.private
+					(qualifier "protected") @field.protected
+					(qualifier "package") @field.package
+				 ])?
+				.
 				(identifier) @field.name
 				.
 				"?"? @field.optional
@@ -650,6 +710,12 @@ func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnota
 				field.Name = capture.Node.Text
 			case "field.optional":
 				field.Optional = true
+			case "field.private":
+				field.Private = true
+			case "field.protected":
+				field.Protected = true
+			case "field.package":
+				field.Package = true
 			case "field.type":
 				field.Type = TypeAnnotation{capture.Node.Text}
 			case "field.documentation":
@@ -674,16 +740,18 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	}
 
 	annotations := AtAnnotations{
-		AtType:      nil,
-		AtPrivate:   false,
-		AtProtected: false,
-		AtGenerics:  []AtGenericAnnotation{},
-		AtParams:    map[string]AtParamAnnotation{},
-		AtReturns:   []AtReturnAnnotation{},
-		AtOverloads: []AtOverloadAnnotation{},
-		AtAliases:   map[string]AtAliasAnnotation{},
-		AtClasses:   map[string]AtClassAnnotation{},
-		AtFields:    map[string]AtFieldAnnotation{},
+		AtType:       nil,
+		AtPrivate:    false,
+		AtProtected:  false,
+		AtPackage:    false,
+		AtDeprecated: false,
+		AtGenerics:   []AtGenericAnnotation{},
+		AtParams:     map[string]AtParamAnnotation{},
+		AtReturns:    []AtReturnAnnotation{},
+		AtOverloads:  []AtOverloadAnnotation{},
+		AtAliases:    map[string]AtAliasAnnotation{},
+		AtClasses:    map[string]AtClassAnnotation{},
+		AtFields:     map[string]AtFieldAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim.NewBuffer()
@@ -707,6 +775,13 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
 	}
 
+	_, err = l.lexAtDeprecatedAnnotation(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return annotations, fmt.Errorf("Error lexing deprecated annotation: %w", err)
+	}
+
 	_, err = l.lexAtPrivateAnnotation(buffer, &annotations)
 
 	switch {
@@ -718,7 +793,14 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 
 	switch {
 	case err != nil:
-		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
+		return annotations, fmt.Errorf("Error lexing protected annotation: %w", err)
+	}
+
+	_, err = l.lexAtPackageAnnotation(buffer, &annotations)
+
+	switch {
+	case err != nil:
+		return annotations, fmt.Errorf("Error lexing package annotation: %w", err)
 	}
 
 	_, err = l.lexAtParamAnnotations(buffer, &annotations)

@@ -77,17 +77,19 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 
 			field.Private = fieldAnnotations.AtPrivate
 			field.Protected = fieldAnnotations.AtProtected
-
-			lexedFieldValue, err := l.lex(fieldSource)
+			field.Package = fieldAnnotations.AtPackage
+			field.Deprecated = fieldAnnotations.AtDeprecated
+			field.Protected = fieldAnnotations.AtProtected
+			fieldValue, err := l.lex(fieldSource)
 
 			switch {
 			case err != nil:
 				return err
-			case lexedFieldValue == nil:
+			case fieldValue == nil:
 				l.context.Logger.Warn(fmt.Sprintf("No types found for type '%s' field %s", className, fieldName))
 				field.Value = symbol.NewUnknown()
 			default:
-				field.Value = lexedFieldValue
+				field.Value = fieldValue
 			}
 
 			class.Fields = append(class.Fields, field)
@@ -116,6 +118,7 @@ func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
 		return nil, nil
 	}
 
+	// TODO: assign qualifiers taken from annotations
 	lexedField, err := l.lexTypeAnnotation(field.Type)
 
 	if err != nil {

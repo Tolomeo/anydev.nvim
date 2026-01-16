@@ -219,11 +219,17 @@ type Table struct {
 }
 
 type TableField struct {
+	// Deprecated corresponds to the JSON schema field "deprecated".
+	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
+
 	// Name corresponds to the JSON schema field "name".
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Optional corresponds to the JSON schema field "optional".
 	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
+	// Package corresponds to the JSON schema field "package".
+	Package bool `json:"package" yaml:"package" mapstructure:"package"`
 
 	// Private corresponds to the JSON schema field "private".
 	Private bool `json:"private" yaml:"private" mapstructure:"private"`
@@ -238,11 +244,17 @@ type TableField struct {
 type TableFieldValue interface{}
 
 type TableIndex struct {
+	// Deprecated corresponds to the JSON schema field "deprecated".
+	Deprecated bool `json:"deprecated" yaml:"deprecated" mapstructure:"deprecated"`
+
 	// Key corresponds to the JSON schema field "key".
 	Key TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
 
 	// Optional corresponds to the JSON schema field "optional".
 	Optional bool `json:"optional" yaml:"optional" mapstructure:"optional"`
+
+	// Package corresponds to the JSON schema field "package".
+	Package bool `json:"package" yaml:"package" mapstructure:"package"`
 
 	// Private corresponds to the JSON schema field "private".
 	Private bool `json:"private" yaml:"private" mapstructure:"private"`

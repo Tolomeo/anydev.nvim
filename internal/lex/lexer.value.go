@@ -438,6 +438,9 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 
 			tableField.Private = annotations.AtPrivate
 			tableField.Protected = annotations.AtProtected
+			tableField.Package = annotations.AtPackage
+			tableField.Deprecated = annotations.AtDeprecated
+			tableField.Protected = annotations.AtProtected
 			tableFieldValue, err := l.lex(tableFieldSource)
 
 			if err != nil {

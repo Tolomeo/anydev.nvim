@@ -261,11 +261,25 @@
         "protected": {
           "type": "boolean"
         },
+        "package": {
+          "type": "boolean"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
         "optional": {
           "type": "boolean"
         }
       },
-      "required": ["name", "value", "private", "protected", "optional"]
+      "required": [
+        "name",
+        "value",
+        "private",
+        "protected",
+        "package",
+        "deprecated",
+        "optional"
+      ]
     },
     "TableIndex": {
       "type": "object",
@@ -283,11 +297,25 @@
         "protected": {
           "type": "boolean"
         },
+        "package": {
+          "type": "boolean"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
         "optional": {
           "type": "boolean"
         }
       },
-      "required": ["key", "value", "private", "protected", "optional"]
+      "required": [
+        "key",
+        "value",
+        "private",
+        "protected",
+        "package",
+        "deprecated",
+        "optional"
+      ]
     },
     "Union": {
       "type": "object",
