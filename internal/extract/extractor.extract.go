@@ -6,13 +6,15 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
+type targetKind string
+
 const (
-	targetKindValue string = "value"
-	targetKindType  string = "type"
+	TargetKindValue targetKind = "value"
+	TargetKindType  targetKind = "type"
 )
 
 type extractionTarget struct {
-	kind   string
+	kind   targetKind
 	parent *extractionTarget
 	name   string
 	source symbol.Source
@@ -41,11 +43,14 @@ func (e extractionTarget) Identifier() string {
 
 type state func(e *extractor, item extractionTarget) (extractionTarget, state, error)
 
-func extract(e *extractor, item extractionTarget) (extractionTarget, error) {
+func extractTarget(e *extractor, item extractionTarget) (extractionTarget, error) {
+	fmt.Printf("\nExtracting '%s'\n", item.Identifier())
+
 	e.targets = append(e.targets, item)
 
 	var err error
-	current := crawlItem
+	current := crawlTarget
+
 	for {
 		item, current, err = current(e, item)
 
@@ -62,14 +67,16 @@ func extract(e *extractor, item extractionTarget) (extractionTarget, error) {
 	}
 }
 
-func crawlItem(e *extractor, item extractionTarget) (extractionTarget, state, error) {
+func crawlTarget(e *extractor, item extractionTarget) (extractionTarget, state, error) {
+	fmt.Printf("\nCrawling '%s'\n", item.Identifier())
+
 	var err error
 	var source symbol.Source
 
 	switch item.kind {
-	case targetKindValue:
+	case TargetKindValue:
 		source, err = e.crawler.SourceValue(item.Identifier())
-	case targetKindType:
+	case TargetKindType:
 		source, err = e.crawler.SourceType(item.Name(), item.ParentName())
 	}
 
@@ -83,10 +90,12 @@ func crawlItem(e *extractor, item extractionTarget) (extractionTarget, state, er
 
 	item.source = source
 
-	return item, lexItem, nil
+	return item, lexTarget, nil
 }
 
-func lexItem(e *extractor, item extractionTarget) (extractionTarget, state, error) {
+func lexTarget(e *extractor, item extractionTarget) (extractionTarget, state, error) {
+	fmt.Printf("\nLexing '%s'\n", item.Identifier())
+
 	sym, err := e.lexer.Lex(item.source)
 
 	if err != nil {
@@ -100,26 +109,39 @@ func lexItem(e *extractor, item extractionTarget) (extractionTarget, state, erro
 
 func (e *extractor) ExtractChild(name string) (symbol.Symbol, error) {
 	parent := e.current()
+
+	fmt.Printf("\nBeginning the extraction of '%s' . '%s' %s child target\n", parent.name, name, parent.kind)
+
 	childTarget := extractionTarget{parent: &parent, kind: parent.kind, name: name}
 
-	childTarget, err := extract(e, childTarget)
+	childTarget, err := extractTarget(e, childTarget)
+
+	fmt.Printf("\nThe extraction of '%s' . '%s' %s child target yielded <%v>\n", parent.name, name, parent.kind, childTarget.symbol)
 
 	if err != nil {
 		return nil, err
+	}
+
+	if childTarget.symbol == nil {
+		return symbol.NewUnknown(), nil
 	}
 
 	return childTarget.symbol, nil
 }
 
 func (e *extractor) Extract(kind string, name string) error {
-	switch kind {
-	case targetKindValue:
+	fmt.Printf("\nBeginning the extraction of '%s' %s target\n", name, kind)
+
+	extractionTargetKind := targetKind(kind)
+
+	switch extractionTargetKind {
+	case TargetKindValue:
 		_, hasSymbol := e.result.Runtime[name]
 		if hasSymbol {
 			return nil
 		}
 		e.result.Runtime[name] = symbol.NewUnknown()
-	case targetKindType:
+	case TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			return nil
@@ -127,20 +149,22 @@ func (e *extractor) Extract(kind string, name string) error {
 		e.result.Types[name] = symbol.NewUnknown()
 	}
 
-	target, err := extract(e, extractionTarget{kind: kind, name: name})
+	target, err := extractTarget(e, extractionTarget{kind: extractionTargetKind, name: name})
 
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("\nThe extraction of '%s' %s target yielded <%v>\n", name, kind, target.symbol)
 
 	if target.symbol == nil {
 		return nil
 	}
 
 	switch target.kind {
-	case targetKindValue:
+	case TargetKindValue:
 		e.result.Runtime[target.name] = target.symbol
-	case targetKindType:
+	case TargetKindType:
 		e.result.Types[target.name] = target.symbol
 	}
 

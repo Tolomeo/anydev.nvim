@@ -3,7 +3,6 @@ package extract
 import (
 	"fmt"
 	"path"
-	"slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
@@ -14,22 +13,10 @@ import (
 )
 
 type Options struct {
-	Kind  string
-	Name  string
 	Debug bool
 }
 
 func (o Options) validate() error {
-	if o.Name == "" {
-		return fmt.Errorf("Name option is required")
-	}
-
-	allowedKinds := []string{targetKindValue, targetKindType}
-
-	if ok := slices.Contains(allowedKinds, o.Kind); !ok {
-		return fmt.Errorf("Type options invalid: allowedTypes are <%s>", allowedKinds)
-	}
-
 	return nil
 }
 
@@ -63,16 +50,20 @@ func (e *extractor) Nvim() *nvim.Nvim {
 	return e.nvim
 }
 
-func (e *extractor) Result() *nvim.Nvim {
-	return e.nvim
+func (e *extractor) Result() *extraction {
+	return e.result
+}
+
+func (e *extractor) Flush() {
+	e.targets = []extractionTarget{}
+	e.result = &extraction{
+		Runtime: map[string]symbol.Symbol{},
+		Types:   map[string]symbol.Symbol{},
+	}
 }
 
 func (e *extractor) Logger() *log.Logger {
 	return e.logger
-}
-
-func (e *extractor) Add() {
-
 }
 
 func (e *extractor) initLogger(_ Options) {
@@ -126,7 +117,7 @@ func (e *extractor) initLexer(_ Options) {
 	e.lexer = lex.NewLexer(e)
 }
 
-func Extract(options Options) (extraction, error) {
+func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
@@ -146,20 +137,8 @@ func Extract(options Options) (extraction, error) {
 	err := xtractor.initNvim(options)
 
 	if err != nil {
-		return *xtractor.result, err
+		return nil, err
 	}
 
-	err = xtractor.Extract(options.Kind, options.Name)
-
-	if err != nil {
-		return *xtractor.result, err
-	}
-
-	err = xtractor.nvim.Quit()
-
-	if err != nil {
-		return *xtractor.result, err
-	}
-
-	return *xtractor.result, nil
+	return xtractor, nil
 }
