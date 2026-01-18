@@ -13,7 +13,7 @@ import (
 )
 
 type Options struct {
-	Source symbol.Source
+	Target string
 	Debug  bool
 	logger string
 }
@@ -22,28 +22,54 @@ func (o Options) validate() error {
 	return nil
 }
 
-type state func(e *extractor, src symbol.Source) (state, error)
-
-func crawlSource(e *extractor, src symbol.Source) (state, error) {
-	return nil, fmt.Errorf("Not implemented")
+type extractionItem struct {
+	Name   string
+	source symbol.Source
+	symbol symbol.Symbol
 }
 
-func lexSource(e *extractor, src symbol.Source) (state, error) {
-	return nil, fmt.Errorf("Not implemented")
-}
+type state func(e *extractor, item extractionItem) (extractionItem, state, error)
 
-func run(e *extractor, source symbol.Source) (symbol.Source, error) {
-	var err error
-	current := crawlSource
-	for {
-		current, err = current(e, source)
-		if err != nil {
-			return source, err
-		}
-		if current == nil {
-			return source, nil
-		}
+func initItem(e *extractor, item extractionItem) (extractionItem, state, error) {
+	_, hasSymbol := e.result.Runtime[item.Name]
+
+	if hasSymbol {
+		return item, nil, nil
 	}
+
+	e.result.Runtime[item.Name] = symbol.NewUnknown()
+
+	return item, crawlItem, nil
+}
+
+func crawlItem(e *extractor, item extractionItem) (extractionItem, state, error) {
+	source, err := e.crawler.SourceValue(item.Name)
+
+	if err != nil {
+		return item, nil, err
+	}
+
+	item.source = source
+
+	return item, lexItem, nil
+}
+
+func lexItem(e *extractor, item extractionItem) (extractionItem, state, error) {
+	sym, err := e.lexer.Lex(item.source)
+
+	if err != nil {
+		return item, nil, err
+	}
+
+	item.symbol = sym
+
+	return item, storeItem, nil
+}
+
+func storeItem(e *extractor, item extractionItem) (extractionItem, state, error) {
+	e.result.Runtime[item.Name] = item.symbol
+
+	return item, nil, nil
 }
 
 type result struct {
@@ -52,7 +78,7 @@ type result struct {
 }
 
 type extractor struct {
-	source  []symbol.Source
+	items   []extractionItem
 	nvim    *nvim.Nvim
 	crawler *crawl.Crawler
 	lexer   *lex.Lexer
@@ -60,8 +86,16 @@ type extractor struct {
 	result  *result
 }
 
-func (e *extractor) Source() symbol.Source {
-	return e.source[len(e.source)-1]
+func (e *extractor) current() extractionItem {
+	return e.items[len(e.items)-1]
+}
+
+func (e *extractor) CurrentName() string {
+	return e.current().Name
+}
+
+func (e *extractor) CurrentSource() symbol.Source {
+	return e.current().source
 }
 
 func (e *extractor) Nvim() *nvim.Nvim {
@@ -70,6 +104,20 @@ func (e *extractor) Nvim() *nvim.Nvim {
 
 func (e *extractor) Result() *nvim.Nvim {
 	return e.nvim
+}
+
+func (e *extractor) run(item extractionItem) (extractionItem, error) {
+	var err error
+	current := initItem
+	for {
+		item, current, err = current(e, item)
+		if err != nil {
+			return item, err
+		}
+		if current == nil {
+			return item, nil
+		}
+	}
 }
 
 func (e *extractor) Logger() *log.Logger {
@@ -114,6 +162,8 @@ func (e *extractor) initNvim(options Options) error {
 		return fmt.Errorf("Error starting nvim client: %w", err)
 	}
 
+	e.nvim = client
+
 	return nil
 }
 
@@ -122,14 +172,14 @@ func (e *extractor) initCrawler(_ Options) {
 }
 
 func (e *extractor) initLexer(_ Options) {
-	e.lexer = lex.NewLexer()
+	e.lexer = lex.NewLexer(e)
 }
 
 func Extract(options Options) (result, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		source: []symbol.Source{options.Source},
+		items: []extractionItem{},
 		result: &result{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},
@@ -148,7 +198,11 @@ func Extract(options Options) (result, error) {
 		return *xtractor.result, err
 	}
 
-	run(xtractor, xtractor.Source())
+	_, err = xtractor.run(extractionItem{Name: options.Target})
+
+	if err != nil {
+		return *xtractor.result, err
+	}
 
 	return *xtractor.result, nil
 }

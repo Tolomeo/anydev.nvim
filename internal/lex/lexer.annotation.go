@@ -152,7 +152,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 
 	for _, match := range *matches {
 		if match.HasError {
-			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.Current()))
+			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.CurrentName()))
 			continue
 		}
 
@@ -1082,11 +1082,11 @@ func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Symbol {
 }
 
 func (l *Lexer) lexReferenceTypeAnnotation(name string) (*symbol.Reference, error) {
-	err := l.LexType(name, l.context)
+	/* err := l.LexType(name, l.context)
 
 	if err != nil {
 		return nil, err
-	}
+	} */
 
 	return symbol.NewReference(name), nil
 }

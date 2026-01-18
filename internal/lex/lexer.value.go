@@ -416,7 +416,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		}
 	}
 
-	tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
+	/* tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
 
 	if err != nil {
 		return nil, err
@@ -457,7 +457,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		}
 
 		table.Fields = append(table.Fields, tableField)
-	}
+	} */
 
 	return table, nil
 }
@@ -510,10 +510,10 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	case err != nil:
 		return nil, err
 	case annotations.AtType == nil:
-		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
+		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.CurrentName()))
 		return unknown, nil
 	case len(annotations.AtType.Types) < 1:
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Current())
+		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.CurrentName())
 	}
 
 	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Types[0])

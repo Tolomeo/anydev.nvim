@@ -1,7 +1,7 @@
 package lex
 
 import (
-	"fmt"
+	// "fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
@@ -39,7 +39,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	class.Documentation = source.GetOrigin().DocumentationLines()
 
 	// fmt.Println(name)
-	classFields, err := l.context.Nvim().GetTypeCompletion(className)
+	/* classFields, err := l.context.Nvim().GetTypeCompletion(className)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -47,13 +47,6 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		/* if found := slices.ContainsFunc(class.Fields, func(field symbol.TableField) bool {
-			return field.Name == fieldName
-		}); found {
-			l.context.Logger.Info(fmt.Sprintf("Skipping '%s' field '%s': already lexed", name, fieldName))
-			continue
-		} */
-
 		err := l.context.Push(fieldName, func(path string) error {
 			fmt.Printf("\nLexing: '%s' class: '%s' field\n", className, fieldName)
 
@@ -80,7 +73,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			field.Package = fieldAnnotations.AtPackage
 			field.Deprecated = fieldAnnotations.AtDeprecated
 			field.Protected = fieldAnnotations.AtProtected
-			fieldValue, err := l.lex(fieldSource)
+			fieldValue, err := l.Lex(fieldSource)
 
 			switch {
 			case err != nil:
@@ -100,7 +93,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			return nil, err
 		}
 
-	}
+	} */
 
 	return class, nil
 }

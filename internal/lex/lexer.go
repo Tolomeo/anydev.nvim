@@ -3,19 +3,25 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/context"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	// "github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type Lexer struct {
-	crawler *crawl.Crawler
-	context *context.Context
+type context interface {
+	Nvim() *nvim.Nvim
+	Logger() *log.Logger
+	CurrentName() string
 }
 
-func (l *Lexer) LexValue(path string, context *context.Context) error {
+type Lexer struct {
+	context context
+}
+
+/* func (l *Lexer) LexValue(path string, context *context.Context) error {
 	currentContext := l.context
 	currentCrawler := l.crawler
 	l.context = context
@@ -43,7 +49,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 
 		// fmt.Printf("\n%+v\n", source.Origin.DocumentationLines())
 
-		symbol, err := l.lex(source)
+		symbol, err := l.Lex(source)
 
 		if err != nil {
 			return err
@@ -60,8 +66,9 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 
 	return nil
 }
+*/
 
-func (l *Lexer) LexType(name string, context *context.Context) error {
+/* func (l *Lexer) LexType(name string, context *context.Context) error {
 	currentContext := l.context
 	currentCrawler := l.crawler
 	l.context = context
@@ -90,8 +97,8 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 			return nil
 		}
 
-		/* fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, source.Origin)
-		fmt.Printf("\nType: %+v\n\n", source.Origin.DefinitionText()) */
+		// fmt.Printf("\nReference '%s' source:\n%+v\n\n", name, source.Origin)
+		// fmt.Printf("\nType: %+v\n\n", source.Origin.DefinitionText())
 
 		lexedAliasType, err := l.lexAliasType(source)
 
@@ -126,11 +133,11 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	}
 
 	return nil
-}
+} */
 
 var lexedCache = cache.NewCache[symbol.Symbol]()
 
-func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
+func (l *Lexer) Lex(source symbol.Source) (symbol.Symbol, error) {
 	cacheId := []string{
 		source.GetOrigin().Url(),
 		fmt.Sprintf("%d", source.GetOrigin().Line()),
@@ -179,6 +186,8 @@ func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)
 }
 
-func NewLexer() *Lexer {
-	return &Lexer{}
+func NewLexer(context context) *Lexer {
+	return &Lexer{
+		context: context,
+	}
 }
