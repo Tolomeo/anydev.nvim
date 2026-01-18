@@ -252,5 +252,11 @@ func Extract(options Options) (result, error) {
 		return *xtractor.result, err
 	}
 
+	err = xtractor.nvim.Quit()
+
+	if err != nil {
+		return *xtractor.result, err
+	}
+
 	return *xtractor.result, nil
 }
