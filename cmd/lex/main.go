@@ -7,7 +7,7 @@ import (
 	// "github.com/Tolomeo/anydev.nvim/internal/context"
 	"github.com/Tolomeo/anydev.nvim/internal/extract"
 	// "github.com/Tolomeo/anydev.nvim/internal/lex"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	// "github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	// "github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/output"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
@@ -16,11 +16,11 @@ import (
 
 const debug = true
 
-// var values []string = []string{"vim.F"}
+var values []string = []string{"vim.F"}
 // var values []string = []string{"vim.validate"}
 // var values []string = []string{"vim.validate", "vim.F"}
 // var values []string = []string{"vim.loop"}
-var values []string = []string{"vim.F", "vim.validate", "vim.loop"}
+// var values []string = []string{"vim.F", "vim.validate", "vim.loop"}
 
 // var values = []string{}
 
@@ -97,7 +97,8 @@ func main() {
 
 	for _, value := range values {
 		result, err := extract.Extract(extract.Options{
-			Source: symbol.NewValueSource(value),
+			Target: value,
+			Debug: true,
 		})
 
 		/* logger := log.NewLogger("")
