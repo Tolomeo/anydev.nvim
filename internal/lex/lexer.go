@@ -15,6 +15,7 @@ type context interface {
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	CurrentName() string
+	Extract(string, string) error
 	ExtractChild(string) (symbol.Symbol, error)
 }
 

@@ -1082,11 +1082,11 @@ func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Symbol {
 }
 
 func (l *Lexer) lexReferenceTypeAnnotation(name string) (*symbol.Reference, error) {
-	/* err := l.LexType(name, l.context)
+	err := l.context.Extract("type", name)
 
 	if err != nil {
 		return nil, err
-	} */
+	}
 
 	return symbol.NewReference(name), nil
 }

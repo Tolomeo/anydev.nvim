@@ -19,6 +19,14 @@ type extractionTarget struct {
 	symbol symbol.Symbol
 }
 
+func (e extractionTarget) ParentName() string {
+	if e.parent == nil {
+		return ""
+	}
+
+	return e.parent.Name()
+}
+
 func (e extractionTarget) Name() string {
 	return e.name
 }
@@ -55,7 +63,15 @@ func extract(e *extractor, item extractionTarget) (extractionTarget, error) {
 }
 
 func crawlItem(e *extractor, item extractionTarget) (extractionTarget, state, error) {
-	source, err := e.crawler.SourceValue(item.Identifier())
+	var err error
+	var source symbol.Source
+
+	switch item.kind {
+	case targetKindValue:
+		source, err = e.crawler.SourceValue(item.Identifier())
+	case targetKindType:
+		source, err = e.crawler.SourceType(item.Name(), item.ParentName())
+	}
 
 	if err != nil {
 		return item, nil, err
