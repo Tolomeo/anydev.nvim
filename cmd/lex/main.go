@@ -16,8 +16,9 @@ import (
 
 const debug = true
 
-var values []string = []string{"vim.F"}
-// var values []string = []string{"vim.validate"}
+// var values []string = []string{"vim.F"}
+var values []string = []string{"vim.validate"}
+
 // var values []string = []string{"vim.validate", "vim.F"}
 // var values []string = []string{"vim.loop"}
 // var values []string = []string{"vim.F", "vim.validate", "vim.loop"}
@@ -97,7 +98,8 @@ func main() {
 
 	for _, value := range values {
 		result, err := extract.Extract(extract.Options{
-			Target: value,
+			Kind:  "value",
+			Name:  value,
 			Debug: true,
 		})
 
