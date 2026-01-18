@@ -26,7 +26,7 @@ func (l *Lexer) LexValue(path string, context *context.Context) error {
 	}()
 
 	if _, exists := l.context.Result().Runtime[path]; exists {
-		l.context.Logger.Info("Skipping '%s': lexed symbol already found")
+		l.context.Logger().Info("Skipping '%s': lexed symbol already found")
 		return nil
 	}
 
@@ -72,7 +72,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 	}()
 
 	if _, alreadyLexed := l.context.Result().Types[name]; alreadyLexed {
-		l.context.Logger.Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
+		l.context.Logger().Info(fmt.Sprintf("Skipping '%s': lexed type already found", name))
 		return nil
 	}
 
@@ -117,7 +117,7 @@ func (l *Lexer) LexType(name string, context *context.Context) error {
 			return nil
 		}
 
-		l.context.Logger.Warn(fmt.Sprintf("No type definitions found for '%s' name", name))
+		l.context.Logger().Warn(fmt.Sprintf("No type definitions found for '%s' name", name))
 		return nil
 	})
 
@@ -139,7 +139,7 @@ func (l *Lexer) lex(source symbol.Source) (symbol.Symbol, error) {
 
 	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
 		fmt.Printf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", source.Identifier(), cacheId)
-		l.context.Logger.Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", source.Identifier(), cacheId))
+		l.context.Logger().Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", source.Identifier(), cacheId))
 		return cachedSymbol, nil
 	}
 

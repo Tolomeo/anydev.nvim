@@ -39,7 +39,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	class.Documentation = source.GetOrigin().DocumentationLines()
 
 	// fmt.Println(name)
-	classFields, err := l.context.Nvim.GetTypeCompletion(className)
+	classFields, err := l.context.Nvim().GetTypeCompletion(className)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -64,7 +64,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			case err != nil:
 				return err
 			case fieldSource == nil:
-				l.context.Logger.Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", className, fieldName))
+				l.context.Logger().Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", className, fieldName))
 				class.Fields = append(class.Fields, field)
 				return nil
 			}
@@ -86,7 +86,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 			case err != nil:
 				return err
 			case fieldValue == nil:
-				l.context.Logger.Warn(fmt.Sprintf("No types found for type '%s' field %s", className, fieldName))
+				l.context.Logger().Warn(fmt.Sprintf("No types found for type '%s' field %s", className, fieldName))
 				field.Value = symbol.NewUnknown()
 			default:
 				field.Value = fieldValue

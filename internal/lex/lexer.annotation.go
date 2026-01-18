@@ -152,7 +152,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 
 	for _, match := range *matches {
 		if match.HasError {
-			l.context.Logger.Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.Current()))
+			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.Current()))
 			continue
 		}
 
@@ -754,7 +754,7 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		AtFields:     map[string]AtFieldAnnotation{},
 	}
 
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return annotations, err
@@ -1423,7 +1423,7 @@ func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Symbol, error) {
 		return builtinType, nil
 	}
 
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
@@ -1537,6 +1537,6 @@ func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Symbol, error) {
 		return lexedReference, nil
 	}
 
-	l.context.Logger.Warn(fmt.Sprintf("Unknown type '%s' received", source))
+	l.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", source))
 	return symbol.NewUnknown(), nil
 }

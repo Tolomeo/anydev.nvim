@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
 type result struct {
@@ -22,26 +23,34 @@ type loggerProvider interface {
 
 type Context struct {
 	path   []string
-	Nvim   *nvim.Nvim
+	nvim   *nvim.Nvim
 	result *result
-	Logger loggerProvider
+	logger *log.Logger
 }
 
 func (l *Context) Current() string {
 	return strings.Join(l.path, ".")
 }
 
+func (l *Context) Nvim() *nvim.Nvim {
+	return l.nvim
+}
+
+func (l *Context) Logger() *log.Logger {
+	return l.logger
+}
+
 func (l *Context) Push(path string, procedure func(path string) error) error {
 	l.path = append(l.path, path)
-	l.Logger.SetKey(l.Current())
+	l.Logger().SetKey(l.Current())
 	defer func() {
 		if len(l.path) > 0 {
 			l.path = l.path[:len(l.path)-1]
 		}
 		if len(l.path) > 0 {
-			l.Logger.SetKey(l.Current())
+			l.Logger().SetKey(l.Current())
 		} else {
-			l.Logger.DefaultKey()
+			l.Logger().DefaultKey()
 		}
 	}()
 
@@ -51,11 +60,11 @@ func (l *Context) Push(path string, procedure func(path string) error) error {
 func (l *Context) Fork(path string, procedure func(path string) error) error {
 	currentPath := l.path
 	l.path = []string{path}
-	l.Logger.SetKey(l.Current())
+	l.Logger().SetKey(l.Current())
 
 	defer func() {
 		l.path = currentPath
-		l.Logger.SetKey(l.Current())
+		l.Logger().SetKey(l.Current())
 	}()
 
 	return procedure(path)
@@ -65,10 +74,10 @@ func (l *Context) Result() *result {
 	return l.result
 }
 
-func New(logger loggerProvider, client *nvim.Nvim) *Context {
+func New(logger *log.Logger, client *nvim.Nvim) *Context {
 	return &Context{
-		Nvim:   client,
-		Logger: logger,
+		nvim:   client,
+		logger: logger,
 		result: &result{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},

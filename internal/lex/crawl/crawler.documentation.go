@@ -23,7 +23,7 @@ func (c *Crawler) sourceDocumentation(source symbol.Source) (*treesitter.TsNode,
 }
 
 func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
+	buffer, err := c.context.Nvim().OpenBuffer(source.GetOrigin().Url())
 
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitt
 }
 
 func (c *Crawler) sourceTypeDefinitionDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim.OpenBuffer(source.GetOrigin().Url())
+	buffer, err := c.context.Nvim().OpenBuffer(source.GetOrigin().Url())
 
 	if err != nil {
 		return nil, err

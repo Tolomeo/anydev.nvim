@@ -74,7 +74,7 @@ func originQueryMap(source symbol.Source) nvim.TsNodeQueryMap {
 
 func (c *Crawler) findOrigin(locations []nvim.Location, source symbol.Source) (symbol.Origin, error) {
 	for _, location := range locations {
-		buffer, err := c.context.Nvim.OpenBuffer(location.Url)
+		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 		if err != nil {
 			return nil, err
@@ -181,7 +181,7 @@ var requireAssignmentQuery = treesitter.Query{
 }
 
 func (c *Crawler) followModuleRequireAssignment(source symbol.Source, origin symbol.Origin) (symbol.Origin, error) {
-	buffer, err := c.context.Nvim.NewBuffer()
+	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -257,7 +257,7 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 }
 
 func (c *Crawler) followVariableAssignment(source symbol.Source, origin symbol.Origin) (symbol.Origin, error) {
-	buffer, err := c.context.Nvim.NewBuffer()
+	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err

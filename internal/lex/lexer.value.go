@@ -11,7 +11,7 @@ import (
 
 func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 	sourcePath := source.Identifier()
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -186,7 +186,7 @@ var functionQueries = map[string]string{
 }
 
 func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error) {
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -262,7 +262,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 		paramAnnotation, hasParamAnnotation := annotations.AtParams[name]
 
 		if !hasParamAnnotation {
-			l.context.Logger.Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
+			l.context.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
@@ -374,7 +374,7 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -416,7 +416,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		}
 	}
 
-	tableFields, err := l.context.Nvim.GetValueCompletion(source.Identifier())
+	tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
 
 	if err != nil {
 		return nil, err
@@ -478,7 +478,7 @@ var metaQuery = treesitter.Query{
 }
 
 func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
-	buffer, err := l.context.Nvim.NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -510,7 +510,7 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	case err != nil:
 		return nil, err
 	case annotations.AtType == nil:
-		l.context.Logger.Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
+		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Current()))
 		return unknown, nil
 	case len(annotations.AtType.Types) < 1:
 		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Current())
