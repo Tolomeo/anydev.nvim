@@ -3,6 +3,7 @@ package extract
 import (
 	"fmt"
 	"path"
+	"slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
@@ -13,123 +14,45 @@ import (
 )
 
 type Options struct {
-	Target string
-	Debug  bool
-	logger string
+	Kind  string
+	Name  string
+	Debug bool
 }
 
 func (o Options) validate() error {
+	if o.Name == "" {
+		return fmt.Errorf("Name option is required")
+	}
+
+	allowedKinds := []string{targetKindValue, targetKindType}
+
+	if ok := slices.Contains(allowedKinds, o.Kind); !ok {
+		return fmt.Errorf("Type options invalid: allowedTypes are <%s>", allowedKinds)
+	}
+
 	return nil
 }
 
-type extractionItem struct {
-	parent *extractionItem
-	name   string
-	source symbol.Source
-	symbol symbol.Symbol
-}
-
-func (e extractionItem) Name() string {
-	return e.name
-}
-
-func (e extractionItem) Identifier() string {
-	if e.parent == nil {
-		return e.name
-	}
-
-	return fmt.Sprintf("%s.%s", e.parent.Identifier(), e.name)
-}
-
-type state func(e *extractor, item extractionItem) (extractionItem, state, error)
-
-func extract(e *extractor, item extractionItem) (extractionItem, error) {
-	e.items = append(e.items, item)
-
-	var err error
-	current := crawlItem
-	for {
-		item, current, err = current(e, item)
-		if err != nil {
-			return item, err
-		}
-		if current == nil {
-			e.items = e.items[:len(e.items)-1]
-			return item, nil
-		}
-	}
-}
-
-func crawlItem(e *extractor, item extractionItem) (extractionItem, state, error) {
-	source, err := e.crawler.SourceValue(item.Identifier())
-
-	if err != nil {
-		return item, nil, err
-	}
-
-	if source == nil {
-		return item, nil, nil
-	}
-
-	item.source = source
-
-	return item, lexItem, nil
-}
-
-func lexItem(e *extractor, item extractionItem) (extractionItem, state, error) {
-	sym, err := e.lexer.Lex(item.source)
-
-	if err != nil {
-		return item, nil, err
-	}
-
-	switch s := sym.(type) {
-	case *symbol.Table:
-		children, err := e.nvim.GetValueCompletion(item.name)
-
-		if err != nil {
-			return item, nil, err
-		}
-
-		for _, child := range children {
-			childItem := extractionItem{parent: &item, name: child}
-			childItem, err := extract(e, childItem)
-
-			if err != nil {
-				return item, nil, err
-			}
-
-			s.Fields = append(s.Fields, symbol.TableField{Name: child, Value: childItem.symbol})
-		}
-
-		fmt.Printf("table point %v", s)
-	}
-
-	item.symbol = sym
-
-	return item, nil, nil
-}
-
-type result struct {
+type extraction struct {
 	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
 	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
 }
 
 type extractor struct {
-	items   []extractionItem
+	targets []extractionTarget
 	nvim    *nvim.Nvim
 	crawler *crawl.Crawler
 	lexer   *lex.Lexer
 	logger  *log.Logger
-	result  *result
+	result  *extraction
 }
 
-func (e *extractor) current() extractionItem {
-	return e.items[len(e.items)-1]
+func (e *extractor) current() extractionTarget {
+	return e.targets[len(e.targets)-1]
 }
 
 func (e *extractor) CurrentName() string {
-	return e.current().name
+	return e.current().Name()
 }
 
 func (e *extractor) CurrentSource() symbol.Source {
@@ -144,32 +67,12 @@ func (e *extractor) Result() *nvim.Nvim {
 	return e.nvim
 }
 
-func (e *extractor) run(item extractionItem) error {
-	_, hasSymbol := e.result.Runtime[item.name]
-
-	if hasSymbol {
-		return nil
-	}
-
-	e.result.Runtime[item.name] = symbol.NewUnknown()
-
-	item, err := extract(e, item)
-
-	if err != nil {
-		return err
-	}
-
-	if item.symbol == nil {
-		return nil
-	}
-
-	e.result.Runtime[item.name] = item.symbol
-
-	return nil
-}
-
 func (e *extractor) Logger() *log.Logger {
 	return e.logger
+}
+
+func (e *extractor) Add() {
+
 }
 
 func (e *extractor) initLogger(_ Options) {
@@ -223,12 +126,12 @@ func (e *extractor) initLexer(_ Options) {
 	e.lexer = lex.NewLexer(e)
 }
 
-func Extract(options Options) (result, error) {
+func Extract(options Options) (extraction, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		items: []extractionItem{},
-		result: &result{
+		targets: []extractionTarget{},
+		result: &extraction{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},
 		},
@@ -246,7 +149,7 @@ func Extract(options Options) (result, error) {
 		return *xtractor.result, err
 	}
 
-	err = xtractor.run(extractionItem{name: options.Target})
+	err = xtractor.Extract(extractionTarget{name: options.Name, kind: options.Kind})
 
 	if err != nil {
 		return *xtractor.result, err

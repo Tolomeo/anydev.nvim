@@ -416,17 +416,28 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		}
 	}
 
-	/* tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
+	tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
 
 	if err != nil {
 		return nil, err
 	}
 
 	for _, fieldName := range tableFields {
-		tableField := symbol.TableField{Name: fieldName}
+		fieldValue, err := l.context.ExtractChild(fieldName)
 
-		err := l.context.Push(fieldName, func(path string) error {
-			fmt.Printf("\nLexing '%s' class: %s field\n", table.Name, fieldName)
+		if err != nil {
+			return nil, err
+		}
+
+		table.Fields = append(table.Fields, symbol.TableField{
+			Name:  fieldName,
+			Value: fieldValue,
+		})
+
+		/* tableField := symbol.TableField{Name: field}
+
+		err := l.context.Push(field, func(path string) error {
+			fmt.Printf("\nLexing '%s' class: %s field\n", table.Name, field)
 
 			tableFieldSource, err := l.crawler.SourceValue(l.context.Current())
 
@@ -456,8 +467,8 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 			return nil, err
 		}
 
-		table.Fields = append(table.Fields, tableField)
-	} */
+		table.Fields = append(table.Fields, tableField) */
+	}
 
 	return table, nil
 }
