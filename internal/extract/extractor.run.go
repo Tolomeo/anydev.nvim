@@ -40,9 +40,13 @@ func extract(e *extractor, item extractionTarget) (extractionTarget, error) {
 	current := crawlItem
 	for {
 		item, current, err = current(e, item)
+
+		e.targets[len(e.targets)-1] = item
+
 		if err != nil {
 			return item, err
 		}
+
 		if current == nil {
 			e.targets = e.targets[:len(e.targets)-1]
 			return item, nil
@@ -80,7 +84,7 @@ func lexItem(e *extractor, item extractionTarget) (extractionTarget, state, erro
 
 func (e *extractor) ExtractChild(name string) (symbol.Symbol, error) {
 	parent := e.current()
-	childTarget := extractionTarget{kind: parent.kind, parent: &parent, name: name}
+	childTarget := extractionTarget{parent: &parent, kind: parent.kind, name: name}
 
 	childTarget, err := extract(e, childTarget)
 
@@ -91,23 +95,23 @@ func (e *extractor) ExtractChild(name string) (symbol.Symbol, error) {
 	return childTarget.symbol, nil
 }
 
-func (e *extractor) Extract(target extractionTarget) error {
-	switch target.kind {
+func (e *extractor) Extract(kind string, name string) error {
+	switch kind {
 	case targetKindValue:
-		_, hasSymbol := e.result.Runtime[target.name]
+		_, hasSymbol := e.result.Runtime[name]
 		if hasSymbol {
 			return nil
 		}
-		e.result.Runtime[target.name] = symbol.NewUnknown()
+		e.result.Runtime[name] = symbol.NewUnknown()
 	case targetKindType:
-		_, hasSymbol := e.result.Types[target.name]
+		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			return nil
 		}
-		e.result.Types[target.name] = symbol.NewUnknown()
+		e.result.Types[name] = symbol.NewUnknown()
 	}
 
-	target, err := extract(e, target)
+	target, err := extract(e, extractionTarget{kind: kind, name: name})
 
 	if err != nil {
 		return err

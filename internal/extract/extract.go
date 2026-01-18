@@ -149,7 +149,7 @@ func Extract(options Options) (extraction, error) {
 		return *xtractor.result, err
 	}
 
-	err = xtractor.Extract(extractionTarget{name: options.Name, kind: options.Kind})
+	err = xtractor.Extract(options.Kind, options.Name)
 
 	if err != nil {
 		return *xtractor.result, err
