@@ -16,8 +16,9 @@ import (
 
 const debug = true
 
-// var values []string = []string{"vim.F"}
-var values []string = []string{"vim.validate"}
+var values []string = []string{"vim.F"}
+
+// var values []string = []string{"vim.validate"}
 
 // var values []string = []string{"vim.validate", "vim.F"}
 // var values []string = []string{"vim.loop"}
@@ -96,12 +97,14 @@ func main() {
 		panic(err)
 	}
 
+	extractor, err := extract.NewExtractor(extract.Options{Debug: true})
+
+	if err != nil {
+		panic(err)
+	}
+
 	for _, value := range values {
-		result, err := extract.Extract(extract.Options{
-			Kind:  "value",
-			Name:  value,
-			Debug: true,
-		})
+		err := extractor.Extract("value", value)
 
 		/* logger := log.NewLogger("")
 		context := context.New(logger, client)
@@ -112,6 +115,8 @@ func main() {
 			panic(err)
 		}
 
+		result := extractor.Result()
+
 		if err := out.WriteFile(fmt.Sprintf("%s.result.json", value), result); err != nil {
 			panic(fmt.Errorf("Error writing result.json: %w", err))
 		}
@@ -119,6 +124,7 @@ func main() {
 		/* if err := out.WriteFile(fmt.Sprintf("%s.logs.json", value), logger.Logs()); err != nil {
 			panic(fmt.Errorf("Error writing logs.json: %w", err))
 		} */
+		extractor.Flush()
 	}
 
 	/* for _, type_ := range types {
