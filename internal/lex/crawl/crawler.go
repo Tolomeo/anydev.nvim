@@ -31,7 +31,7 @@ func (c *Crawler) SourceValue() (symbol.Source, error) {
 	}
 
 	source := symbol.NewValueSource(identifier)
-	valueOrigin, err := c.findOrigin(*locations, source)
+	valueOrigin, err := c.findOrigin(*locations)
 
 	switch {
 	case err != nil:
@@ -78,7 +78,7 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 		return nil, nil
 	}
 
-	origin, err := c.findOrigin(*locations, source)
+	origin, err := c.findOrigin(*locations)
 
 	switch {
 	case err != nil:

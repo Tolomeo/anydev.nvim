@@ -43,7 +43,9 @@ import (
 	},
 } */
 
-func originQueryMap(source symbol.Source) nvim.TsNodeQueryMap {
+func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
+	target := c.context.Target()
+
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: nil,
 		treesitter.VARIABLE_DECLARATION: nil,
@@ -53,26 +55,26 @@ func originQueryMap(source symbol.Source) nvim.TsNodeQueryMap {
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
 				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(source.Identifier())),
+			)`, regexp.QuoteMeta(target.Identifier())),
 		},
 		treesitter.CLASS_ANNOTATION: {
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
 				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(source.Identifier())),
+			)`, regexp.QuoteMeta(target.Identifier())),
 		},
 		treesitter.FIELD_ANNOTATION: {
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(field_annotation) @field_annotation
 				(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(source.Name())),
+				)`, regexp.QuoteMeta(target.Name())),
 		},
 	}
 }
 
-func (c *Crawler) findOrigin(locations []nvim.Location, source symbol.Source) (symbol.Origin, error) {
+func (c *Crawler) findOrigin(locations []nvim.Location) (symbol.Origin, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
@@ -82,7 +84,7 @@ func (c *Crawler) findOrigin(locations []nvim.Location, source symbol.Source) (s
 
 		defer buffer.Close()
 
-		queryMap := originQueryMap(source)
+		queryMap := c.getOriginQueryMap()
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
@@ -95,70 +97,36 @@ func (c *Crawler) findOrigin(locations []nvim.Location, source symbol.Source) (s
 			continue
 		}
 
-		return c.followOrigin(source, &symbol.ValueOrigin{
+		origin := &symbol.ValueOrigin{
 			Location:   location,
 			Definition: queryMatch.Node,
-		})
+		}
 
-		/* for nodeType, nodeQuery := range findOriginQueries {
-			lineRange := tsRange.LineRange()
-
-			targetNode := []string{nodeType}
-			node, err := buffer.GetTSNodeAt(targetNode, line, character)
+		switch origin.Type() {
+		case treesitter.ASSIGNMENT_STATEMENT:
+			requiredOrigin, err := c.followModuleRequireAssignment(origin)
 
 			switch {
 			case err != nil:
 				return nil, err
-			case node == nil:
-				continue
+			case requiredOrigin != nil:
+				return requiredOrigin, nil
 			}
 
-			if nodeQuery != nil {
-				query := nodeQuery(source)
-				query.Range = &lineRange
-				match, err := buffer.TsQueryOne(query)
+			variableOrigin, err := c.followVariableAssignment(origin)
 
-				switch {
-				case err != nil:
-					return nil, err
-				case match == nil:
-					continue
-				}
+			switch {
+			case err != nil:
+				return nil, err
+			case variableOrigin != nil:
+				return variableOrigin, nil
 			}
+		}
 
-			return c.followOrigin(source, &symbol.ValueOrigin{
-				Location:   location,
-				Definition: *node,
-			})
-		} */
+		return origin, nil
 	}
 
 	return nil, nil
-}
-
-func (c *Crawler) followOrigin(source symbol.Source, origin symbol.Origin) (symbol.Origin, error) {
-	switch origin.Type() {
-	case treesitter.ASSIGNMENT_STATEMENT:
-		requiredOrigin, err := c.followModuleRequireAssignment(source, origin)
-
-		switch {
-		case err != nil:
-			return nil, err
-		case requiredOrigin != nil:
-			return requiredOrigin, nil
-		}
-
-		variableOrigin, err := c.followVariableAssignment(source, origin)
-
-		switch {
-		case err != nil:
-			return nil, err
-		case variableOrigin != nil:
-			return variableOrigin, nil
-		}
-	}
-
-	return origin, nil
 }
 
 var requireAssignmentQuery = treesitter.Query{
@@ -180,7 +148,7 @@ var requireAssignmentQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) followModuleRequireAssignment(source symbol.Source, origin symbol.Origin) (symbol.Origin, error) {
+func (c *Crawler) followModuleRequireAssignment(origin symbol.Origin) (symbol.Origin, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -218,7 +186,7 @@ func (c *Crawler) followModuleRequireAssignment(source symbol.Source, origin sym
 		return nil, err
 	}
 
-	moduleOrigin, err := c.findOrigin(*moduleLocations, source)
+	moduleOrigin, err := c.findOrigin(*moduleLocations)
 
 	switch {
 	case err != nil:
@@ -256,7 +224,7 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 	},
 }
 
-func (c *Crawler) followVariableAssignment(source symbol.Source, origin symbol.Origin) (symbol.Origin, error) {
+func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -304,7 +272,7 @@ func (c *Crawler) followVariableAssignment(source symbol.Source, origin symbol.O
 		return nil, err
 	}
 
-	rightValueOrigin, err := c.findOrigin(*rightValueLocations, source)
+	rightValueOrigin, err := c.findOrigin(*rightValueLocations)
 
 	if err != nil {
 		return nil, err
