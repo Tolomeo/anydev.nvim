@@ -141,7 +141,7 @@ type FunctionReturn struct {
 	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
-	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
 
 	// Type corresponds to the JSON schema field "type".
 	Type FunctionReturnType `json:"type" yaml:"type" mapstructure:"type"`

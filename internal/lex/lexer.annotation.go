@@ -29,7 +29,7 @@ type AtGenericAnnotation struct {
 }
 
 type AtReturnAnnotation struct {
-	Name          *string
+	Name          string
 	Type          TypeAnnotation
 	Documentation []string
 }
@@ -320,7 +320,7 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnot
 		for _, capture := range matchCaptures {
 			switch capture.Id {
 			case "return.name":
-				returnAnnotation.Name = &capture.Node.Text
+				returnAnnotation.Name = capture.Node.Text
 			case "return.documentation":
 				returnAnnotation.Documentation = []string{capture.Node.Text}
 			case "return.type":

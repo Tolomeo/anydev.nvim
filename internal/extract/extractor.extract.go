@@ -45,7 +45,7 @@ func (e Target) Origin() symbol.Origin {
 type state func(e *extractor, item Target) (Target, state, error)
 
 func extractTarget(e *extractor, item Target) (Target, error) {
-	fmt.Printf("\nExtracting '%s'\n", item.Identifier())
+	e.logger.Infof("Extracting '%s'", item.Identifier())
 
 	e.targets = append(e.targets, item)
 
@@ -69,7 +69,7 @@ func extractTarget(e *extractor, item Target) (Target, error) {
 }
 
 func crawlTarget(e *extractor, item Target) (Target, state, error) {
-	fmt.Printf("\nCrawling '%s'\n", item.Identifier())
+	e.logger.Infof("Crawling '%s'", item.Identifier())
 
 	var err error
 	var source symbol.Source
@@ -95,7 +95,7 @@ func crawlTarget(e *extractor, item Target) (Target, state, error) {
 }
 
 func lexTarget(e *extractor, item Target) (Target, state, error) {
-	fmt.Printf("\nLexing '%s'\n", item.Identifier())
+	e.logger.Infof("Lexing '%s'", item.Identifier())
 
 	sym, err := e.lexer.Lex()
 
@@ -111,13 +111,13 @@ func lexTarget(e *extractor, item Target) (Target, state, error) {
 func (e *extractor) ExtractChild(name string) (symbol.Symbol, error) {
 	parent := e.Target()
 
-	fmt.Printf("\nBeginning the extraction of '%s' . '%s' %s child target\n", parent.Name(), name, parent.Kind())
+	e.logger.Infof("Beginning the extraction of '%s' . '%s' %s child target", parent.Name(), name, parent.Kind())
 
 	childTarget := Target{parent: parent, kind: parent.Kind(), name: name}
 
 	childTarget, err := extractTarget(e, childTarget)
 
-	fmt.Printf("\nThe extraction of '%s' . '%s' %s child target yielded <%v>\n", parent.Name(), name, parent.Kind(), childTarget.symbol)
+	e.logger.Infof("The extraction of '%s' . '%s' %s child target yielded \n<%v>", parent.Name(), name, parent.Kind(), childTarget.symbol)
 
 	if err != nil {
 		return nil, err
@@ -131,8 +131,7 @@ func (e *extractor) ExtractChild(name string) (symbol.Symbol, error) {
 }
 
 func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
-	fmt.Printf("\nBeginning the extraction of '%s' %s target\n", name, kind)
-
+	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
 
 	switch kind {
 	case symbol.TargetKindValue:
@@ -155,7 +154,7 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		return err
 	}
 
-	fmt.Printf("\nThe extraction of '%s' %s target yielded <%v>\n", name, kind, target.symbol)
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.symbol)
 
 	if target.symbol == nil {
 		return nil

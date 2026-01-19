@@ -1,11 +1,17 @@
 package log
 
+import (
+	"fmt"
+	stdLog "log"
+	"os"
+)
+
 type logLevel string
 
 const (
-	Info  logLevel = "info"
-	Warn  logLevel = "warn"
-	Error logLevel = "error"
+	Info  logLevel = "INFO"
+	Warn  logLevel = "WARN"
+	Error logLevel = "ERROR"
 )
 
 type log struct {
@@ -13,68 +19,40 @@ type log struct {
 	Message string   `json:"message" yaml:"message"`
 }
 
-type Logs map[string][]log
-
 type Logger struct {
-	defaultKey string
-	key        string
-	logs       *Logs
-}
-
-func (l *Logger) DefaultKey() {
-	l.key = l.defaultKey
-}
-
-func (l *Logger) Key() string {
-	return l.key
-}
-
-func (l *Logger) SetKey(key string) {
-	l.key = key
+	stdOut *stdLog.Logger
 }
 
 func (l *Logger) Log(newLog log) {
-	logsMap := (*l.logs)
-
-	_, exists := logsMap[l.key]
-
-	if !exists {
-		logsMap[l.key] = []log{newLog}
-		return
-	}
-
-	logsMap[l.key] = append(logsMap[l.key], newLog)
+	l.stdOut.Printf("[%s] %s\n", newLog.Level, newLog.Message)
 }
 
 func (l *Logger) Info(message string) {
 	l.Log(log{Level: Info, Message: message})
 }
 
+func (l *Logger) Infof(message string, args ...any) {
+	l.Log(log{Level: Info, Message: fmt.Sprintf(message, args...)})
+}
+
 func (l *Logger) Warn(message string) {
 	l.Log(log{Level: Warn, Message: message})
+}
+
+func (l *Logger) Warnf(message string, args ...any) {
+	l.Log(log{Level: Warn, Message: fmt.Sprintf(message, args...)})
 }
 
 func (l *Logger) Error(message string) {
 	l.Log(log{Level: Error, Message: message})
 }
 
-func (l *Logger) Logs() *Logs {
-	return l.logs
+func (l *Logger) Errorf(message string, args ...any) {
+	l.Log(log{Level: Error, Message: fmt.Sprintf(message, args...)})
 }
 
-func NewLog(level logLevel, message string) log {
-	return log{
-		Level:   level,
-		Message: message,
-	}
-}
-
-func NewLogger(key string) *Logger {
-	logs := Logs{}
-
+func NewLogger() *Logger {
 	return &Logger{
-		defaultKey: key,
-		key:        key,
-		logs:       &logs,
+		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}
 }

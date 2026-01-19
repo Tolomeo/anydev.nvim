@@ -63,7 +63,7 @@ func (e *extractor) Logger() *log.Logger {
 }
 
 func (e *extractor) initLogger(_ Options) {
-	e.logger = log.NewLogger("")
+	e.logger = log.NewLogger()
 }
 
 func (e *extractor) initNvim(options Options) error {
