@@ -26,7 +26,7 @@ type extraction struct {
 }
 
 type extractor struct {
-	targets []extractionTarget
+	targets []Target
 	nvim    *nvim.Nvim
 	crawler *crawl.Crawler
 	lexer   *lex.Lexer
@@ -34,16 +34,12 @@ type extractor struct {
 	result  *extraction
 }
 
-func (e *extractor) current() extractionTarget {
+func (e *extractor) Target() symbol.Target {
 	return e.targets[len(e.targets)-1]
 }
 
 func (e *extractor) CurrentName() string {
-	return e.current().Name()
-}
-
-func (e *extractor) CurrentSource() symbol.Source {
-	return e.current().source
+	return e.Target().Name()
 }
 
 func (e *extractor) Nvim() *nvim.Nvim {
@@ -55,7 +51,7 @@ func (e *extractor) Result() *extraction {
 }
 
 func (e *extractor) Flush() {
-	e.targets = []extractionTarget{}
+	e.targets = []Target{}
 	e.result = &extraction{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
@@ -121,7 +117,7 @@ func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		targets: []extractionTarget{},
+		targets: []Target{},
 		result: &extraction{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},

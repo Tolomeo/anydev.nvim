@@ -429,45 +429,16 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 			return nil, err
 		}
 
+		/* annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
+		tableField.Private = annotations.AtPrivate
+		tableField.Protected = annotations.AtProtected
+		tableField.Package = annotations.AtPackage
+		tableField.Deprecated = annotations.AtDeprecated
+		tableField.Protected = annotations.AtProtected */
 		table.Fields = append(table.Fields, symbol.TableField{
 			Name:  fieldName,
 			Value: fieldValue,
 		})
-
-		/* tableField := symbol.TableField{Name: field}
-
-		err := l.context.Push(field, func(path string) error {
-			fmt.Printf("\nLexing '%s' class: %s field\n", table.Name, field)
-
-			tableFieldSource, err := l.crawler.SourceValue(l.context.Current())
-
-			if err != nil {
-				return err
-			}
-
-			annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
-
-			tableField.Private = annotations.AtPrivate
-			tableField.Protected = annotations.AtProtected
-			tableField.Package = annotations.AtPackage
-			tableField.Deprecated = annotations.AtDeprecated
-			tableField.Protected = annotations.AtProtected
-			tableFieldValue, err := l.lex(tableFieldSource)
-
-			if err != nil {
-				return err
-			}
-
-			tableField.Value = tableFieldValue
-
-			return nil
-		})
-
-		if err != nil {
-			return nil, err
-		}
-
-		table.Fields = append(table.Fields, tableField) */
 	}
 
 	return table, nil
@@ -521,10 +492,10 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	case err != nil:
 		return nil, err
 	case annotations.AtType == nil:
-		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.CurrentName()))
+		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Target().Name()))
 		return unknown, nil
 	case len(annotations.AtType.Types) < 1:
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.CurrentName())
+		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Target().Name())
 	}
 
 	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Types[0])

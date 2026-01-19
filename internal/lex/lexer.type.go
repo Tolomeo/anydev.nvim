@@ -39,7 +39,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	class.Documentation = source.GetOrigin().DocumentationLines()
 
 	// fmt.Println(name)
-	/* classFields, err := l.context.Nvim().GetTypeCompletion(className)
+	classFields, err := l.context.Nvim().GetTypeCompletion(className)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -47,53 +47,23 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		err := l.context.Push(fieldName, func(path string) error {
-			fmt.Printf("\nLexing: '%s' class: '%s' field\n", className, fieldName)
-
-			field := symbol.TableField{Name: fieldName, Value: symbol.NewUnknown()}
-			fieldSource, err := l.crawler.SourceType(fieldName, className)
-
-			switch {
-			case err != nil:
-				return err
-			case fieldSource == nil:
-				l.context.Logger().Warn(fmt.Sprintf("Using unknown for '%s' field '%s', with no origin", className, fieldName))
-				class.Fields = append(class.Fields, field)
-				return nil
-			}
-
-			fieldAnnotations, err := l.lexAtAnnotations(fieldSource.GetOrigin().DocumentationLines())
-
-			if err != nil {
-				return err
-			}
-
-			field.Private = fieldAnnotations.AtPrivate
-			field.Protected = fieldAnnotations.AtProtected
-			field.Package = fieldAnnotations.AtPackage
-			field.Deprecated = fieldAnnotations.AtDeprecated
-			field.Protected = fieldAnnotations.AtProtected
-			fieldValue, err := l.Lex(fieldSource)
-
-			switch {
-			case err != nil:
-				return err
-			case fieldValue == nil:
-				l.context.Logger().Warn(fmt.Sprintf("No types found for type '%s' field %s", className, fieldName))
-				field.Value = symbol.NewUnknown()
-			default:
-				field.Value = fieldValue
-			}
-
-			class.Fields = append(class.Fields, field)
-			return nil
-		})
+		fieldValue, err := l.context.ExtractChild(fieldName)
 
 		if err != nil {
 			return nil, err
 		}
 
-	} */
+		/* annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
+		tableField.Private = annotations.AtPrivate
+		tableField.Protected = annotations.AtProtected
+		tableField.Package = annotations.AtPackage
+		tableField.Deprecated = annotations.AtDeprecated
+		tableField.Protected = annotations.AtProtected */
+		class.Fields = append(class.Fields, symbol.TableField{
+			Name:  fieldName,
+			Value: fieldValue,
+		})
+	}
 
 	return class, nil
 }

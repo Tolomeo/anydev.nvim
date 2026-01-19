@@ -152,7 +152,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnn
 
 	for _, match := range *matches {
 		if match.HasError {
-			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.CurrentName()))
+			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.Target().Name()))
 			continue
 		}
 
@@ -1023,7 +1023,6 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, erro
 
 	table := symbol.NewTable()
 
-	// TODO: here match one
 	for _, capture := range *match {
 		switch capture.Id {
 		case "table":
