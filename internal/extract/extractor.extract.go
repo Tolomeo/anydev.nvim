@@ -38,6 +38,10 @@ func (e Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", e.parent.Identifier(), e.name)
 }
 
+func (e Target) Origin() symbol.Origin {
+	return e.source.GetOrigin()
+}
+
 type state func(e *extractor, item Target) (Target, state, error)
 
 func extractTarget(e *extractor, item Target) (Target, error) {
@@ -93,7 +97,7 @@ func crawlTarget(e *extractor, item Target) (Target, state, error) {
 func lexTarget(e *extractor, item Target) (Target, state, error) {
 	fmt.Printf("\nLexing '%s'\n", item.Identifier())
 
-	sym, err := e.lexer.Lex(item.source)
+	sym, err := e.lexer.Lex()
 
 	if err != nil {
 		return item, nil, err

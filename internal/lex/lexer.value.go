@@ -9,8 +9,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
-	sourcePath := source.Identifier()
+func (l *Lexer) lexValue() (symbol.Symbol, error) {
+	target := l.context.Target()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -19,14 +19,14 @@ func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	sourceDefinition := source.GetOrigin().DefinitionLines()
+	sourceDefinition := target.Origin().DefinitionLines()
 	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {
 		return nil, err
 	}
 
-	table, err := l.lexTableValue(source)
+	table, err := l.lexTableValue()
 
 	switch {
 	case err != nil:
@@ -35,7 +35,7 @@ func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 		return table, nil
 	}
 
-	function, err := l.lexFunctionValue(source)
+	function, err := l.lexFunctionValue()
 
 	switch {
 	case err != nil:
@@ -44,7 +44,7 @@ func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 		return function, nil
 	}
 
-	meta, err := l.lexMetaValue(source)
+	meta, err := l.lexMetaValue()
 
 	switch {
 	case err != nil:
@@ -53,7 +53,7 @@ func (l *Lexer) lexValue(source symbol.Source) (symbol.Symbol, error) {
 		return meta, nil
 	}
 
-	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", sourcePath, source.GetOrigin())
+	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", target.Identifier(), target.Origin())
 }
 
 var functionQueries = map[string]string{
@@ -185,7 +185,8 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error) {
+func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
+	origin := l.context.Target().Origin()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -194,7 +195,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
+	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -220,7 +221,7 @@ func (l *Lexer) lexFunctionValue(source symbol.Source) (*symbol.Function, error)
 	}
 
 	function := symbol.NewFunction()
-	function.Documentation = source.GetOrigin().DocumentationLines()
+	function.Documentation = origin.DocumentationLines()
 
 	for _, capture := range *match {
 		switch capture.Id {
@@ -373,7 +374,9 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
+func (l *Lexer) lexTableValue() (*symbol.Table, error) {
+	target := l.context.Target()
+	origin := target.Origin()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -382,7 +385,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
+	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -416,7 +419,7 @@ func (l *Lexer) lexTableValue(source symbol.Source) (*symbol.Table, error) {
 		}
 	}
 
-	tableFields, err := l.context.Nvim().GetValueCompletion(source.Identifier())
+	tableFields, err := l.context.Nvim().GetValueCompletion(target.Identifier())
 
 	if err != nil {
 		return nil, err
@@ -459,7 +462,9 @@ var metaQuery = treesitter.Query{
 	) @assignment`,
 }
 
-func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
+func (l *Lexer) lexMetaValue() (symbol.Symbol, error) {
+	target := l.context.Target()
+	origin := target.Origin()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -468,7 +473,7 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(source.GetOrigin().DefinitionLines())
+	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
 		return nil, err
@@ -484,9 +489,9 @@ func (l *Lexer) lexMetaValue(source symbol.Source) (symbol.Symbol, error) {
 	}
 
 	unknown := symbol.NewUnknown()
-	unknown.Documentation = source.GetOrigin().DocumentationLines()
+	unknown.Documentation = origin.DocumentationLines()
 
-	annotations, err := l.lexAtAnnotations(source.GetOrigin().DocumentationLines())
+	annotations, err := l.lexAtAnnotations(origin.DocumentationLines())
 
 	switch {
 	case err != nil:

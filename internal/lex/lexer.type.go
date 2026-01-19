@@ -7,11 +7,12 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
-func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
+func (l *Lexer) lexClassType() (*symbol.Table, error) {
+	target := l.context.Target()
 	// Replacing all dots in the alias className with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	className := source.Identifier()
-	classOrigin := source.GetOrigin()
+	className := target.Identifier()
+	classOrigin := target.Origin()
 
 	classPatchedName := strings.ReplaceAll(className, ".", "_")
 	classDefinitionText := classOrigin.DefinitionText()
@@ -36,7 +37,7 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	class := symbol.NewTable()
 	class.Name = className
 	// TODO: the documentation is gathered by the annotations lexer
-	class.Documentation = source.GetOrigin().DocumentationLines()
+	class.Documentation = target.Origin().DocumentationLines()
 
 	// fmt.Println(name)
 	classFields, err := l.context.Nvim().GetTypeCompletion(className)
@@ -68,14 +69,15 @@ func (l *Lexer) lexClassType(source symbol.Source) (*symbol.Table, error) {
 	return class, nil
 }
 
-func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
-	annotations, err := l.lexAtAnnotations(source.GetOrigin().DocumentationLines())
+func (l *Lexer) lexFieldType() (symbol.Symbol, error) {
+	target := l.context.Target()
+	annotations, err := l.lexAtAnnotations(target.Origin().DocumentationLines())
 
 	if err != nil {
 		return nil, err
 	}
 
-	field, found := annotations.AtFields[source.Name()]
+	field, found := annotations.AtFields[target.Name()]
 
 	if !found {
 		return nil, nil
@@ -91,12 +93,13 @@ func (l *Lexer) lexFieldType(source symbol.Source) (symbol.Symbol, error) {
 	return lexedField, nil
 }
 
-func (l *Lexer) lexAliasType(source symbol.Source) (symbol.Symbol, error) {
+func (l *Lexer) lexAliasType() (symbol.Symbol, error) {
+	target := l.context.Target()
 	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	name := source.Identifier()
-	origin := source.GetOrigin()
+	name := target.Identifier()
+	origin := target.Origin()
 
 	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := origin.DefinitionText()
