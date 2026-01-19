@@ -19,28 +19,28 @@ type Crawler struct {
 }
 
 func (c *Crawler) SourceValue() (symbol.Source, error) {
-	identifier := c.context.Target().Identifier()
-	locations, err := c.findDefinitionLocations(identifier)
+	target := c.context.Target()
+	locations, err := c.findDefinitionLocations(target.Identifier())
 
 	switch {
 	case err != nil:
 		return nil, err
 	case locations == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No locations found for '%s' symbol", identifier))
+		c.context.Logger().Warn(fmt.Sprintf("No locations found for '%s' symbol", target.Identifier()))
 		return nil, nil
 	}
 
-	source := symbol.NewValueSource(identifier)
-	valueOrigin, err := c.findOrigin(*locations)
+	source := symbol.NewValueSource(target.Identifier())
+	origin, err := c.findOrigin(*locations)
 
 	switch {
 	case err != nil:
 		return nil, err
-	case valueOrigin == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", identifier))
+	case origin == nil:
+		c.context.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", target.Identifier()))
 		return nil, nil
 	default:
-		source.SetOrigin(valueOrigin)
+		source.SetOrigin(origin)
 	}
 
 	/* err = c.followValueOrigin(&source)
@@ -49,13 +49,13 @@ func (c *Crawler) SourceValue() (symbol.Source, error) {
 		return nil, err
 	} */
 
-	documentation, err := c.sourceDocumentation(source)
+	documentation, err := c.sourceDocumentation(origin)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case documentation == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", identifier))
+		c.context.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", target.Identifier()))
 		return source, nil
 	}
 
@@ -68,7 +68,7 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 	typeName, parentTypeName := target.Name(), target.ParentName()
 
 	source := symbol.NewTypeSource(typeName, parentTypeName)
-	locations, err := c.findTypeDefinitionLocations(source)
+	locations, err := c.findTypeDefinitionLocations(target.Name(), target.ParentName())
 
 	switch {
 	case err != nil:
@@ -90,7 +90,7 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 		source.SetOrigin(origin)
 	}
 
-	documentation, err := c.sourceDocumentation(source)
+	documentation, err := c.sourceDocumentation(origin)
 
 	switch {
 	case err != nil:

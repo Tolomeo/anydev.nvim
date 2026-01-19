@@ -7,23 +7,23 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) sourceDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	switch source.GetOrigin().Type() {
+func (c *Crawler) sourceDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
+	switch origin.Type() {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
-		return c.sourceDefinitionDocumentation(source)
+		return c.sourceDefinitionDocumentation(origin)
 	case treesitter.ALIAS_ANNOTATION,
 		treesitter.CLASS_ANNOTATION,
 		treesitter.FIELD_ANNOTATION:
-		return c.sourceTypeDefinitionDocumentation(source)
+		return c.sourceTypeDefinitionDocumentation(origin)
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", source.Identifier(), source)
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.context.Target().Identifier(), origin)
 }
 
-func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(source.GetOrigin().Url())
+func (c *Crawler) sourceDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
+	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitt
 
 	defer buffer.Close()
 
-	documentationBlock, err := buffer.GetTsCommentBlockAt(source.GetOrigin().Line()-1, source.GetOrigin().Character())
+	documentationBlock, err := buffer.GetTsCommentBlockAt(origin.Line()-1, origin.Character())
 
 	switch {
 	case err != nil:
@@ -43,8 +43,8 @@ func (c *Crawler) sourceDefinitionDocumentation(source symbol.Source) (*treesitt
 	return documentationBlock, nil
 }
 
-func (c *Crawler) sourceTypeDefinitionDocumentation(source symbol.Source) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(source.GetOrigin().Url())
+func (c *Crawler) sourceTypeDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
+	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (c *Crawler) sourceTypeDefinitionDocumentation(source symbol.Source) (*tree
 
 	defer buffer.Close()
 
-	documentationBlock, err := buffer.GetTsCommentBlockAt(source.GetOrigin().Line(), source.GetOrigin().Character())
+	documentationBlock, err := buffer.GetTsCommentBlockAt(origin.Line(), origin.Character())
 
 	switch {
 	case err != nil:

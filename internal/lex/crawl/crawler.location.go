@@ -3,7 +3,6 @@ package crawl
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -37,7 +36,7 @@ func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Loca
 	return locations, nil
 }
 
-func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error) {
+func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -46,7 +45,7 @@ func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error)
 
 	defer buffer.Close()
 
-	assignment := "local ref = " + path
+	assignment := "local ref = " + identifier
 	err = buffer.SetLines([]string{assignment})
 
 	if err != nil {
@@ -67,7 +66,7 @@ func (c *Crawler) findDefinitionLocations(path string) (*[]nvim.Location, error)
 	return locations, nil
 }
 
-func (c *Crawler) findTypeDefinitionLocations(source *symbol.TypeSource) (*[]nvim.Location, error) {
+func (c *Crawler) findTypeDefinitionLocations(typeName string, parentTypeName string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -78,10 +77,10 @@ func (c *Crawler) findTypeDefinitionLocations(source *symbol.TypeSource) (*[]nvi
 
 	lines := []string{}
 
-	if source.ParentName() == "" {
-		lines = append(lines, fmt.Sprintf("---@type %s", source.Name()))
+	if parentTypeName == "" {
+		lines = append(lines, fmt.Sprintf("---@type %s", typeName))
 	} else {
-		lines = append(lines, fmt.Sprintf("---@type %s", source.ParentName()), "local ref", fmt.Sprintf("ref.%s", source.Name()))
+		lines = append(lines, fmt.Sprintf("---@type %s", parentTypeName), "local ref", fmt.Sprintf("ref.%s", typeName))
 	}
 
 	err = buffer.SetLines(lines)
