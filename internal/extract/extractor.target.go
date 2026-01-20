@@ -18,7 +18,7 @@ type target struct {
 	kind      symbol.TargetKind
 	parent    symbol.Target
 	name      string
-	source    symbol.Source
+	origin    *symbol.Origin
 	symbol    symbol.Symbol
 }
 
@@ -46,8 +46,8 @@ func (t *target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *target) Origin() symbol.Origin {
-	return t.source.GetOrigin()
+func (t *target) Origin() *symbol.Origin {
+	return t.origin
 }
 
 func (t *target) Logger() *log.Logger {
@@ -72,7 +72,7 @@ func (t *target) crawl() (step, error) {
 	t.logger.Infof("Crawling '%s'", t.Identifier())
 
 	var err error
-	var source symbol.Source
+	var source *symbol.Origin
 
 	switch t.Kind() {
 	case symbol.TargetKindValue:
@@ -89,7 +89,7 @@ func (t *target) crawl() (step, error) {
 		return nil, nil
 	}
 
-	t.source = source
+	t.origin = source
 
 	return t.lex, nil
 }
