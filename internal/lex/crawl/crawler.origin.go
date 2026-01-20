@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
@@ -14,43 +13,55 @@ import (
 type origin struct {
 	Location      nvim.Location
 	Definition    treesitter.TsNode
-	Documentation treesitter.TsNode
+	Documentation []string
 }
 
-func (o *origin) Url() string {
-	return o.Location.Url
+type targetOrigin []origin
+
+func (o *targetOrigin) last() origin {
+	return (*o)[len(*o)-1]
 }
 
-func (o *origin) Line() uint {
-	return uint(o.Location.TargetRange.Start.Line)
+func (o *targetOrigin) add(os *targetOrigin) {
+	*o = append(*o, *os...)
 }
 
-func (o *origin) Character() uint {
-	return uint(o.Location.TargetRange.Start.Character)
+func (o *targetOrigin) Url() string {
+	return o.last().Location.Url
 }
 
-func (o *origin) Type() string {
-	return o.Definition.Type
+func (o *targetOrigin) Line() uint {
+	return uint(o.last().Location.TargetRange.Start.Line)
 }
 
-func (o *origin) DefinitionText() string {
-	return o.Definition.Text
+func (o *targetOrigin) Character() uint {
+	return uint(o.last().Location.TargetRange.Start.Character)
 }
 
-func (o *origin) DefinitionLines() []string {
-	return strings.Split(o.Definition.Text, "\n")
+func (o *targetOrigin) Type() string {
+	return o.last().Definition.Type
 }
 
-func (o *origin) DocumentationText() string {
-	return o.Documentation.Text
+func (o *targetOrigin) DefinitionText() string {
+	return o.last().Definition.Text
 }
 
-func (o *origin) DocumentationLines() []string {
-	return strings.Split(o.Documentation.Text, "\n")
+func (o *targetOrigin) DefinitionLines() []string {
+	return strings.Split(o.last().Definition.Text, "\n")
 }
 
-func (o *origin) SetDocumentation(documentation treesitter.TsNode) {
-	o.Documentation = documentation
+func (o *targetOrigin) DocumentationText() string {
+	return strings.Join(o.last().Documentation, "\n")
+}
+
+func (o *targetOrigin) DocumentationLines() []string {
+	return o.last().Documentation
+}
+
+func (o *targetOrigin) SetDocumentation(documentation treesitter.TsNode) {
+	last := o.last()
+	last.Documentation = strings.Split(documentation.Text, "\n")
+	(*o)[len(*o)-1] = last
 }
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
@@ -82,7 +93,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	}
 }
 
-func (c *Crawler) findOrigin(locations []nvim.Location) (symbol.Origin, error) {
+func (c *Crawler) findOrigin(locations []nvim.Location) (*targetOrigin, error) {
 	for _, location := range locations {
 		buffer, err := c.target.Nvim().OpenBuffer(location.Url)
 
@@ -105,33 +116,38 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (symbol.Origin, error) {
 			continue
 		}
 
-		origin := &origin{
+		origin := origin{
 			Location:   location,
 			Definition: queryMatch.Node,
 		}
+		c.sourceDocumentation(&origin)
 
-		switch origin.Type() {
+		targetOrigin := &targetOrigin{
+			origin,
+		}
+
+		switch targetOrigin.Type() {
 		case treesitter.ASSIGNMENT_STATEMENT:
-			requiredOrigin, err := c.followModuleRequireAssignment(origin)
+			followed, err := c.followModuleRequireAssignment(targetOrigin)
 
 			switch {
 			case err != nil:
 				return nil, err
-			case requiredOrigin != nil:
-				return requiredOrigin, nil
+			case followed:
+				return targetOrigin, nil
 			}
 
-			variableOrigin, err := c.followVariableAssignment(origin)
+			followed, err = c.followVariableAssignment(targetOrigin)
 
 			switch {
 			case err != nil:
 				return nil, err
-			case variableOrigin != nil:
-				return variableOrigin, nil
+			case followed:
+				return targetOrigin, nil
 			}
 		}
 
-		return origin, nil
+		return targetOrigin, nil
 	}
 
 	return nil, nil
@@ -156,11 +172,11 @@ var requireAssignmentQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) followModuleRequireAssignment(origin symbol.Origin) (symbol.Origin, error) {
+func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, error) {
 	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	defer buffer.Close()
@@ -168,16 +184,16 @@ func (c *Crawler) followModuleRequireAssignment(origin symbol.Origin) (symbol.Or
 	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	captures, err := buffer.TsQueryOne(requireAssignmentQuery)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return false, err
 	case captures == nil:
-		return nil, nil
+		return false, nil
 	}
 
 	moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
@@ -185,25 +201,27 @@ func (c *Crawler) followModuleRequireAssignment(origin symbol.Origin) (symbol.Or
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.DefinitionLines())
 	}
 
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	moduleOrigin, err := c.findOrigin(*moduleLocations)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return false, err
 	case moduleOrigin == nil:
-		return nil, fmt.Errorf("Error following require statement '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error following require statement '%s'", origin.DefinitionLines())
 	}
 
-	return moduleOrigin, nil
+	origin.add(moduleOrigin)
+
+	return true, nil
 }
 
 var variableAssignmentQueries = map[string]treesitter.Query{
@@ -232,11 +250,11 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 	},
 }
 
-func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin, error) {
+func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	defer buffer.Close()
@@ -244,7 +262,7 @@ func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin,
 	err = buffer.SetLines(origin.DefinitionLines())
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	var captures *nvim.TsQueryMatch = nil
@@ -254,7 +272,7 @@ func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin,
 
 		switch {
 		case err != nil:
-			return nil, err
+			return false, err
 		case assignmentCaptures == nil:
 			continue
 		}
@@ -263,7 +281,7 @@ func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin,
 	}
 
 	if captures == nil {
-		return nil, nil
+		return false, nil
 	}
 
 	rightValue, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
@@ -271,20 +289,22 @@ func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin,
 	})
 
 	if !found {
-		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.DefinitionLines())
 	}
 
 	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	rightValueOrigin, err := c.findOrigin(*rightValueLocations)
 
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
-	return rightValueOrigin, nil
+	origin.add(rightValueOrigin)
+
+	return true, nil
 }

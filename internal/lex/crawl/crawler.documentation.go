@@ -2,13 +2,13 @@ package crawl
 
 import (
 	"fmt"
+	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) sourceDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
-	switch origin.Type() {
+func (c *Crawler) sourceDocumentation(origin *origin) error {
+	switch origin.Definition.Type {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
@@ -19,47 +19,55 @@ func (c *Crawler) sourceDocumentation(origin symbol.Origin) (*treesitter.TsNode,
 		return c.sourceTypeDefinitionDocumentation(origin)
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.target.Identifier(), origin)
+	return fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.target.Identifier(), origin)
 }
 
-func (c *Crawler) sourceDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
+func (c *Crawler) sourceDefinitionDocumentation(origin *origin) error {
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Location.Url)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer buffer.Close()
 
-	documentationBlock, err := buffer.GetTsCommentBlockAt(origin.Line()-1, origin.Character())
+	line, character := uint(origin.Definition.Range.Start.Line)-1, uint(origin.Definition.Range.Start.Character)
+	documentationBlock, err := buffer.GetTsCommentBlockAt(line, character)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return err
 	case documentationBlock == nil:
-		return nil, nil
+		origin.Documentation = []string{}
+		return nil
 	}
 
-	return documentationBlock, nil
+	origin.Documentation = strings.Split(documentationBlock.Text, "\n")
+
+	return nil
 }
 
-func (c *Crawler) sourceTypeDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
+func (c *Crawler) sourceTypeDefinitionDocumentation(origin *origin) error {
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Location.Url)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer buffer.Close()
 
-	documentationBlock, err := buffer.GetTsCommentBlockAt(origin.Line(), origin.Character())
+	line, character := uint(origin.Definition.Range.Start.Line), uint(origin.Definition.Range.Start.Character)
+	documentationBlock, err := buffer.GetTsCommentBlockAt(line, character)
 
 	switch {
 	case err != nil:
-		return nil, err
+		return err
 	case documentationBlock == nil:
-		return nil, nil
+		origin.Documentation = []string{}
+		return nil
 	}
 
-	return documentationBlock, nil
+	origin.Documentation = strings.Split(documentationBlock.Text, "\n")
+
+	return nil
 }

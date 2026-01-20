@@ -37,7 +37,7 @@ func (c *Crawler) SourceValue() (symbol.Origin, error) {
 		return nil, nil
 	}
 
-	documentation, err := c.sourceDocumentation(origin)
+	/* documentation, err := c.sourceDocumentation(origin)
 
 	switch {
 	case err != nil:
@@ -47,7 +47,7 @@ func (c *Crawler) SourceValue() (symbol.Origin, error) {
 		return origin, nil
 	}
 
-	origin.SetDocumentation(*documentation)
+	origin.SetDocumentation(*documentation) */
 	return origin, nil
 }
 
@@ -72,7 +72,7 @@ func (c *Crawler) SourceType() (symbol.Origin, error) {
 		return nil, nil
 	}
 
-	documentation, err := c.sourceDocumentation(origin)
+	/* documentation, err := c.sourceDocumentation(origin)
 
 	switch {
 	case err != nil:
@@ -82,7 +82,7 @@ func (c *Crawler) SourceType() (symbol.Origin, error) {
 		return origin, nil
 	}
 
-	origin.SetDocumentation(*documentation)
+	origin.SetDocumentation(*documentation) */
 
 	return origin, nil
 }
