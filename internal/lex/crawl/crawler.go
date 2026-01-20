@@ -16,7 +16,7 @@ type Crawler struct {
 	target target
 }
 
-func (c *Crawler) SourceValue() (*symbol.Origin, error) {
+func (c *Crawler) SourceValue() (symbol.Origin, error) {
 	locations, err := c.findDefinitionLocations(c.target.Identifier())
 
 	switch {
@@ -51,7 +51,7 @@ func (c *Crawler) SourceValue() (*symbol.Origin, error) {
 	return origin, nil
 }
 
-func (c *Crawler) SourceType() (*symbol.Origin, error) {
+func (c *Crawler) SourceType() (symbol.Origin, error) {
 	locations, err := c.findTypeDefinitionLocations(c.target.Name(), c.target.ParentName())
 
 	switch {

@@ -7,7 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) sourceDocumentation(origin *symbol.Origin) (*treesitter.TsNode, error) {
+func (c *Crawler) sourceDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
 	switch origin.Type() {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
@@ -22,7 +22,7 @@ func (c *Crawler) sourceDocumentation(origin *symbol.Origin) (*treesitter.TsNode
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.target.Identifier(), origin)
 }
 
-func (c *Crawler) sourceDefinitionDocumentation(origin *symbol.Origin) (*treesitter.TsNode, error) {
+func (c *Crawler) sourceDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
 	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Crawler) sourceDefinitionDocumentation(origin *symbol.Origin) (*treesit
 	return documentationBlock, nil
 }
 
-func (c *Crawler) sourceTypeDefinitionDocumentation(origin *symbol.Origin) (*treesitter.TsNode, error) {
+func (c *Crawler) sourceTypeDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
 	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {

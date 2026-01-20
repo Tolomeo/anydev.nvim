@@ -12,5 +12,5 @@ type Target interface {
 	ParentName() string
 	Identifier() string
 	Name() string
-	Origin() *Origin
+	Origin() Origin
 }
