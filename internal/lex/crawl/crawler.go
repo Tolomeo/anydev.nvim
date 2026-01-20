@@ -8,36 +8,35 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type context interface {
-	Nvim() *nvim.Nvim 
+type target interface {
+	symbol.Target
+	Nvim() *nvim.Nvim
 	Logger() *log.Logger
-	Target() symbol.Target
 }
 
 type Crawler struct {
-	context context
+	target target
 }
 
 func (c *Crawler) SourceValue() (symbol.Source, error) {
-	target := c.context.Target()
-	locations, err := c.findDefinitionLocations(target.Identifier())
+	locations, err := c.findDefinitionLocations(c.target.Identifier())
 
 	switch {
 	case err != nil:
 		return nil, err
 	case locations == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No locations found for '%s' symbol", target.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No locations found for '%s' symbol", c.target.Identifier()))
 		return nil, nil
 	}
 
-	source := symbol.NewValueSource(target.Identifier())
+	source := symbol.NewValueSource(c.target.Identifier())
 	origin, err := c.findOrigin(*locations)
 
 	switch {
 	case err != nil:
 		return nil, err
 	case origin == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", target.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", c.target.Identifier()))
 		return nil, nil
 	default:
 		source.SetOrigin(origin)
@@ -55,7 +54,7 @@ func (c *Crawler) SourceValue() (symbol.Source, error) {
 	case err != nil:
 		return nil, err
 	case documentation == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", target.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", c.target.Identifier()))
 		return source, nil
 	}
 
@@ -64,17 +63,16 @@ func (c *Crawler) SourceValue() (symbol.Source, error) {
 }
 
 func (c *Crawler) SourceType() (symbol.Source, error) {
-	target := c.context.Target()
-	typeName, parentTypeName := target.Name(), target.ParentName()
+	typeName, parentTypeName := c.target.Name(), c.target.ParentName()
 
 	source := symbol.NewTypeSource(typeName, parentTypeName)
-	locations, err := c.findTypeDefinitionLocations(target.Name(), target.ParentName())
+	locations, err := c.findTypeDefinitionLocations(c.target.Name(), c.target.ParentName())
 
 	switch {
 	case err != nil:
 		return nil, err
 	case locations == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No locations found for '%s' type", target.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No locations found for '%s' type", c.target.Identifier()))
 		return nil, nil
 	}
 
@@ -84,7 +82,7 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 	case err != nil:
 		return nil, err
 	case origin == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", target.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No origin found for '%s' symbol", c.target.Identifier()))
 		return nil, nil
 	default:
 		source.SetOrigin(origin)
@@ -96,7 +94,7 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 	case err != nil:
 		return nil, err
 	case documentation == nil:
-		c.context.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
+		c.target.Logger().Warn(fmt.Sprintf("No documentation found for '%s' symbol", source.Identifier()))
 		return source, nil
 	default:
 		source.GetOrigin().SetDocumentation(*documentation)
@@ -105,8 +103,8 @@ func (c *Crawler) SourceType() (symbol.Source, error) {
 	return source, nil
 }
 
-func NewCrawler(context context) *Crawler {
+func NewCrawler(target target) *Crawler {
 	return &Crawler{
-		context: context,
+		target: target,
 	}
 }

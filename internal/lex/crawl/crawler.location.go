@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Loca
 }
 
 func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, 
 }
 
 func (c *Crawler) findTypeDefinitionLocations(typeName string, parentTypeName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err

@@ -44,8 +44,6 @@ import (
 } */
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
-	target := c.context.Target()
-
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: nil,
 		treesitter.VARIABLE_DECLARATION: nil,
@@ -55,28 +53,28 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 			Query: fmt.Sprintf(`(
 				(alias_annotation) @alias
 				(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(target.Identifier())),
+			)`, regexp.QuoteMeta(c.target.Identifier())),
 		},
 		treesitter.CLASS_ANNOTATION: {
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(class_annotation) @class_annotation
 				(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-			)`, regexp.QuoteMeta(target.Identifier())),
+			)`, regexp.QuoteMeta(c.target.Identifier())),
 		},
 		treesitter.FIELD_ANNOTATION: {
 			Language: "luadoc",
 			Query: fmt.Sprintf(`(
 				(field_annotation) @field_annotation
 				(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(target.Name())),
+				)`, regexp.QuoteMeta(c.target.Name())),
 		},
 	}
 }
 
 func (c *Crawler) findOrigin(locations []nvim.Location) (symbol.Origin, error) {
 	for _, location := range locations {
-		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
+		buffer, err := c.target.Nvim().OpenBuffer(location.Url)
 
 		if err != nil {
 			return nil, err
@@ -149,7 +147,7 @@ var requireAssignmentQuery = treesitter.Query{
 }
 
 func (c *Crawler) followModuleRequireAssignment(origin symbol.Origin) (symbol.Origin, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -225,7 +223,7 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 }
 
 func (c *Crawler) followVariableAssignment(origin symbol.Origin) (symbol.Origin, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.target.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err

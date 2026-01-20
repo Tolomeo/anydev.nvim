@@ -19,11 +19,11 @@ func (c *Crawler) sourceDocumentation(origin symbol.Origin) (*treesitter.TsNode,
 		return c.sourceTypeDefinitionDocumentation(origin)
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.context.Target().Identifier(), origin)
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.target.Identifier(), origin)
 }
 
 func (c *Crawler) sourceDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (c *Crawler) sourceDefinitionDocumentation(origin symbol.Origin) (*treesitt
 }
 
 func (c *Crawler) sourceTypeDefinitionDocumentation(origin symbol.Origin) (*treesitter.TsNode, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return nil, err

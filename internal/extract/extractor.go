@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
@@ -26,20 +24,10 @@ type extraction struct {
 }
 
 type extractor struct {
-	targets []Target
+	targets []*target
 	nvim    *nvim.Nvim
-	crawler *crawl.Crawler
-	lexer   *lex.Lexer
 	logger  *log.Logger
 	result  *extraction
-}
-
-func (e *extractor) Target() symbol.Target {
-	return e.targets[len(e.targets)-1]
-}
-
-func (e *extractor) CurrentName() string {
-	return e.Target().Name()
 }
 
 func (e *extractor) Nvim() *nvim.Nvim {
@@ -51,15 +39,96 @@ func (e *extractor) Result() *extraction {
 }
 
 func (e *extractor) Flush() {
-	e.targets = []Target{}
+	e.targets = []*target{}
 	e.result = &extraction{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
 	}
 }
 
-func (e *extractor) Logger() *log.Logger {
-	return e.logger
+func (e *extractor) extractChild(parent symbol.Target, name string) (symbol.Symbol, error) {
+	e.logger.Infof("Beginning the extraction of '%s' . '%s' %s child target", parent.Name(), name, parent.Kind())
+
+	childTarget := e.newChildTarget(parent, name)
+	err := e.extract(childTarget)
+
+	e.logger.Infof("The extraction of '%s' . '%s' %s child target yielded \n<%v>", childTarget.ParentName(), childTarget.Name(), childTarget.Kind(), childTarget.symbol)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if childTarget.symbol == nil {
+		return symbol.NewUnknown(), nil
+	}
+
+	return childTarget.symbol, nil
+}
+
+func (e *extractor) extract(item *target) error {
+	e.logger.Infof("Extracting '%s'", item.Identifier())
+
+	e.targets = append(e.targets, item)
+
+	var err error
+	current := item.crawl
+
+	for {
+		current, err = current()
+
+		e.targets[len(e.targets)-1] = item
+
+		if err != nil {
+			return err
+		}
+
+		if current == nil {
+			e.targets = e.targets[:len(e.targets)-1]
+			return nil
+		}
+	}
+}
+
+func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
+	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
+
+	switch kind {
+	case symbol.TargetKindValue:
+		_, hasSymbol := e.result.Runtime[name]
+		if hasSymbol {
+			return nil
+		}
+		e.result.Runtime[name] = symbol.NewUnknown()
+	case symbol.TargetKindType:
+		_, hasSymbol := e.result.Types[name]
+		if hasSymbol {
+			return nil
+		}
+		e.result.Types[name] = symbol.NewUnknown()
+	}
+
+	target := e.newTarget(kind, name)
+
+	err := e.extract(target)
+
+	if err != nil {
+		return err
+	}
+
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.symbol)
+
+	if target.symbol == nil {
+		return nil
+	}
+
+	switch target.kind {
+	case symbol.TargetKindValue:
+		e.result.Runtime[target.name] = target.symbol
+	case symbol.TargetKindType:
+		e.result.Types[target.name] = target.symbol
+	}
+
+	return nil
 }
 
 func (e *extractor) initLogger(_ Options) {
@@ -105,19 +174,11 @@ func (e *extractor) initNvim(options Options) error {
 	return nil
 }
 
-func (e *extractor) initCrawler(_ Options) {
-	e.crawler = crawl.NewCrawler(e)
-}
-
-func (e *extractor) initLexer(_ Options) {
-	e.lexer = lex.NewLexer(e)
-}
-
 func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		targets: []Target{},
+		targets: []*target{},
 		result: &extraction{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},
@@ -125,10 +186,6 @@ func NewExtractor(options Options) (*extractor, error) {
 	}
 
 	xtractor.initLogger(options)
-
-	xtractor.initCrawler(options)
-
-	xtractor.initLexer(options)
 
 	err := xtractor.initNvim(options)
 

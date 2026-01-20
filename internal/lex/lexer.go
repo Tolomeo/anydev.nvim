@@ -11,36 +11,34 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type context interface {
+type target interface {
+	symbol.Target
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
-	Target() symbol.Target
 	Extract(symbol.TargetKind, string) error
 	ExtractChild(string) (symbol.Symbol, error)
 }
 
 type Lexer struct {
-	context context
+	target target
 }
 
 var lexedCache = cache.NewCache[symbol.Symbol]()
 
 func (l *Lexer) Lex() (symbol.Symbol, error) {
-	target := l.context.Target()
-
 	cacheId := []string{
-		target.Origin().Url(),
-		fmt.Sprintf("%d", target.Origin().Line()),
-		fmt.Sprintf("%d", target.Origin().Character()),
+		l.target.Origin().Url(),
+		fmt.Sprintf("%d", l.target.Origin().Line()),
+		fmt.Sprintf("%d", l.target.Origin().Character()),
 	}
 
 	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
-		fmt.Printf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", target.Identifier(), cacheId)
-		l.context.Logger().Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", target.Identifier(), cacheId))
+		fmt.Printf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", l.target.Identifier(), cacheId)
+		l.target.Logger().Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", l.target.Identifier(), cacheId))
 		return cachedSymbol, nil
 	}
 
-	switch target.Origin().Type() {
+	switch l.target.Origin().Type() {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
@@ -73,11 +71,11 @@ func (l *Lexer) Lex() (symbol.Symbol, error) {
 		return lexed, nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", target.Identifier(), target.Origin())
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.target.Identifier(), l.target.Origin())
 }
 
-func NewLexer(context context) *Lexer {
+func NewLexer(context target) *Lexer {
 	return &Lexer{
-		context: context,
+		target: context,
 	}
 }
