@@ -132,7 +132,7 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 }
 
 func (e *extractor) initLogger(_ Options) {
-	e.logger = log.NewLogger()
+	e.logger = log.NewLogger("")
 }
 
 func (e *extractor) initNvim(options Options) error {

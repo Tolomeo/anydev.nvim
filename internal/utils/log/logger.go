@@ -20,11 +20,12 @@ type log struct {
 }
 
 type Logger struct {
+	prefix string
 	stdOut *stdLog.Logger
 }
 
 func (l *Logger) Log(newLog log) {
-	l.stdOut.Printf("[%s] %s\n", newLog.level, newLog.message)
+	l.stdOut.Printf("%s%s: %s\n", newLog.level, l.prefix, newLog.message)
 }
 
 func (l *Logger) Info(message string) {
@@ -51,12 +52,13 @@ func (l *Logger) Errorf(message string, args ...any) {
 	l.Log(log{level: error, message: fmt.Sprintf(message, args...)})
 }
 
-func (l *Logger) SetPrefix(prefix string) {
-	l.stdOut.SetPrefix(prefix)
-}
+func NewLogger(prefix string) *Logger {
+	if prefix != "" {
+		prefix = fmt.Sprintf("[%s]", prefix)
+	}
 
-func NewLogger() *Logger {
 	return &Logger{
+		prefix: prefix,
 		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}
 }

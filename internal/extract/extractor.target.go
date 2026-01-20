@@ -11,14 +11,15 @@ import (
 )
 
 type target struct {
-	e      *extractor
-	c      *crawl.Crawler
-	l      *lex.Lexer
-	kind   symbol.TargetKind
-	parent symbol.Target
-	name   string
-	source symbol.Source
-	symbol symbol.Symbol
+	extractor *extractor
+	crawler   *crawl.Crawler
+	lexer     *lex.Lexer
+	logger    *log.Logger
+	kind      symbol.TargetKind
+	parent    symbol.Target
+	name      string
+	source    symbol.Source
+	symbol    symbol.Symbol
 }
 
 func (t *target) Kind() symbol.TargetKind {
@@ -50,34 +51,34 @@ func (t *target) Origin() symbol.Origin {
 }
 
 func (t *target) Logger() *log.Logger {
-	return t.e.logger
+	return t.logger
 }
 
 func (t *target) Nvim() *nvim.Nvim {
-	return t.e.Nvim()
+	return t.extractor.Nvim()
 }
 
 func (t *target) Extract(kind symbol.TargetKind, name string) error {
-	return t.e.Extract(kind, name)
+	return t.extractor.Extract(kind, name)
 }
 
 func (t *target) ExtractChild(name string) (symbol.Symbol, error) {
-	return t.e.extractChild(t, name)
+	return t.extractor.extractChild(t, name)
 }
 
 type step func() (step, error)
 
 func (t *target) crawl() (step, error) {
-	t.Logger().Infof("Crawling '%s'", t.Identifier())
+	t.logger.Infof("Crawling '%s'", t.Identifier())
 
 	var err error
 	var source symbol.Source
 
 	switch t.Kind() {
 	case symbol.TargetKindValue:
-		source, err = t.c.SourceValue()
+		source, err = t.crawler.SourceValue()
 	case symbol.TargetKindType:
-		source, err = t.c.SourceType()
+		source, err = t.crawler.SourceType()
 	}
 
 	if err != nil {
@@ -94,9 +95,9 @@ func (t *target) crawl() (step, error) {
 }
 
 func (t *target) lex() (step, error) {
-	t.Logger().Infof("Lexing '%s'", t.Identifier())
+	t.logger.Infof("Lexing '%s'", t.Identifier())
 
-	sym, err := t.l.Lex()
+	sym, err := t.lexer.Lex()
 
 	if err != nil {
 		return nil, err
@@ -109,27 +110,29 @@ func (t *target) lex() (step, error) {
 
 func (e *extractor) newChildTarget(parent symbol.Target, name string) *target {
 	t := &target{
-		e:      e,
-		parent: parent,
-		kind:   parent.Kind(),
-		name:   name,
+		extractor: e,
+		parent:    parent,
+		kind:      parent.Kind(),
+		name:      name,
 	}
 
-	t.c = crawl.NewCrawler(t)
-	t.l = lex.NewLexer(t)
+	t.crawler = crawl.NewCrawler(t)
+	t.lexer = lex.NewLexer(t)
+	t.logger = log.NewLogger(t.Identifier())
 
 	return t
 }
 
 func (e *extractor) newTarget(kind symbol.TargetKind, name string) *target {
 	t := &target{
-		e:    e,
-		kind: kind,
-		name: name,
+		extractor: e,
+		kind:      kind,
+		name:      name,
 	}
 
-	t.c = crawl.NewCrawler(t)
-	t.l = lex.NewLexer(t)
+	t.crawler = crawl.NewCrawler(t)
+	t.lexer = lex.NewLexer(t)
+	t.logger = log.NewLogger(t.Identifier())
 
 	return t
 }
