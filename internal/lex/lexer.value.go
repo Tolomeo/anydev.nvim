@@ -220,7 +220,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 	}
 
 	function := symbol.NewFunction()
-	function.Documentation = origin.Documentation()
+	// function.Documentation = origin.Documentation()
 
 	for _, capture := range *match {
 		switch capture.Id {
@@ -237,7 +237,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 		}
 	}
 
-	annotations, err := l.lexAtAnnotations(function.Documentation)
+	annotations, err := l.lexAtAnnotations(origin.Documentation())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
@@ -322,7 +322,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 		functionOverload := symbol.NewFunctionOverload()
 		functionOverload.Generics = overloadFunctionType.Generics
 		functionOverload.Arguments = overloadFunctionType.Arguments
-		functionOverload.Documentation = overloadFunctionType.Documentation
+		// functionOverload.Documentation = overloadFunctionType.Documentation
 		functionOverload.Returns = overloadFunctionType.Returns
 
 		function.Overloads = append(function.Overloads, *functionOverload)
@@ -424,22 +424,11 @@ func (l *Lexer) lexTableValue() (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range tableFields {
-		fieldValue, err := l.target.ExtractChild(fieldName)
+		err := l.target.ExtractChild(table, fieldName)
 
 		if err != nil {
 			return nil, err
 		}
-
-		/* annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
-		tableField.Private = annotations.AtPrivate
-		tableField.Protected = annotations.AtProtected
-		tableField.Package = annotations.AtPackage
-		tableField.Deprecated = annotations.AtDeprecated
-		tableField.Protected = annotations.AtProtected */
-		table.Fields = append(table.Fields, symbol.TableField{
-			Name:  fieldName,
-			Value: fieldValue,
-		})
 	}
 
 	return table, nil

@@ -11,7 +11,7 @@ type Function struct {
 	Kind          string             `json:"kind" yaml:"kind" mapstructure:"kind"`
 	Access        *string            `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
 	Arguments     []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
-	Documentation Documentation      `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+	// Documentation Documentation      `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 	Generics      []FunctionGeneric  `json:"generics" yaml:"generics" mapstructure:"generics"`
 	Name          *string            `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 	Overloads     []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`

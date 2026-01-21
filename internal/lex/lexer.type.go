@@ -35,8 +35,6 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 
 	class := symbol.NewTable()
 	class.Name = className
-	// TODO: the documentation is gathered by the annotations lexer
-	class.Documentation = l.target.Origin().Documentation()
 
 	// fmt.Println(name)
 	classFields, err := l.target.Nvim().GetTypeCompletion(className)
@@ -47,22 +45,11 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		fieldValue, err := l.target.ExtractChild(fieldName)
+		err := l.target.ExtractChild(class, fieldName)
 
 		if err != nil {
 			return nil, err
 		}
-
-		/* annotations, err := l.lexAtAnnotations(tableFieldSource.GetOrigin().DefinitionLines())
-		tableField.Private = annotations.AtPrivate
-		tableField.Protected = annotations.AtProtected
-		tableField.Package = annotations.AtPackage
-		tableField.Deprecated = annotations.AtDeprecated
-		tableField.Protected = annotations.AtProtected */
-		class.Fields = append(class.Fields, symbol.TableField{
-			Name:  fieldName,
-			Value: fieldValue,
-		})
 	}
 
 	return class, nil

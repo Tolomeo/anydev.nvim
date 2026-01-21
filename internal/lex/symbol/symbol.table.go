@@ -3,8 +3,8 @@ package symbol
 const TableKind string = "table"
 
 type Table struct {
-	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
-	Fields        []TableField  `json:"fields" yaml:"fields" mapstructure:"fields"`
+	// Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+	Fields        []Symbol      `json:"fields" yaml:"fields" mapstructure:"fields"`
 	Indexes       []TableIndex  `json:"indexes,omitempty" yaml:"indexes,omitempty" mapstructure:"indexes,omitempty"`
 	Kind          string        `json:"kind" yaml:"kind" mapstructure:"kind"`
 	Name          string        `json:"name" yaml:"name" mapstructure:"name"`
@@ -16,12 +16,8 @@ func (t *Table) GetKind() string {
 
 var _ Type = (*Table)(nil)
 
-type TableField struct {
-	Meta
-	Name     string `json:"name" yaml:"name" mapstructure:"name"`
-	Optional bool   `json:"optional" yaml:"optional" mapstructure:"optional"`
-	Value    Type   `json:"value" yaml:"value" mapstructure:"value"`
-}
+// TODO recover field optional
+type TableField Symbol
 
 type TableIndex struct {
 	Key      TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
@@ -36,7 +32,7 @@ type TableIndexValue Symbol
 func NewTable() *Table {
 	return &Table{
 		Kind:    TableKind,
-		Fields:  []TableField{},
+		Fields:  []Symbol{},
 		Indexes: []TableIndex{},
 	}
 }

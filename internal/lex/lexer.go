@@ -16,7 +16,7 @@ type target interface {
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	Extract(symbol.TargetKind, string) error
-	ExtractChild(string) (symbol.Type, error)
+	ExtractChild(*symbol.Table, string) error
 }
 
 type Lexer struct {

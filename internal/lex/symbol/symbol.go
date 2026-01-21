@@ -1,9 +1,9 @@
 package symbol
 
 type Symbol struct {
-	Name string `json:"name" yaml:"name" mapstructure:"name"`
 	Meta
-	Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 	Type Type `json:"type" yaml:"type" mapstructure:"type"`
 }
 

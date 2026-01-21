@@ -1196,16 +1196,16 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Tabl
 			switch capture.Id {
 
 			case "table.field.name":
-				table.Fields = append(table.Fields, *symbol.NewTableField())
-				table.Fields[len(table.Fields)-1].Name = capture.Node.Text
+				table.Fields = append(table.Fields, symbol.NewSymbol(capture.Node.Text, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown()))
 			case "table.field.optional":
-				table.Fields[len(table.Fields)-1].Optional = true
+				// TODO: recover
+				// table.Fields[len(table.Fields)-1].Optional = true
 			case "table.field.value":
-				lexedValue, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+				lexedType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
 				if err != nil {
 					return nil, err
 				}
-				table.Fields[len(table.Fields)-1].Value = lexedValue
+				table.Fields[len(table.Fields)-1].Type = lexedType
 
 			case "table.index.key":
 				table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
@@ -1223,8 +1223,8 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Tabl
 				}
 				table.Indexes[len(table.Indexes)-1].Value = lexedValue
 
-			case "table.documentation":
-				table.Documentation = []string{capture.Node.Text}
+			/* case "table.documentation":
+				table.Documentation = []string{capture.Node.Text} */
 
 			}
 		}

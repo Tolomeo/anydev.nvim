@@ -62,8 +62,23 @@ func (t *target) Extract(kind symbol.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
 }
 
-func (t *target) ExtractChild(name string) (symbol.Type, error) {
-	return t.extractor.extractChild(t, name)
+func (t *target) ExtractChild(parent *symbol.Table, name string) error {
+	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.Kind())
+
+	childTarget := t.extractor.newChildTarget(t, name)
+	err := t.extractor.extract(childTarget)
+
+	if err != nil {
+		return err
+	}
+
+	if childTarget.symbol == nil {
+		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown()))
+		return nil
+	}
+
+	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Origin().Documentation(), childTarget.symbol))
+	return nil
 }
 
 type step func() (step, error)
@@ -86,11 +101,9 @@ func (t *target) crawl() (step, error) {
 	}
 
 	if origin == nil {
-		t.logger.Warn("Crawling complete with no origin found")
+		t.logger.Warn("Crawling complete, but no origin found")
 		return nil, nil
 	}
-
-	fmt.Printf("\n%+v\n", origin)
 
 	t.logger.Info("Crawling complete")
 

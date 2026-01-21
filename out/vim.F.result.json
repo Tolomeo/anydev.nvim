@@ -1,28 +1,23 @@
 {
     "runtime": {
         "vim.F": {
-            "documentation": [],
-            "fields": [
-                {
-                    "deprecated": false,
-                    "name": "if_nil",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "...",
-                                "optional": false,
-                                "type": {
-                                    "kind": "reference",
-                                    "value": "T"
-                                }
-                            }
-                        ],
+            "private": false,
+            "protected": false,
+            "package": false,
+            "deprecated": false,
+            "name": "vim.F",
+            "documentation": [
+                "",
+                ""
+            ],
+            "type": {
+                "fields": [
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "if_nil",
                         "documentation": [
                             " Returns the first argument which is not nil.",
                             "",
@@ -42,189 +37,192 @@
                             "@param ... T",
                             "@return T"
                         ],
-                        "generics": [
-                            {
-                                "name": "T",
-                                "types": []
-                            }
-                        ],
-                        "kind": "function",
-                        "name": "if_nil",
-                        "returns": [
-                            {
-                                "name": "",
-                                "type": {
-                                    "kind": "reference",
-                                    "value": "T"
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "...",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "reference",
+                                        "value": "T"
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                },
-                {
-                    "deprecated": false,
-                    "name": "nil_wrap",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "fn",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                            ],
+                            "generics": [
+                                {
+                                    "name": "T",
+                                    "types": []
                                 }
-                            }
-                        ],
+                            ],
+                            "name": "if_nil",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "reference",
+                                        "value": "T"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "nil_wrap",
                         "documentation": [
                             " Wrap a function to return nil if it fails, otherwise the value"
                         ],
-                        "generics": [],
-                        "kind": "function",
-                        "name": "nil_wrap",
-                        "returns": []
-                    }
-                },
-                {
-                    "deprecated": false,
-                    "name": "npcall",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "fn",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "fn",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
                                 }
-                            },
-                            {
-                                "name": "...",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            }
-                        ],
+                            ],
+                            "generics": [],
+                            "name": "nil_wrap",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "npcall",
                         "documentation": [
                             " Nil pcall."
                         ],
-                        "generics": [],
-                        "kind": "function",
-                        "name": "npcall",
-                        "returns": []
-                    }
-                },
-                {
-                    "deprecated": false,
-                    "name": "ok_or_nil",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "status",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "fn",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "...",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
                                 }
-                            },
-                            {
-                                "name": "...",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
-                                }
-                            }
-                        ],
+                            ],
+                            "generics": [],
+                            "name": "npcall",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "ok_or_nil",
                         "documentation": [
                             " Use in combination with pcall"
                         ],
-                        "generics": [],
-                        "kind": "function",
-                        "name": "ok_or_nil",
-                        "returns": []
-                    }
-                },
-                {
-                    "deprecated": false,
-                    "name": "pack_len",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "...",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "status",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "...",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
                                 }
-                            }
-                        ],
+                            ],
+                            "generics": [],
+                            "name": "ok_or_nil",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "pack_len",
                         "documentation": [
                             " like {...} except preserve the length explicitly"
                         ],
-                        "generics": [],
-                        "kind": "function",
-                        "name": "pack_len",
-                        "returns": []
-                    }
-                },
-                {
-                    "deprecated": false,
-                    "name": "unpack_len",
-                    "optional": false,
-                    "package": false,
-                    "private": false,
-                    "protected": false,
-                    "value": {
-                        "access": "class",
-                        "arguments": [
-                            {
-                                "name": "t",
-                                "optional": false,
-                                "type": {
-                                    "documentation": [],
-                                    "kind": "unknown"
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "...",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
                                 }
-                            }
-                        ],
+                            ],
+                            "generics": [],
+                            "name": "pack_len",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "private": false,
+                        "protected": false,
+                        "package": false,
                         "deprecated": false,
+                        "name": "unpack_len",
                         "documentation": [
                             " like unpack() but use the length set by F.pack_len if present"
                         ],
-                        "generics": [],
-                        "kind": "function",
-                        "name": "unpack_len",
-                        "returns": []
+                        "type": {
+                            "kind": "function",
+                            "access": "class",
+                            "arguments": [
+                                {
+                                    "name": "t",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "unpack_len",
+                            "returns": []
+                        }
                     }
-                }
-            ],
-            "kind": "table",
-            "name": "F"
+                ],
+                "kind": "table",
+                "name": "F"
+            }
         }
     },
     "types": {}
