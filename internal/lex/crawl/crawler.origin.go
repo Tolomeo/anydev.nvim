@@ -10,15 +10,15 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type origin struct {
+type locationOrigin struct {
 	Location      nvim.Location
 	Definition    treesitter.TsNode
-	Documentation []string
+	Documentation treesitter.TsNode
 }
 
-type targetOrigin []origin
+type targetOrigin []locationOrigin
 
-func (o *targetOrigin) last() origin {
+func (o *targetOrigin) last() locationOrigin {
 	return (*o)[len(*o)-1]
 }
 
@@ -42,26 +42,19 @@ func (o *targetOrigin) Type() string {
 	return o.last().Definition.Type
 }
 
-func (o *targetOrigin) DefinitionText() string {
-	return o.last().Definition.Text
-}
-
-func (o *targetOrigin) DefinitionLines() []string {
+func (o *targetOrigin) Definition() []string {
 	return strings.Split(o.last().Definition.Text, "\n")
 }
 
-func (o *targetOrigin) DocumentationText() string {
-	return strings.Join(o.last().Documentation, "\n")
-}
+func (o *targetOrigin) Documentation() []string {
+	docs := []string{}
 
-func (o *targetOrigin) DocumentationLines() []string {
-	return o.last().Documentation
-}
+	for i := len(*o) - 1; i >= 0; i-- {
+		docLines := strings.Split((*o)[i].Documentation.Text, "\n")
+		docs = append(docs, docLines...)
+	}
 
-func (o *targetOrigin) SetDocumentation(documentation treesitter.TsNode) {
-	last := o.last()
-	last.Documentation = strings.Split(documentation.Text, "\n")
-	(*o)[len(*o)-1] = last
+	return docs
 }
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
@@ -116,7 +109,7 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*targetOrigin, error) {
 			continue
 		}
 
-		origin := origin{
+		origin := locationOrigin{
 			Location:   location,
 			Definition: queryMatch.Node,
 		}
@@ -181,7 +174,7 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.DefinitionLines())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
 		return false, err
@@ -201,7 +194,7 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Definition())
 	}
 
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
@@ -216,7 +209,7 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 	case err != nil:
 		return false, err
 	case moduleOrigin == nil:
-		return false, fmt.Errorf("Error following require statement '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error following require statement '%s'", origin.Definition())
 	}
 
 	origin.add(moduleOrigin)
@@ -259,7 +252,7 @@ func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.DefinitionLines())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
 		return false, err
@@ -289,7 +282,7 @@ func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.DefinitionLines())
+		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Definition())
 	}
 
 	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)

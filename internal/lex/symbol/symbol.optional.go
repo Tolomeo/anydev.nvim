@@ -1,8 +1,21 @@
 package symbol
 
-func NewOptional(typ *Symbol) *Optional {
+const OptionalKind string = "optional"
+
+type Optional struct {
+	Kind string `json:"kind" yaml:"kind" mapstructure:"kind"`
+	Type Type   `json:"type" yaml:"type" mapstructure:"type"`
+}
+
+func (o *Optional) GetKind() string {
+	return o.Kind
+}
+
+var _ Type = (*Optional)(nil)
+
+func NewOptional(type_ Type) *Optional {
 	return &Optional{
-		Kind: OptionalKindOptional,
-		Type: typ,
+		Kind: OptionalKind,
+		Type: type_,
 	}
 }

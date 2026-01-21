@@ -16,16 +16,16 @@ type target interface {
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	Extract(symbol.TargetKind, string) error
-	ExtractChild(string) (symbol.Symbol, error)
+	ExtractChild(string) (symbol.Type, error)
 }
 
 type Lexer struct {
 	target target
 }
 
-var lexedCache = cache.NewCache[symbol.Symbol]()
+var lexedCache = cache.NewCache[symbol.Type]()
 
-func (l *Lexer) Lex() (symbol.Symbol, error) {
+func (l *Lexer) Lex() (symbol.Type, error) {
 	cacheId := []string{
 		l.target.Origin().Url(),
 		fmt.Sprintf("%d", l.target.Origin().Line()),

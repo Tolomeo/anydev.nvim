@@ -19,7 +19,7 @@ type target struct {
 	parent    symbol.Target
 	name      string
 	origin    symbol.Origin
-	symbol    symbol.Symbol
+	symbol    symbol.Type
 }
 
 func (t *target) Kind() symbol.TargetKind {
@@ -62,34 +62,39 @@ func (t *target) Extract(kind symbol.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
 }
 
-func (t *target) ExtractChild(name string) (symbol.Symbol, error) {
+func (t *target) ExtractChild(name string) (symbol.Type, error) {
 	return t.extractor.extractChild(t, name)
 }
 
 type step func() (step, error)
 
 func (t *target) crawl() (step, error) {
-	t.logger.Infof("Crawling '%s'", t.Identifier())
+	t.logger.Info("Crawling")
 
 	var err error
-	var source symbol.Origin
+	var origin symbol.Origin
 
 	switch t.Kind() {
 	case symbol.TargetKindValue:
-		source, err = t.crawler.SourceValue()
+		origin, err = t.crawler.SourceValue()
 	case symbol.TargetKindType:
-		source, err = t.crawler.SourceType()
+		origin, err = t.crawler.SourceType()
 	}
 
 	if err != nil {
 		return nil, err
 	}
 
-	if source == nil {
+	if origin == nil {
+		t.logger.Warn("Crawling complete with no origin found")
 		return nil, nil
 	}
 
-	t.origin = source
+	fmt.Printf("\n%+v\n", origin)
+
+	t.logger.Info("Crawling complete")
+
+	t.origin = origin
 
 	return t.lex, nil
 }

@@ -14,10 +14,10 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	classOrigin := l.target.Origin()
 
 	classPatchedName := strings.ReplaceAll(className, ".", "_")
-	classDefinitionText := classOrigin.DefinitionText()
+	classDefinitionText := strings.Join(classOrigin.Definition(), "\n")
 	classPatchedDefinitionText := strings.Replace(classDefinitionText, className, classPatchedName, 1)
 
-	classDocumentationText := classOrigin.DocumentationText()
+	classDocumentationText := strings.Join(classOrigin.Documentation(), "\n")
 	classPatchedDocumentationText := strings.Replace(classDocumentationText, classDefinitionText, classPatchedDefinitionText, 1)
 	classPatchedDocumentationLines := strings.Split(classPatchedDocumentationText, "\n")
 
@@ -36,7 +36,7 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	class := symbol.NewTable()
 	class.Name = className
 	// TODO: the documentation is gathered by the annotations lexer
-	class.Documentation = l.target.Origin().DocumentationLines()
+	class.Documentation = l.target.Origin().Documentation()
 
 	// fmt.Println(name)
 	classFields, err := l.target.Nvim().GetTypeCompletion(className)
@@ -68,8 +68,8 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	return class, nil
 }
 
-func (l *Lexer) lexFieldType() (symbol.Symbol, error) {
-	annotations, err := l.lexAtAnnotations(l.target.Origin().DocumentationLines())
+func (l *Lexer) lexFieldType() (symbol.Type, error) {
+	annotations, err := l.lexAtAnnotations(l.target.Origin().Documentation())
 
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func (l *Lexer) lexFieldType() (symbol.Symbol, error) {
 	return lexedField, nil
 }
 
-func (l *Lexer) lexAliasType() (symbol.Symbol, error) {
+func (l *Lexer) lexAliasType() (symbol.Type, error) {
 	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
@@ -99,10 +99,10 @@ func (l *Lexer) lexAliasType() (symbol.Symbol, error) {
 	origin := l.target.Origin()
 
 	patchedName := strings.ReplaceAll(name, ".", "_")
-	definitionText := origin.DefinitionText()
+	definitionText := strings.Join(origin.Definition(), "\n")
 	patchedDefinitionText := strings.Replace(definitionText, name, patchedName, 1)
 
-	documentationText := origin.DocumentationText()
+	documentationText := strings.Join(origin.Documentation(), "\n")
 	patchedDocumentationText :=
 		strings.Replace(documentationText, definitionText, patchedDefinitionText, 1)
 	patchedDocumentationLines := strings.Split(patchedDocumentationText, "\n")

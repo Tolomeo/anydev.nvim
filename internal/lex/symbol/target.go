@@ -1,5 +1,14 @@
 package symbol
 
+type Origin interface {
+	Url() string
+	Line() uint
+	Character() uint
+	Type() string
+	Definition() []string
+	Documentation() []string
+}
+
 type TargetKind string
 
 const (

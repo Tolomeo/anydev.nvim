@@ -5,6 +5,8 @@ import (
 	"regexp"
 )
 
+type Documentation []string
+
 var eCommentContent = regexp.MustCompile(`^[ \t]*-{2,3}(.*)$`)
 
 func (d *Documentation) MarshalJSON() ([]byte, error) {

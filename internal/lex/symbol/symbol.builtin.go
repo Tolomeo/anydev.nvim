@@ -1,8 +1,37 @@
 package symbol
 
-func newBuiltinType(value BuiltinValue) *Builtin {
+const BuiltinValueAny string = "any"
+const BuiltinValueBoolean string = "boolean"
+const BuiltinValueFunction string = "function"
+const BuiltinValueInteger string = "integer"
+const BuiltinValueLightuserdata string = "lightuserdata"
+const BuiltinValueNil string = "nil"
+const BuiltinValueNumber string = "number"
+const BuiltinValueString string = "string"
+const BuiltinValueTable string = "table"
+const BuiltinValueThread string = "thread"
+const BuiltinValueUserdata string = "userdata"
+const BuiltinValueVoid string = "void"
+
+// https://luals.github.io/wiki/annotations/#documenting-types
+type Builtin struct {
+	Kind  string `json:"kind" yaml:"kind" mapstructure:"kind"`
+	Value string `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+func (b *Builtin) GetKind() string {
+	return b.Kind
+}
+
+var _ Type = (*Builtin)(nil)
+
+type BuiltinKind string
+
+type BuiltinValue string
+
+func newBuiltinType(value string) *Builtin {
 	return &Builtin{
-		Kind:  BuiltinKindBuiltin,
+		Kind:  "builtin",
 		Value: value,
 	}
 }

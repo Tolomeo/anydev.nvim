@@ -1,14 +1,21 @@
 package symbol
 
-func NewUnion(types []Symbol) *Union {
-	unionTypes := []UnionTypesElem{}
+const UnionKind string = "union"
 
-	for _, typ := range types {
-		unionTypes = append(unionTypes, typ)
-	}
+type Union struct {
+	Kind  string `json:"kind" yaml:"kind" mapstructure:"kind"`
+	Types []Type `json:"types" yaml:"types" mapstructure:"types"`
+}
 
+func (u *Union) GetKind() string {
+	return u.Kind
+}
+
+var _ Type = (*Union)(nil)
+
+func NewUnion(types []Type) *Union {
 	return &Union{
-		Kind:  UnionKindUnion,
-		Types: unionTypes,
+		Kind:  UnionKind,
+		Types: types,
 	}
 }

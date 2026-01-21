@@ -9,7 +9,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (l *Lexer) lexValue() (symbol.Symbol, error) {
+func (l *Lexer) lexValue() (symbol.Type, error) {
 	buffer, err := l.target.Nvim().NewBuffer()
 
 	if err != nil {
@@ -18,7 +18,7 @@ func (l *Lexer) lexValue() (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	sourceDefinition := l.target.Origin().DefinitionLines()
+	sourceDefinition := l.target.Origin().Definition()
 	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {
@@ -194,7 +194,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.DefinitionLines())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -220,7 +220,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 	}
 
 	function := symbol.NewFunction()
-	function.Documentation = origin.DocumentationLines()
+	function.Documentation = origin.Documentation()
 
 	for _, capture := range *match {
 		switch capture.Id {
@@ -245,7 +245,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 
 	for _, genericAnnotation := range annotations.AtGenerics {
 		genericName := genericAnnotation.Name
-		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (symbol.Symbol, error) {
+		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (symbol.Type, error) {
 			return l.lexTypeAnnotation(genericType)
 		})
 
@@ -383,7 +383,7 @@ func (l *Lexer) lexTableValue() (*symbol.Table, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.DefinitionLines())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -460,7 +460,7 @@ var metaQuery = treesitter.Query{
 	) @assignment`,
 }
 
-func (l *Lexer) lexMetaValue() (symbol.Symbol, error) {
+func (l *Lexer) lexMetaValue() (symbol.Type, error) {
 	origin := l.target.Origin()
 	buffer, err := l.target.Nvim().NewBuffer()
 
@@ -470,7 +470,7 @@ func (l *Lexer) lexMetaValue() (symbol.Symbol, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.DefinitionLines())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
 		return nil, err
@@ -486,9 +486,11 @@ func (l *Lexer) lexMetaValue() (symbol.Symbol, error) {
 	}
 
 	unknown := symbol.NewUnknown()
-	unknown.Documentation = origin.DocumentationLines()
+	unknown.Documentation = origin.Documentation()
 
-	annotations, err := l.lexAtAnnotations(origin.DocumentationLines())
+	fmt.Print(origin.Documentation())
+
+	annotations, err := l.lexAtAnnotations(origin.Documentation())
 
 	switch {
 	case err != nil:

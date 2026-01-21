@@ -46,7 +46,7 @@ func (e *extractor) Flush() {
 	}
 }
 
-func (e *extractor) extractChild(parent symbol.Target, name string) (symbol.Symbol, error) {
+func (e *extractor) extractChild(parent symbol.Target, name string) (symbol.Type, error) {
 	e.logger.Infof("Beginning the extraction of '%s' . '%s' %s child target", parent.Name(), name, parent.Kind())
 
 	childTarget := e.newChildTarget(parent, name)
@@ -98,13 +98,15 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		if hasSymbol {
 			return nil
 		}
-		e.result.Runtime[name] = symbol.NewUnknown()
+		e.result.Runtime[name] = symbol.Symbol{
+			Name: name,
+		}
 	case symbol.TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			return nil
 		}
-		e.result.Types[name] = symbol.NewUnknown()
+		e.result.Types[name] = symbol.NewSymbol(name, symbol.NewUnknown())
 	}
 
 	target := e.newTarget(kind, name)
@@ -123,9 +125,9 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 
 	switch target.kind {
 	case symbol.TargetKindValue:
-		e.result.Runtime[target.name] = target.symbol
+		e.result.Runtime[target.name] = symbol.NewSymbol(name, target.symbol)
 	case symbol.TargetKindType:
-		e.result.Types[target.name] = target.symbol
+		e.result.Types[target.name] = symbol.NewSymbol(name, target.symbol)
 	}
 
 	return nil

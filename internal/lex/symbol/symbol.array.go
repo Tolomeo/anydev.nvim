@@ -1,8 +1,24 @@
 package symbol
 
-func NewArray(items Symbol) *Array {
+const arrayKind string = "array"
+
+type Array struct {
+	Kind  string  `json:"kind" yaml:"kind" mapstructure:"kind"`
+	Items Type `json:"items" yaml:"items" mapstructure:"items"`
+}
+
+// Kind implements Type.
+func (a *Array) GetKind() string {
+	return a.Kind
+}
+
+var _ Type = (*Array)(nil)
+
+type ArrayItems Symbol
+
+func NewArray(items Type) *Array {
 	return &Array{
-		Kind:  ArrayKindArray,
+		Kind:  arrayKind,
 		Items: items,
 	}
 }

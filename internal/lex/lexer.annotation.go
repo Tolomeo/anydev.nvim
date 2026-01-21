@@ -887,7 +887,7 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Optional, error) {
+func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	switch {
@@ -906,7 +906,7 @@ func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.Buffer, source string) (*
 				return nil, err
 			}
 
-			return symbol.NewOptional(&optionalType), nil
+			return symbol.NewOptional(optionalType), nil
 		}
 	}
 
@@ -1049,7 +1049,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, erro
 	return table, nil
 }
 
-func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Symbol {
+func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Type {
 	switch source {
 	case "void":
 		return symbol.NewVoid()
@@ -1257,7 +1257,7 @@ func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.Buffer, source string) (*sym
 		return nil, nil
 	}
 
-	unionTypes := []symbol.Symbol{}
+	unionTypes := []symbol.Type{}
 
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
@@ -1270,10 +1270,6 @@ func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.Buffer, source string) (*sym
 
 			// Flattening nested unions
 			switch t := lexedType.(type) {
-			case symbol.Union:
-				for _, lexedUnionType := range t.Types {
-					unionTypes = append(unionTypes, lexedUnionType)
-				}
 			case *symbol.Union:
 				for _, lexedUnionType := range t.Types {
 					unionTypes = append(unionTypes, lexedUnionType)
@@ -1303,7 +1299,7 @@ var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Symbol, error) {
+func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
@@ -1414,7 +1410,7 @@ func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.Buffer, source strin
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Symbol, error) {
+func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Type, error) {
 	source := strings.TrimSpace(typ.Name)
 	builtinType := l.lexBuiltinTypeAnnotation(strings.TrimSpace(source))
 
