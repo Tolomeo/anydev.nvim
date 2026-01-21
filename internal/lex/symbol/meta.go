@@ -11,49 +11,49 @@ type WithMeta interface {
 	SetPackage(bool)
 }
 
-type withMeta struct {
+type Meta struct {
 	Private    bool `json:"private" yaml:"private"`
 	Protected  bool `json:"protected" yaml:"protected"`
 	Package    bool `json:"package" yaml:"package"`
 	Deprecated bool `json:"deprecated" yaml:"deprecated"`
 }
 
-func (s withMeta) GetDeprecated() bool {
+func (s Meta) GetDeprecated() bool {
 	return s.Deprecated
 }
 
-func (s withMeta) GetPackage() bool {
+func (s Meta) GetPackage() bool {
 	return s.Package
 }
 
-func (s withMeta) GetPrivate() bool {
+func (s Meta) GetPrivate() bool {
 	return s.Private
 }
 
-func (s withMeta) GetProtected() bool {
+func (s Meta) GetProtected() bool {
 	return s.Protected
 }
 
-func (s withMeta) SetDeprecated(v bool) {
+func (s Meta) SetDeprecated(v bool) {
 	s.Deprecated = v
 }
 
-func (s withMeta) SetPackage(v bool) {
+func (s Meta) SetPackage(v bool) {
 	s.Package = v
 	s.SetPrivate(!v)
 	s.SetProtected(!v)
 }
 
-func (s withMeta) SetPrivate(v bool) {
+func (s Meta) SetPrivate(v bool) {
 	s.Private = v
 	s.SetPackage(!v)
 	s.SetProtected(!v)
 }
 
-func (s withMeta) SetProtected(v bool) {
+func (s Meta) SetProtected(v bool) {
 	s.Protected = v
 	s.SetPackage(!v)
 	s.SetPrivate(!v)
 }
 
-var _ WithMeta = (*withMeta)(nil)
+var _ WithMeta = (*Meta)(nil)

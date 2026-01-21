@@ -17,7 +17,7 @@ func (t *Table) GetKind() string {
 var _ Type = (*Table)(nil)
 
 type TableField struct {
-	withMeta
+	Meta
 	Name     string `json:"name" yaml:"name" mapstructure:"name"`
 	Optional bool   `json:"optional" yaml:"optional" mapstructure:"optional"`
 	Value    Type   `json:"value" yaml:"value" mapstructure:"value"`

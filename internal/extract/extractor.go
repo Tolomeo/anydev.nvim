@@ -106,7 +106,7 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		if hasSymbol {
 			return nil
 		}
-		e.result.Types[name] = symbol.NewSymbol(name, symbol.NewUnknown())
+		e.result.Types[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
 	}
 
 	target := e.newTarget(kind, name)
@@ -125,9 +125,9 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 
 	switch target.kind {
 	case symbol.TargetKindValue:
-		e.result.Runtime[target.name] = symbol.NewSymbol(name, target.symbol)
+		e.result.Runtime[target.name] = symbol.NewSymbol(name, symbol.Meta{}, target.Origin().Documentation(), target.symbol)
 	case symbol.TargetKindType:
-		e.result.Types[target.name] = symbol.NewSymbol(name, target.symbol)
+		e.result.Types[target.name] = symbol.NewSymbol(name, symbol.Meta{}, target.Origin().Documentation(), target.symbol)
 	}
 
 	return nil

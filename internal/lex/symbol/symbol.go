@@ -1,14 +1,17 @@
 package symbol
 
 type Symbol struct {
-	withMeta
-	Name string
-	Type Type
+	Name string `json:"name" yaml:"name" mapstructure:"name"`
+	Meta
+	Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
+	Type Type `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-func NewSymbol(name string, type_ Type) Symbol {
+func NewSymbol(name string, meta Meta, documentation Documentation, type_ Type) Symbol {
 	return Symbol{
-		Name: name,
-		Type: type_,
+		Name:          name,
+		Meta:          meta,
+		Documentation: documentation,
+		Type:          type_,
 	}
 }
