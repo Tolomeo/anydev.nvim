@@ -111,7 +111,7 @@ func (t *extractorTarget) getOrigins() (step, error) {
 
 	t.logger.Info("Crawling complete")
 
-	t.Target().SetOrigin(origin)
+	t.Target().SetOrigins(origin)
 
 	return t.getMeta, nil
 }

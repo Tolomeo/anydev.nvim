@@ -2,21 +2,6 @@ package symbol
 
 import "fmt"
 
-type Origin interface {
-	Url() string
-	Line() uint
-	Character() uint
-	Type() string
-	Definition() []string
-	Documentation() []string
-}
-
-type Origins interface {
-	Origin
-	First() Origin
-	Last() Origin
-}
-
 type TargetKind string
 
 const (
@@ -24,21 +9,13 @@ const (
 	TargetKindType  TargetKind = "type"
 )
 
-type ITarget interface {
-	Kind() TargetKind
-	ParentName() string
-	Identifier() string
-	Name() string
-	Origin() Origins
-}
-
 type Target struct {
-	kind   TargetKind
-	parent *Target
-	name   string
-	origin Origins
-	meta   Meta
-	type_  Type
+	kind    TargetKind
+	parent  *Target
+	name    string
+	origins *Origins
+	meta    Meta
+	type_   Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -65,12 +42,16 @@ func (t *Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *Target) Origin() Origins {
-	return t.origin
+/* func (t *Target) Origins() *Origins {
+	return t.origins
+} */
+
+func (t *Target) SetOrigins(o *Origins) {
+	t.origins = o
 }
 
-func (t *Target) SetOrigin(o Origins) {
-	t.origin = o
+func (t *Target) Origin() *Origin {
+	return t.origins.Last()
 }
 
 func (t *Target) Meta() Meta {
@@ -92,8 +73,8 @@ func (t *Target) SetType(ty Type) {
 func (t *Target) NewChild(name string) *Target {
 	return &Target{
 		parent: t,
-		kind: t.kind,
-		name: name,
+		kind:   t.kind,
+		name:   name,
 	}
 }
 

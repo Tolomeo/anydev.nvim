@@ -3,81 +3,12 @@ package crawl
 import (
 	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
-
-type locationOrigin struct {
-	location      nvim.Location
-	definition    treesitter.TsNode
-	documentation treesitter.TsNode
-}
-
-func (l locationOrigin) Url() string {
-	return l.location.Url
-}
-
-func (l locationOrigin) Line() uint {
-	return uint(l.location.TargetRange.Start.Line)
-}
-
-func (l locationOrigin) Character() uint {
-	return uint(l.location.TargetRange.Start.Character)
-}
-
-func (l locationOrigin) Type() string {
-	return l.definition.Type
-}
-
-func (l locationOrigin) Definition() []string {
-	return strings.Split(l.definition.Text, "\n")
-}
-
-func (l locationOrigin) Documentation() []string {
-	return strings.Split(l.documentation.Text, "\n")
-}
-
-type targetOrigin []locationOrigin
-
-func (o *targetOrigin) Last() symbol.Origin {
-	return (*o)[len(*o)-1]
-}
-
-func (o *targetOrigin) First() symbol.Origin {
-	return (*o)[0]
-}
-
-func (o *targetOrigin) add(os *targetOrigin) {
-	*o = append(*o, *os...)
-}
-
-func (o *targetOrigin) Url() string {
-	return o.Last().Url()
-}
-
-func (o *targetOrigin) Line() uint {
-	return o.Last().Line()
-}
-
-func (o *targetOrigin) Character() uint {
-	return o.Last().Character()
-}
-
-func (o *targetOrigin) Type() string {
-	return o.Last().Type()
-}
-
-func (o *targetOrigin) Definition() []string {
-	return o.Last().Definition()
-}
-
-func (o *targetOrigin) Documentation() []string {
-	return o.Last().Documentation()
-}
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
@@ -108,7 +39,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	}
 }
 
-func (c *Crawler) findOrigin(locations []nvim.Location) (*targetOrigin, error) {
+func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error) {
 	for _, location := range locations {
 		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
@@ -131,17 +62,12 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*targetOrigin, error) {
 			continue
 		}
 
-		origin := locationOrigin{
-			location:   location,
-			definition: queryMatch.Node,
-		}
-		c.sourceDocumentation(&origin)
+		origin := symbol.NewOrigin(location, queryMatch.Node)
+		c.sourceDocumentation(origin)
 
-		targetOrigin := &targetOrigin{
-			origin,
-		}
+		targetOrigin := symbol.NewOrigins(origin)
 
-		switch targetOrigin.Type() {
+		switch targetOrigin.Last().Type() {
 		case treesitter.ASSIGNMENT_STATEMENT:
 			followed, err := c.followModuleRequireAssignment(targetOrigin)
 
@@ -187,7 +113,7 @@ var requireAssignmentQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, error) {
+func (c *Crawler) followModuleRequireAssignment(origin *symbol.Origins) (bool, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -196,7 +122,7 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.Definition())
+	err = buffer.SetLines(origin.Last().Definition())
 
 	if err != nil {
 		return false, err
@@ -216,7 +142,7 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Definition())
+		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Last().Definition())
 	}
 
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
@@ -231,10 +157,10 @@ func (c *Crawler) followModuleRequireAssignment(origin *targetOrigin) (bool, err
 	case err != nil:
 		return false, err
 	case moduleOrigin == nil:
-		return false, fmt.Errorf("Error following require statement '%s'", origin.Definition())
+		return false, fmt.Errorf("Error following require statement '%s'", origin.Last().Definition())
 	}
 
-	origin.add(moduleOrigin)
+	origin.Merge(moduleOrigin)
 
 	return true, nil
 }
@@ -265,7 +191,7 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 	},
 }
 
-func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
+func (c *Crawler) followVariableAssignment(origin *symbol.Origins) (bool, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -274,7 +200,7 @@ func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.Definition())
+	err = buffer.SetLines(origin.Last().Definition())
 
 	if err != nil {
 		return false, err
@@ -304,7 +230,7 @@ func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Definition())
+		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Last().Definition())
 	}
 
 	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
@@ -319,7 +245,7 @@ func (c *Crawler) followVariableAssignment(origin *targetOrigin) (bool, error) {
 		return false, err
 	}
 
-	origin.add(rightValueOrigin)
+	origin.Merge(rightValueOrigin)
 
 	return true, nil
 }
