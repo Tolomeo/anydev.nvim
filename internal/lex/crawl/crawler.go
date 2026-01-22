@@ -16,73 +16,36 @@ type Crawler struct {
 	target target
 }
 
-func (c *Crawler) SourceValue() (symbol.Origin, error) {
-	locations, err := c.findDefinitionLocations(c.target.Identifier())
+func (c *Crawler) Crawl() (symbol.Origin, error) {
+	var locations *[]nvim.Location
+	var err error
 
-	switch {
-	case err != nil:
+	switch c.target.Kind() {
+	case symbol.TargetKindValue:
+		locations, err = c.findDefinitionLocations(c.target.Identifier())
+	case symbol.TargetKindType:
+		locations, err = c.findTypeDefinitionLocations(c.target.Name(), c.target.ParentName())
+	}
+
+	if err != nil {
 		return nil, err
-	case locations == nil:
-		c.target.Logger().Warnf("No locations found for '%s' symbol", c.target.Identifier())
+	}
+
+	if locations == nil {
+		c.target.Logger().Warnf("No locations found for '%s' %s symbol", c.target.Identifier(), c.target.Kind())
 		return nil, nil
 	}
 
 	origin, err := c.findOrigin(*locations)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case origin == nil:
-		c.target.Logger().Warnf("No origin found for '%s' symbol", c.target.Identifier())
+	}
+
+	if origin == nil {
+		c.target.Logger().Warnf("No origin found for '%s' %s symbol", c.target.Identifier(), c.target.Kind())
 		return nil, nil
 	}
-
-	/* documentation, err := c.sourceDocumentation(origin)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case documentation == nil:
-		c.target.Logger().Warnf("No documentation found for '%s' symbol", c.target.Identifier())
-		return origin, nil
-	}
-
-	origin.SetDocumentation(*documentation) */
-	return origin, nil
-}
-
-func (c *Crawler) SourceType() (symbol.Origin, error) {
-	locations, err := c.findTypeDefinitionLocations(c.target.Name(), c.target.ParentName())
-
-	switch {
-	case err != nil:
-		return nil, err
-	case locations == nil:
-		c.target.Logger().Warnf("No locations found for '%s' type", c.target.Identifier())
-		return nil, nil
-	}
-
-	origin, err := c.findOrigin(*locations)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case origin == nil:
-		c.target.Logger().Warnf("No origin found for '%s' symbol", c.target.Identifier())
-		return nil, nil
-	}
-
-	/* documentation, err := c.sourceDocumentation(origin)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case documentation == nil:
-		c.target.Logger().Warnf("No documentation found for '%s' symbol", c.target.Identifier())
-		return origin, nil
-	}
-
-	origin.SetDocumentation(*documentation) */
 
 	return origin, nil
 }

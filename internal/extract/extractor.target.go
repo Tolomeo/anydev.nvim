@@ -86,15 +86,7 @@ type step func() (step, error)
 func (t *target) crawl() (step, error) {
 	t.logger.Info("Crawling")
 
-	var err error
-	var origin symbol.Origin
-
-	switch t.Kind() {
-	case symbol.TargetKindValue:
-		origin, err = t.crawler.SourceValue()
-	case symbol.TargetKindType:
-		origin, err = t.crawler.SourceType()
-	}
+	origin, err := t.crawler.Crawl()
 
 	if err != nil {
 		return nil, err
