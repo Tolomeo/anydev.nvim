@@ -42,9 +42,9 @@ func (t *Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-/* func (t *Target) Origins() *Origins {
+func (t *Target) Origins() *Origins {
 	return t.origins
-} */
+}
 
 func (t *Target) SetOrigins(o *Origins) {
 	t.origins = o

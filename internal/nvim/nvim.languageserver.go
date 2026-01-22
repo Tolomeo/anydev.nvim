@@ -16,6 +16,14 @@ type Location struct {
 	Url string
 }
 
+func (l *Location) StartLine() uint {
+	return uint(l.TargetRange.Start.Line)
+}
+
+func (l *Location) StartCharacter() uint {
+	return uint(l.TargetRange.Start.Character)
+}
+
 func (n *Nvim) startLSP() error {
 	script, err := scripts.Read("start-lsp")
 
@@ -268,7 +276,6 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 	}
 
 	defer buffer.Close()
-
 
 	err = n.startLSP()
 

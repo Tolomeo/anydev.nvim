@@ -18,11 +18,11 @@ func (l *Origin) Url() string {
 }
 
 func (l *Origin) Line() uint {
-	return uint(l.location.TargetRange.Start.Line)
+	return l.location.StartLine()
 }
 
 func (l *Origin) Character() uint {
-	return uint(l.location.TargetRange.Start.Character)
+	return l.location.StartCharacter()
 }
 
 func (l *Origin) Type() string {
@@ -37,14 +37,11 @@ func (l *Origin) Documentation() []string {
 	return strings.Split(l.documentation.Text, "\n")
 }
 
-func (l *Origin) SetDocumentation(d treesitter.TsNode) {
-	l.documentation = d
-}
-
-func NewOrigin(location nvim.Location, definition treesitter.TsNode) *Origin {
+func NewOrigin(location nvim.Location, definition treesitter.TsNode, documentation treesitter.TsNode) *Origin {
 	return &Origin{
-		location:   location,
-		definition: definition,
+		location:      location,
+		definition:    definition,
+		documentation: documentation,
 	}
 }
 

@@ -55,15 +55,28 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 			uint(location.TargetRange.Start.Character)
 		queryMatch, err := buffer.QueryTsNodeAt(queryMap, line, character)
 
-		switch {
-		case err != nil:
+		if err != nil {
 			return nil, err
-		case queryMatch == nil:
+		}
+
+		if queryMatch == nil {
 			continue
 		}
 
-		origin := symbol.NewOrigin(location, queryMatch.Node)
-		c.sourceDocumentation(origin)
+		var origin *symbol.Origin
+
+		documentation, err := c.getCommentBlock(queryMatch.Node, location)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if documentation != nil {
+			origin = symbol.NewOrigin(location, queryMatch.Node, *documentation)
+		} else {
+			c.context.Logger().Warnf("No documentation found for location <%v>", location)
+			origin = symbol.NewOrigin(location, queryMatch.Node, treesitter.TsNode{})
+		}
 
 		targetOrigin := symbol.NewOrigins(origin)
 
@@ -71,19 +84,21 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 		case treesitter.ASSIGNMENT_STATEMENT:
 			followed, err := c.followModuleRequireAssignment(targetOrigin)
 
-			switch {
-			case err != nil:
+			if err != nil {
 				return nil, err
-			case followed:
+			}
+
+			if followed {
 				return targetOrigin, nil
 			}
 
 			followed, err = c.followVariableAssignment(targetOrigin)
 
-			switch {
-			case err != nil:
+			if err != nil {
 				return nil, err
-			case followed:
+			}
+
+			if followed {
 				return targetOrigin, nil
 			}
 		}
