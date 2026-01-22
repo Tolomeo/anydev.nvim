@@ -5,21 +5,50 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type locationOrigin struct {
-	Location      nvim.Location
-	Definition    treesitter.TsNode
-	Documentation treesitter.TsNode
+	location      nvim.Location
+	definition    treesitter.TsNode
+	documentation treesitter.TsNode
+}
+
+func (l locationOrigin) Url() string {
+	return l.location.Url
+}
+
+func (l locationOrigin) Line() uint {
+	return uint(l.location.TargetRange.Start.Line)
+}
+
+func (l locationOrigin) Character() uint {
+	return uint(l.location.TargetRange.Start.Character)
+}
+
+func (l locationOrigin) Type() string {
+	return l.definition.Type
+}
+
+func (l locationOrigin) Definition() []string {
+	return strings.Split(l.definition.Text, "\n")
+}
+
+func (l locationOrigin) Documentation() []string {
+	return strings.Split(l.documentation.Text, "\n")
 }
 
 type targetOrigin []locationOrigin
 
-func (o *targetOrigin) last() locationOrigin {
+func (o *targetOrigin) Last() symbol.Origin {
 	return (*o)[len(*o)-1]
+}
+
+func (o *targetOrigin) First() symbol.Origin {
+	return (*o)[0]
 }
 
 func (o *targetOrigin) add(os *targetOrigin) {
@@ -27,34 +56,27 @@ func (o *targetOrigin) add(os *targetOrigin) {
 }
 
 func (o *targetOrigin) Url() string {
-	return o.last().Location.Url
+	return o.Last().Url()
 }
 
 func (o *targetOrigin) Line() uint {
-	return uint(o.last().Location.TargetRange.Start.Line)
+	return o.Last().Line()
 }
 
 func (o *targetOrigin) Character() uint {
-	return uint(o.last().Location.TargetRange.Start.Character)
+	return o.Last().Character()
 }
 
 func (o *targetOrigin) Type() string {
-	return o.last().Definition.Type
+	return o.Last().Type()
 }
 
 func (o *targetOrigin) Definition() []string {
-	return strings.Split(o.last().Definition.Text, "\n")
+	return o.Last().Definition()
 }
 
 func (o *targetOrigin) Documentation() []string {
-	docs := []string{}
-
-	for i := len(*o) - 1; i >= 0; i-- {
-		docLines := strings.Split((*o)[i].Documentation.Text, "\n")
-		docs = append(docs, docLines...)
-	}
-
-	return docs
+	return o.Last().Documentation()
 }
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
@@ -110,8 +132,8 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*targetOrigin, error) {
 		}
 
 		origin := locationOrigin{
-			Location:   location,
-			Definition: queryMatch.Node,
+			location:   location,
+			definition: queryMatch.Node,
 		}
 		c.sourceDocumentation(&origin)
 

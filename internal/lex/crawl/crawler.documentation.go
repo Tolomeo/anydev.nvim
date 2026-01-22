@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Crawler) sourceDocumentation(origin *locationOrigin) error {
-	switch origin.Definition.Type {
+	switch origin.definition.Type {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
@@ -22,7 +22,7 @@ func (c *Crawler) sourceDocumentation(origin *locationOrigin) error {
 }
 
 func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Location.Url)
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
 
 	defer buffer.Close()
 
-	line, character := uint(origin.Definition.Range.Start.Line)-1, uint(origin.Definition.Range.Start.Character)
+	line, character := origin.Line()-1, origin.Character()
 	documentationBlock, err := buffer.GetTsCommentBlockAt(line, character)
 
 	switch {
@@ -41,13 +41,13 @@ func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
 		return nil
 	}
 
-	origin.Documentation = *documentationBlock
+	origin.documentation = *documentationBlock
 
 	return nil
 }
 
 func (c *Crawler) sourceTypeDefinitionDocumentation(origin *locationOrigin) error {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Location.Url)
+	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return err
@@ -55,7 +55,7 @@ func (c *Crawler) sourceTypeDefinitionDocumentation(origin *locationOrigin) erro
 
 	defer buffer.Close()
 
-	line, character := uint(origin.Definition.Range.Start.Line), uint(origin.Definition.Range.Start.Character)
+	line, character := origin.Line(), origin.Character()
 	documentationBlock, err := buffer.GetTsCommentBlockAt(line, character)
 
 	switch {
@@ -66,7 +66,7 @@ func (c *Crawler) sourceTypeDefinitionDocumentation(origin *locationOrigin) erro
 		return nil
 	}
 
-	origin.Documentation = *documentationBlock
+	origin.documentation = *documentationBlock
 
 	return nil
 }

@@ -16,7 +16,7 @@ type Crawler struct {
 	target target
 }
 
-func (c *Crawler) Crawl() (symbol.Origin, error) {
+func (c *Crawler) GetOrigins() (symbol.Origins, error) {
 	var locations *[]nvim.Location
 	var err error
 
@@ -36,18 +36,24 @@ func (c *Crawler) Crawl() (symbol.Origin, error) {
 		return nil, nil
 	}
 
-	origin, err := c.findOrigin(*locations)
+	origins, err := c.findOrigin(*locations)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if origin == nil {
+	if origins == nil {
 		c.target.Logger().Warnf("No origin found for '%s' %s symbol", c.target.Identifier(), c.target.Kind())
 		return nil, nil
 	}
 
-	return origin, nil
+	return origins, nil
+}
+
+func (c *Crawler) GetMeta() (symbol.Meta, error) {
+	origin := c.target.Origin().First()
+
+	return c.getMeta(origin)
 }
 
 func NewCrawler(target target) *Crawler {

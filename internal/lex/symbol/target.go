@@ -9,6 +9,12 @@ type Origin interface {
 	Documentation() []string
 }
 
+type Origins interface {
+	Origin
+	First() Origin
+	Last() Origin
+}
+
 type TargetKind string
 
 const (
@@ -21,5 +27,5 @@ type Target interface {
 	ParentName() string
 	Identifier() string
 	Name() string
-	Origin() Origin
+	Origin() Origins
 }

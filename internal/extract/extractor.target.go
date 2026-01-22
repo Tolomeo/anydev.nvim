@@ -18,8 +18,9 @@ type target struct {
 	kind      symbol.TargetKind
 	parent    symbol.Target
 	name      string
-	origin    symbol.Origin
-	symbol    symbol.Type
+	origin    symbol.Origins
+	meta      symbol.Meta
+	type_     symbol.Type
 }
 
 func (t *target) Kind() symbol.TargetKind {
@@ -46,7 +47,7 @@ func (t *target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *target) Origin() symbol.Origin {
+func (t *target) Origin() symbol.Origins {
 	return t.origin
 }
 
@@ -72,21 +73,21 @@ func (t *target) ExtractChild(parent *symbol.Table, name string) error {
 		return err
 	}
 
-	if childTarget.symbol == nil {
+	if childTarget.type_ == nil {
 		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown()))
 		return nil
 	}
 
-	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Origin().Documentation(), childTarget.symbol))
+	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Origin().Documentation(), childTarget.type_))
 	return nil
 }
 
 type step func() (step, error)
 
-func (t *target) crawl() (step, error) {
+func (t *target) getOrigins() (step, error) {
 	t.logger.Info("Crawling")
 
-	origin, err := t.crawler.Crawl()
+	origin, err := t.crawler.GetOrigins()
 
 	if err != nil {
 		return nil, err
@@ -101,10 +102,24 @@ func (t *target) crawl() (step, error) {
 
 	t.origin = origin
 
-	return t.lex, nil
+	return t.getMeta, nil
 }
 
-func (t *target) lex() (step, error) {
+func (t *target) getMeta() (step, error) {
+	t.logger.Infof("Crawling origin meta information")
+
+	meta, err := t.crawler.GetMeta()
+
+	if err != nil {
+		return nil, err
+	}
+
+	t.meta = meta
+
+	return t.getType, nil
+}
+
+func (t *target) getType() (step, error) {
 	t.logger.Infof("Lexing '%s'", t.Identifier())
 
 	sym, err := t.lexer.Lex()
@@ -113,7 +128,7 @@ func (t *target) lex() (step, error) {
 		return nil, err
 	}
 
-	t.symbol = sym
+	t.type_ = sym
 
 	return nil, nil
 }

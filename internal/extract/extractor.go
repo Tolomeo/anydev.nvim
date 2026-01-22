@@ -46,32 +46,13 @@ func (e *extractor) Flush() {
 	}
 }
 
-func (e *extractor) extractChild(parent symbol.Target, name string) (symbol.Type, error) {
-	e.logger.Infof("Beginning the extraction of '%s' . '%s' %s child target", parent.Name(), name, parent.Kind())
-
-	childTarget := e.newChildTarget(parent, name)
-	err := e.extract(childTarget)
-
-	e.logger.Infof("The extraction of '%s' . '%s' %s child target yielded \n<%v>", childTarget.ParentName(), childTarget.Name(), childTarget.Kind(), childTarget.symbol)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if childTarget.symbol == nil {
-		return symbol.NewUnknown(), nil
-	}
-
-	return childTarget.symbol, nil
-}
-
 func (e *extractor) extract(item *target) error {
 	e.logger.Infof("Extracting '%s'", item.Identifier())
 
 	e.targets = append(e.targets, item)
 
 	var err error
-	current := item.crawl
+	current := item.getOrigins
 
 	for {
 		current, err = current()
@@ -96,14 +77,14 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 	case symbol.TargetKindValue:
 		_, hasSymbol := e.result.Runtime[name]
 		if hasSymbol {
+			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
-		e.result.Runtime[name] = symbol.Symbol{
-			Name: name,
-		}
+		e.result.Runtime[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
 	case symbol.TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
+			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
 		e.result.Types[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
@@ -117,17 +98,17 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.symbol)
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.type_)
 
-	if target.symbol == nil {
+	if target.type_ == nil {
 		return nil
 	}
 
 	switch target.kind {
 	case symbol.TargetKindValue:
-		e.result.Runtime[target.name] = symbol.NewSymbol(name, symbol.Meta{}, target.Origin().Documentation(), target.symbol)
+		e.result.Runtime[target.name] = symbol.NewSymbol(name, target.meta, target.Origin().Documentation(), target.type_)
 	case symbol.TargetKindType:
-		e.result.Types[target.name] = symbol.NewSymbol(name, symbol.Meta{}, target.Origin().Documentation(), target.symbol)
+		e.result.Types[target.name] = symbol.NewSymbol(name, target.meta, target.Origin().Documentation(), target.type_)
 	}
 
 	return nil
