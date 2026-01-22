@@ -20,7 +20,7 @@ var metaAnnotationsQuery = treesitter.Query{
 
 func (c *Crawler) getMeta(origin symbol.Origin) (symbol.Meta, error) {
 	meta := symbol.Meta{}
-	buffer, err := c.target.Nvim().NewBuffer()
+	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return meta, err

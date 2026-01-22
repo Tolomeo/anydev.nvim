@@ -11,8 +11,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type target interface {
-	symbol.Target
+type ctx interface {
+	Target() *symbol.Target
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	Extract(symbol.TargetKind, string) error
@@ -20,25 +20,24 @@ type target interface {
 }
 
 type Lexer struct {
-	target target
+	context ctx
 }
 
 var lexedCache = cache.NewCache[symbol.Type]()
 
 func (l *Lexer) Lex() (symbol.Type, error) {
 	cacheId := []string{
-		l.target.Origin().Url(),
-		fmt.Sprintf("%d", l.target.Origin().Line()),
-		fmt.Sprintf("%d", l.target.Origin().Character()),
+		l.context.Target().Origin().Url(),
+		fmt.Sprintf("%d", l.context.Target().Origin().Line()),
+		fmt.Sprintf("%d", l.context.Target().Origin().Character()),
 	}
 
 	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
-		fmt.Printf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", l.target.Identifier(), cacheId)
-		l.target.Logger().Info(fmt.Sprintf("\nUsing lexer cached result for symbol '%s': <%v> cache id hit \n", l.target.Identifier(), cacheId))
+		l.context.Logger().Infof("Using lexer cached result for symbol '%s': <%v> cache id hit", l.context.Target().Identifier(), cacheId)
 		return cachedSymbol, nil
 	}
 
-	switch l.target.Origin().Type() {
+	switch l.context.Target().Origin().Type() {
 	case treesitter.ASSIGNMENT_STATEMENT,
 		treesitter.VARIABLE_DECLARATION,
 		treesitter.FUNCTION_DECLARATION:
@@ -71,11 +70,11 @@ func (l *Lexer) Lex() (symbol.Type, error) {
 		return lexed, nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.target.Identifier(), l.target.Origin())
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
 }
 
-func NewLexer(context target) *Lexer {
+func NewLexer(context ctx) *Lexer {
 	return &Lexer{
-		target: context,
+		context: context,
 	}
 }

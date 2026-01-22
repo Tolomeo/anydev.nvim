@@ -10,8 +10,8 @@ import (
 func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	// Replacing all dots in the alias className with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	className := l.target.Identifier()
-	classOrigin := l.target.Origin()
+	className := l.context.Target().Identifier()
+	classOrigin := l.context.Target().Origin()
 
 	classPatchedName := strings.ReplaceAll(className, ".", "_")
 	classDefinitionText := strings.Join(classOrigin.Definition(), "\n")
@@ -37,7 +37,7 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	class.Name = className
 
 	// fmt.Println(name)
-	classFields, err := l.target.Nvim().GetTypeCompletion(className)
+	classFields, err := l.context.Nvim().GetTypeCompletion(className)
 	// fmt.Println(classFields)
 
 	if err != nil {
@@ -45,7 +45,7 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	}
 
 	for _, fieldName := range classFields {
-		err := l.target.ExtractChild(class, fieldName)
+		err := l.context.ExtractChild(class, fieldName)
 
 		if err != nil {
 			return nil, err
@@ -56,13 +56,13 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 }
 
 func (l *Lexer) lexFieldType() (symbol.Type, error) {
-	annotations, err := l.lexAtAnnotations(l.target.Origin().Documentation())
+	annotations, err := l.lexAtAnnotations(l.context.Target().Origin().Documentation())
 
 	if err != nil {
 		return nil, err
 	}
 
-	field, found := annotations.AtFields[l.target.Name()]
+	field, found := annotations.AtFields[l.context.Target().Name()]
 
 	if !found {
 		return nil, nil
@@ -82,8 +82,8 @@ func (l *Lexer) lexAliasType() (symbol.Type, error) {
 	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
-	name := l.target.Identifier()
-	origin := l.target.Origin()
+	name := l.context.Target().Identifier()
+	origin := l.context.Target().Origin()
 
 	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := strings.Join(origin.Definition(), "\n")

@@ -10,7 +10,7 @@ import (
 )
 
 func (l *Lexer) lexValue() (symbol.Type, error) {
-	buffer, err := l.target.Nvim().NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -18,7 +18,7 @@ func (l *Lexer) lexValue() (symbol.Type, error) {
 
 	defer buffer.Close()
 
-	sourceDefinition := l.target.Origin().Definition()
+	sourceDefinition := l.context.Target().Origin().Definition()
 	err = buffer.SetLines(sourceDefinition)
 
 	if err != nil {
@@ -52,7 +52,7 @@ func (l *Lexer) lexValue() (symbol.Type, error) {
 		return meta, nil
 	}
 
-	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", l.target.Identifier(), l.target.Origin())
+	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
 }
 
 var functionQueries = map[string]string{
@@ -185,8 +185,8 @@ var functionQueries = map[string]string{
 }
 
 func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
-	origin := l.target.Origin()
-	buffer, err := l.target.Nvim().NewBuffer()
+	origin := l.context.Target().Origin()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -262,7 +262,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 		paramAnnotation, hasParamAnnotation := annotations.AtParams[name]
 
 		if !hasParamAnnotation {
-			l.target.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
+			l.context.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
@@ -374,8 +374,8 @@ var tableQueries = map[string]string{
 `}
 
 func (l *Lexer) lexTableValue() (*symbol.Table, error) {
-	origin := l.target.Origin()
-	buffer, err := l.target.Nvim().NewBuffer()
+	origin := l.context.Target().Origin()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -417,14 +417,14 @@ func (l *Lexer) lexTableValue() (*symbol.Table, error) {
 		}
 	}
 
-	tableFields, err := l.target.Nvim().GetValueCompletion(l.target.Identifier())
+	tableFields, err := l.context.Nvim().GetValueCompletion(l.context.Target().Identifier())
 
 	if err != nil {
 		return nil, err
 	}
 
 	for _, fieldName := range tableFields {
-		err := l.target.ExtractChild(table, fieldName)
+		err := l.context.ExtractChild(table, fieldName)
 
 		if err != nil {
 			return nil, err
@@ -450,8 +450,8 @@ var metaQuery = treesitter.Query{
 }
 
 func (l *Lexer) lexMetaValue() (symbol.Type, error) {
-	origin := l.target.Origin()
-	buffer, err := l.target.Nvim().NewBuffer()
+	origin := l.context.Target().Origin()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -485,10 +485,10 @@ func (l *Lexer) lexMetaValue() (symbol.Type, error) {
 	case err != nil:
 		return nil, err
 	case annotations.AtType == nil:
-		l.target.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.target.Name()))
+		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Target().Name()))
 		return unknown, nil
 	case len(annotations.AtType.Types) < 1:
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.target.Name())
+		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Target().Name())
 	}
 
 	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Types[0])

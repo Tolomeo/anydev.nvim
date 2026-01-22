@@ -6,25 +6,25 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type target interface {
-	symbol.Target
+type ctx interface {
+	Target() *symbol.Target
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 }
 
 type Crawler struct {
-	target target
+	context ctx
 }
 
 func (c *Crawler) GetOrigins() (symbol.Origins, error) {
 	var locations *[]nvim.Location
 	var err error
 
-	switch c.target.Kind() {
+	switch c.context.Target().Kind() {
 	case symbol.TargetKindValue:
-		locations, err = c.findDefinitionLocations(c.target.Identifier())
+		locations, err = c.findDefinitionLocations(c.context.Target().Identifier())
 	case symbol.TargetKindType:
-		locations, err = c.findTypeDefinitionLocations(c.target.Name(), c.target.ParentName())
+		locations, err = c.findTypeDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
 	}
 
 	if err != nil {
@@ -32,7 +32,7 @@ func (c *Crawler) GetOrigins() (symbol.Origins, error) {
 	}
 
 	if locations == nil {
-		c.target.Logger().Warnf("No locations found for '%s' %s symbol", c.target.Identifier(), c.target.Kind())
+		c.context.Logger().Warnf("No locations found for '%s' %s symbol", c.context.Target().Identifier(), c.context.Target().Kind())
 		return nil, nil
 	}
 
@@ -43,7 +43,7 @@ func (c *Crawler) GetOrigins() (symbol.Origins, error) {
 	}
 
 	if origins == nil {
-		c.target.Logger().Warnf("No origin found for '%s' %s symbol", c.target.Identifier(), c.target.Kind())
+		c.context.Logger().Warnf("No origin found for '%s' %s symbol", c.context.Target().Identifier(), c.context.Target().Kind())
 		return nil, nil
 	}
 
@@ -51,13 +51,13 @@ func (c *Crawler) GetOrigins() (symbol.Origins, error) {
 }
 
 func (c *Crawler) GetMeta() (symbol.Meta, error) {
-	origin := c.target.Origin().First()
+	origin := c.context.Target().Origin().First()
 
 	return c.getMeta(origin)
 }
 
-func NewCrawler(target target) *Crawler {
+func NewCrawler(context ctx) *Crawler {
 	return &Crawler{
-		target: target,
+		context: context,
 	}
 }

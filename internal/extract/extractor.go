@@ -24,7 +24,7 @@ type extraction struct {
 }
 
 type extractor struct {
-	targets []*target
+	targets []*extractorTarget
 	nvim    *nvim.Nvim
 	logger  *log.Logger
 	result  *extraction
@@ -39,15 +39,15 @@ func (e *extractor) Result() *extraction {
 }
 
 func (e *extractor) Flush() {
-	e.targets = []*target{}
+	e.targets = []*extractorTarget{}
 	e.result = &extraction{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
 	}
 }
 
-func (e *extractor) extract(item *target) error {
-	e.logger.Infof("Extracting '%s'", item.Identifier())
+func (e *extractor) extract(item *extractorTarget) error {
+	e.logger.Infof("Extracting '%s'", item.Target().Identifier())
 
 	e.targets = append(e.targets, item)
 
@@ -98,17 +98,17 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.type_)
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.Target().Type())
 
-	if target.type_ == nil {
+	if target.Target().Type() == nil {
 		return nil
 	}
 
-	switch target.kind {
+	switch target.Target().Kind() {
 	case symbol.TargetKindValue:
-		e.result.Runtime[target.name] = symbol.NewSymbol(name, target.meta, target.Origin().Documentation(), target.type_)
+		e.result.Runtime[target.Target().Name()] = symbol.NewSymbol(name, target.Target().Meta(), target.Target().Origin().Documentation(), target.Target().Type())
 	case symbol.TargetKindType:
-		e.result.Types[target.name] = symbol.NewSymbol(name, target.meta, target.Origin().Documentation(), target.type_)
+		e.result.Types[target.Target().Name()] = symbol.NewSymbol(name, target.Target().Meta(), target.Target().Origin().Documentation(), target.Target().Type())
 	}
 
 	return nil
@@ -161,7 +161,7 @@ func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		targets: []*target{},
+		targets: []*extractorTarget{},
 		result: &extraction{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},

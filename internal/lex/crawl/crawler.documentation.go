@@ -18,11 +18,11 @@ func (c *Crawler) sourceDocumentation(origin *locationOrigin) error {
 		return c.sourceTypeDefinitionDocumentation(origin)
 	}
 
-	return fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.target.Identifier(), origin)
+	return fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", c.context.Target().Identifier(), origin)
 }
 
 func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
+	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return err
@@ -37,7 +37,7 @@ func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
 	case err != nil:
 		return err
 	case documentationBlock == nil:
-		c.target.Logger().Warnf("No documentation found for origin <%v>", origin)
+		c.context.Logger().Warnf("No documentation found for origin <%v>", origin)
 		return nil
 	}
 
@@ -47,7 +47,7 @@ func (c *Crawler) sourceDefinitionDocumentation(origin *locationOrigin) error {
 }
 
 func (c *Crawler) sourceTypeDefinitionDocumentation(origin *locationOrigin) error {
-	buffer, err := c.target.Nvim().OpenBuffer(origin.Url())
+	buffer, err := c.context.Nvim().OpenBuffer(origin.Url())
 
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func (c *Crawler) sourceTypeDefinitionDocumentation(origin *locationOrigin) erro
 	case err != nil:
 		return err
 	case documentationBlock == nil:
-		c.target.Logger().Warnf("No documentation found for origin <%v>", origin)
+		c.context.Logger().Warnf("No documentation found for origin <%v>", origin)
 		return nil
 	}
 

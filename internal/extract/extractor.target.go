@@ -1,7 +1,7 @@
 package extract
 
 import (
-	"fmt"
+	// "fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
@@ -10,81 +10,92 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type target struct {
+type context struct {
+	target *extractorTarget
+}
+
+func (c *context) Target() *symbol.Target {
+	return c.target.Target()
+}
+
+func (c *context) Logger() *log.Logger {
+	return c.target.logger
+}
+
+func (c *context) Nvim() *nvim.Nvim {
+	return c.target.extractor.Nvim()
+}
+
+func (c *context) Extract(kind symbol.TargetKind, name string) error {
+	return c.target.extractor.Extract(kind, name)
+}
+
+func (c *context) ExtractChild(parent *symbol.Table, name string) error {
+	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.Target().Kind())
+
+	childTarget := c.target.extractor.newChildTarget(c.target.Target(), name)
+	err := c.target.extractor.extract(childTarget)
+
+	if err != nil {
+		return err
+	}
+
+	if childTarget.Target().Type() == nil {
+		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childTarget.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
+		return nil
+	}
+
+	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Target().Origin().Documentation(), childTarget.Target().Type()))
+	return nil
+}
+
+type extractorTarget struct {
 	extractor *extractor
 	crawler   *crawl.Crawler
 	lexer     *lex.Lexer
 	logger    *log.Logger
-	kind      symbol.TargetKind
-	parent    symbol.Target
-	name      string
-	origin    symbol.Origins
-	meta      symbol.Meta
-	type_     symbol.Type
+	parent    *extractorTarget
+	target    *symbol.Target
 }
 
-func (t *target) Kind() symbol.TargetKind {
-	return t.kind
+func (t *extractorTarget) Target() *symbol.Target {
+	return t.target
 }
 
-func (t *target) ParentName() string {
-	if t.parent == nil {
-		return ""
-	}
-
-	return t.parent.Name()
-}
-
-func (t *target) Name() string {
-	return t.name
-}
-
-func (t *target) Identifier() string {
-	if t.parent == nil {
-		return t.name
-	}
-
-	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
-}
-
-func (t *target) Origin() symbol.Origins {
-	return t.origin
-}
-
-func (t *target) Logger() *log.Logger {
+func (t *extractorTarget) Logger() *log.Logger {
 	return t.logger
 }
 
-func (t *target) Nvim() *nvim.Nvim {
+func (t *extractorTarget) Nvim() *nvim.Nvim {
 	return t.extractor.Nvim()
 }
 
-func (t *target) Extract(kind symbol.TargetKind, name string) error {
+func (t *extractorTarget) Extract(kind symbol.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
 }
 
-func (t *target) ExtractChild(parent *symbol.Table, name string) error {
-	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.Kind())
+func (t *extractorTarget) ExtractChild(parent *symbol.Table, name string) error {
+	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.target.Kind())
 
-	childTarget := t.extractor.newChildTarget(t, name)
+	childTarget := t.extractor.newChildTarget(t.target, name)
 	err := t.extractor.extract(childTarget)
 
 	if err != nil {
 		return err
 	}
 
-	if childTarget.type_ == nil {
-		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown()))
+	if childTarget.Target().Type() == nil {
+		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childTarget.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
 		return nil
 	}
 
-	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Origin().Documentation(), childTarget.type_))
+	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Target().Origin().Documentation(), childTarget.Target().Type()))
 	return nil
 }
 
 type step func() (step, error)
 
-func (t *target) getOrigins() (step, error) {
+func (t *extractorTarget) getOrigins() (step, error) {
 	t.logger.Info("Crawling")
 
 	origin, err := t.crawler.GetOrigins()
@@ -100,12 +111,12 @@ func (t *target) getOrigins() (step, error) {
 
 	t.logger.Info("Crawling complete")
 
-	t.origin = origin
+	t.Target().SetOrigin(origin)
 
 	return t.getMeta, nil
 }
 
-func (t *target) getMeta() (step, error) {
+func (t *extractorTarget) getMeta() (step, error) {
 	t.logger.Infof("Crawling origin meta information")
 
 	meta, err := t.crawler.GetMeta()
@@ -114,50 +125,55 @@ func (t *target) getMeta() (step, error) {
 		return nil, err
 	}
 
-	t.meta = meta
+	t.Target().SetMeta(meta)
 
 	return t.getType, nil
 }
 
-func (t *target) getType() (step, error) {
-	t.logger.Infof("Lexing '%s'", t.Identifier())
+func (t *extractorTarget) getType() (step, error) {
+	t.logger.Infof("Lexing '%s'", t.Target().Identifier())
 
-	sym, err := t.lexer.Lex()
+	typ, err := t.lexer.Lex()
 
 	if err != nil {
 		return nil, err
 	}
 
-	t.type_ = sym
+	t.Target().SetType(typ)
 
 	return nil, nil
 }
 
-func (e *extractor) newChildTarget(parent symbol.Target, name string) *target {
-	t := &target{
+func (e *extractor) newChildTarget(parent *symbol.Target, name string) *extractorTarget {
+	target := parent.NewChild(name)
+	targetExtraction := &extractorTarget{
 		extractor: e,
-		parent:    parent,
-		kind:      parent.Kind(),
-		name:      name,
+		target:    target,
+	}
+	targetExtractionContext := context{
+		target: targetExtraction,
 	}
 
-	t.crawler = crawl.NewCrawler(t)
-	t.lexer = lex.NewLexer(t)
-	t.logger = log.NewLogger(t.Identifier())
+	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
+	targetExtraction.lexer = lex.NewLexer(&targetExtractionContext)
+	targetExtraction.logger = log.NewLogger(target.Identifier())
 
-	return t
+	return targetExtraction
 }
 
-func (e *extractor) newTarget(kind symbol.TargetKind, name string) *target {
-	t := &target{
+func (e *extractor) newTarget(kind symbol.TargetKind, name string) *extractorTarget {
+	target := symbol.NewTarget(kind, name)
+	targetExtraction := &extractorTarget{
 		extractor: e,
-		kind:      kind,
-		name:      name,
+		target:    target,
+	}
+	targetExtractionContext := context{
+		target: targetExtraction,
 	}
 
-	t.crawler = crawl.NewCrawler(t)
-	t.lexer = lex.NewLexer(t)
-	t.logger = log.NewLogger(t.Identifier())
+	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
+	targetExtraction.lexer = lex.NewLexer(&targetExtractionContext)
+	targetExtraction.logger = log.NewLogger(target.Identifier())
 
-	return t
+	return targetExtraction
 }
