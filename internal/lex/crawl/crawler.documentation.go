@@ -2,12 +2,13 @@ package crawl
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) getCommentBlock(definition treesitter.TsNode, location nvim.Location) (*treesitter.TsNode, error) {
+func (c *Crawler) getCommentBlock(definition treesitter.TsNode, location nvim.Location) ([]string, error) {
 	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 	if err != nil {
@@ -31,5 +32,10 @@ func (c *Crawler) getCommentBlock(definition treesitter.TsNode, location nvim.Lo
 		return nil, err
 	}
 
-	return documentationBlock, nil
+	if documentationBlock == nil {
+		c.context.Logger().Warnf("No documentation found for location <%v>", location)
+		return []string{}, nil
+	}
+
+	return strings.Split(documentationBlock.Text, "\n"), nil
 }

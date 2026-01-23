@@ -333,19 +333,14 @@ func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error)
 			continue
 		}
 
-		documentation, err := c.getCommentBlock(queryMatch.Node, location)
+		node := queryMatch.Node
+		documentation, err := c.getCommentBlock(node, location)
 
 		if err != nil {
 			return nil, err
 		}
 
-		if documentation != nil {
-			origin = symbol.NewOrigin(location, queryMatch.Node, *documentation)
-		} else {
-			c.context.Logger().Warnf("No documentation found for location <%v>", location)
-			origin = symbol.NewOrigin(location, queryMatch.Node, treesitter.TsNode{})
-		}
-
+		origin = symbol.NewOrigin(location, node, documentation)
 		break
 	}
 

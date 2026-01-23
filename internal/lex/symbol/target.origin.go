@@ -8,9 +8,9 @@ import (
 )
 
 type Origin struct {
-	location      nvim.Location
-	definition    treesitter.TsNode
-	documentation treesitter.TsNode
+	location nvim.Location
+	node     treesitter.TsNode
+	docBlock []string
 }
 
 func (l *Origin) Url() string {
@@ -26,22 +26,22 @@ func (l *Origin) Character() uint {
 }
 
 func (l *Origin) Type() string {
-	return l.definition.Type
+	return l.node.Type
 }
 
 func (l *Origin) Definition() []string {
-	return strings.Split(l.definition.Text, "\n")
+	return strings.Split(l.node.Text, "\n")
 }
 
 func (l *Origin) Documentation() []string {
-	return strings.Split(l.documentation.Text, "\n")
+	return l.docBlock
 }
 
-func NewOrigin(location nvim.Location, definition treesitter.TsNode, documentation treesitter.TsNode) *Origin {
+func NewOrigin(location nvim.Location, definition treesitter.TsNode, documentation []string) *Origin {
 	return &Origin{
-		location:      location,
-		definition:    definition,
-		documentation: documentation,
+		location: location,
+		node:     definition,
+		docBlock: documentation,
 	}
 }
 
