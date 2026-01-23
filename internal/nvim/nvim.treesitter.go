@@ -356,7 +356,7 @@ type TsNodeQueryMap map[string][]treesitter.Query
 
 type TsNodeQueryMatch struct {
 	Node  treesitter.TsNode
-	Match *TsQueryMatch
+	Match TsQueryMatch
 }
 
 func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
@@ -372,20 +372,6 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 		return nil, nil
 	}
 
-	/* nodeQueryMatch := TsNodeQueryMatch{
-		Node: *node,
-	} */
-
-	nodeQueries := queryMap[node.Type]
-
-	if nodeQueries == nil {
-		return &TsNodeQueryMatch{
-			Node: *node,
-		}, nil
-	}
-
-	var match *TsQueryMatch
-
 	for _, nodeQuery := range queryMap[node.Type] {
 		nodeRange := node.Range.LineRange()
 		rangedNodeQuery := treesitter.Query{
@@ -394,23 +380,21 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 			Range:    &nodeRange,
 		}
 
-		match, err = n.tsQueryOne(rangedNodeQuery)
+		match, err := n.tsQueryOne(rangedNodeQuery)
 
 		if err != nil {
 			return nil, err
 		}
 
-		if match != nil {
-			break
+		if match == nil {
+			continue
 		}
+
+		return &TsNodeQueryMatch{
+			Node:  *node,
+			Match: *match,
+		}, nil
 	}
 
-	if match == nil {
-		return nil, nil
-	}
-
-	return &TsNodeQueryMatch{
-		Node:  *node,
-		Match: match,
-	}, nil
+	return nil, nil
 }

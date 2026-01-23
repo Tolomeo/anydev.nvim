@@ -50,7 +50,7 @@ func (t *Target) SetOrigins(o *Origins) {
 	t.origins = o
 }
 
-func (t *Target) Origin() *Origin {
+func (t *Target) Origin() Origin {
 	return t.origins.Last()
 }
 

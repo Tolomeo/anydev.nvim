@@ -4,54 +4,166 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Origin struct {
-	location nvim.Location
-	node     treesitter.TsNode
-	docBlock []string
+type Origin interface {
+	Url() string
+	Line() uint
+	Character() uint
+	Type() string
+	Definition() []string
+	Documentation() []string
 }
 
-func (l *Origin) Url() string {
+type origin struct {
+	location   nvim.Location
+	definition nvim.TsNodeQueryMatch
+	docBlock   []string
+}
+
+func (l *origin) Url() string {
 	return l.location.Url
 }
 
-func (l *Origin) Line() uint {
+func (l *origin) Line() uint {
 	return l.location.StartLine()
 }
 
-func (l *Origin) Character() uint {
+func (l *origin) Character() uint {
 	return l.location.StartCharacter()
 }
 
-func (l *Origin) Type() string {
-	return l.node.Type
+func (l *origin) Type() string {
+	return l.definition.Node.Type
 }
 
-func (l *Origin) Definition() []string {
-	return strings.Split(l.node.Text, "\n")
+func (l *origin) Definition() []string {
+	return strings.Split(l.definition.Node.Text, "\n")
 }
 
-func (l *Origin) Documentation() []string {
+func (l *origin) Documentation() []string {
 	return l.docBlock
 }
 
-func NewOrigin(location nvim.Location, definition treesitter.TsNode, documentation []string) *Origin {
-	return &Origin{
-		location: location,
-		node:     definition,
-		docBlock: documentation,
+type FunctionOrigin struct {
+	origin
+}
+
+func NewFunctionOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FunctionOrigin {
+	return &FunctionOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
 	}
 }
 
-type Origins []*Origin
+type TableOrigin struct {
+	origin
+}
 
-func (o *Origins) Last() *Origin {
+func NewTableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *TableOrigin {
+	return &TableOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type VariableOrigin struct {
+	origin
+}
+
+func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *VariableOrigin {
+	return &VariableOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type ModuleOrigin struct {
+	origin
+}
+
+func NewModuleOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ModuleOrigin {
+	return &ModuleOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type ClassOrigin struct {
+	origin
+}
+
+func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
+	return &ClassOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type AliasOrigin struct {
+	origin
+}
+
+func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasOrigin {
+	return &AliasOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type FieldOrigin struct {
+	origin
+}
+
+func NewFieldOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FieldOrigin {
+	return &FieldOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type MetaOrigin struct {
+	origin
+}
+
+func NewMetaOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *MetaOrigin {
+	return &MetaOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type Origins []Origin
+
+func (o *Origins) Last() Origin {
 	return (*o)[len(*o)-1]
 }
 
-func (o *Origins) First() *Origin {
+func (o *Origins) First() Origin {
 	return (*o)[0]
 }
 
@@ -59,7 +171,7 @@ func (o *Origins) Merge(o2 *Origins) {
 	*o = append(*o, *o2...)
 }
 
-func NewOrigins(origins ...*Origin) *Origins {
+func NewOrigins(origins ...Origin) *Origins {
 	t := Origins{}
 
 	for _, l := range origins {

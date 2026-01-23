@@ -308,7 +308,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 }
 
 func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error) {
-	var origin *symbol.Origin
+	var origin symbol.Origin
 
 	for _, location := range locations {
 		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
@@ -323,24 +323,43 @@ func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error)
 		line, character :=
 			uint(location.TargetRange.Start.Line),
 			uint(location.TargetRange.Start.Character)
-		queryMatch, err := buffer.QueryTsNodeAt(queryMap, line, character)
+		definition, err := buffer.QueryTsNodeAt(queryMap, line, character)
 
 		if err != nil {
 			return nil, err
 		}
 
-		if queryMatch == nil {
+		if definition == nil {
 			continue
 		}
 
-		node := queryMatch.Node
-		documentation, err := c.getCommentBlock(node, location)
+		documentation, err := c.getCommentBlock(definition.Node, location)
 
 		if err != nil {
 			return nil, err
 		}
 
-		origin = symbol.NewOrigin(location, node, documentation)
+		for _, capture := range definition.Match {
+			switch capture.Id {
+			case "origin.function":
+				origin = symbol.NewFunctionOrigin(location, *definition, documentation)
+			case "origin.table":
+				origin = symbol.NewTableOrigin(location, *definition, documentation)
+			case "origin.variable":
+				origin = symbol.NewVariableOrigin(location, *definition, documentation)
+			case "origin.module":
+				origin = symbol.NewModuleOrigin(location, *definition, documentation)
+			case "origin.class":
+				origin = symbol.NewClassOrigin(location, *definition, documentation)
+			case "origin.alias":
+				origin = symbol.NewAliasOrigin(location, *definition, documentation)
+			case "origin.field":
+				origin = symbol.NewFieldOrigin(location, *definition, documentation)
+			case "origin.meta":
+				origin = symbol.NewMetaOrigin(location, *definition, documentation)
+			}
+		}
+
 		break
 	}
 
@@ -397,7 +416,7 @@ var requireAssignmentQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) getModuleOrigins(origin *symbol.Origin) (*symbol.Origins, error) {
+func (c *Crawler) getModuleOrigins(origin symbol.Origin) (*symbol.Origins, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -477,7 +496,7 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 	},
 }
 
-func (c *Crawler) getVariableOrigins(origin *symbol.Origin) (*symbol.Origins, error) {
+func (c *Crawler) getVariableOrigins(origin symbol.Origin) (*symbol.Origins, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
