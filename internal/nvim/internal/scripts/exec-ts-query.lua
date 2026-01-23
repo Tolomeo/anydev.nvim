@@ -2,10 +2,10 @@ local args = { ... }
 local query_language = args[1]
 local query = args[2]
 local start, stop = args[3], args[4]
+local bufnr = 0
 
 local lua = "lua"
 local luadoc = "luadoc"
-local bufnr = 0
 
 local parser = vim.treesitter.get_parser(bufnr, lua)
 

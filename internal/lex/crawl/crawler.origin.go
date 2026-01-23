@@ -14,7 +14,66 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: nil,
 		treesitter.VARIABLE_DECLARATION: nil,
-		treesitter.FUNCTION_DECLARATION: nil,
+		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
+			/* function fn() end
+			function fn(arg1) end
+			function fn(arg1, arg2) end
+			function fn(arg1, arg2, ...) end
+				function fn(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(function_declaration
+					name: (identifier) @name
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				) @origin.function`,
+			},
+			/* function api:fn() end
+			function api:fn(name) end
+			function api:fn(name, value) end
+			function api:fn(name, value, ...) end
+			function api:fn(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(function_declaration
+					name: (method_index_expression
+						method: (identifier) @name
+					) @access.instance
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				) @origin.function`,
+			},
+			/* function api.fn() end
+			function api.fn(name) end
+			function api.fn(name, value) end
+			function api.fn(name, value, ...) end
+			function api.fn(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(function_declaration
+					name: (dot_index_expression
+						field: (identifier) @name
+					) @access.class
+					parameters: (parameters
+						(identifier)? @arg
+						("," (identifier) @arg)*
+						("," (vararg_expression) @vararg)?
+						(vararg_expression)? @vararg
+					)
+				) @origin.function`,
+			},
+		},
 		treesitter.ALIAS_ANNOTATION: []treesitter.Query{
 			{
 				Language: "luadoc",
@@ -49,6 +108,8 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 	c.context.Logger().Debugf("QueryMap for %s: \n %+v", c.context.Target().Identifier(), c.getOriginQueryMap())
 
 	for _, location := range locations {
+		c.context.Logger().Debugf("Location: %+v", location.Url)
+
 		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 		if err != nil {
@@ -67,11 +128,11 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 			return nil, err
 		}
 
+		c.context.Logger().Debugf("QueryMatch for %s: \n %+v", c.context.Target().Identifier(), queryMatch)
+
 		if queryMatch == nil {
 			continue
 		}
-
-		c.context.Logger().Debugf("QueryMatch for %s: \n %+v", c.context.Target().Identifier(), queryMatch)
 
 		var origin *symbol.Origin
 
