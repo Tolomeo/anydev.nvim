@@ -307,12 +307,10 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	}
 }
 
-func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error) {
-	c.context.Logger().Debugf("QueryMap for %s: \n %+v", c.context.Target().Identifier(), c.getOriginQueryMap())
+func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error) {
+	var origin *symbol.Origin
 
 	for _, location := range locations {
-		c.context.Logger().Debugf("Location: %+v", location.Url)
-
 		buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 		if err != nil {
@@ -331,13 +329,9 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 			return nil, err
 		}
 
-		c.context.Logger().Debugf("QueryMatch for %s: \n %+v", c.context.Target().Identifier(), queryMatch)
-
 		if queryMatch == nil {
 			continue
 		}
-
-		var origin *symbol.Origin
 
 		documentation, err := c.getCommentBlock(queryMatch.Node, location)
 
@@ -352,35 +346,41 @@ func (c *Crawler) findOrigin(locations []nvim.Location) (*symbol.Origins, error)
 			origin = symbol.NewOrigin(location, queryMatch.Node, treesitter.TsNode{})
 		}
 
-		targetOrigin := symbol.NewOrigins(origin)
-
-		switch targetOrigin.Last().Type() {
-		case treesitter.ASSIGNMENT_STATEMENT:
-			followed, err := c.followModuleRequireAssignment(targetOrigin)
-
-			if err != nil {
-				return nil, err
-			}
-
-			if followed {
-				return targetOrigin, nil
-			}
-
-			followed, err = c.followVariableAssignment(targetOrigin)
-
-			if err != nil {
-				return nil, err
-			}
-
-			if followed {
-				return targetOrigin, nil
-			}
-		}
-
-		return targetOrigin, nil
+		break
 	}
 
-	return nil, nil
+	if origin == nil {
+		return nil, nil
+	}
+
+	origins := symbol.NewOrigins(origin)
+
+	switch origins.Last().Type() {
+	case treesitter.ASSIGNMENT_STATEMENT:
+		moduleOrigins, err := c.getModuleOrigins(origins.Last())
+
+		if err != nil {
+			return nil, err
+		}
+
+		if moduleOrigins != nil {
+			origins.Merge(moduleOrigins)
+			return origins, nil
+		}
+
+		variableOrigins, err := c.getVariableOrigins(origins.Last())
+
+		if err != nil {
+			return nil, err
+		}
+
+		if variableOrigins != nil {
+			origins.Merge(variableOrigins)
+			return origins, nil
+		}
+	}
+
+	return origins, nil
 }
 
 var requireAssignmentQuery = treesitter.Query{
@@ -402,28 +402,29 @@ var requireAssignmentQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) followModuleRequireAssignment(origin *symbol.Origins) (bool, error) {
+func (c *Crawler) getModuleOrigins(origin *symbol.Origin) (*symbol.Origins, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.Last().Definition())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
 	captures, err := buffer.TsQueryOne(requireAssignmentQuery)
 
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
+	if err != nil {
+		return nil, err
+	}
+
+	if captures == nil {
+		return nil, nil
 	}
 
 	moduleNameCapture, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
@@ -431,27 +432,28 @@ func (c *Crawler) followModuleRequireAssignment(origin *symbol.Origins) (bool, e
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Last().Definition())
+		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Definition())
 	}
 
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	moduleOrigin, err := c.findOrigin(*moduleLocations)
+	return c.getOrigins(*moduleLocations)
+	/* moduleOrigins, err := c.getOrigins(*moduleLocations)
 
 	switch {
 	case err != nil:
 		return false, err
-	case moduleOrigin == nil:
-		return false, fmt.Errorf("Error following require statement '%s'", origin.Last().Definition())
+	case moduleOrigins == nil:
+		return false, fmt.Errorf("Error following require statement '%s'", origins.Last().Definition())
 	}
 
-	origin.Merge(moduleOrigin)
+	origins.Merge(moduleOrigins)
 
-	return true, nil
+	return true, nil */
 }
 
 var variableAssignmentQueries = map[string]treesitter.Query{
@@ -480,19 +482,19 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 	},
 }
 
-func (c *Crawler) followVariableAssignment(origin *symbol.Origins) (bool, error) {
+func (c *Crawler) getVariableOrigins(origin *symbol.Origin) (*symbol.Origins, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.Last().Definition())
+	err = buffer.SetLines(origin.Definition())
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
 	var captures *nvim.TsQueryMatch = nil
@@ -500,10 +502,11 @@ func (c *Crawler) followVariableAssignment(origin *symbol.Origins) (bool, error)
 	for _, variableAssignmentQuery := range variableAssignmentQueries {
 		assignmentCaptures, err := buffer.TsQueryOne(variableAssignmentQuery)
 
-		switch {
-		case err != nil:
-			return false, err
-		case assignmentCaptures == nil:
+		if err != nil {
+			return nil, err
+		}
+
+		if assignmentCaptures == nil {
 			continue
 		}
 
@@ -511,7 +514,7 @@ func (c *Crawler) followVariableAssignment(origin *symbol.Origins) (bool, error)
 	}
 
 	if captures == nil {
-		return false, nil
+		return nil, nil
 	}
 
 	rightValue, found := slicesx.FindFunc(*captures, func(capture treesitter.Capture) bool {
@@ -519,22 +522,20 @@ func (c *Crawler) followVariableAssignment(origin *symbol.Origins) (bool, error)
 	})
 
 	if !found {
-		return false, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Last().Definition())
+		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Definition())
 	}
 
 	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	rightValueOrigin, err := c.findOrigin(*rightValueLocations)
+	rightValueOrigins, err := c.getOrigins(*rightValueLocations)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	origin.Merge(rightValueOrigin)
-
-	return true, nil
+	return rightValueOrigins, nil
 }

@@ -376,7 +376,6 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 		Node: *node,
 	} */
 
-
 	nodeQueries := queryMap[node.Type]
 
 	if nodeQueries == nil {
@@ -394,8 +393,6 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 			Query:    nodeQuery.Query,
 			Range:    &nodeRange,
 		}
-
-		n.logger.Debugf("Matched node: %+v\nRange: %+v", node, nodeRange)
 
 		match, err = n.tsQueryOne(rangedNodeQuery)
 

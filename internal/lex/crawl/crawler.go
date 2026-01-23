@@ -36,7 +36,7 @@ func (c *Crawler) GetOrigins() (*symbol.Origins, error) {
 		return nil, nil
 	}
 
-	origins, err := c.findOrigin(*locations)
+	origins, err := c.getOrigins(*locations)
 
 	if err != nil {
 		return nil, err
