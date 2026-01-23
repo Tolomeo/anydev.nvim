@@ -12,6 +12,7 @@ const (
 	info  level = "INFO"
 	warn  level = "WARN"
 	error level = "ERROR"
+	debug level = "DEBUG"
 )
 
 type log struct {
@@ -24,32 +25,44 @@ type Logger struct {
 	stdOut *stdLog.Logger
 }
 
-func (l *Logger) Log(newLog log) {
+func (l *Logger) log(newLog log) {
 	l.stdOut.Printf("%s%s: %s\n", newLog.level, l.prefix, newLog.message)
 }
 
 func (l *Logger) Info(message string) {
-	l.Log(log{level: info, message: message})
+	l.log(log{level: info, message: message})
 }
 
 func (l *Logger) Infof(message string, args ...any) {
-	l.Log(log{level: info, message: fmt.Sprintf(message, args...)})
+	l.log(log{level: info, message: fmt.Sprintf(message, args...)})
 }
 
 func (l *Logger) Warn(message string) {
-	l.Log(log{level: warn, message: message})
+	l.log(log{level: warn, message: message})
 }
 
 func (l *Logger) Warnf(message string, args ...any) {
-	l.Log(log{level: warn, message: fmt.Sprintf(message, args...)})
+	l.log(log{level: warn, message: fmt.Sprintf(message, args...)})
 }
 
 func (l *Logger) Error(message string) {
-	l.Log(log{level: error, message: message})
+	l.log(log{level: error, message: message})
 }
 
 func (l *Logger) Errorf(message string, args ...any) {
-	l.Log(log{level: error, message: fmt.Sprintf(message, args...)})
+	l.log(log{level: error, message: fmt.Sprintf(message, args...)})
+}
+
+func (l *Logger) Debug(message string) {
+	message = fmt.Sprintf("\n****************************\n%s\n****************************\n", message)
+
+	l.log(log{level: debug, message: message})
+}
+
+func (l *Logger) Debugf(message string, args ...any) {
+	message = fmt.Sprintf("\n****************************\n%s\n****************************\n", fmt.Sprintf(message, args...))
+
+	l.log(log{level: debug, message: message})
 }
 
 func NewLogger(prefix string) *Logger {

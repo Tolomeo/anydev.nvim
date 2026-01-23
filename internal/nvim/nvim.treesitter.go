@@ -352,7 +352,7 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	return &tsNode, nil
 }
 
-type TsNodeQueryMap map[string]*treesitter.Query
+type TsNodeQueryMap map[string][]treesitter.Query
 
 type TsNodeQueryMatch struct {
 	Node  treesitter.TsNode
@@ -364,38 +364,51 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 
 	node, err := n.getTSNodeAt(targetNodes, line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case node == nil:
+	}
+
+	if node == nil {
 		return nil, nil
 	}
 
-	nodeQuery := queryMap[node.Type]
+	/* nodeQueryMatch := TsNodeQueryMatch{
+		Node: *node,
+	} */
 
-	if nodeQuery == nil {
+	nodeQueries := queryMap[node.Type]
+
+	if nodeQueries == nil {
 		return &TsNodeQueryMatch{
 			Node: *node,
 		}, nil
 	}
 
-	nodeRange := node.Range.LineRange()
-	rangedNodeQuery := treesitter.Query{
-		Language: nodeQuery.Language,
-		Query:    nodeQuery.Query,
-		Range:    &nodeRange,
+	var match *TsQueryMatch
+
+	for _, nodeQuery := range queryMap[node.Type] {
+		nodeRange := node.Range.LineRange()
+		rangedNodeQuery := treesitter.Query{
+			Language: nodeQuery.Language,
+			Query:    nodeQuery.Query,
+			Range:    &nodeRange,
+		}
+
+		match, err = n.tsQueryOne(rangedNodeQuery)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if match != nil {
+			break
+		}
 	}
 
-	match, err := n.tsQueryOne(rangedNodeQuery)
-
-	switch {
-	case err != nil:
-		return nil, err
-	case match == nil:
+	if match == nil {
 		return nil, nil
 	}
 
-	// TODO: remove all matches stricly not contained in the node
 	return &TsNodeQueryMatch{
 		Node:  *node,
 		Match: match,

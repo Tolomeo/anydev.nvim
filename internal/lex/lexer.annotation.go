@@ -334,98 +334,6 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnot
 	return true, nil
 }
 
-var atDeprecatedAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation 
-		(deprecated_annotation) @deprecated
-	)`,
-}
-
-func (l *Lexer) lexAtDeprecatedAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(atDeprecatedAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
-	}
-
-	annotations.AtPrivate = true
-
-	return true, nil
-}
-
-var atPrivateAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation 
-		(qualifier_annotation "@private") @private
-	)`,
-}
-
-func (l *Lexer) lexAtPrivateAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(atPrivateAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
-	}
-
-	annotations.AtPrivate = true
-
-	return true, nil
-}
-
-var atProtectedAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation 
-		(qualifier_annotation "@protected") @protected
-	)`,
-}
-
-func (l *Lexer) lexAtProtectedAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(atProtectedAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
-	}
-
-	annotations.AtProtected = true
-
-	return true, nil
-}
-
-var atPackageAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation 
-		(package_annotation) @package
-	)`,
-}
-
-func (l *Lexer) lexAtPackageAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
-	captures, err := buffer.TsQueryOne(atPackageAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
-	}
-
-	annotations.AtPackage = true
-
-	return true, nil
-}
-
 // Luadoc matches an empty type node even when the type is not present
 // So those false positives are excluded with the not-eq predicate
 var simpleAtAliasQuery = treesitter.Query{
@@ -740,18 +648,14 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	}
 
 	annotations := AtAnnotations{
-		AtType:       nil,
-		AtPrivate:    false,
-		AtProtected:  false,
-		AtPackage:    false,
-		AtDeprecated: false,
-		AtGenerics:   []AtGenericAnnotation{},
-		AtParams:     map[string]AtParamAnnotation{},
-		AtReturns:    []AtReturnAnnotation{},
-		AtOverloads:  []AtOverloadAnnotation{},
-		AtAliases:    map[string]AtAliasAnnotation{},
-		AtClasses:    map[string]AtClassAnnotation{},
-		AtFields:     map[string]AtFieldAnnotation{},
+		AtType:      nil,
+		AtGenerics:  []AtGenericAnnotation{},
+		AtParams:    map[string]AtParamAnnotation{},
+		AtReturns:   []AtReturnAnnotation{},
+		AtOverloads: []AtOverloadAnnotation{},
+		AtAliases:   map[string]AtAliasAnnotation{},
+		AtClasses:   map[string]AtClassAnnotation{},
+		AtFields:    map[string]AtFieldAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim().NewBuffer()
@@ -775,59 +679,27 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
 	}
 
-	_, err = l.lexAtDeprecatedAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return annotations, fmt.Errorf("Error lexing deprecated annotation: %w", err)
-	}
-
-	_, err = l.lexAtPrivateAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return annotations, fmt.Errorf("Error lexing private annotation: %w", err)
-	}
-
-	_, err = l.lexAtProtectedAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return annotations, fmt.Errorf("Error lexing protected annotation: %w", err)
-	}
-
-	_, err = l.lexAtPackageAnnotation(buffer, &annotations)
-
-	switch {
-	case err != nil:
-		return annotations, fmt.Errorf("Error lexing package annotation: %w", err)
-	}
-
 	_, err = l.lexAtParamAnnotations(buffer, &annotations)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return annotations, fmt.Errorf("Error lexing param annotation: %w", err)
 	}
 
 	_, err = l.lexAtOverloadAnnotations(buffer, &annotations)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return annotations, fmt.Errorf("Error lexing overload annotation: %w", err)
 	}
 
 	_, err = l.lexAtReturnAnnotations(buffer, &annotations)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
 	}
 
 	_, err = l.lexAtTypeAnnotations(buffer, &annotations)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
@@ -1223,7 +1095,7 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Tabl
 				}
 				table.Indexes[len(table.Indexes)-1].Value = lexedValue
 
-			/* case "table.documentation":
+				/* case "table.documentation":
 				table.Documentation = []string{capture.Node.Text} */
 
 			}

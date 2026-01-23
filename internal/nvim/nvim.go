@@ -9,6 +9,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
 type CursorPosition struct {
@@ -18,6 +19,7 @@ type CursorPosition struct {
 
 type Nvim struct {
 	options options
+	logger  *log.Logger
 	cmd     *exec.Cmd
 	rpc     *msgpackrpc.MsgpackRpc
 }
@@ -280,6 +282,7 @@ func New(config Config, opts ...optionProvider) (*Nvim, error) {
 
 	return &Nvim{
 		options: options,
+		logger:  log.NewLogger("nvim"),
 		cmd:     cmd,
 		rpc:     rpc,
 	}, nil

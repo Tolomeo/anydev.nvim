@@ -477,8 +477,6 @@ func (l *Lexer) lexMetaValue() (symbol.Type, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = origin.Documentation()
 
-	fmt.Print(origin.Documentation())
-
 	annotations, err := l.lexAtAnnotations(origin.Documentation())
 
 	switch {
