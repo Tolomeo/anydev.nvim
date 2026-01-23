@@ -142,6 +142,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				) @origin.module`,
 			},
 			// dotindex assignment
+			// F.T = X.V
 			{
 				Language: "lua",
 				Query: `
@@ -155,6 +156,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				) @origin.variable`,
 			},
 			// variable assignment
+			// F.T = X
 			{
 				Language: "lua",
 				Query: `
@@ -281,7 +283,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query: fmt.Sprintf(`(
 					(alias_annotation) @alias
 					(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(c.context.Target().Identifier())),
+				) @origin.alias`, regexp.QuoteMeta(c.context.Target().Identifier())),
 			},
 		},
 		treesitter.CLASS_ANNOTATION: []treesitter.Query{
@@ -290,7 +292,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query: fmt.Sprintf(`(
 					(class_annotation) @class_annotation
 					(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(c.context.Target().Identifier())),
+				) @origin.class`, regexp.QuoteMeta(c.context.Target().Identifier())),
 			},
 		},
 		treesitter.FIELD_ANNOTATION: []treesitter.Query{
@@ -299,7 +301,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query: fmt.Sprintf(`(
 					(field_annotation) @field_annotation
 					(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
-				)`, regexp.QuoteMeta(c.context.Target().Name())),
+				) @origin.field`, regexp.QuoteMeta(c.context.Target().Name())),
 			},
 		},
 	}
