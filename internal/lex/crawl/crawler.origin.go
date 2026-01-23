@@ -12,8 +12,164 @@ import (
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
-		treesitter.ASSIGNMENT_STATEMENT: nil,
+		treesitter.ASSIGNMENT_STATEMENT: []treesitter.Query{
+			// table field assignment
+			// F.T = {}
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (dot_index_expression
+							table: (_)
+							field: (identifier) @table.name
+						)
+					)
+					(expression_list
+						value: (table_constructor) @table.value
+					)
+				) @origin.table`,
+			},
+			// table field index assignment
+			// F['T'] = {}
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (bracket_index_expression
+							table: (_)
+							field: (string
+								content: (string_content) @table.name
+							)
+						)
+					)
+					(expression_list
+						value: (table_constructor) @table.value
+					)
+				) @origin.table`,
+			},
+			// meta
+			// local F = ...
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (_)
+					) @assignment.left
+					(expression_list
+						value: [
+							(vararg_expression) @assignment.right
+						] 
+					)
+				) @origin.meta`,
+			},
+			// method assignment
+			/* api.fn = function() end
+			api.fn = function(name) end
+			api.fn = function(name, value) end
+			api.fn = function(name, value, ...) end
+			api.fn = function(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (dot_index_expression
+							field: (identifier) @name
+						) @access.class
+					)
+					(expression_list
+						value: (function_definition
+							parameters: (parameters
+								(identifier)? @arg
+								("," (identifier) @arg)*
+								("," (vararg_expression) @vararg)?
+								(vararg_expression)? @vararg
+							)
+						)
+					)
+				) @origin.function`,
+			},
+			/* api['fn'] = function() end
+			api['fn'] = function(name) end
+			api['fn'] = function(name, value) end
+			api['fn'] = function(name, value, ...) end
+			api['fn'] = function(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (bracket_index_expression
+							table: (_)
+							field: (string
+								content: (string_content) @name
+							)
+						) @access.class
+					)
+					(expression_list
+						value: (function_definition
+							parameters: (parameters
+								(identifier)? @arg
+								("," (identifier) @arg)*
+								("," (vararg_expression) @vararg)?
+								(vararg_expression)? @vararg
+							)
+						)
+					)
+				) @origin.function`,
+			},
+			// module assignment
+			// F = require("T")
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list)
+					(expression_list
+						value: (function_call
+							name: (identifier) @require.call
+							arguments: (arguments
+								(string
+									content: (string_content) @require.module
+								)
+							)
+						)
+					) @require
+					(#eq? @require.call "require")
+				) @origin.module`,
+			},
+			// dotindex assignment
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (_)
+					) @assignment.left
+					(expression_list
+						value: (dot_index_expression) @assignment.right 
+					)
+				) @origin.variable`,
+			},
+			// variable assignment
+			{
+				Language: "lua",
+				Query: `
+				(assignment_statement
+					(variable_list
+						name: (_)
+					) @assignment.left
+					(expression_list
+						value: (identifier) @assignment.right 
+					)
+				) @origin.variable`,
+			},
+		},
 		treesitter.VARIABLE_DECLARATION: []treesitter.Query{
+			// static method assignment
 			/* local T = function() end
 			local M = function(arg) end
 			local D = function(arg, ...) end
@@ -34,11 +190,12 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 									("," (vararg_expression) @vararg)?
 									(vararg_expression)? @vararg
 								)
-							) @origin.function
+							)
 						)
 					)
-				)`,
+				) @origin.function`,
 			},
+			// table assignment
 			// local T = {}
 			{
 				Language: "lua",
@@ -51,11 +208,12 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 						(expression_list
 							value: (table_constructor)
 						) @table.value
-					) @origin.table
-				)`,
+					) 
+				) @origin.table`,
 			},
 		},
 		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
+			// function
 			/* function fn() end
 			function fn(arg1) end
 			function fn(arg1, arg2) end
@@ -74,6 +232,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 					)
 				) @origin.function`,
 			},
+			// instance method
 			/* function api:fn() end
 			function api:fn(name) end
 			function api:fn(name, value) end
@@ -94,6 +253,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 					)
 				) @origin.function`,
 			},
+			// static method
 			/* function api.fn() end
 			function api.fn(name) end
 			function api.fn(name, value) end

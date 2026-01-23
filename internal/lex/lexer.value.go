@@ -61,6 +61,7 @@ var functionQueries = map[string]string{
 	function fn(arg1, arg2) end
 	function fn(arg1, arg2, ...) end
 		function fn(...) end */
+	// done
 	"declaration": `
 		(function_declaration
 			name: (identifier) @name
@@ -76,6 +77,7 @@ var functionQueries = map[string]string{
 	local M = function(arg) end
 	local D = function(arg, ...) end
 	local E = function(...) end */
+	// done
 	"assignment": `
 		(variable_declaration
 			(assignment_statement
@@ -100,6 +102,7 @@ var functionQueries = map[string]string{
 	function api:fn(name, value) end
 	function api:fn(name, value, ...) end
 	function api:fn(...) end */
+	// done
 	"methodDeclaration": `
 		(function_declaration
 			name: (method_index_expression
@@ -118,6 +121,7 @@ var functionQueries = map[string]string{
 	function api.fn(name, value) end
 	function api.fn(name, value, ...) end
 	function api.fn(...) end */
+	// done
 	"methodIndexDeclaration ": `
 		(function_declaration
 			name: (dot_index_expression
@@ -136,6 +140,7 @@ var functionQueries = map[string]string{
 	api.fn = function(name, value) end
 	api.fn = function(name, value, ...) end
 	api.fn = function(...) end */
+	//done
 	"methodAssignment": `
 		(assignment_statement
 			(variable_list
@@ -160,6 +165,7 @@ var functionQueries = map[string]string{
 	api['fn'] = function(name, value) end
 	api['fn'] = function(name, value, ...) end
 	api['fn'] = function(...) end */
+	// done
 	"methodIndexAssignment": `
 		(assignment_statement
 			(variable_list
@@ -332,6 +338,7 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 }
 
 var tableQueries = map[string]string{
+	// done
 	"tableDeclaration": `
 	(variable_declaration
 		(assignment_statement
@@ -344,6 +351,7 @@ var tableQueries = map[string]string{
 		)
 	)
 `,
+	// done
 	"tableFieldDeclaration": `
 	(assignment_statement
 		(variable_list
@@ -357,6 +365,7 @@ var tableQueries = map[string]string{
 		)
 	)
 `,
+	// done
 	"tableIndexFieldDeclaration": `
 		(assignment_statement
 			(variable_list
@@ -436,6 +445,7 @@ func (l *Lexer) lexTableValue() (*symbol.Table, error) {
 
 var metaQuery = treesitter.Query{
 	Language: "lua",
+	// done
 	Query: `
 	(assignment_statement
 		(variable_list
