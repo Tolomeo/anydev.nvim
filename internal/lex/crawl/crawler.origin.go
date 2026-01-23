@@ -13,7 +13,48 @@ import (
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: nil,
-		treesitter.VARIABLE_DECLARATION: nil,
+		treesitter.VARIABLE_DECLARATION: []treesitter.Query{
+			/* local T = function() end
+			local M = function(arg) end
+			local D = function(arg, ...) end
+			local E = function(...) end */
+			{
+				Language: "lua",
+				Query: `
+				(variable_declaration
+					(assignment_statement
+						(variable_list
+							name: (identifier) @name
+						)
+						(expression_list
+							value: (function_definition
+								parameters: (parameters
+									(identifier)? @arg
+									("," (identifier) @arg)*
+									("," (vararg_expression) @vararg)?
+									(vararg_expression)? @vararg
+								)
+							) @origin.function
+						)
+					)
+				)`,
+			},
+			// local T = {}
+			{
+				Language: "lua",
+				Query: `
+				(variable_declaration
+					(assignment_statement
+						(variable_list
+							name: (identifier)
+						) @table.name
+						(expression_list
+							value: (table_constructor)
+						) @table.value
+					) @origin.table
+				)`,
+			},
+		},
 		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
 			/* function fn() end
 			function fn(arg1) end
