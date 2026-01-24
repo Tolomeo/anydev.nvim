@@ -17,7 +17,7 @@ const (
 	debug   level = "DEBUG"
 )
 
-var levels = []level{error, warn, info, verbose}
+var levels = [4]level{error, warn, info, verbose}
 
 type log struct {
 	level   level
@@ -31,7 +31,7 @@ type Logger struct {
 }
 
 func (l *Logger) log(newLog log) {
-	newLogLevel := slices.Index(levels, newLog.level)
+	newLogLevel := slices.Index(levels[:], newLog.level)
 
 	if newLogLevel > int(l.level) {
 		return
