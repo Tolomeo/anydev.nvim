@@ -3,10 +3,8 @@ package lex
 import (
 	"fmt"
 
-	// "github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
@@ -37,37 +35,51 @@ func (l *Lexer) Lex() (symbol.Type, error) {
 		return cachedSymbol, nil
 	}
 
-	switch l.context.Target().Origin().Type() {
-	case treesitter.ASSIGNMENT_STATEMENT,
-		treesitter.VARIABLE_DECLARATION,
-		treesitter.FUNCTION_DECLARATION:
-		lexed, err := l.lexValue()
+	origin := l.context.Target().Origin()
+
+	switch o := origin.(type) {
+	case *symbol.TableOrigin:
+		tableType, err := l.lexTableValue(o)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(lexed, cacheId...)
-		return lexed, nil
-	case treesitter.ALIAS_ANNOTATION:
-		lexed, err := l.lexAliasType()
+		lexedCache.Set(tableType, cacheId...)
+		return tableType, nil
+	case *symbol.FunctionOrigin:
+		functionType, err := l.lexFunctionValue(o)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(lexed, cacheId...)
-		return lexed, nil
-	case treesitter.CLASS_ANNOTATION:
-		lexed, err := l.lexClassType()
+		lexedCache.Set(functionType, cacheId...)
+		return functionType, nil
+	case *symbol.MetaOrigin:
+		metaType, err := l.lexMetaValue(o)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(lexed, cacheId...)
-		return lexed, nil
-	case treesitter.FIELD_ANNOTATION:
-		lexed, err := l.lexFieldType()
+		lexedCache.Set(metaType, cacheId...)
+		return metaType, nil
+	case *symbol.AliasOrigin:
+		aliasType, err := l.lexAliasType(o)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(lexed, cacheId...)
-		return lexed, nil
+		lexedCache.Set(aliasType, cacheId...)
+		return aliasType, nil
+	case *symbol.ClassOrigin:
+		classType, err := l.lexClassType(o)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(classType, cacheId...)
+		return classType, nil
+	case *symbol.FieldOrigin:
+		fieldType, err := l.lexFieldType(o)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(fieldType, cacheId...)
+		return fieldType, nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())

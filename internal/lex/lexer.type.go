@@ -7,17 +7,17 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 )
 
-func (l *Lexer) lexClassType() (*symbol.Table, error) {
+func (l *Lexer) lexClassType(origin *symbol.ClassOrigin) (*symbol.Table, error) {
 	// Replacing all dots in the alias className with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	className := l.context.Target().Identifier()
-	classOrigin := l.context.Target().Origin()
+	// classOrigin := l.context.Target().Origin()
 
 	classPatchedName := strings.ReplaceAll(className, ".", "_")
-	classDefinitionText := strings.Join(classOrigin.Definition(), "\n")
+	classDefinitionText := strings.Join(origin.Definition(), "\n")
 	classPatchedDefinitionText := strings.Replace(classDefinitionText, className, classPatchedName, 1)
 
-	classDocumentationText := strings.Join(classOrigin.Documentation(), "\n")
+	classDocumentationText := strings.Join(origin.Documentation(), "\n")
 	classPatchedDocumentationText := strings.Replace(classDocumentationText, classDefinitionText, classPatchedDefinitionText, 1)
 	classPatchedDocumentationLines := strings.Split(classPatchedDocumentationText, "\n")
 
@@ -55,8 +55,8 @@ func (l *Lexer) lexClassType() (*symbol.Table, error) {
 	return class, nil
 }
 
-func (l *Lexer) lexFieldType() (symbol.Type, error) {
-	annotations, err := l.lexAtAnnotations(l.context.Target().Origin().Documentation())
+func (l *Lexer) lexFieldType(origin *symbol.FieldOrigin) (symbol.Type, error) {
+	annotations, err := l.lexAtAnnotations(origin.Documentation())
 
 	if err != nil {
 		return nil, err
@@ -78,12 +78,12 @@ func (l *Lexer) lexFieldType() (symbol.Type, error) {
 	return lexedField, nil
 }
 
-func (l *Lexer) lexAliasType() (symbol.Type, error) {
+func (l *Lexer) lexAliasType(origin *symbol.AliasOrigin) (symbol.Type, error) {
 	// fmt.Printf("\nsource: <%+v>\n", source.GetOrigin())
 	// Replacing all dots in the alias name with underscores
 	// because apparently luadoc would not permit to use dots in identifiers
 	name := l.context.Target().Identifier()
-	origin := l.context.Target().Origin()
+	// origin := l.context.Target().Origin()
 
 	patchedName := strings.ReplaceAll(name, ".", "_")
 	definitionText := strings.Join(origin.Definition(), "\n")
