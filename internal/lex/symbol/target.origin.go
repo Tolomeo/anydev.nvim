@@ -15,6 +15,7 @@ type Origin interface {
 	Type() string
 	Definition() []string
 	Documentation() []string
+	Captures() []treesitter.Capture
 }
 
 type origin struct {
@@ -45,6 +46,10 @@ func (l *origin) Definition() []string {
 
 func (l *origin) Documentation() []string {
 	return l.docBlock
+}
+
+func (l *origin) Captures() []treesitter.Capture {
+	return l.definition.Match
 }
 
 type FunctionOrigin struct {

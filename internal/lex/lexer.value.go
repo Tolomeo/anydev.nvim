@@ -4,13 +4,26 @@ import (
 	"fmt"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	// "github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 func (l *Lexer) lexValue() (symbol.Type, error) {
-	buffer, err := l.context.Nvim().NewBuffer()
+	origin := l.context.Target().Origin()
+
+	switch o := origin.(type) {
+	case *symbol.TableOrigin:
+		return l.lexTableValue(o)
+	case *symbol.FunctionOrigin:
+		return l.lexFunctionValue(o)
+	case *symbol.MetaOrigin:
+		return l.lexMetaValue(o)
+	}
+
+	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
+
+	/* buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -52,7 +65,7 @@ func (l *Lexer) lexValue() (symbol.Type, error) {
 		return meta, nil
 	}
 
-	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
+	return nil, fmt.Errorf("Error lexing %s: unknown origin <%+v>", l.context.Target().Identifier(), l.context.Target().Origin()) */
 }
 
 var functionQueries = map[string]string{
@@ -190,8 +203,8 @@ var functionQueries = map[string]string{
 	`,
 }
 
-func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
-	origin := l.context.Target().Origin()
+func (l *Lexer) lexFunctionValue(origin *symbol.FunctionOrigin) (*symbol.Function, error) {
+	/* origin := l.context.Target().Origin()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -223,12 +236,12 @@ func (l *Lexer) lexFunctionValue() (*symbol.Function, error) {
 
 	if match == nil {
 		return nil, nil
-	}
+	} */
 
 	function := symbol.NewFunction()
 	// function.Documentation = origin.Documentation()
 
-	for _, capture := range *match {
+	for _, capture := range origin.Captures() {
 		switch capture.Id {
 		case "name":
 			function.Name = &capture.Node.Text
@@ -382,9 +395,9 @@ var tableQueries = map[string]string{
 		)
 `}
 
-func (l *Lexer) lexTableValue() (*symbol.Table, error) {
-	origin := l.context.Target().Origin()
-	buffer, err := l.context.Nvim().NewBuffer()
+func (l *Lexer) lexTableValue(origin *symbol.TableOrigin) (*symbol.Table, error) {
+	// origin := l.context.Target().Origin()
+	/* buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -415,11 +428,11 @@ func (l *Lexer) lexTableValue() (*symbol.Table, error) {
 
 	if match == nil {
 		return nil, nil
-	}
+	} */
 
 	table := symbol.NewTable()
 
-	for _, capture := range *match {
+	for _, capture := range origin.Captures() {
 		switch capture.Id {
 		case "table.name":
 			table.Name = capture.Node.Text
@@ -459,8 +472,8 @@ var metaQuery = treesitter.Query{
 	) @assignment`,
 }
 
-func (l *Lexer) lexMetaValue() (symbol.Type, error) {
-	origin := l.context.Target().Origin()
+func (l *Lexer) lexMetaValue(origin *symbol.MetaOrigin) (symbol.Type, error) {
+	/* origin := l.context.Target().Origin()
 	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -482,7 +495,7 @@ func (l *Lexer) lexMetaValue() (symbol.Type, error) {
 		return nil, err
 	case captures == nil:
 		return nil, nil
-	}
+	} */
 
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = origin.Documentation()
