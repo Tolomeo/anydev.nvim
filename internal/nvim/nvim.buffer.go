@@ -52,6 +52,7 @@ func (b *Buffer) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*tr
 
 	return b.nvim.getTSNodeAt(nodeTypes, line, character)
 }
+
 func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -61,6 +62,7 @@ func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsN
 
 	return b.nvim.getTsCommentBlockAt(line, character)
 }
+
 func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -70,6 +72,7 @@ func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 
 	return b.nvim.tsQueryOne(query)
 }
+
 func (b *Buffer) TsQueryAll(query treesitter.Query) (*[]TsQueryMatch, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -79,6 +82,7 @@ func (b *Buffer) TsQueryAll(query treesitter.Query) (*[]TsQueryMatch, error) {
 
 	return b.nvim.tsQueryAll(query)
 }
+
 func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -88,6 +92,7 @@ func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, e
 
 	return b.nvim.safeTsQueryAll(query)
 }
+
 func (b *Buffer) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -97,6 +102,7 @@ func (b *Buffer) GetDefinitionLocations(line uint, character uint) (*[]Location,
 
 	return b.nvim.getDefinitionLocations(line, character)
 }
+
 func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -106,6 +112,7 @@ func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Locat
 
 	return b.nvim.getTypeDefinitionLocations(line, character)
 }
+
 func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
 	_, err := b.nvim.open(b.name)
 
@@ -115,7 +122,8 @@ func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, charact
 
 	return b.nvim.queryTsNodeAt(tsNodeQueryMap, line, character)
 }
-func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*Buffer, error], error) {
+
+func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, error], error) {
 	_, err := b.nvim.open(b.name)
 
 	if err != nil {
@@ -136,7 +144,7 @@ func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*Buffer, error], er
 		return nil, err
 	}
 
-	return func(yield func(*Buffer, error) bool) {
+	return func(yield func(*ScratchBuffer, error) bool) {
 		for i := startLine; i < uint(len(lines)); i++ {
 
 			err := linebuffer.SetLines([]string{lines[i]})
@@ -155,8 +163,9 @@ func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*Buffer, error], er
 		linebuffer.Close()
 	}, nil
 }
+
 func (b *Buffer) Close() error {
-	_, err := b.nvim.open(b.name)
+	/* _, err := b.nvim.open(b.name)
 
 	if err != nil {
 		return err
@@ -166,7 +175,7 @@ func (b *Buffer) Close() error {
 
 	if err != nil {
 		return err
-	}
+	} */
 
 	return nil
 }
@@ -188,9 +197,42 @@ func (nvim *Nvim) OpenBuffer(name string) (*Buffer, error) {
 
 var newBufferCounter = 0
 
-func (n *Nvim) NewBuffer() (*Buffer, error) {
-	newBufferCounter += 1
-	name := path.Join(n.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", newBufferCounter))
+type ScratchBuffer struct {
+	Buffer
+}
 
-	return n.OpenBuffer(name)
+func (s *ScratchBuffer) Close() error {
+	_, err := s.nvim.open(s.name)
+
+	if err != nil {
+		return err
+	}
+
+	err = s.nvim.deleteBuffer()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (nvim *Nvim) NewBuffer() (*ScratchBuffer, error) {
+	newBufferCounter += 1
+	name := path.Join(nvim.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", newBufferCounter))
+
+	buffer := &ScratchBuffer{
+		Buffer: Buffer{
+			nvim: nvim,
+			name: name,
+		},
+	}
+
+	_, err := nvim.open(name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return buffer, nil
 }

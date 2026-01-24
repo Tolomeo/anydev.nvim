@@ -97,7 +97,7 @@ var atTypeAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	captures, err := buffer.TsQueryOne(atTypeAnnotationQuery)
 
 	switch {
@@ -138,7 +138,7 @@ var atOverloadAnnotationQuery = treesitter.Query{
 `, typeAnnotationQueries["function_type"]),
 }
 
-func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.SafeTsQueryAll(atOverloadAnnotationQuery)
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
@@ -202,7 +202,7 @@ var atGenericAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(atGenericAnnotationQuery)
 
 	switch {
@@ -253,7 +253,7 @@ var atParamAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtParamAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(atParamAnnotationQuery)
 
 	switch {
@@ -304,7 +304,7 @@ var atReturnAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(atReturnAnnotationQuery)
 
 	switch {
@@ -354,7 +354,7 @@ var simpleAtAliasQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(simpleAtAliasQuery)
 
 	switch {
@@ -419,7 +419,7 @@ var enumAtAliasMemberQuery = treesitter.Query{
 	)
 `, anyTypeAnnotationQuery)}
 
-func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(enumAtAliasQuery)
 
 	switch {
@@ -488,7 +488,7 @@ func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.Buffer, annotations *AtAnn
 	return true, nil
 }
 
-func (l *Lexer) lexAtAliasAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtAliasAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	found, err := l.lexSimpleAtAliasAnnotation(buffer, annotations)
 
 	switch {
@@ -541,7 +541,7 @@ var atClassAnnotationQuery = treesitter.Query{
 		)`, anyTypeQuery),
 } */
 
-func (l *Lexer) lexAtClassAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtClassAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(atClassAnnotationQuery)
 
 	switch {
@@ -599,7 +599,7 @@ var atFieldAnnotationQuery = treesitter.Query{
 		)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.Buffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
 	matches, err := buffer.TsQueryAll(atFieldAnnotationQuery)
 
 	switch {
@@ -759,7 +759,7 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Type, error) {
+func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	switch {
@@ -822,7 +822,7 @@ var functionTypeAnnotationQuery = treesitter.Query{
 `, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.Buffer) (*symbol.Function, error) {
+func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Function, error) {
 	captures, err := buffer.TsQueryOne(functionTypeAnnotationQuery)
 
 	switch {
@@ -883,7 +883,7 @@ var tableTypeAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, error) {
+func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
 	switch {
@@ -974,7 +974,7 @@ var arrayTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Array, error) {
+func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
 	switch {
@@ -1051,7 +1051,7 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 	},
 }
 
-func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.Buffer) (*symbol.Table, error) {
+func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	for _, query := range literalTableAnnotationQueries {
 		match, err := buffer.TsQueryOne(query)
 
@@ -1119,7 +1119,7 @@ var unionTypeAnnotationQuery = treesitter.Query{
 		)
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)}
 
-func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.Union, error) {
+func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(unionTypeAnnotationQuery)
 
 	switch {
@@ -1171,7 +1171,7 @@ var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.Buffer, source string) (symbol.Type, error) {
+func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
@@ -1201,7 +1201,7 @@ var literalNumberTypeAnnotationQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexLiteralNumberTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.NumericLiteral, error) {
+func (l *Lexer) lexLiteralNumberTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.NumericLiteral, error) {
 	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
 	switch {
@@ -1232,7 +1232,7 @@ var literalBooleanTypeAnnotationQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexLiteralBooleanTypeAnnotation(buffer *nvim.Buffer) (*symbol.BooleanLiteral, error) {
+func (l *Lexer) lexLiteralBooleanTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
 	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
 
 	switch {
@@ -1262,7 +1262,7 @@ var literalStringTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.Buffer, source string) (*symbol.StringLiteral, error) {
+func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(literalStringTypeAnnotationQuery)
 
 	switch {
