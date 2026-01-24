@@ -4,6 +4,8 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 type Origin interface {
@@ -77,6 +79,15 @@ type VariableOrigin struct {
 	origin
 }
 
+func (vo *VariableOrigin) GetAssignedName() string {
+	assignmentRightCapture, _ := slicesx.FindFunc(vo.definition.Match, func(capture treesitter.Capture) bool {
+		return capture.Id == "assignment.right"
+	})
+
+	return assignmentRightCapture.Node.Text
+
+}
+
 func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *VariableOrigin {
 	return &VariableOrigin{
 		origin: origin{
@@ -89,6 +100,14 @@ func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch,
 
 type ModuleOrigin struct {
 	origin
+}
+
+func (mo *ModuleOrigin) GetModuleName() string {
+	moduleNameCapture, _ := slicesx.FindFunc(mo.definition.Match, func(capture treesitter.Capture) bool {
+		return capture.Id == "require.module"
+	})
+
+	return moduleNameCapture.Node.Text
 }
 
 func NewModuleOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ModuleOrigin {
@@ -167,8 +186,9 @@ func (o *Origins) First() Origin {
 	return (*o)[0]
 }
 
-func (o *Origins) Merge(o2 *Origins) {
+func (o *Origins) Merge(o2 *Origins) *Origins {
 	*o = append(*o, *o2...)
+	return o
 }
 
 func NewOrigins(origins ...Origin) *Origins {

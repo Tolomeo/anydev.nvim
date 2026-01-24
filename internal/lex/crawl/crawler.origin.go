@@ -7,7 +7,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
@@ -367,37 +366,25 @@ func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error)
 		return nil, nil
 	}
 
-	origins := symbol.NewOrigins(origin)
-
-	switch origins.Last().Type() {
-	case treesitter.ASSIGNMENT_STATEMENT:
-		moduleOrigins, err := c.getModuleOrigins(origins.Last())
-
+	switch o := origin.(type) {
+	case *symbol.ModuleOrigin:
+		moduleOrigins, err := c.getModuleOrigins(o)
 		if err != nil {
 			return nil, err
 		}
-
-		if moduleOrigins != nil {
-			origins.Merge(moduleOrigins)
-			return origins, nil
-		}
-
-		variableOrigins, err := c.getVariableOrigins(origins.Last())
-
+		return symbol.NewOrigins(origin).Merge(moduleOrigins), nil
+	case *symbol.VariableOrigin:
+		variableOrigins, err := c.getVariableOrigins(o)
 		if err != nil {
 			return nil, err
 		}
-
-		if variableOrigins != nil {
-			origins.Merge(variableOrigins)
-			return origins, nil
-		}
+		return symbol.NewOrigins(origin).Merge(variableOrigins), nil
 	}
 
-	return origins, nil
+	return symbol.NewOrigins(origin), nil
 }
 
-var requireAssignmentQuery = treesitter.Query{
+/* var requireAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(assignment_statement
@@ -414,10 +401,11 @@ var requireAssignmentQuery = treesitter.Query{
 		) @require
 		(#eq? @require.call "require")
 	)`,
-}
+} */
 
-func (c *Crawler) getModuleOrigins(origin symbol.Origin) (*symbol.Origins, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+func (c *Crawler) getModuleOrigins(origin *symbol.ModuleOrigin) (*symbol.Origins, error) {
+	moduleName := origin.GetModuleName()
+	/* buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -447,9 +435,9 @@ func (c *Crawler) getModuleOrigins(origin symbol.Origin) (*symbol.Origins, error
 
 	if !found {
 		return nil, fmt.Errorf("Error retrieving required module name from require statement in '%s'", origin.Definition())
-	}
+	} */
 
-	moduleLocations, err := c.findModuleDefinitionLocations(moduleNameCapture.Node.Text)
+	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
 
 	if err != nil {
 		return nil, err
@@ -470,7 +458,7 @@ func (c *Crawler) getModuleOrigins(origin symbol.Origin) (*symbol.Origins, error
 	return true, nil */
 }
 
-var variableAssignmentQueries = map[string]treesitter.Query{
+/* var variableAssignmentQueries = map[string]treesitter.Query{
 	"dotIndexAssignment": {
 		Language: "lua",
 		Query: `
@@ -494,10 +482,11 @@ var variableAssignmentQueries = map[string]treesitter.Query{
 			)
 		)`,
 	},
-}
+} */
 
-func (c *Crawler) getVariableOrigins(origin symbol.Origin) (*symbol.Origins, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+func (c *Crawler) getVariableOrigins(origin *symbol.VariableOrigin) (*symbol.Origins, error) {
+	assignedName := origin.GetAssignedName()
+	/* buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
@@ -537,19 +526,21 @@ func (c *Crawler) getVariableOrigins(origin symbol.Origin) (*symbol.Origins, err
 
 	if !found {
 		return nil, fmt.Errorf("Error retrieving read variable name from variable to variable assignment in '%s'", origin.Definition())
-	}
+	} */
 
-	rightValueLocations, err := c.findDefinitionLocations(rightValue.Node.Text)
-
-	if err != nil {
-		return nil, err
-	}
-
-	rightValueOrigins, err := c.getOrigins(*rightValueLocations)
+	rightValueLocations, err := c.findDefinitionLocations(assignedName)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return rightValueOrigins, nil
+	return c.getOrigins(*rightValueLocations)
+
+	/* rightValueOrigins, err := c.getOrigins(*rightValueLocations)
+
+	if err != nil {
+		return nil, err
+	} */
+
+	// return rightValueOrigins, nil
 }
