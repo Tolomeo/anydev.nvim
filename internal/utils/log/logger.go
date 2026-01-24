@@ -4,16 +4,20 @@ import (
 	"fmt"
 	stdLog "log"
 	"os"
+	"slices"
 )
 
 type level string
 
 const (
-	info  level = "INFO"
-	warn  level = "WARN"
-	error level = "ERROR"
-	debug level = "DEBUG"
+	error   level = "ERROR"
+	warn    level = "WARN"
+	info    level = "INFO"
+	verbose level = "VERBOSE"
+	debug   level = "DEBUG"
 )
+
+var levels = []level{error, warn, info, verbose}
 
 type log struct {
 	level   level
@@ -21,11 +25,18 @@ type log struct {
 }
 
 type Logger struct {
+	level  uint
 	prefix string
 	stdOut *stdLog.Logger
 }
 
 func (l *Logger) log(newLog log) {
+	newLogLevel := slices.Index(levels, newLog.level)
+
+	if newLogLevel > int(l.level) {
+		return
+	}
+
 	l.stdOut.Printf("%s%s: %s\n", newLog.level, l.prefix, newLog.message)
 }
 
@@ -53,6 +64,14 @@ func (l *Logger) Errorf(message string, args ...any) {
 	l.log(log{level: error, message: fmt.Sprintf(message, args...)})
 }
 
+func (l *Logger) Verbose(message string) {
+	l.log(log{level: verbose, message: message})
+}
+
+func (l *Logger) Verbosef(message string, args ...any) {
+	l.log(log{level: verbose, message: fmt.Sprintf(message, args...)})
+}
+
 func (l *Logger) Debug(message string) {
 	message = fmt.Sprintf("\n****************************\n%s\n****************************\n", message)
 
@@ -71,6 +90,7 @@ func NewLogger(prefix string) *Logger {
 	}
 
 	return &Logger{
+		level:  2,
 		prefix: prefix,
 		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}
