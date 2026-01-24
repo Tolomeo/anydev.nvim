@@ -35,6 +35,7 @@ function _G.Anydev:get_ts_parser(buffer)
 
 	local source = table.concat(vim.api.nvim_buf_get_lines(buffer, 0, -1, false), "\n")
 	local parser = vim.treesitter.get_string_parser(source, "lua")
+
 	parser:parse(true)
 
 	local anydev_ts_parser = { source = source, parser = parser }
@@ -50,4 +51,29 @@ function _G.Anydev:get_ts_parser(buffer)
 	})
 
 	return anydev_ts_parser
+end
+
+---@class anydev_ts_parser_node
+---@field type string
+---@field range { start: { line: number, character: number }, end: { line: number, character: number }}
+---@field text string
+
+---@param node TSNode
+---@param node_source string
+---@return anydev_ts_parser_node
+function _G.Anydev:get_ts_parser_node(node, node_source)
+	local nodeType = node:type()
+	local startLine, startCharacter, endLine, endCharacter = node:range()
+	local text = vim.treesitter.get_node_text(node, node_source)
+
+	local anydev_ts_parser_node = {
+		type = nodeType,
+		range = {
+			start = { line = startLine, character = startCharacter },
+			["end"] = { line = endLine, character = endCharacter },
+		},
+		text = text,
+	}
+
+	return anydev_ts_parser_node
 end

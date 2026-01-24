@@ -13,24 +13,12 @@ parser.parser:for_each_tree(function(tree, language_tree)
 
 	if query_language == lang then
 		for id, node, _ in parsedQuery:iter_captures(tree:root(), bufnr, start, stop) do
-			local captureId = parsedQuery.captures[id]
-
-			local nodeType = node:type()
-			local startLine, startCharacter, endLine, endCharacter = node:range()
-			local text = vim.treesitter.get_node_text(node, parser.source)
-
-			local tsNode = {
-				type = nodeType,
-				range = {
-					start = { line = startLine, character = startCharacter },
-					["end"] = { line = endLine, character = endCharacter },
-				},
-				text = text,
-			}
+			local capture_id = parsedQuery.captures[id]
+			local capture_node = _G.Anydev:get_ts_parser_node(node, parser.source)
 
 			local capture = {
-				id = captureId,
-				node = tsNode,
+				id = capture_id,
+				node = capture_node,
 			}
 
 			table.insert(queryResult, capture)

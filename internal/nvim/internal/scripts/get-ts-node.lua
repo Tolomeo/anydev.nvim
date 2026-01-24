@@ -28,15 +28,5 @@ if node == nil then
 	return vim.NIL
 end
 
-local nodeType = node:type()
-local startLine, startCharacter, endLine, endCharacter = node:range(false)
-local text = vim.treesitter.get_node_text(node, parser.source)
-
-return vim.fn.json_encode({
-	type = nodeType,
-	range = {
-		start = { line = startLine, character = startCharacter },
-		["end"] = { line = endLine, character = endCharacter },
-	},
-	text = text,
-})
+local result_node = _G.Anydev:get_ts_parser_node(node, parser.source)
+return vim.fn.json_encode(result_node)
