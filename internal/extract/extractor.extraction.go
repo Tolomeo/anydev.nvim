@@ -1,8 +1,6 @@
 package extract
 
 import (
-	// "fmt"
-
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
@@ -10,30 +8,30 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
-type context struct {
-	target *extractorTarget
+type extractionContext struct {
+	target *extraction
 }
 
-func (c *context) Target() *symbol.Target {
+func (c *extractionContext) Target() *symbol.Target {
 	return c.target.Target()
 }
 
-func (c *context) Logger() *log.Logger {
+func (c *extractionContext) Logger() *log.Logger {
 	return c.target.logger
 }
 
-func (c *context) Nvim() *nvim.Nvim {
+func (c *extractionContext) Nvim() *nvim.Nvim {
 	return c.target.extractor.Nvim()
 }
 
-func (c *context) Extract(kind symbol.TargetKind, name string) error {
+func (c *extractionContext) Extract(kind symbol.TargetKind, name string) error {
 	return c.target.extractor.Extract(kind, name)
 }
 
-func (c *context) ExtractChild(parent *symbol.Table, name string) error {
+func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
 	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.Target().Kind())
 
-	childTarget := c.target.extractor.newChildTarget(c.target.Target(), name)
+	childTarget := c.target.extractor.newChildExtraction(c.target.Target(), name)
 	err := c.target.extractor.extract(childTarget)
 
 	if err != nil {
@@ -49,35 +47,35 @@ func (c *context) ExtractChild(parent *symbol.Table, name string) error {
 	return nil
 }
 
-type extractorTarget struct {
+type extraction struct {
 	extractor *extractor
 	crawler   *crawl.Crawler
 	lexer     *lex.Lexer
 	logger    *log.Logger
-	parent    *extractorTarget
+	parent    *extraction
 	target    *symbol.Target
 }
 
-func (t *extractorTarget) Target() *symbol.Target {
+func (t *extraction) Target() *symbol.Target {
 	return t.target
 }
 
-func (t *extractorTarget) Logger() *log.Logger {
+func (t *extraction) Logger() *log.Logger {
 	return t.logger
 }
 
-func (t *extractorTarget) Nvim() *nvim.Nvim {
+func (t *extraction) Nvim() *nvim.Nvim {
 	return t.extractor.Nvim()
 }
 
-func (t *extractorTarget) Extract(kind symbol.TargetKind, name string) error {
+func (t *extraction) Extract(kind symbol.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
 }
 
-func (t *extractorTarget) ExtractChild(parent *symbol.Table, name string) error {
+func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.target.Kind())
 
-	childTarget := t.extractor.newChildTarget(t.target, name)
+	childTarget := t.extractor.newChildExtraction(t.target, name)
 	err := t.extractor.extract(childTarget)
 
 	if err != nil {
@@ -93,9 +91,9 @@ func (t *extractorTarget) ExtractChild(parent *symbol.Table, name string) error 
 	return nil
 }
 
-type step func() (step, error)
+type extractionStep func() (extractionStep, error)
 
-func (t *extractorTarget) getOrigins() (step, error) {
+func (t *extraction) getOrigins() (extractionStep, error) {
 	t.logger.Info("Crawling")
 
 	origin, err := t.crawler.GetOrigins()
@@ -116,7 +114,7 @@ func (t *extractorTarget) getOrigins() (step, error) {
 	return t.getMeta, nil
 }
 
-func (t *extractorTarget) getMeta() (step, error) {
+func (t *extraction) getMeta() (extractionStep, error) {
 	t.logger.Infof("Crawling origin meta information")
 
 	meta, err := t.crawler.GetMeta()
@@ -130,7 +128,7 @@ func (t *extractorTarget) getMeta() (step, error) {
 	return t.getType, nil
 }
 
-func (t *extractorTarget) getType() (step, error) {
+func (t *extraction) getType() (extractionStep, error) {
 	t.logger.Infof("Lexing '%s'", t.Target().Identifier())
 
 	typ, err := t.lexer.Lex()
@@ -144,13 +142,13 @@ func (t *extractorTarget) getType() (step, error) {
 	return nil, nil
 }
 
-func (e *extractor) newChildTarget(parent *symbol.Target, name string) *extractorTarget {
+func (e *extractor) newChildExtraction(parent *symbol.Target, name string) *extraction {
 	target := parent.NewChild(name)
-	targetExtraction := &extractorTarget{
+	targetExtraction := &extraction{
 		extractor: e,
 		target:    target,
 	}
-	targetExtractionContext := context{
+	targetExtractionContext := extractionContext{
 		target: targetExtraction,
 	}
 
@@ -161,13 +159,13 @@ func (e *extractor) newChildTarget(parent *symbol.Target, name string) *extracto
 	return targetExtraction
 }
 
-func (e *extractor) newTarget(kind symbol.TargetKind, name string) *extractorTarget {
+func (e *extractor) newExtraction(kind symbol.TargetKind, name string) *extraction {
 	target := symbol.NewTarget(kind, name)
-	targetExtraction := &extractorTarget{
+	targetExtraction := &extraction{
 		extractor: e,
 		target:    target,
 	}
-	targetExtractionContext := context{
+	targetExtractionContext := extractionContext{
 		target: targetExtraction,
 	}
 

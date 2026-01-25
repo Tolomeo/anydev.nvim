@@ -14,15 +14,15 @@ vim.opt.packpath:prepend(config_dir)
 -- Configuring lua_ls lsp
 require("lazydev").setup()
 
----@class anydev_ts_parser
----@field source string
----@field parser vim.treesitter.LanguageTree
-
 ---@class anydev
 ---@field ts_parsers table<string, anydev_ts_parser>
 _G.Anydev = {
 	ts_parsers = {},
 }
+
+---@class anydev_ts_parser
+---@field source string
+---@field parser vim.treesitter.LanguageTree
 
 ---@param buffer integer
 ---@return anydev_ts_parser

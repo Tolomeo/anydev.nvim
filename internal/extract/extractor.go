@@ -18,38 +18,38 @@ func (o Options) validate() error {
 	return nil
 }
 
-type extraction struct {
+type result struct {
 	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
 	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
 }
 
 type extractor struct {
-	targets []*extractorTarget
-	nvim    *nvim.Nvim
-	logger  *log.Logger
-	result  *extraction
+	extractions []*extraction
+	nvim        *nvim.Nvim
+	logger      *log.Logger
+	result      *result
 }
 
 func (e *extractor) Nvim() *nvim.Nvim {
 	return e.nvim
 }
 
-func (e *extractor) Result() *extraction {
+func (e *extractor) Result() *result {
 	return e.result
 }
 
 func (e *extractor) Flush() {
-	e.targets = []*extractorTarget{}
-	e.result = &extraction{
+	e.extractions = []*extraction{}
+	e.result = &result{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
 	}
 }
 
-func (e *extractor) extract(item *extractorTarget) error {
+func (e *extractor) extract(item *extraction) error {
 	e.logger.Infof("Extracting '%s'", item.Target().Identifier())
 
-	e.targets = append(e.targets, item)
+	e.extractions = append(e.extractions, item)
 
 	var err error
 	current := item.getOrigins
@@ -57,14 +57,14 @@ func (e *extractor) extract(item *extractorTarget) error {
 	for {
 		current, err = current()
 
-		e.targets[len(e.targets)-1] = item
+		e.extractions[len(e.extractions)-1] = item
 
 		if err != nil {
 			return err
 		}
 
 		if current == nil {
-			e.targets = e.targets[:len(e.targets)-1]
+			e.extractions = e.extractions[:len(e.extractions)-1]
 			return nil
 		}
 	}
@@ -90,8 +90,7 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		e.result.Types[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
 	}
 
-	target := e.newTarget(kind, name)
-
+	target := e.newExtraction(kind, name)
 	err := e.extract(target)
 
 	if err != nil {
@@ -161,8 +160,8 @@ func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
-		targets: []*extractorTarget{},
-		result: &extraction{
+		extractions: []*extraction{},
+		result: &result{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},
 		},
