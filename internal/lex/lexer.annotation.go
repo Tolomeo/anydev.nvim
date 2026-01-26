@@ -72,14 +72,15 @@ var atTypeAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
 	captures, err := buffer.TsQueryOne(atTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
-		return false, err
-	case captures == nil:
-		return false, nil
+	if err != nil {
+		return nil, err
+	}
+
+	if captures == nil {
+		return nil, nil
 	}
 
 	atType := AtTypeAnnotation{}
@@ -93,8 +94,7 @@ func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer, annotations *At
 		}
 	}
 
-	annotations.AtType = &atType
-	return true, nil
+	return &atType, nil
 }
 
 var atOverloadAnnotationQuery = treesitter.Query{
@@ -362,11 +362,13 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
 	}
 
-	_, err = l.lexAtTypeAnnotations(buffer, &annotations)
+	atType, err := l.lexAtTypeAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
+
+	annotations.AtType = atType
 
 	lexedAnnotationsCache.Set(annotations, dockblock...)
 	return annotations, nil
