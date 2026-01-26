@@ -9,7 +9,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 var lexedAnnotationsCache = cache.NewCache[AtAnnotations]()
@@ -46,17 +45,6 @@ type AtOverloadAnnotation struct {
 	Documentation []string
 }
 
-type AtAliasAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-type AtClassAnnotation struct {
-	Name    string
-	Parents []string
-}
-
 type AtFieldAnnotation struct {
 	Name          string
 	Type          TypeAnnotation
@@ -77,8 +65,6 @@ type AtAnnotations struct {
 	AtParams     map[string]AtParamAnnotation
 	AtReturns    []AtReturnAnnotation
 	AtOverloads  []AtOverloadAnnotation
-	AtAliases    map[string]AtAliasAnnotation
-	AtClasses    map[string]AtClassAnnotation
 	AtFields     map[string]AtFieldAnnotation
 }
 
@@ -334,245 +320,6 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer, annotations *
 	return true, nil
 }
 
-// Luadoc matches an empty type node even when the type is not present
-// So those false positives are excluded with the not-eq predicate
-var simpleAtAliasQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(alias_annotation
-			"@alias"
-			.
-			(identifier) @alias.name
-			.
-			(%s) @alias.type
-			.
-			(comment)? @alias.documentation
-			.
-		) @alias
-		(#not-eq? @alias.type "")
-	)`, anyTypeAnnotationQuery),
-}
-
-func (l *Lexer) lexSimpleAtAliasAnnotation(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(simpleAtAliasQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		alias := AtAliasAnnotation{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "alias.name":
-				alias.Name = capture.Node.Text
-			case "alias.type":
-				alias.Type = TypeAnnotation{capture.Node.Text}
-			case "alias.documentation":
-				alias.Documentation = append(alias.Documentation, capture.Node.Text)
-			}
-		}
-
-		if alias.Name == "" {
-			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias name")
-		}
-
-		if alias.Type.Name == "" {
-			return false, fmt.Errorf("Error lexing simple alias annotation: could not find captured alias type")
-		}
-
-		annotations.AtAliases[alias.Name] = alias
-	}
-
-	return true, nil
-}
-
-// Luadoc matches an empty type node even when the type is not present
-// That means that enum aliases have an empty type node defined
-var enumAtAliasQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(alias_annotation
-			"@alias"
-			.
-			(identifier) @alias.name
-			.
-			(%s) @alias.type
-			.
-			(comment)? @alias.documentation
-			.
-		) @alias
-		(#eq? @alias.type "")
-	)`, anyTypeAnnotationQuery),
-}
-var enumAtAliasMemberQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(continuation
-		(%s) @alias.type
-	)
-`, anyTypeAnnotationQuery)}
-
-func (l *Lexer) lexEnumAtAliasAnnotation(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(enumAtAliasQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		enumAlias := AtAliasAnnotation{}
-		enumAliasMembers := []string{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "alias.name":
-				enumAlias.Name = capture.Node.Text
-			}
-		}
-
-		if enumAlias.Name == "" {
-			return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias name")
-		}
-
-		nextLines, err := buffer.NextLineIterator(uint(matchCaptures.LineRange().Start + 1))
-
-		if err != nil {
-			return false, err
-		}
-
-		for line, err := range nextLines {
-			if err != nil {
-				return false, err
-			}
-
-			enumAliasMemberMatch, err := line.TsQueryOne(enumAtAliasMemberQuery)
-
-			if err != nil {
-				return false, nil
-			}
-
-			if enumAliasMemberMatch == nil {
-				break
-			}
-
-			enumAliasMemberTypeCapture, found := slicesx.FindFunc(*enumAliasMemberMatch, func(capture treesitter.Capture) bool {
-				return capture.Id == "alias.type"
-			})
-
-			if !found {
-				return false, fmt.Errorf("Error lexing enum alias annotation: could not find captured alias member type")
-			}
-
-			enumAliasMembers = append(enumAliasMembers, enumAliasMemberTypeCapture.Node.Text)
-		}
-
-		if len(enumAliasMembers) < 1 {
-			return false, fmt.Errorf("Could not retrieve enum members from enum alias")
-		}
-
-		enumAlias.Type = TypeAnnotation{strings.Join(enumAliasMembers, "|")}
-
-		annotations.AtAliases[enumAlias.Name] = enumAlias
-	}
-
-	return true, nil
-}
-
-func (l *Lexer) lexAtAliasAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
-	found, err := l.lexSimpleAtAliasAnnotation(buffer, annotations)
-
-	switch {
-	case err != nil:
-		return false, err
-	case found:
-		return true, nil
-	}
-
-	found, err = l.lexEnumAtAliasAnnotation(buffer, annotations)
-
-	switch {
-	case err != nil:
-		return false, err
-	case found:
-		return true, nil
-	}
-
-	return false, nil
-}
-
-var atClassAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-		(documentation
-			(class_annotation
-				"@class"
-				.
-				"(exact)"?
-				.
-				(identifier) @class.name
-				.
-				(":" 
-					. (%s) @class.parent
-					("," (%s) @class.parent)*
-				)?
-			) @class
-		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
-}
-
-/* var classFieldAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-		(documentation
-			(field_annotation
-				(identifier) @field.name
-				(%s) @field.type
-				(comment)? @field.documentation
-			) @field
-		)`, anyTypeQuery),
-} */
-
-func (l *Lexer) lexAtClassAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(atClassAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		class := AtClassAnnotation{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "class.name":
-				class.Name = capture.Node.Text
-			case "class.parent":
-				class.Parents = append(class.Parents, capture.Node.Text)
-			}
-		}
-
-		if class.Name == "" {
-			return false, fmt.Errorf("Error lexing class annotation: could not find captured class name")
-		}
-
-		annotations.AtClasses[class.Name] = class
-	}
-
-	return true, nil
-}
-
 var atFieldAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
@@ -653,8 +400,6 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		AtParams:    map[string]AtParamAnnotation{},
 		AtReturns:   []AtReturnAnnotation{},
 		AtOverloads: []AtOverloadAnnotation{},
-		AtAliases:   map[string]AtAliasAnnotation{},
-		AtClasses:   map[string]AtClassAnnotation{},
 		AtFields:    map[string]AtFieldAnnotation{},
 	}
 
@@ -701,18 +446,6 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	_, err = l.lexAtAliasAnnotations(buffer, &annotations)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
-	}
-
-	_, err = l.lexAtClassAnnotations(buffer, &annotations)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing alias annotations: %w", err)
 	}
 
 	_, err = l.lexAtFieldAnnotations(buffer, &annotations)

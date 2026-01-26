@@ -1,7 +1,6 @@
 package lex
 
 import (
-	// "fmt"
 	"fmt"
 	"strings"
 
@@ -10,38 +9,10 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (l *Lexer) lexClassType(origin *symbol.ClassOrigin) (*symbol.Table, error) {
-	// Replacing all dots in the alias className with underscores
-	// because apparently luadoc would not permit to use dots in identifiers
-	className := l.context.Target().Identifier()
-	// classOrigin := l.context.Target().Origin()
-
-	classPatchedName := strings.ReplaceAll(className, ".", "_")
-	classDefinitionText := strings.Join(origin.Definition(), "\n")
-	classPatchedDefinitionText := strings.Replace(classDefinitionText, className, classPatchedName, 1)
-
-	classDocumentationText := strings.Join(origin.Documentation(), "\n")
-	classPatchedDocumentationText := strings.Replace(classDocumentationText, classDefinitionText, classPatchedDefinitionText, 1)
-	classPatchedDocumentationLines := strings.Split(classPatchedDocumentationText, "\n")
-
-	classAnnotations, err := l.lexAtAnnotations(classPatchedDocumentationLines)
-
-	if err != nil {
-		return nil, err
-	}
-
-	_, foundClassAnnotation := classAnnotations.AtClasses[classPatchedName]
-
-	if !foundClassAnnotation {
-		return nil, nil
-	}
-
+func (l *Lexer) lexClassType(_ *symbol.ClassOrigin) (*symbol.Table, error) {
 	class := symbol.NewTable()
-	class.Name = className
-
-	// fmt.Println(name)
-	classFields, err := l.context.Nvim().GetTypeCompletion(className)
-	// fmt.Println(classFields)
+	class.Name = l.context.Target().Identifier()
+	classFields, err := l.context.Nvim().GetTypeCompletion(class.Name)
 
 	if err != nil {
 		return nil, err
