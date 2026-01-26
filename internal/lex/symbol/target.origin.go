@@ -15,7 +15,7 @@ type Origin interface {
 	Type() string
 	Definition() []string
 	Documentation() []string
-	Captures() []treesitter.Capture
+	Captures() nvim.TsQueryMatch
 }
 
 type origin struct {
@@ -48,7 +48,7 @@ func (l *origin) Documentation() []string {
 	return l.docBlock
 }
 
-func (l *origin) Captures() []treesitter.Capture {
+func (l *origin) Captures() nvim.TsQueryMatch {
 	return l.definition.Match
 }
 
@@ -145,6 +145,20 @@ type AliasOrigin struct {
 
 func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasOrigin {
 	return &AliasOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+type AliasEnumeratorOrigin struct {
+	origin
+}
+
+func NewAliasEnumeratorOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasEnumeratorOrigin {
+	return &AliasEnumeratorOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,

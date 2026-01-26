@@ -13,6 +13,7 @@ install:
 	$(MAKE) luadoc-parser
 	go mod download
 
+.PHONY=clean
 clean:
 	cd $(TREE_SITTER_LUA_SRC_DIR) && git checkout . && git clean -fd
 	cd $(TREE_SITTER_LUADOC_SRC_DIR) && git checkout . && git clean -fd

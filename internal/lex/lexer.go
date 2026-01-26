@@ -66,6 +66,13 @@ func (l *Lexer) Lex() (symbol.Type, error) {
 		}
 		lexedCache.Set(aliasType, cacheId...)
 		return aliasType, nil
+	case *symbol.AliasEnumeratorOrigin:
+		aliasEnumeratorType, err := l.lexAliasEnumeratorType(o)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(aliasEnumeratorType, cacheId...)
+		return aliasEnumeratorType, nil
 	case *symbol.ClassOrigin:
 		classType, err := l.lexClassType(o)
 		if err != nil {

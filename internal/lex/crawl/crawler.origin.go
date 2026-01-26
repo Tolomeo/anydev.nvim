@@ -2,12 +2,32 @@ package crawl
 
 import (
 	"fmt"
-	"regexp"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
+
+var typeAnnotationQueries = map[string]string{
+	"builtin_type":         "(builtin_type)",
+	"identifier":           "(identifier)",
+	"array_type":           "(array_type)",
+	"table_type":           "(table_type)",
+	"table_literal_type":   "(table_literal_type)",
+	"union_type":           "(union_type)",
+	"parenthesized_type":   "(parenthesized_type)",
+	"tuple_type":           "(tuple_type)",
+	"function_type":        "(function_type)",
+	"member_type":          "(member_type)",
+	"optional_type":        "(optional_type)",
+	"literal_type":         "(literal_type)",
+	"numeric_literal_type": "(numeric_literal_type)",
+	"custom_type":          "(custom_type)",
+}
+
+var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAnnotationQueries), " "))
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
@@ -280,31 +300,72 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 			{
 				Language: "luadoc",
 				Query: fmt.Sprintf(`(
-					(alias_annotation) @alias
-					(#match? @alias "\\@alias *%s($|[^a-zA-Z0-9_])")
-				) @origin.alias`, regexp.QuoteMeta(c.context.Target().Identifier())),
+					(alias_annotation
+						"@alias"
+						.
+						(identifier) @alias.name
+						.
+						(%s) @alias.type
+						.
+						(comment)? @alias.documentation
+						.
+					) @origin.alias
+					(#eq? @alias.name "%s")
+					(#not-eq? @alias.type "")
+				)`, anyTypeAnnotationQuery, c.context.Target().Identifier()),
+			},
+			// Luadoc matches an empty type node even when the type is not present
+			// That means that enum aliases have an empty type node defined
+			{
+				Language: "luadoc",
+				Query: fmt.Sprintf(`(
+					(alias_annotation
+						"@alias"
+						.
+						(identifier) @alias.name
+						.
+						(%s) @alias.emptytype
+						.
+						(comment)? @alias.documentation
+						.
+					) @origin.alias.enumerator
+					(#eq? @alias.name "%s")
+					(#eq? @alias.emptytype "")
+				)`, anyTypeAnnotationQuery, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.CLASS_ANNOTATION: []treesitter.Query{
 			{
 				Language: "luadoc",
 				Query: fmt.Sprintf(`(
-					(class_annotation) @class_annotation
-					(#match? @class_annotation "\\@class *%s($|[^a-zA-Z0-9_])")
-				) @origin.class`, regexp.QuoteMeta(c.context.Target().Identifier())),
+					(class_annotation
+						(identifier) @class.name
+					) @class_annotation
+					(#eq? @class.name "%s")
+				) @origin.class`, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.FIELD_ANNOTATION: []treesitter.Query{
 			{
 				Language: "luadoc",
 				Query: fmt.Sprintf(`(
-					(field_annotation) @field_annotation
-					(#match? @field_annotation "\\@field *%s($|[^a-zA-Z0-9_])")
-				) @origin.field`, regexp.QuoteMeta(c.context.Target().Name())),
+					(field_annotation
+						(identifier) @field.name
+					) @field_annotation
+					(#eq? @field.name "%s")
+				) @origin.field`, c.context.Target().Name()),
 			},
 		},
 	}
 }
+
+var enumAliasEnumeratorMemberQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(continuation
+		(%s) @alias.type
+	)
+`, anyTypeAnnotationQuery)}
 
 func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error) {
 	var origin symbol.Origin
@@ -357,44 +418,85 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	line, character :=
 		uint(location.TargetRange.Start.Line),
 		uint(location.TargetRange.Start.Character)
-	definition, err := buffer.QueryTsNodeAt(originQueryMap, line, character)
+	queryResult, err := buffer.QueryTsNodeAt(originQueryMap, line, character)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if definition == nil {
+	if queryResult == nil {
 		return nil, nil
 	}
 
-	documentation, err := c.getCommentBlock(definition.Node, location)
+	documentation, err := c.getCommentBlock(queryResult.Node, location)
 
 	if err != nil {
 		return nil, err
 	}
 
-	for _, capture := range definition.Match {
-		switch capture.Id {
-		case "origin.function":
-			return symbol.NewFunctionOrigin(location, *definition, documentation), nil
-		case "origin.table":
-			return symbol.NewTableOrigin(location, *definition, documentation), nil
-		case "origin.variable":
-			return symbol.NewVariableOrigin(location, *definition, documentation), nil
-		case "origin.module":
-			return symbol.NewModuleOrigin(location, *definition, documentation), nil
-		case "origin.class":
-			return symbol.NewClassOrigin(location, *definition, documentation), nil
-		case "origin.alias":
-			return symbol.NewAliasOrigin(location, *definition, documentation), nil
-		case "origin.field":
-			return symbol.NewFieldOrigin(location, *definition, documentation), nil
-		case "origin.meta":
-			return symbol.NewMetaOrigin(location, *definition, documentation), nil
-		}
+	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
+		return symbol.NewFunctionOrigin(location, *queryResult, documentation), nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, definition, documentation)
+	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
+		return symbol.NewTableOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
+		return symbol.NewVariableOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
+		return symbol.NewModuleOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
+		return symbol.NewClassOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isAlias := queryResult.Match.Find("origin.alias"); isAlias {
+		return symbol.NewAliasOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
+		c.context.Logger().Debugf("Alias enum match: <%+v>", queryResult.Match)
+
+		nextLines, err := buffer.NextLineIterator(uint(queryResult.Match.LineRange().Start + 1))
+
+		if err != nil {
+			return nil, err
+		}
+
+		for line, err := range nextLines {
+			if err != nil {
+				return nil, err
+			}
+
+			match, err := line.TsQueryOne(enumAliasEnumeratorMemberQuery)
+
+			if err != nil {
+				return nil, err
+			}
+
+			if match == nil {
+				break
+			}
+
+			queryResult.Match = queryResult.Match.Append(*match...)
+		}
+
+		return symbol.NewAliasEnumeratorOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isField := queryResult.Match.Find("origin.field"); isField {
+		return symbol.NewFieldOrigin(location, *queryResult, documentation), nil
+	}
+
+	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
+		return symbol.NewMetaOrigin(location, *queryResult, documentation), nil
+	}
+
+	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, queryResult, documentation)
 }
 
 func (c *Crawler) getModuleOrigins(origin *symbol.ModuleOrigin) (*symbol.Origins, error) {

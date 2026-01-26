@@ -74,6 +74,32 @@ func (n *Nvim) execTsQuery(query treesitter.Query) (*[]treesitter.Capture, error
 
 type TsQueryMatch []treesitter.Capture
 
+func (tm TsQueryMatch) Find(captureId string) (treesitter.Capture, bool) {
+	return slicesx.FindFunc(tm, func(capture treesitter.Capture) bool {
+		return captureId == capture.Id
+	})
+}
+
+func (tm TsQueryMatch) FindAll(captureId string) ([]treesitter.Capture, bool) {
+	filtered, _ := slicesx.FilterFunc(tm, func(capture treesitter.Capture) (bool, error) {
+		return captureId == capture.Id, nil
+	})
+
+	return filtered, len(filtered) > 0
+}
+
+func (tm TsQueryMatch) Omit(captureId string) TsQueryMatch {
+	filtered, _ := slicesx.FilterFunc(tm, func(capture treesitter.Capture) (bool, error) {
+		return captureId != capture.Id, nil
+	})
+
+	return filtered
+}
+
+func (tm TsQueryMatch) Append(captures ...treesitter.Capture) TsQueryMatch {
+	return append(tm, captures...)
+}
+
 func (m *TsQueryMatch) LineRange() *treesitter.LineRange {
 	startLines, _ := slicesx.MapFunc(*m, func(capture treesitter.Capture) (float64, error) {
 		return capture.Node.Range.Start.Line, nil
