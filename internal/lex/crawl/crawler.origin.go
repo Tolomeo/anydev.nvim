@@ -359,10 +359,26 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: "luadoc",
 				Query: fmt.Sprintf(`(
 					(field_annotation
+						"@field"
+						.
+						([
+							(qualifier "public")
+							(qualifier "private") @field.private
+							(qualifier "protected") @field.protected
+							(qualifier "package") @field.package
+						 ])?
+						.
 						(identifier) @field.name
-					) @field_annotation
+						.
+						"?"? @field.optional
+						.
+						(%s) @field.type
+						.
+						(comment)? @field.documentation
+						.
+					) @origin.field
 					(#eq? @field.name "%s")
-				) @origin.field`, c.context.Target().Name()),
+				)`, anyTypeAnnotationQuery, c.context.Target().Name()),
 			},
 		},
 	}

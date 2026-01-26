@@ -171,6 +171,16 @@ type FieldOrigin struct {
 	origin
 }
 
+func (fo *FieldOrigin) GetName() string {
+	fieldName, _ := fo.definition.Match.Find("field.name")
+	return fieldName.Node.Text
+}
+
+func (fo *FieldOrigin) GetType() string {
+	fieldType, _ := fo.definition.Match.Find("field.type")
+	return fieldType.Node.Text
+}
+
 func NewFieldOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FieldOrigin {
 	return &FieldOrigin{
 		origin: origin{

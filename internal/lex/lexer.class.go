@@ -1,0 +1,25 @@
+package lex
+
+import (
+	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+)
+
+func (l *Lexer) lexClassType(_ *symbol.ClassOrigin) (*symbol.Table, error) {
+	class := symbol.NewTable()
+	class.Name = l.context.Target().Identifier()
+	classFields, err := l.context.Nvim().GetTypeCompletion(class.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, fieldName := range classFields {
+		err := l.context.ExtractChild(class, fieldName)
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return class, nil
+}

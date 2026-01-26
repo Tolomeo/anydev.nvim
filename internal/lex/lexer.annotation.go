@@ -45,16 +45,6 @@ type AtOverloadAnnotation struct {
 	Documentation []string
 }
 
-type AtFieldAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Optional      bool
-	Private       bool
-	Protected     bool
-	Package       bool
-	Documentation []string
-}
-
 type AtAnnotations struct {
 	AtType       *AtTypeAnnotation
 	AtPrivate    bool
@@ -65,7 +55,6 @@ type AtAnnotations struct {
 	AtParams     map[string]AtParamAnnotation
 	AtReturns    []AtReturnAnnotation
 	AtOverloads  []AtOverloadAnnotation
-	AtFields     map[string]AtFieldAnnotation
 }
 
 var atTypeAnnotationQuery = treesitter.Query{
@@ -320,74 +309,6 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer, annotations *
 	return true, nil
 }
 
-var atFieldAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-		(documentation
-			(field_annotation
-				"@field"
-				.
-				([
-					(qualifier "public")
-					(qualifier "private") @field.private
-					(qualifier "protected") @field.protected
-					(qualifier "package") @field.package
-				 ])?
-				.
-				(identifier) @field.name
-				.
-				"?"? @field.optional
-				.
-				(%s) @field.type
-				.
-				(comment)? @field.documentation
-				.
-			) @field
-		)`, anyTypeAnnotationQuery),
-}
-
-func (l *Lexer) lexAtFieldAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
-	matches, err := buffer.TsQueryAll(atFieldAnnotationQuery)
-
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		field := AtFieldAnnotation{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "field.name":
-				field.Name = capture.Node.Text
-			case "field.optional":
-				field.Optional = true
-			case "field.private":
-				field.Private = true
-			case "field.protected":
-				field.Protected = true
-			case "field.package":
-				field.Package = true
-			case "field.type":
-				field.Type = TypeAnnotation{capture.Node.Text}
-			case "field.documentation":
-				field.Documentation = []string{capture.Node.Text}
-			}
-		}
-
-		if field.Name == "" {
-			return false, fmt.Errorf("Error lexing field annotation: could not find captured field name")
-		}
-
-		annotations.AtFields[field.Name] = field
-	}
-
-	return true, nil
-}
-
 func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		// fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
@@ -400,7 +321,6 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 		AtParams:    map[string]AtParamAnnotation{},
 		AtReturns:   []AtReturnAnnotation{},
 		AtOverloads: []AtOverloadAnnotation{},
-		AtFields:    map[string]AtFieldAnnotation{},
 	}
 
 	buffer, err := l.context.Nvim().NewBuffer()
@@ -447,14 +367,6 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
-
-	_, err = l.lexAtFieldAnnotations(buffer, &annotations)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	// fmt.Printf("\nLexedAnnotations: %+v\n", annotations)
 
 	lexedAnnotationsCache.Set(annotations, dockblock...)
 	return annotations, nil

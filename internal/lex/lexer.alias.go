@@ -9,49 +9,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (l *Lexer) lexClassType(_ *symbol.ClassOrigin) (*symbol.Table, error) {
-	class := symbol.NewTable()
-	class.Name = l.context.Target().Identifier()
-	classFields, err := l.context.Nvim().GetTypeCompletion(class.Name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	for _, fieldName := range classFields {
-		err := l.context.ExtractChild(class, fieldName)
-
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return class, nil
-}
-
-func (l *Lexer) lexFieldType(origin *symbol.FieldOrigin) (symbol.Type, error) {
-	annotations, err := l.lexAtAnnotations(origin.Documentation())
-
-	if err != nil {
-		return nil, err
-	}
-
-	field, found := annotations.AtFields[l.context.Target().Name()]
-
-	if !found {
-		return nil, nil
-	}
-
-	// TODO: assign qualifiers taken from annotations
-	lexedField, err := l.lexTypeAnnotation(field.Type)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return lexedField, nil
-}
-
 func (l *Lexer) lexAliasType(origin *symbol.AliasOrigin) (symbol.Type, error) {
 	aliasType, hasType := origin.Captures().Find("alias.type")
 
