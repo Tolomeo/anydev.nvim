@@ -27,8 +27,6 @@ func (l *Lexer) lexAliasType(origin *symbol.AliasOrigin) (symbol.Type, error) {
 }
 
 func (l *Lexer) lexAliasEnumeratorType(origin *symbol.AliasEnumeratorOrigin) (symbol.Type, error) {
-	l.context.Logger().Debugf("Alias enumerator: %+v", origin)
-
 	typeCaptures, hasTypes := origin.Captures().FindAll("alias.type")
 
 	if !hasTypes {
@@ -45,8 +43,5 @@ func (l *Lexer) lexAliasEnumeratorType(origin *symbol.AliasEnumeratorOrigin) (sy
 		return nil, err
 	}
 
-	l.context.Logger().Debugf("%+v", origin)
-
 	return enumeratorType, nil
-
 }

@@ -32,113 +32,25 @@ var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAn
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: []treesitter.Query{
-			// table field assignment
-			// F.T = {}
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (dot_index_expression
-							table: (_)
-							field: (identifier) @table.name
-						)
-					)
-					(expression_list
-						value: (table_constructor) @table.value
-					)
-				) @origin.table`,
+				Language: symbol.TableFieldAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableFieldAssignmentQuery.Query),
 			},
-			// table field index assignment
-			// F['T'] = {}
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (bracket_index_expression
-							table: (_)
-							field: (string
-								content: (string_content) @table.name
-							)
-						)
-					)
-					(expression_list
-						value: (table_constructor) @table.value
-					)
-				) @origin.table`,
+				Language: symbol.TableFieldIndexAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableFieldIndexAssignmentQuery.Query),
 			},
-			// meta
-			// local F = ...
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (_)
-					) @assignment.left
-					(expression_list
-						value: [
-							(vararg_expression) @assignment.right
-						] 
-					)
-				) @origin.meta`,
+				Language: symbol.MetaVariableAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.meta", symbol.MetaVariableAssignmentQuery.Query),
 			},
-			// method assignment
-			/* api.fn = function() end
-			api.fn = function(name) end
-			api.fn = function(name, value) end
-			api.fn = function(name, value, ...) end
-			api.fn = function(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (dot_index_expression
-							field: (identifier) @name
-						) @access.class
-					)
-					(expression_list
-						value: (function_definition
-							parameters: (parameters
-								(identifier)? @arg
-								("," (identifier) @arg)*
-								("," (vararg_expression) @vararg)?
-								(vararg_expression)? @vararg
-							)
-						)
-					)
-				) @origin.function`,
+				Language: symbol.FunctionFieldDotAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldDotAssignmentQuery.Query),
 			},
-			/* api['fn'] = function() end
-			api['fn'] = function(name) end
-			api['fn'] = function(name, value) end
-			api['fn'] = function(name, value, ...) end
-			api['fn'] = function(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (bracket_index_expression
-							table: (_)
-							field: (string
-								content: (string_content) @name
-							)
-						) @access.class
-					)
-					(expression_list
-						value: (function_definition
-							parameters: (parameters
-								(identifier)? @arg
-								("," (identifier) @arg)*
-								("," (vararg_expression) @vararg)?
-								(vararg_expression)? @vararg
-							)
-						)
-					)
-				) @origin.function`,
+				Language: symbol.FunctionFieldIndexAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldIndexAssignmentQuery.Query),
 			},
 			// module assignment
 			// F = require("T")
@@ -190,110 +102,27 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 			},
 		},
 		treesitter.VARIABLE_DECLARATION: []treesitter.Query{
-			// static method assignment
-			/* local T = function() end
-			local M = function(arg) end
-			local D = function(arg, ...) end
-			local E = function(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(variable_declaration
-					(assignment_statement
-						(variable_list
-							name: (identifier) @name
-						)
-						(expression_list
-							value: (function_definition
-								parameters: (parameters
-									(identifier)? @arg
-									("," (identifier) @arg)*
-									("," (vararg_expression) @vararg)?
-									(vararg_expression)? @vararg
-								)
-							)
-						)
-					)
-				) @origin.function`,
+				Language: symbol.FunctionVariableDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionVariableDeclarationQuery.Query),
 			},
-			// table assignment
-			// local T = {}
 			{
-				Language: "lua",
-				Query: `
-				(variable_declaration
-					(assignment_statement
-						(variable_list
-							name: (identifier)
-						) @table.name
-						(expression_list
-							value: (table_constructor)
-						) @table.value
-					) 
-				) @origin.table`,
+				Language: symbol.TableVariableDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableVariableDeclarationQuery.Query),
 			},
 		},
 		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
-			// function
-			/* function fn() end
-			function fn(arg1) end
-			function fn(arg1, arg2) end
-			function fn(arg1, arg2, ...) end
-				function fn(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(function_declaration
-					name: (identifier) @name
-					parameters: (parameters
-						(identifier)? @arg
-						("," (identifier) @arg)*
-						("," (vararg_expression) @vararg)?
-						(vararg_expression)? @vararg
-					)
-				) @origin.function`,
+				Language: symbol.FunctionDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionDeclarationQuery.Query),
 			},
-			// instance method
-			/* function api:fn() end
-			function api:fn(name) end
-			function api:fn(name, value) end
-			function api:fn(name, value, ...) end
-			function api:fn(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(function_declaration
-					name: (method_index_expression
-						method: (identifier) @name
-					) @access.instance
-					parameters: (parameters
-						(identifier)? @arg
-						("," (identifier) @arg)*
-						("," (vararg_expression) @vararg)?
-						(vararg_expression)? @vararg
-					)
-				) @origin.function`,
+				Language: symbol.FunctionFieldMethodDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldMethodDeclarationQuery.Query),
 			},
-			// static method
-			/* function api.fn() end
-			function api.fn(name) end
-			function api.fn(name, value) end
-			function api.fn(name, value, ...) end
-			function api.fn(...) end */
 			{
-				Language: "lua",
-				Query: `
-				(function_declaration
-					name: (dot_index_expression
-						field: (identifier) @name
-					) @access.class
-					parameters: (parameters
-						(identifier)? @arg
-						("," (identifier) @arg)*
-						("," (vararg_expression) @vararg)?
-						(vararg_expression)? @vararg
-					)
-				) @origin.function`,
+				Language: symbol.FunctionFieldDotDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldDotDeclarationQuery.Query),
 			},
 		},
 		treesitter.ALIAS_ANNOTATION: []treesitter.Query{
@@ -484,8 +313,6 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	}
 
 	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
-		c.context.Logger().Debugf("Alias enum match: <%+v>", queryResult.Match)
-
 		nextLines, err := buffer.NextLineIterator(uint(queryResult.Match.LineRange().Start + 1))
 
 		if err != nil {
