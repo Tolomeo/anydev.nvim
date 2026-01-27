@@ -113,16 +113,18 @@ var atOverloadAnnotationQuery = treesitter.Query{
 `, typeAnnotationQueries["function_type"]),
 }
 
-func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverloadAnnotation, error) {
+	atOverloads := []AtOverloadAnnotation{}
 	matches, err := buffer.SafeTsQueryAll(atOverloadAnnotationQuery)
 
 	// fmt.Printf("\n Overload matches: %+v\n", matches)
 
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
+	if err != nil {
+		return atOverloads, err
+	}
+
+	if matches == nil {
+		return atOverloads, nil
 	}
 
 	for _, match := range *matches {
@@ -142,10 +144,10 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer, annotations
 			}
 		}
 
-		annotations.AtOverloads = append(annotations.AtOverloads, overload)
+		atOverloads = append(atOverloads, overload)
 	}
 
-	return true, nil
+	return atOverloads, nil
 }
 
 var atGenericAnnotationQuery = treesitter.Query{
@@ -177,14 +179,16 @@ var atGenericAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
+	atGenericAnnotations := []AtGenericAnnotation{}
 	matches, err := buffer.TsQueryAll(atGenericAnnotationQuery)
 
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
+	if err != nil {
+		return nil, err
+	}
+
+	if matches == nil {
+		return atGenericAnnotations, nil
 	}
 
 	for _, matchCaptures := range *matches {
@@ -200,13 +204,13 @@ func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer, annotations 
 		}
 
 		if lexedGeneric.Name == "" {
-			return false, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
+			return atGenericAnnotations, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
 		}
 
-		annotations.AtGenerics = append(annotations.AtGenerics, lexedGeneric)
+		atGenericAnnotations = append(atGenericAnnotations, lexedGeneric)
 	}
 
-	return true, nil
+	return atGenericAnnotations, nil
 }
 
 var atParamAnnotationQuery = treesitter.Query{
@@ -228,14 +232,16 @@ var atParamAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
+	params := map[string]AtParamAnnotation{}
 	matches, err := buffer.TsQueryAll(atParamAnnotationQuery)
 
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, err
+	if err != nil {
+		return nil, err
+	}
+
+	if matches == nil {
+		return params, nil
 	}
 
 	for _, matchCaptures := range *matches {
@@ -255,13 +261,13 @@ func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer, annotations *A
 		}
 
 		if lexedParam.Name == "" {
-			return false, fmt.Errorf("Could not retrieve param name for param annotation")
+			return params, fmt.Errorf("Could not retrieve param name for param annotation")
 		}
 
-		annotations.AtParams[lexedParam.Name] = lexedParam
+		params[lexedParam.Name] = lexedParam
 	}
 
-	return true, nil
+	return params, nil
 }
 
 var atReturnAnnotationQuery = treesitter.Query{
@@ -279,14 +285,16 @@ var atReturnAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer, annotations *AtAnnotations) (bool, error) {
+func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
+	atReturns := []AtReturnAnnotation{}
 	matches, err := buffer.TsQueryAll(atReturnAnnotationQuery)
 
-	switch {
-	case err != nil:
-		return false, err
-	case matches == nil:
-		return false, nil
+	if err != nil {
+		return atReturns, err
+	}
+
+	if matches == nil {
+		return atReturns, nil
 	}
 
 	for _, matchCaptures := range *matches {
@@ -303,13 +311,13 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer, annotations *
 			}
 		}
 
-		annotations.AtReturns = append(annotations.AtReturns, returnAnnotation)
+		atReturns = append(atReturns, returnAnnotation)
 	}
 
-	return true, nil
+	return atReturns, nil
 }
 
-func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
+/* func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
 		// fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
 		return cachedAnnotations, nil
@@ -338,29 +346,37 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 	}
 
 	// Generics are lexed ahead of other annotations, which could read them
-	_, err = l.lexAtGenericAnnotations(buffer, &annotations)
+	atGenerics, err := l.lexAtGenericAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
 	}
 
-	_, err = l.lexAtParamAnnotations(buffer, &annotations)
+	annotations.AtGenerics = atGenerics
+
+	atParams, err := l.lexAtParamAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing param annotation: %w", err)
 	}
 
-	_, err = l.lexAtOverloadAnnotations(buffer, &annotations)
+	annotations.AtParams = atParams
+
+	atOverloads, err := l.lexAtOverloadAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing overload annotation: %w", err)
 	}
 
-	_, err = l.lexAtReturnAnnotations(buffer, &annotations)
+	annotations.AtOverloads = atOverloads
+
+	atReturns, err := l.lexAtReturnAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
 	}
+
+	annotations.AtReturns = atReturns
 
 	atType, err := l.lexAtTypeAnnotations(buffer)
 
@@ -372,7 +388,7 @@ func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
 
 	lexedAnnotationsCache.Set(annotations, dockblock...)
 	return annotations, nil
-}
+} */
 
 var typeAnnotationQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",

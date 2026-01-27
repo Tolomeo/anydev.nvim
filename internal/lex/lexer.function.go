@@ -7,6 +7,66 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
+type functionAtAnnotations struct {
+	AtGenerics  []AtGenericAnnotation
+	AtParams    map[string]AtParamAnnotation
+	AtReturns   []AtReturnAnnotation
+	AtOverloads []AtOverloadAnnotation
+}
+
+func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
+	annotations := functionAtAnnotations{
+		AtGenerics:  []AtGenericAnnotation{},
+		AtParams:    map[string]AtParamAnnotation{},
+		AtReturns:   []AtReturnAnnotation{},
+		AtOverloads: []AtOverloadAnnotation{},
+	}
+
+	buffer, err := l.context.Nvim().NewBuffer()
+
+	if err != nil {
+		return annotations, err
+	}
+
+	defer buffer.Close()
+
+	err = buffer.SetLines(docblock)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	atGenerics, err := l.lexAtGenericAnnotations(buffer)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	atParams, err := l.lexAtParamAnnotations(buffer)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	atReturns, err := l.lexAtReturnAnnotations(buffer)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	atOverloads, err := l.lexAtOverloadAnnotations(buffer)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	annotations.AtGenerics = atGenerics
+	annotations.AtParams = atParams
+	annotations.AtReturns = atReturns
+	annotations.AtOverloads = atOverloads
+	return annotations, nil
+}
+
 func (l *Lexer) lexFunctionValue(origin *symbol.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
 
@@ -25,7 +85,7 @@ func (l *Lexer) lexFunctionValue(origin *symbol.FunctionOrigin) (*symbol.Functio
 		}
 	}
 
-	annotations, err := l.lexAtAnnotations(origin.Documentation())
+	annotations, err := l.lexFunctionAtAnnotations(origin.Documentation())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
