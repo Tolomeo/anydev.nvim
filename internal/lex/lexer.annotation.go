@@ -7,11 +7,8 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
-
-var lexedAnnotationsCache = cache.NewCache[AtAnnotations]()
 
 type TypeAnnotation struct {
 	Name string
@@ -20,41 +17,6 @@ type TypeAnnotation struct {
 type AtTypeAnnotation struct {
 	Types         []TypeAnnotation
 	Documentation []string
-}
-
-type AtGenericAnnotation struct {
-	Name  string
-	Types []TypeAnnotation
-}
-
-type AtReturnAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-type AtParamAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Optional      bool
-	Documentation []string
-}
-
-type AtOverloadAnnotation struct {
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-type AtAnnotations struct {
-	AtType       *AtTypeAnnotation
-	AtPrivate    bool
-	AtProtected  bool
-	AtPackage    bool
-	AtDeprecated bool
-	AtGenerics   []AtGenericAnnotation
-	AtParams     map[string]AtParamAnnotation
-	AtReturns    []AtReturnAnnotation
-	AtOverloads  []AtOverloadAnnotation
 }
 
 var atTypeAnnotationQuery = treesitter.Query{
@@ -95,6 +57,11 @@ func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotat
 	}
 
 	return &atType, nil
+}
+
+type AtOverloadAnnotation struct {
+	Type          TypeAnnotation
+	Documentation []string
 }
 
 var atOverloadAnnotationQuery = treesitter.Query{
@@ -148,6 +115,11 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverlo
 	}
 
 	return atOverloads, nil
+}
+
+type AtGenericAnnotation struct {
+	Name  string
+	Types []TypeAnnotation
 }
 
 var atGenericAnnotationQuery = treesitter.Query{
@@ -213,6 +185,13 @@ func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGeneric
 	return atGenericAnnotations, nil
 }
 
+type AtParamAnnotation struct {
+	Name          string
+	Type          TypeAnnotation
+	Optional      bool
+	Documentation []string
+}
+
 var atParamAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
@@ -270,6 +249,12 @@ func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]At
 	return params, nil
 }
 
+type AtReturnAnnotation struct {
+	Name          string
+	Type          TypeAnnotation
+	Documentation []string
+}
+
 var atReturnAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
@@ -316,79 +301,6 @@ func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAn
 
 	return atReturns, nil
 }
-
-/* func (l *Lexer) lexAtAnnotations(dockblock []string) (AtAnnotations, error) {
-	if cachedAnnotations, cached := lexedAnnotationsCache.Get(dockblock...); cached {
-		// fmt.Printf("\nUsing cached lexedAnnotations: %+v\n", cachedAnnotations)
-		return cachedAnnotations, nil
-	}
-
-	annotations := AtAnnotations{
-		AtType:      nil,
-		AtGenerics:  []AtGenericAnnotation{},
-		AtParams:    map[string]AtParamAnnotation{},
-		AtReturns:   []AtReturnAnnotation{},
-		AtOverloads: []AtOverloadAnnotation{},
-	}
-
-	buffer, err := l.context.Nvim().NewBuffer()
-
-	if err != nil {
-		return annotations, err
-	}
-
-	defer buffer.Close()
-
-	err = buffer.SetLines(dockblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	// Generics are lexed ahead of other annotations, which could read them
-	atGenerics, err := l.lexAtGenericAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing generic annotations: %w", err)
-	}
-
-	annotations.AtGenerics = atGenerics
-
-	atParams, err := l.lexAtParamAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing param annotation: %w", err)
-	}
-
-	annotations.AtParams = atParams
-
-	atOverloads, err := l.lexAtOverloadAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing overload annotation: %w", err)
-	}
-
-	annotations.AtOverloads = atOverloads
-
-	atReturns, err := l.lexAtReturnAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing return annotation: %w", err)
-	}
-
-	annotations.AtReturns = atReturns
-
-	atType, err := l.lexAtTypeAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	annotations.AtType = atType
-
-	lexedAnnotationsCache.Set(annotations, dockblock...)
-	return annotations, nil
-} */
 
 var typeAnnotationQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",
