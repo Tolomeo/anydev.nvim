@@ -60,9 +60,9 @@ func (l *origin) Type() string {
 	return l.definition.Node.Type
 }
 
-func (l *origin) Definition() []string {
+/* func (l *origin) Definition() []string {
 	return strings.Split(l.definition.Node.Text, "\n")
-}
+} */
 
 func (l *origin) Documentation() []string {
 	return l.docBlock
@@ -515,6 +515,11 @@ type ClassOrigin struct {
 	origin
 }
 
+func (co *ClassOrigin) Definition() []string {
+	root, _ := co.definition.Match.Find("class")
+	return strings.Split(root.Node.Text, "\n")
+}
+
 func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
 	return &ClassOrigin{
 		origin: origin{
@@ -525,8 +530,37 @@ func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 	}
 }
 
+var FieldAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(field_annotation
+		"@field"
+		.
+		([
+			(qualifier "public")
+			(qualifier "private") @field.private
+			(qualifier "protected") @field.protected
+			(qualifier "package") @field.package
+		 ])?
+		.
+		(identifier) @field.name
+		.
+		"?"? @field.optional
+		.
+		(%s) @field.type
+		.
+		(comment)? @field.documentation
+		.
+	) @field`, anyTypeAnnotationQuery),
+}
+
 type FieldOrigin struct {
 	origin
+}
+
+func (fo *FieldOrigin) Definition() []string {
+	root, _ := fo.definition.Match.Find("field")
+	return strings.Split(root.Node.Text, "\n")
 }
 
 func (fo *FieldOrigin) GetName() string {
