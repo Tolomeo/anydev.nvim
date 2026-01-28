@@ -32,16 +32,16 @@ func (mo *MetaOrigin) Definition() []string {
 	return strings.Split(mo.definition, "\n")
 }
 
-func NewMetaOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *MetaOrigin {
+func NewMetaOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *MetaOrigin {
 	metaOrigin := MetaOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "meta":
 			metaOrigin.definition = capture.Node.Text

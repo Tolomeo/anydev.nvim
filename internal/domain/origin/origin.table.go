@@ -73,16 +73,16 @@ func (to *TableOrigin) Name() string {
 	return to.name
 }
 
-func NewTableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *TableOrigin {
+func NewTableOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *TableOrigin {
 	tableOrigin := TableOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "table":
 			tableOrigin.definition = capture.Node.Text

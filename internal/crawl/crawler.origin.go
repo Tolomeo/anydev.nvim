@@ -173,27 +173,27 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	}
 
 	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
-		return origin.NewFunctionOrigin(location, *queryResult, documentation), nil
+		return origin.NewFunctionOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
-		return origin.NewTableOrigin(location, *queryResult, documentation), nil
+		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
-		return origin.NewVariableOrigin(location, *queryResult, documentation), nil
+		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
-		return origin.NewModuleOrigin(location, *queryResult, documentation), nil
+		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
-		return origin.NewClassOrigin(location, *queryResult, documentation), nil
+		return origin.NewClassOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isAlias := queryResult.Match.Find("origin.alias"); isAlias {
-		return origin.NewAliasOrigin(location, *queryResult, documentation), nil
+		return origin.NewAliasOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
@@ -221,15 +221,15 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 			queryResult.Match = queryResult.Match.Append(*match...)
 		}
 
-		return origin.NewAliasEnumeratorOrigin(location, *queryResult, documentation), nil
+		return origin.NewAliasEnumeratorOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isField := queryResult.Match.Find("origin.field"); isField {
-		return origin.NewFieldOrigin(location, *queryResult, documentation), nil
+		return origin.NewFieldOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
-		return origin.NewMetaOrigin(location, *queryResult, documentation), nil
+		return origin.NewMetaOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, queryResult, documentation)

@@ -71,16 +71,16 @@ func (fo *FieldOrigin) Type() string {
 	return fo.type_
 }
 
-func NewFieldOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FieldOrigin {
+func NewFieldOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *FieldOrigin {
 	fieldOrigin := FieldOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "field":
 			fieldOrigin.definition = capture.Node.Text

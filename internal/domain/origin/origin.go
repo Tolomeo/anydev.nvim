@@ -33,13 +33,12 @@ type Origin interface {
 	Character() uint
 	Definition() []string
 	Documentation() []string
-	Captures() nvim.TsQueryMatch
 }
 
 type origin struct {
-	location   nvim.Location
-	definition nvim.TsNodeQueryMatch
-	docBlock   []string
+	location    nvim.Location
+	captures    nvim.TsQueryMatch
+	annotations []string
 }
 
 func (l *origin) Url() string {
@@ -55,9 +54,5 @@ func (l *origin) Character() uint {
 }
 
 func (l *origin) Documentation() []string {
-	return l.docBlock
-}
-
-func (l *origin) Captures() nvim.TsQueryMatch {
-	return l.definition.Match
+	return l.annotations
 }

@@ -41,16 +41,16 @@ func (mo *ModuleOrigin) Definition() []string {
 	return strings.Split(mo.definition, "\n")
 }
 
-func NewModuleOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ModuleOrigin {
+func NewModuleOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ModuleOrigin {
 	moduleOrigin := ModuleOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "module":
 			moduleOrigin.definition = capture.Node.Text

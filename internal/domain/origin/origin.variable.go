@@ -5,7 +5,6 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 // F.T = X
@@ -47,23 +46,19 @@ func (vo *VariableOrigin) Definition() []string {
 }
 
 func (vo *VariableOrigin) Name() string {
-	assignmentRightCapture, _ := slicesx.FindFunc(vo.origin.definition.Match, func(capture treesitter.Capture) bool {
-		return capture.Id == "assignment.right"
-	})
-
-	return assignmentRightCapture.Node.Text
+	return vo.name
 }
 
-func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *VariableOrigin {
+func NewVariableOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *VariableOrigin {
 	variableOrigin := VariableOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "variable":
 			variableOrigin.definition = capture.Node.Text

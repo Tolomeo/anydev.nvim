@@ -44,16 +44,16 @@ func (ao *AliasOrigin) Type() string {
 	return ao.type_
 }
 
-func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasOrigin {
+func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *AliasOrigin {
 	aliasOrigin := AliasOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "alias":
 			aliasOrigin.definition = capture.Node.Text
@@ -114,17 +114,17 @@ func (aeo *AliasEnumeratorOrigin) Types() []string {
 	return aeo.types
 }
 
-func NewAliasEnumeratorOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasEnumeratorOrigin {
+func NewAliasEnumeratorOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *AliasEnumeratorOrigin {
 	aliasEnumeratorOrigin := AliasEnumeratorOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 		types: []string{},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "alias.enumerator":
 			aliasEnumeratorOrigin.definition = capture.Node.Text

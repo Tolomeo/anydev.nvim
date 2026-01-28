@@ -187,17 +187,17 @@ func (fo *FunctionOrigin) Args() []string {
 	return fo.args
 }
 
-func NewFunctionOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FunctionOrigin {
+func NewFunctionOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *FunctionOrigin {
 	functionOrigin := FunctionOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 		args: []string{},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "function":
 			functionOrigin.definition = capture.Node.Text

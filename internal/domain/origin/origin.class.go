@@ -40,17 +40,17 @@ func (co *ClassOrigin) Name() string {
 	return co.name
 }
 
-func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
+func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ClassOrigin {
 	classOrigin := ClassOrigin{
 		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
+			location:    location,
+			captures:    captures,
+			annotations: documentation,
 		},
 		parents: []string{},
 	}
 
-	for _, capture := range definition.Match {
+	for _, capture := range captures {
 		switch capture.Id {
 		case "class":
 			classOrigin.definition = capture.Node.Text
