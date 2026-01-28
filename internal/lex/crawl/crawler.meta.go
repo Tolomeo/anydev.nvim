@@ -1,7 +1,8 @@
 package crawl
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
@@ -18,7 +19,7 @@ var metaAnnotationsQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) getMeta(origin symbol.Origin) (symbol.Meta, error) {
+func (c *Crawler) getMeta(o origin.Origin) (symbol.Meta, error) {
 	meta := symbol.Meta{}
 	buffer, err := c.context.Nvim().NewBuffer()
 
@@ -28,7 +29,7 @@ func (c *Crawler) getMeta(origin symbol.Origin) (symbol.Meta, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(origin.Documentation())
+	err = buffer.SetLines(o.Documentation())
 
 	if err != nil {
 		return meta, nil

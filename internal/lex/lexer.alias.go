@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (l *Lexer) lexAliasType(origin *symbol.AliasOrigin) (symbol.Type, error) {
-	aliasType, hasType := origin.Captures().Find("alias.type")
+func (l *Lexer) lexAliasType(o *origin.AliasOrigin) (symbol.Type, error) {
+	aliasType, hasType := o.Captures().Find("alias.type")
 
 	if !hasType {
 		return nil, fmt.Errorf("No type capture found for alias type '%s'", l.context.Target().Identifier())
@@ -26,8 +27,8 @@ func (l *Lexer) lexAliasType(origin *symbol.AliasOrigin) (symbol.Type, error) {
 	return lexedAlias, nil
 }
 
-func (l *Lexer) lexAliasEnumeratorType(origin *symbol.AliasEnumeratorOrigin) (symbol.Type, error) {
-	typeCaptures, hasTypes := origin.Captures().FindAll("alias.type")
+func (l *Lexer) lexAliasEnumeratorType(o *origin.AliasEnumeratorOrigin) (symbol.Type, error) {
+	typeCaptures, hasTypes := o.Captures().FindAll("alias.type")
 
 	if !hasTypes {
 		return nil, fmt.Errorf("No type members found for alias enumerator '%s'", l.context.Target().Identifier())

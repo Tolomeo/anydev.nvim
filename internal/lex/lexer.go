@@ -3,17 +3,19 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
 type ctx interface {
-	Target() *symbol.Target
+	Target() *target.Target
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
-	Extract(symbol.TargetKind, string) error
+	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
 }
 
@@ -35,53 +37,53 @@ func (l *Lexer) Lex() (symbol.Type, error) {
 		return cachedSymbol, nil
 	}
 
-	origin := l.context.Target().Origin()
+	o := l.context.Target().Origin()
 
-	switch o := origin.(type) {
-	case *symbol.TableOrigin:
-		tableType, err := l.lexTableValue(o)
+	switch ot := o.(type) {
+	case *origin.TableOrigin:
+		tableType, err := l.lexTableValue(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(tableType, cacheId...)
 		return tableType, nil
-	case *symbol.FunctionOrigin:
-		functionType, err := l.lexFunctionValue(o)
+	case *origin.FunctionOrigin:
+		functionType, err := l.lexFunctionValue(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(functionType, cacheId...)
 		return functionType, nil
-	case *symbol.MetaOrigin:
-		metaType, err := l.lexMetaValue(o)
+	case *origin.MetaOrigin:
+		metaType, err := l.lexMetaValue(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(metaType, cacheId...)
 		return metaType, nil
-	case *symbol.AliasOrigin:
-		aliasType, err := l.lexAliasType(o)
+	case *origin.AliasOrigin:
+		aliasType, err := l.lexAliasType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(aliasType, cacheId...)
 		return aliasType, nil
-	case *symbol.AliasEnumeratorOrigin:
-		aliasEnumeratorType, err := l.lexAliasEnumeratorType(o)
+	case *origin.AliasEnumeratorOrigin:
+		aliasEnumeratorType, err := l.lexAliasEnumeratorType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(aliasEnumeratorType, cacheId...)
 		return aliasEnumeratorType, nil
-	case *symbol.ClassOrigin:
-		classType, err := l.lexClassType(o)
+	case *origin.ClassOrigin:
+		classType, err := l.lexClassType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(classType, cacheId...)
 		return classType, nil
-	case *symbol.FieldOrigin:
-		fieldType, err := l.lexFieldType(o)
+	case *origin.FieldOrigin:
+		fieldType, err := l.lexFieldType(ot)
 		if err != nil {
 			return nil, err
 		}

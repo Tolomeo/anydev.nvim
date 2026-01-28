@@ -1,13 +1,14 @@
 package lex
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (l *Lexer) lexTableValue(origin *symbol.TableOrigin) (*symbol.Table, error) {
+func (l *Lexer) lexTableValue(o *origin.TableOrigin) (*symbol.Table, error) {
 	table := symbol.NewTable()
 
-	for _, capture := range origin.Captures() {
+	for _, capture := range o.Captures() {
 		switch capture.Id {
 		case "table.name":
 			table.Name = capture.Node.Text

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -33,94 +33,94 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		treesitter.ASSIGNMENT_STATEMENT: []treesitter.Query{
 			{
-				Language: symbol.TableFieldAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableFieldAssignmentQuery.Query),
+				Language: origin.TableFieldAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.TableFieldIndexAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableFieldIndexAssignmentQuery.Query),
+				Language: origin.TableFieldIndexAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldIndexAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.MetaVariableAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.meta", symbol.MetaVariableAssignmentQuery.Query),
+				Language: origin.MetaVariableAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.meta", origin.MetaVariableAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.FunctionFieldDotAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldDotAssignmentQuery.Query),
+				Language: origin.FunctionFieldDotAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.FunctionFieldIndexAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldIndexAssignmentQuery.Query),
+				Language: origin.FunctionFieldIndexAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldIndexAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.ModuleRequireAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.module", symbol.ModuleRequireAssignmentQuery.Query),
+				Language: origin.ModuleRequireAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.module", origin.ModuleRequireAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.VariableDotFieldAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.variable", symbol.VariableDotFieldAssignmentQuery.Query),
+				Language: origin.VariableDotFieldAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableDotFieldAssignmentQuery.Query),
 			},
 			{
-				Language: symbol.VariableAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.variable", symbol.VariableAssignmentQuery.Query),
+				Language: origin.VariableAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableAssignmentQuery.Query),
 			},
 		},
 		treesitter.VARIABLE_DECLARATION: []treesitter.Query{
 			{
-				Language: symbol.FunctionVariableDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionVariableDeclarationQuery.Query),
+				Language: origin.FunctionVariableDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionVariableDeclarationQuery.Query),
 			},
 			{
-				Language: symbol.TableVariableDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", symbol.TableVariableDeclarationQuery.Query),
+				Language: origin.TableVariableDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableVariableDeclarationQuery.Query),
 			},
 		},
 		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
 			{
-				Language: symbol.FunctionDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionDeclarationQuery.Query),
+				Language: origin.FunctionDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionDeclarationQuery.Query),
 			},
 			{
-				Language: symbol.FunctionFieldMethodDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldMethodDeclarationQuery.Query),
+				Language: origin.FunctionFieldMethodDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldMethodDeclarationQuery.Query),
 			},
 			{
-				Language: symbol.FunctionFieldDotDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldDotDeclarationQuery.Query),
+				Language: origin.FunctionFieldDotDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotDeclarationQuery.Query),
 			},
 		},
 		treesitter.ALIAS_ANNOTATION: []treesitter.Query{
 			{
-				Language: symbol.AliasAnnotationQuery.Language,
+				Language: origin.AliasAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
 					(%s)
 					(#eq? @alias.name "%s")
-				) @origin.alias`, symbol.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
+				) @origin.alias`, origin.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 			{
-				Language: symbol.AliasEnumeratorAnnotationQuery.Language,
+				Language: origin.AliasEnumeratorAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
 					(%s)
 					(#eq? @alias.name "%s")
-				) @origin.alias.enumerator`, symbol.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
+				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.CLASS_ANNOTATION: []treesitter.Query{
 			{
-				Language: symbol.ClassAnnotationQuery.Language,
+				Language: origin.ClassAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
 					(%s)
 					(#eq? @class.name "%s")
-				) @origin.class`, symbol.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
+				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.FIELD_ANNOTATION: []treesitter.Query{
 			{
-				Language: symbol.FieldAnnotationQuery.Language,
+				Language: origin.FieldAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
-				) @origin.field`, symbol.FieldAnnotationQuery.Query, c.context.Target().Name()),
+				) @origin.field`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
 			},
 		},
 	}
@@ -134,46 +134,46 @@ var enumAliasEnumeratorMemberQuery = treesitter.Query{
 	)
 `, anyTypeAnnotationQuery)}
 
-func (c *Crawler) getOrigins(locations []nvim.Location) (*symbol.Origins, error) {
-	var origin symbol.Origin
+func (c *Crawler) getOrigins(locations []nvim.Location) (*origin.Origins, error) {
+	var o origin.Origin
 	var err error
 	originQueryMap := c.getOriginQueryMap()
 
 	for _, location := range locations {
-		origin, err = c.getOrigin(location, originQueryMap)
+		o, err = c.getOrigin(location, originQueryMap)
 
 		if err != nil {
 			return nil, err
 		}
 
-		if origin != nil {
+		if o != nil {
 			break
 		}
 	}
 
-	if origin == nil {
+	if o == nil {
 		return nil, nil
 	}
 
-	switch o := origin.(type) {
-	case *symbol.ModuleOrigin:
-		moduleOrigins, err := c.getModuleOrigins(o)
+	switch ot := o.(type) {
+	case *origin.ModuleOrigin:
+		moduleOrigins, err := c.getModuleOrigins(ot)
 		if err != nil {
 			return nil, err
 		}
-		return symbol.NewOrigins(origin).Merge(moduleOrigins), nil
-	case *symbol.VariableOrigin:
-		variableOrigins, err := c.getVariableOrigins(o)
+		return origin.NewOrigins(o).Merge(moduleOrigins), nil
+	case *origin.VariableOrigin:
+		variableOrigins, err := c.getVariableOrigins(ot)
 		if err != nil {
 			return nil, err
 		}
-		return symbol.NewOrigins(origin).Merge(variableOrigins), nil
+		return origin.NewOrigins(o).Merge(variableOrigins), nil
 	}
 
-	return symbol.NewOrigins(origin), nil
+	return origin.NewOrigins(o), nil
 }
 
-func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQueryMap) (symbol.Origin, error) {
+func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQueryMap) (origin.Origin, error) {
 	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 	if err != nil {
@@ -202,27 +202,27 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	}
 
 	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
-		return symbol.NewFunctionOrigin(location, *queryResult, documentation), nil
+		return origin.NewFunctionOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
-		return symbol.NewTableOrigin(location, *queryResult, documentation), nil
+		return origin.NewTableOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
-		return symbol.NewVariableOrigin(location, *queryResult, documentation), nil
+		return origin.NewVariableOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
-		return symbol.NewModuleOrigin(location, *queryResult, documentation), nil
+		return origin.NewModuleOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
-		return symbol.NewClassOrigin(location, *queryResult, documentation), nil
+		return origin.NewClassOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isAlias := queryResult.Match.Find("origin.alias"); isAlias {
-		return symbol.NewAliasOrigin(location, *queryResult, documentation), nil
+		return origin.NewAliasOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
@@ -250,21 +250,21 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 			queryResult.Match = queryResult.Match.Append(*match...)
 		}
 
-		return symbol.NewAliasEnumeratorOrigin(location, *queryResult, documentation), nil
+		return origin.NewAliasEnumeratorOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isField := queryResult.Match.Find("origin.field"); isField {
-		return symbol.NewFieldOrigin(location, *queryResult, documentation), nil
+		return origin.NewFieldOrigin(location, *queryResult, documentation), nil
 	}
 
 	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
-		return symbol.NewMetaOrigin(location, *queryResult, documentation), nil
+		return origin.NewMetaOrigin(location, *queryResult, documentation), nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, queryResult, documentation)
 }
 
-func (c *Crawler) getModuleOrigins(origin *symbol.ModuleOrigin) (*symbol.Origins, error) {
+func (c *Crawler) getModuleOrigins(origin *origin.ModuleOrigin) (*origin.Origins, error) {
 	moduleName := origin.GetModuleName()
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
 
@@ -275,7 +275,7 @@ func (c *Crawler) getModuleOrigins(origin *symbol.ModuleOrigin) (*symbol.Origins
 	return c.getOrigins(*moduleLocations)
 }
 
-func (c *Crawler) getVariableOrigins(origin *symbol.VariableOrigin) (*symbol.Origins, error) {
+func (c *Crawler) getVariableOrigins(origin *origin.VariableOrigin) (*origin.Origins, error) {
 	assignedName := origin.GetAssignedName()
 	rightValueLocations, err := c.findDefinitionLocations(assignedName)
 

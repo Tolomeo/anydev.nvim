@@ -1,10 +1,11 @@
 package lex
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (l *Lexer) lexClassType(_ *symbol.ClassOrigin) (*symbol.Table, error) {
+func (l *Lexer) lexClassType(_ *origin.ClassOrigin) (*symbol.Table, error) {
 	class := symbol.NewTable()
 	class.Name = l.context.Target().Identifier()
 	classFields, err := l.context.Nvim().GetTypeCompletion(class.Name)

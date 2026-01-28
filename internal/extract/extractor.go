@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
@@ -70,18 +71,18 @@ func (e *extractor) extract(item *extraction) error {
 	}
 }
 
-func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
+func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
 
 	switch kind {
-	case symbol.TargetKindValue:
+	case target.TargetKindValue:
 		_, hasSymbol := e.result.Runtime[name]
 		if hasSymbol {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
 		e.result.Runtime[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
-	case symbol.TargetKindType:
+	case target.TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
@@ -90,24 +91,24 @@ func (e *extractor) Extract(kind symbol.TargetKind, name string) error {
 		e.result.Types[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
 	}
 
-	target := e.newExtraction(kind, name)
-	err := e.extract(target)
+	extraction := e.newExtraction(kind, name)
+	err := e.extract(extraction)
 
 	if err != nil {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, target.Target().Type())
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.Target().Type())
 
-	if target.Target().Type() == nil {
+	if extraction.Target().Type() == nil {
 		return nil
 	}
 
-	switch target.Target().Kind() {
-	case symbol.TargetKindValue:
-		e.result.Runtime[target.Target().Name()] = symbol.NewSymbol(name, target.Target().Meta(), target.Target().Origin().Documentation(), target.Target().Type())
-	case symbol.TargetKindType:
-		e.result.Types[target.Target().Name()] = symbol.NewSymbol(name, target.Target().Meta(), target.Target().Origin().Documentation(), target.Target().Type())
+	switch extraction.Target().Kind() {
+	case target.TargetKindValue:
+		e.result.Runtime[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Origin().Documentation(), extraction.Target().Type())
+	case target.TargetKindType:
+		e.result.Types[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Origin().Documentation(), extraction.Target().Type())
 	}
 
 	return nil

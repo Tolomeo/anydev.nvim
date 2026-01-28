@@ -1,12 +1,13 @@
 package lex
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (l *Lexer) lexFieldType(origin *symbol.FieldOrigin) (symbol.Type, error) {
+func (l *Lexer) lexFieldType(fieldOrigin *origin.FieldOrigin) (symbol.Type, error) {
 	// TODO: assign qualifiers taken from annotations
-	lexedField, err := l.lexTypeAnnotation(TypeAnnotation{origin.GetType()})
+	lexedField, err := l.lexTypeAnnotation(TypeAnnotation{fieldOrigin.GetType()})
 
 	if err != nil {
 		return nil, err

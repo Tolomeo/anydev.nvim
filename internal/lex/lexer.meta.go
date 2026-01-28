@@ -3,7 +3,8 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
 type metaAtAnnotations struct {
@@ -39,11 +40,11 @@ func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error)
 	return annotations, nil
 }
 
-func (l *Lexer) lexMetaValue(origin *symbol.MetaOrigin) (symbol.Type, error) {
+func (l *Lexer) lexMetaValue(metaOrigin *origin.MetaOrigin) (symbol.Type, error) {
 	unknown := symbol.NewUnknown()
-	unknown.Documentation = origin.Documentation()
+	unknown.Documentation = metaOrigin.Documentation()
 
-	annotations, err := l.lexMetaAnnotations(origin.Documentation())
+	annotations, err := l.lexMetaAnnotations(metaOrigin.Documentation())
 
 	if err != nil {
 		return nil, err

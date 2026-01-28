@@ -1,4 +1,4 @@
-package symbol
+package origin
 
 type Origins []Origin
 

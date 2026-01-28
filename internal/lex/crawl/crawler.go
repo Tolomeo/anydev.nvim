@@ -1,13 +1,15 @@
 package crawl
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
 
 type ctx interface {
-	Target() *symbol.Target
+	Target() *target.Target
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 }
@@ -16,14 +18,14 @@ type Crawler struct {
 	context ctx
 }
 
-func (c *Crawler) GetOrigins() (*symbol.Origins, error) {
+func (c *Crawler) GetOrigins() (*origin.Origins, error) {
 	var locations *[]nvim.Location
 	var err error
 
 	switch c.context.Target().Kind() {
-	case symbol.TargetKindValue:
+	case target.TargetKindValue:
 		locations, err = c.findDefinitionLocations(c.context.Target().Identifier())
-	case symbol.TargetKindType:
+	case target.TargetKindType:
 		locations, err = c.findTypeDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
 	}
 

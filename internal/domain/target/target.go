@@ -1,6 +1,11 @@
-package symbol
+package target
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+)
 
 type TargetKind string
 
@@ -13,9 +18,9 @@ type Target struct {
 	kind    TargetKind
 	parent  *Target
 	name    string
-	origins *Origins
-	meta    Meta
-	type_   Type
+	origins *origin.Origins
+	meta    symbol.Meta
+	type_   symbol.Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -42,31 +47,31 @@ func (t *Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *Target) Origins() *Origins {
+func (t *Target) Origins() *origin.Origins {
 	return t.origins
 }
 
-func (t *Target) SetOrigins(o *Origins) {
+func (t *Target) SetOrigins(o *origin.Origins) {
 	t.origins = o
 }
 
-func (t *Target) Origin() Origin {
+func (t *Target) Origin() origin.Origin {
 	return t.origins.Last()
 }
 
-func (t *Target) Meta() Meta {
+func (t *Target) Meta() symbol.Meta {
 	return t.meta
 }
 
-func (t *Target) SetMeta(m Meta) {
+func (t *Target) SetMeta(m symbol.Meta) {
 	t.meta = m
 }
 
-func (t *Target) Type() Type {
+func (t *Target) Type() symbol.Type {
 	return t.type_
 }
 
-func (t *Target) SetType(ty Type) {
+func (t *Target) SetType(ty symbol.Type) {
 	t.type_ = ty
 }
 

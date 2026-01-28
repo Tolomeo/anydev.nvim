@@ -3,7 +3,8 @@ package lex
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
@@ -67,10 +68,10 @@ func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotatio
 	return annotations, nil
 }
 
-func (l *Lexer) lexFunctionValue(origin *symbol.FunctionOrigin) (*symbol.Function, error) {
+func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
 
-	for _, capture := range origin.Captures() {
+	for _, capture := range functionOrigin.Captures() {
 		switch capture.Id {
 		case "name":
 			function.Name = &capture.Node.Text
@@ -85,7 +86,7 @@ func (l *Lexer) lexFunctionValue(origin *symbol.FunctionOrigin) (*symbol.Functio
 		}
 	}
 
-	annotations, err := l.lexFunctionAtAnnotations(origin.Documentation())
+	annotations, err := l.lexFunctionAtAnnotations(functionOrigin.Documentation())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)

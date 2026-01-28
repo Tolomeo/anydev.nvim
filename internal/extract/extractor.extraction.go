@@ -1,9 +1,10 @@
 package extract
 
 import (
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
@@ -12,7 +13,7 @@ type extractionContext struct {
 	target *extraction
 }
 
-func (c *extractionContext) Target() *symbol.Target {
+func (c *extractionContext) Target() *target.Target {
 	return c.target.Target()
 }
 
@@ -24,7 +25,7 @@ func (c *extractionContext) Nvim() *nvim.Nvim {
 	return c.target.extractor.Nvim()
 }
 
-func (c *extractionContext) Extract(kind symbol.TargetKind, name string) error {
+func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 	return c.target.extractor.Extract(kind, name)
 }
 
@@ -53,10 +54,10 @@ type extraction struct {
 	lexer     *lex.Lexer
 	logger    *log.Logger
 	parent    *extraction
-	target    *symbol.Target
+	target    *target.Target
 }
 
-func (t *extraction) Target() *symbol.Target {
+func (t *extraction) Target() *target.Target {
 	return t.target
 }
 
@@ -68,7 +69,7 @@ func (t *extraction) Nvim() *nvim.Nvim {
 	return t.extractor.Nvim()
 }
 
-func (t *extraction) Extract(kind symbol.TargetKind, name string) error {
+func (t *extraction) Extract(kind target.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
 }
 
@@ -142,7 +143,7 @@ func (t *extraction) getType() (extractionStep, error) {
 	return nil, nil
 }
 
-func (e *extractor) newChildExtraction(parent *symbol.Target, name string) *extraction {
+func (e *extractor) newChildExtraction(parent *target.Target, name string) *extraction {
 	target := parent.NewChild(name)
 	targetExtraction := &extraction{
 		extractor: e,
@@ -159,8 +160,8 @@ func (e *extractor) newChildExtraction(parent *symbol.Target, name string) *extr
 	return targetExtraction
 }
 
-func (e *extractor) newExtraction(kind symbol.TargetKind, name string) *extraction {
-	target := symbol.NewTarget(kind, name)
+func (e *extractor) newExtraction(kind target.TargetKind, name string) *extraction {
+	target := target.NewTarget(kind, name)
 	targetExtraction := &extraction{
 		extractor: e,
 		target:    target,
