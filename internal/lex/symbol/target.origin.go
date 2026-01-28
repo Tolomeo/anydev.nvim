@@ -420,20 +420,6 @@ func NewModuleOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, d
 	}
 }
 
-type ClassOrigin struct {
-	origin
-}
-
-func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
-	return &ClassOrigin{
-		origin: origin{
-			location:   location,
-			definition: definition,
-			docBlock:   documentation,
-		},
-	}
-}
-
 var AliasAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`(
@@ -500,6 +486,37 @@ func (aeo *AliasEnumeratorOrigin) Definition() []string {
 
 func NewAliasEnumeratorOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasEnumeratorOrigin {
 	return &AliasEnumeratorOrigin{
+		origin: origin{
+			location:   location,
+			definition: definition,
+			docBlock:   documentation,
+		},
+	}
+}
+
+var ClassAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(class_annotation
+		"@class"
+		.
+		"(exact)"?
+		.
+		(identifier) @class.name
+		.
+		(":" 
+			. (%s) @class.parent
+			("," (%s) @class.parent)*
+		)?
+	) @class`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+}
+
+type ClassOrigin struct {
+	origin
+}
+
+func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
+	return &ClassOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,

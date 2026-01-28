@@ -107,22 +107,11 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 		},
 		treesitter.CLASS_ANNOTATION: []treesitter.Query{
 			{
-				Language: "luadoc",
+				Language: symbol.ClassAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
-					(class_annotation
-						"@class"
-						.
-						"(exact)"?
-						.
-						(identifier) @class.name
-						.
-						(":" 
-							. (%s) @class.parent
-							("," (%s) @class.parent)*
-						)?
-					) @origin.class
+					(%s)
 					(#eq? @class.name "%s")
-				)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery, c.context.Target().Identifier()),
+				) @origin.class`, symbol.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.FIELD_ANNOTATION: []treesitter.Query{
