@@ -1,12 +1,33 @@
 package symbol
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
+
+var typeAnnotationQueries = map[string]string{
+	"builtin_type":         "(builtin_type)",
+	"identifier":           "(identifier)",
+	"array_type":           "(array_type)",
+	"table_type":           "(table_type)",
+	"table_literal_type":   "(table_literal_type)",
+	"union_type":           "(union_type)",
+	"parenthesized_type":   "(parenthesized_type)",
+	"tuple_type":           "(tuple_type)",
+	"function_type":        "(function_type)",
+	"member_type":          "(member_type)",
+	"optional_type":        "(optional_type)",
+	"literal_type":         "(literal_type)",
+	"numeric_literal_type": "(numeric_literal_type)",
+	"custom_type":          "(custom_type)",
+}
+
+var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAnnotationQueries), " "))
 
 type Origin interface {
 	Url() string
@@ -376,16 +397,16 @@ type ModuleOrigin struct {
 	origin
 }
 
-func (mo *ModuleOrigin) GetModuleName() string {
-	moduleNameCapture, _ := slicesx.FindFunc(mo.definition.Match, func(capture treesitter.Capture) bool {
+func (ao *ModuleOrigin) GetModuleName() string {
+	moduleNameCapture, _ := slicesx.FindFunc(ao.definition.Match, func(capture treesitter.Capture) bool {
 		return capture.Id == "require.module"
 	})
 
 	return moduleNameCapture.Node.Text
 }
 
-func (mo *ModuleOrigin) Definition() []string {
-	root, _ := mo.definition.Match.Find("module")
+func (ao *ModuleOrigin) Definition() []string {
+	root, _ := ao.definition.Match.Find("module")
 	return strings.Split(root.Node.Text, "\n")
 }
 
@@ -413,8 +434,30 @@ func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 	}
 }
 
+var AliasAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`(
+		(alias_annotation
+			"@alias"
+			.
+			(identifier) @alias.name
+			.
+			(%s) @alias.type
+			.
+			(comment)? @alias.documentation
+			.
+		)
+		(#not-eq? @alias.type "")
+	) @alias`, anyTypeAnnotationQuery),
+}
+
 type AliasOrigin struct {
 	origin
+}
+
+func (ao *AliasOrigin) Definition() []string {
+	root, _ := ao.definition.Match.Find("alias")
+	return strings.Split(root.Node.Text, "\n")
 }
 
 func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasOrigin {
@@ -427,8 +470,32 @@ func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 	}
 }
 
+// Luadoc matches an empty type node even when the type is not present
+// That means that enum aliases have an empty type node defined
+var AliasEnumeratorAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`(
+		(alias_annotation
+			"@alias"
+			.
+			(identifier) @alias.name
+			.
+			(%s) @alias.emptytype
+			.
+			(comment)? @alias.documentation
+			.
+		)
+		(#eq? @alias.emptytype "")
+	) @alias.enumerator`, anyTypeAnnotationQuery),
+}
+
 type AliasEnumeratorOrigin struct {
 	origin
+}
+
+func (aeo *AliasEnumeratorOrigin) Definition() []string {
+	root, _ := aeo.definition.Match.Find("alias")
+	return strings.Split(root.Node.Text, "\n")
 }
 
 func NewAliasEnumeratorOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasEnumeratorOrigin {

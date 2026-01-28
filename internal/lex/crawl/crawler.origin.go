@@ -91,40 +91,18 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 		},
 		treesitter.ALIAS_ANNOTATION: []treesitter.Query{
 			{
-				Language: "luadoc",
+				Language: symbol.AliasAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
-					(alias_annotation
-						"@alias"
-						.
-						(identifier) @alias.name
-						.
-						(%s) @alias.type
-						.
-						(comment)? @alias.documentation
-						.
-					) @origin.alias
+					(%s)
 					(#eq? @alias.name "%s")
-					(#not-eq? @alias.type "")
-				)`, anyTypeAnnotationQuery, c.context.Target().Identifier()),
+				) @origin.alias`, symbol.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
-			// Luadoc matches an empty type node even when the type is not present
-			// That means that enum aliases have an empty type node defined
 			{
-				Language: "luadoc",
+				Language: symbol.AliasEnumeratorAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
-					(alias_annotation
-						"@alias"
-						.
-						(identifier) @alias.name
-						.
-						(%s) @alias.emptytype
-						.
-						(comment)? @alias.documentation
-						.
-					) @origin.alias.enumerator
+					(%s)
 					(#eq? @alias.name "%s")
-					(#eq? @alias.emptytype "")
-				)`, anyTypeAnnotationQuery, c.context.Target().Identifier()),
+				) @origin.alias.enumerator`, symbol.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
 		treesitter.CLASS_ANNOTATION: []treesitter.Query{
