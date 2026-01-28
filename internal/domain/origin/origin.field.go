@@ -34,17 +34,17 @@ var FieldAnnotationQuery = treesitter.Query{
 
 type FieldOrigin struct {
 	origin
-	name      string
-	private   bool
-	protected bool
-	package_  bool
-	optional  bool
-	type_     string
+	definition string
+	name       string
+	private    bool
+	protected  bool
+	package_   bool
+	optional   bool
+	type_      string
 }
 
 func (fo *FieldOrigin) Definition() []string {
-	root, _ := fo.definition.Match.Find("field")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(fo.definition, "\n")
 }
 
 func (fo *FieldOrigin) Name() string {
@@ -82,6 +82,8 @@ func NewFieldOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 
 	for _, capture := range definition.Match {
 		switch capture.Id {
+		case "field":
+			fieldOrigin.definition = capture.Node.Text
 		case "field.name":
 			fieldOrigin.name = capture.Node.Text
 		case "field.private":

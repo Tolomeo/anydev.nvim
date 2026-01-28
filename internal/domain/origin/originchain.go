@@ -10,12 +10,12 @@ func (o *OriginChain) First() Origin {
 	return (*o)[0]
 }
 
-func (o *OriginChain) Merge(o2 *OriginChain) *OriginChain {
+func (o *OriginChain) Append(o2 *OriginChain) *OriginChain {
 	*o = append(*o, *o2...)
 	return o
 }
 
-func NewOrigins(origins ...Origin) *OriginChain {
+func NewOriginChain(origins ...Origin) *OriginChain {
 	t := OriginChain{}
 
 	for _, l := range origins {

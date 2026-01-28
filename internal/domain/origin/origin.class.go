@@ -27,20 +27,38 @@ var ClassAnnotationQuery = treesitter.Query{
 
 type ClassOrigin struct {
 	origin
+	definition string
+	name       string
+	parents    []string
 }
 
 func (co *ClassOrigin) Definition() []string {
-	root, _ := co.definition.Match.Find("class")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(co.definition, "\n")
+}
+
+func (co *ClassOrigin) Name() string {
+	return co.name
 }
 
 func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ClassOrigin {
-	return &ClassOrigin{
+	classOrigin := ClassOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
+		parents: []string{},
 	}
-}
 
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "class":
+			classOrigin.definition = capture.Node.Text
+		case "class.name":
+			classOrigin.name = capture.Node.Text
+		case "class.parent":
+			classOrigin.parents = append(classOrigin.parents, capture.Node.Text)
+		}
+	}
+	return &classOrigin
+}

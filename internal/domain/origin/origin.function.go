@@ -165,14 +165,14 @@ var FunctionFieldMethodDeclarationQuery = treesitter.Query{
 
 type FunctionOrigin struct {
 	origin
-	name   string
-	static bool
-	args   []string
+	definition string
+	name       string
+	static     bool
+	args       []string
 }
 
 func (fo *FunctionOrigin) Definition() []string {
-	root, _ := fo.definition.Match.Find("function")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(fo.definition, "\n")
 }
 
 func (fo *FunctionOrigin) Name() string {
@@ -199,6 +199,8 @@ func NewFunctionOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch,
 
 	for _, capture := range definition.Match {
 		switch capture.Id {
+		case "function":
+			functionOrigin.definition = capture.Node.Text
 		case "name":
 			functionOrigin.name = capture.Node.Text
 		case "access.class":

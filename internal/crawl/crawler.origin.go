@@ -132,16 +132,16 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (*origin.OriginChain
 		if err != nil {
 			return nil, err
 		}
-		return origin.NewOrigins(o).Merge(moduleOrigins), nil
+		return origin.NewOriginChain(o).Append(moduleOrigins), nil
 	case *origin.VariableOrigin:
 		variableOrigins, err := c.getVariableOriginChain(ot)
 		if err != nil {
 			return nil, err
 		}
-		return origin.NewOrigins(o).Merge(variableOrigins), nil
+		return origin.NewOriginChain(o).Append(variableOrigins), nil
 	}
 
-	return origin.NewOrigins(o), nil
+	return origin.NewOriginChain(o), nil
 }
 
 func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQueryMap) (origin.Origin, error) {

@@ -5,9 +5,9 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (l *Lexer) lexClassType(_ *origin.ClassOrigin) (*symbol.Table, error) {
+func (l *Lexer) lexClassType(classOrigin *origin.ClassOrigin) (*symbol.Table, error) {
 	class := symbol.NewTable()
-	class.Name = l.context.Target().Identifier()
+	class.Name = classOrigin.Name()
 	classFields, err := l.context.Nvim().GetTypeCompletion(class.Name)
 
 	if err != nil {
