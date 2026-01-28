@@ -8,7 +8,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
+	"github.com/Tolomeo/anydev.nvim/internal/log"
 )
 
 type Options struct {

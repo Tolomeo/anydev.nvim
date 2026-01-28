@@ -6,7 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
 	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
+	"github.com/Tolomeo/anydev.nvim/internal/log"
 )
 
 type extractionContext struct {

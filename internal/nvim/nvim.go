@@ -9,7 +9,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
+	"github.com/Tolomeo/anydev.nvim/internal/log"
 )
 
 type CursorPosition struct {
