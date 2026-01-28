@@ -7,7 +7,7 @@ import (
 
 func (l *Lexer) lexFieldType(fieldOrigin *origin.FieldOrigin) (symbol.Type, error) {
 	// TODO: assign qualifiers taken from annotations
-	lexedField, err := l.lexTypeAnnotation(TypeAnnotation{fieldOrigin.GetType()})
+	lexedField, err := l.lexTypeAnnotation(TypeAnnotation{fieldOrigin.Type()})
 
 	if err != nil {
 		return nil, err

@@ -34,6 +34,12 @@ var FieldAnnotationQuery = treesitter.Query{
 
 type FieldOrigin struct {
 	origin
+	name      string
+	private   bool
+	protected bool
+	package_  bool
+	optional  bool
+	type_     string
 }
 
 func (fo *FieldOrigin) Definition() []string {
@@ -41,22 +47,55 @@ func (fo *FieldOrigin) Definition() []string {
 	return strings.Split(root.Node.Text, "\n")
 }
 
-func (fo *FieldOrigin) GetName() string {
-	fieldName, _ := fo.definition.Match.Find("field.name")
-	return fieldName.Node.Text
+func (fo *FieldOrigin) Name() string {
+	return fo.name
 }
 
-func (fo *FieldOrigin) GetType() string {
-	fieldType, _ := fo.definition.Match.Find("field.type")
-	return fieldType.Node.Text
+func (fo *FieldOrigin) Private() bool {
+	return fo.private
+}
+
+func (fo *FieldOrigin) Protected() bool {
+	return fo.protected
+}
+
+func (fo *FieldOrigin) Package() bool {
+	return fo.package_
+}
+
+func (fo *FieldOrigin) Type() string {
+	if fo.optional {
+		return fmt.Sprintf("(%s)?", fo.type_)
+	}
+
+	return fo.type_
 }
 
 func NewFieldOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *FieldOrigin {
-	return &FieldOrigin{
+	fieldOrigin := FieldOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "field.name":
+			fieldOrigin.name = capture.Node.Text
+		case "field.private":
+			fieldOrigin.private = true
+		case "field.protected":
+			fieldOrigin.protected = true
+		case "field.package":
+			fieldOrigin.package_ = true
+		case "field.optional":
+			fieldOrigin.optional = true
+		case "field.type":
+			fieldOrigin.type_ = capture.Node.Text
+		}
+	}
+
+	return &fieldOrigin
 }
