@@ -38,15 +38,16 @@ var VariableDotFieldAssignmentQuery = treesitter.Query{
 
 type VariableOrigin struct {
 	origin
+	definition string
+	name       string
 }
 
 func (vo *VariableOrigin) Definition() []string {
-	root, _ := vo.definition.Match.Find("variable")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(vo.definition, "\n")
 }
 
-func (vo *VariableOrigin) GetAssignedName() string {
-	assignmentRightCapture, _ := slicesx.FindFunc(vo.definition.Match, func(capture treesitter.Capture) bool {
+func (vo *VariableOrigin) Name() string {
+	assignmentRightCapture, _ := slicesx.FindFunc(vo.origin.definition.Match, func(capture treesitter.Capture) bool {
 		return capture.Id == "assignment.right"
 	})
 
@@ -54,11 +55,22 @@ func (vo *VariableOrigin) GetAssignedName() string {
 }
 
 func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *VariableOrigin {
-	return &VariableOrigin{
+	variableOrigin := VariableOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "variable":
+			variableOrigin.definition = capture.Node.Text
+		case "assignment.right":
+			variableOrigin.name = capture.Node.Text
+		}
+	}
+
+	return &variableOrigin
 }

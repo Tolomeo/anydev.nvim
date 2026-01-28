@@ -247,7 +247,7 @@ func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.Ori
 }
 
 func (c *Crawler) getVariableOriginChain(origin *origin.VariableOrigin) (*origin.OriginChain, error) {
-	assignedName := origin.GetAssignedName()
+	assignedName := origin.Name()
 	rightValueLocations, err := c.findDefinitionLocations(assignedName)
 
 	if err != nil {

@@ -25,19 +25,28 @@ var MetaVariableAssignmentQuery = treesitter.Query{
 
 type MetaOrigin struct {
 	origin
+	definition string
 }
 
 func (mo *MetaOrigin) Definition() []string {
-	root, _ := mo.definition.Match.Find("meta")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(mo.definition, "\n")
 }
 
 func NewMetaOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *MetaOrigin {
-	return &MetaOrigin{
+	metaOrigin := MetaOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "meta":
+			metaOrigin.definition = capture.Node.Text
+		}
+	}
+
+	return &metaOrigin
 }
