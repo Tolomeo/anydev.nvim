@@ -97,7 +97,7 @@ type extractionStep func() (extractionStep, error)
 func (t *extraction) getOrigins() (extractionStep, error) {
 	t.logger.Info("Crawling")
 
-	origin, err := t.crawler.GetOrigins()
+	origin, err := t.crawler.GetOriginChain()
 
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (t *extraction) getOrigins() (extractionStep, error) {
 
 	t.logger.Info("Crawling complete")
 
-	t.Target().SetOrigins(origin)
+	t.Target().SetOriginChain(origin)
 
 	return t.getMeta, nil
 }

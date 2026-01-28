@@ -18,7 +18,7 @@ type Crawler struct {
 	context ctx
 }
 
-func (c *Crawler) GetOrigins() (*origin.Origins, error) {
+func (c *Crawler) GetOriginChain() (*origin.OriginChain, error) {
 	var locations *[]nvim.Location
 	var err error
 
@@ -38,7 +38,7 @@ func (c *Crawler) GetOrigins() (*origin.Origins, error) {
 		return nil, nil
 	}
 
-	origins, err := c.getOrigins(*locations)
+	origins, err := c.getOriginChain(*locations)
 
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (c *Crawler) GetOrigins() (*origin.Origins, error) {
 }
 
 func (c *Crawler) GetMeta() (symbol.Meta, error) {
-	origin := c.context.Target().Origins().First()
+	origin := c.context.Target().OriginChain().First()
 
 	return c.getMeta(origin)
 }

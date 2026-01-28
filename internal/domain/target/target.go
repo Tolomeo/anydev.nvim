@@ -15,12 +15,12 @@ const (
 )
 
 type Target struct {
-	kind    TargetKind
-	parent  *Target
-	name    string
-	origins *origin.Origins
-	meta    symbol.Meta
-	type_   symbol.Type
+	kind        TargetKind
+	parent      *Target
+	name        string
+	originChain *origin.OriginChain
+	meta        symbol.Meta
+	type_       symbol.Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -47,16 +47,16 @@ func (t *Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *Target) Origins() *origin.Origins {
-	return t.origins
+func (t *Target) OriginChain() *origin.OriginChain {
+	return t.originChain
 }
 
-func (t *Target) SetOrigins(o *origin.Origins) {
-	t.origins = o
+func (t *Target) SetOriginChain(o *origin.OriginChain) {
+	t.originChain = o
 }
 
 func (t *Target) Origin() origin.Origin {
-	return t.origins.Last()
+	return t.originChain.Last()
 }
 
 func (t *Target) Meta() symbol.Meta {

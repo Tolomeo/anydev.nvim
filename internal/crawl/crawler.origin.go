@@ -2,32 +2,11 @@ package crawl
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
-
-var typeAnnotationQueries = map[string]string{
-	"builtin_type":         "(builtin_type)",
-	"identifier":           "(identifier)",
-	"array_type":           "(array_type)",
-	"table_type":           "(table_type)",
-	"table_literal_type":   "(table_literal_type)",
-	"union_type":           "(union_type)",
-	"parenthesized_type":   "(parenthesized_type)",
-	"tuple_type":           "(tuple_type)",
-	"function_type":        "(function_type)",
-	"member_type":          "(member_type)",
-	"optional_type":        "(optional_type)",
-	"literal_type":         "(literal_type)",
-	"numeric_literal_type": "(numeric_literal_type)",
-	"custom_type":          "(custom_type)",
-}
-
-var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAnnotationQueries), " "))
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
@@ -126,15 +105,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	}
 }
 
-var enumAliasEnumeratorMemberQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(continuation
-		(%s) @alias.type
-	)
-`, anyTypeAnnotationQuery)}
-
-func (c *Crawler) getOrigins(locations []nvim.Location) (*origin.Origins, error) {
+func (c *Crawler) getOriginChain(locations []nvim.Location) (*origin.OriginChain, error) {
 	var o origin.Origin
 	var err error
 	originQueryMap := c.getOriginQueryMap()
@@ -157,13 +128,13 @@ func (c *Crawler) getOrigins(locations []nvim.Location) (*origin.Origins, error)
 
 	switch ot := o.(type) {
 	case *origin.ModuleOrigin:
-		moduleOrigins, err := c.getModuleOrigins(ot)
+		moduleOrigins, err := c.getModuleOriginChain(ot)
 		if err != nil {
 			return nil, err
 		}
 		return origin.NewOrigins(o).Merge(moduleOrigins), nil
 	case *origin.VariableOrigin:
-		variableOrigins, err := c.getVariableOrigins(ot)
+		variableOrigins, err := c.getVariableOriginChain(ot)
 		if err != nil {
 			return nil, err
 		}
@@ -237,7 +208,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 				return nil, err
 			}
 
-			match, err := line.TsQueryOne(enumAliasEnumeratorMemberQuery)
+			match, err := line.TsQueryOne(origin.AliasEnumeratorMemberAnnotationQuery)
 
 			if err != nil {
 				return nil, err
@@ -264,7 +235,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, queryResult, documentation)
 }
 
-func (c *Crawler) getModuleOrigins(origin *origin.ModuleOrigin) (*origin.Origins, error) {
+func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.OriginChain, error) {
 	moduleName := origin.GetModuleName()
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
 
@@ -272,10 +243,10 @@ func (c *Crawler) getModuleOrigins(origin *origin.ModuleOrigin) (*origin.Origins
 		return nil, err
 	}
 
-	return c.getOrigins(*moduleLocations)
+	return c.getOriginChain(*moduleLocations)
 }
 
-func (c *Crawler) getVariableOrigins(origin *origin.VariableOrigin) (*origin.Origins, error) {
+func (c *Crawler) getVariableOriginChain(origin *origin.VariableOrigin) (*origin.OriginChain, error) {
 	assignedName := origin.GetAssignedName()
 	rightValueLocations, err := c.findDefinitionLocations(assignedName)
 
@@ -283,5 +254,5 @@ func (c *Crawler) getVariableOrigins(origin *origin.VariableOrigin) (*origin.Ori
 		return nil, err
 	}
 
-	return c.getOrigins(*rightValueLocations)
+	return c.getOriginChain(*rightValueLocations)
 }

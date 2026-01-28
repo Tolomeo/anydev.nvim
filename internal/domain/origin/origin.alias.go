@@ -63,12 +63,21 @@ var AliasEnumeratorAnnotationQuery = treesitter.Query{
 	) @alias.enumerator`, anyTypeAnnotationQuery),
 }
 
+var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(continuation
+		(%s) @alias.type
+	)
+`, anyTypeAnnotationQuery),
+}
+
 type AliasEnumeratorOrigin struct {
 	origin
 }
 
 func (aeo *AliasEnumeratorOrigin) Definition() []string {
-	root, _ := aeo.definition.Match.Find("alias")
+	root, _ := aeo.definition.Match.Find("alias.enumerator")
 	return strings.Split(root.Node.Text, "\n")
 }
 
