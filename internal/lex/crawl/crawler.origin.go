@@ -56,33 +56,13 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: symbol.ModuleRequireAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.module", symbol.ModuleRequireAssignmentQuery.Query),
 			},
-			// dotindex assignment
-			// F.T = X.V
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (_)
-					) @assignment.left
-					(expression_list
-						value: (dot_index_expression) @assignment.right 
-					)
-				) @origin.variable`,
+				Language: symbol.VariableDotFieldAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.variable", symbol.VariableDotFieldAssignmentQuery.Query),
 			},
-			// variable assignment
-			// F.T = X
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list
-						name: (_)
-					) @assignment.left
-					(expression_list
-						value: (identifier) @assignment.right 
-					)
-				) @origin.variable`,
+				Language: symbol.VariableAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.variable", symbol.VariableAssignmentQuery.Query),
 			},
 		},
 		treesitter.VARIABLE_DECLARATION: []treesitter.Query{

@@ -297,8 +297,41 @@ func NewTableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 	}
 }
 
+// F.T = X
+var VariableAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement
+		(variable_list
+			name: (_)
+		) @assignment.left
+		(expression_list
+			value: (identifier) @assignment.right 
+		)
+	) @variable`,
+}
+
+// F.T = X.V
+var VariableDotFieldAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement
+		(variable_list
+			name: (_)
+		) @assignment.left
+		(expression_list
+			value: (dot_index_expression) @assignment.right 
+		)
+	) @variable`,
+}
+
 type VariableOrigin struct {
 	origin
+}
+
+func (vo *VariableOrigin) Definition() []string {
+	root, _ := vo.definition.Match.Find("variable")
+	return strings.Split(root.Node.Text, "\n")
 }
 
 func (vo *VariableOrigin) GetAssignedName() string {
@@ -307,7 +340,6 @@ func (vo *VariableOrigin) GetAssignedName() string {
 	})
 
 	return assignmentRightCapture.Node.Text
-
 }
 
 func NewVariableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *VariableOrigin {
