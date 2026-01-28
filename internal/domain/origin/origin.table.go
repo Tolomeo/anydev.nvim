@@ -61,19 +61,35 @@ var TableFieldIndexAssignmentQuery = treesitter.Query{
 
 type TableOrigin struct {
 	origin
+	definition string
+	name       string
 }
 
 func (to *TableOrigin) Definition() []string {
-	root, _ := to.definition.Match.Find("table")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(to.definition, "\n")
+}
+
+func (to *TableOrigin) Name() string {
+	return to.name
 }
 
 func NewTableOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *TableOrigin {
-	return &TableOrigin{
+	tableOrigin := TableOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "table":
+			tableOrigin.definition = capture.Node.Text
+		case "table.name":
+			tableOrigin.name = capture.Node.Text
+		}
+	}
+
+	return &tableOrigin
 }

@@ -5,16 +5,9 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (l *Lexer) lexTableValue(o *origin.TableOrigin) (*symbol.Table, error) {
+func (l *Lexer) lexTableValue(tableOrigin *origin.TableOrigin) (*symbol.Table, error) {
 	table := symbol.NewTable()
-
-	for _, capture := range o.Captures() {
-		switch capture.Id {
-		case "table.name":
-			table.Name = capture.Node.Text
-		}
-	}
-
+	table.Name = tableOrigin.Name()
 	tableFields, err := l.context.Nvim().GetValueCompletion(l.context.Target().Identifier())
 
 	if err != nil {

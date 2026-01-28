@@ -5,7 +5,6 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
 // F = require("T")
@@ -30,27 +29,35 @@ var ModuleRequireAssignmentQuery = treesitter.Query{
 
 type ModuleOrigin struct {
 	origin
+	definition string
+	name       string
 }
 
-func (ao *ModuleOrigin) GetModuleName() string {
-	moduleNameCapture, _ := slicesx.FindFunc(ao.definition.Match, func(capture treesitter.Capture) bool {
-		return capture.Id == "require.module"
-	})
-
-	return moduleNameCapture.Node.Text
+func (ao *ModuleOrigin) Name() string {
+	return ao.name
 }
 
 func (mo *ModuleOrigin) Definition() []string {
-	root, _ := mo.definition.Match.Find("module")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(mo.definition, "\n")
 }
 
 func NewModuleOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *ModuleOrigin {
-	return &ModuleOrigin{
+	moduleOrigin := ModuleOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "module":
+			moduleOrigin.definition = capture.Node.Text
+		case "require.module":
+			moduleOrigin.name = capture.Node.Text
+		}
+	}
+
+	return &moduleOrigin
 }

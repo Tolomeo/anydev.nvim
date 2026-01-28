@@ -236,7 +236,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 }
 
 func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.OriginChain, error) {
-	moduleName := origin.GetModuleName()
+	moduleName := origin.Name()
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
 
 	if err != nil {
