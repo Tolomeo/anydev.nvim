@@ -27,21 +27,44 @@ var AliasAnnotationQuery = treesitter.Query{
 
 type AliasOrigin struct {
 	origin
+	definition string
+	name       string
+	type_      string
 }
 
 func (ao *AliasOrigin) Definition() []string {
-	root, _ := ao.definition.Match.Find("alias")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(ao.definition, "\n")
+}
+
+func (ao *AliasOrigin) Name() string {
+	return ao.name
+}
+
+func (ao *AliasOrigin) Type() string {
+	return ao.type_
 }
 
 func NewAliasOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasOrigin {
-	return &AliasOrigin{
+	aliasOrigin := AliasOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "alias":
+			aliasOrigin.definition = capture.Node.Text
+		case "alias.name":
+			aliasOrigin.name = capture.Node.Text
+		case "alias.type":
+			aliasOrigin.type_ = capture.Node.Text
+		}
+	}
+
+	return &aliasOrigin
 }
 
 // Luadoc matches an empty type node even when the type is not present
@@ -74,19 +97,43 @@ var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
 
 type AliasEnumeratorOrigin struct {
 	origin
+	definition string
+	name       string
+	types      []string
 }
 
 func (aeo *AliasEnumeratorOrigin) Definition() []string {
-	root, _ := aeo.definition.Match.Find("alias.enumerator")
-	return strings.Split(root.Node.Text, "\n")
+	return strings.Split(aeo.definition, "\n")
+}
+
+func (aeo *AliasEnumeratorOrigin) Name() string {
+	return aeo.name
+}
+
+func (aeo *AliasEnumeratorOrigin) Types() []string {
+	return aeo.types
 }
 
 func NewAliasEnumeratorOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, documentation []string) *AliasEnumeratorOrigin {
-	return &AliasEnumeratorOrigin{
+	aliasEnumeratorOrigin := AliasEnumeratorOrigin{
 		origin: origin{
 			location:   location,
 			definition: definition,
 			docBlock:   documentation,
 		},
+		types: []string{},
 	}
+
+	for _, capture := range definition.Match {
+		switch capture.Id {
+		case "alias.enumerator":
+			aliasEnumeratorOrigin.definition = capture.Node.Text
+		case "alias.name":
+			aliasEnumeratorOrigin.name = capture.Node.Text
+		case "alias.type":
+			aliasEnumeratorOrigin.types = append(aliasEnumeratorOrigin.types, capture.Node.Text)
+		}
+	}
+
+	return &aliasEnumeratorOrigin
 }

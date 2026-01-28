@@ -60,5 +60,6 @@ func NewClassOrigin(location nvim.Location, definition nvim.TsNodeQueryMatch, do
 			classOrigin.parents = append(classOrigin.parents, capture.Node.Text)
 		}
 	}
+
 	return &classOrigin
 }
