@@ -22,7 +22,7 @@ var AliasAnnotationQuery = treesitter.Query{
 			.
 		)
 		(#not-eq? @alias.type "")
-	) @alias`, anyTypeAnnotationQuery),
+	) @alias`, anyTypeQuery),
 }
 
 type AliasOrigin struct {
@@ -60,7 +60,7 @@ var AliasEnumeratorAnnotationQuery = treesitter.Query{
 			.
 		)
 		(#eq? @alias.emptytype "")
-	) @alias.enumerator`, anyTypeAnnotationQuery),
+	) @alias.enumerator`, anyTypeQuery),
 }
 
 var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
@@ -69,7 +69,7 @@ var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
 	(continuation
 		(%s) @alias.type
 	)
-`, anyTypeAnnotationQuery),
+`, anyTypeQuery),
 }
 
 type AliasEnumeratorOrigin struct {

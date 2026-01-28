@@ -8,7 +8,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
-var typeAnnotationQueries = map[string]string{
+var typeQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",
 	"identifier":           "(identifier)",
 	"array_type":           "(array_type)",
@@ -25,7 +25,7 @@ var typeAnnotationQueries = map[string]string{
 	"custom_type":          "(custom_type)",
 }
 
-var anyTypeAnnotationQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeAnnotationQueries), " "))
+var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
 
 type Origin interface {
 	Url() string
@@ -52,10 +52,6 @@ func (l *origin) Line() uint {
 
 func (l *origin) Character() uint {
 	return l.location.StartCharacter()
-}
-
-func (l *origin) Type() string {
-	return l.definition.Node.Type
 }
 
 func (l *origin) Documentation() []string {

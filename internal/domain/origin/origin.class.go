@@ -22,7 +22,7 @@ var ClassAnnotationQuery = treesitter.Query{
 			. (%s) @class.parent
 			("," (%s) @class.parent)*
 		)?
-	) @class`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+	) @class`, anyTypeQuery, anyTypeQuery),
 }
 
 type ClassOrigin struct {

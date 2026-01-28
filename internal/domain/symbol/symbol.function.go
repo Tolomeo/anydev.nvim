@@ -13,7 +13,7 @@ type Function struct {
 	Arguments     []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
 	// Documentation Documentation      `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 	Generics      []FunctionGeneric  `json:"generics" yaml:"generics" mapstructure:"generics"`
-	Name          *string            `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
+	Name          string            `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 	Overloads     []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
 	Returns       []FunctionReturn   `json:"returns" yaml:"returns" mapstructure:"returns"`
 }

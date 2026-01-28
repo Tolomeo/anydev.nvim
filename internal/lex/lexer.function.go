@@ -71,25 +71,22 @@ func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotatio
 func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
 
-	for _, capture := range functionOrigin.Captures() {
-		switch capture.Id {
-		case "name":
-			function.Name = &capture.Node.Text
-		case "access.class":
-			function.Access = &symbol.FunctionClassAccess
-		case "access.instance":
-			function.Access = &symbol.FunctionIstanceAccess
-		case "arg":
-			function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(capture.Node.Text))
-		case "vararg":
-			function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(capture.Node.Text))
-		}
+	function.Name = functionOrigin.Name()
+
+	if functionOrigin.Static() {
+		function.Access = &symbol.FunctionClassAccess
+	} else {
+		function.Access = &symbol.FunctionIstanceAccess
+	}
+
+	for _, arg := range functionOrigin.Args() {
+		function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(arg))
 	}
 
 	annotations, err := l.lexFunctionAtAnnotations(functionOrigin.Documentation())
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing function %s: %w", *function.Name, err)
+		return nil, fmt.Errorf("Error lexing function %s: %w", function.Name, err)
 	}
 
 	for _, genericAnnotation := range annotations.AtGenerics {

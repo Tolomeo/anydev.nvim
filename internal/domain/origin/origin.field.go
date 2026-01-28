@@ -29,7 +29,7 @@ var FieldAnnotationQuery = treesitter.Query{
 		.
 		(comment)? @field.documentation
 		.
-	) @field`, anyTypeAnnotationQuery),
+	) @field`, anyTypeQuery),
 }
 
 type FieldOrigin struct {
