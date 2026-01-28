@@ -4,7 +4,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
-	"github.com/Tolomeo/anydev.nvim/internal/lex/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/log"
 )
@@ -32,19 +32,19 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
 	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.Target().Kind())
 
-	childTarget := c.target.extractor.newChildExtraction(c.target.Target(), name)
-	err := c.target.extractor.extract(childTarget)
+	childExtraction := c.target.extractor.newChildExtraction(c.target.Target(), name)
+	err := c.target.extractor.extract(childExtraction)
 
 	if err != nil {
 		return err
 	}
 
-	if childTarget.Target().Type() == nil {
-		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childTarget.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
+	if childExtraction.Target().Type() == nil {
+		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childExtraction.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
 		return nil
 	}
 
-	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Target().Origin().Documentation(), childTarget.Target().Type()))
+	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childExtraction.Target().Origin().Documentation(), childExtraction.Target().Type()))
 	return nil
 }
 
