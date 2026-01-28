@@ -52,25 +52,9 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: symbol.FunctionFieldIndexAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", symbol.FunctionFieldIndexAssignmentQuery.Query),
 			},
-			// module assignment
-			// F = require("T")
 			{
-				Language: "lua",
-				Query: `
-				(assignment_statement
-					(variable_list)
-					(expression_list
-						value: (function_call
-							name: (identifier) @require.call
-							arguments: (arguments
-								(string
-									content: (string_content) @require.module
-								)
-							)
-						)
-					) @require
-					(#eq? @require.call "require")
-				) @origin.module`,
+				Language: symbol.ModuleRequireAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.module", symbol.ModuleRequireAssignmentQuery.Query),
 			},
 			// dotindex assignment
 			// F.T = X.V
