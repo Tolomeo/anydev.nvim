@@ -1,35 +1,31 @@
 package crawl
 
 import (
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
-
-var metaAnnotationsQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation 
-		[
-			(qualifier_annotation "@private") @private
-			(qualifier_annotation "@protected") @protected
-			(package_annotation) @package
-			(deprecated_annotation) @deprecated
-		]
-	)`,
-}
 
 func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
 	meta := symbol.NewMeta()
 
-	/* switch symbolOriginType := symbolOrigin.(type) {
+	switch symbolOriginType := symbolOrigin.(type) {
+	case *origin.AliasOrigin:
+		return meta, nil
+	case *origin.AliasEnumeratorOrigin:
+		return meta, nil
+	case *origin.ClassOrigin:
+		return meta, nil
+
 	case *origin.FieldOrigin:
 		meta.SetPrivate(symbolOriginType.Private())
 		meta.SetProtected(symbolOriginType.Protected())
 		meta.SetPackage(symbolOriginType.Package())
-		// meta.SetDeprecated(symbolOriginType.Deprecated())
 		return meta, nil
-	} */
+
+	case *origin.FunctionOrigin:
+		meta.SetStatic(symbolOriginType.Static())
+	}
 
 	buffer, err := c.context.Nvim().NewBuffer()
 
@@ -45,30 +41,34 @@ func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
 		return meta, nil
 	}
 
-	matches, err := buffer.TsQueryAll(metaAnnotationsQuery)
+	atPrivateMatch, err := buffer.TsQueryOne(annotation.AtPrivateAnnotationQuery)
 
 	if err != nil {
 		return meta, nil
 	}
 
-	if matches == nil {
+	atProtectedMatch, err := buffer.TsQueryOne(annotation.AtProtectedAnnotationQuery)
+
+	if err != nil {
 		return meta, nil
 	}
 
-	for _, match := range *matches {
-		for _, capture := range match {
-			switch capture.Id {
-			case "private":
-				meta.SetPrivate(true)
-			case "protected":
-				meta.SetProtected(true)
-			case "package":
-				meta.SetPackage(true)
-			case "deprecated":
-				meta.SetDeprecated(true)
-			}
-		}
+	atPackageMatch, err := buffer.TsQueryOne(annotation.AtPackageAnnotationQuery)
+
+	if err != nil {
+		return meta, nil
 	}
+
+	atDeprecatedMatch, err := buffer.TsQueryOne(annotation.AtDeprectedAnnotationQuery)
+
+	if err != nil {
+		return meta, nil
+	}
+
+	meta.SetPrivate(atPrivateMatch != nil)
+	meta.SetProtected(atProtectedMatch != nil)
+	meta.SetPackage(atPackageMatch != nil)
+	meta.SetDeprecated(atDeprecatedMatch != nil)
 
 	return meta, nil
 }
