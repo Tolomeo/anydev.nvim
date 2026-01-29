@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
@@ -337,10 +338,11 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
@@ -444,6 +446,7 @@ func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.F
 	return function, nil
 }
 
+// TODO: check if it is possible to mark value as optional
 var tableTypeAnnotationQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
@@ -577,52 +580,24 @@ func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
 	"empty": {
-		Language: "luadoc",
-		Query: `
-		(documentation
-			(type_annotation
-				(table_literal_type . "{" . "}" . ) @table
-			)
-		)`,
-	},
-	"described": {
-		Language: "luadoc",
+		Language: origin.LiteralTableTypeEmptyQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
-				(table_literal_type
-					"{"
-					field: ([
-						(
-							"["
-							.
-							(_) @table.index.key
-							.
-							"]"
-							.
-							"?"? @table.index.optional
-							.
-							":"
-							.
-							(%s) @table.index.value
-						) @table.index
-						(
-							(identifier) @table.field.name
-							.
-							"?"? @table.field.optional
-							.
-							":"
-							.
-							(%s) @table.field.value
-						) @table.field
-					]
-					","?
-					)+
-					"}"
-				) @table
+				(%s)
 				(comment)? @table.documentation
 			)
-		)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+		)`, origin.LiteralTableTypeEmptyQuery.Query),
+	},
+	"described": {
+		Language: origin.LiteralTableTypeQuery.Language,
+		Query: fmt.Sprintf(`
+		(documentation
+			(type_annotation
+				(%s)
+				(comment)? @table.documentation
+			)
+		)`, origin.LiteralTableTypeQuery.Query),
 	},
 }
 
@@ -630,53 +605,51 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symb
 	for _, query := range literalTableAnnotationQueries {
 		match, err := buffer.TsQueryOne(query)
 
-		switch {
-		case err != nil:
+		if err != nil {
 			return nil, err
-		case match == nil:
+		}
+
+		if match == nil {
 			continue
 		}
 
-		table := symbol.NewTable()
+		literalTableType := origin.NewLiteralTableType(*match)
+		tableSymbol := symbol.NewTable()
 
-		for _, capture := range *match {
-			switch capture.Id {
+		for _, fieldType := range literalTableType.Fields() {
+			tableField := symbol.NewTableField()
+			tableField.Name = fieldType.Key()
+			tableFieldType, err := l.lexTypeAnnotation(TypeAnnotation{fieldType.Value()})
 
-			case "table.field.name":
-				table.Fields = append(table.Fields, symbol.NewSymbol(capture.Node.Text, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown()))
-			case "table.field.optional":
-				// TODO: recover
-				// table.Fields[len(table.Fields)-1].Optional = true
-			case "table.field.value":
-				lexedType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
-				if err != nil {
-					return nil, err
-				}
-				table.Fields[len(table.Fields)-1].Type = lexedType
-
-			case "table.index.key":
-				table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
-				lexedKey, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
-				if err != nil {
-					return nil, err
-				}
-				table.Indexes[len(table.Indexes)-1].Key = lexedKey
-			case "table.index.optional":
-				table.Indexes[len(table.Indexes)-1].Optional = true
-			case "table.index.value":
-				lexedValue, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
-				if err != nil {
-					return nil, err
-				}
-				table.Indexes[len(table.Indexes)-1].Value = lexedValue
-
-				/* case "table.documentation":
-				table.Documentation = []string{capture.Node.Text} */
-
+			if err != nil {
+				return nil, err
 			}
+
+			tableField.Type = tableFieldType
+			tableSymbol.Fields = append(tableSymbol.Fields, *tableField)
 		}
 
-		return table, nil
+		for _, indexType := range literalTableType.Indexes() {
+			tableIndex := symbol.NewTableIndex()
+			tableIndexKey, err := l.lexTypeAnnotation(TypeAnnotation{indexType.Key()})
+
+			if err != nil {
+				return nil, err
+			}
+
+			tableIndexValue, err := l.lexTypeAnnotation(TypeAnnotation{indexType.Value()})
+
+			if err != nil {
+				return nil, err
+			}
+
+			tableIndex.Key = tableIndexKey
+			tableIndex.Value = tableIndexValue
+
+			tableSymbol.Indexes = append(tableSymbol.Indexes, *tableIndex)
+		}
+
+		return tableSymbol, nil
 	}
 
 	return nil, nil

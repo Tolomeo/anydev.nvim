@@ -39,12 +39,22 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		return err
 	}
 
+	field := symbol.NewTableField()
+	field.Name = name
+	field.Meta = childExtraction.target.Meta()
+	field.Documentation = symbol.Documentation{}
+	field.Type = symbol.NewUnknown()
+
+
 	if childExtraction.Target().Type() == nil {
-		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childExtraction.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
+		parent.Fields = append(parent.Fields, *field)
 		return nil
 	}
 
-	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childExtraction.Target().Origin().Documentation(), childExtraction.Target().Type()))
+	field.Documentation = childExtraction.target.Origin().Documentation()
+	field.Type = childExtraction.target.Type()
+
+	parent.Fields = append(parent.Fields, *field)
 	return nil
 }
 
@@ -76,19 +86,28 @@ func (t *extraction) Extract(kind target.TargetKind, name string) error {
 func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.target.Kind())
 
-	childTarget := t.extractor.newChildExtraction(t.target, name)
-	err := t.extractor.extract(childTarget)
+	childExtraction := t.extractor.newChildExtraction(t.target, name)
+	err := t.extractor.extract(childExtraction)
 
 	if err != nil {
 		return err
 	}
 
-	if childTarget.Target().Type() == nil {
-		parent.Fields = append(parent.Fields, symbol.NewSymbol(name, childTarget.target.Meta(), symbol.Documentation{}, symbol.NewUnknown()))
+	field := symbol.NewTableField()
+	field.Name = name
+	field.Meta = childExtraction.target.Meta()
+	field.Documentation = symbol.Documentation{}
+	field.Type = symbol.NewUnknown()
+
+	if childExtraction.Target().Type() == nil {
+		parent.Fields = append(parent.Fields, *field)
 		return nil
 	}
 
-	parent.Fields = append(parent.Fields, symbol.NewSymbol(name, symbol.Meta{}, childTarget.Target().Origin().Documentation(), childTarget.Target().Type()))
+	field.Documentation = childExtraction.target.Origin().Documentation()
+	field.Type = childExtraction.target.Type()
+
+	parent.Fields = append(parent.Fields, *field)
 	return nil
 }
 
