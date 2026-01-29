@@ -1,5 +1,10 @@
 package symbol
 
+import (
+	"encoding/json"
+	"reflect"
+)
+
 type WithMeta interface {
 	GetPrivate() bool
 	SetPrivate(bool)
@@ -16,6 +21,30 @@ type Meta struct {
 	Protected  bool `json:"protected" yaml:"protected"`
 	Package    bool `json:"package" yaml:"package"`
 	Deprecated bool `json:"deprecated" yaml:"deprecated"`
+	Static     bool `json:"static" yaml:"static"`
+}
+
+func (m Meta) MarshalJSON() ([]byte, error) {
+	metas := make([]string, 0)
+	val := reflect.ValueOf(m)
+	typ := reflect.TypeOf(m)
+
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Field(i)
+		structField := typ.Field(i)
+
+		if field.Kind() == reflect.Bool && field.Bool() {
+			name := structField.Tag.Get("json")
+
+			if name == "" || name == "-" {
+				name = structField.Name
+			}
+
+			metas = append(metas, name)
+		}
+	}
+
+	return json.Marshal(metas)
 }
 
 func (s Meta) GetDeprecated() bool {
@@ -57,3 +86,12 @@ func (s Meta) SetProtected(v bool) {
 }
 
 var _ WithMeta = (*Meta)(nil)
+
+func NewMeta() Meta {
+	meta := Meta{
+		Static: true,
+	}
+
+	return meta
+
+}
