@@ -3,6 +3,7 @@ package symbol
 import (
 	"encoding/json"
 	"reflect"
+	"strings"
 )
 
 type WithMeta interface {
@@ -14,84 +15,102 @@ type WithMeta interface {
 	SetDeprecated(bool)
 	GetPackage() bool
 	SetPackage(bool)
+	GetStatic() bool
+	SetStatic(bool)
 }
 
 type Meta struct {
-	Private    bool `json:"private" yaml:"private"`
-	Protected  bool `json:"protected" yaml:"protected"`
-	Package    bool `json:"package" yaml:"package"`
-	Deprecated bool `json:"deprecated" yaml:"deprecated"`
-	Static     bool `json:"static" yaml:"static"`
+	private    bool
+	protected  bool
+	package_   bool
+	deprecated bool
+	static     bool
 }
 
 func (m Meta) MarshalJSON() ([]byte, error) {
-	metas := make([]string, 0)
 	val := reflect.ValueOf(m)
 	typ := reflect.TypeOf(m)
+
+	metas := make([]string, 0, val.NumField())
 
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
 		structField := typ.Field(i)
 
 		if field.Kind() == reflect.Bool && field.Bool() {
-			name := structField.Tag.Get("json")
-
-			if name == "" || name == "-" {
-				name = structField.Name
-			}
-
-			metas = append(metas, name)
+			metas = append(metas, strings.ToLower(structField.Name))
 		}
 	}
 
 	return json.Marshal(metas)
 }
 
-func (s Meta) GetDeprecated() bool {
-	return s.Deprecated
+func (s *Meta) GetDeprecated() bool {
+	return s.deprecated
 }
 
-func (s Meta) GetPackage() bool {
-	return s.Package
+func (s *Meta) GetPackage() bool {
+	return s.package_
 }
 
-func (s Meta) GetPrivate() bool {
-	return s.Private
+func (s *Meta) GetPrivate() bool {
+	return s.private
 }
 
-func (s Meta) GetProtected() bool {
-	return s.Protected
+func (s *Meta) GetProtected() bool {
+	return s.protected
 }
 
-func (s Meta) SetDeprecated(v bool) {
-	s.Deprecated = v
+func (s *Meta) SetDeprecated(v bool) {
+	s.deprecated = v
 }
 
-func (s Meta) SetPackage(v bool) {
-	s.Package = v
-	s.SetPrivate(!v)
-	s.SetProtected(!v)
+func (s *Meta) SetPackage(v bool) {
+	s.package_ = v
+
+	if !v {
+		return
+	}
+
+	s.private = !v
+	s.protected = !v
 }
 
-func (s Meta) SetPrivate(v bool) {
-	s.Private = v
-	s.SetPackage(!v)
-	s.SetProtected(!v)
+func (s *Meta) SetPrivate(v bool) {
+	s.private = v
+
+	if !v {
+		return
+	}
+
+	s.package_ = !v
+	s.protected = !v
 }
 
-func (s Meta) SetProtected(v bool) {
-	s.Protected = v
-	s.SetPackage(!v)
-	s.SetPrivate(!v)
+func (s *Meta) SetProtected(v bool) {
+	s.protected = v
+
+	if !v {
+		return
+	}
+
+	s.package_ = !v
+	s.private = !v
+}
+
+func (m *Meta) GetStatic() bool {
+	return m.static
+}
+
+func (m *Meta) SetStatic(v bool) {
+	m.static = true
 }
 
 var _ WithMeta = (*Meta)(nil)
 
-func NewMeta() Meta {
-	meta := Meta{
-		Static: true,
-	}
+func NewMeta() *Meta {
+	meta := Meta{}
 
-	return meta
+	return &meta
 
 }

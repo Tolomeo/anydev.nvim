@@ -52,7 +52,7 @@ func (c *Crawler) GetOriginChain() (*origin.OriginChain, error) {
 	return origins, nil
 }
 
-func (c *Crawler) GetMeta() (symbol.Meta, error) {
+func (c *Crawler) GetMeta() (*symbol.Meta, error) {
 	origin := c.context.Target().OriginChain().First()
 
 	return c.getMeta(origin)

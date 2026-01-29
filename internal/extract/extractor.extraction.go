@@ -1,12 +1,12 @@
 package extract
 
 import (
+	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/lex"
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
 type extractionContext struct {
@@ -44,7 +44,6 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 	field.Meta = childExtraction.target.Meta()
 	field.Documentation = symbol.Documentation{}
 	field.Type = symbol.NewUnknown()
-
 
 	if childExtraction.Target().Type() == nil {
 		parent.Fields = append(parent.Fields, *field)
@@ -104,7 +103,6 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 		return nil
 	}
 
-
 	field.Documentation = childExtraction.target.Origin().Documentation()
 	field.Type = childExtraction.target.Type()
 
@@ -144,7 +142,11 @@ func (t *extraction) getMeta() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.Target().SetMeta(meta)
+	if meta == nil {
+		return t.getType, nil
+	}
+
+	t.Target().SetMeta(*meta)
 
 	return t.getType, nil
 }

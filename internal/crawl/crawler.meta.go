@@ -19,8 +19,18 @@ var metaAnnotationsQuery = treesitter.Query{
 	)`,
 }
 
-func (c *Crawler) getMeta(o origin.Origin) (symbol.Meta, error) {
-	meta := symbol.Meta{}
+func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
+	meta := symbol.NewMeta()
+
+	/* switch symbolOriginType := symbolOrigin.(type) {
+	case *origin.FieldOrigin:
+		meta.SetPrivate(symbolOriginType.Private())
+		meta.SetProtected(symbolOriginType.Protected())
+		meta.SetPackage(symbolOriginType.Package())
+		// meta.SetDeprecated(symbolOriginType.Deprecated())
+		return meta, nil
+	} */
+
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -29,7 +39,7 @@ func (c *Crawler) getMeta(o origin.Origin) (symbol.Meta, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(o.Documentation())
+	err = buffer.SetLines(symbolOrigin.Documentation())
 
 	if err != nil {
 		return meta, nil
@@ -49,13 +59,13 @@ func (c *Crawler) getMeta(o origin.Origin) (symbol.Meta, error) {
 		for _, capture := range match {
 			switch capture.Id {
 			case "private":
-				meta.Private = true
+				meta.SetPrivate(true)
 			case "protected":
-				meta.Protected = true
+				meta.SetProtected(true)
 			case "package":
-				meta.Package = true
+				meta.SetPackage(true)
 			case "deprecated":
-				meta.Deprecated = true
+				meta.SetDeprecated(true)
 			}
 		}
 	}
