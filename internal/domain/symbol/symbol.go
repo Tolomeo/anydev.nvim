@@ -1,15 +1,15 @@
 package symbol
 
-import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 
 type Symbol struct {
 	Meta
 	Name string `json:"name" yaml:"name" mapstructure:"name"`
 	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
-	Type type_.Type `json:"type" yaml:"type" mapstructure:"type"`
+	Type annotation.Type `json:"type" yaml:"type" mapstructure:"type"`
 }
 
-func NewSymbol(name string, meta Meta, documentation Documentation, typ type_.Type) Symbol {
+func NewSymbol(name string, meta Meta, documentation Documentation, typ annotation.Type) Symbol {
 	return Symbol{
 		Name:          name,
 		Meta:          meta,

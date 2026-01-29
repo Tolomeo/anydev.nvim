@@ -2,10 +2,10 @@ package lex
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
-	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 )
 
-func (l *Lexer) lexFieldType(fieldOrigin *origin.FieldOrigin) (type_.Type, error) {
+func (l *Lexer) lexFieldType(fieldOrigin *origin.FieldOrigin) (annotation.Type, error) {
 	// TODO: assign qualifiers taken from annotations
 	lexedField, err := l.lexTypeAnnotation(TypeAnnotation{fieldOrigin.Type()})
 

@@ -1,6 +1,6 @@
 package symbol
 
-import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 
 const StringLiteralKind string = "stringliteral"
 
@@ -14,7 +14,7 @@ func (s *StringLiteral) GetKind() string {
 	return s.Kind
 }
 
-var _ type_.Type = (*StringLiteral)(nil)
+var _ annotation.Type = (*StringLiteral)(nil)
 
 func NewStringLiteral(value string) *StringLiteral {
 	return &StringLiteral{
@@ -35,7 +35,7 @@ func (n *NumericLiteral) GetKind() string {
 	return n.Kind
 }
 
-var _ type_.Type = (*NumericLiteral)(nil)
+var _ annotation.Type = (*NumericLiteral)(nil)
 
 func NewNumericLiteral(value string) *NumericLiteral {
 	return &NumericLiteral{
@@ -56,7 +56,7 @@ func (b *BooleanLiteral) GetKind() string {
 	return b.Kind
 }
 
-var _ type_.Type = (*BooleanLiteral)(nil)
+var _ annotation.Type = (*BooleanLiteral)(nil)
 
 type BooleanLiteralValue string
 

@@ -1,6 +1,6 @@
 package symbol
 
-import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 
 const TableKind string = "table"
 
@@ -16,7 +16,7 @@ func (t *Table) GetKind() string {
 	return t.Kind
 }
 
-var _ type_.Type = (*Table)(nil)
+var _ annotation.Type = (*Table)(nil)
 
 type TableField struct {
 	Symbol
@@ -24,7 +24,7 @@ type TableField struct {
 
 type TableIndex struct {
 	Key   TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
-	Value type_.Type    `json:"value" yaml:"value" mapstructure:"value"`
+	Value annotation.Type    `json:"value" yaml:"value" mapstructure:"value"`
 }
 
 type TableIndexKey any

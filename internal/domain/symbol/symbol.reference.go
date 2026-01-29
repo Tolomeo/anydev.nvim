@@ -1,6 +1,6 @@
 package symbol
 
-import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 
 const ReferenceKind string = "reference"
 
@@ -14,7 +14,7 @@ func (r *Reference) GetKind() string {
 	return r.Kind
 }
 
-var _ type_.Type = (*Reference)(nil)
+var _ annotation.Type = (*Reference)(nil)
 
 func NewReference(value string) *Reference {
 	return &Reference{

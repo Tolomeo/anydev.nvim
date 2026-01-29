@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -335,7 +335,7 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (type_.Type, error) {
+func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -499,7 +499,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Tabl
 	return table, nil
 }
 
-func (l *Lexer) lexBuiltinTypeAnnotation(source string) type_.Type {
+func (l *Lexer) lexBuiltinTypeAnnotation(source string) annotation.Type {
 	switch source {
 	case "void":
 		return symbol.NewVoid()
@@ -580,24 +580,24 @@ func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
 	"empty": {
-		Language: type_.LiteralTableTypeEmptyQuery.Language,
+		Language: annotation.LiteralTableTypeEmptyQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, type_.LiteralTableTypeEmptyQuery.Query),
+		)`, annotation.LiteralTableTypeEmptyQuery.Query),
 	},
 	"described": {
-		Language: type_.LiteralTableTypeQuery.Language,
+		Language: annotation.LiteralTableTypeQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, type_.LiteralTableTypeQuery.Query),
+		)`, annotation.LiteralTableTypeQuery.Query),
 	},
 }
 
@@ -613,7 +613,7 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symb
 			continue
 		}
 
-		literalTableType := type_.NewLiteralTableType(*match)
+		literalTableType := annotation.NewLiteralTableType(*match)
 		tableSymbol := symbol.NewTable()
 
 		for _, fieldType := range literalTableType.Fields() {
@@ -677,7 +677,7 @@ func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 		return nil, nil
 	}
 
-	unionTypes := []type_.Type{}
+	unionTypes := []annotation.Type{}
 
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
@@ -719,7 +719,7 @@ var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (type_.Type, error) {
+func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
@@ -830,7 +830,7 @@ func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.ScratchBuffer, sourc
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (type_.Type, error) {
+func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (annotation.Type, error) {
 	source := strings.TrimSpace(typ.Name)
 	builtinType := l.lexBuiltinTypeAnnotation(strings.TrimSpace(source))
 

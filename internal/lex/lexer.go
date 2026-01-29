@@ -6,7 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
-	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
@@ -24,9 +24,9 @@ type Lexer struct {
 	context ctx
 }
 
-var lexedCache = cache.NewCache[type_.Type]()
+var lexedCache = cache.NewCache[annotation.Type]()
 
-func (l *Lexer) Lex() (type_.Type, error) {
+func (l *Lexer) Lex() (annotation.Type, error) {
 	cacheId := []string{
 		l.context.Target().Origin().Url(),
 		fmt.Sprintf("%d", l.context.Target().Origin().Line()),
