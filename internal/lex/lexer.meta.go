@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/type"
 )
 
 type metaAtAnnotations struct {
@@ -40,7 +41,7 @@ func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error)
 	return annotations, nil
 }
 
-func (l *Lexer) lexMetaValue(metaOrigin *origin.MetaOrigin) (symbol.Type, error) {
+func (l *Lexer) lexMetaValue(metaOrigin *origin.MetaOrigin) (type_.Type, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = metaOrigin.Documentation()
 

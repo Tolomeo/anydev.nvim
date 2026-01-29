@@ -1,5 +1,7 @@
 package symbol
 
+import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+
 const BuiltinValueAny string = "any"
 const BuiltinValueBoolean string = "boolean"
 const BuiltinValueFunction string = "function"
@@ -23,7 +25,7 @@ func (b *Builtin) GetKind() string {
 	return b.Kind
 }
 
-var _ Type = (*Builtin)(nil)
+var _ type_.Type = (*Builtin)(nil)
 
 type BuiltinKind string
 

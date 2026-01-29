@@ -104,6 +104,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 		return nil
 	}
 
+
 	field.Documentation = childExtraction.target.Origin().Documentation()
 	field.Type = childExtraction.target.Type()
 

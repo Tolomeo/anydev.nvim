@@ -1,5 +1,7 @@
 package symbol
 
+import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+
 const ReferenceKind string = "reference"
 
 type Reference struct {
@@ -12,7 +14,7 @@ func (r *Reference) GetKind() string {
 	return r.Kind
 }
 
-var _ Type = (*Reference)(nil)
+var _ type_.Type = (*Reference)(nil)
 
 func NewReference(value string) *Reference {
 	return &Reference{

@@ -1,5 +1,7 @@
 package symbol
 
+import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+
 const TableKind string = "table"
 
 type Table struct {
@@ -14,15 +16,15 @@ func (t *Table) GetKind() string {
 	return t.Kind
 }
 
-var _ Type = (*Table)(nil)
+var _ type_.Type = (*Table)(nil)
 
 type TableField struct {
 	Symbol
 }
 
 type TableIndex struct {
-	Key      TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
-	Value    Type          `json:"value" yaml:"value" mapstructure:"value"`
+	Key   TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
+	Value type_.Type    `json:"value" yaml:"value" mapstructure:"value"`
 }
 
 type TableIndexKey any

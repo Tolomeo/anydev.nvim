@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
@@ -91,7 +92,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 
 	for _, genericAnnotation := range annotations.AtGenerics {
 		genericName := genericAnnotation.Name
-		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (symbol.Type, error) {
+		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (type_.Type, error) {
 			return l.lexTypeAnnotation(genericType)
 		})
 

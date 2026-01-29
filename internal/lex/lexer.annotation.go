@@ -6,6 +6,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -335,7 +336,7 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (symbol.Type, error) {
+func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (type_.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -499,7 +500,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Tabl
 	return table, nil
 }
 
-func (l *Lexer) lexBuiltinTypeAnnotation(source string) symbol.Type {
+func (l *Lexer) lexBuiltinTypeAnnotation(source string) type_.Type {
 	switch source {
 	case "void":
 		return symbol.NewVoid()
@@ -677,7 +678,7 @@ func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 		return nil, nil
 	}
 
-	unionTypes := []symbol.Type{}
+	unionTypes := []type_.Type{}
 
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
@@ -719,7 +720,7 @@ var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (symbol.Type, error) {
+func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (type_.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
@@ -830,7 +831,7 @@ func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.ScratchBuffer, sourc
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (symbol.Type, error) {
+func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (type_.Type, error) {
 	source := strings.TrimSpace(typ.Name)
 	builtinType := l.lexBuiltinTypeAnnotation(strings.TrimSpace(source))
 

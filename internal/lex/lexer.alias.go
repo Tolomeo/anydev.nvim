@@ -4,10 +4,10 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
 )
 
-func (l *Lexer) lexAliasType(aliasOrigin *origin.AliasOrigin) (symbol.Type, error) {
+func (l *Lexer) lexAliasType(aliasOrigin *origin.AliasOrigin) (type_.Type, error) {
 	// TODO: attach documentation
 	lexedAlias, err := l.lexTypeAnnotation(TypeAnnotation{aliasOrigin.Type()})
 
@@ -18,7 +18,7 @@ func (l *Lexer) lexAliasType(aliasOrigin *origin.AliasOrigin) (symbol.Type, erro
 	return lexedAlias, nil
 }
 
-func (l *Lexer) lexAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (symbol.Type, error) {
+func (l *Lexer) lexAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (type_.Type, error) {
 	enumeratorType, err := l.lexTypeAnnotation(TypeAnnotation{strings.Join(aliasEnumeratorOrigin.Types(), "|")})
 
 	if err != nil {

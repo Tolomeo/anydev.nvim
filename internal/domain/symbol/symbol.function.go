@@ -1,5 +1,7 @@
 package symbol
 
+import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+
 var (
 	FunctionClassAccess   string = "class"
 	FunctionIstanceAccess string = "instance"
@@ -23,20 +25,20 @@ func (f *Function) GetKind() string {
 	return f.Kind
 }
 
-var _ Type = (*Function)(nil)
+var _ type_.Type = (*Function)(nil)
 
 type FunctionArgument struct {
 	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 	Name          string        `json:"name" yaml:"name" mapstructure:"name"`
 	Optional      bool          `json:"optional" yaml:"optional" mapstructure:"optional"`
-	Type          Type          `json:"type" yaml:"type" mapstructure:"type"`
+	Type          type_.Type          `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type FunctionArgumentType Symbol
 
 type FunctionGeneric struct {
 	Name  string `json:"name" yaml:"name" mapstructure:"name"`
-	Types []Type `json:"types" yaml:"types" mapstructure:"types"`
+	Types []type_.Type `json:"types" yaml:"types" mapstructure:"types"`
 }
 
 type FunctionGenericTypesElem Symbol
@@ -51,7 +53,7 @@ type FunctionOverload struct {
 type FunctionReturn struct {
 	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
 	Name          string        `json:"name" yaml:"name" mapstructure:"name"`
-	Type          Type          `json:"type" yaml:"type" mapstructure:"type"`
+	Type          type_.Type          `json:"type" yaml:"type" mapstructure:"type"`
 }
 
 type FunctionReturnType Symbol
@@ -66,7 +68,7 @@ func NewFunction() *Function {
 	}
 }
 
-func NewFunctionGeneric(name string, types ...Type) *FunctionGeneric {
+func NewFunctionGeneric(name string, types ...type_.Type) *FunctionGeneric {
 	return &FunctionGeneric{
 		Name:  name,
 		Types: types,

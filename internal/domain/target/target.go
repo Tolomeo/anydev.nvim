@@ -5,6 +5,7 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
 )
 
 type TargetKind string
@@ -20,7 +21,7 @@ type Target struct {
 	name        string
 	originChain *origin.OriginChain
 	meta        symbol.Meta
-	type_       symbol.Type
+	type_       type_.Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -67,12 +68,12 @@ func (t *Target) SetMeta(m symbol.Meta) {
 	t.meta = m
 }
 
-func (t *Target) Type() symbol.Type {
+func (t *Target) Type() type_.Type {
 	return t.type_
 }
 
-func (t *Target) SetType(ty symbol.Type) {
-	t.type_ = ty
+func (t *Target) SetType(typ type_.Type) {
+	t.type_ = typ
 }
 
 func (t *Target) NewChild(name string) *Target {

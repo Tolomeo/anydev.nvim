@@ -1,5 +1,7 @@
 package symbol
 
+import type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
+
 const UnknownKindUnknown string = "unknown"
 
 type Unknown struct {
@@ -12,7 +14,7 @@ func (u *Unknown) GetKind() string {
 	return u.Kind
 }
 
-var _ Type = (*Unknown)(nil)
+var _ type_.Type = (*Unknown)(nil)
 
 func NewUnknown() *Unknown {
 	return &Unknown{

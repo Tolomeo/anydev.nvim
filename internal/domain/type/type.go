@@ -1,4 +1,4 @@
-package symbol
+package type_
 
 type Type interface {
 	GetKind() string
