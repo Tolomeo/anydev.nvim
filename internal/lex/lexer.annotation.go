@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	type_ "github.com/Tolomeo/anydev.nvim/internal/domain/type"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -581,24 +580,24 @@ func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
 	"empty": {
-		Language: origin.LiteralTableTypeEmptyQuery.Language,
+		Language: type_.LiteralTableTypeEmptyQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, origin.LiteralTableTypeEmptyQuery.Query),
+		)`, type_.LiteralTableTypeEmptyQuery.Query),
 	},
 	"described": {
-		Language: origin.LiteralTableTypeQuery.Language,
+		Language: type_.LiteralTableTypeQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, origin.LiteralTableTypeQuery.Query),
+		)`, type_.LiteralTableTypeQuery.Query),
 	},
 }
 
@@ -614,7 +613,7 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symb
 			continue
 		}
 
-		literalTableType := origin.NewLiteralTableType(*match)
+		literalTableType := type_.NewLiteralTableType(*match)
 		tableSymbol := symbol.NewTable()
 
 		for _, fieldType := range literalTableType.Fields() {

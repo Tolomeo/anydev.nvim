@@ -1,4 +1,4 @@
-package origin
+package type_
 
 import (
 	"fmt"
@@ -45,7 +45,7 @@ var LiteralTableTypeQuery = treesitter.Query{
 		","?
 		)+
 		"}"
-	) @table`, anyTypeQuery, anyTypeQuery),
+	) @table`, AnyTypeQuery, AnyTypeQuery),
 }
 
 type literalTableTypeField struct {
