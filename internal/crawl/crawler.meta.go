@@ -35,7 +35,7 @@ func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(symbolOrigin.Documentation())
+	err = buffer.SetLines(symbolOrigin.Annotations())
 
 	if err != nil {
 		return meta, nil

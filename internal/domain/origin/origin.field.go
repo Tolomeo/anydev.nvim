@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
@@ -29,7 +30,7 @@ var FieldAnnotationQuery = treesitter.Query{
 		.
 		(comment)? @field.documentation
 		.
-	) @field`, anyTypeQuery),
+	) @field`, annotation.AnyTypeQuery),
 }
 
 type FieldOrigin struct {
@@ -71,12 +72,12 @@ func (fo *FieldOrigin) Type() string {
 	return fo.type_
 }
 
-func NewFieldOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *FieldOrigin {
+func NewFieldOrigin(location nvim.Location, captures nvim.TsQueryMatch) *FieldOrigin {
 	fieldOrigin := FieldOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
-			annotations: documentation,
+			annotations: []string{},
 		},
 	}
 

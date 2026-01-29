@@ -106,42 +106,42 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 }
 
 func (c *Crawler) getOriginChain(locations []nvim.Location) (*origin.OriginChain, error) {
-	var o origin.Origin
+	var locationOrigin origin.Origin
 	var err error
 	originQueryMap := c.getOriginQueryMap()
 
 	for _, location := range locations {
-		o, err = c.getOrigin(location, originQueryMap)
+		locationOrigin, err = c.getOrigin(location, originQueryMap)
 
 		if err != nil {
 			return nil, err
 		}
 
-		if o != nil {
+		if locationOrigin != nil {
 			break
 		}
 	}
 
-	if o == nil {
+	if locationOrigin == nil {
 		return nil, nil
 	}
 
-	switch ot := o.(type) {
+	switch ot := locationOrigin.(type) {
 	case *origin.ModuleOrigin:
 		moduleOrigins, err := c.getModuleOriginChain(ot)
 		if err != nil {
 			return nil, err
 		}
-		return origin.NewOriginChain(o).Append(moduleOrigins), nil
+		return origin.NewOriginChain(locationOrigin).Append(moduleOrigins), nil
 	case *origin.VariableOrigin:
 		variableOrigins, err := c.getVariableOriginChain(ot)
 		if err != nil {
 			return nil, err
 		}
-		return origin.NewOriginChain(o).Append(variableOrigins), nil
+		return origin.NewOriginChain(locationOrigin).Append(variableOrigins), nil
 	}
 
-	return origin.NewOriginChain(o), nil
+	return origin.NewOriginChain(locationOrigin), nil
 }
 
 func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQueryMap) (origin.Origin, error) {
@@ -166,34 +166,52 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return nil, nil
 	}
 
-	documentation, err := c.getCommentBlock(queryResult.Node, location)
-
-	if err != nil {
-		return nil, err
-	}
-
 	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
+		documentation, err := c.getAnnotations(location)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return origin.NewFunctionOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
+		documentation, err := c.getAnnotations(location)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
+		documentation, err := c.getAnnotations(location)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
+		documentation, err := c.getAnnotations(location)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
-		return origin.NewClassOrigin(location, queryResult.Match, documentation), nil
+		return origin.NewClassOrigin(location, queryResult.Match), nil
 	}
 
 	if _, isAlias := queryResult.Match.Find("origin.alias"); isAlias {
-		return origin.NewAliasOrigin(location, queryResult.Match, documentation), nil
+		return origin.NewAliasOrigin(location, queryResult.Match), nil
 	}
 
 	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
@@ -221,18 +239,24 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 			queryResult.Match = queryResult.Match.Append(*match...)
 		}
 
-		return origin.NewAliasEnumeratorOrigin(location, queryResult.Match, documentation), nil
+		return origin.NewAliasEnumeratorOrigin(location, queryResult.Match), nil
 	}
 
 	if _, isField := queryResult.Match.Find("origin.field"); isField {
-		return origin.NewFieldOrigin(location, queryResult.Match, documentation), nil
+		return origin.NewFieldOrigin(location, queryResult.Match), nil
 	}
 
 	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
+		documentation, err := c.getAnnotations(location)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return origin.NewMetaOrigin(location, queryResult.Match, documentation), nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>, documentation <%+v>", location, queryResult, documentation)
+	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>", location, queryResult)
 }
 
 func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.OriginChain, error) {

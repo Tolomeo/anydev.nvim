@@ -84,7 +84,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 		function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(arg))
 	}
 
-	annotations, err := l.lexFunctionAtAnnotations(functionOrigin.Documentation())
+	annotations, err := l.lexFunctionAtAnnotations(functionOrigin.Annotations())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", function.Name, err)

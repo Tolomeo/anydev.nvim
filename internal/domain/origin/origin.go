@@ -1,38 +1,15 @@
 package origin
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
-
-var typeQueries = map[string]string{
-	"builtin_type":         "(builtin_type)",
-	"identifier":           "(identifier)",
-	"array_type":           "(array_type)",
-	"table_type":           "(table_type)",
-	"table_literal_type":   "(table_literal_type)",
-	"union_type":           "(union_type)",
-	"parenthesized_type":   "(parenthesized_type)",
-	"tuple_type":           "(tuple_type)",
-	"function_type":        "(function_type)",
-	"member_type":          "(member_type)",
-	"optional_type":        "(optional_type)",
-	"literal_type":         "(literal_type)",
-	"numeric_literal_type": "(numeric_literal_type)",
-	"custom_type":          "(custom_type)",
-}
-
-var anyTypeQuery = fmt.Sprintf(`[%s]`, strings.Join(mapx.Values(typeQueries), " "))
 
 type Origin interface {
 	Url() string
 	Line() uint
 	Character() uint
 	Definition() []string
-	Documentation() []string
+	Annotations() []string
 }
 
 type origin struct {
@@ -53,6 +30,6 @@ func (l *origin) Character() uint {
 	return l.location.StartCharacter()
 }
 
-func (l *origin) Documentation() []string {
+func (l *origin) Annotations() []string {
 	return l.annotations
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
@@ -22,7 +23,7 @@ var ClassAnnotationQuery = treesitter.Query{
 			. (%s) @class.parent
 			("," (%s) @class.parent)*
 		)?
-	) @class`, anyTypeQuery, anyTypeQuery),
+	) @class`, annotation.AnyTypeQuery, annotation.AnyTypeQuery),
 }
 
 type ClassOrigin struct {
@@ -40,12 +41,12 @@ func (co *ClassOrigin) Name() string {
 	return co.name
 }
 
-func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ClassOrigin {
+func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch) *ClassOrigin {
 	classOrigin := ClassOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
-			annotations: documentation,
+			annotations: []string{},
 		},
 		parents: []string{},
 	}

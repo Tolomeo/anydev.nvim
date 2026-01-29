@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
@@ -22,7 +23,7 @@ var AliasAnnotationQuery = treesitter.Query{
 			.
 		)
 		(#not-eq? @alias.type "")
-	) @alias`, anyTypeQuery),
+	) @alias`, annotation.AnyTypeQuery),
 }
 
 type AliasOrigin struct {
@@ -44,12 +45,12 @@ func (ao *AliasOrigin) Type() string {
 	return ao.type_
 }
 
-func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *AliasOrigin {
+func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasOrigin {
 	aliasOrigin := AliasOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
-			annotations: documentation,
+			annotations: []string{},
 		},
 	}
 
@@ -83,7 +84,7 @@ var AliasEnumeratorAnnotationQuery = treesitter.Query{
 			.
 		)
 		(#eq? @alias.emptytype "")
-	) @alias.enumerator`, anyTypeQuery),
+	) @alias.enumerator`, annotation.AnyTypeQuery),
 }
 
 var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
@@ -92,7 +93,7 @@ var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
 	(continuation
 		(%s) @alias.type
 	)
-`, anyTypeQuery),
+`, annotation.AnyTypeQuery),
 }
 
 type AliasEnumeratorOrigin struct {
@@ -114,12 +115,12 @@ func (aeo *AliasEnumeratorOrigin) Types() []string {
 	return aeo.types
 }
 
-func NewAliasEnumeratorOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *AliasEnumeratorOrigin {
+func NewAliasEnumeratorOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasEnumeratorOrigin {
 	aliasEnumeratorOrigin := AliasEnumeratorOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
-			annotations: documentation,
+			annotations: []string{},
 		},
 		types: []string{},
 	}

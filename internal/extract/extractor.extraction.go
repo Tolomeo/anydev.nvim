@@ -50,7 +50,7 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		return nil
 	}
 
-	field.Documentation = childExtraction.target.Origin().Documentation()
+	field.Documentation = childExtraction.target.Origin().Annotations()
 	field.Type = childExtraction.target.Type()
 
 	parent.Fields = append(parent.Fields, *field)
@@ -103,7 +103,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 		return nil
 	}
 
-	field.Documentation = childExtraction.target.Origin().Documentation()
+	field.Documentation = childExtraction.target.Origin().Annotations()
 	field.Type = childExtraction.target.Type()
 
 	parent.Fields = append(parent.Fields, *field)
