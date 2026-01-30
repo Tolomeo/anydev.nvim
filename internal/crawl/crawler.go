@@ -1,11 +1,14 @@
 package crawl
 
 import (
+	"strings"
+
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 )
 
 type ctx interface {
@@ -56,6 +59,28 @@ func (c *Crawler) GetMeta() (*symbol.Meta, error) {
 	origin := c.context.Target().OriginChain().First()
 
 	return c.getMeta(origin)
+}
+
+func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {
+	var markupContent *languageserver.MarkupContent
+	var err error
+
+	switch c.context.Target().Kind() {
+	case target.TargetKindValue:
+		markupContent, err = c.getDefinitionDocumentation(c.context.Target().Identifier())
+	case target.TargetKindType:
+		markupContent, err = c.getTypeDefinitionDocumentation(c.context.Target().Name(), c.context.Target().ParentName())
+	}
+
+	if err != nil {
+		return symbol.Documentation{}, err
+	}
+
+	if markupContent == nil {
+		return symbol.Documentation{}, nil
+	}
+
+	return strings.Split(markupContent.Value, "\n"), nil
 }
 
 func NewCrawler(context ctx) *Crawler {

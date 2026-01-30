@@ -2,16 +2,24 @@
     "runtime": {
         "vim.F": {
             "name": "vim.F",
+            "documentation": [
+                "```lua",
+                "(global) vim.F: table",
+                "```"
+            ],
             "meta": [],
-            "documentation": [],
             "type": {
                 "fields": [
                     {
                         "name": "if_nil",
-                        "meta": [
-                            "static"
-                        ],
                         "documentation": [
+                            "```lua",
+                            "function F.if_nil(...\u003cT\u003e)",
+                            "  -\u003e \u003cT\u003e",
+                            "```",
+                            "",
+                            "",
+                            "",
                             " Returns the first argument which is not nil.",
                             "",
                             " If all arguments are nil, returns nil.",
@@ -24,11 +32,10 @@
                             " local c = 42",
                             " local d = true",
                             " assert(vim.F.if_nil(a, b, c, d) == 42)",
-                            " ```",
-                            "",
-                            "@generic T",
-                            "@param ... T",
-                            "@return T"
+                            " ```"
+                        ],
+                        "meta": [
+                            "static"
                         ],
                         "type": {
                             "kind": "function",
@@ -63,11 +70,18 @@
                     },
                     {
                         "name": "nil_wrap",
+                        "documentation": [
+                            "```lua",
+                            "function F.nil_wrap(fn: any)",
+                            "  -\u003e function",
+                            "```",
+                            "",
+                            "",
+                            "",
+                            " Wrap a function to return nil if it fails, otherwise the value"
+                        ],
                         "meta": [
                             "static"
-                        ],
-                        "documentation": [
-                            " Wrap a function to return nil if it fails, otherwise the value"
                         ],
                         "type": {
                             "kind": "function",
@@ -89,11 +103,18 @@
                     },
                     {
                         "name": "npcall",
+                        "documentation": [
+                            "```lua",
+                            "function F.npcall(fn: any, ...any)",
+                            "  -\u003e unknown|nil",
+                            "```",
+                            "",
+                            "",
+                            "",
+                            " Nil pcall."
+                        ],
                         "meta": [
                             "static"
-                        ],
-                        "documentation": [
-                            " Nil pcall."
                         ],
                         "type": {
                             "kind": "function",
@@ -123,11 +144,18 @@
                     },
                     {
                         "name": "ok_or_nil",
+                        "documentation": [
+                            "```lua",
+                            "function F.ok_or_nil(status: any, ...any)",
+                            "  -\u003e unknown|nil",
+                            "```",
+                            "",
+                            "",
+                            "",
+                            " Use in combination with pcall"
+                        ],
                         "meta": [
                             "static"
-                        ],
-                        "documentation": [
-                            " Use in combination with pcall"
                         ],
                         "type": {
                             "kind": "function",
@@ -157,11 +185,18 @@
                     },
                     {
                         "name": "pack_len",
+                        "documentation": [
+                            "```lua",
+                            "function F.pack_len(...any)",
+                            "  -\u003e table",
+                            "```",
+                            "",
+                            "",
+                            "",
+                            " like {...} except preserve the length explicitly"
+                        ],
                         "meta": [
                             "static"
-                        ],
-                        "documentation": [
-                            " like {...} except preserve the length explicitly"
                         ],
                         "type": {
                             "kind": "function",
@@ -183,11 +218,27 @@
                     },
                     {
                         "name": "unpack_len",
+                        "documentation": [
+                            "```lua",
+                            "function F.unpack_len(t: any)",
+                            "  -\u003e unknown",
+                            "  2. unknown",
+                            "  3. unknown",
+                            "  4. unknown",
+                            "  5. unknown",
+                            "  6. unknown",
+                            "  7. unknown",
+                            "  8. unknown",
+                            "  9. unknown",
+                            " 10. unknown",
+                            "```",
+                            "",
+                            "",
+                            "",
+                            " like unpack() but use the length set by F.pack_len if present"
+                        ],
                         "meta": [
                             "static"
-                        ],
-                        "documentation": [
-                            " like unpack() but use the length set by F.pack_len if present"
                         ],
                         "type": {
                             "kind": "function",

@@ -40,7 +40,7 @@ func (n *Nvim) startLSP() error {
 	return nil
 }
 
-func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
+/* func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := languageserver.TextDocumentDocumentSymbolResponse{}
 
 	err := n.startLSP()
@@ -78,9 +78,9 @@ func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolR
 	}
 
 	return &documentSymbols, nil
-}
+} */
 
-func (n *Nvim) getHover(line uint, character uint) (*languageserver.TextDocumentHoverResponse, error) {
+func (n *Nvim) getLspHover(line uint, character uint) (*languageserver.MarkupContent, error) {
 	hover := languageserver.TextDocumentHoverResponse{}
 
 	err := n.startLSP()
@@ -119,7 +119,7 @@ func (n *Nvim) getHover(line uint, character uint) (*languageserver.TextDocument
 		return nil, fmt.Errorf("Error unmarshalling lsp hover response: %v", err)
 	}
 
-	return &hover, nil
+	return &hover.Result.Contents, nil
 }
 
 func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.Location, error) {

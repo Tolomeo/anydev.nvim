@@ -106,9 +106,9 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 
 	switch extraction.Target().Kind() {
 	case target.TargetKindValue:
-		e.result.Runtime[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Origin().Annotations(), extraction.Target().Type())
+		e.result.Runtime[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
 	case target.TargetKindType:
-		e.result.Types[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Origin().Annotations(), extraction.Target().Type())
+		e.result.Types[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
 	}
 
 	return nil

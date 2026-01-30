@@ -46,6 +46,10 @@ return {
 			diagnostics = {
 				-- No need
 				enable = false
+			},
+			hover = {
+				previewFields = 0,
+				enumsLimit = 999999
 			}
 		},
 	},

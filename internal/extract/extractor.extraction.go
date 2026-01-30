@@ -50,8 +50,8 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		return nil
 	}
 
-	field.Documentation = childExtraction.target.Origin().Annotations()
-	field.Type = childExtraction.target.Type()
+	field.Documentation = childExtraction.Target().Documentation()
+	field.Type = childExtraction.Target().Type()
 
 	parent.Fields = append(parent.Fields, *field)
 	return nil
@@ -94,7 +94,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 
 	field := symbol.NewTableField()
 	field.Name = name
-	field.Meta = childExtraction.target.Meta()
+	field.Meta = symbol.Meta{}
 	field.Documentation = symbol.Documentation{}
 	field.Type = symbol.NewUnknown()
 
@@ -103,7 +103,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 		return nil
 	}
 
-	field.Documentation = childExtraction.target.Origin().Annotations()
+	field.Documentation = childExtraction.Target().Documentation()
 	field.Type = childExtraction.target.Type()
 
 	parent.Fields = append(parent.Fields, *field)
@@ -129,6 +129,20 @@ func (t *extraction) getOrigins() (extractionStep, error) {
 	t.logger.Info("Crawling complete")
 
 	t.Target().SetOriginChain(origin)
+
+	return t.getDocumentation, nil
+}
+
+func (t *extraction) getDocumentation() (extractionStep, error) {
+	t.logger.Infof("Crawling origin documentation")
+
+	documentation, err := t.crawler.GetDocumentation()
+
+	if err != nil {
+		return nil, err
+	}
+
+	t.Target().SetDocumentation(documentation)
 
 	return t.getMeta, nil
 }

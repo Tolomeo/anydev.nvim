@@ -26,10 +26,11 @@ func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Loca
 
 	locations, err := buffer.GetDefinitionLocations(line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case locations == nil:
+	}
+
+	if locations == nil {
 		return nil, nil
 	}
 
@@ -56,10 +57,11 @@ func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, 
 
 	locations, err := buffer.GetDefinitionLocations(line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case locations == nil:
+	}
+
+	if locations == nil {
 		return nil, nil
 	}
 
@@ -94,10 +96,11 @@ func (c *Crawler) findTypeDefinitionLocations(typeName string, parentTypeName st
 	line, character := uint(lastLineIndex), uint(len(lastLine))
 	locations, err := buffer.GetDefinitionLocations(line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case locations == nil:
+	}
+
+	if locations == nil {
 		return nil, nil
 	}
 

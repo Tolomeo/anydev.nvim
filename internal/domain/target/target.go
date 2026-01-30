@@ -3,9 +3,9 @@ package target
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 )
 
 type TargetKind string
@@ -16,12 +16,13 @@ const (
 )
 
 type Target struct {
-	kind        TargetKind
-	parent      *Target
-	name        string
-	originChain *origin.OriginChain
-	meta        symbol.Meta
-	type_       annotation.Type
+	kind          TargetKind
+	parent        *Target
+	name          string
+	originChain   *origin.OriginChain
+	meta          symbol.Meta
+	documentation symbol.Documentation
+	type_         annotation.Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -76,6 +77,14 @@ func (t *Target) SetType(typ annotation.Type) {
 	t.type_ = typ
 }
 
+func (t *Target) Documentation() symbol.Documentation {
+	return t.documentation
+}
+
+func (t *Target) SetDocumentation(documentation symbol.Documentation) {
+	t.documentation = documentation
+}
+
 func (t *Target) NewChild(name string) *Target {
 	return &Target{
 		parent: t,
@@ -86,7 +95,9 @@ func (t *Target) NewChild(name string) *Target {
 
 func NewTarget(kind TargetKind, name string) *Target {
 	return &Target{
-		kind: kind,
-		name: name,
+		kind:          kind,
+		name:          name,
+		meta:          symbol.Meta{},
+		documentation: symbol.Documentation{},
 	}
 }

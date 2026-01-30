@@ -5,6 +5,7 @@ import (
 	"iter"
 	"path"
 
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
@@ -128,6 +129,18 @@ func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Locat
 	}
 
 	return b.nvim.getTypeDefinitionLocations(line, character)
+}
+
+func (b *Buffer) GetHover(line uint, character uint) (*languageserver.MarkupContent, error) {
+	b.nvim.logger.Verbosef("Getting lsp hover at %s:%d:%d", b.name, line, character)
+
+	_, err := b.nvim.open(b.name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return b.nvim.getLspHover(line, character)
 }
 
 func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
