@@ -150,7 +150,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 func (t *extraction) getMeta() (extractionStep, error) {
 	t.logger.Infof("Crawling origin meta information")
 
-	meta, err := t.crawler.GetMeta()
+	meta, err := t.lexer.GetMetadata()
 
 	if err != nil {
 		return nil, err

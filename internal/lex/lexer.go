@@ -95,6 +95,12 @@ func (l *Lexer) Lex() (annotation.Type, error) {
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
 }
 
+func (l *Lexer) GetMetadata() (*symbol.Meta, error) {
+	origin := l.context.Target().OriginChain().First()
+
+	return l.getMetadata(origin)
+}
+
 func NewLexer(context ctx) *Lexer {
 	return &Lexer{
 		context: context,

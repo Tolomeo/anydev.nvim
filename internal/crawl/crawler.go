@@ -55,12 +55,6 @@ func (c *Crawler) GetOriginChain() (*origin.OriginChain, error) {
 	return origins, nil
 }
 
-func (c *Crawler) GetMeta() (*symbol.Meta, error) {
-	origin := c.context.Target().OriginChain().First()
-
-	return c.getMeta(origin)
-}
-
 func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {
 	var markupContent *languageserver.MarkupContent
 	var err error

@@ -1,4 +1,4 @@
-package crawl
+package lex
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
@@ -6,7 +6,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
+func (l *Lexer) getMetadata(symbolOrigin origin.Origin) (*symbol.Meta, error) {
 	meta := symbol.NewMeta()
 
 	switch symbolOriginType := symbolOrigin.(type) {
@@ -27,7 +27,7 @@ func (c *Crawler) getMeta(symbolOrigin origin.Origin) (*symbol.Meta, error) {
 		meta.SetStatic(symbolOriginType.Static())
 	}
 
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := l.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return meta, err
