@@ -112,7 +112,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 
 type extractionStep func() (extractionStep, error)
 
-func (t *extraction) getOrigins() (extractionStep, error) {
+func (t *extraction) getOriginChain() (extractionStep, error) {
 	t.logger.Info("Crawling")
 
 	origin, err := t.crawler.GetOriginChain()
@@ -134,7 +134,7 @@ func (t *extraction) getOrigins() (extractionStep, error) {
 }
 
 func (t *extraction) getDocumentation() (extractionStep, error) {
-	t.logger.Infof("Crawling origin documentation")
+	t.logger.Infof("Getting origins chain")
 
 	documentation, err := t.crawler.GetDocumentation()
 
@@ -144,11 +144,11 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 
 	t.Target().SetDocumentation(documentation)
 
-	return t.getMeta, nil
+	return t.getMetadata, nil
 }
 
-func (t *extraction) getMeta() (extractionStep, error) {
-	t.logger.Infof("Crawling origin meta information")
+func (t *extraction) getMetadata() (extractionStep, error) {
+	t.logger.Infof("Getting metadata")
 
 	meta, err := t.lexer.GetMetadata()
 
@@ -166,9 +166,9 @@ func (t *extraction) getMeta() (extractionStep, error) {
 }
 
 func (t *extraction) getType() (extractionStep, error) {
-	t.logger.Infof("Lexing '%s'", t.Target().Identifier())
+	t.logger.Info("Getting symbol type")
 
-	typ, err := t.lexer.Lex()
+	typ, err := t.lexer.GetType()
 
 	if err != nil {
 		return nil, err

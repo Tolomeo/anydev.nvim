@@ -53,7 +53,7 @@ func (e *extractor) extract(item *extraction) error {
 	e.extractions = append(e.extractions, item)
 
 	var err error
-	current := item.getOrigins
+	current := item.getOriginChain
 
 	for {
 		current, err = current()

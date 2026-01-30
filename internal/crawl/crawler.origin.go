@@ -106,7 +106,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	}
 }
 
-func (c *Crawler) getOriginChain(locations []nvim.Location) (*origin.OriginChain, error) {
+func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain, error) {
 	var locationOrigin origin.Origin
 	var err error
 	originQueryMap := c.getOriginQueryMap()
@@ -236,7 +236,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>", location, queryResult)
 }
 
-func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.OriginChain, error) {
+func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (origin.OriginChain, error) {
 	moduleName := origin.Name()
 	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
 
@@ -247,7 +247,7 @@ func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (*origin.Ori
 	return c.getOriginChain(*moduleLocations)
 }
 
-func (c *Crawler) getVariableOriginChain(origin *origin.VariableOrigin) (*origin.OriginChain, error) {
+func (c *Crawler) getVariableOriginChain(origin *origin.VariableOrigin) (origin.OriginChain, error) {
 	assignedName := origin.Name()
 	rightValueLocations, err := c.findDefinitionLocations(assignedName)
 

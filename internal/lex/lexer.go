@@ -26,7 +26,7 @@ type Lexer struct {
 
 var lexedCache = cache.NewCache[annotation.Type]()
 
-func (l *Lexer) Lex() (annotation.Type, error) {
+func (l *Lexer) GetType() (annotation.Type, error) {
 	cacheId := []string{
 		l.context.Target().Origin().Url(),
 		fmt.Sprintf("%d", l.context.Target().Origin().Line()),

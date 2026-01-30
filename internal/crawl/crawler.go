@@ -21,7 +21,7 @@ type Crawler struct {
 	context ctx
 }
 
-func (c *Crawler) GetOriginChain() (*origin.OriginChain, error) {
+func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 	var locations *[]nvim.Location
 	var err error
 

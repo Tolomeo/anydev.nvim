@@ -19,7 +19,7 @@ type Target struct {
 	kind          TargetKind
 	parent        *Target
 	name          string
-	originChain   *origin.OriginChain
+	originChain   origin.OriginChain
 	meta          symbol.Metadata
 	documentation symbol.Documentation
 	type_         annotation.Type
@@ -49,11 +49,11 @@ func (t *Target) Identifier() string {
 	return fmt.Sprintf("%s.%s", t.parent.Identifier(), t.name)
 }
 
-func (t *Target) OriginChain() *origin.OriginChain {
+func (t *Target) OriginChain() origin.OriginChain {
 	return t.originChain
 }
 
-func (t *Target) SetOriginChain(o *origin.OriginChain) {
+func (t *Target) SetOriginChain(o origin.OriginChain) {
 	t.originChain = o
 }
 
