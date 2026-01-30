@@ -21,8 +21,8 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldIndexAssignmentQuery.Query),
 			},
 			{
-				Language: origin.MetaVariableAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.meta", origin.MetaVariableAssignmentQuery.Query),
+				Language: origin.VirtualVariableAssignmentQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.meta", origin.VirtualVariableAssignmentQuery.Query),
 			},
 			{
 				Language: origin.FunctionFieldDotAssignmentQuery.Language,
@@ -230,7 +230,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 	}
 
 	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
-		return origin.NewMetaOrigin(location, queryResult.Match, documentation), nil
+		return origin.NewVirtualOrigin(location, queryResult.Match, documentation), nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>", location, queryResult)

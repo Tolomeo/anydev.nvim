@@ -8,7 +8,7 @@ import (
 )
 
 // local F = ...
-var MetaVariableAssignmentQuery = treesitter.Query{
+var VirtualVariableAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(assignment_statement
@@ -20,33 +20,33 @@ var MetaVariableAssignmentQuery = treesitter.Query{
 				(vararg_expression) @assignment.right
 			] 
 		)
-	) @meta`,
+	) @virtual`,
 }
 
-type MetaOrigin struct {
+type VirtualOrigin struct {
 	origin
 	definition string
 }
 
-func (mo *MetaOrigin) Definition() []string {
+func (mo *VirtualOrigin) Definition() []string {
 	return strings.Split(mo.definition, "\n")
 }
 
-func NewMetaOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *MetaOrigin {
-	metaOrigin := MetaOrigin{
+func NewVirtualOrigin(location nvim.Location, captures nvim.TsQueryMatch, annotations []string) *VirtualOrigin {
+	virtualOrigin := VirtualOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
-			annotations: documentation,
+			annotations: annotations,
 		},
 	}
 
 	for _, capture := range captures {
 		switch capture.Id {
-		case "meta":
-			metaOrigin.definition = capture.Node.Text
+		case "virtual":
+			virtualOrigin.definition = capture.Node.Text
 		}
 	}
 
-	return &metaOrigin
+	return &virtualOrigin
 }

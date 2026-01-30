@@ -41,7 +41,7 @@ func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error)
 	return annotations, nil
 }
 
-func (l *Lexer) lexMetaValue(metaOrigin *origin.MetaOrigin) (annotation.Type, error) {
+func (l *Lexer) lexMetaValue(metaOrigin *origin.VirtualOrigin) (annotation.Type, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = metaOrigin.Annotations()
 

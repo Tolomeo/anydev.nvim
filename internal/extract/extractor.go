@@ -81,14 +81,14 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
-		e.result.Runtime[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
+		e.result.Runtime[name] = symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
 	case target.TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
-		e.result.Types[name] = symbol.NewSymbol(name, symbol.Meta{}, symbol.Documentation{}, symbol.NewUnknown())
+		e.result.Types[name] = symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
 	}
 
 	extraction := e.newExtraction(kind, name)

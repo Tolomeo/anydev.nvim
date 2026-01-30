@@ -20,7 +20,7 @@ type Target struct {
 	parent        *Target
 	name          string
 	originChain   *origin.OriginChain
-	meta          symbol.Meta
+	meta          symbol.Metadata
 	documentation symbol.Documentation
 	type_         annotation.Type
 }
@@ -61,11 +61,11 @@ func (t *Target) Origin() origin.Origin {
 	return t.originChain.Last()
 }
 
-func (t *Target) Meta() symbol.Meta {
+func (t *Target) Meta() symbol.Metadata {
 	return t.meta
 }
 
-func (t *Target) SetMeta(m symbol.Meta) {
+func (t *Target) SetMeta(m symbol.Metadata) {
 	t.meta = m
 }
 
@@ -97,7 +97,7 @@ func NewTarget(kind TargetKind, name string) *Target {
 	return &Target{
 		kind:          kind,
 		name:          name,
-		meta:          symbol.Meta{},
+		meta:          symbol.Metadata{},
 		documentation: symbol.Documentation{},
 	}
 }

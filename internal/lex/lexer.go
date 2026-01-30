@@ -55,7 +55,7 @@ func (l *Lexer) Lex() (annotation.Type, error) {
 		}
 		lexedCache.Set(functionType, cacheId...)
 		return functionType, nil
-	case *origin.MetaOrigin:
+	case *origin.VirtualOrigin:
 		metaType, err := l.lexMetaValue(ot)
 		if err != nil {
 			return nil, err
@@ -95,7 +95,7 @@ func (l *Lexer) Lex() (annotation.Type, error) {
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
 }
 
-func (l *Lexer) GetMetadata() (*symbol.Meta, error) {
+func (l *Lexer) GetMetadata() (*symbol.Metadata, error) {
 	origin := l.context.Target().OriginChain().First()
 
 	return l.getMetadata(origin)

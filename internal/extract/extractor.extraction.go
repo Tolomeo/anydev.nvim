@@ -41,7 +41,7 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 
 	field := symbol.NewTableField()
 	field.Name = name
-	field.Meta = childExtraction.target.Meta()
+	field.Metadata = childExtraction.target.Meta()
 	field.Documentation = symbol.Documentation{}
 	field.Type = symbol.NewUnknown()
 
@@ -94,7 +94,7 @@ func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
 
 	field := symbol.NewTableField()
 	field.Name = name
-	field.Meta = symbol.Meta{}
+	field.Metadata = symbol.Metadata{}
 	field.Documentation = symbol.Documentation{}
 	field.Type = symbol.NewUnknown()
 
