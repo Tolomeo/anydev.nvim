@@ -167,46 +167,6 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return nil, nil
 	}
 
-	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
-		documentation, err := c.getAnnotations(location)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return origin.NewFunctionOrigin(location, queryResult.Match, documentation), nil
-	}
-
-	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
-		documentation, err := c.getAnnotations(location)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
-	}
-
-	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
-		documentation, err := c.getAnnotations(location)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
-	}
-
-	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
-		documentation, err := c.getAnnotations(location)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
-	}
-
 	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
 		return origin.NewClassOrigin(location, queryResult.Match), nil
 	}
@@ -247,13 +207,29 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewFieldOrigin(location, queryResult.Match), nil
 	}
 
+	documentation, err := c.getAnnotations(location)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
+		return origin.NewFunctionOrigin(location, queryResult.Match, documentation), nil
+	}
+
+	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
+		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
+	}
+
+	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
+		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
+	}
+
+	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
+		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
+	}
+
 	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
-		documentation, err := c.getAnnotations(location)
-
-		if err != nil {
-			return nil, err
-		}
-
 		return origin.NewMetaOrigin(location, queryResult.Match, documentation), nil
 	}
 
