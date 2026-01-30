@@ -1,4 +1,4 @@
-package lex
+package transform
 
 import (
 	"fmt"
@@ -8,16 +8,16 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 )
 
-type metaAtAnnotations struct {
+type virtualOriginAtAnnotations struct {
 	AtType *AtTypeAnnotation
 }
 
-func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error) {
-	annotations := metaAtAnnotations{
+func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOriginAtAnnotations, error) {
+	annotations := virtualOriginAtAnnotations{
 		AtType: nil,
 	}
 
-	buffer, err := l.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return annotations, err
@@ -31,7 +31,7 @@ func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error)
 		return annotations, err
 	}
 
-	atType, err := l.lexAtTypeAnnotations(buffer)
+	atType, err := tr.getAtTypeAnnotations(buffer)
 
 	if err != nil {
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
@@ -41,26 +41,26 @@ func (l *Lexer) lexMetaAnnotations(docblock []string) (metaAtAnnotations, error)
 	return annotations, nil
 }
 
-func (l *Lexer) lexMetaValue(metaOrigin *origin.VirtualOrigin) (annotation.Type, error) {
+func (tr *Transformer) getVirtualOriginType(metaOrigin *origin.VirtualOrigin) (annotation.Type, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = metaOrigin.Annotations()
 
-	annotations, err := l.lexMetaAnnotations(metaOrigin.Annotations())
+	annotations, err := tr.getVirtualOriginAnnotations(metaOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
 	}
 
 	if annotations.AtType == nil {
-		l.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", l.context.Target().Name()))
+		tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
 		return unknown, nil
 	}
 
 	if len(annotations.AtType.Types) < 1 {
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", l.context.Target().Name())
+		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
 	}
 
-	lexedType, err := l.lexTypeAnnotation(annotations.AtType.Types[0])
+	lexedType, err := tr.getType(annotations.AtType.Types[0])
 
 	if err != nil {
 		return nil, err

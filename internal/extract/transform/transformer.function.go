@@ -1,4 +1,4 @@
-package lex
+package transform
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ type functionAtAnnotations struct {
 	AtOverloads []AtOverloadAnnotation
 }
 
-func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
+func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
 	annotations := functionAtAnnotations{
 		AtGenerics:  []AtGenericAnnotation{},
 		AtParams:    map[string]AtParamAnnotation{},
@@ -24,7 +24,7 @@ func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotatio
 		AtOverloads: []AtOverloadAnnotation{},
 	}
 
-	buffer, err := l.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return annotations, err
@@ -38,25 +38,25 @@ func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotatio
 		return annotations, err
 	}
 
-	atGenerics, err := l.lexAtGenericAnnotations(buffer)
+	atGenerics, err := tr.getAtGenericAnnotations(buffer)
 
 	if err != nil {
 		return annotations, err
 	}
 
-	atParams, err := l.lexAtParamAnnotations(buffer)
+	atParams, err := tr.getAtParamAnnotations(buffer)
 
 	if err != nil {
 		return annotations, err
 	}
 
-	atReturns, err := l.lexAtReturnAnnotations(buffer)
+	atReturns, err := tr.getAtReturnAnnotations(buffer)
 
 	if err != nil {
 		return annotations, err
 	}
 
-	atOverloads, err := l.lexAtOverloadAnnotations(buffer)
+	atOverloads, err := tr.getAtOverloadAnnotations(buffer)
 
 	if err != nil {
 		return annotations, err
@@ -69,7 +69,7 @@ func (l *Lexer) lexFunctionAtAnnotations(docblock []string) (functionAtAnnotatio
 	return annotations, nil
 }
 
-func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
+func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
 
 	function.Name = functionOrigin.Name()
@@ -84,7 +84,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 		function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(arg))
 	}
 
-	annotations, err := l.lexFunctionAtAnnotations(functionOrigin.Annotations())
+	annotations, err := tr.getFunctionAtAnnotations(functionOrigin.Annotations())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", function.Name, err)
@@ -93,7 +93,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 	for _, genericAnnotation := range annotations.AtGenerics {
 		genericName := genericAnnotation.Name
 		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (annotation.Type, error) {
-			return l.lexTypeAnnotation(genericType)
+			return tr.getType(genericType)
 		})
 
 		if err != nil {
@@ -109,7 +109,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 		paramAnnotation, hasParamAnnotation := annotations.AtParams[name]
 
 		if !hasParamAnnotation {
-			l.context.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
+			tr.context.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
@@ -118,7 +118,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 		}); isGeneric {
 			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			argumentType, err := l.lexTypeAnnotation(paramAnnotation.Type)
+			argumentType, err := tr.getType(paramAnnotation.Type)
 
 			if err != nil {
 				return nil, err
@@ -141,7 +141,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 		}); isGeneric {
 			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			typ, err := l.lexTypeAnnotation(returnAnnotation.Type)
+			typ, err := tr.getType(returnAnnotation.Type)
 
 			if err != nil {
 				return nil, err
@@ -154,7 +154,7 @@ func (l *Lexer) lexFunctionValue(functionOrigin *origin.FunctionOrigin) (*symbol
 	}
 
 	for _, overloadAnnotation := range annotations.AtOverloads {
-		overloadType, err := l.lexTypeAnnotation(overloadAnnotation.Type)
+		overloadType, err := tr.getType(overloadAnnotation.Type)
 
 		if err != nil {
 			return nil, fmt.Errorf("Error lexing function overload annotation type: %w", err)

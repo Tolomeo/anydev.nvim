@@ -1,10 +1,10 @@
 package extract
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/crawl"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
-	"github.com/Tolomeo/anydev.nvim/internal/lex"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
@@ -58,12 +58,12 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 }
 
 type extraction struct {
-	extractor *extractor
-	crawler   *crawl.Crawler
-	lexer     *lex.Lexer
-	logger    *log.Logger
-	parent    *extraction
-	target    *target.Target
+	extractor   *extractor
+	crawler     *crawl.Crawler
+	transformer *transform.Transformer
+	logger      *log.Logger
+	parent      *extraction
+	target      *target.Target
 }
 
 func (t *extraction) Target() *target.Target {
@@ -150,7 +150,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 func (t *extraction) getMetadata() (extractionStep, error) {
 	t.logger.Infof("Getting metadata")
 
-	meta, err := t.lexer.GetMetadata()
+	meta, err := t.transformer.GetMetadata()
 
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 func (t *extraction) getType() (extractionStep, error) {
 	t.logger.Info("Getting symbol type")
 
-	typ, err := t.lexer.GetType()
+	typ, err := t.transformer.GetType()
 
 	if err != nil {
 		return nil, err
@@ -190,7 +190,7 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	}
 
 	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
-	targetExtraction.lexer = lex.NewLexer(&targetExtractionContext)
+	targetExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
 	targetExtraction.logger = log.NewLogger(target.Identifier())
 
 	return targetExtraction
@@ -207,7 +207,7 @@ func (e *extractor) newExtraction(kind target.TargetKind, name string) *extracti
 	}
 
 	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
-	targetExtraction.lexer = lex.NewLexer(&targetExtractionContext)
+	targetExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
 	targetExtraction.logger = log.NewLogger(target.Identifier())
 
 	return targetExtraction

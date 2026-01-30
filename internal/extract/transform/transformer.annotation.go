@@ -1,11 +1,11 @@
-package lex
+package transform
 
 import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -35,7 +35,7 @@ var atTypeAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
+func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
 	captures, err := buffer.TsQueryOne(atTypeAnnotationQuery)
 
 	if err != nil {
@@ -81,7 +81,7 @@ var atOverloadAnnotationQuery = treesitter.Query{
 `, typeAnnotationQueries["function_type"]),
 }
 
-func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverloadAnnotation, error) {
+func (tr *Transformer) getAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverloadAnnotation, error) {
 	atOverloads := []AtOverloadAnnotation{}
 	matches, err := buffer.SafeTsQueryAll(atOverloadAnnotationQuery)
 
@@ -97,7 +97,7 @@ func (l *Lexer) lexAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverlo
 
 	for _, match := range *matches {
 		if match.HasError {
-			l.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", l.context.Target().Name()))
+			tr.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", tr.context.Target().Name()))
 			continue
 		}
 
@@ -152,7 +152,7 @@ var atGenericAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
+func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
 	atGenericAnnotations := []AtGenericAnnotation{}
 	matches, err := buffer.TsQueryAll(atGenericAnnotationQuery)
 
@@ -212,7 +212,7 @@ var atParamAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
+func (tr *Transformer) getAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
 	params := map[string]AtParamAnnotation{}
 	matches, err := buffer.TsQueryAll(atParamAnnotationQuery)
 
@@ -271,7 +271,7 @@ var atReturnAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
+func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
 	atReturns := []AtReturnAnnotation{}
 	matches, err := buffer.TsQueryAll(atReturnAnnotationQuery)
 
@@ -335,7 +335,7 @@ var optionalTypeAnnotationQuery = treesitter.Query{
 	`,
 }
 
-func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
+func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -349,7 +349,7 @@ func (l *Lexer) lexOptionalTypeAnnotation(buffer *nvim.ScratchBuffer, source str
 	for _, capture := range *match {
 		switch capture.Id {
 		case "optional.type":
-			optionalType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+			optionalType, err := tr.getType(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -399,7 +399,7 @@ var functionTypeAnnotationQuery = treesitter.Query{
 `, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Function, error) {
+func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Function, error) {
 	captures, err := buffer.TsQueryOne(functionTypeAnnotationQuery)
 
 	switch {
@@ -420,7 +420,7 @@ func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.F
 		case "parameter.name":
 			args[len(args)-1].Name = capture.Node.Text
 		case "parameter.type":
-			parameterType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+			parameterType, err := tr.getType(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -428,7 +428,7 @@ func (l *Lexer) lexFunctionTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.F
 
 			args[len(args)-1].Type = parameterType
 		case "return.type":
-			returnType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+			returnType, err := tr.getType(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -461,7 +461,7 @@ var tableTypeAnnotationQuery = treesitter.Query{
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
 }
 
-func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
+func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
 	switch {
@@ -478,7 +478,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Tabl
 		case "table":
 			table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
 		case "key":
-			keyType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+			keyType, err := tr.getType(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -486,7 +486,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Tabl
 
 			table.Indexes[len(table.Indexes)-1].Key = keyType
 		case "value":
-			valueType, err := l.lexTypeAnnotation(TypeAnnotation{capture.Node.Text})
+			valueType, err := tr.getType(TypeAnnotation{capture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -499,7 +499,7 @@ func (l *Lexer) lexTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Tabl
 	return table, nil
 }
 
-func (l *Lexer) lexBuiltinTypeAnnotation(source string) annotation.Type {
+func (tr *Transformer) getBuiltinType(source string) annotation.Type {
 	switch source {
 	case "void":
 		return symbol.NewVoid()
@@ -530,8 +530,8 @@ func (l *Lexer) lexBuiltinTypeAnnotation(source string) annotation.Type {
 	return nil
 }
 
-func (l *Lexer) lexReferenceTypeAnnotation(name string) (*symbol.Reference, error) {
-	err := l.context.Extract("type", name)
+func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) {
+	err := tr.context.Extract("type", name)
 
 	if err != nil {
 		return nil, err
@@ -552,7 +552,7 @@ var arrayTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.Array, error) {
+func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, source string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
 	switch {
@@ -565,7 +565,7 @@ func (l *Lexer) lexArrayTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "array.itemstype":
-			itemsType, err := l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
+			itemsType, err := tr.getType(TypeAnnotation{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -601,7 +601,7 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 	},
 }
 
-func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
+func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	for _, query := range literalTableAnnotationQueries {
 		match, err := buffer.TsQueryOne(query)
 
@@ -619,7 +619,7 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symb
 		for _, fieldType := range literalTableType.Fields() {
 			tableField := symbol.NewTableField()
 			tableField.Name = fieldType.Key()
-			tableFieldType, err := l.lexTypeAnnotation(TypeAnnotation{fieldType.Value()})
+			tableFieldType, err := tr.getType(TypeAnnotation{fieldType.Value()})
 
 			if err != nil {
 				return nil, err
@@ -631,13 +631,13 @@ func (l *Lexer) lexLiteralTableTypeAnnotation(buffer *nvim.ScratchBuffer) (*symb
 
 		for _, indexType := range literalTableType.Indexes() {
 			tableIndex := symbol.NewTableIndex()
-			tableIndexKey, err := l.lexTypeAnnotation(TypeAnnotation{indexType.Key()})
+			tableIndexKey, err := tr.getType(TypeAnnotation{indexType.Key()})
 
 			if err != nil {
 				return nil, err
 			}
 
-			tableIndexValue, err := l.lexTypeAnnotation(TypeAnnotation{indexType.Value()})
+			tableIndexValue, err := tr.getType(TypeAnnotation{indexType.Value()})
 
 			if err != nil {
 				return nil, err
@@ -667,7 +667,7 @@ var unionTypeAnnotationQuery = treesitter.Query{
 		)
 	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)}
 
-func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.Union, error) {
+func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(unionTypeAnnotationQuery)
 
 	switch {
@@ -682,7 +682,7 @@ func (l *Lexer) lexUnionTypeAnnotation(buffer *nvim.ScratchBuffer, source string
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "union.type":
-			lexedType, err := l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
+			lexedType, err := tr.getType(TypeAnnotation{matchCapture.Node.Text})
 
 			if err != nil {
 				return nil, err
@@ -719,7 +719,7 @@ var parenthesizedTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
+func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	switch {
@@ -732,7 +732,7 @@ func (l *Lexer) lexParenthesizedTypeAnnotation(buffer *nvim.ScratchBuffer, sourc
 	for _, matchCapture := range *match {
 		switch matchCapture.Id {
 		case "group.type":
-			return l.lexTypeAnnotation(TypeAnnotation{matchCapture.Node.Text})
+			return tr.getType(TypeAnnotation{matchCapture.Node.Text})
 		}
 	}
 
@@ -749,7 +749,7 @@ var literalNumberTypeAnnotationQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexLiteralNumberTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.NumericLiteral, error) {
+func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, source string) (*symbol.NumericLiteral, error) {
 	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
 	switch {
@@ -780,7 +780,7 @@ var literalBooleanTypeAnnotationQuery = treesitter.Query{
 	)`,
 }
 
-func (l *Lexer) lexLiteralBooleanTypeAnnotation(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
+func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
 	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
 
 	switch {
@@ -810,7 +810,7 @@ var literalStringTypeAnnotationQuery = treesitter.Query{
 	)
 `}
 
-func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
+func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(literalStringTypeAnnotationQuery)
 
 	switch {
@@ -830,15 +830,15 @@ func (l *Lexer) lexLiteralStringTypeAnnotation(buffer *nvim.ScratchBuffer, sourc
 	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
 }
 
-func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (annotation.Type, error) {
+func (tr *Transformer) getType(typ TypeAnnotation) (annotation.Type, error) {
 	source := strings.TrimSpace(typ.Name)
-	builtinType := l.lexBuiltinTypeAnnotation(strings.TrimSpace(source))
+	builtinType := tr.getBuiltinType(strings.TrimSpace(source))
 
 	if builtinType != nil {
 		return builtinType, nil
 	}
 
-	buffer, err := l.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
@@ -853,105 +853,116 @@ func (l *Lexer) lexTypeAnnotation(typ TypeAnnotation) (annotation.Type, error) {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
 	}
 
-	functionType, err := l.lexFunctionTypeAnnotation(buffer)
+	functionType, err := tr.getFunctionType(buffer)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case functionType != nil:
+	}
+
+	if functionType != nil {
 		return functionType, nil
 	}
 
-	lexedArray, err := l.lexArrayTypeAnnotation(buffer, source)
+	arrayType, err := tr.getArrayType(buffer, source)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedArray != nil:
-		return lexedArray, nil
 	}
 
-	tableType, err := l.lexTableTypeAnnotation(buffer)
+	if arrayType != nil {
+		return arrayType, nil
+	}
 
-	switch {
-	case err != nil:
+	tableType, err := tr.getTableType(buffer)
+
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case tableType != nil:
+	}
+
+	if tableType != nil {
 		return tableType, nil
 	}
 
-	literalTableType, err := l.lexLiteralTableTypeAnnotation(buffer)
+	literalTableType, err := tr.getLiteralTableType(buffer)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case literalTableType != nil:
+	}
+
+	if literalTableType != nil {
 		return literalTableType, nil
 	}
 
-	lexedOptional, err := l.lexOptionalTypeAnnotation(buffer, source)
+	optionalType, err := tr.getOptionalType(buffer, source)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedOptional != nil:
-		return lexedOptional, nil
 	}
 
-	lexedUnion, err := l.lexUnionTypeAnnotation(buffer, source)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedUnion != nil:
-		return lexedUnion, nil
+	if optionalType != nil {
+		return optionalType, nil
 	}
 
-	lexedGroupedType, err := l.lexParenthesizedTypeAnnotation(buffer, source)
+	unionType, err := tr.getUnionType(buffer, source)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedGroupedType != nil:
-		return lexedGroupedType, nil
 	}
 
-	lexedNumericLiteral, err := l.lexLiteralNumberTypeAnnotation(buffer, source)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedNumericLiteral != nil:
-		return lexedNumericLiteral, nil
+	if unionType != nil {
+		return unionType, nil
 	}
 
-	lexedBooleanLiteral, err := l.lexLiteralBooleanTypeAnnotation(buffer)
+	parenthesizedType, err := tr.getParenthesizedType(buffer, source)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedBooleanLiteral != nil:
-		return lexedBooleanLiteral, nil
 	}
 
-	lexedStringLiteral, err := l.lexLiteralStringTypeAnnotation(buffer, source)
-
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedStringLiteral != nil:
-		return lexedStringLiteral, nil
+	if parenthesizedType != nil {
+		return parenthesizedType, nil
 	}
 
-	lexedReference, err := l.lexReferenceTypeAnnotation(source)
+	numericLiteralType, err := tr.getLiteralNumberType(buffer, source)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
-	case lexedReference != nil:
-		return lexedReference, nil
 	}
 
-	l.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", source))
+	if numericLiteralType != nil {
+		return numericLiteralType, nil
+	}
+
+	booleanLiteralType, err := tr.getLiteralBooleanType(buffer)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	}
+
+	if booleanLiteralType != nil {
+		return booleanLiteralType, nil
+	}
+
+	stringLiteralType, err := tr.getLiteralStringType(buffer, source)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	}
+
+	if stringLiteralType != nil {
+		return stringLiteralType, nil
+	}
+
+	referenceType, err := tr.getReferenceType(source)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error lexing type %s: %w", source, err)
+	}
+
+	if referenceType != nil {
+		return referenceType, nil
+	}
+
+	tr.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", source))
 	return symbol.NewUnknown(), nil
 }

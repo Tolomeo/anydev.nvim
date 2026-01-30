@@ -1,4 +1,4 @@
-package lex
+package transform
 
 import (
 	"fmt"
@@ -20,71 +20,71 @@ type ctx interface {
 	ExtractChild(*symbol.Table, string) error
 }
 
-type Lexer struct {
+type Transformer struct {
 	context ctx
 }
 
 var lexedCache = cache.NewCache[annotation.Type]()
 
-func (l *Lexer) GetType() (annotation.Type, error) {
+func (tr *Transformer) GetType() (annotation.Type, error) {
 	cacheId := []string{
-		l.context.Target().Origin().Url(),
-		fmt.Sprintf("%d", l.context.Target().Origin().Line()),
-		fmt.Sprintf("%d", l.context.Target().Origin().Character()),
+		tr.context.Target().Origin().Url(),
+		fmt.Sprintf("%d", tr.context.Target().Origin().Line()),
+		fmt.Sprintf("%d", tr.context.Target().Origin().Character()),
 	}
 
 	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
-		l.context.Logger().Infof("Using lexer cached result for symbol '%s': <%v> cache id hit", l.context.Target().Identifier(), cacheId)
+		tr.context.Logger().Infof("Using transformed cached result for symbol '%s': <%v> cache id hit", tr.context.Target().Identifier(), cacheId)
 		return cachedSymbol, nil
 	}
 
-	o := l.context.Target().Origin()
+	o := tr.context.Target().Origin()
 
 	switch ot := o.(type) {
 	case *origin.TableOrigin:
-		tableType, err := l.lexTableValue(ot)
+		tableType, err := tr.getTableOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(tableType, cacheId...)
 		return tableType, nil
 	case *origin.FunctionOrigin:
-		functionType, err := l.lexFunctionValue(ot)
+		functionType, err := tr.getFunctionOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(functionType, cacheId...)
 		return functionType, nil
 	case *origin.VirtualOrigin:
-		metaType, err := l.lexMetaValue(ot)
+		metaType, err := tr.getVirtualOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(metaType, cacheId...)
 		return metaType, nil
 	case *origin.AliasOrigin:
-		aliasType, err := l.lexAliasType(ot)
+		aliasType, err := tr.getAliasOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(aliasType, cacheId...)
 		return aliasType, nil
 	case *origin.AliasEnumeratorOrigin:
-		aliasEnumeratorType, err := l.lexAliasEnumeratorType(ot)
+		aliasEnumeratorType, err := tr.lexAliasEnumeratorType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(aliasEnumeratorType, cacheId...)
 		return aliasEnumeratorType, nil
 	case *origin.ClassOrigin:
-		classType, err := l.lexClassType(ot)
+		classType, err := tr.getClassOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
 		lexedCache.Set(classType, cacheId...)
 		return classType, nil
 	case *origin.FieldOrigin:
-		fieldType, err := l.lexFieldType(ot)
+		fieldType, err := tr.getFieldOriginType(ot)
 		if err != nil {
 			return nil, err
 		}
@@ -92,17 +92,17 @@ func (l *Lexer) GetType() (annotation.Type, error) {
 		return fieldType, nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", l.context.Target().Identifier(), l.context.Target().Origin())
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", tr.context.Target().Identifier(), tr.context.Target().Origin())
 }
 
-func (l *Lexer) GetMetadata() (*symbol.Metadata, error) {
-	origin := l.context.Target().OriginChain().First()
+func (tr *Transformer) GetMetadata() (*symbol.Metadata, error) {
+	origin := tr.context.Target().OriginChain().First()
 
-	return l.getMetadata(origin)
+	return tr.getMetadata(origin)
 }
 
-func NewLexer(context ctx) *Lexer {
-	return &Lexer{
+func NewTransformer(context ctx) *Transformer {
+	return &Transformer{
 		context: context,
 	}
 }
