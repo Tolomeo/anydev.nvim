@@ -739,95 +739,77 @@ func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, source s
 	return nil, fmt.Errorf("Could not retrieve the type value of the grouped type '%s'", source)
 }
 
-var literalNumberTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
-	(documentation
-		(type_annotation
-			(numeric_literal_type) @literal.number
-		) @literal
-	)`,
-}
+var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
+		(documentation
+			(type_annotation
+				(%s)
+			)
+		)`, query)
+})
 
 func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, source string) (*symbol.NumericLiteral, error) {
 	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "literal.number":
-			return symbol.NewNumericLiteral(matchCapture.Node.Text), nil
-		}
-	}
-
-	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
+	literalNumberAnnotation := annotation.NewLiteralNumber(*match)
+	return symbol.NewNumericLiteral(literalNumberAnnotation.Value()), nil
 }
 
 var literalBooleanTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
+	Language: annotation.LiteralBooleanQuery.Language,
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(identifier) @literal.value
-		) @literal
-		(#any-of? @literal.value "true" "false")
-	)`,
+			(%s)
+		)
+	)`, annotation.LiteralBooleanQuery.Query),
 }
 
 func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
 	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "literal.value":
-			return symbol.NewBooleanLiteral(matchCapture.Node.Text), nil
-		}
-	}
-
-	return nil, fmt.Errorf("Could not retrieve the value of the string literal type")
+	literalBooleanAnnotation := annotation.NewLiteralBoolean(*match)
+	return symbol.NewBooleanLiteral(literalBooleanAnnotation.Value()), nil
 }
 
-var literalStringTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
+var literalStringTypeQuery = treesitter.Query{
+	Language: annotation.LiteralStringQuery.Language,
+	Query: fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(literal_type) @stringliteral
+			(%s)
 		)
-	)
-`}
+	)`, annotation.LiteralStringQuery.Query)}
 
 func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
-	match, err := buffer.TsQueryOne(literalStringTypeAnnotationQuery)
+	match, err := buffer.TsQueryOne(literalStringTypeQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "stringliteral":
-			return symbol.NewStringLiteral(matchCapture.Node.Text), nil
-		}
-	}
-
-	return nil, fmt.Errorf("Could not retrieve the value of the string literal type '%s'", source)
+	literalStringAnnotation := annotation.NewLiteralString(*match)
+	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
 }
 
 func (tr *Transformer) getType(typ TypeAnnotation) (annotation.Type, error) {

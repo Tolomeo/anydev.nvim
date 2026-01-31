@@ -8,9 +8,17 @@ import (
 )
 
 type Query struct {
-	Language  string
-	Query string
-	Range *LineRange
+	Language string
+	Query    string
+	Range    *LineRange
+}
+
+func (q Query) Extend(f func(string) string) Query {
+	return Query{
+		Language: q.Language,
+		Query:    f(q.Query),
+		Range:    q.Range,
+	}
 }
 
 const (
