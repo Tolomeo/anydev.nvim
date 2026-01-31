@@ -362,82 +362,56 @@ func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, source string
 	return nil, fmt.Errorf("Could not retrieved type from optional type '%s'", source)
 }
 
-var functionTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
+var functionTypeAnnotationQuery = annotation.FunctionQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(function_type
-				(parameter
-					(identifier) @parameter.name
-					":"
-					(%s) @parameter.type
-				)? @parameter
-				("," (parameter
-					(identifier) @parameter.name
-					":"
-					(%s) @parameter.type
-				) @parameter)*
-				("," (parameter
-					"..." @parameter.name
-					":"
-					(%s) @parameter.type
-				) @parameter)?
-				(parameter
-					"..." @parameter.name
-					":"
-					(%s) @parameter.type
-				)? @parameter
-				(":"
-					(%s) @return.type
-					("," (%s) @return.type)*
-				)? @return
-				(comment)? @function.documentation
-			)
+			(%s)
 		)
 	)
-`, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
-}
+`, query)
+})
 
 func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Function, error) {
 	captures, err := buffer.TsQueryOne(functionTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case captures == nil:
+	}
+
+	if captures == nil {
 		return nil, nil
 	}
+
+	functionAnnotation := annotation.NewFunction(*captures)
 
 	function := symbol.NewFunction()
 	args := []symbol.FunctionArgument{}
 	returns := []symbol.FunctionReturn{}
 
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "parameter":
-			args = append(args, symbol.FunctionArgument{})
-		case "parameter.name":
-			args[len(args)-1].Name = capture.Node.Text
-		case "parameter.type":
-			parameterType, err := tr.getType(TypeAnnotation{capture.Node.Text})
+	for _, annotationArg := range functionAnnotation.Arguments() {
+		argType, err := tr.getType(TypeAnnotation{annotationArg.Type()})
 
-			if err != nil {
-				return nil, err
-			}
-
-			args[len(args)-1].Type = parameterType
-		case "return.type":
-			returnType, err := tr.getType(TypeAnnotation{capture.Node.Text})
-
-			if err != nil {
-				return nil, err
-			}
-
-			returns = append(returns, symbol.FunctionReturn{
-				Type: returnType,
-			})
+		if err != nil {
+			return nil, err
 		}
+
+		args = append(args, symbol.FunctionArgument{
+			Name: annotationArg.Name(),
+			Type: argType,
+		})
+	}
+
+	for _, annotationReturn := range functionAnnotation.Returns() {
+		returnType, err := tr.getType(TypeAnnotation{annotationReturn.Type()})
+
+		if err != nil {
+			return nil, err
+		}
+
+		returns = append(returns, symbol.FunctionReturn{
+			Type: returnType,
+		})
 	}
 
 	function.Arguments = append(function.Arguments, args...)
