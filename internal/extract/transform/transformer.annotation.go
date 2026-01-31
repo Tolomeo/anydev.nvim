@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	// "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
@@ -182,70 +183,6 @@ func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]At
 	}
 
 	return atGenericAnnotations, nil
-}
-
-type AtParamAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Optional      bool
-	Documentation []string
-}
-
-var atParamAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(param_annotation
-			"@param"
-			.
-			([("...") (identifier)]) @name
-			.
-			"?"? @optional
-			.
-			(%s) @type
-			.
-			(comment)? @documentation
-			.
-		) @param
-	)`, anyTypeAnnotationQuery),
-}
-
-func (tr *Transformer) getAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
-	params := map[string]AtParamAnnotation{}
-	matches, err := buffer.TsQueryAll(atParamAnnotationQuery)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if matches == nil {
-		return params, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		lexedParam := AtParamAnnotation{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "name":
-				lexedParam.Name = capture.Node.Text
-			case "optional":
-				lexedParam.Optional = true
-			case "documentation":
-				lexedParam.Documentation = []string{capture.Node.Text}
-			case "type":
-				lexedParam.Type = TypeAnnotation{capture.Node.Text}
-			}
-		}
-
-		if lexedParam.Name == "" {
-			return params, fmt.Errorf("Could not retrieve param name for param annotation")
-		}
-
-		params[lexedParam.Name] = lexedParam
-	}
-
-	return params, nil
 }
 
 var typeAnnotationQueries = map[string]string{

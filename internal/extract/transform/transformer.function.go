@@ -10,6 +10,41 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
+type AtParamAnnotation struct {
+	Name          string
+	Type          TypeAnnotation
+	Optional      bool
+	Documentation []string
+}
+
+func (tr *Transformer) getAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
+	params := map[string]AtParamAnnotation{}
+	matches, err := buffer.TsQueryAll(annotation.AtParamQuery)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if matches == nil {
+		return params, nil
+	}
+
+	for _, matchCaptures := range *matches {
+		atParamAnnotation := annotation.NewAtParam(matchCaptures)
+		name := atParamAnnotation.Name()
+		optional := atParamAnnotation.Optional()
+		type_ := TypeAnnotation{atParamAnnotation.Type()}
+
+		params[name] = AtParamAnnotation{
+			Name:     name,
+			Optional: optional,
+			Type:     type_,
+		}
+	}
+
+	return params, nil
+}
+
 type AtReturnAnnotation struct {
 	Name          string
 	Type          TypeAnnotation
