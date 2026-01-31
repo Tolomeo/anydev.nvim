@@ -3,11 +3,44 @@ package transform
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
+
+type AtReturnAnnotation struct {
+	Name          string
+	Type          TypeAnnotation
+	Documentation []string
+}
+
+func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
+	atReturns := []AtReturnAnnotation{}
+	matches, err := buffer.TsQueryAll(annotation.AtReturnQuery)
+
+	if err != nil {
+		return atReturns, err
+	}
+
+	if matches == nil {
+		return atReturns, nil
+	}
+
+	for _, matchCaptures := range *matches {
+		atReturnAnnotation := annotation.NewAtReturn(matchCaptures)
+
+		returnAnnotation := AtReturnAnnotation{
+			Name: atReturnAnnotation.Name(),
+			Type: TypeAnnotation{atReturnAnnotation.Type()},
+		}
+
+		atReturns = append(atReturns, returnAnnotation)
+	}
+
+	return atReturns, nil
+}
 
 type functionAtAnnotations struct {
 	AtGenerics  []AtGenericAnnotation

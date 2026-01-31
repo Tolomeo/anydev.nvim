@@ -248,59 +248,6 @@ func (tr *Transformer) getAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[st
 	return params, nil
 }
 
-type AtReturnAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-var atReturnAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(return_annotation
-			"@return"
-			.
-			(%s) @return.type
-			.
-			(comment)? @return.documentation
-			.
-		) @return
-	)`, anyTypeAnnotationQuery),
-}
-
-func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
-	atReturns := []AtReturnAnnotation{}
-	matches, err := buffer.TsQueryAll(atReturnAnnotationQuery)
-
-	if err != nil {
-		return atReturns, err
-	}
-
-	if matches == nil {
-		return atReturns, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		returnAnnotation := AtReturnAnnotation{}
-
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "return.name":
-				returnAnnotation.Name = capture.Node.Text
-			case "return.documentation":
-				returnAnnotation.Documentation = []string{capture.Node.Text}
-			case "return.type":
-				returnAnnotation.Type = TypeAnnotation{capture.Node.Text}
-			}
-		}
-
-		atReturns = append(atReturns, returnAnnotation)
-	}
-
-	return atReturns, nil
-}
-
 var typeAnnotationQueries = map[string]string{
 	"builtin_type":         "(builtin_type)",
 	"identifier":           "(identifier)",
