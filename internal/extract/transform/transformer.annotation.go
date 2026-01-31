@@ -501,29 +501,29 @@ func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, 
 
 func (tr *Transformer) getBuiltinType(source string) annotation.Type {
 	switch source {
-	case "void":
+	case annotation.Void:
 		return symbol.NewVoid()
-	case "nil":
+	case annotation.Nil:
 		return symbol.NewNil()
-	case "any":
+	case annotation.Any:
 		return symbol.NewAny()
-	case "boolean":
+	case annotation.Boolean:
 		return symbol.NewBoolean()
-	case "string":
+	case annotation.String:
 		return symbol.NewString()
-	case "number":
+	case annotation.Number:
 		return symbol.NewNumber()
-	case "integer", "int":
+	case annotation.Integer, annotation.Int:
 		return symbol.NewInteger()
-	case "function":
+	case annotation.Function:
 		return symbol.NewBuiltinFunction()
-	case "table":
+	case annotation.Table:
 		return symbol.NewBuiltinTable()
-	case "thread":
+	case annotation.Thread:
 		return symbol.NewThread()
-	case "userdata":
+	case annotation.Userdata:
 		return symbol.NewUserdata()
-	case "lightuserdata":
+	case annotation.LightUserdata:
 		return symbol.NewLightUserdata()
 	}
 
@@ -540,65 +540,56 @@ func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) 
 	return symbol.NewReference(name), nil
 }
 
-var arrayTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
+var arrayTypeAnnotationQuery = annotation.ArrayQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(array_type 
-				(_) @array.itemstype 
-			) @array
+			(%s)
 		)
 	)
-`}
+`, query)
+})
 
 func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, source string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "array.itemstype":
-			itemsType, err := tr.getType(TypeAnnotation{matchCapture.Node.Text})
+	arrayAnnotation := annotation.NewArray(*match)
+	itemsType, err := tr.getType(TypeAnnotation{arrayAnnotation.ItemsType()})
 
-			if err != nil {
-				return nil, err
-			}
-
-			return symbol.NewArray(itemsType), nil
-		}
+	if err != nil {
+		return nil, err
 	}
 
-	return nil, fmt.Errorf("Could not retrieve items type value from the array type '%s'", source)
+	return symbol.NewArray(itemsType), nil
 }
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
-	"empty": {
-		Language: annotation.LiteralTableEmptyQuery.Language,
-		Query: fmt.Sprintf(`
+	"empty": annotation.LiteralTableEmptyQuery.Extend(func(query string) string {
+		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, annotation.LiteralTableEmptyQuery.Query),
-	},
-	"described": {
-		Language: annotation.LiteralTableTypeQuery.Language,
-		Query: fmt.Sprintf(`
+		)`, query)
+	}),
+	"described": annotation.LiteralTableTypeQuery.Extend(func(query string) string {
+		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, annotation.LiteralTableTypeQuery.Query),
-	},
+		)`, query)
+	}),
 }
 
 func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
