@@ -446,84 +446,74 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	return function, nil
 }
 
-// TODO: check if it is possible to mark value as optional
-var tableTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
+var tableTypeAnnotationQuery = annotation.TableQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(table_type
-				key: (%s) @key
-				value: (%s) @value
-			) @table
+			(%s)
 			(comment)? @documentation
 		)
-	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
-}
+	)`, query)
+})
 
 func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
+	tableAnnotation := annotation.NewTable(*match)
 	table := symbol.NewTable()
 
-	for _, capture := range *match {
-		switch capture.Id {
-		case "table":
-			table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
-		case "key":
-			keyType, err := tr.getType(TypeAnnotation{capture.Node.Text})
+	keyType, err := tr.getType(TypeAnnotation{tableAnnotation.Key()})
 
-			if err != nil {
-				return nil, err
-			}
-
-			table.Indexes[len(table.Indexes)-1].Key = keyType
-		case "value":
-			valueType, err := tr.getType(TypeAnnotation{capture.Node.Text})
-
-			if err != nil {
-				return nil, err
-			}
-
-			table.Indexes[len(table.Indexes)-1].Value = valueType
-		}
+	if err != nil {
+		return nil, err
 	}
+
+	valueType, err := tr.getType(TypeAnnotation{tableAnnotation.Value()})
+
+	if err != nil {
+		return nil, err
+	}
+
+	table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
+	table.Indexes[len(table.Indexes)-1].Key = keyType
+	table.Indexes[len(table.Indexes)-1].Value = valueType
 
 	return table, nil
 }
 
 func (tr *Transformer) getBuiltinType(source string) annotation.Type {
 	switch source {
-	case annotation.Void:
+	case annotation.BuiltinVoid:
 		return symbol.NewVoid()
-	case annotation.Nil:
+	case annotation.BuiltinNil:
 		return symbol.NewNil()
-	case annotation.Any:
+	case annotation.BuiltinAny:
 		return symbol.NewAny()
-	case annotation.Boolean:
+	case annotation.BuiltinBoolean:
 		return symbol.NewBoolean()
-	case annotation.String:
+	case annotation.BuiltinString:
 		return symbol.NewString()
-	case annotation.Number:
+	case annotation.BuiltinNumber:
 		return symbol.NewNumber()
-	case annotation.Integer, annotation.Int:
+	case annotation.BuiltinInteger, annotation.BuiltinInt:
 		return symbol.NewInteger()
-	case annotation.Function:
+	case annotation.BuiltinFunction:
 		return symbol.NewBuiltinFunction()
-	case annotation.Table:
+	case annotation.BuiltinTable:
 		return symbol.NewBuiltinTable()
-	case annotation.Thread:
+	case annotation.BuiltinThread:
 		return symbol.NewThread()
-	case annotation.Userdata:
+	case annotation.BuiltinUserdata:
 		return symbol.NewUserdata()
-	case annotation.LightUserdata:
+	case annotation.BuiltinLightUserdata:
 		return symbol.NewLightUserdata()
 	}
 
