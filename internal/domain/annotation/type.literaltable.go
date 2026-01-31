@@ -7,7 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var LiteralTableTypeEmptyQuery = treesitter.Query{
+var LiteralTableEmptyQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: `
 	(table_literal_type . "{" . "}" . ) @table`,

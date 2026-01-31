@@ -580,14 +580,14 @@ func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, source string) (
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
 	"empty": {
-		Language: annotation.LiteralTableTypeEmptyQuery.Language,
+		Language: annotation.LiteralTableEmptyQuery.Language,
 		Query: fmt.Sprintf(`
 		(documentation
 			(type_annotation
 				(%s)
 				(comment)? @table.documentation
 			)
-		)`, annotation.LiteralTableTypeEmptyQuery.Query),
+		)`, annotation.LiteralTableEmptyQuery.Query),
 	},
 	"described": {
 		Language: annotation.LiteralTableTypeQuery.Language,
@@ -655,48 +655,45 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 	return nil, nil
 }
 
-var unionTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
+var unionTypeAnnotationQuery = annotation.UnionQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(union_type
-				(%s) @union.type
-				(%s) @union.type
-			) @union
+			(%s)
 		)
-	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery)}
+	)`, query)
+})
 
 func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(unionTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
+	unionAnnotation := annotation.NewUnion(*match)
+
 	unionTypes := []annotation.Type{}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "union.type":
-			lexedType, err := tr.getType(TypeAnnotation{matchCapture.Node.Text})
+	for _, typ := range unionAnnotation.Types() {
+		unionType, err := tr.getType(TypeAnnotation{typ})
 
-			if err != nil {
-				return nil, err
-			}
+		if err != nil {
+			return nil, err
+		}
 
-			// Flattening nested unions
-			switch t := lexedType.(type) {
-			case *symbol.Union:
-				for _, lexedUnionType := range t.Types {
-					unionTypes = append(unionTypes, lexedUnionType)
-				}
-			default:
-				unionTypes = append(unionTypes, lexedType)
+		// Flattening nested unions
+		switch t := unionType.(type) {
+		case *symbol.Union:
+			for _, symbolUnionType := range t.Types {
+				unionTypes = append(unionTypes, symbolUnionType)
 			}
+		default:
+			unionTypes = append(unionTypes, unionType)
 		}
 	}
 
@@ -707,36 +704,29 @@ func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (
 	return symbol.NewUnion(unionTypes), nil
 }
 
-var parenthesizedTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: `
+var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
-			(parenthesized_type 
-				(_) @group.type
-			) @group
+			(%s)
 		)
 	)
-`}
+`, query)
+})
 
 func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case match == nil:
+	}
+
+	if match == nil {
 		return nil, nil
 	}
 
-	for _, matchCapture := range *match {
-		switch matchCapture.Id {
-		case "group.type":
-			return tr.getType(TypeAnnotation{matchCapture.Node.Text})
-		}
-	}
-
-	return nil, fmt.Errorf("Could not retrieve the type value of the grouped type '%s'", source)
+	parenthesizedAnnotation := annotation.NewParenthesized(*match)
+	return tr.getType(TypeAnnotation{parenthesizedAnnotation.Type()})
 }
 
 var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.Extend(func(query string) string {
