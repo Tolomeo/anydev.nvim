@@ -763,15 +763,14 @@ func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, source s
 	return symbol.NewNumericLiteral(literalNumberAnnotation.Value()), nil
 }
 
-var literalBooleanTypeAnnotationQuery = treesitter.Query{
-	Language: annotation.LiteralBooleanQuery.Language,
-	Query: fmt.Sprintf(`
-	(documentation
-		(type_annotation
-			(%s)
-		)
-	)`, annotation.LiteralBooleanQuery.Query),
-}
+var literalBooleanTypeAnnotationQuery = annotation.LiteralBooleanQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
+		(documentation
+			(type_annotation
+				(%s)
+			)
+		)`, query)
+})
 
 func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
 	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
@@ -788,14 +787,14 @@ func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbo
 	return symbol.NewBooleanLiteral(literalBooleanAnnotation.Value()), nil
 }
 
-var literalStringTypeQuery = treesitter.Query{
-	Language: annotation.LiteralStringQuery.Language,
-	Query: fmt.Sprintf(`
+var literalStringTypeQuery = annotation.LiteralStringQuery.Extend(func(query string) string {
+	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
 			(%s)
 		)
-	)`, annotation.LiteralStringQuery.Query)}
+	)`, query)
+})
 
 func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(literalStringTypeQuery)
