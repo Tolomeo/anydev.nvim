@@ -178,6 +178,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 
 	function.Name = functionOrigin.Name()
 
+	// TODO: remove
 	if functionOrigin.Static() {
 		function.Access = &symbol.FunctionClassAccess
 	} else {
@@ -195,16 +196,19 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 	}
 
 	for _, genericAnnotation := range annotations.AtGenerics {
-		genericName := genericAnnotation.Name
-		genericTypes, err := slicesx.MapFunc(genericAnnotation.Types, func(genericType TypeAnnotation) (annotation.Type, error) {
-			return tr.getType(genericType)
-		})
+		generic := symbol.NewFunctionGeneric(genericAnnotation.Name, nil)
 
-		if err != nil {
-			return nil, err
+		if genericAnnotation.Type != nil {
+			genericType, err := tr.getType(*genericAnnotation.Type)
+
+			if err != nil {
+				return nil, err
+			}
+
+			generic.Type = genericType
 		}
 
-		function.Generics = append(function.Generics, *symbol.NewFunctionGeneric(genericName, genericTypes...))
+		function.Generics = append(function.Generics, *generic)
 	}
 
 	for argIndex := range function.Arguments {

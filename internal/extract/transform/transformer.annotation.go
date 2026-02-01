@@ -5,8 +5,9 @@ import (
 	"strings"
 
 	// "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	// "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/mapx"
 )
 
@@ -15,42 +16,13 @@ type TypeAnnotation struct {
 }
 
 type AtGenericAnnotation struct {
-	Name  string
-	Types []TypeAnnotation
-}
-
-var atGenericAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(generic_annotation
-			"@generic"
-			.
-			(identifier) @generic.name
-			.
-			(":"
-				.
-				parent_type:
-					(%s) @generic.type
-			)?
-			.
-			(","
-				.
-				(identifier) @generic.name
-				.
-				(":"
-					.
-					parent_type:
-						(%s) @generic.type
-				)?
-			)*
-		) @generic
-	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
+	Name string
+	Type *TypeAnnotation
 }
 
 func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
 	atGenericAnnotations := []AtGenericAnnotation{}
-	matches, err := buffer.TsQueryAll(atGenericAnnotationQuery)
+	matches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
 
 	if err != nil {
 		return nil, err
@@ -61,22 +33,20 @@ func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]At
 	}
 
 	for _, matchCaptures := range *matches {
-		lexedGeneric := AtGenericAnnotation{}
+		atGenenericsAnnotation := annotation.NewGenerics(matchCaptures)
 
-		for _, capture := range matchCaptures {
-			switch capture.Id {
-			case "generic.name":
-				lexedGeneric.Name = capture.Node.Text
-			case "generic.type":
-				lexedGeneric.Types = append(lexedGeneric.Types, TypeAnnotation{capture.Node.Text})
+		for _, generic := range atGenenericsAnnotation.Generics() {
+			lexedGeneric := AtGenericAnnotation{
+				Name: generic.Name(),
 			}
+
+			if generic.Type() != nil {
+				lexedGeneric.Type = &TypeAnnotation{*generic.Type()}
+			}
+
+			atGenericAnnotations = append(atGenericAnnotations, lexedGeneric)
 		}
 
-		if lexedGeneric.Name == "" {
-			return atGenericAnnotations, fmt.Errorf("Could not retrieve generic name for generic annotation '%v'", lexedGeneric)
-		}
-
-		atGenericAnnotations = append(atGenericAnnotations, lexedGeneric)
 	}
 
 	return atGenericAnnotations, nil
