@@ -46,41 +46,6 @@ func (tr *Transformer) getAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]A
 	return atOverloads, nil
 }
 
-type AtParamAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Optional      bool
-	Documentation []string
-}
-
-func (tr *Transformer) getAtParamAnnotations(buffer *nvim.ScratchBuffer) (map[string]AtParamAnnotation, error) {
-	params := map[string]AtParamAnnotation{}
-	matches, err := buffer.TsQueryAll(annotation.AtParamQuery)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if matches == nil {
-		return params, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		atParamAnnotation := annotation.NewAtParam(matchCaptures)
-		name := atParamAnnotation.Name()
-		optional := atParamAnnotation.Optional()
-		type_ := TypeAnnotation{atParamAnnotation.Type()}
-
-		params[name] = AtParamAnnotation{
-			Name:     name,
-			Optional: optional,
-			Type:     type_,
-		}
-	}
-
-	return params, nil
-}
-
 type AtReturnAnnotation struct {
 	Name          string
 	Type          TypeAnnotation
@@ -115,7 +80,7 @@ func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtR
 
 type functionAtAnnotations struct {
 	AtGenerics  []annotation.AtGenerics
-	AtParams    map[string]AtParamAnnotation
+	AtParams    map[string]annotation.AtParam
 	AtReturns   []AtReturnAnnotation
 	AtOverloads []AtOverloadAnnotation
 }
@@ -123,7 +88,7 @@ type functionAtAnnotations struct {
 func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
 	annotations := functionAtAnnotations{
 		AtGenerics:  []annotation.AtGenerics{},
-		AtParams:    map[string]AtParamAnnotation{},
+		AtParams:    map[string]annotation.AtParam{},
 		AtReturns:   []AtReturnAnnotation{},
 		AtOverloads: []AtOverloadAnnotation{},
 	}
@@ -142,23 +107,36 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	matches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
+	atGenericMatches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
 
 	if err != nil {
 		return annotations, err
 	}
 
-	if matches != nil {
-		for _, match := range *matches {
+	if atGenericMatches != nil {
+		for _, match := range *atGenericMatches {
 			annotations.AtGenerics = append(annotations.AtGenerics, *annotation.NewGenerics(match))
 		}
 	}
 
-	atParams, err := tr.getAtParamAnnotations(buffer)
+	atParamMatches, err := buffer.TsQueryAll(annotation.AtParamQuery)
 
 	if err != nil {
 		return annotations, err
 	}
+
+	if atParamMatches != nil {
+		for _, match := range *atParamMatches {
+			atParamAnnotation := annotation.NewAtParam(match)
+			annotations.AtParams[atParamAnnotation.Name()] = *atParamAnnotation
+		}
+	}
+
+	/* atParams, err := tr.getAtParamAnnotations(buffer)
+
+	if err != nil {
+		return annotations, err
+	} */
 
 	atReturns, err := tr.getAtReturnAnnotations(buffer)
 
@@ -172,7 +150,6 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	annotations.AtParams = atParams
 	annotations.AtReturns = atReturns
 	annotations.AtOverloads = atOverloads
 	return annotations, nil
@@ -220,12 +197,15 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			continue
 		}
 
+		tr.context.Logger().Debugf("Generics: %+v", function.Generics)
+		tr.context.Logger().Debugf("ParamAnnotation: %+v", paramAnnotation)
+
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == paramAnnotation.Type.Name
+			return generic.Name == paramAnnotation.Type()
 		}); isGeneric {
 			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			argumentType, err := tr.getType(paramAnnotation.Type)
+			argumentType, err := tr.getType(TypeAnnotation{paramAnnotation.Type()})
 
 			if err != nil {
 				return nil, err
@@ -234,8 +214,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			function.Arguments[argIndex].Type = argumentType
 		}
 
-		function.Arguments[argIndex].Optional = paramAnnotation.Optional
-		function.Arguments[argIndex].Documentation = paramAnnotation.Documentation
+		function.Arguments[argIndex].Optional = paramAnnotation.Optional()
 	}
 
 	for _, returnAnnotation := range annotations.AtReturns {
