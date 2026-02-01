@@ -10,6 +10,32 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
+type AtTypeAnnotation struct {
+	Types         []TypeAnnotation
+	Documentation []string
+}
+
+func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
+	captures, err := buffer.TsQueryOne(annotation.AtTypeQuery)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if captures == nil {
+		return nil, nil
+	}
+
+	atTypeAnnotation := annotation.NewAtType(*captures)
+	atType := AtTypeAnnotation{}
+
+	for _, typ := range atTypeAnnotation.Types() {
+		atType.Types = append(atType.Types, TypeAnnotation{typ})
+	}
+
+	return &atType, nil
+}
+
 var optionalTypeAnnotationQuery = annotation.OptionalQuery.Extend(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation

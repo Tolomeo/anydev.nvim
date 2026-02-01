@@ -14,51 +14,6 @@ type TypeAnnotation struct {
 	Name string
 }
 
-type AtTypeAnnotation struct {
-	Types         []TypeAnnotation
-	Documentation []string
-}
-
-var atTypeAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation
-		(type_annotation
-			"@type" . (%s) @type.type
-			.
-			("," . (%s) @type.type)*
-			.
-			(comment)? @type.documentation
-			.
-		) @type
-	)`, anyTypeAnnotationQuery, anyTypeAnnotationQuery),
-}
-
-func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
-	captures, err := buffer.TsQueryOne(atTypeAnnotationQuery)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if captures == nil {
-		return nil, nil
-	}
-
-	atType := AtTypeAnnotation{}
-
-	for _, capture := range *captures {
-		switch capture.Id {
-		case "type.type":
-			atType.Types = append(atType.Types, TypeAnnotation{capture.Node.Text})
-		case "type.documentation":
-			atType.Documentation = strings.Split(capture.Node.Text, "\n")
-		}
-	}
-
-	return &atType, nil
-}
-
 type AtOverloadAnnotation struct {
 	Type          TypeAnnotation
 	Documentation []string

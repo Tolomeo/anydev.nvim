@@ -3,9 +3,9 @@ package transform
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 )
 
 type virtualOriginAtAnnotations struct {
