@@ -6,51 +6,14 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
-
-type AtOverloadAnnotation struct {
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-func (tr *Transformer) getAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverloadAnnotation, error) {
-	atOverloads := []AtOverloadAnnotation{}
-	matches, err := buffer.SafeTsQueryAll(annotation.AtOverloadQuery)
-
-	// fmt.Printf("\n Overload matches: %+v\n", matches)
-
-	if err != nil {
-		return atOverloads, err
-	}
-
-	if matches == nil {
-		return atOverloads, nil
-	}
-
-	for _, match := range *matches {
-		if match.HasError {
-			tr.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", tr.context.Target().Name()))
-			continue
-		}
-
-		atOverloadAnnotation := annotation.NewOverload(match.Captures)
-		overload := AtOverloadAnnotation{}
-		overload.Type = TypeAnnotation{atOverloadAnnotation.Type()}
-		overload.Documentation = atOverloadAnnotation.Documentation()
-
-		atOverloads = append(atOverloads, overload)
-	}
-
-	return atOverloads, nil
-}
 
 type functionAtAnnotations struct {
 	AtGenerics  []annotation.AtGenerics
 	AtParams    map[string]annotation.AtParam
 	AtReturns   []annotation.AtReturn
-	AtOverloads []AtOverloadAnnotation
+	AtOverloads []annotation.AtOverload
 }
 
 func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
@@ -58,7 +21,7 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		AtGenerics:  []annotation.AtGenerics{},
 		AtParams:    map[string]annotation.AtParam{},
 		AtReturns:   []annotation.AtReturn{},
-		AtOverloads: []AtOverloadAnnotation{},
+		AtOverloads: []annotation.AtOverload{},
 	}
 
 	buffer, err := tr.context.Nvim().NewBuffer()
@@ -112,13 +75,23 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		}
 	}
 
-	atOverloads, err := tr.getAtOverloadAnnotations(buffer)
+	atOverloadMatches, err := buffer.SafeTsQueryAll(annotation.AtOverloadQuery)
 
 	if err != nil {
 		return annotations, err
 	}
 
-	annotations.AtOverloads = atOverloads
+	if atOverloadMatches != nil {
+		for _, match := range *atOverloadMatches {
+			if match.HasError {
+				tr.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation <%v> because it contains syntax errors", match))
+				continue
+			}
+
+			annotations.AtOverloads = append(annotations.AtOverloads, *annotation.NewOverload(match.Captures))
+		}
+	}
+
 	return annotations, nil
 }
 
@@ -203,7 +176,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 	}
 
 	for _, overloadAnnotation := range annotations.AtOverloads {
-		overloadType, err := tr.getType(overloadAnnotation.Type)
+		overloadType, err := tr.getType(TypeAnnotation{overloadAnnotation.Type()})
 
 		if err != nil {
 			return nil, fmt.Errorf("Error lexing function overload annotation type: %w", err)
