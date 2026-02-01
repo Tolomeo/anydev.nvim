@@ -46,42 +46,10 @@ func (tr *Transformer) getAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]A
 	return atOverloads, nil
 }
 
-type AtReturnAnnotation struct {
-	Name          string
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtReturnAnnotation, error) {
-	atReturns := []AtReturnAnnotation{}
-	matches, err := buffer.TsQueryAll(annotation.AtReturnQuery)
-
-	if err != nil {
-		return atReturns, err
-	}
-
-	if matches == nil {
-		return atReturns, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		atReturnAnnotation := annotation.NewAtReturn(matchCaptures)
-
-		returnAnnotation := AtReturnAnnotation{
-			Name: atReturnAnnotation.Name(),
-			Type: TypeAnnotation{atReturnAnnotation.Type()},
-		}
-
-		atReturns = append(atReturns, returnAnnotation)
-	}
-
-	return atReturns, nil
-}
-
 type functionAtAnnotations struct {
 	AtGenerics  []annotation.AtGenerics
 	AtParams    map[string]annotation.AtParam
-	AtReturns   []AtReturnAnnotation
+	AtReturns   []annotation.AtReturn
 	AtOverloads []AtOverloadAnnotation
 }
 
@@ -89,7 +57,7 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 	annotations := functionAtAnnotations{
 		AtGenerics:  []annotation.AtGenerics{},
 		AtParams:    map[string]annotation.AtParam{},
-		AtReturns:   []AtReturnAnnotation{},
+		AtReturns:   []annotation.AtReturn{},
 		AtOverloads: []AtOverloadAnnotation{},
 	}
 
@@ -132,16 +100,16 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		}
 	}
 
-	/* atParams, err := tr.getAtParamAnnotations(buffer)
+	atReturnMatches, err := buffer.TsQueryAll(annotation.AtReturnQuery)
 
 	if err != nil {
 		return annotations, err
-	} */
+	}
 
-	atReturns, err := tr.getAtReturnAnnotations(buffer)
-
-	if err != nil {
-		return annotations, err
+	if atReturnMatches != nil {
+		for _, match := range *atReturnMatches {
+			annotations.AtReturns = append(annotations.AtReturns, *annotation.NewAtReturn(match))
+		}
 	}
 
 	atOverloads, err := tr.getAtOverloadAnnotations(buffer)
@@ -150,7 +118,6 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	annotations.AtReturns = atReturns
 	annotations.AtOverloads = atOverloads
 	return annotations, nil
 }
@@ -197,9 +164,6 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			continue
 		}
 
-		tr.context.Logger().Debugf("Generics: %+v", function.Generics)
-		tr.context.Logger().Debugf("ParamAnnotation: %+v", paramAnnotation)
-
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 			return generic.Name == paramAnnotation.Type()
 		}); isGeneric {
@@ -219,15 +183,14 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 
 	for _, returnAnnotation := range annotations.AtReturns {
 		functionReturn := symbol.NewFunctionReturn()
-		functionReturn.Name = returnAnnotation.Name
-		functionReturn.Documentation = returnAnnotation.Documentation
+		functionReturn.Name = returnAnnotation.Name()
 
 		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == returnAnnotation.Type.Name
+			return generic.Name == returnAnnotation.Type()
 		}); isGeneric {
 			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			typ, err := tr.getType(returnAnnotation.Type)
+			typ, err := tr.getType(TypeAnnotation{returnAnnotation.Type()})
 
 			if err != nil {
 				return nil, err
