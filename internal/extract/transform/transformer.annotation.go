@@ -14,64 +14,6 @@ type TypeAnnotation struct {
 	Name string
 }
 
-type AtOverloadAnnotation struct {
-	Type          TypeAnnotation
-	Documentation []string
-}
-
-var atOverloadAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(documentation 
-		(overload_annotation 
-			"@overload"
-			.
-			(%s) @type 
-			.
-			(comment)? @documentation
-			.
-		)
-	)
-`, typeAnnotationQueries["function_type"]),
-}
-
-func (tr *Transformer) getAtOverloadAnnotations(buffer *nvim.ScratchBuffer) ([]AtOverloadAnnotation, error) {
-	atOverloads := []AtOverloadAnnotation{}
-	matches, err := buffer.SafeTsQueryAll(atOverloadAnnotationQuery)
-
-	// fmt.Printf("\n Overload matches: %+v\n", matches)
-
-	if err != nil {
-		return atOverloads, err
-	}
-
-	if matches == nil {
-		return atOverloads, nil
-	}
-
-	for _, match := range *matches {
-		if match.HasError {
-			tr.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation in '%s' because it contains syntax errors", tr.context.Target().Name()))
-			continue
-		}
-
-		overload := AtOverloadAnnotation{}
-
-		for _, capture := range match.Captures {
-			switch capture.Id {
-			case "documentation":
-				overload.Documentation = []string{capture.Node.Text}
-			case "type":
-				overload.Type = TypeAnnotation{capture.Node.Text}
-			}
-		}
-
-		atOverloads = append(atOverloads, overload)
-	}
-
-	return atOverloads, nil
-}
-
 type AtGenericAnnotation struct {
 	Name  string
 	Types []TypeAnnotation
