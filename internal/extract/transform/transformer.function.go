@@ -10,6 +10,43 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
+type AtGenericAnnotation struct {
+	Name string
+	Type *TypeAnnotation
+}
+
+func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
+	atGenericAnnotations := []AtGenericAnnotation{}
+	matches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if matches == nil {
+		return atGenericAnnotations, nil
+	}
+
+	for _, matchCaptures := range *matches {
+		atGenenericsAnnotation := annotation.NewGenerics(matchCaptures)
+
+		for _, generic := range atGenenericsAnnotation.Generics() {
+			lexedGeneric := AtGenericAnnotation{
+				Name: generic.Name(),
+			}
+
+			if generic.Type() != nil {
+				lexedGeneric.Type = &TypeAnnotation{*generic.Type()}
+			}
+
+			atGenericAnnotations = append(atGenericAnnotations, lexedGeneric)
+		}
+
+	}
+
+	return atGenericAnnotations, nil
+}
+
 type AtOverloadAnnotation struct {
 	Type          TypeAnnotation
 	Documentation []string

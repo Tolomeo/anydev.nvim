@@ -45,7 +45,7 @@ var optionalTypeAnnotationQuery = annotation.OptionalQuery.Extend(func(query str
 	)`, query)
 })
 
-func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
+func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -218,7 +218,7 @@ var arrayTypeAnnotationQuery = annotation.ArrayQuery.Extend(func(query string) s
 `, query)
 })
 
-func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, source string) (*symbol.Array, error) {
+func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, _ string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
 	if err != nil {
@@ -373,7 +373,7 @@ var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.Extend(func
 `, query)
 })
 
-func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, source string) (annotation.Type, error) {
+func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string) (annotation.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	if err != nil {
@@ -397,7 +397,7 @@ var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.Extend(func
 		)`, query)
 })
 
-func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, source string) (*symbol.NumericLiteral, error) {
+func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, _ string) (*symbol.NumericLiteral, error) {
 	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
 	if err != nil {
@@ -445,7 +445,7 @@ var literalStringTypeQuery = annotation.LiteralStringQuery.Extend(func(query str
 	)`, query)
 })
 
-func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, source string) (*symbol.StringLiteral, error) {
+func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(literalStringTypeQuery)
 
 	if err != nil {
@@ -458,6 +458,10 @@ func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, source s
 
 	literalStringAnnotation := annotation.NewLiteralString(*match)
 	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
+}
+
+type TypeAnnotation struct {
+	Name string
 }
 
 func (tr *Transformer) getType(typ TypeAnnotation) (annotation.Type, error) {
