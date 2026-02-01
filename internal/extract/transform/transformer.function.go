@@ -10,43 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-type AtGenericAnnotation struct {
-	Name string
-	Type *TypeAnnotation
-}
-
-func (tr *Transformer) getAtGenericAnnotations(buffer *nvim.ScratchBuffer) ([]AtGenericAnnotation, error) {
-	atGenericAnnotations := []AtGenericAnnotation{}
-	matches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if matches == nil {
-		return atGenericAnnotations, nil
-	}
-
-	for _, matchCaptures := range *matches {
-		atGenenericsAnnotation := annotation.NewGenerics(matchCaptures)
-
-		for _, generic := range atGenenericsAnnotation.Generics() {
-			lexedGeneric := AtGenericAnnotation{
-				Name: generic.Name(),
-			}
-
-			if generic.Type() != nil {
-				lexedGeneric.Type = &TypeAnnotation{*generic.Type()}
-			}
-
-			atGenericAnnotations = append(atGenericAnnotations, lexedGeneric)
-		}
-
-	}
-
-	return atGenericAnnotations, nil
-}
-
 type AtOverloadAnnotation struct {
 	Type          TypeAnnotation
 	Documentation []string
@@ -151,7 +114,7 @@ func (tr *Transformer) getAtReturnAnnotations(buffer *nvim.ScratchBuffer) ([]AtR
 }
 
 type functionAtAnnotations struct {
-	AtGenerics  []AtGenericAnnotation
+	AtGenerics  []annotation.AtGenerics
 	AtParams    map[string]AtParamAnnotation
 	AtReturns   []AtReturnAnnotation
 	AtOverloads []AtOverloadAnnotation
@@ -159,7 +122,7 @@ type functionAtAnnotations struct {
 
 func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
 	annotations := functionAtAnnotations{
-		AtGenerics:  []AtGenericAnnotation{},
+		AtGenerics:  []annotation.AtGenerics{},
 		AtParams:    map[string]AtParamAnnotation{},
 		AtReturns:   []AtReturnAnnotation{},
 		AtOverloads: []AtOverloadAnnotation{},
@@ -179,10 +142,16 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	atGenerics, err := tr.getAtGenericAnnotations(buffer)
+	matches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
 
 	if err != nil {
 		return annotations, err
+	}
+
+	if matches != nil {
+		for _, match := range *matches {
+			annotations.AtGenerics = append(annotations.AtGenerics, *annotation.NewGenerics(match))
+		}
 	}
 
 	atParams, err := tr.getAtParamAnnotations(buffer)
@@ -203,7 +172,6 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	annotations.AtGenerics = atGenerics
 	annotations.AtParams = atParams
 	annotations.AtReturns = atReturns
 	annotations.AtOverloads = atOverloads
@@ -212,15 +180,7 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 
 func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
-
 	function.Name = functionOrigin.Name()
-
-	// TODO: remove
-	if functionOrigin.Static() {
-		function.Access = &symbol.FunctionClassAccess
-	} else {
-		function.Access = &symbol.FunctionIstanceAccess
-	}
 
 	for _, arg := range functionOrigin.Args() {
 		function.Arguments = append(function.Arguments, *symbol.NewFunctionArgument(arg))
@@ -232,20 +192,22 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		return nil, fmt.Errorf("Error lexing function %s: %w", function.Name, err)
 	}
 
-	for _, genericAnnotation := range annotations.AtGenerics {
-		generic := symbol.NewFunctionGeneric(genericAnnotation.Name, nil)
+	for _, genericsAnnotation := range annotations.AtGenerics {
+		for _, genericAnnotation := range genericsAnnotation.Generics() {
+			generic := symbol.NewFunctionGeneric(genericAnnotation.Name(), nil)
 
-		if genericAnnotation.Type != nil {
-			genericType, err := tr.getType(*genericAnnotation.Type)
+			if genericAnnotation.Type() != nil {
+				genericType, err := tr.getType(TypeAnnotation{*genericAnnotation.Type()})
 
-			if err != nil {
-				return nil, err
+				if err != nil {
+					return nil, err
+				}
+
+				generic.Type = genericType
 			}
 
-			generic.Type = genericType
+			function.Generics = append(function.Generics, *generic)
 		}
-
-		function.Generics = append(function.Generics, *generic)
 	}
 
 	for argIndex := range function.Arguments {

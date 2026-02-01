@@ -2,16 +2,10 @@ package symbol
 
 import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 
-var (
-	FunctionClassAccess   string = "class"
-	FunctionIstanceAccess string = "instance"
-)
-
 const functionKind string = "function"
 
 type Function struct {
 	Kind      string             `json:"kind" yaml:"kind" mapstructure:"kind"`
-	Access    *string            `json:"access,omitempty" yaml:"access,omitempty" mapstructure:"access,omitempty"`
 	Arguments []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
 	Generics  []FunctionGeneric  `json:"generics" yaml:"generics" mapstructure:"generics"`
 	Name      string             `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
@@ -69,7 +63,7 @@ func NewFunction() *Function {
 
 func NewFunctionGeneric(name string, typ annotation.Type) *FunctionGeneric {
 	return &FunctionGeneric{
-		Name:  name,
+		Name: name,
 		Type: typ,
 	}
 }
