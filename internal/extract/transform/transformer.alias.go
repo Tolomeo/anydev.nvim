@@ -8,7 +8,7 @@ import (
 )
 
 func (tr *Transformer) getAliasOriginType(aliasOrigin *origin.AliasOrigin) (annotation.Type, error) {
-	lexedAlias, err := tr.getType(TypeAnnotation{aliasOrigin.Type()})
+	lexedAlias, err := tr.getType(aliasOrigin.Type())
 
 	if err != nil {
 		return nil, err
@@ -18,7 +18,7 @@ func (tr *Transformer) getAliasOriginType(aliasOrigin *origin.AliasOrigin) (anno
 }
 
 func (tr *Transformer) lexAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (annotation.Type, error) {
-	enumeratorType, err := tr.getType(TypeAnnotation{strings.Join(aliasEnumeratorOrigin.Types(), "|")})
+	enumeratorType, err := tr.getType(strings.Join(aliasEnumeratorOrigin.Types(), "|"))
 
 	if err != nil {
 		return nil, err

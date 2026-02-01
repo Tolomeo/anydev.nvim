@@ -114,7 +114,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			generic := symbol.NewFunctionGeneric(genericAnnotation.Name(), nil)
 
 			if genericAnnotation.Type() != nil {
-				genericType, err := tr.getType(TypeAnnotation{*genericAnnotation.Type()})
+				genericType, err := tr.getType(*genericAnnotation.Type())
 
 				if err != nil {
 					return nil, err
@@ -142,7 +142,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		}); isGeneric {
 			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			argumentType, err := tr.getType(TypeAnnotation{paramAnnotation.Type()})
+			argumentType, err := tr.getType(paramAnnotation.Type())
 
 			if err != nil {
 				return nil, err
@@ -163,7 +163,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		}); isGeneric {
 			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
 		} else {
-			typ, err := tr.getType(TypeAnnotation{returnAnnotation.Type()})
+			typ, err := tr.getType(returnAnnotation.Type())
 
 			if err != nil {
 				return nil, err
@@ -176,7 +176,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 	}
 
 	for _, overloadAnnotation := range annotations.AtOverloads {
-		overloadType, err := tr.getType(TypeAnnotation{overloadAnnotation.Type()})
+		overloadType, err := tr.getType(overloadAnnotation.Type())
 
 		if err != nil {
 			return nil, fmt.Errorf("Error lexing function overload annotation type: %w", err)

@@ -11,7 +11,7 @@ import (
 )
 
 type AtTypeAnnotation struct {
-	Types         []TypeAnnotation
+	Types         []string
 	Documentation []string
 }
 
@@ -30,7 +30,7 @@ func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtType
 	atType := AtTypeAnnotation{}
 
 	for _, typ := range atTypeAnnotation.Types() {
-		atType.Types = append(atType.Types, TypeAnnotation{typ})
+		atType.Types = append(atType.Types, typ)
 	}
 
 	return &atType, nil
@@ -57,7 +57,7 @@ func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (an
 	}
 
 	optionalAnnotation := annotation.NewOptional(*match)
-	optionalType, err := tr.getType(TypeAnnotation{optionalAnnotation.Type()})
+	optionalType, err := tr.getType(optionalAnnotation.Type())
 
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	returns := []symbol.FunctionReturn{}
 
 	for _, annotationArg := range functionAnnotation.Arguments() {
-		argType, err := tr.getType(TypeAnnotation{annotationArg.Type()})
+		argType, err := tr.getType(annotationArg.Type())
 
 		if err != nil {
 			return nil, err
@@ -107,7 +107,7 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	}
 
 	for _, annotationReturn := range functionAnnotation.Returns() {
-		returnType, err := tr.getType(TypeAnnotation{annotationReturn.Type()})
+		returnType, err := tr.getType(annotationReturn.Type())
 
 		if err != nil {
 			return nil, err
@@ -148,13 +148,13 @@ func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, 
 	tableAnnotation := annotation.NewTable(*match)
 	table := symbol.NewTable()
 
-	keyType, err := tr.getType(TypeAnnotation{tableAnnotation.Key()})
+	keyType, err := tr.getType(tableAnnotation.Key())
 
 	if err != nil {
 		return nil, err
 	}
 
-	valueType, err := tr.getType(TypeAnnotation{tableAnnotation.Value()})
+	valueType, err := tr.getType(tableAnnotation.Value())
 
 	if err != nil {
 		return nil, err
@@ -230,7 +230,7 @@ func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, _ string) (*symb
 	}
 
 	arrayAnnotation := annotation.NewArray(*match)
-	itemsType, err := tr.getType(TypeAnnotation{arrayAnnotation.ItemsType()})
+	itemsType, err := tr.getType(arrayAnnotation.ItemsType())
 
 	if err != nil {
 		return nil, err
@@ -278,7 +278,7 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 		for _, fieldType := range literalTableType.Fields() {
 			tableField := symbol.NewTableField()
 			tableField.Name = fieldType.Key()
-			tableFieldType, err := tr.getType(TypeAnnotation{fieldType.Value()})
+			tableFieldType, err := tr.getType(fieldType.Value())
 
 			if err != nil {
 				return nil, err
@@ -290,13 +290,13 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 
 		for _, indexType := range literalTableType.Indexes() {
 			tableIndex := symbol.NewTableIndex()
-			tableIndexKey, err := tr.getType(TypeAnnotation{indexType.Key()})
+			tableIndexKey, err := tr.getType(indexType.Key())
 
 			if err != nil {
 				return nil, err
 			}
 
-			tableIndexValue, err := tr.getType(TypeAnnotation{indexType.Value()})
+			tableIndexValue, err := tr.getType(indexType.Value())
 
 			if err != nil {
 				return nil, err
@@ -339,7 +339,7 @@ func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (
 	unionTypes := []annotation.Type{}
 
 	for _, typ := range unionAnnotation.Types() {
-		unionType, err := tr.getType(TypeAnnotation{typ})
+		unionType, err := tr.getType(typ)
 
 		if err != nil {
 			return nil, err
@@ -385,7 +385,7 @@ func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string
 	}
 
 	parenthesizedAnnotation := annotation.NewParenthesized(*match)
-	return tr.getType(TypeAnnotation{parenthesizedAnnotation.Type()})
+	return tr.getType(parenthesizedAnnotation.Type())
 }
 
 var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.Extend(func(query string) string {
@@ -460,12 +460,8 @@ func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string
 	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
 }
 
-type TypeAnnotation struct {
-	Name string
-}
-
-func (tr *Transformer) getType(typ TypeAnnotation) (annotation.Type, error) {
-	source := strings.TrimSpace(typ.Name)
+func (tr *Transformer) getType(typ string) (annotation.Type, error) {
+	source := strings.TrimSpace(typ)
 	builtinType := tr.getBuiltinType(strings.TrimSpace(source))
 
 	if builtinType != nil {
