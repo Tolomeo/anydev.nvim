@@ -4,6 +4,18 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
+const (
+	VariableDeclaration string = "variable_declaration"
+	AssignmentStatement string = "assignment_statement"
+	FunctionDeclaration string = "function_declaration"
+	Comment             string = "comment"
+	Documentation       string = "documentation"
+	ClassAnnotation     string = "class_annotation"
+	FieldAnnotation     string = "field_annotation"
+	AliasAnnotation     string = "alias_annotation"
+	Field               string = "field"
+)
+
 type Origin interface {
 	Url() string
 	Line() uint

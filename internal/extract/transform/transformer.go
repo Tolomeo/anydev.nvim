@@ -55,6 +55,13 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		}
 		lexedCache.Set(functionType, cacheId...)
 		return functionType, nil
+	case *origin.ValueOrigin:
+		valueType, err := tr.getValueOriginType(ot)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(valueType, cacheId...)
+		return valueType, nil
 	case *origin.VirtualOrigin:
 		metaType, err := tr.getVirtualOriginType(ot)
 		if err != nil {
@@ -70,7 +77,7 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		lexedCache.Set(aliasType, cacheId...)
 		return aliasType, nil
 	case *origin.AliasEnumeratorOrigin:
-		aliasEnumeratorType, err := tr.lexAliasEnumeratorType(ot)
+		aliasEnumeratorType, err := tr.getAliasEnumeratorType(ot)
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +90,7 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		}
 		lexedCache.Set(classType, cacheId...)
 		return classType, nil
-	case *origin.FieldOrigin:
+	case *origin.FieldAnnotationOrigin:
 		fieldType, err := tr.getFieldOriginType(ot)
 		if err != nil {
 			return nil, err

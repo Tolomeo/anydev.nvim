@@ -17,7 +17,7 @@ func (tr *Transformer) getAliasOriginType(aliasOrigin *origin.AliasOrigin) (anno
 	return lexedAlias, nil
 }
 
-func (tr *Transformer) lexAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (annotation.Type, error) {
+func (tr *Transformer) getAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (annotation.Type, error) {
 	enumeratorType, err := tr.getType(strings.Join(aliasEnumeratorOrigin.Types(), "|"))
 
 	if err != nil {

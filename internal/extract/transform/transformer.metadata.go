@@ -17,7 +17,7 @@ func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata
 	case *origin.ClassOrigin:
 		return meta, nil
 
-	case *origin.FieldOrigin:
+	case *origin.FieldAnnotationOrigin:
 		meta.SetPrivate(symbolOriginType.Private())
 		meta.SetProtected(symbolOriginType.Protected())
 		meta.SetPackage(symbolOriginType.Package())

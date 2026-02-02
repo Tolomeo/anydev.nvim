@@ -33,7 +33,7 @@ var FieldAnnotationQuery = treesitter.Query{
 	) @field`, annotation.AnyTypeQuery),
 }
 
-type FieldOrigin struct {
+type FieldAnnotationOrigin struct {
 	origin
 	definition string
 	name       string
@@ -44,27 +44,27 @@ type FieldOrigin struct {
 	type_      string
 }
 
-func (fo *FieldOrigin) Definition() []string {
+func (fo *FieldAnnotationOrigin) Definition() []string {
 	return strings.Split(fo.definition, "\n")
 }
 
-func (fo *FieldOrigin) Name() string {
+func (fo *FieldAnnotationOrigin) Name() string {
 	return fo.name
 }
 
-func (fo *FieldOrigin) Private() bool {
+func (fo *FieldAnnotationOrigin) Private() bool {
 	return fo.private
 }
 
-func (fo *FieldOrigin) Protected() bool {
+func (fo *FieldAnnotationOrigin) Protected() bool {
 	return fo.protected
 }
 
-func (fo *FieldOrigin) Package() bool {
+func (fo *FieldAnnotationOrigin) Package() bool {
 	return fo.package_
 }
 
-func (fo *FieldOrigin) Type() string {
+func (fo *FieldAnnotationOrigin) Type() string {
 	if fo.optional {
 		return fmt.Sprintf("(%s)?", fo.type_)
 	}
@@ -72,8 +72,8 @@ func (fo *FieldOrigin) Type() string {
 	return fo.type_
 }
 
-func NewFieldOrigin(location nvim.Location, captures nvim.TsQueryMatch) *FieldOrigin {
-	fieldOrigin := FieldOrigin{
+func NewFieldAnnotationOrigin(location nvim.Location, captures nvim.TsQueryMatch) *FieldAnnotationOrigin {
+	fieldOrigin := FieldAnnotationOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,

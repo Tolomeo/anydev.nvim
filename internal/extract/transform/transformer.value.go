@@ -5,12 +5,12 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 )
 
-func (tr *Transformer) getFieldOriginType(fieldOrigin *origin.FieldAnnotationOrigin) (annotation.Type, error) {
-	lexedField, err := tr.getType(fieldOrigin.Type())
+func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (annotation.Type, error) {
+	valueType, err := tr.getType(valueOrigin.Type())
 
 	if err != nil {
 		return nil, err
 	}
 
-	return lexedField, nil
+	return valueType, nil
 }

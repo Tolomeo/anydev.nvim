@@ -14,7 +14,7 @@ const debug = true
 // var values []string = []string{"vim.validate"}
 // var values []string = []string{"vim.validate", "vim.F"}
 // var values []string = []string{"vim.loop"}
-var values []string = []string{"vim.lsp.protocol.Methods"}
+var values []string = []string{"vim.log"}
 
 // var values []string = []string{"vim.F", "vim.validate", "vim.loop"}
 

@@ -6,9 +6,9 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
+	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
-	"github.com/Tolomeo/anydev.nvim/internal/log"
 )
 
 type Options struct {
@@ -58,8 +58,6 @@ func (e *extractor) extract(item *extraction) error {
 	for {
 		current, err = current()
 
-		e.extractions[len(e.extractions)-1] = item
-
 		if err != nil {
 			return err
 		}
@@ -74,6 +72,8 @@ func (e *extractor) extract(item *extraction) error {
 func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
 
+	placeholder := symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
+
 	switch kind {
 	case target.TargetKindValue:
 		_, hasSymbol := e.result.Runtime[name]
@@ -81,14 +81,14 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
-		e.result.Runtime[name] = symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
+		e.result.Runtime[name] = placeholder
 	case target.TargetKindType:
 		_, hasSymbol := e.result.Types[name]
 		if hasSymbol {
 			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
 			return nil
 		}
-		e.result.Types[name] = symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
+		e.result.Types[name] = placeholder
 	}
 
 	extraction := e.newExtraction(kind, name)
@@ -104,11 +104,13 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 		return nil
 	}
 
-	switch extraction.Target().Kind() {
+	extractionResult := symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
+
+	switch kind {
 	case target.TargetKindValue:
-		e.result.Runtime[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
+		e.result.Runtime[name] = extractionResult
 	case target.TargetKindType:
-		e.result.Types[extraction.Target().Name()] = symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
+		e.result.Types[name] = extractionResult
 	}
 
 	return nil
@@ -136,7 +138,7 @@ func (e *extractor) initNvim(options Options) error {
 		client, err = nvim.New(
 			nvimConfig,
 			nvim.WithArguments(
-				fmt.Sprintf("-V%d%s", 10, path.Join(tmpDir, "nvim.verbosefile")),
+				fmt.Sprintf("-V%d%s", 1, path.Join(tmpDir, "nvim.verbosefile")),
 				"--listen", path.Join(tmpDir, "nvim.server.pipe"),
 			),
 		)

@@ -11,7 +11,7 @@ import (
 
 func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
-		treesitter.ASSIGNMENT_STATEMENT: []treesitter.Query{
+		origin.AssignmentStatement: []treesitter.Query{
 			{
 				Language: origin.TableFieldAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldAssignmentQuery.Query),
@@ -45,7 +45,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableAssignmentQuery.Query),
 			},
 		},
-		treesitter.VARIABLE_DECLARATION: []treesitter.Query{
+		origin.VariableDeclaration: []treesitter.Query{
 			{
 				Language: origin.FunctionVariableDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionVariableDeclarationQuery.Query),
@@ -55,7 +55,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableVariableDeclarationQuery.Query),
 			},
 		},
-		treesitter.FUNCTION_DECLARATION: []treesitter.Query{
+		origin.FunctionDeclaration: []treesitter.Query{
 			{
 				Language: origin.FunctionDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionDeclarationQuery.Query),
@@ -69,7 +69,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotDeclarationQuery.Query),
 			},
 		},
-		treesitter.ALIAS_ANNOTATION: []treesitter.Query{
+		origin.AliasAnnotation: []treesitter.Query{
 			{
 				Language: origin.AliasAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
@@ -85,7 +85,7 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
-		treesitter.CLASS_ANNOTATION: []treesitter.Query{
+		origin.ClassAnnotation: []treesitter.Query{
 			{
 				Language: origin.ClassAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
@@ -94,14 +94,40 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
 		},
-		treesitter.FIELD_ANNOTATION: []treesitter.Query{
+		origin.FieldAnnotation: []treesitter.Query{
 			{
 				Language: origin.FieldAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
-				) @origin.field`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
+				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
 			},
+		},
+		origin.Field: []treesitter.Query{
+			origin.TableConstructorFieldAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @table.name "%s")
+				) @origin.table`, query, c.context.Target().Name())
+			}),
+			origin.TableConstructorFieldIndexAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @table.name "%s")
+				) @origin.table`, query, c.context.Target().Name())
+			}),
+			origin.ValueFieldAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @field.name "%s")
+				) @origin.value`, query, c.context.Target().Name())
+			}),
+			origin.ValueFieldIndexAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @field.name "%s")
+				) @origin.value`, query, c.context.Target().Name())
+			}),
 		},
 	}
 }
@@ -203,8 +229,8 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewAliasEnumeratorOrigin(location, queryResult.Match), nil
 	}
 
-	if _, isField := queryResult.Match.Find("origin.field"); isField {
-		return origin.NewFieldOrigin(location, queryResult.Match), nil
+	if _, isFieldAnnotation := queryResult.Match.Find("origin.fieldannotation"); isFieldAnnotation {
+		return origin.NewFieldAnnotationOrigin(location, queryResult.Match), nil
 	}
 
 	documentation, err := c.getAnnotations(location)
@@ -221,6 +247,10 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
 	}
 
+	if _, isValue := queryResult.Match.Find("origin.value"); isValue {
+		return origin.NewValueOrigin(location, queryResult.Match, documentation), nil
+	}
+
 	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
 		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
 	}
@@ -229,7 +259,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
 	}
 
-	if _, isMeta := queryResult.Match.Find("origin.meta"); isMeta {
+	if _, isVirtual := queryResult.Match.Find("origin.meta"); isVirtual {
 		return origin.NewVirtualOrigin(location, queryResult.Match, documentation), nil
 	}
 

@@ -7,6 +7,40 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
+/*
+	F = {
+		...
+	    T = {},
+		...
+	}
+*/
+var TableConstructorFieldAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(field
+		name: (identifier) @table.name
+		value: (table_constructor) @table.value
+	) @table`,
+}
+
+/*
+	F = {
+		...
+	    ['T'] = {},
+		...
+	}
+*/
+var TableConstructorFieldIndexAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(field
+		name: (string
+			content: (string_content) @table.name
+		)
+		value: (table_constructor) @table.value
+	) @table`,
+}
+
 // local T = {}
 var TableVariableDeclarationQuery = treesitter.Query{
 	Language: "lua",

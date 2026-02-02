@@ -338,7 +338,7 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	// clamping the received character to be inside the line
 	character = max(0, min(character, uint(len(lines[0])-1)))
 
-	node, err := n.getTSNodeAt([]string{treesitter.COMMENT}, line, character)
+	node, err := n.getTSNodeAt([]string{"comment"}, line, character)
 
 	switch {
 	case err != nil:
