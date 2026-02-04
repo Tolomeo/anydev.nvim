@@ -48,7 +48,7 @@ func (e *extractor) Flush() {
 }
 
 func (e *extractor) extract(item *extraction) error {
-	e.logger.Infof("Extracting '%s'", item.Target().Identifier())
+	e.logger.Infof("Extracting '%s'", item.target.Identifier())
 
 	e.extractions = append(e.extractions, item)
 
@@ -98,13 +98,13 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.Target().Type())
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.target.Type())
 
-	if extraction.Target().Type() == nil {
+	if extraction.target.Type() == nil {
 		return nil
 	}
 
-	extractionResult := symbol.NewSymbol(name, extraction.Target().Meta(), extraction.Target().Documentation(), extraction.Target().Type())
+	extractionResult := symbol.NewSymbol(name, extraction.target.Meta(), extraction.target.Documentation(), extraction.target.Type())
 
 	switch kind {
 	case target.TargetKindValue:

@@ -63,11 +63,13 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	}
 
 	for _, fieldName := range tableFields {
-		err := tr.context.ExtractChild(table, fieldName)
+		fieldSymbol, err := tr.context.ExtractChild(table, fieldName)
 
 		if err != nil {
 			return nil, err
 		}
+
+		table.Fields = append(table.Fields, *fieldSymbol)
 	}
 
 	return table, nil
@@ -75,12 +77,6 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 }
 
 func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin, atEnum annotation.AtEnum) (*symbol.Table, error) {
-	err := tr.context.Extract("type", atEnum.Name())
-
-	if err != nil {
-		return nil, err
-	}
-
 	table := symbol.NewTable()
 	table.Name = tableOrigin.Name()
 	tableFields, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
@@ -93,6 +89,12 @@ func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin,
 
 	for _, fieldName := range tableFields {
 		tr.context.AddChild(table, fieldName, *symbol.NewMetadata(), []string{}, fieldsType)
+	}
+
+	err = tr.context.Extract("type", atEnum.Name())
+
+	if err != nil {
+		return nil, err
 	}
 
 	return table, nil

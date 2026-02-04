@@ -8,12 +8,13 @@ const (
 	VariableDeclaration string = "variable_declaration"
 	AssignmentStatement string = "assignment_statement"
 	FunctionDeclaration string = "function_declaration"
+	Field               string = "field"
 	Comment             string = "comment"
 	Documentation       string = "documentation"
 	ClassAnnotation     string = "class_annotation"
 	FieldAnnotation     string = "field_annotation"
 	AliasAnnotation     string = "alias_annotation"
-	Field               string = "field"
+	EnumAnnotation      string = "enum_annotation"
 )
 
 type Origin interface {

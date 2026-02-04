@@ -16,7 +16,12 @@ var AtEnumQuery = treesitter.Query{
 }
 
 type AtEnum struct {
+	text string
 	name string
+}
+
+func (ae *AtEnum) Text() string {
+	return ae.text
 }
 
 func (ae *AtEnum) Name() string {
@@ -28,6 +33,8 @@ func NewAtEnum(captures nvim.TsQueryMatch) *AtEnum {
 
 	for _, capture := range captures {
 		switch capture.Id {
+		case "enum":
+			atEnum.text = capture.Node.Text
 		case "enum.name":
 			atEnum.name = capture.Node.Text
 		}

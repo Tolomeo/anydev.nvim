@@ -17,7 +17,7 @@ type ctx interface {
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
-	ExtractChild(*symbol.Table, string) error
+	ExtractChild(*symbol.Table, string) (*symbol.TableField, error)
 	AddChild(*symbol.Table, string, symbol.Metadata, []string, annotation.Type)
 }
 
@@ -98,6 +98,13 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		}
 		lexedCache.Set(fieldType, cacheId...)
 		return fieldType, nil
+	case *origin.EnumOrigin:
+		enumSymbol, err := tr.getEnumeratorOriginType(ot)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(enumSymbol, cacheId...)
+		return enumSymbol, nil
 	}
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", tr.context.Target().Identifier(), tr.context.Target().Origin())

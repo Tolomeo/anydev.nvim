@@ -15,7 +15,7 @@ type extractionContext struct {
 }
 
 func (c *extractionContext) Target() *target.Target {
-	return c.target.Target()
+	return c.target.target
 }
 
 func (c *extractionContext) Logger() *log.Logger {
@@ -30,14 +30,14 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 	return c.target.extractor.Extract(kind, name)
 }
 
-func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
-	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.Target().Kind())
+func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) (*symbol.TableField, error) {
+	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.target.Kind())
 
-	childExtraction := c.target.extractor.newChildExtraction(c.target.Target(), name)
+	childExtraction := c.target.extractor.newChildExtraction(c.target.target, name)
 	err := c.target.extractor.extract(childExtraction)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	field := symbol.NewTableField()
@@ -46,16 +46,14 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 	field.Documentation = symbol.Documentation{}
 	field.Type = symbol.NewUnknown()
 
-	if childExtraction.Target().Type() == nil {
-		parent.Fields = append(parent.Fields, *field)
-		return nil
+	if childExtraction.target.Type() == nil {
+		return field, nil
 	}
 
-	field.Documentation = childExtraction.Target().Documentation()
-	field.Type = childExtraction.Target().Type()
+	field.Documentation = childExtraction.target.Documentation()
+	field.Type = childExtraction.target.Type()
 
-	parent.Fields = append(parent.Fields, *field)
-	return nil
+	return field, nil
 }
 
 func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ annotation.Type) {
@@ -76,7 +74,7 @@ type extraction struct {
 	target      *target.Target
 }
 
-func (t *extraction) Target() *target.Target {
+/* func (t *extraction) Target() *target.Target {
 	return t.target
 }
 
@@ -90,35 +88,7 @@ func (t *extraction) Nvim() *nvim.Nvim {
 
 func (t *extraction) Extract(kind target.TargetKind, name string) error {
 	return t.extractor.Extract(kind, name)
-}
-
-func (t *extraction) ExtractChild(parent *symbol.Table, name string) error {
-	t.logger.Infof("Beginning the extraction of '%s' %s child target", name, t.target.Kind())
-
-	childExtraction := t.extractor.newChildExtraction(t.target, name)
-	err := t.extractor.extract(childExtraction)
-
-	if err != nil {
-		return err
-	}
-
-	field := symbol.NewTableField()
-	field.Name = name
-	field.Metadata = symbol.Metadata{}
-	field.Documentation = symbol.Documentation{}
-	field.Type = symbol.NewUnknown()
-
-	if childExtraction.Target().Type() == nil {
-		parent.Fields = append(parent.Fields, *field)
-		return nil
-	}
-
-	field.Documentation = childExtraction.Target().Documentation()
-	field.Type = childExtraction.target.Type()
-
-	parent.Fields = append(parent.Fields, *field)
-	return nil
-}
+} */
 
 type extractionStep func() (extractionStep, error)
 
@@ -138,7 +108,7 @@ func (t *extraction) getOriginChain() (extractionStep, error) {
 
 	t.logger.Info("Crawling complete")
 
-	t.Target().SetOriginChain(origin)
+	t.target.SetOriginChain(origin)
 
 	return t.getDocumentation, nil
 }
@@ -152,7 +122,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.Target().SetDocumentation(documentation)
+	t.target.SetDocumentation(documentation)
 
 	return t.getMetadata, nil
 }
@@ -170,7 +140,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 		return t.getType, nil
 	}
 
-	t.Target().SetMeta(*meta)
+	t.target.SetMeta(*meta)
 
 	return t.getType, nil
 }
@@ -184,7 +154,7 @@ func (t *extraction) getType() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.Target().SetType(typ)
+	t.target.SetType(typ)
 
 	return nil, nil
 }

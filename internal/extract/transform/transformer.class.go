@@ -15,11 +15,13 @@ func (tr *Transformer) getClassOriginType(classOrigin *origin.ClassOrigin) (*sym
 	}
 
 	for _, fieldName := range classFields {
-		err := tr.context.ExtractChild(class, fieldName)
+		fieldSymbol, err := tr.context.ExtractChild(class, fieldName)
 
 		if err != nil {
 			return nil, err
 		}
+
+		class.Fields = append(class.Fields, *fieldSymbol)
 	}
 
 	return class, nil

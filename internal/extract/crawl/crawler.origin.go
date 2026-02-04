@@ -9,7 +9,54 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
+func (c *Crawler) getTypeOriginMap() nvim.TsNodeQueryMap {
+	return nvim.TsNodeQueryMap{
+		origin.AliasAnnotation: []treesitter.Query{
+			{
+				Language: origin.AliasAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias`, origin.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+			{
+				Language: origin.AliasEnumeratorAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+		},
+		origin.ClassAnnotation: []treesitter.Query{
+			{
+				Language: origin.ClassAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @class.name "%s")
+				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+		},
+		origin.FieldAnnotation: []treesitter.Query{
+			{
+				Language: origin.FieldAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @field.name "%s")
+				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
+			},
+		},
+		origin.EnumAnnotation: []treesitter.Query{
+			origin.EnumAnnotationQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @enum.name "%s")
+				) @origin.enumannotation`, query, c.context.Target().Identifier())
+			}),
+		},
+	}
+}
+
+func (c *Crawler) getValueOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
 			{
@@ -69,40 +116,6 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotDeclarationQuery.Query),
 			},
 		},
-		origin.AliasAnnotation: []treesitter.Query{
-			{
-				Language: origin.AliasAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
-					(%s)
-					(#eq? @alias.name "%s")
-				) @origin.alias`, origin.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
-			{
-				Language: origin.AliasEnumeratorAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
-					(%s)
-					(#eq? @alias.name "%s")
-				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
-		},
-		origin.ClassAnnotation: []treesitter.Query{
-			{
-				Language: origin.ClassAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
-					(%s)
-					(#eq? @class.name "%s")
-				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
-		},
-		origin.FieldAnnotation: []treesitter.Query{
-			{
-				Language: origin.FieldAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
-					(%s)
-					(#eq? @field.name "%s")
-				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
-			},
-		},
 		origin.Field: []treesitter.Query{
 			origin.TableConstructorFieldAssignmentQuery.Extend(func(query string) string {
 				return fmt.Sprintf(`(
@@ -135,10 +148,19 @@ func (c *Crawler) getOriginQueryMap() nvim.TsNodeQueryMap {
 func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain, error) {
 	var locationOrigin origin.Origin
 	var err error
-	originQueryMap := c.getOriginQueryMap()
 
 	for _, location := range locations {
-		locationOrigin, err = c.getOrigin(location, originQueryMap)
+		locationOrigin, err = c.getAnnotationOrigin(location)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if locationOrigin != nil {
+			break
+		}
+
+		locationOrigin, err = c.getDefinitionOrigin(location)
 
 		if err != nil {
 			return nil, err
@@ -171,7 +193,7 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 	return origin.NewOriginChain(locationOrigin), nil
 }
 
-func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQueryMap) (origin.Origin, error) {
+func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, error) {
 	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 	if err != nil {
@@ -180,6 +202,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 
 	defer buffer.Close()
 
+	originQueryMap := c.getTypeOriginMap()
 	line, character :=
 		uint(location.TargetRange.Start.Line),
 		uint(location.TargetRange.Start.Character)
@@ -233,6 +256,36 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewFieldAnnotationOrigin(location, queryResult.Match), nil
 	}
 
+	if _, isEnumAnnotation := queryResult.Match.Find("origin.enumannotation"); isEnumAnnotation {
+		return origin.NewEnumAnnotationOrigin(location, queryResult.Match), nil
+	}
+
+	return nil, nil
+}
+
+func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, error) {
+	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	originQueryMap := c.getValueOriginQueryMap()
+	line, character :=
+		uint(location.TargetRange.Start.Line),
+		uint(location.TargetRange.Start.Character)
+	queryResult, err := buffer.QueryTsNodeAt(originQueryMap, line, character)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if queryResult == nil {
+		return nil, nil
+	}
+
 	documentation, err := c.getAnnotations(location)
 
 	if err != nil {
@@ -263,7 +316,7 @@ func (c *Crawler) getOrigin(location nvim.Location, originQueryMap nvim.TsNodeQu
 		return origin.NewVirtualOrigin(location, queryResult.Match, documentation), nil
 	}
 
-	return nil, fmt.Errorf("Unknown origin match received: location <%+v>, definition <%+v>", location, queryResult)
+	return nil, nil
 }
 
 func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (origin.OriginChain, error) {
