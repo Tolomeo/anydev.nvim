@@ -257,6 +257,43 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isEnumAnnotation := queryResult.Match.Find("origin.enumannotation"); isEnumAnnotation {
+		position := queryResult.Match.Range().Start
+		dockblock, err := buffer.GetTsCommentBlockAt(uint(position.Line), uint(position.Character))
+
+		if err != nil {
+			return nil, err
+		}
+
+		membersTablePosition := treesitter.LineRange{
+			Start: dockblock.Range.End.Line + 1,
+			End:   dockblock.Range.End.Line + 1,
+		}
+		membersTableMatch, err := buffer.TsQueryOne(origin.EnumAnnotationMembersQuery.Ranged(membersTablePosition))
+
+		if err != nil {
+			return nil, err
+		}
+
+		if membersTableMatch == nil {
+			return nil, fmt.Errorf("Could not find members definition for enumerator annotation origin found at <%+v>", location)
+		}
+
+		membersRange := membersTableMatch.LineRange()
+		membersMatch, err := buffer.TsQueryAll(origin.EnumAnnotationMemberQuery.Ranged(*membersRange))
+
+		if err != nil {
+			return nil, err
+		}
+
+		if membersMatch == nil {
+			return nil, fmt.Errorf("Could not find any member definition for enumerator annotation origin <%v> found at <%+v>", membersMatch, location)
+		}
+
+		queryResult.Match = queryResult.Match.Append(*membersTableMatch...)
+		for _, memberMatch := range *membersMatch {
+			queryResult.Match = queryResult.Match.Append(memberMatch...)
+		}
+
 		return origin.NewEnumAnnotationOrigin(location, queryResult.Match), nil
 	}
 

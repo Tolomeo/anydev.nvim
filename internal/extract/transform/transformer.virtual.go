@@ -41,11 +41,11 @@ func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOr
 	return annotations, nil
 }
 
-func (tr *Transformer) getVirtualOriginType(metaOrigin *origin.VirtualOrigin) (annotation.Type, error) {
+func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (annotation.Type, error) {
 	unknown := symbol.NewUnknown()
-	unknown.Documentation = metaOrigin.Annotations()
+	unknown.Documentation = virtualOrigin.Annotations()
 
-	annotations, err := tr.getVirtualOriginAnnotations(metaOrigin.Annotations())
+	annotations, err := tr.getVirtualOriginAnnotations(virtualOrigin.Annotations())
 
 	if err != nil {
 		return nil, err

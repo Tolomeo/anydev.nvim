@@ -144,7 +144,6 @@ func (m *TsQueryMatch) Range() *treesitter.Range {
 			Character: slices.Max(endCharacters),
 		},
 	}
-
 }
 
 func (n *Nvim) tsQueryAll(config treesitter.Query) (*[]TsQueryMatch, error) {
@@ -208,14 +207,12 @@ func (n *Nvim) tsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	return &match, nil
 }
 
-// var ErrSafeTSQueryNoMatch = errors.New("The parsed language tree contains errors")
-
 type SafeTsQueryResult struct {
 	HasError bool
 	Captures TsQueryMatch
 }
 
-func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+/* func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
 	match, err := n.tsQueryOne(query)
 
 	switch {
@@ -245,7 +242,7 @@ func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error
 			Captures: *match,
 		}, nil
 	}
-}
+} */
 
 func (n *Nvim) safeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
 	matches, err := n.tsQueryAll(query)

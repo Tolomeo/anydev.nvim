@@ -98,7 +98,7 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		}
 		lexedCache.Set(fieldType, cacheId...)
 		return fieldType, nil
-	case *origin.EnumOrigin:
+	case *origin.EnumeratorAnnotationOrigin:
 		enumSymbol, err := tr.getEnumeratorOriginType(ot)
 		if err != nil {
 			return nil, err
