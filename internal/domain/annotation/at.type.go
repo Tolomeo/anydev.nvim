@@ -29,7 +29,9 @@ func (at *AtType) Types() []string {
 }
 
 func NewAtType(captures nvim.TsQueryMatch) *AtType {
-	atType := AtType{}
+	atType := AtType{
+		types: []string{},
+	}
 
 	for _, capture := range captures {
 		switch capture.Id {

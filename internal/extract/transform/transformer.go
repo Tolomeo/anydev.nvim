@@ -3,10 +3,10 @@ package transform
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
@@ -18,6 +18,7 @@ type ctx interface {
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
+	AddChild(*symbol.Table, string, symbol.Metadata, []string, annotation.Type)
 }
 
 type Transformer struct {

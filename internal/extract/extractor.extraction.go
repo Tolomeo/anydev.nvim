@@ -1,6 +1,7 @@
 package extract
 
 import (
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
@@ -55,6 +56,15 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 
 	parent.Fields = append(parent.Fields, *field)
 	return nil
+}
+
+func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ annotation.Type) {
+	field := symbol.NewTableField()
+	field.Name = name
+	field.Metadata = metadata
+	field.Documentation = documentation
+	field.Type = typ
+	parent.Fields = append(parent.Fields, *field)
 }
 
 type extraction struct {

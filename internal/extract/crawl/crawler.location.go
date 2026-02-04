@@ -30,10 +30,6 @@ func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Loca
 		return nil, err
 	}
 
-	if locations == nil {
-		return nil, nil
-	}
-
 	return locations, nil
 }
 
@@ -59,10 +55,6 @@ func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, 
 
 	if err != nil {
 		return nil, err
-	}
-
-	if locations == nil {
-		return nil, nil
 	}
 
 	return locations, nil

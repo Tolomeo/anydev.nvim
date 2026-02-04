@@ -26,80 +26,56 @@
                             "fields": [
                                 {
                                     "name": "DEBUG",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.DEBUG: integer = 1",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 },
                                 {
                                     "name": "ERROR",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.ERROR: integer = 4",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 },
                                 {
                                     "name": "INFO",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.INFO: integer = 2",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 },
                                 {
                                     "name": "OFF",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.OFF: integer = 5",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 },
                                 {
                                     "name": "TRACE",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.TRACE: integer = 0",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 },
                                 {
                                     "name": "WARN",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.log.levels.WARN: integer = 3",
-                                        "```"
-                                    ],
+                                    "documentation": [],
                                     "meta": [],
                                     "type": {
-                                        "kind": "builtin",
-                                        "value": "number"
+                                        "kind": "reference",
+                                        "value": "vim.log.levels"
                                     }
                                 }
                             ],
@@ -113,5 +89,88 @@
             }
         }
     },
-    "types": {}
+    "types": {
+        "vim.log.levels": {
+            "name": "vim.log.levels",
+            "documentation": [
+                "```lua",
+                "(enum) vim.log.levels",
+                "```",
+                "",
+                "---",
+                "",
+                "```lua",
+                "{",
+                "    TRACE: integer = 0,",
+                "    DEBUG: integer = 1,",
+                "    INFO: integer = 2,",
+                "    WARN: integer = 3,",
+                "    ERROR: integer = 4,",
+                "    OFF: integer = 5,",
+                "}",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "DEBUG",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "ERROR",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "INFO",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "OFF",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "TRACE",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "WARN",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "log"
+            }
+        }
+    }
 }
