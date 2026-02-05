@@ -87,15 +87,6 @@ var AliasEnumeratorAnnotationQuery = treesitter.Query{
 	) @alias.enumerator`, annotation.AnyTypeQuery),
 }
 
-var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(continuation
-		(%s) @alias.type
-	)
-`, annotation.AnyTypeQuery),
-}
-
 type AliasEnumeratorOrigin struct {
 	origin
 	definition string
@@ -115,26 +106,41 @@ func (aeo *AliasEnumeratorOrigin) Types() []string {
 	return aeo.types
 }
 
-func NewAliasEnumeratorOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasEnumeratorOrigin {
+func NewAliasEnumeratorOrigin(location nvim.Location, aliasCaptures nvim.TsQueryMatch, membersCaptures ...nvim.TsQueryMatch) *AliasEnumeratorOrigin {
 	aliasEnumeratorOrigin := AliasEnumeratorOrigin{
 		origin: origin{
 			location:    location,
-			captures:    captures,
+			captures:    aliasCaptures,
 			annotations: []string{},
 		},
 		types: []string{},
 	}
 
-	for _, capture := range captures {
+	for _, capture := range aliasCaptures {
 		switch capture.Id {
 		case "alias.enumerator":
 			aliasEnumeratorOrigin.definition = capture.Node.Text
 		case "alias.name":
 			aliasEnumeratorOrigin.name = capture.Node.Text
-		case "alias.type":
-			aliasEnumeratorOrigin.types = append(aliasEnumeratorOrigin.types, capture.Node.Text)
+		}
+	}
+
+	for _, memberCaptures := range membersCaptures {
+		for _, capture := range memberCaptures {
+			switch capture.Id {
+			case "alias.type":
+				aliasEnumeratorOrigin.types = append(aliasEnumeratorOrigin.types, capture.Node.Text)
+			}
 		}
 	}
 
 	return &aliasEnumeratorOrigin
+}
+
+var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(continuation
+		(%s) @alias.type
+	)`, annotation.AnyTypeQuery),
 }

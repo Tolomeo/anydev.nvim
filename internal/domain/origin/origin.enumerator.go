@@ -10,7 +10,6 @@ import (
 
 var EnumAnnotationQuery = annotation.AtEnumQuery
 
-// TODO: add all table constructor possibilities
 var EnumAnnotationMembersQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
@@ -19,7 +18,7 @@ var EnumAnnotationMembersQuery = treesitter.Query{
 			name: (identifier)
 			value: [
 				(number)
-				(string content: (string_content))
+				(string)
 			]
 		)
 	) @enum.members`,
@@ -32,10 +31,9 @@ var EnumAnnotationMemberQuery = treesitter.Query{
 		name: (identifier) @enum.member.name
 		value: [
 			(number) @enum.member.value.number
-			(string content: (string_content) @enum.member.value.string)
+			(string) @enum.member.value.string
 		] @enum.member.value
-	) @enum.member
-	`,
+	) @enum.member`,
 }
 
 type enumOriginMember struct {
@@ -75,32 +73,37 @@ func (eo *EnumeratorAnnotationOrigin) Members() []enumOriginMember {
 	return eo.members
 }
 
-func NewEnumAnnotationOrigin(location nvim.Location, captures nvim.TsQueryMatch) *EnumeratorAnnotationOrigin {
+func NewEnumAnnotationOrigin(location nvim.Location, enumMatch nvim.TsQueryMatch, memberMatches ...nvim.TsQueryMatch) *EnumeratorAnnotationOrigin {
 	enumOrigin := EnumeratorAnnotationOrigin{
 		origin: origin{
 			location:    location,
-			captures:    captures,
+			captures:    enumMatch,
 			annotations: []string{},
 		},
 		members: []enumOriginMember{},
 	}
 
-	for _, capture := range captures {
+	for _, capture := range enumMatch {
 		switch capture.Id {
 		case "enum.name":
 			enumOrigin.name = capture.Node.Text
-		case "enum.members":
-			enumOrigin.definition = capture.Node.Text
-		case "enum.member.name":
-			enumOrigin.members = append(enumOrigin.members, enumOriginMember{
-				name: capture.Node.Text,
-			})
-		case "enum.member.value.number":
-			enumOrigin.members[len(enumOrigin.members)-1].value = capture.Node.Text
-			enumOrigin.members[len(enumOrigin.members)-1].type_ = "number"
-		case "enum.member.value.string":
-			enumOrigin.members[len(enumOrigin.members)-1].value = capture.Node.Text
-			enumOrigin.members[len(enumOrigin.members)-1].type_ = "string"
+		}
+	}
+
+	for _, memberMatches := range memberMatches {
+		for _, capture := range memberMatches {
+			switch capture.Id {
+			case "enum.members":
+				enumOrigin.definition = capture.Node.Text
+			case "enum.member.name":
+				enumOrigin.members = append(enumOrigin.members, enumOriginMember{name: capture.Node.Text})
+			case "enum.member.value.number":
+				enumOrigin.members[len(enumOrigin.members)-1].value = capture.Node.Text
+				enumOrigin.members[len(enumOrigin.members)-1].type_ = "number"
+			case "enum.member.value.string":
+				enumOrigin.members[len(enumOrigin.members)-1].value = capture.Node.Text
+				enumOrigin.members[len(enumOrigin.members)-1].type_ = "string"
+			}
 		}
 	}
 
