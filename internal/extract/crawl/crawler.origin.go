@@ -295,10 +295,6 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 			return nil, fmt.Errorf("Could not find any member definition for enumerator annotation origin <%v> found at <%+v>", memberMatches, location)
 		}
 
-		for _, m := range *memberMatches {
-			c.context.Logger().Debugf("Member match: %+v", m)
-		}
-
 		enumMemberMatches = append(enumMemberMatches, *memberMatches...)
 		return origin.NewEnumAnnotationOrigin(location, originMatch, enumMemberMatches...), nil
 	}

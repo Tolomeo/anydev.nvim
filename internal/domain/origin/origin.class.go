@@ -1,44 +1,25 @@
 package origin
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var ClassAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(class_annotation
-		"@class"
-		.
-		"(exact)"?
-		.
-		(identifier) @class.name
-		.
-		(":" 
-			. (%s) @class.parent
-			("," (%s) @class.parent)*
-		)?
-	) @class`, annotation.AnyTypeQuery, annotation.AnyTypeQuery),
-}
+var ClassAnnotationQuery = annotation.ClassAnnotationQuery
 
 type ClassOrigin struct {
 	origin
-	definition string
-	name       string
-	parents    []string
+	classAnnotation annotation.AtClass
 }
 
 func (co *ClassOrigin) Definition() []string {
-	return strings.Split(co.definition, "\n")
+	return strings.Split(co.classAnnotation.Match(), "\n")
 }
 
 func (co *ClassOrigin) Name() string {
-	return co.name
+	return co.classAnnotation.Name()
 }
 
 func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch) *ClassOrigin {
@@ -48,18 +29,7 @@ func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch) *ClassOr
 			captures:    captures,
 			annotations: []string{},
 		},
-		parents: []string{},
-	}
-
-	for _, capture := range captures {
-		switch capture.Id {
-		case "class":
-			classOrigin.definition = capture.Node.Text
-		case "class.name":
-			classOrigin.name = capture.Node.Text
-		case "class.parent":
-			classOrigin.parents = append(classOrigin.parents, capture.Node.Text)
-		}
+		classAnnotation: *annotation.NewClass(captures),
 	}
 
 	return &classOrigin
