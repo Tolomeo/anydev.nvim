@@ -18,7 +18,13 @@ func (tr *Transformer) getAliasOriginType(aliasOrigin *origin.AliasOrigin) (anno
 }
 
 func (tr *Transformer) getAliasEnumeratorType(aliasEnumeratorOrigin *origin.AliasEnumeratorOrigin) (annotation.Type, error) {
-	enumeratorType, err := tr.getType(strings.Join(aliasEnumeratorOrigin.Types(), "|"))
+	types := []string{}
+
+	for _, aliasEnumMember := range aliasEnumeratorOrigin.Members() {
+		types = append(types, aliasEnumMember.Type())
+	}
+
+	enumeratorType, err := tr.getType(strings.Join(types, "|"))
 
 	if err != nil {
 		return nil, err

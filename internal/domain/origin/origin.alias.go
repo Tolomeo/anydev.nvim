@@ -1,12 +1,10 @@
 package origin
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
 var AliasAnnotationQuery = annotation.AtAliasQuery
@@ -41,42 +39,26 @@ func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasOr
 	return &aliasOrigin
 }
 
-// Luadoc matches an empty type node even when the type is not present
-// That means that enum aliases have an empty type node defined
-var AliasEnumeratorAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`(
-		(alias_annotation
-			"@alias"
-			.
-			(identifier) @alias.name
-			.
-			(%s) @alias.emptytype
-			.
-			(comment)? @alias.documentation
-			.
-		)
-		(#eq? @alias.emptytype "")
-	) @alias.enumerator`, annotation.AnyTypeQuery),
-}
+var AliasEnumeratorAnnotationQuery = annotation.AtAliasEnumeratorQuery
+
+var AliasEnumeratorMemberAnnotationQuery = annotation.AtAliasEnumeratorMemberQuery
 
 type AliasEnumeratorOrigin struct {
 	origin
-	definition string
-	name       string
-	types      []string
+	enumeratorAnnotation        annotation.AtAliasEnumerator
+	enumeratorMemberAnnotations []annotation.AtAliasEnumeratorMember
 }
 
 func (aeo *AliasEnumeratorOrigin) Definition() []string {
-	return strings.Split(aeo.definition, "\n")
+	return strings.Split(aeo.enumeratorAnnotation.Match(), "\n")
 }
 
 func (aeo *AliasEnumeratorOrigin) Name() string {
-	return aeo.name
+	return aeo.enumeratorAnnotation.Name()
 }
 
-func (aeo *AliasEnumeratorOrigin) Types() []string {
-	return aeo.types
+func (aeo *AliasEnumeratorOrigin) Members() []annotation.AtAliasEnumeratorMember {
+	return aeo.enumeratorMemberAnnotations
 }
 
 func NewAliasEnumeratorOrigin(location nvim.Location, aliasCaptures nvim.TsQueryMatch, membersCaptures ...nvim.TsQueryMatch) *AliasEnumeratorOrigin {
@@ -86,34 +68,14 @@ func NewAliasEnumeratorOrigin(location nvim.Location, aliasCaptures nvim.TsQuery
 			captures:    aliasCaptures,
 			annotations: []string{},
 		},
-		types: []string{},
-	}
-
-	for _, capture := range aliasCaptures {
-		switch capture.Id {
-		case "alias.enumerator":
-			aliasEnumeratorOrigin.definition = capture.Node.Text
-		case "alias.name":
-			aliasEnumeratorOrigin.name = capture.Node.Text
-		}
+		enumeratorAnnotation:        *annotation.NewAtAliasEnumerator(aliasCaptures),
+		enumeratorMemberAnnotations: []annotation.AtAliasEnumeratorMember{},
 	}
 
 	for _, memberCaptures := range membersCaptures {
-		for _, capture := range memberCaptures {
-			switch capture.Id {
-			case "alias.type":
-				aliasEnumeratorOrigin.types = append(aliasEnumeratorOrigin.types, capture.Node.Text)
-			}
-		}
+		aliasEnumeratorOrigin.enumeratorMemberAnnotations =
+			append(aliasEnumeratorOrigin.enumeratorMemberAnnotations, *annotation.NewAtAliasEnumeratorMember(memberCaptures))
 	}
 
 	return &aliasEnumeratorOrigin
-}
-
-var AliasEnumeratorMemberAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`
-	(continuation
-		(%s) @alias.type
-	)`, annotation.AnyTypeQuery),
 }
