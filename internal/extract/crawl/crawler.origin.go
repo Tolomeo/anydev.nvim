@@ -216,18 +216,18 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	// match := queryResult.Match
+	originMatch := queryResult.Match
 
-	if _, isClass := queryResult.Match.Find("origin.class"); isClass {
-		return origin.NewClassOrigin(location, queryResult.Match), nil
+	if _, isClass := originMatch.Find("origin.class"); isClass {
+		return origin.NewClassOrigin(location, originMatch), nil
 	}
 
-	if _, isAlias := queryResult.Match.Find("origin.alias"); isAlias {
-		return origin.NewAliasOrigin(location, queryResult.Match), nil
+	if _, isAlias := originMatch.Find("origin.alias"); isAlias {
+		return origin.NewAliasOrigin(location, originMatch), nil
 	}
 
-	if _, isAliasEnumerator := queryResult.Match.Find("origin.alias.enumerator"); isAliasEnumerator {
-		nextLines, err := buffer.NextLineIterator(uint(queryResult.Match.LineRange().Start + 1))
+	if _, isAliasEnumerator := originMatch.Find("origin.alias.enumerator"); isAliasEnumerator {
+		nextLines, err := buffer.NextLineIterator(uint(originMatch.LineRange().Start + 1))
 
 		if err != nil {
 			return nil, err
@@ -253,22 +253,22 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 			memberMatches = append(memberMatches, *match)
 		}
 
-		return origin.NewAliasEnumeratorOrigin(location, queryResult.Match, memberMatches...), nil
+		return origin.NewAliasEnumeratorOrigin(location, originMatch, memberMatches...), nil
 	}
 
-	if _, isFieldAnnotation := queryResult.Match.Find("origin.fieldannotation"); isFieldAnnotation {
-		return origin.NewFieldAnnotationOrigin(location, queryResult.Match), nil
+	if _, isFieldAnnotation := originMatch.Find("origin.fieldannotation"); isFieldAnnotation {
+		return origin.NewFieldAnnotationOrigin(location, originMatch), nil
 	}
 
-	if _, isEnumAnnotation := queryResult.Match.Find("origin.enumannotation"); isEnumAnnotation {
-		position := queryResult.Match.Range().Start
+	if _, isEnumAnnotation := originMatch.Find("origin.enumannotation"); isEnumAnnotation {
+		enumMemberMatches := []nvim.TsQueryMatch{}
+
+		position := originMatch.Range().Start
 		dockblock, err := buffer.GetTsCommentBlockAt(uint(position.Line), uint(position.Character))
 
 		if err != nil {
 			return nil, err
 		}
-
-		enumMemberMatches := []nvim.TsQueryMatch{}
 
 		membersPosition := treesitter.LineRange{
 			Start: dockblock.Range.End.Line + 1,
@@ -297,7 +297,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 
 		enumMemberMatches = append(enumMemberMatches, *membersMatch)
 		enumMemberMatches = append(enumMemberMatches, *memberMatches...)
-		return origin.NewEnumAnnotationOrigin(location, queryResult.Match, enumMemberMatches...), nil
+		return origin.NewEnumAnnotationOrigin(location, originMatch, enumMemberMatches...), nil
 	}
 
 	return nil, nil
@@ -326,34 +326,35 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	documentation, err := c.getAnnotations(location)
+	originMatch := queryResult.Match
+	originAnnotations, err := c.getAnnotations(location)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if _, isFunction := queryResult.Match.Find("origin.function"); isFunction {
-		return origin.NewFunctionOrigin(location, queryResult.Match, documentation), nil
+	if _, isFunction := originMatch.Find("origin.function"); isFunction {
+		return origin.NewFunctionOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isTable := queryResult.Match.Find("origin.table"); isTable {
-		return origin.NewTableOrigin(location, queryResult.Match, documentation), nil
+	if _, isTable := originMatch.Find("origin.table"); isTable {
+		return origin.NewTableOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isValue := queryResult.Match.Find("origin.value"); isValue {
-		return origin.NewValueOrigin(location, queryResult.Match, documentation), nil
+	if _, isValue := originMatch.Find("origin.value"); isValue {
+		return origin.NewValueOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isVariable := queryResult.Match.Find("origin.variable"); isVariable {
-		return origin.NewVariableOrigin(location, queryResult.Match, documentation), nil
+	if _, isVariable := originMatch.Find("origin.variable"); isVariable {
+		return origin.NewVariableOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isModule := queryResult.Match.Find("origin.module"); isModule {
-		return origin.NewModuleOrigin(location, queryResult.Match, documentation), nil
+	if _, isModule := originMatch.Find("origin.module"); isModule {
+		return origin.NewModuleOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isVirtual := queryResult.Match.Find("origin.meta"); isVirtual {
-		return origin.NewVirtualOrigin(location, queryResult.Match, documentation), nil
+	if _, isVirtual := originMatch.Find("origin.meta"); isVirtual {
+		return origin.NewVirtualOrigin(location, originMatch, originAnnotations), nil
 	}
 
 	return nil, nil
