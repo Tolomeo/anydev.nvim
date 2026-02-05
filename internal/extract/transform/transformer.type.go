@@ -124,47 +124,62 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	return function, nil
 }
 
-var tableTypeAnnotationQuery = annotation.TableQuery.Extend(func(query string) string {
-	return fmt.Sprintf(`
-	(documentation
-		(type_annotation
-			(%s)
-			(comment)? @documentation
-		)
-	)`, query)
-})
+var tableTypeAnnotationQueries = []treesitter.Query{
+	annotation.TableQuery.Extend(func(query string) string {
+		return fmt.Sprintf(`
+		(documentation
+			(type_annotation
+				(%s)
+				(comment)? @documentation
+			)
+		)`, query)
+	}),
+	annotation.TableArrayQuery.Extend(func(query string) string {
+		return fmt.Sprintf(`
+		(documentation
+			(type_annotation
+				(%s)
+				(comment)? @documentation
+			)
+		)`, query)
+	}),
+}
 
 func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
-	match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
+	for _, tableTypeAnnotationQuery := range tableTypeAnnotationQueries {
+		match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
+
+		if match == nil {
+			continue
+		}
+
+		tableAnnotation := annotation.NewTable(*match)
+		table := symbol.NewTable()
+
+		keyType, err := tr.getType(tableAnnotation.Key())
+
+		if err != nil {
+			return nil, err
+		}
+
+		valueType, err := tr.getType(tableAnnotation.Value())
+
+		if err != nil {
+			return nil, err
+		}
+
+		table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
+		table.Indexes[len(table.Indexes)-1].Key = keyType
+		table.Indexes[len(table.Indexes)-1].Value = valueType
+
+		return table, nil
 	}
 
-	if match == nil {
-		return nil, nil
-	}
-
-	tableAnnotation := annotation.NewTable(*match)
-	table := symbol.NewTable()
-
-	keyType, err := tr.getType(tableAnnotation.Key())
-
-	if err != nil {
-		return nil, err
-	}
-
-	valueType, err := tr.getType(tableAnnotation.Value())
-
-	if err != nil {
-		return nil, err
-	}
-
-	table.Indexes = append(table.Indexes, *symbol.NewTableIndex())
-	table.Indexes[len(table.Indexes)-1].Key = keyType
-	table.Indexes[len(table.Indexes)-1].Value = valueType
-
-	return table, nil
+	return nil, nil
 }
 
 func (tr *Transformer) getBuiltinType(source string) annotation.Type {

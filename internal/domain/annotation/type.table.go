@@ -12,9 +12,26 @@ var TableQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(table_type
+		"<"
+		.
 		key: (%s) @key
+		.
 		value: (%s) @value
+		.
+		">"
 	) @table`, AnyTypeQuery, AnyTypeQuery),
+}
+
+var TableArrayQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: fmt.Sprintf(`
+	(table_type
+		"<"
+		.
+		key: (%s) @value
+		.
+		">"
+	) @table`, AnyTypeQuery),
 }
 
 type Table struct {
@@ -31,7 +48,9 @@ func (t *Table) Value() string {
 }
 
 func NewTable(captures nvim.TsQueryMatch) *Table {
-	table := Table{}
+	table := Table{
+		key: "integer",
+	}
 
 	for _, capture := range captures {
 		switch capture.Id {
