@@ -7,7 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var ClassAnnotationQuery = annotation.ClassAnnotationQuery
+var ClassAnnotationQuery = annotation.AtClassQuery
 
 type ClassOrigin struct {
 	origin
@@ -29,7 +29,7 @@ func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch) *ClassOr
 			captures:    captures,
 			annotations: []string{},
 		},
-		classAnnotation: *annotation.NewClass(captures),
+		classAnnotation: *annotation.NewAtClass(captures),
 	}
 
 	return &classOrigin

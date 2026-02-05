@@ -9,40 +9,23 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var AliasAnnotationQuery = treesitter.Query{
-	Language: "luadoc",
-	Query: fmt.Sprintf(`(
-		(alias_annotation
-			"@alias"
-			.
-			(identifier) @alias.name
-			.
-			(%s) @alias.type
-			.
-			(comment)? @alias.documentation
-			.
-		)
-		(#not-eq? @alias.type "")
-	) @alias`, annotation.AnyTypeQuery),
-}
+var AliasAnnotationQuery = annotation.AtAliasQuery
 
 type AliasOrigin struct {
 	origin
-	definition string
-	name       string
-	type_      string
+	aliasAnnotation annotation.AtAlias
 }
 
 func (ao *AliasOrigin) Definition() []string {
-	return strings.Split(ao.definition, "\n")
+	return strings.Split(ao.aliasAnnotation.Match(), "\n")
 }
 
 func (ao *AliasOrigin) Name() string {
-	return ao.name
+	return ao.aliasAnnotation.Name()
 }
 
 func (ao *AliasOrigin) Type() string {
-	return ao.type_
+	return ao.aliasAnnotation.Type()
 }
 
 func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasOrigin {
@@ -52,17 +35,7 @@ func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasOr
 			captures:    captures,
 			annotations: []string{},
 		},
-	}
-
-	for _, capture := range captures {
-		switch capture.Id {
-		case "alias":
-			aliasOrigin.definition = capture.Node.Text
-		case "alias.name":
-			aliasOrigin.name = capture.Node.Text
-		case "alias.type":
-			aliasOrigin.type_ = capture.Node.Text
-		}
+		aliasAnnotation: *annotation.NewAtAlias(captures),
 	}
 
 	return &aliasOrigin

@@ -7,7 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var ClassAnnotationQuery = treesitter.Query{
+var AtClassQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(class_annotation
@@ -47,7 +47,7 @@ func (c *AtClass) Parents() []string {
 	return c.parents
 }
 
-func NewClass(captures nvim.TsQueryMatch) *AtClass {
+func NewAtClass(captures nvim.TsQueryMatch) *AtClass {
 	class := AtClass{
 		parents: []string{},
 	}
