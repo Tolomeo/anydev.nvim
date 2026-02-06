@@ -41,19 +41,17 @@ var TableConstructorFieldIndexAssignmentQuery = treesitter.Query{
 	) @table`,
 }
 
-// local T = {}
-var TableVariableDeclarationQuery = treesitter.Query{
+// T = {}
+var TableDeclarationQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
-	(variable_declaration
-		(assignment_statement
-			(variable_list
-				name: (identifier)
-			) @table.name
-			(expression_list
-				value: (table_constructor)
-			) @table.value
-		) 
+	(assignment_statement
+		(variable_list
+			name: (identifier)
+		) @table.name
+		(expression_list
+			value: (table_constructor)
+		) @table.value
 	) @table`,
 }
 

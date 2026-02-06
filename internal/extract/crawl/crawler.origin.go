@@ -56,7 +56,7 @@ func (c *Crawler) getTypeOriginMap() nvim.TsNodeQueryMap {
 	}
 }
 
-func (c *Crawler) getValueOriginQueryMap() nvim.TsNodeQueryMap {
+func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
 			{
@@ -91,15 +91,15 @@ func (c *Crawler) getValueOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.VariableAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableAssignmentQuery.Query),
 			},
+			{
+				Language: origin.TableDeclarationQuery.Language,
+				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableDeclarationQuery.Query),
+			},
 		},
 		origin.VariableDeclaration: []treesitter.Query{
 			{
 				Language: origin.FunctionVariableDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionVariableDeclarationQuery.Query),
-			},
-			{
-				Language: origin.TableVariableDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableVariableDeclarationQuery.Query),
 			},
 		},
 		origin.FunctionDeclaration: []treesitter.Query{
@@ -150,6 +150,8 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 	var err error
 
 	for _, location := range locations {
+		// c.context.Logger().Debugf("Searching location: %+v:%d:%d", location.Url, location.StartLine(), location.StartCharacter())
+
 		locationOrigin, err = c.getAnnotationOrigin(location)
 
 		if err != nil {
@@ -171,17 +173,28 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 		}
 	}
 
+	// c.context.Logger().Debugf("Found location: %+v", locationOrigin)
+
 	if locationOrigin == nil {
 		return nil, nil
 	}
 
 	switch ot := locationOrigin.(type) {
-	case *origin.ModuleOrigin:
-		moduleOrigins, err := c.getModuleOriginChain(ot)
+	case *origin.ModuleRequireOrigin:
+		moduleName := ot.Name()
+		moduleLocations, err := c.findModuleRequireDefinitionLocations(moduleName)
+
 		if err != nil {
 			return nil, err
 		}
-		return origin.NewOriginChain(locationOrigin).Append(moduleOrigins), nil
+
+		moduleRequireOriginChain, err := c.getOriginChain(*moduleLocations)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewOriginChain(locationOrigin).Append(moduleRequireOriginChain), nil
 	case *origin.VariableOrigin:
 		variableOrigins, err := c.getVariableOriginChain(ot)
 		if err != nil {
@@ -303,6 +316,8 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 }
 
 func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, error) {
+	// c.context.Logger().Debugf("Searching definition location: %+v:%d:%d", location.Url, location.StartLine(), location.StartCharacter())
+
 	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 	if err != nil {
@@ -311,15 +326,17 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 
 	defer buffer.Close()
 
-	originQueryMap := c.getValueOriginQueryMap()
+	queryMap := c.getDefinitionOriginQueryMap()
 	line, character :=
 		uint(location.TargetRange.Start.Line),
 		uint(location.TargetRange.Start.Character)
-	queryResult, err := buffer.QueryTsNodeAt(originQueryMap, line, character)
+	queryResult, err := buffer.QueryTsNodeAt(queryMap, line, character)
 
 	if err != nil {
 		return nil, err
 	}
+
+	// c.context.Logger().Debugf("Definition match: %+v", queryResult)
 
 	if queryResult == nil {
 		return nil, nil
@@ -357,17 +374,6 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	return nil, nil
-}
-
-func (c *Crawler) getModuleOriginChain(origin *origin.ModuleOrigin) (origin.OriginChain, error) {
-	moduleName := origin.Name()
-	moduleLocations, err := c.findModuleDefinitionLocations(moduleName)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return c.getOriginChain(*moduleLocations)
 }
 
 func (c *Crawler) getVariableOriginChain(origin *origin.VariableOrigin) (origin.OriginChain, error) {

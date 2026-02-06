@@ -384,12 +384,15 @@ type TsNodeQueryMatch struct {
 
 func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
 	targetNodes := mapx.Keys(queryMap)
-
 	node, err := n.getTSNodeAt(targetNodes, line, character)
+
+	// n.logger.Debugf("Target nodes: %v, %d, %d", targetNodes, line, character)
 
 	if err != nil {
 		return nil, err
 	}
+
+	// n.logger.Debugf("Node: %+v", node)
 
 	if node == nil {
 		return nil, nil
@@ -397,17 +400,16 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 
 	for _, nodeQuery := range queryMap[node.Type] {
 		nodeRange := node.Range.LineRange()
-		rangedNodeQuery := treesitter.Query{
-			Language: nodeQuery.Language,
-			Query:    nodeQuery.Query,
-			Range:    &nodeRange,
-		}
-
+		rangedNodeQuery := nodeQuery.Ranged(nodeRange)
 		match, err := n.tsQueryOne(rangedNodeQuery)
+
 
 		if err != nil {
 			return nil, err
 		}
+
+		/* n.logger.Debugf("Query: %+v", rangedNodeQuery)
+		n.logger.Debugf("Match: %+v", match) */
 
 		if match == nil {
 			continue

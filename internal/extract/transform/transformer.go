@@ -107,6 +107,11 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 		return enumSymbol, nil
 	}
 
+	/* switch ot := o.(type) {
+	default:
+		tr.context.Logger().Debugf("%T", ot)
+	} */
+
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", tr.context.Target().Identifier(), tr.context.Target().Origin())
 }
 

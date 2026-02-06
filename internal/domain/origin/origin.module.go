@@ -27,22 +27,22 @@ var ModuleRequireAssignmentQuery = treesitter.Query{
 	) @module`,
 }
 
-type ModuleOrigin struct {
+type ModuleRequireOrigin struct {
 	origin
 	definition string
 	name       string
 }
 
-func (ao *ModuleOrigin) Name() string {
+func (ao *ModuleRequireOrigin) Name() string {
 	return ao.name
 }
 
-func (mo *ModuleOrigin) Definition() []string {
+func (mo *ModuleRequireOrigin) Definition() []string {
 	return strings.Split(mo.definition, "\n")
 }
 
-func NewModuleOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ModuleOrigin {
-	moduleOrigin := ModuleOrigin{
+func NewModuleOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ModuleRequireOrigin {
+	moduleOrigin := ModuleRequireOrigin{
 		origin: origin{
 			location:    location,
 			captures:    captures,
