@@ -95,6 +95,9 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.TableDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableDeclarationQuery.Query),
 			},
+			origin.TableModuleWithLazyFieldsAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.table", query)
+			}),
 		},
 		origin.VariableDeclaration: []treesitter.Query{
 			{
