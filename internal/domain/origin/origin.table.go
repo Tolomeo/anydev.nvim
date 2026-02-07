@@ -91,6 +91,26 @@ var TableFieldIndexAssignmentQuery = treesitter.Query{
 	) @table`,
 }
 
+var TableModuleWithLazyFieldsAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement 
+		(variable_list 
+			name: (identifier) @table.name
+		) 
+		(expression_list 
+			value: (function_call 
+				name: (dot_index_expression) @vim._defer_require 
+				arguments: (arguments 
+					(string) 
+					(table_constructor) @table.value
+				)
+			)
+		)
+		(#eq? @vim._defer_require "vim._defer_require")
+	) @table`,
+}
+
 type TableOrigin struct {
 	origin
 	definition string
