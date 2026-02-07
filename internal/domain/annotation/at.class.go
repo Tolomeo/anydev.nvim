@@ -1,13 +1,11 @@
 package annotation
 
 import (
-	"fmt"
-
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-var AtClassQuery = treesitter.Query{
+/* var AtClassQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(class_annotation
@@ -17,25 +15,37 @@ var AtClassQuery = treesitter.Query{
 		.
 		(identifier) @class.name
 		.
-		(":" 
+		(":"
 			. (%s) @class.parent
 			("," (%s) @class.parent)*
 		)?
 	) @class`, AnyTypeQuery, AnyTypeQuery),
+} */
+
+var AtClassQuery = treesitter.Query{
+	Language: "luadoc",
+	Query: `
+	(class_annotation
+		"@class"
+		.
+		"(exact)"? @class.exact
+		.
+		(identifier) @class.name
+	) @class`,
 }
 
 type AtClass struct {
 	match   string
 	exact   bool
 	name    string
-	parents []string
+	// parents []string
 }
 
 func (c *AtClass) Match() string {
 	return c.match
 }
 
-func (c *AtClass) Exact() bool{
+func (c *AtClass) Exact() bool {
 	return c.exact
 }
 
@@ -43,13 +53,13 @@ func (c *AtClass) Name() string {
 	return c.name
 }
 
-func (c *AtClass) Parents() []string {
+/* func (c *AtClass) Parents() []string {
 	return c.parents
-}
+} */
 
 func NewAtClass(captures nvim.TsQueryMatch) *AtClass {
 	class := AtClass{
-		parents: []string{},
+		// parents: []string{},
 	}
 
 	for _, capture := range captures {
@@ -60,8 +70,8 @@ func NewAtClass(captures nvim.TsQueryMatch) *AtClass {
 			class.exact = true
 		case "class.name":
 			class.name = capture.Node.Text
-		case "class.parent":
-			class.parents = append(class.parents, capture.Node.Text)
+		/* case "class.parent":
+			class.parents = append(class.parents, capture.Node.Text) */
 		}
 	}
 
