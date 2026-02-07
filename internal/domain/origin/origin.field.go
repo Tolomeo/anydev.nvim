@@ -19,8 +19,12 @@ func (fo *FieldAnnotationOrigin) Definition() []string {
 	return strings.Split(fo.fieldAnnotation.Match(), "\n")
 }
 
-func (fo *FieldAnnotationOrigin) Name() string {
+func (fo *FieldAnnotationOrigin) Name() *string {
 	return fo.fieldAnnotation.Name()
+}
+
+func (fo *FieldAnnotationOrigin) Index() *string {
+	return fo.fieldAnnotation.Index()
 }
 
 func (fo *FieldAnnotationOrigin) Private() bool {

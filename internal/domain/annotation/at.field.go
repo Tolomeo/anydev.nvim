@@ -20,7 +20,10 @@ var AtFieldQuery = treesitter.Query{
 			(qualifier "package") @field.package
 		 ])?
 		.
-		(identifier) @field.name
+		([
+			(indexed_field (identifier) @field.index)
+			(identifier) @field.name
+		])
 		.
 		"?"? @field.optional
 		.
@@ -33,7 +36,8 @@ var AtFieldQuery = treesitter.Query{
 
 type AtField struct {
 	match     string
-	name      string
+	name      *string
+	index     *string
 	private   bool
 	protected bool
 	package_  bool
@@ -45,8 +49,12 @@ func (af *AtField) Match() string {
 	return af.match
 }
 
-func (af *AtField) Name() string {
+func (af *AtField) Name() *string {
 	return af.name
+}
+
+func (af *AtField) Index() *string {
+	return af.index
 }
 
 func (af *AtField) Private() bool {
@@ -81,7 +89,9 @@ func NewAtField(match nvim.TsQueryMatch) *AtField {
 		case "field":
 			atField.match = capture.Node.Text
 		case "field.name":
-			atField.name = capture.Node.Text
+			atField.name = &capture.Node.Text
+		case "field.index":
+			atField.index = &capture.Node.Text
 		case "field.private":
 			atField.private = true
 		case "field.protected":

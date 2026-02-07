@@ -17,7 +17,7 @@ type ctx interface {
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
-	ExtractChild(*symbol.Table, string) (*symbol.TableField, error)
+	ExtractChild(*symbol.Table, string) error
 	AddChild(*symbol.Table, string, symbol.Metadata, []string, annotation.Type)
 }
 
@@ -27,7 +27,7 @@ type Transformer struct {
 
 var lexedCache = cache.NewCache[annotation.Type]()
 
-func (tr *Transformer) GetType() (annotation.Type, error) {
+func (tr *Transformer) GetOriginType() (annotation.Type, error) {
 	cacheId := []string{
 		tr.context.Target().Origin().Url(),
 		fmt.Sprintf("%d", tr.context.Target().Origin().Line()),
@@ -113,6 +113,10 @@ func (tr *Transformer) GetType() (annotation.Type, error) {
 	} */
 
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", tr.context.Target().Identifier(), tr.context.Target().Origin())
+}
+
+func (tr *Transformer) GetType(typ string) (annotation.Type, error) {
+	return tr.getType(typ)
 }
 
 func (tr *Transformer) GetMetadata() (*symbol.Metadata, error) {

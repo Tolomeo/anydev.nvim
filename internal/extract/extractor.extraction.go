@@ -2,6 +2,7 @@ package extract
 
 import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
@@ -30,32 +31,50 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 	return c.target.extractor.Extract(kind, name)
 }
 
-func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) (*symbol.TableField, error) {
+func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
 	c.target.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.target.target.Kind())
 
 	childExtraction := c.target.extractor.newChildExtraction(c.target.target, name)
 	err := c.target.extractor.extract(childExtraction)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	field := symbol.NewTableField()
-	field.Name = name
-	field.Metadata = childExtraction.target.Meta()
-	field.Documentation = symbol.Documentation{}
-	field.Type = symbol.NewUnknown()
+	namedField := symbol.NewTableField()
+	namedField.Name = name
+	namedField.Metadata = childExtraction.target.Meta()
+	namedField.Documentation = symbol.Documentation{}
+	namedField.Type = symbol.NewUnknown()
 
 	if childExtraction.target.Type() == nil {
-		return field, nil
+		parent.Fields = append(parent.Fields, *namedField)
+		return nil
 	}
 
-	field.Documentation = childExtraction.target.Documentation()
-	field.Type = childExtraction.target.Type()
+	switch childOriginType := childExtraction.target.Origin().(type) {
+	case *origin.FieldAnnotationOrigin:
+		if childOriginType.Index() != nil {
+			key, err := c.target.transformer.GetType(*childOriginType.Index())
+			if err != nil {
+				return err
+			}
+			indexedField := symbol.NewTableIndex()
+			indexedField.Key = key
+			indexedField.Value = childExtraction.target.Type()
+			parent.Indexes = append(parent.Indexes, *indexedField)
+			return nil
+		}
+	}
 
-	return field, nil
+	namedField.Documentation = childExtraction.target.Documentation()
+	namedField.Type = childExtraction.target.Type()
+	parent.Fields = append(parent.Fields, *namedField)
+
+	return nil
 }
 
+// TODO: remove
 func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ annotation.Type) {
 	field := symbol.NewTableField()
 	field.Name = name
@@ -148,7 +167,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 func (t *extraction) getType() (extractionStep, error) {
 	t.logger.Info("Getting symbol type")
 
-	typ, err := t.transformer.GetType()
+	typ, err := t.transformer.GetOriginType()
 
 	if err != nil {
 		return nil, err

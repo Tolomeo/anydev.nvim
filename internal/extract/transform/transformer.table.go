@@ -71,24 +71,21 @@ func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (anno
 func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.Table, error) {
 	table := symbol.NewTable()
 	table.Name = tableOrigin.Name()
-	tableFields, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
+	tableChildren, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
 
 	if err != nil {
 		return nil, err
 	}
 
-	for _, fieldName := range tableFields {
-		fieldSymbol, err := tr.context.ExtractChild(table, fieldName)
+	for _, child := range tableChildren {
+		err := tr.context.ExtractChild(table, child)
 
 		if err != nil {
 			return nil, err
 		}
-
-		table.Fields = append(table.Fields, *fieldSymbol)
 	}
 
 	return table, nil
-
 }
 
 func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClass annotation.AtClass) (*symbol.Reference, error) {

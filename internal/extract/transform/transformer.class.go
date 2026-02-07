@@ -8,20 +8,18 @@ import (
 func (tr *Transformer) getClassOriginType(classOrigin *origin.ClassOrigin) (*symbol.Table, error) {
 	class := symbol.NewTable()
 	class.Name = classOrigin.Name()
-	classFields, err := tr.context.Nvim().GetTypeCompletion(class.Name)
+	classChildren, err := tr.context.Nvim().GetTypeCompletion(class.Name)
 
 	if err != nil {
 		return nil, err
 	}
 
-	for _, fieldName := range classFields {
-		fieldSymbol, err := tr.context.ExtractChild(class, fieldName)
+	for _, child := range classChildren {
+		err := tr.context.ExtractChild(class, child)
 
 		if err != nil {
 			return nil, err
 		}
-
-		class.Fields = append(class.Fields, *fieldSymbol)
 	}
 
 	return class, nil
