@@ -17,13 +17,12 @@ import (
 var TableConstructorFieldAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
-	(
 		(field
 			name: (identifier) @table.name
 			value: (table_constructor) @table.value
-		) @field
-		(#not-has-ancestor? @field "field") ; Avoiding nested matches
-	) @table`,
+		) @table
+		(#not-has-ancestor? @table "field") ; Avoiding nested matches
+	`,
 }
 
 /*

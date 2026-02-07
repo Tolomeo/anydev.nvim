@@ -10,7 +10,7 @@ import (
 )
 
 func (c *Crawler) getTypeOriginMap() nvim.TsNodeQueryMap {
-	return nvim.TsNodeQueryMap{
+	/* return nvim.TsNodeQueryMap{
 		origin.AliasAnnotation: []treesitter.Query{
 			{
 				Language: origin.AliasAnnotationQuery.Language,
@@ -46,6 +46,45 @@ func (c *Crawler) getTypeOriginMap() nvim.TsNodeQueryMap {
 			},
 		},
 		origin.EnumAnnotation: []treesitter.Query{
+			origin.EnumAnnotationQuery.Extend(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @enum.name "%s")
+				) @origin.enumannotation`, query, c.context.Target().Identifier())
+			}),
+		},
+	} */
+
+	return nvim.TsNodeQueryMap{
+		origin.Comment: []treesitter.Query{
+			{
+				Language: origin.AliasAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias`, origin.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+			{
+				Language: origin.AliasEnumeratorAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+			{
+				Language: origin.ClassAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @class.name "%s")
+				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
+			},
+			{
+				Language: origin.FieldAnnotationQuery.Language,
+				Query: fmt.Sprintf(`(
+					(%s)
+					(#eq? @field.name "%s")
+				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
+			},
 			origin.EnumAnnotationQuery.Extend(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
