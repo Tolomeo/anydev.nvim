@@ -153,7 +153,7 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 	var err error
 
 	for _, location := range locations {
-		// c.context.Logger().Debugf("Searching location: %+v:%d:%d", location.Url, location.StartLine(), location.StartCharacter())
+		c.context.Logger().Verbosef("Searching for annotation origin at: %+v:%d:%d", location.Url, location.StartLine(), location.StartCharacter())
 
 		locationOrigin, err = c.getAnnotationOrigin(location)
 
@@ -164,6 +164,8 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 		if locationOrigin != nil {
 			break
 		}
+
+		c.context.Logger().Verbosef("Searching for definition origin at: %+v:%d:%d", location.Url, location.StartLine(), location.StartCharacter())
 
 		locationOrigin, err = c.getDefinitionOrigin(location)
 
@@ -176,14 +178,15 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 		}
 	}
 
-	// c.context.Logger().Debugf("Found location: %+v", locationOrigin)
-
 	if locationOrigin == nil {
+		c.context.Logger().Verbose("No origin found")
 		return nil, nil
 	}
 
 	switch ot := locationOrigin.(type) {
 	case *origin.ModuleRequireOrigin:
+		c.context.Logger().Verbosef("Following through <%v> origin found", ot)
+
 		moduleName := ot.Name()
 		moduleLocations, err := c.findModuleRequireDefinitionLocations(moduleName)
 
@@ -199,6 +202,8 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 
 		return origin.NewOriginChain(locationOrigin).Append(moduleRequireOriginChain), nil
 	case *origin.VariableOrigin:
+		c.context.Logger().Verbosef("Following through <%v> origin found", ot)
+
 		variableOrigins, err := c.getVariableOriginChain(ot)
 		if err != nil {
 			return nil, err
@@ -206,6 +211,7 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 		return origin.NewOriginChain(locationOrigin).Append(variableOrigins), nil
 	}
 
+	c.context.Logger().Verbosef("Origin found <%T>", locationOrigin)
 	return origin.NewOriginChain(locationOrigin), nil
 }
 
