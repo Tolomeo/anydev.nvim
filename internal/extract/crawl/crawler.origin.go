@@ -59,6 +59,9 @@ func (c *Crawler) getTypeOriginMap() nvim.TsNodeQueryMap {
 func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
+			origin.MetatableAssignmentQuery.Extend(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.table", query)
+			}),
 			{
 				Language: origin.TableFieldAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldAssignmentQuery.Query),

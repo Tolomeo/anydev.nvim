@@ -17,9 +17,12 @@ import (
 var TableConstructorFieldAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
-	(field
-		name: (identifier) @table.name
-		value: (table_constructor) @table.value
+	(
+		(field
+			name: (identifier) @table.name
+			value: (table_constructor) @table.value
+		) @field
+		(#not-has-ancestor? @field "field") ; Avoiding nested matches
 	) @table`,
 }
 
@@ -33,11 +36,14 @@ var TableConstructorFieldAssignmentQuery = treesitter.Query{
 var TableConstructorFieldIndexAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
-	(field
-		name: (string
-			content: (string_content) @table.name
-		)
-		value: (table_constructor) @table.value
+	(
+		(field
+			name: (string
+				content: (string_content) @table.name
+			)
+			value: (table_constructor) @table.value
+		) @field 
+		(#not-has-ancestor? @field "field") ; Avoiding nested matches
 	) @table`,
 }
 
@@ -108,6 +114,21 @@ var TableModuleWithLazyFieldsAssignmentQuery = treesitter.Query{
 			)
 		)
 		(#eq? @vim._defer_require "vim._defer_require")
+	) @table`,
+}
+
+var MetatableAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement
+		(variable_list name: (_) @table.name)
+		(expression_list
+			value: 
+				(function_call 
+					name: (identifier) @setmetatable
+				)
+		) @table.value
+		(#eq? @setmetatable "setmetatable")
 	) @table`,
 }
 

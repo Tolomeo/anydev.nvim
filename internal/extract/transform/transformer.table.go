@@ -7,7 +7,8 @@ import (
 )
 
 type tableAnnotations struct {
-	AtEnum *annotation.AtEnum
+	AtClass *annotation.AtClass
+	AtEnum  *annotation.AtEnum
 }
 
 func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations, error) {
@@ -26,6 +27,16 @@ func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations,
 		return tAnnotations, err
 	}
 
+	atClassMatch, err := buffer.TsQueryOne(annotation.AtClassQuery)
+
+	if err != nil {
+		return tAnnotations, err
+	}
+
+	if atClassMatch != nil {
+		tAnnotations.AtClass = annotation.NewAtClass(*atClassMatch)
+	}
+
 	atEnumMatch, err := buffer.TsQueryOne(annotation.AtEnumQuery)
 
 	if err != nil {
@@ -39,11 +50,15 @@ func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations,
 	return tAnnotations, nil
 }
 
-func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (*symbol.Table, error) {
+func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (annotation.Type, error) {
 	annotations, err := tr.getTableAnnotations(tableOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
+	}
+
+	if annotations.AtClass != nil {
+		return tr.getClassTableSymbol(tableOrigin, *annotations.AtClass)
 	}
 
 	if annotations.AtEnum != nil {
@@ -74,6 +89,13 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 
 	return table, nil
 
+}
+
+func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClass annotation.AtClass) (*symbol.Reference, error) {
+	table := symbol.NewTable()
+	table.Name = tableOrigin.Name()
+
+	return tr.getReferenceType(atClass.Name())
 }
 
 func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin, atEnum annotation.AtEnum) (*symbol.Table, error) {

@@ -403,9 +403,8 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 		rangedNodeQuery := nodeQuery.Ranged(nodeRange)
 		match, err := n.tsQueryOne(rangedNodeQuery)
 
-
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("Error executing '%s' query <%+v> with range <%+v> on node type <%s>: %w", rangedNodeQuery.Language, rangedNodeQuery.Query, rangedNodeQuery.Range, node.Type, err)
 		}
 
 		/* n.logger.Debugf("Query: %+v", rangedNodeQuery)
