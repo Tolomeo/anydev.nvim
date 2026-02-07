@@ -11,6 +11,32 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
+// https://www.lua.org/manual/5.4/manual.html#2.4
+var metamethods = map[string]struct{}{
+	"__add":      {},
+	"__sub":      {},
+	"__mul":      {},
+	"__div":      {},
+	"__mod":      {},
+	"__pow":      {},
+	"__unm":      {},
+	"__idiv":     {},
+	"__band":     {},
+	"__bor":      {},
+	"__bxor":     {},
+	"__bnot":     {},
+	"__shl":      {},
+	"__shr":      {},
+	"__concat":   {},
+	"__len":      {},
+	"__eq":       {},
+	"__lt":       {},
+	"__le":       {},
+	"__index":    {},
+	"__newindex": {},
+	"__call":     {},
+}
+
 type Location struct {
 	languageserver.Location
 	Url string
@@ -330,7 +356,10 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 		return *item.InsertText, nil
 	})
 
-	return completion, nil
+	return slicesx.FilterFunc(completion, func(completionItem string) (bool, error) {
+		_, isMetamethod := metamethods[completionItem]
+		return !isMetamethod, nil
+	})
 }
 
 func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
@@ -341,19 +370,22 @@ func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
 	}
 
 	cmd := fmt.Sprintf("lua %s.", value)
-	getcompletionResult, err := n.callFunction("getcompletion", []any{cmd, "cmdline"})
+	completionResult, err := n.callFunction("getcompletion", []any{cmd, "cmdline"})
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
 	}
 
-	result, err := anyx.ToSliceOf[string](getcompletionResult)
+	completion, err := anyx.ToSliceOf[string](completionResult)
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
 	}
 
-	return result, nil
+	return slicesx.FilterFunc(completion, func(completionItem string) (bool, error) {
+		_, isMetamethod := metamethods[completionItem]
+		return !isMetamethod, nil
+	})
 }
 
 func (n *Nvim) GetValueType(value string) (string, error) {

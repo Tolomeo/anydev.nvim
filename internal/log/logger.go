@@ -14,10 +14,11 @@ const (
 	warn    level = "WARN"
 	info    level = "INFO"
 	verbose level = "VERBOSE"
+	silly   level = "SILLY"
 	debug   level = "DEBUG"
 )
 
-var levels = [4]level{error, warn, info, verbose}
+var levels = [5]level{error, warn, info, verbose, silly}
 
 type log struct {
 	level   level
@@ -72,6 +73,14 @@ func (l *Logger) Verbosef(message string, args ...any) {
 	l.log(log{level: verbose, message: fmt.Sprintf(message, args...)})
 }
 
+func (l *Logger) Silly(message string) {
+	l.log(log{level: silly, message: message})
+}
+
+func (l *Logger) Sillyf(message string, args ...any) {
+	l.log(log{level: silly, message: fmt.Sprintf(message, args...)})
+}
+
 func (l *Logger) Debug(message string) {
 	message = fmt.Sprintf("\n****************************\n%s\n****************************\n", message)
 
@@ -90,7 +99,7 @@ func NewLogger(prefix string) *Logger {
 	}
 
 	return &Logger{
-		level:  2,
+		level:  3,
 		prefix: prefix,
 		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}
