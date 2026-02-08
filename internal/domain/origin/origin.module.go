@@ -30,15 +30,19 @@ var ModuleRequireAssignmentQuery = treesitter.Query{
 type ModuleRequireOrigin struct {
 	origin
 	definition string
-	name       string
+	name       treesitter.TsNode
 }
 
-func (ao *ModuleRequireOrigin) Name() string {
-	return ao.name
+func (mro *ModuleRequireOrigin) Name() string {
+	return mro.name.Text
 }
 
-func (mo *ModuleRequireOrigin) Definition() []string {
-	return strings.Split(mo.definition, "\n")
+func (mro *ModuleRequireOrigin) NameRange() treesitter.Range {
+	return mro.name.Range
+}
+
+func (mro *ModuleRequireOrigin) Definition() []string {
+	return strings.Split(mro.definition, "\n")
 }
 
 func NewModuleOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *ModuleRequireOrigin {
@@ -55,7 +59,7 @@ func NewModuleOrigin(location nvim.Location, captures nvim.TsQueryMatch, documen
 		case "module":
 			moduleOrigin.definition = capture.Node.Text
 		case "require.module":
-			moduleOrigin.name = capture.Node.Text
+			moduleOrigin.name = capture.Node
 		}
 	}
 

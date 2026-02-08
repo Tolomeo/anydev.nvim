@@ -74,6 +74,22 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 	return nil
 }
 
+func (c *extractionContext) Follow() (annotation.Type, error) {
+	c.target.logger.Info("Following")
+
+	origin, err := c.target.crawler.FollowOriginChain()
+
+	if err != nil {
+		return nil, err
+	}
+
+	c.target.logger.Info("Follow complete")
+
+	c.target.target.SetOriginChain(origin)
+
+	return c.target.transformer.GetOriginType()
+}
+
 // TODO: remove
 func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ annotation.Type) {
 	field := symbol.NewTableField()
@@ -92,22 +108,6 @@ type extraction struct {
 	parent      *extraction
 	target      *target.Target
 }
-
-/* func (t *extraction) Target() *target.Target {
-	return t.target
-}
-
-func (t *extraction) Logger() *log.Logger {
-	return t.logger
-}
-
-func (t *extraction) Nvim() *nvim.Nvim {
-	return t.extractor.Nvim()
-}
-
-func (t *extraction) Extract(kind target.TargetKind, name string) error {
-	return t.extractor.Extract(kind, name)
-} */
 
 type extractionStep func() (extractionStep, error)
 

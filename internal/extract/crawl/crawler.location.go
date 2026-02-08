@@ -65,7 +65,7 @@ func (c *Crawler) findModuleRequireDefinitionLocations(moduleName string) (*[]nv
 	return locations, nil
 }
 
-func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, error) {
+func (c *Crawler) findIdentifierDefinitionLocations(identifier string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -92,7 +92,7 @@ func (c *Crawler) findDefinitionLocations(identifier string) (*[]nvim.Location, 
 	return locations, nil
 }
 
-func (c *Crawler) findTypeDefinitionLocations(typeName string, parentTypeName string) (*[]nvim.Location, error) {
+func (c *Crawler) findTypeIdentifierDefinitionLocations(typeName string, parentTypeName string) (*[]nvim.Location, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -118,6 +118,28 @@ func (c *Crawler) findTypeDefinitionLocations(typeName string, parentTypeName st
 	lastLineIndex := len(lines) - 1
 	lastLine := lines[lastLineIndex]
 	line, character := uint(lastLineIndex), uint(len(lastLine))
+	locations, err := buffer.GetDefinitionLocations(line, character)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if locations == nil {
+		return nil, nil
+	}
+
+	return locations, nil
+}
+
+func (c *Crawler) findDefinitionLocationsAt(url string, line uint, character uint) (*[]nvim.Location, error) {
+	buffer, err := c.context.Nvim().OpenBuffer(url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
 	locations, err := buffer.GetDefinitionLocations(line, character)
 
 	if err != nil {

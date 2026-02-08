@@ -38,7 +38,7 @@ var VariableDotFieldAssignmentQuery = treesitter.Query{
 type VariableOrigin struct {
 	origin
 	definition string
-	name       string
+	name       treesitter.TsNode
 }
 
 func (vo *VariableOrigin) Definition() []string {
@@ -46,7 +46,11 @@ func (vo *VariableOrigin) Definition() []string {
 }
 
 func (vo *VariableOrigin) Name() string {
-	return vo.name
+	return vo.name.Text
+}
+
+func (vo *VariableOrigin) NameRange() treesitter.Range {
+	return vo.name.Range
 }
 
 func NewVariableOrigin(location nvim.Location, captures nvim.TsQueryMatch, documentation []string) *VariableOrigin {
@@ -63,7 +67,7 @@ func NewVariableOrigin(location nvim.Location, captures nvim.TsQueryMatch, docum
 		case "variable":
 			variableOrigin.definition = capture.Node.Text
 		case "assignment.right":
-			variableOrigin.name = capture.Node.Text
+			variableOrigin.name = capture.Node
 		}
 	}
 

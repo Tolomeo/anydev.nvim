@@ -18,6 +18,7 @@ type ctx interface {
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
+	Follow() (annotation.Type, error)
 	AddChild(*symbol.Table, string, symbol.Metadata, []string, annotation.Type)
 }
 
@@ -105,6 +106,15 @@ func (tr *Transformer) GetOriginType() (annotation.Type, error) {
 		}
 		lexedCache.Set(enumSymbol, cacheId...)
 		return enumSymbol, nil
+	case *origin.VariableOrigin:
+		variableSymbol, err := tr.getVariableOriginType(ot)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(variableSymbol, cacheId...)
+		return variableSymbol, nil
+	case *origin.UnknownOrigin:
+		return tr.getUnknownOriginType(ot), nil
 	}
 
 	/* switch ot := o.(type) {
@@ -112,7 +122,7 @@ func (tr *Transformer) GetOriginType() (annotation.Type, error) {
 		tr.context.Logger().Debugf("%T", ot)
 	} */
 
-	return nil, fmt.Errorf("Unknown origin type received for source '%s' with value <%+v>", tr.context.Target().Identifier(), tr.context.Target().Origin())
+	return nil, fmt.Errorf("Unknown origin type received for source '%s' <%T>", tr.context.Target().Identifier(), tr.context.Target().Origin())
 }
 
 func (tr *Transformer) GetType(typ string) (annotation.Type, error) {

@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
@@ -27,9 +28,9 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 
 	switch c.context.Target().Kind() {
 	case target.TargetKindValue:
-		locations, err = c.findDefinitionLocations(c.context.Target().Identifier())
+		locations, err = c.findIdentifierDefinitionLocations(c.context.Target().Identifier())
 	case target.TargetKindType:
-		locations, err = c.findTypeDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
+		locations, err = c.findTypeIdentifierDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
 	}
 
 	if err != nil {
@@ -47,12 +48,54 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 		return nil, err
 	}
 
-	if origins == nil {
-		c.context.Logger().Warnf("No origin found for '%s' %s symbol", c.context.Target().Identifier(), c.context.Target().Kind())
-		return nil, nil
+	return origins, nil
+}
+
+func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
+	targetOriginChain := c.context.Target().OriginChain()
+	targetOrigin := c.context.Target().Origin()
+
+	switch locationOriginType := targetOrigin.(type) {
+	case *origin.ModuleRequireOrigin:
+		c.context.Logger().Verbosef("Following module origin <%+v>", locationOriginType)
+
+		moduleName := locationOriginType.Name()
+		moduleLocations, err := c.findModuleRequireDefinitionLocations(moduleName)
+
+		if err != nil {
+			return nil, err
+		}
+
+		moduleRequireOriginChain, err := c.getOriginChain(*moduleLocations)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return targetOriginChain.Append(moduleRequireOriginChain), nil
+	case *origin.VariableOrigin:
+		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
+
+		url, line, character :=
+			locationOriginType.Url(),
+			uint(locationOriginType.NameRange().End.Line),
+			uint(locationOriginType.NameRange().End.Character)
+		rightValueLocations, err := c.findDefinitionLocationsAt(url, line, character)
+
+		if err != nil {
+			return nil, err
+		}
+
+		variableOriginChain, err := c.getOriginChain(*rightValueLocations)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return targetOriginChain.Append(variableOriginChain), nil
 	}
 
-	return origins, nil
+	return nil, fmt.Errorf("Cannot follow origin of type <%T>", targetOrigin)
 }
 
 func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {

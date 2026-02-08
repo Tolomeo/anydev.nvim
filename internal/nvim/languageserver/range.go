@@ -2,11 +2,11 @@ package languageserver
 
 import "github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 
-func (r *Range) AsTreesitter() *treesitter.Range {
+func (r *Range) ToTreesitterRange() *treesitter.Range {
 	return &treesitter.Range{
 		Start: treesitter.Position{
 			Line:      r.Start.Line,
-			Character: r.End.Character,
+			Character: r.Start.Character,
 		},
 		End: treesitter.Position{
 			Line:      r.End.Line,
@@ -32,14 +32,14 @@ func (r *Range) Contains(rng Range) bool {
 
 func (r *Range) StartPosition() Position {
 	return Position{
-		Line: r.Start.Line,
+		Line:      r.Start.Line,
 		Character: r.Start.Character,
 	}
 }
 
 func (r *Range) EndPosition() Position {
 	return Position{
-		Line: r.End.Line,
+		Line:      r.End.Line,
 		Character: r.End.Character,
 	}
 }
