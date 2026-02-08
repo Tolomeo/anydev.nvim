@@ -36,7 +36,7 @@ func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtType
 	return &atType, nil
 }
 
-var optionalTypeAnnotationQuery = annotation.OptionalQuery.Extend(func(query string) string {
+var optionalTypeAnnotationQuery = annotation.OptionalQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation 
@@ -63,10 +63,16 @@ func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (an
 		return nil, err
 	}
 
+	// Unwrapping nested optional types
+	switch nestedType := optionalType.(type) {
+	case *symbol.Optional:
+		return nestedType, nil
+	}
+
 	return symbol.NewOptional(optionalType), nil
 }
 
-var functionTypeAnnotationQuery = annotation.FunctionQuery.Extend(func(query string) string {
+var functionTypeAnnotationQuery = annotation.FunctionQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
@@ -125,7 +131,7 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 }
 
 var tableTypeAnnotationQueries = []treesitter.Query{
-	annotation.TableQuery.Extend(func(query string) string {
+	annotation.TableQuery.MapQuery(func(query string) string {
 		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -134,7 +140,7 @@ var tableTypeAnnotationQueries = []treesitter.Query{
 			)
 		)`, query)
 	}),
-	annotation.TableArrayQuery.Extend(func(query string) string {
+	annotation.TableArrayQuery.MapQuery(func(query string) string {
 		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -223,7 +229,7 @@ func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) 
 	return symbol.NewReference(name), nil
 }
 
-var arrayTypeAnnotationQuery = annotation.ArrayQuery.Extend(func(query string) string {
+var arrayTypeAnnotationQuery = annotation.ArrayQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
@@ -255,7 +261,7 @@ func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, _ string) (*symb
 }
 
 var literalTableAnnotationQueries = map[string]treesitter.Query{
-	"empty": annotation.LiteralTableEmptyQuery.Extend(func(query string) string {
+	"empty": annotation.LiteralTableEmptyQuery.MapQuery(func(query string) string {
 		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -264,7 +270,7 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 			)
 		)`, query)
 	}),
-	"described": annotation.LiteralTableTypeQuery.Extend(func(query string) string {
+	"described": annotation.LiteralTableTypeQuery.MapQuery(func(query string) string {
 		return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -329,7 +335,7 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 	return nil, nil
 }
 
-var unionTypeAnnotationQuery = annotation.UnionQuery.Extend(func(query string) string {
+var unionTypeAnnotationQuery = annotation.UnionQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
@@ -378,7 +384,7 @@ func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (
 	return symbol.NewUnion(unionTypes), nil
 }
 
-var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.Extend(func(query string) string {
+var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation
@@ -403,7 +409,7 @@ func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string
 	return tr.getType(parenthesizedAnnotation.Type())
 }
 
-var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.Extend(func(query string) string {
+var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -427,7 +433,7 @@ func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, _ string
 	return symbol.NewNumericLiteral(literalNumberAnnotation.Value()), nil
 }
 
-var literalBooleanTypeAnnotationQuery = annotation.LiteralBooleanQuery.Extend(func(query string) string {
+var literalBooleanTypeAnnotationQuery = annotation.LiteralBooleanQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 		(documentation
 			(type_annotation
@@ -451,7 +457,7 @@ func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbo
 	return symbol.NewBooleanLiteral(literalBooleanAnnotation.Value()), nil
 }
 
-var literalStringTypeQuery = annotation.LiteralStringQuery.Extend(func(query string) string {
+var literalStringTypeQuery = annotation.LiteralStringQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`
 	(documentation
 		(type_annotation

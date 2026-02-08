@@ -40,7 +40,7 @@ func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 					(#eq? @field.name "%s")
 				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
 			},
-			origin.EnumAnnotationQuery.Extend(func(query string) string {
+			origin.EnumAnnotationQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @enum.name "%s")
@@ -200,7 +200,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
-			origin.MetatableAssignmentQuery.Extend(func(query string) string {
+			origin.MetatableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
 			{
@@ -223,7 +223,7 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.FunctionFieldIndexAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldIndexAssignmentQuery.Query),
 			},
-			origin.FunctionCallAssignmentQuery.Extend(func(query string) string {
+			origin.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function_call", query)
 			}),
 			{
@@ -242,7 +242,7 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.TableDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableDeclarationQuery.Query),
 			},
-			origin.TableModuleWithLazyFieldsAssignmentQuery.Extend(func(query string) string {
+			origin.TableModuleWithLazyFieldsAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
 		},
@@ -267,25 +267,25 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			},
 		},
 		origin.Field: []treesitter.Query{
-			origin.TableConstructorFieldAssignmentQuery.Extend(func(query string) string {
+			origin.TableConstructorFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @table.name "%s")
 				) @origin.table`, query, c.context.Target().Name())
 			}),
-			origin.TableConstructorFieldIndexAssignmentQuery.Extend(func(query string) string {
+			origin.TableConstructorFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @table.name "%s")
 				) @origin.table`, query, c.context.Target().Name())
 			}),
-			origin.ValueFieldAssignmentQuery.Extend(func(query string) string {
+			origin.ValueFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
 				) @origin.value`, query, c.context.Target().Name())
 			}),
-			origin.ValueFieldIndexAssignmentQuery.Extend(func(query string) string {
+			origin.ValueFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")

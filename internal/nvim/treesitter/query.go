@@ -13,7 +13,7 @@ type Query struct {
 	Range    *LineRange
 }
 
-func (q Query) Extend(f func(query string) string) Query {
+func (q Query) MapQuery(f func(query string) string) Query {
 	return Query{
 		Language: q.Language,
 		Query:    f(q.Query),
