@@ -113,6 +113,13 @@ func (tr *Transformer) GetOriginType() (annotation.Type, error) {
 		}
 		lexedCache.Set(variableSymbol, cacheId...)
 		return variableSymbol, nil
+	case *origin.ModuleRequireOrigin:
+		requiredModuleSymbol, err := tr.getModuleRequireOriginType(ot)
+		if err != nil {
+			return nil, err
+		}
+		lexedCache.Set(requiredModuleSymbol, cacheId...)
+		return requiredModuleSymbol, nil
 	case *origin.UnknownOrigin:
 		return tr.getUnknownOriginType(ot), nil
 	}
