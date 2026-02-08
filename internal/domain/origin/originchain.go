@@ -10,7 +10,12 @@ func (o OriginChain) First() Origin {
 	return o[0]
 }
 
-func (o OriginChain) Append(o2 OriginChain) OriginChain {
+func (o OriginChain) Append(origins ...Origin) OriginChain {
+	o = append(o, origins...)
+	return o
+}
+
+func (o OriginChain) Concat(o2 OriginChain) OriginChain {
 	o = append(o, o2...)
 	return o
 }

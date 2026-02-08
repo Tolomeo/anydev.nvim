@@ -15,7 +15,7 @@ var RequireFunctionCallAssignmentQuery = treesitter.Query{
 		(variable_list)
 		(expression_list
 			value: (function_call
-				name: (identifier) @require.call
+				name: (_) @require.call
 				arguments: (arguments
 					(string
 						content: (string_content) @require.module
@@ -23,7 +23,7 @@ var RequireFunctionCallAssignmentQuery = treesitter.Query{
 				)
 			)
 		) @require
-		(#eq? @require.call "require")
+		(#any-of? @require.call "require")
 	) @module`,
 }
 
@@ -76,7 +76,7 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 				name: (_) @function_call.name
 			)
 		)
-		(#not-eq? @function_call.name "require")
+		(#not-any-of? @function_call.name "require" "vim._defer_require")
 	) @function_call`,
 }
 

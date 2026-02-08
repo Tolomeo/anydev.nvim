@@ -7,39 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-func (c *Crawler) findModuleRequireDefinitionLocations(moduleName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	lines := []string{fmt.Sprintf("local ref = require('%s')", moduleName)}
-	err = buffer.SetLines(lines)
-
-	if err != nil {
-		return nil, err
-	}
-
-	line, character := uint(0), uint(len(lines[0])-3)
-
-	locations, err := buffer.GetDefinitionLocations(line, character)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if locations == nil {
-		return nil, nil
-	}
-
-	if len(*locations) > 1 {
-		return nil, fmt.Errorf("Error retrieving module '%s' definition location: unsupported multiple locations found <%+v>", moduleName, locations)
-	}
-
-	moduleUrl := (*locations)[0].Url
+func (c *Crawler) findModuleDefinitionLocations(moduleUrl string) (*[]nvim.Location, error) {
 	moduleBuffer, err := c.context.Nvim().OpenBuffer(moduleUrl)
 
 	if err != nil {
@@ -55,8 +23,8 @@ func (c *Crawler) findModuleRequireDefinitionLocations(moduleName string) (*[]nv
 	}
 
 	moduleExportDefinition := definition.NewModuleExport(*match)
-	line, character = uint(moduleExportDefinition.Range().End.Line), uint(moduleExportDefinition.Range().End.Character)
-	locations, err = moduleBuffer.GetDefinitionLocations(line, character)
+	line, character := uint(moduleExportDefinition.Range().End.Line), uint(moduleExportDefinition.Range().End.Character)
+	locations, err := moduleBuffer.GetDefinitionLocations(line, character)
 
 	if err != nil {
 		return nil, err

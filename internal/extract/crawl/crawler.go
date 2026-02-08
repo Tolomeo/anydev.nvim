@@ -59,20 +59,40 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 	case *origin.RequireFunctionCallOrigin:
 		c.context.Logger().Verbosef("Following module origin <%+v>", locationOriginType)
 
-		moduleName := locationOriginType.RequiredModuleName()
-		moduleLocations, err := c.findModuleRequireDefinitionLocations(moduleName)
+		url, line, character :=
+			locationOriginType.Url(),
+			uint(locationOriginType.RequiredModuleNameRange().End.Line),
+			uint(locationOriginType.RequiredModuleNameRange().End.Character)
+		moduleLocations, err := c.findDefinitionLocationsAt(url, line, character)
 
 		if err != nil {
 			return nil, err
 		}
 
-		moduleRequireOriginChain, err := c.getOriginChain(*moduleLocations)
+		if moduleLocations == nil {
+			c.context.Logger().Errorf("No locations found for module named '%s'", locationOriginType.RequiredModuleName())
+			return targetOriginChain.Append(origin.NewUnkownOrigin()), nil
+		}
+
+		if len(*moduleLocations) != 1 {
+			c.context.Logger().Errorf("Ambiguous number of locations for module named '%s': <%+v>", locationOriginType.RequiredModuleName(), *moduleLocations)
+			return nil, nil
+		}
+
+		moduleUrl := (*moduleLocations)[0].Url
+		moduleDefinitionLocations, err := c.findModuleDefinitionLocations(moduleUrl)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return targetOriginChain.Append(moduleRequireOriginChain), nil
+		moduleDefinitionOriginChain, err := c.getOriginChain(*moduleDefinitionLocations)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return targetOriginChain.Concat(moduleDefinitionOriginChain), nil
 	case *origin.VariableOrigin:
 		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
 
@@ -92,7 +112,7 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 			return nil, err
 		}
 
-		return targetOriginChain.Append(variableOriginChain), nil
+		return targetOriginChain.Concat(variableOriginChain), nil
 	}
 
 	return nil, fmt.Errorf("Cannot follow origin of type <%T>", targetOrigin)
