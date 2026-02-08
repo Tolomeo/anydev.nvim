@@ -25,7 +25,10 @@ var FunctionDeclarationQuery = treesitter.Query{
 			("," (vararg_expression) @vararg)?
 			(vararg_expression)? @vararg
 		)
-	) @function`,
+	) @function
+	(#not-has-ancestor? @function "function_declaration") ; Avoiding nested matches
+	(#not-has-ancestor? @function "function_definition") ; Avoiding nested matches
+	`,
 }
 
 /*
@@ -50,7 +53,9 @@ var FunctionVariableDeclarationQuery = treesitter.Query{
 						("," (vararg_expression) @vararg)?
 						(vararg_expression)? @vararg
 					)
-				)
+				) @signature
+				(#not-has-ancestor? @signature "function_declaration") ; Avoiding nested matches
+				(#not-has-ancestor? @signature "function_definition") ; Avoiding nested matches
 			)
 		)
 	) @function`,
@@ -83,7 +88,9 @@ var FunctionFieldIndexAssignmentQuery = treesitter.Query{
 					("," (vararg_expression) @vararg)?
 					(vararg_expression)? @vararg
 				)
-			)
+			) @signature
+			(#not-has-ancestor? @signature "function_declaration") ; Avoiding nested matches
+			(#not-has-ancestor? @signature "function_definition") ; Avoiding nested matches
 		)
 	) @function`,
 }
@@ -112,7 +119,9 @@ var FunctionFieldDotAssignmentQuery = treesitter.Query{
 					("," (vararg_expression) @vararg)?
 					(vararg_expression)? @vararg
 				)
-			)
+			) @signature
+			(#not-has-ancestor? @signature "function_declaration") ; Avoiding nested matches
+			(#not-has-ancestor? @signature "function_definition") ; Avoiding nested matches
 		)
 	) @function`,
 }
@@ -137,7 +146,10 @@ var FunctionFieldDotDeclarationQuery = treesitter.Query{
 			("," (vararg_expression) @vararg)?
 			(vararg_expression)? @vararg
 		)
-	) @function`,
+	) @function
+	(#not-has-ancestor? @function "function_declaration") ; Avoiding nested matches
+	(#not-has-ancestor? @function "function_definition") ; Avoiding nested matches
+	`,
 }
 
 /*
@@ -160,7 +172,10 @@ var FunctionFieldMethodDeclarationQuery = treesitter.Query{
 			("," (vararg_expression) @vararg)?
 			(vararg_expression)? @vararg
 		)
-	) @function`,
+	) @function
+	(#not-has-ancestor? @function "function_declaration") ; Avoiding nested matches
+	(#not-has-ancestor? @function "function_definition") ; Avoiding nested matches
+	`,
 }
 
 type FunctionOrigin struct {

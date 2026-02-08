@@ -338,9 +338,91 @@
                         ],
                         "type": {
                             "kind": "function",
-                            "arguments": [],
+                            "arguments": [
+                                {
+                                    "name": "bufnr",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                },
+                                {
+                                    "name": "params",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "table"
+                                            },
+                                            {
+                                                "kind": "function",
+                                                "arguments": [
+                                                    {
+                                                        "name": "client",
+                                                        "optional": false,
+                                                        "type": {
+                                                            "kind": "reference",
+                                                            "value": "vim.lsp.Client"
+                                                        }
+                                                    },
+                                                    {
+                                                        "name": "bufnr",
+                                                        "optional": false,
+                                                        "type": {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    }
+                                                ],
+                                                "generics": [],
+                                                "returns": [
+                                                    {
+                                                        "name": "",
+                                                        "type": {
+                                                            "kind": "optional",
+                                                            "type": {
+                                                                "kind": "builtin",
+                                                                "value": "table"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "handler",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "reference",
+                                        "value": "lsp.Handler"
+                                    }
+                                },
+                                {
+                                    "name": "on_unsupported",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "function",
+                                        "arguments": [],
+                                        "generics": [],
+                                        "returns": []
+                                    }
+                                }
+                            ],
                             "generics": [],
-                            "name": "_cancel_all_requests",
+                            "name": "buf_request",
                             "returns": [
                                 {
                                     "name": "",
@@ -20628,24 +20710,43 @@
                             "kind": "function",
                             "arguments": [
                                 {
-                                    "name": "err",
+                                    "name": "method",
                                     "optional": false,
                                     "type": {
-                                        "kind": "unknown",
-                                        "documentation": []
+                                        "kind": "builtin",
+                                        "value": "string"
                                     }
                                 },
                                 {
-                                    "name": "result",
+                                    "name": "params",
                                     "optional": false,
                                     "type": {
-                                        "kind": "unknown",
-                                        "documentation": []
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    }
+                                },
+                                {
+                                    "name": "timeout_ms",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "bufnr",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
                                     }
                                 }
                             ],
                             "generics": [],
-                            "name": "_sync_handler",
+                            "name": "request_sync",
                             "returns": [
                                 {
                                     "name": "",
