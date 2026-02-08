@@ -56,10 +56,10 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 	targetOrigin := c.context.Target().Origin()
 
 	switch locationOriginType := targetOrigin.(type) {
-	case *origin.ModuleRequireOrigin:
+	case *origin.RequireFunctionCallOrigin:
 		c.context.Logger().Verbosef("Following module origin <%+v>", locationOriginType)
 
-		moduleName := locationOriginType.Name()
+		moduleName := locationOriginType.RequiredModuleName()
 		moduleLocations, err := c.findModuleRequireDefinitionLocations(moduleName)
 
 		if err != nil {
