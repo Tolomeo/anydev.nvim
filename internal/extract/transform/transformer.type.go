@@ -596,8 +596,7 @@ func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
 		return stringLiteralType, nil
 	}
 
-	tr.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", type_))
-	return symbol.NewUnknown(), nil
+	return symbol.NewReference(type_), nil
 }
 
 func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) {
@@ -618,7 +617,7 @@ func (tr *Transformer) getType(typ string) (symbol.Type, error) {
 	}
 
 	switch parsedType.(type) {
-	case *symbol.Unknown:
+	case *symbol.Reference:
 		return tr.getReferenceType(typ)
 	}
 
