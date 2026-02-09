@@ -242,7 +242,7 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.TableDeclarationQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableDeclarationQuery.Query),
 			},
-			origin.TableModuleWithLazyFieldsAssignmentQuery.MapQuery(func(query string) string {
+			origin.TableReturnAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
 		},

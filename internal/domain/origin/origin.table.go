@@ -96,23 +96,19 @@ var TableFieldIndexAssignmentQuery = treesitter.Query{
 	) @table`,
 }
 
-var TableModuleWithLazyFieldsAssignmentQuery = treesitter.Query{
+var TableReturnAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(assignment_statement 
 		(variable_list 
-			name: (identifier) @table.name
+			name: (_) @table.name
 		) 
 		(expression_list 
 			value: (function_call 
-				name: (dot_index_expression) @vim._defer_require 
-				arguments: (arguments 
-					(string) 
-					(table_constructor) @table.value
-				)
+				name: (_) @function.name 
 			)
 		)
-		(#eq? @vim._defer_require "vim._defer_require")
+		(#any-eq? @function.name "vim._defer_require")
 	) @table`,
 }
 

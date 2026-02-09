@@ -94,6 +94,10 @@ func (fco *FunctionCallOrigin) FunctionName() []string {
 	return strings.Split(fco.functionName.Text, "\n")
 }
 
+func (fco *FunctionCallOrigin) FunctionNameRange() treesitter.Range {
+	return fco.functionName.Range
+}
+
 func NewFunctionCallOrigin(location nvim.Location, match nvim.TsQueryMatch, annotations []string) *FunctionCallOrigin {
 	functionCallOrigin := FunctionCallOrigin{
 		origin: origin{

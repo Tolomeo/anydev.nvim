@@ -113,6 +113,26 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 		}
 
 		return targetOriginChain.Concat(variableOriginChain), nil
+	case *origin.FunctionCallOrigin:
+		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
+
+		url, line, character :=
+			locationOriginType.Url(),
+			uint(locationOriginType.FunctionNameRange().End.Line),
+			uint(locationOriginType.FunctionNameRange().End.Character)
+		functionLocations, err := c.findDefinitionLocationsAt(url, line, character)
+
+		if err != nil {
+			return nil, err
+		}
+
+		functionOriginChain, err := c.getOriginChain(*functionLocations)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return targetOriginChain.Concat(functionOriginChain), nil
 	}
 
 	return nil, fmt.Errorf("Cannot follow origin of type <%T>", targetOrigin)

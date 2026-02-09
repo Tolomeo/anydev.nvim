@@ -12,7 +12,7 @@ type functionCallOriginAtAnnotations struct {
 	AtType *AtTypeAnnotation
 }
 
-func (tr *Transformer) getFunctionCallOriginAnnotations(docblock []string) (functionCallOriginAtAnnotations, error) {
+func (tr *Transformer) getFunctionCallOriginAtAnnotations(docblock []string) (functionCallOriginAtAnnotations, error) {
 	annotations := functionCallOriginAtAnnotations{
 		AtType: nil,
 	}
@@ -42,7 +42,7 @@ func (tr *Transformer) getFunctionCallOriginAnnotations(docblock []string) (func
 }
 
 func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.FunctionCallOrigin) (annotation.Type, error) {
-	annotations, err := tr.getVariableOriginAnnotations(functionCallOrigin.Annotations())
+	annotations, err := tr.getFunctionCallOriginAtAnnotations(functionCallOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
@@ -59,5 +59,23 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 		return originType, nil
 	}
 
-	return symbol.NewUnknown(), nil
+	followedType, err := tr.context.Follow()
+
+	// TODO: support generics?
+	switch functionType := followedType.(type) {
+	case *symbol.Function:
+		if len(functionType.Returns) == 0 {
+			tr.context.Logger().Warnf("Unknown return type of function call origin: <%+v>", functionType)
+			return symbol.NewUnknown(), nil
+		}
+
+		if len(functionType.Returns) > 1 {
+			tr.context.Logger().Errorf("Unsupported multiple return types of function call origin: <%+v>", functionType)
+			return symbol.NewUnknown(), nil
+		}
+
+		return functionType.Returns[0].Type, nil
+	}
+
+	return nil, fmt.Errorf("Unsupported followed type result <%T> of function call origin", followedType)
 }
