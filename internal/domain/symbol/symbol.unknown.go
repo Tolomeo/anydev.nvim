@@ -7,6 +7,11 @@ type Unknown struct {
 	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 }
 
+// Canonical implements Type.
+func (u *Unknown) Canonical() Type {
+	return u
+}
+
 // GetKind implements Type.
 func (u *Unknown) GetKind() string {
 	return u.Kind

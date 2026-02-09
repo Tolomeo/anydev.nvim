@@ -9,6 +9,10 @@ type Table struct {
 	Name    string       `json:"name" yaml:"name" mapstructure:"name"`
 }
 
+func (t *Table) Canonical() Type {
+	return t
+}
+
 func (t *Table) GetKind() string {
 	return t.Kind
 }

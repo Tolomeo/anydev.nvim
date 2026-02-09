@@ -20,8 +20,8 @@ type Builtin struct {
 }
 
 // Canonical implements Type.
-func (b *Builtin) Canonical() string {
-	return b.Value
+func (b *Builtin) Canonical() Type {
+	return b
 }
 
 func (b *Builtin) GetKind() string {

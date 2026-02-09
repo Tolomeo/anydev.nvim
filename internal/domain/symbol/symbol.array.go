@@ -7,6 +7,10 @@ type Array struct {
 	Items Type   `json:"items" yaml:"items" mapstructure:"items"`
 }
 
+func (a *Array) Canonical() Type {
+	return a
+}
+
 // Kind implements Type.
 func (a *Array) GetKind() string {
 	return a.Kind

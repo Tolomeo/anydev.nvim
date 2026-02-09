@@ -7,6 +7,10 @@ type Reference struct {
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
+func (r *Reference) Canonical() Type {
+	return r
+}
+
 // GetKind implements Type.
 func (r *Reference) GetKind() string {
 	return r.Kind

@@ -11,7 +11,10 @@ type Function struct {
 	Returns   []FunctionReturn   `json:"returns" yaml:"returns" mapstructure:"returns"`
 }
 
-// GetKind implements Type.
+func (f *Function) Canonical() Type {
+	return f
+}
+
 func (f *Function) GetKind() string {
 	return f.Kind
 }

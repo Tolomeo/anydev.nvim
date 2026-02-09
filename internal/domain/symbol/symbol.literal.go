@@ -7,6 +7,10 @@ type StringLiteral struct {
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
+func (s *StringLiteral) Canonical() Type {
+	return s
+}
+
 // GetKind implements Type.
 func (s *StringLiteral) GetKind() string {
 	return s.Kind
@@ -28,6 +32,10 @@ type NumericLiteral struct {
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
+func (n *NumericLiteral) Canonical() Type {
+	return n
+}
+
 // GetKind implements Type.
 func (n *NumericLiteral) GetKind() string {
 	return n.Kind
@@ -47,6 +55,10 @@ const BooleanLiteralKind string = "booleanliteral"
 type BooleanLiteral struct {
 	Kind  string              `json:"kind" yaml:"kind" mapstructure:"kind"`
 	Value BooleanLiteralValue `json:"value" yaml:"value" mapstructure:"value"`
+}
+
+func (b *BooleanLiteral) Canonical() Type {
+	return b
 }
 
 // GetKind implements Type.

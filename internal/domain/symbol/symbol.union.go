@@ -7,6 +7,10 @@ type Union struct {
 	Types []Type `json:"types" yaml:"types" mapstructure:"types"`
 }
 
+func (u *Union) Canonical() Type {
+	return u
+}
+
 func (u *Union) GetKind() string {
 	return u.Kind
 }

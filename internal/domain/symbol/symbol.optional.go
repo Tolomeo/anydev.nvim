@@ -7,6 +7,10 @@ type Optional struct {
 	Type Type   `json:"type" yaml:"type" mapstructure:"type"`
 }
 
+func (o *Optional) Canonical() Type {
+	return o.Type
+}
+
 func (o *Optional) GetKind() string {
 	return o.Kind
 }
