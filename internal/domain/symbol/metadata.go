@@ -89,8 +89,8 @@ func (m *Metadata) GetStatic() bool {
 	return m.static
 }
 
-func (m *Metadata) SetStatic(v bool) {
-	m.static = true
+func (m *Metadata) SetStatic(static bool) {
+	m.static = static
 }
 
 func NewMetadata() *Metadata {

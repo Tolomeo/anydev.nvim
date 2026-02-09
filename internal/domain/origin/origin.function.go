@@ -1,6 +1,7 @@
 package origin
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -219,9 +220,15 @@ func NewFunctionOrigin(location nvim.Location, captures nvim.TsQueryMatch, docum
 		case "name":
 			functionOrigin.name = capture.Node.Text
 		case "access.class":
+			fmt.Println("access.class")
 			functionOrigin.static = true
 		case "arg":
-			functionOrigin.args = append(functionOrigin.args, capture.Node.Text)
+			switch capture.Node.Text {
+			case "self":
+				functionOrigin.static = false
+			default:
+				functionOrigin.args = append(functionOrigin.args, capture.Node.Text)
+			}
 		case "vararg":
 			functionOrigin.args = append(functionOrigin.args, capture.Node.Text)
 		}
