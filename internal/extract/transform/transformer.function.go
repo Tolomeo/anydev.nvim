@@ -133,24 +133,31 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		paramAnnotation, hasParamAnnotation := annotations.AtParams[name]
 
 		if !hasParamAnnotation {
-			tr.context.Logger().Info(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
+			tr.context.Logger().Warnf(fmt.Sprintf("Using '%s' for undocumented argument type '%s'", function.Arguments[argIndex].Type, function.Arguments[argIndex].Name))
 			continue
 		}
 
-		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == paramAnnotation.Type()
-		}); isGeneric {
-			function.Arguments[argIndex].Type = symbol.NewReference(functionGeneric.Name)
-		} else {
-			argumentType, err := tr.getType(paramAnnotation.Type())
+		parsedArgType, err := tr.parseType(paramAnnotation.Type())
 
-			if err != nil {
-				return nil, err
-			}
-
-			function.Arguments[argIndex].Type = argumentType
+		if err != nil {
+			return nil, err
 		}
 
+		switch reference := (parsedArgType.Canonical()).(type) {
+		case *symbol.Reference:
+			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
+				tr.context.Logger().Debugf("Reference arg: %s, Generic name: %s", reference.Value, generic.Name)
+				return reference.Value == generic.Name
+			}); !isGenericArgType {
+				tr.context.Logger().Debugf("Resolving %s", reference.Value)
+				err := tr.resolveReferenceType(reference)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+
+		function.Arguments[argIndex].Type = parsedArgType
 		function.Arguments[argIndex].Optional = paramAnnotation.Optional()
 	}
 
@@ -158,20 +165,27 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		functionReturn := symbol.NewFunctionReturn()
 		functionReturn.Name = returnAnnotation.Name()
 
-		if functionGeneric, isGeneric := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-			return generic.Name == returnAnnotation.Type()
-		}); isGeneric {
-			functionReturn.Type = symbol.NewReference(functionGeneric.Name)
-		} else {
-			typ, err := tr.getType(returnAnnotation.Type())
+		parsedReturnType, err := tr.parseType(returnAnnotation.Type())
 
-			if err != nil {
-				return nil, err
-			}
-
-			functionReturn.Type = typ
+		if err != nil {
+			return nil, err
 		}
 
+		switch reference := (parsedReturnType.Canonical()).(type) {
+		case *symbol.Reference:
+			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
+				tr.context.Logger().Debugf("Reference ret: %s, Generic name: %s", reference.Value, generic.Name)
+				return reference.Value == generic.Name
+			}); !isGenericArgType {
+				tr.context.Logger().Debugf("Resolving %s", reference.Value)
+				err := tr.resolveReferenceType(reference)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+
+		functionReturn.Type = parsedReturnType
 		function.Returns = append(function.Returns, *functionReturn)
 	}
 
