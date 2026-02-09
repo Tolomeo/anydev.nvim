@@ -3,7 +3,7 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 )
 
@@ -40,7 +40,7 @@ func (tr *Transformer) getVariableOriginAnnotations(docblock []string) (variable
 	return annotations, nil
 }
 
-func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrigin) (annotation.Type, error) {
+func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrigin) (symbol.Type, error) {
 	annotations, err := tr.getVariableOriginAnnotations(variableOrigin.Annotations())
 
 	if err != nil {

@@ -1,7 +1,5 @@
 package symbol
 
-import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
-
 const EnumeratorKind = "enumerator"
 
 type Enumerator struct {
@@ -15,8 +13,8 @@ func (e *Enumerator) GetKind() string {
 }
 
 type EnumeratorField struct {
-	Name  string          `json:"name" yaml:"name" mapstructure:"name"`
-	Value annotation.Type `json:"value" yaml:"value" mapstructure:"value"`
+	Name  string `json:"name" yaml:"name" mapstructure:"name"`
+	Value Type   `json:"value" yaml:"value" mapstructure:"value"`
 }
 
 func NewEnumerator(name string) *Enumerator {

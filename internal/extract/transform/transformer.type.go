@@ -45,7 +45,7 @@ var optionalTypeAnnotationQuery = annotation.OptionalQuery.MapQuery(func(query s
 	)`, query)
 })
 
-func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (annotation.Type, error) {
+func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -188,7 +188,7 @@ func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, 
 	return nil, nil
 }
 
-func (tr *Transformer) getBuiltinType(source string) annotation.Type {
+func (tr *Transformer) getBuiltinType(source string) symbol.Type {
 	switch source {
 	case annotation.BuiltinVoid:
 		return symbol.NewVoid()
@@ -217,16 +217,6 @@ func (tr *Transformer) getBuiltinType(source string) annotation.Type {
 	}
 
 	return nil
-}
-
-func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) {
-	err := tr.context.Extract("type", name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return symbol.NewReference(name), nil
 }
 
 var arrayTypeAnnotationQuery = annotation.ArrayQuery.MapQuery(func(query string) string {
@@ -357,7 +347,7 @@ func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (
 
 	unionAnnotation := annotation.NewUnion(*match)
 
-	unionTypes := []annotation.Type{}
+	unionTypes := []symbol.Type{}
 
 	for _, typ := range unionAnnotation.Types() {
 		unionType, err := tr.getType(typ)
@@ -394,7 +384,7 @@ var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.MapQuery(fu
 `, query)
 })
 
-func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string) (annotation.Type, error) {
+func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	if err != nil {
@@ -481,11 +471,11 @@ func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string
 	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
 }
 
-func (tr *Transformer) getType(typ string) (annotation.Type, error) {
-	tr.context.Logger().Verbosef("Transforming text type <%s>", typ)
+func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
+	tr.context.Logger().Verbosef("Transforming text type <%s>", type_)
 
-	source := strings.TrimSpace(typ)
-	builtinType := tr.getBuiltinType(strings.TrimSpace(source))
+	// source := strings.TrimSpace(typ)
+	builtinType := tr.getBuiltinType(strings.TrimSpace(type_))
 
 	if builtinType != nil {
 		return builtinType, nil
@@ -499,7 +489,7 @@ func (tr *Transformer) getType(typ string) (annotation.Type, error) {
 
 	defer buffer.Close()
 
-	typeAnnotation := fmt.Sprintf("---@type %s", source)
+	typeAnnotation := fmt.Sprintf("---@type %s", type_)
 	err = buffer.SetLines([]string{typeAnnotation})
 
 	if err != nil {
@@ -509,17 +499,17 @@ func (tr *Transformer) getType(typ string) (annotation.Type, error) {
 	functionType, err := tr.getFunctionType(buffer)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as function: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as function: %w", type_, err)
 	}
 
 	if functionType != nil {
 		return functionType, nil
 	}
 
-	arrayType, err := tr.getArrayType(buffer, source)
+	arrayType, err := tr.getArrayType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as array: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as array: %w", type_, err)
 	}
 
 	if arrayType != nil {
@@ -529,7 +519,7 @@ func (tr *Transformer) getType(typ string) (annotation.Type, error) {
 	tableType, err := tr.getTableType(buffer)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as table: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as table: %w", type_, err)
 	}
 
 	if tableType != nil {
@@ -539,47 +529,47 @@ func (tr *Transformer) getType(typ string) (annotation.Type, error) {
 	literalTableType, err := tr.getLiteralTableType(buffer)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as literal table: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as literal table: %w", type_, err)
 	}
 
 	if literalTableType != nil {
 		return literalTableType, nil
 	}
 
-	optionalType, err := tr.getOptionalType(buffer, source)
+	optionalType, err := tr.getOptionalType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as optional: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as optional: %w", type_, err)
 	}
 
 	if optionalType != nil {
 		return optionalType, nil
 	}
 
-	unionType, err := tr.getUnionType(buffer, source)
+	unionType, err := tr.getUnionType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as union: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as union: %w", type_, err)
 	}
 
 	if unionType != nil {
 		return unionType, nil
 	}
 
-	parenthesizedType, err := tr.getParenthesizedType(buffer, source)
+	parenthesizedType, err := tr.getParenthesizedType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as parenthesized: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as parenthesized: %w", type_, err)
 	}
 
 	if parenthesizedType != nil {
 		return parenthesizedType, nil
 	}
 
-	numericLiteralType, err := tr.getLiteralNumberType(buffer, source)
+	numericLiteralType, err := tr.getLiteralNumberType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as numeric literal: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as numeric literal: %w", type_, err)
 	}
 
 	if numericLiteralType != nil {
@@ -589,33 +579,48 @@ func (tr *Transformer) getType(typ string) (annotation.Type, error) {
 	booleanLiteralType, err := tr.getLiteralBooleanType(buffer)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as boolean literal: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as boolean literal: %w", type_, err)
 	}
 
 	if booleanLiteralType != nil {
 		return booleanLiteralType, nil
 	}
 
-	stringLiteralType, err := tr.getLiteralStringType(buffer, source)
+	stringLiteralType, err := tr.getLiteralStringType(buffer, type_)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as string literal: %w", source, err)
+		return nil, fmt.Errorf("Error lexing type <%s> as string literal: %w", type_, err)
 	}
 
 	if stringLiteralType != nil {
 		return stringLiteralType, nil
 	}
 
-	referenceType, err := tr.getReferenceType(source)
+	tr.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", type_))
+	return symbol.NewUnknown(), nil
+}
+
+func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) {
+	err := tr.context.Extract("type", name)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error lexing type <%s> as reference: %w", source, err)
+		return nil, err
 	}
 
-	if referenceType != nil {
-		return referenceType, nil
+	return symbol.NewReference(name), nil
+}
+
+func (tr *Transformer) getType(typ string) (symbol.Type, error) {
+	parsedType, err := tr.parseType(typ)
+
+	if err != nil {
+		return nil, err
 	}
 
-	tr.context.Logger().Warn(fmt.Sprintf("Unknown type '%s' received", source))
-	return symbol.NewUnknown(), nil
+	switch parsedType.(type) {
+	case *symbol.Unknown:
+		return tr.getReferenceType(typ)
+	}
+
+	return parsedType, nil
 }

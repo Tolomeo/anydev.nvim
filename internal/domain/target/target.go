@@ -3,7 +3,6 @@ package target
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
@@ -22,7 +21,7 @@ type Target struct {
 	originChain   origin.OriginChain
 	meta          symbol.Metadata
 	documentation symbol.Documentation
-	type_         annotation.Type
+	type_         symbol.Type
 }
 
 func (t *Target) Kind() TargetKind {
@@ -69,11 +68,11 @@ func (t *Target) SetMeta(m symbol.Metadata) {
 	t.meta = m
 }
 
-func (t *Target) Type() annotation.Type {
+func (t *Target) Type() symbol.Type {
 	return t.type_
 }
 
-func (t *Target) SetType(typ annotation.Type) {
+func (t *Target) SetType(typ symbol.Type) {
 	t.type_ = typ
 }
 

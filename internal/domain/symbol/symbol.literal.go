@@ -1,7 +1,5 @@
 package symbol
 
-import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
-
 const StringLiteralKind string = "stringliteral"
 
 type StringLiteral struct {
@@ -14,7 +12,7 @@ func (s *StringLiteral) GetKind() string {
 	return s.Kind
 }
 
-var _ annotation.Type = (*StringLiteral)(nil)
+var _ Type = (*StringLiteral)(nil)
 
 func NewStringLiteral(value string) *StringLiteral {
 	return &StringLiteral{
@@ -35,7 +33,7 @@ func (n *NumericLiteral) GetKind() string {
 	return n.Kind
 }
 
-var _ annotation.Type = (*NumericLiteral)(nil)
+var _ Type = (*NumericLiteral)(nil)
 
 func NewNumericLiteral(value string) *NumericLiteral {
 	return &NumericLiteral{
@@ -56,7 +54,7 @@ func (b *BooleanLiteral) GetKind() string {
 	return b.Kind
 }
 
-var _ annotation.Type = (*BooleanLiteral)(nil)
+var _ Type = (*BooleanLiteral)(nil)
 
 type BooleanLiteralValue string
 

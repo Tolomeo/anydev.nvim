@@ -3,7 +3,6 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
@@ -18,17 +17,17 @@ type ctx interface {
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
-	Follow() (annotation.Type, error)
-	AddChild(*symbol.Table, string, symbol.Metadata, []string, annotation.Type)
+	Follow() (symbol.Type, error)
+	AddChild(*symbol.Table, string, symbol.Metadata, []string, symbol.Type)
 }
 
 type Transformer struct {
 	context ctx
 }
 
-var lexedCache = cache.NewCache[annotation.Type]()
+var lexedCache = cache.NewCache[symbol.Type]()
 
-func (tr *Transformer) GetOriginType() (annotation.Type, error) {
+func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 	cacheId := []string{
 		tr.context.Target().Origin().Url(),
 		fmt.Sprintf("%d", tr.context.Target().Origin().Line()),
@@ -139,7 +138,7 @@ func (tr *Transformer) GetOriginType() (annotation.Type, error) {
 	return nil, fmt.Errorf("Unknown origin type received for source '%s' <%T>", tr.context.Target().Identifier(), tr.context.Target().Origin())
 }
 
-func (tr *Transformer) GetType(typ string) (annotation.Type, error) {
+func (tr *Transformer) GetType(typ string) (symbol.Type, error) {
 	return tr.getType(typ)
 }
 

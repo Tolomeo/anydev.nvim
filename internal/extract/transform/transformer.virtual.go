@@ -3,9 +3,8 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
-	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 )
 
 type virtualOriginAtAnnotations struct {
@@ -41,7 +40,7 @@ func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOr
 	return annotations, nil
 }
 
-func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (annotation.Type, error) {
+func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (symbol.Type, error) {
 	unknown := symbol.NewUnknown()
 	unknown.Documentation = virtualOrigin.Annotations()
 

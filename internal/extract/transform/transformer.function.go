@@ -191,9 +191,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		functionOverload := symbol.NewFunctionOverload()
 		functionOverload.Generics = overloadFunctionType.Generics
 		functionOverload.Arguments = overloadFunctionType.Arguments
-		// functionOverload.Documentation = overloadFunctionType.Documentation
 		functionOverload.Returns = overloadFunctionType.Returns
-
 		function.Overloads = append(function.Overloads, *functionOverload)
 	}
 

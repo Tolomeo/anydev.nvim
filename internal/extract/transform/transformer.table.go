@@ -50,7 +50,7 @@ func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations,
 	return tAnnotations, nil
 }
 
-func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (annotation.Type, error) {
+func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (symbol.Type, error) {
 	annotations, err := tr.getTableAnnotations(tableOrigin.Annotations())
 
 	if err != nil {

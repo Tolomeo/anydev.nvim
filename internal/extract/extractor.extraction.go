@@ -1,7 +1,6 @@
 package extract
 
 import (
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
@@ -28,6 +27,7 @@ func (c *extractionContext) Nvim() *nvim.Nvim {
 }
 
 func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
+	c.Logger().Debugf("Extract kind: %s, name: %s", kind, name)
 	return c.target.extractor.Extract(kind, name)
 }
 
@@ -74,7 +74,7 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 	return nil
 }
 
-func (c *extractionContext) Follow() (annotation.Type, error) {
+func (c *extractionContext) Follow() (symbol.Type, error) {
 	c.target.logger.Info("Following")
 
 	origin, err := c.target.crawler.FollowOriginChain()
@@ -91,7 +91,7 @@ func (c *extractionContext) Follow() (annotation.Type, error) {
 }
 
 // TODO: remove
-func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ annotation.Type) {
+func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ symbol.Type) {
 	field := symbol.NewTableField()
 	field.Name = name
 	field.Metadata = metadata

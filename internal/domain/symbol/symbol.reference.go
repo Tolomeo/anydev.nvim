@@ -1,7 +1,5 @@
 package symbol
 
-import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
-
 const ReferenceKind string = "reference"
 
 type Reference struct {
@@ -14,7 +12,7 @@ func (r *Reference) GetKind() string {
 	return r.Kind
 }
 
-var _ annotation.Type = (*Reference)(nil)
+var _ Type = (*Reference)(nil)
 
 func NewReference(value string) *Reference {
 	return &Reference{

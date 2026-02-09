@@ -1,7 +1,5 @@
 package symbol
 
-import "github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
-
 const BuiltinValueAny string = "any"
 const BuiltinValueBoolean string = "boolean"
 const BuiltinValueFunction string = "function"
@@ -21,11 +19,16 @@ type Builtin struct {
 	Value string `json:"value" yaml:"value" mapstructure:"value"`
 }
 
+// Canonical implements Type.
+func (b *Builtin) Canonical() string {
+	return b.Value
+}
+
 func (b *Builtin) GetKind() string {
 	return b.Kind
 }
 
-var _ annotation.Type = (*Builtin)(nil)
+var _ Type = (*Builtin)(nil)
 
 type BuiltinKind string
 
