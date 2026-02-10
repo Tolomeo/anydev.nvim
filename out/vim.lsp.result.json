@@ -721,8 +721,8 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "boolean"
+                            "kind": "unknown",
+                            "documentation": []
                         }
                     },
                     {
@@ -796,8 +796,8 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "boolean"
+                            "kind": "unknown",
+                            "documentation": []
                         }
                     },
                     {
@@ -845,8 +845,8 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "boolean"
+                            "kind": "unknown",
+                            "documentation": []
                         }
                     },
                     {
@@ -2158,15 +2158,6 @@
         }
     },
     "types": {
-        "T": {
-            "name": "T",
-            "documentation": [],
-            "meta": [],
-            "type": {
-                "kind": "unknown",
-                "documentation": []
-            }
-        },
         "decimal": {
             "name": "decimal",
             "documentation": [
@@ -2189,8 +2180,8 @@
             ],
             "meta": [],
             "type": {
-                "kind": "builtin",
-                "value": "boolean"
+                "kind": "unknown",
+                "documentation": []
             }
         },
         "lsp.CallHierarchyClientCapabilities": {
@@ -16963,62 +16954,6 @@
             "type": {
                 "kind": "builtin",
                 "value": "string"
-            }
-        },
-        "lsp.Unregistration": {
-            "name": "lsp.Unregistration",
-            "documentation": [
-                "```lua",
-                "(class) lsp.Unregistration",
-                "```",
-                "",
-                "---",
-                "",
-                "General parameters to unregister a request or notification."
-            ],
-            "meta": [],
-            "type": {
-                "fields": [
-                    {
-                        "name": "id",
-                        "documentation": [
-                            "```lua",
-                            "(field) lsp.Unregistration.id: string",
-                            "```",
-                            "",
-                            "---",
-                            "",
-                            "",
-                            "The id used to unregister the request or notification. Usually an id",
-                            "provided during the register request."
-                        ],
-                        "meta": [],
-                        "type": {
-                            "kind": "builtin",
-                            "value": "string"
-                        }
-                    },
-                    {
-                        "name": "method",
-                        "documentation": [
-                            "```lua",
-                            "(field) lsp.Unregistration.method: string",
-                            "```",
-                            "",
-                            "---",
-                            "",
-                            "",
-                            "The method to unregister for."
-                        ],
-                        "meta": [],
-                        "type": {
-                            "kind": "builtin",
-                            "value": "string"
-                        }
-                    }
-                ],
-                "kind": "table",
-                "name": "lsp.Unregistration"
             }
         },
         "lsp.WindowClientCapabilities": {

@@ -27,7 +27,6 @@ func (c *extractionContext) Nvim() *nvim.Nvim {
 }
 
 func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
-	c.Logger().Debugf("Extract kind: %s, name: %s", kind, name)
 	return c.target.extractor.Extract(kind, name)
 }
 

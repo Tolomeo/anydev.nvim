@@ -8,7 +8,7 @@ type Optional struct {
 }
 
 func (o *Optional) Canonical() Type {
-	return o.Type
+	return o.Type.Canonical()
 }
 
 func (o *Optional) GetKind() string {

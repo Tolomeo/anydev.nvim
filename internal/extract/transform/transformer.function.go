@@ -146,11 +146,9 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		switch reference := (parsedArgType.Canonical()).(type) {
 		case *symbol.Reference:
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-				tr.context.Logger().Debugf("Reference arg: %s, Generic name: %s", reference.Value, generic.Name)
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
-				tr.context.Logger().Debugf("Resolving %s", reference.Value)
-				err := tr.resolveReferenceType(reference)
+				err := tr.resolveReferences(parsedArgType)
 				if err != nil {
 					return nil, err
 				}
@@ -174,11 +172,9 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		switch reference := (parsedReturnType.Canonical()).(type) {
 		case *symbol.Reference:
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
-				tr.context.Logger().Debugf("Reference ret: %s, Generic name: %s", reference.Value, generic.Name)
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
-				tr.context.Logger().Debugf("Resolving %s", reference.Value)
-				err := tr.resolveReferenceType(reference)
+				err := tr.resolveReferences(reference)
 				if err != nil {
 					return nil, err
 				}

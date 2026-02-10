@@ -24,11 +24,9 @@ type TableField struct {
 }
 
 type TableIndex struct {
-	Key   TableIndexKey `json:"key" yaml:"key" mapstructure:"key"`
-	Value Type          `json:"value" yaml:"value" mapstructure:"value"`
+	Key   Type `json:"key" yaml:"key" mapstructure:"key"`
+	Value Type `json:"value" yaml:"value" mapstructure:"value"`
 }
-
-type TableIndexKey any
 
 type TableIndexValue Symbol
 
