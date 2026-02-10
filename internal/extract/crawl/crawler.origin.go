@@ -361,6 +361,12 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 
 	if _, isVirtual := originMatch.Find("origin.meta"); isVirtual {
 		node := definition.NewVirtual(originMatch)
+		nodeAnnotations, err := buffer.GetTsNodeAnnotations(node.Root())
+		if err != nil {
+			return nil, err
+		}
+		c.context.Logger().Debugf("Node annotations: %+v", nodeAnnotations)
+
 		return origin.NewVirtualOrigin(location, *node, originAnnotations), nil
 	}
 

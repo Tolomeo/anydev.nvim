@@ -322,6 +322,54 @@ func (n *Nvim) getTSNodeAt(nodeTypes []string, line uint, character uint) (*tree
 	return &tsNode, nil
 }
 
+type TsNodeQueryMap map[string][]treesitter.Query
+
+type TsNodeQueryMatch struct {
+	Node  treesitter.TsNode
+	Match TsQueryMatch
+}
+
+func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
+	targetNodes := mapx.Keys(queryMap)
+	node, err := n.getTSNodeAt(targetNodes, line, character)
+
+	// n.logger.Debugf("Target nodes: %v, %d, %d", targetNodes, line, character)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// n.logger.Debugf("Node: %+v", node)
+
+	if node == nil {
+		return nil, nil
+	}
+
+	for _, nodeQuery := range queryMap[node.Type] {
+		nodeRange := node.Range.LineRange()
+		rangedNodeQuery := nodeQuery.Ranged(nodeRange)
+		match, err := n.tsQueryOne(rangedNodeQuery)
+
+		if err != nil {
+			return nil, fmt.Errorf("Error executing '%s' query <%+v> with range <%+v> on node type <%s>: %w", rangedNodeQuery.Language, rangedNodeQuery.Query, rangedNodeQuery.Range, node.Type, err)
+		}
+
+		/* n.logger.Debugf("Query: %+v", rangedNodeQuery)
+		n.logger.Debugf("Match: %+v", match) */
+
+		if match == nil {
+			continue
+		}
+
+		return &TsNodeQueryMatch{
+			Node:  *node,
+			Match: *match,
+		}, nil
+	}
+
+	return nil, nil
+}
+
 func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
 	lines, err := n.getBufferLines(int(line), int(line)+1)
 
@@ -375,50 +423,37 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 	return &tsNode, nil
 }
 
-type TsNodeQueryMap map[string][]treesitter.Query
-
-type TsNodeQueryMatch struct {
-	Node  treesitter.TsNode
-	Match TsQueryMatch
-}
-
-func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
-	targetNodes := mapx.Keys(queryMap)
-	node, err := n.getTSNodeAt(targetNodes, line, character)
-
-	// n.logger.Debugf("Target nodes: %v, %d, %d", targetNodes, line, character)
+func (n *Nvim) getNodeAnnotations(tsNode treesitter.TsNode) ([]string, error) {
+	node, err := json.Marshal(tsNode)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// n.logger.Debugf("Node: %+v", node)
+	script, err := scripts.Read("get-ts-node-annotations")
 
-	if node == nil {
-		return nil, nil
+	if err != nil {
+		return nil, err
 	}
 
-	for _, nodeQuery := range queryMap[node.Type] {
-		nodeRange := node.Range.LineRange()
-		rangedNodeQuery := nodeQuery.Ranged(nodeRange)
-		match, err := n.tsQueryOne(rangedNodeQuery)
+	result, err := n.execLua(script, []any{string(node)})
 
-		if err != nil {
-			return nil, fmt.Errorf("Error executing '%s' query <%+v> with range <%+v> on node type <%s>: %w", rangedNodeQuery.Language, rangedNodeQuery.Query, rangedNodeQuery.Range, node.Type, err)
-		}
-
-		/* n.logger.Debugf("Query: %+v", rangedNodeQuery)
-		n.logger.Debugf("Match: %+v", match) */
-
-		if match == nil {
-			continue
-		}
-
-		return &TsNodeQueryMatch{
-			Node:  *node,
-			Match: *match,
-		}, nil
+	if err != nil {
+		return nil, err
 	}
 
-	return nil, nil
+	stringResult, ok := result.(string)
+
+	if !ok {
+		return nil, fmt.Errorf("Could not convert getNodeAnnotations result response <%v> to string", result)
+	}
+
+	annotations := []string{}
+	err = json.Unmarshal([]byte(stringResult), &annotations)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return annotations, nil
 }

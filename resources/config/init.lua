@@ -77,3 +77,16 @@ function _G.Anydev:get_ts_parser_node(node, node_source)
 
 	return anydev_ts_parser_node
 end
+
+---@param str string
+---@return boolean
+---@return string
+function _G.Anydev:is_comment(str)
+	local rest = str:match("^[%,%;%s]*(.*)")
+	return rest:sub(1, 2) == "--", rest
+end
+
+---@param char string
+function _G.Anydev:is_separator(char)
+	return char == "," or char == ";"
+end

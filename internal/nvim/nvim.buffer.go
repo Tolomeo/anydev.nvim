@@ -71,6 +71,18 @@ func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsN
 	return b.nvim.getTsCommentBlockAt(line, character)
 }
 
+func (b *Buffer) GetTsNodeAnnotations(node treesitter.TsNode) ([]string, error) {
+	b.nvim.logger.Sillyf("Getting node <%v> annotations in %s buffer", node, b.name)
+
+	_, err := b.nvim.open(b.name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return b.nvim.getNodeAnnotations(node)
+}
+
 func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	b.nvim.logger.Sillyf("Executing query one in %s buffer", b.name)
 
