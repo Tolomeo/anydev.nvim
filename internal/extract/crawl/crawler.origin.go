@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
@@ -211,10 +212,9 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.TableFieldIndexAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldIndexAssignmentQuery.Query),
 			},
-			{
-				Language: origin.VirtualVariableAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.meta", origin.VirtualVariableAssignmentQuery.Query),
-			},
+			definition.VirtualVariableAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.meta", query)
+			}),
 			{
 				Language: origin.FunctionFieldDotAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotAssignmentQuery.Query),
@@ -267,7 +267,7 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			},
 		},
 		origin.Field: []treesitter.Query{
-			origin.VirtualFieldAssignmentQuery.MapQuery(func(query string) string {
+			definition.VirtualFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @virtual.name "%s")
@@ -322,8 +322,6 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return nil, err
 	}
 
-	c.context.Logger().Debugf("%+v", queryMap[origin.Field])
-
 	// c.context.Logger().Debugf("Definition match: %+v", queryResult)
 
 	if queryResult == nil {
@@ -362,7 +360,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isVirtual := originMatch.Find("origin.meta"); isVirtual {
-		return origin.NewVirtualOrigin(location, originMatch, originAnnotations), nil
+		node := definition.NewVirtual(originMatch)
+		return origin.NewVirtualOrigin(location, *node, originAnnotations), nil
 	}
 
 	return nil, nil
