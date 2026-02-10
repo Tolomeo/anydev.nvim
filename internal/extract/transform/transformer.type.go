@@ -610,9 +610,6 @@ func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) 
 	return symbol.NewReference(name), nil
 }
 
-func (tr *Transformer) resolveReferenceType(reference *symbol.Reference) error {
-	return tr.context.Extract("type", reference.Value)
-}
 
 func (tr *Transformer) getType(typ string) (symbol.Type, error) {
 	parsedType, err := tr.parseType(typ)

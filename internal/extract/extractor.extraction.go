@@ -111,7 +111,7 @@ type extraction struct {
 type extractionStep func() (extractionStep, error)
 
 func (t *extraction) getOriginChain() (extractionStep, error) {
-	t.logger.Info("Crawling")
+	t.logger.Info("Crawling symbol origin")
 
 	origin, err := t.crawler.GetOriginChain()
 
@@ -120,11 +120,11 @@ func (t *extraction) getOriginChain() (extractionStep, error) {
 	}
 
 	if origin == nil {
-		t.logger.Warn("Crawling complete, but no origin found")
+		t.logger.Warn("Crawling symbol origin yielded no origin")
 		return nil, nil
 	}
 
-	t.logger.Info("Crawling complete")
+	t.logger.Infof("Crawling symbol origin yielded <%T>", origin.Last())
 
 	t.target.SetOriginChain(origin)
 

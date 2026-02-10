@@ -267,6 +267,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			},
 		},
 		origin.Field: []treesitter.Query{
+			origin.VirtualFieldAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @virtual.name "%s")
+				) @origin.meta`, query, c.context.Target().Name())
+			}),
 			origin.TableConstructorFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
@@ -315,6 +321,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	if err != nil {
 		return nil, err
 	}
+
+	c.context.Logger().Debugf("%+v", queryMap[origin.Field])
 
 	// c.context.Logger().Debugf("Definition match: %+v", queryResult)
 

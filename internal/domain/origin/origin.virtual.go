@@ -23,6 +23,17 @@ var VirtualVariableAssignmentQuery = treesitter.Query{
 	) @virtual`,
 }
 
+var VirtualFieldAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(field
+		name: (identifier) @virtual.name
+		value: (vararg_expression)
+	) @virtual
+	(#not-has-ancestor? @virtual "field") ; Avoiding nested matches
+	`,
+}
+
 type VirtualOrigin struct {
 	origin
 	definition string
