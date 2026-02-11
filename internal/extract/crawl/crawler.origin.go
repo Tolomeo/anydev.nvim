@@ -201,17 +201,15 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
-			origin.MetatableAssignmentQuery.MapQuery(func(query string) string {
+			definition.MetatableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
-			{
-				Language: origin.TableFieldAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldAssignmentQuery.Query),
-			},
-			{
-				Language: origin.TableFieldIndexAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableFieldIndexAssignmentQuery.Query),
-			},
+			definition.TableFieldAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.table", query)
+			}),
+			definition.TableFieldIndexAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.table", query)
+			}),
 			definition.VirtualVariableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.meta", query)
 			}),
@@ -236,11 +234,10 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.VariableAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableAssignmentQuery.Query),
 			},
-			{
-				Language: origin.TableDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.table", origin.TableDeclarationQuery.Query),
-			},
-			origin.TableReturnAssignmentQuery.MapQuery(func(query string) string {
+			definition.TableDeclarationQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.table", query)
+			}),
+			definition.TableReturnAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
 		},
@@ -267,13 +264,13 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 					(#eq? @virtual.name "%s")
 				) @origin.meta`, query, c.context.Target().Name())
 			}),
-			origin.TableConstructorFieldAssignmentQuery.MapQuery(func(query string) string {
+			definition.TableConstructorFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @table.name "%s")
 				) @origin.table`, query, c.context.Target().Name())
 			}),
-			origin.TableConstructorFieldIndexAssignmentQuery.MapQuery(func(query string) string {
+			definition.TableConstructorFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @table.name "%s")
@@ -335,7 +332,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isTable := originMatch.Find("origin.table"); isTable {
-		return origin.NewTableOrigin(location, originMatch, originAnnotations), nil
+		node := definition.NewTable(originMatch)
+		return origin.NewTableOrigin(location, *node, originAnnotations), nil
 	}
 
 	if _, isValue := originMatch.Find("origin.value"); isValue {
