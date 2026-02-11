@@ -31,13 +31,12 @@ func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 					(#eq? @class.name "%s")
 				) @origin.class`, query, c.context.Target().Identifier())
 			}),
-			{
-				Language: origin.FieldAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
+			annotation.AtFieldQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
-				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
-			},
+				) @origin.fieldannotation`, query, c.context.Target().Name())
+			}),
 			annotation.AtEnumQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
@@ -109,21 +108,21 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	originMatch := queryResult.Match
+	match := queryResult.Match
 
-	if _, isClass := originMatch.Find("origin.class"); isClass {
-		node := annotation.NewAtClass(originMatch)
+	if _, isClass := match.Find("origin.class"); isClass {
+		node := annotation.NewAtClass(match)
 		return origin.NewClassOrigin(location, *node), nil
 	}
 
-	if _, isAlias := originMatch.Find("origin.alias"); isAlias {
-		node := annotation.NewAtAlias(originMatch)
+	if _, isAlias := match.Find("origin.alias"); isAlias {
+		node := annotation.NewAtAlias(match)
 		return origin.NewAliasOrigin(location, *node), nil
 	}
 
-	if _, isAliasEnumerator := originMatch.Find("origin.alias.enumerator"); isAliasEnumerator {
-		node := annotation.NewAtAliasEnumerator(originMatch)
-		nextLines, err := buffer.NextLineIterator(uint(originMatch.LineRange().Start + 1))
+	if _, isAliasEnumerator := match.Find("origin.alias.enumerator"); isAliasEnumerator {
+		node := annotation.NewAtAliasEnumerator(match)
+		nextLines, err := buffer.NextLineIterator(uint(match.LineRange().Start + 1))
 
 		if err != nil {
 			return nil, err
@@ -152,15 +151,16 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewAliasEnumeratorOrigin(location, *node, memberNodes...), nil
 	}
 
-	if _, isFieldAnnotation := originMatch.Find("origin.fieldannotation"); isFieldAnnotation {
-		return origin.NewFieldAnnotationOrigin(location, originMatch), nil
+	if _, isFieldAnnotation := match.Find("origin.fieldannotation"); isFieldAnnotation {
+		node := annotation.NewAtField(match)
+		return origin.NewFieldAnnotationOrigin(location, *node), nil
 	}
 
-	if _, isEnumAnnotation := originMatch.Find("origin.enumannotation"); isEnumAnnotation {
-		node := annotation.NewAtEnum(originMatch)
+	if _, isEnumAnnotation := match.Find("origin.enumannotation"); isEnumAnnotation {
+		node := annotation.NewAtEnum(match)
 		enumMemberNodes := []annotation.AtEnumMember{}
 
-		position := originMatch.Range().Start
+		position := match.Range().Start
 		dockblock, err := buffer.GetTsCommentBlockAt(uint(position.Line), uint(position.Character))
 
 		if err != nil {
