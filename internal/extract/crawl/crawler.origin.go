@@ -226,14 +226,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 				Language: origin.RequireFunctionCallAssignmentQuery.Language,
 				Query:    fmt.Sprintf("(%s) @origin.module", origin.RequireFunctionCallAssignmentQuery.Query),
 			},
-			{
-				Language: origin.VariableDotFieldAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableDotFieldAssignmentQuery.Query),
-			},
-			{
-				Language: origin.VariableAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.variable", origin.VariableAssignmentQuery.Query),
-			},
+			definition.VariableDotFieldAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.variable", query)
+			}),
+			definition.VariableAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.variable", query)
+			}),
 			definition.TableDeclarationQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
@@ -360,7 +358,14 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isVariable := originMatch.Find("origin.variable"); isVariable {
-		return origin.NewVariableOrigin(location, originMatch, originAnnotations), nil
+		node := definition.NewVariable(originMatch)
+		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewVariableOrigin(location, *node, annotations), nil
 	}
 
 	if _, isFunctionCall := originMatch.Find("origin.function_call"); isFunctionCall {
