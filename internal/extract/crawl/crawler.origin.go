@@ -2,7 +2,6 @@ package crawl
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
@@ -219,13 +218,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.FunctionFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function", query)
 			}),
-			origin.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
+			definition.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function_call", query)
 			}),
-			{
-				Language: origin.RequireFunctionCallAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.module", origin.RequireFunctionCallAssignmentQuery.Query),
-			},
+			definition.RequireFunctionCallAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.module", query)
+			}),
 			definition.VariableDotFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.variable", query)
 			}),
@@ -317,15 +315,10 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	originMatch := queryResult.Match
-	originAnnotations, err := c.getDefinitionAnnotations(location)
+	match := queryResult.Match
 
-	if err != nil {
-		return nil, err
-	}
-
-	if _, isFunction := originMatch.Find("origin.function"); isFunction {
-		node := definition.NewFunction(originMatch)
+	if _, isFunction := match.Find("origin.function"); isFunction {
+		node := definition.NewFunction(match)
 		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
 
 		if err != nil {
@@ -335,8 +328,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewFunctionOrigin(location, *node, annotations), nil
 	}
 
-	if _, isTable := originMatch.Find("origin.table"); isTable {
-		node := definition.NewTable(originMatch)
+	if _, isTable := match.Find("origin.table"); isTable {
+		node := definition.NewTable(match)
 		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
 
 		if err != nil {
@@ -346,8 +339,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewTableOrigin(location, *node, annotations), nil
 	}
 
-	if _, isValue := originMatch.Find("origin.value"); isValue {
-		node := definition.NewValue(originMatch)
+	if _, isValue := match.Find("origin.value"); isValue {
+		node := definition.NewValue(match)
 		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
 
 		if err != nil {
@@ -357,8 +350,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewValueOrigin(location, *node, annotations), nil
 	}
 
-	if _, isVariable := originMatch.Find("origin.variable"); isVariable {
-		node := definition.NewVariable(originMatch)
+	if _, isVariable := match.Find("origin.variable"); isVariable {
+		node := definition.NewVariable(match)
 		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
 
 		if err != nil {
@@ -368,16 +361,30 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewVariableOrigin(location, *node, annotations), nil
 	}
 
-	if _, isFunctionCall := originMatch.Find("origin.function_call"); isFunctionCall {
-		return origin.NewFunctionCallOrigin(location, originMatch, originAnnotations), nil
+	if _, isFunctionCall := match.Find("origin.function_call"); isFunctionCall {
+		node := definition.NewFunctionCall(match)
+		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewFunctionCallOrigin(location, *node, annotations), nil
 	}
 
-	if _, isModuleRequire := originMatch.Find("origin.module"); isModuleRequire {
-		return origin.NewRequireFunctionCallOrigin(location, originMatch, originAnnotations), nil
+	if _, isRequireFunctionCall := match.Find("origin.module"); isRequireFunctionCall {
+		node := definition.NewRequireFunctionCall(match)
+		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewRequireFunctionCallOrigin(location, *node, annotations), nil
 	}
 
-	if _, isVirtual := originMatch.Find("origin.meta"); isVirtual {
-		node := definition.NewVirtual(originMatch)
+	if _, isVirtual := match.Find("origin.meta"); isVirtual {
+		node := definition.NewVirtual(match)
 		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
 
 		if err != nil {
@@ -390,7 +397,7 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	return nil, nil
 }
 
-func (c *Crawler) getDefinitionAnnotations(location nvim.Location) ([]string, error) {
+/* func (c *Crawler) getDefinitionAnnotations(location nvim.Location) ([]string, error) {
 	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
 
 	if err != nil {
@@ -411,4 +418,4 @@ func (c *Crawler) getDefinitionAnnotations(location nvim.Location) ([]string, er
 	}
 
 	return strings.Split(annotations.Text, "\n"), nil
-}
+} */
