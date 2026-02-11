@@ -78,6 +78,12 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	}
 
 	for _, child := range tableChildren {
+		if table.Name == "lsp" {
+			if child != "codelens" {
+				continue
+			}
+		}
+
 		err := tr.context.ExtractChild(table, child)
 
 		if err != nil {

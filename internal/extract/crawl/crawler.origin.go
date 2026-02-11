@@ -215,14 +215,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.VirtualVariableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.meta", query)
 			}),
-			{
-				Language: origin.FunctionFieldDotAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotAssignmentQuery.Query),
-			},
-			{
-				Language: origin.FunctionFieldIndexAssignmentQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldIndexAssignmentQuery.Query),
-			},
+			definition.FunctionFieldDotAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
+			definition.FunctionFieldIndexAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 			origin.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function_call", query)
 			}),
@@ -247,24 +245,20 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			}),
 		},
 		origin.VariableDeclaration: []treesitter.Query{
-			{
-				Language: origin.FunctionVariableDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionVariableDeclarationQuery.Query),
-			},
+			definition.FunctionVariableDeclarationQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 		},
 		origin.FunctionDeclaration: []treesitter.Query{
-			{
-				Language: origin.FunctionDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionDeclarationQuery.Query),
-			},
-			{
-				Language: origin.FunctionFieldMethodDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldMethodDeclarationQuery.Query),
-			},
-			{
-				Language: origin.FunctionFieldDotDeclarationQuery.Language,
-				Query:    fmt.Sprintf("(%s) @origin.function", origin.FunctionFieldDotDeclarationQuery.Query),
-			},
+			definition.FunctionDeclarationQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
+			definition.FunctionFieldMethodDeclarationQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
+			definition.FunctionFieldDotDeclarationQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 		},
 		origin.Field: []treesitter.Query{
 			definition.VirtualFieldAssignmentQuery.MapQuery(func(query string) string {
@@ -336,7 +330,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isFunction := originMatch.Find("origin.function"); isFunction {
-		return origin.NewFunctionOrigin(location, originMatch, originAnnotations), nil
+		node := definition.NewFunction(originMatch)
+		return origin.NewFunctionOrigin(location, *node, originAnnotations), nil
 	}
 
 	if _, isTable := originMatch.Find("origin.table"); isTable {
@@ -355,7 +350,7 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return origin.NewFunctionCallOrigin(location, originMatch, originAnnotations), nil
 	}
 
-	if _, isModule := originMatch.Find("origin.module"); isModule {
+	if _, isModuleRequire := originMatch.Find("origin.module"); isModuleRequire {
 		return origin.NewRequireFunctionCallOrigin(location, originMatch, originAnnotations), nil
 	}
 
