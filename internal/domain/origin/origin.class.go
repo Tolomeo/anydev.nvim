@@ -7,29 +7,25 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var ClassAnnotationQuery = annotation.AtClassQuery
-
 type ClassOrigin struct {
 	origin
-	classAnnotation annotation.AtClass
+	node annotation.AtClass
 }
 
 func (co *ClassOrigin) Definition() []string {
-	return strings.Split(co.classAnnotation.Match(), "\n")
+	return strings.Split(co.node.Root().Text, "\n")
 }
 
 func (co *ClassOrigin) Name() string {
-	return co.classAnnotation.Name()
+	return co.node.Name().Text
 }
 
-func NewClassOrigin(location nvim.Location, captures nvim.TsQueryMatch) *ClassOrigin {
+func NewClassOrigin(location nvim.Location, node annotation.AtClass) *ClassOrigin {
 	classOrigin := ClassOrigin{
 		origin: origin{
-			location:    location,
-			captures:    captures,
-			annotations: []string{},
+			location: location,
 		},
-		classAnnotation: *annotation.NewAtClass(captures),
+		node: node,
 	}
 
 	return &classOrigin

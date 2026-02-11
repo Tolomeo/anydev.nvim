@@ -94,11 +94,11 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	return table, nil
 }
 
-func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClass annotation.AtClass) (*symbol.Reference, error) {
+func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClassAnnotation annotation.AtClass) (*symbol.Reference, error) {
 	table := symbol.NewTable()
 	table.Name = tableOrigin.Name()
 
-	return tr.getReferenceType(atClass.Name())
+	return tr.getReferenceType(atClassAnnotation.Name().Text)
 }
 
 func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin, atEnum annotation.AtEnum) (*symbol.Table, error) {

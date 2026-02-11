@@ -35,21 +35,21 @@ var AtClassQuery = treesitter.Query{
 }
 
 type AtClass struct {
-	match   string
-	exact   bool
-	name    string
+	root  treesitter.TsNode
+	exact *treesitter.TsNode
+	name  treesitter.TsNode
 	// parents []string
 }
 
-func (c *AtClass) Match() string {
-	return c.match
+func (c *AtClass) Root() treesitter.TsNode {
+	return c.root
 }
 
-func (c *AtClass) Exact() bool {
+func (c *AtClass) Exact() *treesitter.TsNode {
 	return c.exact
 }
 
-func (c *AtClass) Name() string {
+func (c *AtClass) Name() treesitter.TsNode {
 	return c.name
 }
 
@@ -65,12 +65,12 @@ func NewAtClass(captures nvim.TsQueryMatch) *AtClass {
 	for _, capture := range captures {
 		switch capture.Id {
 		case "class":
-			class.match = capture.Node.Text
+			class.root = capture.Node
 		case "class.exact":
-			class.exact = true
+			class.exact = &capture.Node
 		case "class.name":
-			class.name = capture.Node.Text
-		/* case "class.parent":
+			class.name = capture.Node
+			/* case "class.parent":
 			class.parents = append(class.parents, capture.Node.Text) */
 		}
 	}

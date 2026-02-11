@@ -3,6 +3,7 @@ package crawl
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -26,13 +27,12 @@ func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 					(#eq? @alias.name "%s")
 				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
 			},
-			{
-				Language: origin.ClassAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
+			annotation.AtClassQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @class.name "%s")
-				) @origin.class`, origin.ClassAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
+				) @origin.class`, query, c.context.Target().Identifier())
+			}),
 			{
 				Language: origin.FieldAnnotationQuery.Language,
 				Query: fmt.Sprintf(`(
@@ -114,7 +114,8 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 	originMatch := queryResult.Match
 
 	if _, isClass := originMatch.Find("origin.class"); isClass {
-		return origin.NewClassOrigin(location, originMatch), nil
+		node := annotation.NewAtClass(originMatch)
+		return origin.NewClassOrigin(location, *node), nil
 	}
 
 	if _, isAlias := originMatch.Find("origin.alias"); isAlias {
@@ -396,26 +397,3 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 
 	return nil, nil
 }
-
-/* func (c *Crawler) getDefinitionAnnotations(location nvim.Location) ([]string, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
-
-	if err != nil {
-		return nil, err
-	}
-
-	defer buffer.Close()
-
-	annotations, err := buffer.GetTsCommentBlockAt(location.StartLine()-1, location.StartCharacter())
-
-	if err != nil {
-		return nil, err
-	}
-
-	if annotations == nil {
-		c.context.Logger().Warnf("No documentation found for location <%v>", location)
-		return []string{}, nil
-	}
-
-	return strings.Split(annotations.Text, "\n"), nil
-} */
