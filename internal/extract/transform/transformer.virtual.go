@@ -3,17 +3,20 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
 type virtualOriginAtAnnotations struct {
-	AtType *AtTypeAnnotation
+	AtType   *AtTypeAnnotation
+	AtModule *annotation.AtModule
 }
 
 func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOriginAtAnnotations, error) {
 	annotations := virtualOriginAtAnnotations{
-		AtType: nil,
+		AtType:   nil,
+		AtModule: nil,
 	}
 
 	buffer, err := tr.context.Nvim().NewBuffer()
@@ -36,34 +39,42 @@ func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOr
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
+	atModuleMatch, err := buffer.TsQueryOne(annotation.AtModuleQuery)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	if atModuleMatch != nil {
+		annotations.AtModule = annotation.NewAtModule(*atModuleMatch)
+	}
+
 	annotations.AtType = atType
 	return annotations, nil
 }
 
 func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (symbol.Type, error) {
-	unknown := symbol.NewUnknown()
-	unknown.Documentation = virtualOrigin.Annotations()
-
 	annotations, err := tr.getVirtualOriginAnnotations(virtualOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
 	}
 
-	if annotations.AtType == nil {
-		tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
-		return unknown, nil
+	if annotations.AtType != nil {
+		// NB: we don't check for the presence of multiple types here
+		lexedType, err := tr.getType(annotations.AtType.Types[0])
+
+		if err != nil {
+			return nil, err
+		}
+
+		return lexedType, nil
 	}
 
-	if len(annotations.AtType.Types) < 1 {
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
+	if annotations.AtModule != nil {
+		tr.context.Logger().Debugf("Module: %s", annotations.AtModule.Name().Text)
 	}
 
-	lexedType, err := tr.getType(annotations.AtType.Types[0])
-
-	if err != nil {
-		return nil, err
-	}
-
-	return lexedType, nil
+	tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
+	return symbol.NewUnknown(), nil
 }
