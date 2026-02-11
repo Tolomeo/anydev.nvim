@@ -7,43 +7,31 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var EnumAnnotationQuery = annotation.AtEnumQuery
-
-var EnumAnnotationMembersQuery = annotation.AtEnumMembersQuery
-
-var EnumAnnotationMemberQuery = annotation.AtEnumMemberQuery
-
 type EnumeratorAnnotationOrigin struct {
 	origin
-	enumAnnotation        annotation.AtEnum
-	enumAnnotationMembers []annotation.AtEnumMember
+	node        annotation.AtEnum
+	memberNodes []annotation.AtEnumMember
 }
 
 func (eo *EnumeratorAnnotationOrigin) Definition() []string {
-	return strings.Split(eo.enumAnnotation.Text(), "\n")
+	return strings.Split(eo.node.Root().Text, "\n")
 }
 
 func (eo *EnumeratorAnnotationOrigin) Name() string {
-	return eo.enumAnnotation.Name()
+	return eo.node.Name().Text
 }
 
 func (eo *EnumeratorAnnotationOrigin) Members() []annotation.AtEnumMember {
-	return eo.enumAnnotationMembers
+	return eo.memberNodes
 }
 
-func NewEnumAnnotationOrigin(location nvim.Location, enumMatch nvim.TsQueryMatch, memberMatches ...nvim.TsQueryMatch) *EnumeratorAnnotationOrigin {
+func NewEnumAnnotationOrigin(location nvim.Location, node annotation.AtEnum, memberNodes ...annotation.AtEnumMember) *EnumeratorAnnotationOrigin {
 	enumOrigin := EnumeratorAnnotationOrigin{
 		origin: origin{
-			location:    location,
-			captures:    enumMatch,
-			annotations: []string{},
+			location: location,
 		},
-		enumAnnotation:        *annotation.NewAtEnum(enumMatch),
-		enumAnnotationMembers: []annotation.AtEnumMember{},
-	}
-
-	for _, memberMatches := range memberMatches {
-		enumOrigin.enumAnnotationMembers = append(enumOrigin.enumAnnotationMembers, *annotation.NewAtEnumMember(memberMatches))
+		node:        node,
+		memberNodes: memberNodes,
 	}
 
 	return &enumOrigin

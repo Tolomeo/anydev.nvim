@@ -110,13 +110,13 @@ func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin,
 		return nil, err
 	}
 
-	fieldsType := symbol.NewReference(atEnum.Name())
+	fieldsType := symbol.NewReference(atEnum.Name().Text)
 
 	for _, fieldName := range tableFields {
 		tr.context.AddChild(table, fieldName, *symbol.NewMetadata(), []string{}, fieldsType)
 	}
 
-	err = tr.context.Extract("type", atEnum.Name())
+	err = tr.context.Extract("type", atEnum.Name().Text)
 
 	if err != nil {
 		return nil, err

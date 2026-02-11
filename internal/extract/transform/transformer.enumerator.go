@@ -9,8 +9,8 @@ func (tr *Transformer) getEnumeratorOriginType(enumeratorOrigin *origin.Enumerat
 	enumerator := symbol.NewEnumerator(enumeratorOrigin.Name())
 
 	for _, member := range enumeratorOrigin.Members() {
-		enumeratorField := symbol.EnumeratorField{Name: member.Name()}
-		value, err := tr.getType(member.Value())
+		enumeratorField := symbol.EnumeratorField{Name: member.Name().Text}
+		value, err := tr.getType(member.Value().Text)
 
 		if err != nil {
 			return nil, err

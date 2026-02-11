@@ -38,7 +38,7 @@ func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 					(#eq? @field.name "%s")
 				) @origin.fieldannotation`, origin.FieldAnnotationQuery.Query, c.context.Target().Name()),
 			},
-			origin.EnumAnnotationQuery.MapQuery(func(query string) string {
+			annotation.AtEnumQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @enum.name "%s")
@@ -157,7 +157,8 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isEnumAnnotation := originMatch.Find("origin.enumannotation"); isEnumAnnotation {
-		enumMemberMatches := []nvim.TsQueryMatch{}
+		node := annotation.NewAtEnum(originMatch)
+		enumMemberNodes := []annotation.AtEnumMember{}
 
 		position := originMatch.Range().Start
 		dockblock, err := buffer.GetTsCommentBlockAt(uint(position.Line), uint(position.Character))
@@ -170,7 +171,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 			Start: dockblock.Range.End.Line + 1,
 			End:   dockblock.Range.End.Line + 1,
 		}
-		membersMatch, err := buffer.TsQueryOne(origin.EnumAnnotationMembersQuery.Ranged(membersPosition))
+		membersMatch, err := buffer.TsQueryOne(annotation.AtEnumMembersQuery.Ranged(membersPosition))
 
 		if err != nil {
 			return nil, err
@@ -181,7 +182,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		}
 
 		membersRange := membersMatch.LineRange()
-		memberMatches, err := buffer.TsQueryAll(origin.EnumAnnotationMemberQuery.Ranged(*membersRange))
+		memberMatches, err := buffer.TsQueryAll(annotation.AtEnumMemberQuery.Ranged(*membersRange))
 
 		if err != nil {
 			return nil, err
@@ -191,8 +192,10 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 			return nil, fmt.Errorf("Could not find any member definition for enumerator annotation origin <%v> found at <%+v>", memberMatches, location)
 		}
 
-		enumMemberMatches = append(enumMemberMatches, *memberMatches...)
-		return origin.NewEnumAnnotationOrigin(location, originMatch, enumMemberMatches...), nil
+		for _, memberMatch := range *memberMatches {
+			enumMemberNodes = append(enumMemberNodes, *annotation.NewAtEnumMember(memberMatch))
+		}
+		return origin.NewEnumAnnotationOrigin(location, *node, enumMemberNodes...), nil
 	}
 
 	return nil, nil

@@ -32,16 +32,16 @@ var AtEnumMemberQuery = treesitter.Query{
 }
 
 type AtEnumMember struct {
-	name  string
-	value string
+	name  treesitter.TsNode
+	value treesitter.TsNode
 	type_ string
 }
 
-func (aem AtEnumMember) Name() string {
+func (aem AtEnumMember) Name() treesitter.TsNode {
 	return aem.name
 }
 
-func (aem AtEnumMember) Value() string {
+func (aem AtEnumMember) Value() treesitter.TsNode {
 	return aem.value
 }
 
@@ -55,9 +55,9 @@ func NewAtEnumMember(captures nvim.TsQueryMatch) *AtEnumMember {
 	for _, capture := range captures {
 		switch capture.Id {
 		case "enum.member.name":
-			atEnumMember.name = capture.Node.Text
+			atEnumMember.name = capture.Node
 		case "enum.member.value":
-			atEnumMember.value = capture.Node.Text
+			atEnumMember.value = capture.Node
 			atEnumMember.type_ = capture.Node.Type
 		}
 	}
@@ -76,15 +76,15 @@ var AtEnumQuery = treesitter.Query{
 }
 
 type AtEnum struct {
-	text string
-	name string
+	root treesitter.TsNode
+	name treesitter.TsNode
 }
 
-func (ae *AtEnum) Text() string {
-	return ae.text
+func (ae *AtEnum) Root() treesitter.TsNode {
+	return ae.root
 }
 
-func (ae *AtEnum) Name() string {
+func (ae *AtEnum) Name() treesitter.TsNode {
 	return ae.name
 }
 
@@ -94,9 +94,9 @@ func NewAtEnum(captures nvim.TsQueryMatch) *AtEnum {
 	for _, capture := range captures {
 		switch capture.Id {
 		case "enum":
-			atEnum.text = capture.Node.Text
+			atEnum.root = capture.Node
 		case "enum.name":
-			atEnum.name = capture.Node.Text
+			atEnum.name = capture.Node
 		}
 	}
 
