@@ -276,13 +276,13 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 					(#eq? @table.name "%s")
 				) @origin.table`, query, c.context.Target().Name())
 			}),
-			origin.ValueFieldAssignmentQuery.MapQuery(func(query string) string {
+			definition.ValueFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
 				) @origin.value`, query, c.context.Target().Name())
 			}),
-			origin.ValueFieldIndexAssignmentQuery.MapQuery(func(query string) string {
+			definition.ValueFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @field.name "%s")
@@ -349,7 +349,14 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isValue := originMatch.Find("origin.value"); isValue {
-		return origin.NewValueOrigin(location, originMatch, originAnnotations), nil
+		node := definition.NewValue(originMatch)
+		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewValueOrigin(location, *node, annotations), nil
 	}
 
 	if _, isVariable := originMatch.Find("origin.variable"); isVariable {
