@@ -7,74 +7,59 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-var AliasAnnotationQuery = annotation.AtAliasQuery
-
 type AliasOrigin struct {
 	origin
-	aliasAnnotation annotation.AtAlias
+	node annotation.AtAlias
 }
 
 func (ao *AliasOrigin) Definition() []string {
-	return strings.Split(ao.aliasAnnotation.Match(), "\n")
+	return strings.Split(ao.node.Root().Text, "\n")
 }
 
 func (ao *AliasOrigin) Name() string {
-	return ao.aliasAnnotation.Name()
+	return ao.node.Name().Text
 }
 
 func (ao *AliasOrigin) Type() string {
-	return ao.aliasAnnotation.Type()
+	return ao.node.Type().Text
 }
 
-func NewAliasOrigin(location nvim.Location, captures nvim.TsQueryMatch) *AliasOrigin {
+func NewAliasOrigin(location nvim.Location, node annotation.AtAlias) *AliasOrigin {
 	aliasOrigin := AliasOrigin{
 		origin: origin{
-			location:    location,
-			captures:    captures,
-			annotations: []string{},
+			location: location,
 		},
-		aliasAnnotation: *annotation.NewAtAlias(captures),
+		node: node,
 	}
 
 	return &aliasOrigin
 }
 
-var AliasEnumeratorAnnotationQuery = annotation.AtAliasEnumeratorQuery
-
-var AliasEnumeratorMemberAnnotationQuery = annotation.AtAliasEnumeratorMemberQuery
-
 type AliasEnumeratorOrigin struct {
 	origin
-	enumeratorAnnotation        annotation.AtAliasEnumerator
-	enumeratorMemberAnnotations []annotation.AtAliasEnumeratorMember
+	node        annotation.AtAliasEnumerator
+	memberNodes []annotation.AtAliasEnumeratorMember
 }
 
 func (aeo *AliasEnumeratorOrigin) Definition() []string {
-	return strings.Split(aeo.enumeratorAnnotation.Match(), "\n")
+	return strings.Split(aeo.node.Root().Text, "\n")
 }
 
 func (aeo *AliasEnumeratorOrigin) Name() string {
-	return aeo.enumeratorAnnotation.Name()
+	return aeo.node.Name().Text
 }
 
 func (aeo *AliasEnumeratorOrigin) Members() []annotation.AtAliasEnumeratorMember {
-	return aeo.enumeratorMemberAnnotations
+	return aeo.memberNodes
 }
 
-func NewAliasEnumeratorOrigin(location nvim.Location, aliasCaptures nvim.TsQueryMatch, membersCaptures ...nvim.TsQueryMatch) *AliasEnumeratorOrigin {
+func NewAliasEnumeratorOrigin(location nvim.Location, node annotation.AtAliasEnumerator, memberNodes ...annotation.AtAliasEnumeratorMember) *AliasEnumeratorOrigin {
 	aliasEnumeratorOrigin := AliasEnumeratorOrigin{
 		origin: origin{
-			location:    location,
-			captures:    aliasCaptures,
-			annotations: []string{},
+			location: location,
 		},
-		enumeratorAnnotation:        *annotation.NewAtAliasEnumerator(aliasCaptures),
-		enumeratorMemberAnnotations: []annotation.AtAliasEnumeratorMember{},
-	}
-
-	for _, memberCaptures := range membersCaptures {
-		aliasEnumeratorOrigin.enumeratorMemberAnnotations =
-			append(aliasEnumeratorOrigin.enumeratorMemberAnnotations, *annotation.NewAtAliasEnumeratorMember(memberCaptures))
+		node:        node,
+		memberNodes: memberNodes,
 	}
 
 	return &aliasEnumeratorOrigin

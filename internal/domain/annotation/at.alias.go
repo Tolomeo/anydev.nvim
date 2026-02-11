@@ -25,20 +25,20 @@ var AtAliasQuery = treesitter.Query{
 }
 
 type AtAlias struct {
-	match string
-	name  string
-	type_ string
+	root  treesitter.TsNode
+	name  treesitter.TsNode
+	type_ treesitter.TsNode
 }
 
-func (ao *AtAlias) Match() string {
-	return ao.match
+func (ao *AtAlias) Root() treesitter.TsNode {
+	return ao.root
 }
 
-func (ao *AtAlias) Name() string {
+func (ao *AtAlias) Name() treesitter.TsNode {
 	return ao.name
 }
 
-func (ao *AtAlias) Type() string {
+func (ao *AtAlias) Type() treesitter.TsNode {
 	return ao.type_
 }
 
@@ -48,11 +48,11 @@ func NewAtAlias(match nvim.TsQueryMatch) *AtAlias {
 	for _, capture := range match {
 		switch capture.Id {
 		case "alias":
-			atAlias.match = capture.Node.Text
+			atAlias.root = capture.Node
 		case "alias.name":
-			atAlias.name = capture.Node.Text
+			atAlias.name = capture.Node
 		case "alias.type":
-			atAlias.type_ = capture.Node.Text
+			atAlias.type_ = capture.Node
 		}
 	}
 
@@ -87,15 +87,15 @@ var AtAliasEnumeratorMemberQuery = treesitter.Query{
 }
 
 type AtAliasEnumeratorMember struct {
-	match string
-	type_ string
+	root  treesitter.TsNode
+	type_ treesitter.TsNode
 }
 
-func (aae *AtAliasEnumeratorMember) Match() string {
-	return aae.match
+func (aae *AtAliasEnumeratorMember) Root() treesitter.TsNode {
+	return aae.root
 }
 
-func (aae *AtAliasEnumeratorMember) Type() string {
+func (aae *AtAliasEnumeratorMember) Type() treesitter.TsNode {
 	return aae.type_
 }
 
@@ -105,9 +105,9 @@ func NewAtAliasEnumeratorMember(match nvim.TsQueryMatch) *AtAliasEnumeratorMembe
 	for _, capture := range match {
 		switch capture.Id {
 		case "alias.enumerator.member":
-			atAliasEnumeratorMember.match = capture.Node.Text
+			atAliasEnumeratorMember.root = capture.Node
 		case "alias.type":
-			atAliasEnumeratorMember.type_ = capture.Node.Text
+			atAliasEnumeratorMember.type_ = capture.Node
 		}
 	}
 
@@ -115,15 +115,15 @@ func NewAtAliasEnumeratorMember(match nvim.TsQueryMatch) *AtAliasEnumeratorMembe
 }
 
 type AtAliasEnumerator struct {
-	match string
-	name  string
+	root treesitter.TsNode
+	name treesitter.TsNode
 }
 
-func (aae *AtAliasEnumerator) Match() string {
-	return aae.match
+func (aae *AtAliasEnumerator) Root() treesitter.TsNode {
+	return aae.root
 }
 
-func (aae *AtAliasEnumerator) Name() string {
+func (aae *AtAliasEnumerator) Name() treesitter.TsNode {
 	return aae.name
 }
 
@@ -133,9 +133,9 @@ func NewAtAliasEnumerator(match nvim.TsQueryMatch) *AtAliasEnumerator {
 	for _, capture := range match {
 		switch capture.Id {
 		case "alias.enumerator":
-			atAliasEnumerator.match = capture.Node.Text
+			atAliasEnumerator.root = capture.Node
 		case "alias.name":
-			atAliasEnumerator.name = capture.Node.Text
+			atAliasEnumerator.name = capture.Node
 		}
 	}
 

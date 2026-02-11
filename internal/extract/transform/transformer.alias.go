@@ -21,7 +21,7 @@ func (tr *Transformer) getAliasEnumeratorType(aliasEnumeratorOrigin *origin.Alia
 	types := []string{}
 
 	for _, aliasEnumMember := range aliasEnumeratorOrigin.Members() {
-		types = append(types, aliasEnumMember.Type())
+		types = append(types, aliasEnumMember.Type().Text)
 	}
 
 	enumeratorType, err := tr.getType(strings.Join(types, "|"))

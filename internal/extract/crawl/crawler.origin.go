@@ -13,20 +13,18 @@ import (
 func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.Comment: []treesitter.Query{
-			{
-				Language: origin.AliasAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
+			annotation.AtAliasQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @alias.name "%s")
-				) @origin.alias`, origin.AliasAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
-			{
-				Language: origin.AliasEnumeratorAnnotationQuery.Language,
-				Query: fmt.Sprintf(`(
+				) @origin.alias`, query, c.context.Target().Identifier())
+			}),
+			annotation.AtAliasEnumeratorQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
 					(%s)
 					(#eq? @alias.name "%s")
-				) @origin.alias.enumerator`, origin.AliasEnumeratorAnnotationQuery.Query, c.context.Target().Identifier()),
-			},
+				) @origin.alias.enumerator`, query, c.context.Target().Identifier())
+			}),
 			annotation.AtClassQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
@@ -119,24 +117,26 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 	}
 
 	if _, isAlias := originMatch.Find("origin.alias"); isAlias {
-		return origin.NewAliasOrigin(location, originMatch), nil
+		node := annotation.NewAtAlias(originMatch)
+		return origin.NewAliasOrigin(location, *node), nil
 	}
 
 	if _, isAliasEnumerator := originMatch.Find("origin.alias.enumerator"); isAliasEnumerator {
+		node := annotation.NewAtAliasEnumerator(originMatch)
 		nextLines, err := buffer.NextLineIterator(uint(originMatch.LineRange().Start + 1))
 
 		if err != nil {
 			return nil, err
 		}
 
-		memberMatches := []nvim.TsQueryMatch{}
+		memberNodes := []annotation.AtAliasEnumeratorMember{}
 
 		for line, err := range nextLines {
 			if err != nil {
 				return nil, err
 			}
 
-			match, err := line.TsQueryOne(origin.AliasEnumeratorMemberAnnotationQuery)
+			match, err := line.TsQueryOne(annotation.AtAliasEnumeratorMemberQuery)
 
 			if err != nil {
 				return nil, err
@@ -146,10 +146,10 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 				break
 			}
 
-			memberMatches = append(memberMatches, *match)
+			memberNodes = append(memberNodes, *annotation.NewAtAliasEnumeratorMember(*match))
 		}
 
-		return origin.NewAliasEnumeratorOrigin(location, originMatch, memberMatches...), nil
+		return origin.NewAliasEnumeratorOrigin(location, *node, memberNodes...), nil
 	}
 
 	if _, isFieldAnnotation := originMatch.Find("origin.fieldannotation"); isFieldAnnotation {
