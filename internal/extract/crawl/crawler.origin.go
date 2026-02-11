@@ -339,7 +339,13 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 
 	if _, isTable := originMatch.Find("origin.table"); isTable {
 		node := definition.NewTable(originMatch)
-		return origin.NewTableOrigin(location, *node, originAnnotations), nil
+		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return origin.NewTableOrigin(location, *node, annotations), nil
 	}
 
 	if _, isValue := originMatch.Find("origin.value"); isValue {
