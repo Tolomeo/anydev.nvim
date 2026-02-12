@@ -45,6 +45,7 @@ func (e *extractor) Flush() {
 	e.result = &result{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
+		Modules: map[string]symbol.Symbol{},
 	}
 }
 

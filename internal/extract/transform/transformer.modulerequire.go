@@ -5,6 +5,13 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-func (tr *Transformer) getModuleRequireOriginType(_ *origin.RequireFunctionCallOrigin) (symbol.Type, error) {
-	return tr.context.Follow()
+func (tr *Transformer) getModuleRequireOriginType(requireFnCallOrigin *origin.RequireFunctionCallOrigin) (symbol.Type, error) {
+	moduleName := requireFnCallOrigin.RequiredModuleName()
+	err := tr.context.Extract("module", moduleName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return symbol.NewModuleReference(moduleName), nil
 }

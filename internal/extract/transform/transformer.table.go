@@ -78,12 +78,6 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	}
 
 	for _, child := range tableChildren {
-		if table.Name == "lsp" {
-			if child != "codelens" {
-				continue
-			}
-		}
-
 		err := tr.context.ExtractChild(table, child)
 
 		if err != nil {
@@ -94,7 +88,7 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	return table, nil
 }
 
-func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClassAnnotation annotation.AtClass) (*symbol.Reference, error) {
+func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClassAnnotation annotation.AtClass) (*symbol.TypeReference, error) {
 	table := symbol.NewTable()
 	table.Name = tableOrigin.Name()
 
@@ -121,7 +115,7 @@ func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin,
 		field.Name = fieldName
 		field.Metadata = *symbol.NewMetadata()
 		field.Documentation = []string{}
-		field.Type = symbol.NewReference(atEnum.Name().Text)
+		field.Type = symbol.NewTypeReference(atEnum.Name().Text)
 
 		table.Fields = append(table.Fields, *field)
 	}

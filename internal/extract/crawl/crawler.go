@@ -58,43 +58,6 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 	targetOrigin := c.context.Target().Origin()
 
 	switch locationOriginType := targetOrigin.(type) {
-	case *origin.RequireFunctionCallOrigin:
-		c.context.Logger().Verbosef("Following module origin <%+v>", locationOriginType)
-
-		url, line, character :=
-			locationOriginType.Url(),
-			uint(locationOriginType.RequiredModuleNameRange().End.Line),
-			uint(locationOriginType.RequiredModuleNameRange().End.Character)
-		moduleLocations, err := c.findDefinitionLocationsAt(url, line, character)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if moduleLocations == nil {
-			c.context.Logger().Errorf("No locations found for module named '%s'", locationOriginType.RequiredModuleName())
-			return targetOriginChain.Append(origin.NewUnkownOrigin()), nil
-		}
-
-		if len(*moduleLocations) != 1 {
-			c.context.Logger().Errorf("Ambiguous number of locations for module named '%s': <%+v>", locationOriginType.RequiredModuleName(), *moduleLocations)
-			return nil, nil
-		}
-
-		moduleUrl := (*moduleLocations)[0].Url
-		moduleDefinitionLocations, err := c.findModuleExportDefinitionLocations(moduleUrl)
-
-		if err != nil {
-			return nil, err
-		}
-
-		moduleDefinitionOriginChain, err := c.getOriginChain(*moduleDefinitionLocations)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return targetOriginChain.Concat(moduleDefinitionOriginChain), nil
 	case *origin.VariableOrigin:
 		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
 

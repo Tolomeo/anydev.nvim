@@ -596,18 +596,18 @@ func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
 		return stringLiteralType, nil
 	}
 
-	return symbol.NewReference(type_), nil
+	return symbol.NewTypeReference(type_), nil
 }
 
 // TODO: remove
-func (tr *Transformer) getReferenceType(name string) (*symbol.Reference, error) {
+func (tr *Transformer) getReferenceType(name string) (*symbol.TypeReference, error) {
 	err := tr.context.Extract("type", name)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return symbol.NewReference(name), nil
+	return symbol.NewTypeReference(name), nil
 }
 
 
@@ -652,7 +652,7 @@ func (tr *Transformer) resolveReferences(typeSymbol symbol.Type) error {
 		for _, unionType := range symbolType.Types {
 			tr.resolveReferences(unionType)
 		}
-	case *symbol.Reference:
+	case *symbol.TypeReference:
 		err := tr.context.Extract("type", symbolType.Value)
 		if err != nil {
 			return err

@@ -80,7 +80,7 @@ func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin)
 			return nil, err
 		}
 
-		return symbol.NewReference(moduleName), nil
+		return symbol.NewModuleReference(moduleName), nil
 	}
 
 	tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))

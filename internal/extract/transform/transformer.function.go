@@ -144,7 +144,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		}
 
 		switch reference := (parsedArgType.Canonical()).(type) {
-		case *symbol.Reference:
+		case *symbol.TypeReference:
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
@@ -170,7 +170,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		}
 
 		switch reference := (parsedReturnType.Canonical()).(type) {
-		case *symbol.Reference:
+		case *symbol.TypeReference:
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
