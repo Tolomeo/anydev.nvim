@@ -18,7 +18,7 @@ type ctx interface {
 	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
 	Follow() (symbol.Type, error)
-	AddChild(*symbol.Table, string, symbol.Metadata, []string, symbol.Type)
+	// AddChild(*symbol.Table, string, symbol.Metadata, []string, symbol.Type)
 }
 
 type Transformer struct {

@@ -53,7 +53,7 @@ func (n *Nvim) Quit() error {
 	return nil
 }
 
-func (n *Nvim) redir(file string) error {
+/* func (n *Nvim) redir(file string) error {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
 		Params: []any{fmt.Sprintf("redir! %s", file)},
@@ -65,7 +65,7 @@ func (n *Nvim) redir(file string) error {
 	}
 
 	return nil
-}
+} */
 
 /*
 	 func (n *Nvim) ApiInfo() (any, error) {

@@ -89,16 +89,6 @@ func (c *extractionContext) Follow() (symbol.Type, error) {
 	return c.target.transformer.GetOriginType()
 }
 
-// TODO: remove
-func (c *extractionContext) AddChild(parent *symbol.Table, name string, metadata symbol.Metadata, documentation []string, typ symbol.Type) {
-	field := symbol.NewTableField()
-	field.Name = name
-	field.Metadata = metadata
-	field.Documentation = documentation
-	field.Type = typ
-	parent.Fields = append(parent.Fields, *field)
-}
-
 type extraction struct {
 	extractor   *extractor
 	crawler     *crawl.Crawler
