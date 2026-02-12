@@ -14,7 +14,9 @@ var VariableAssignmentQuery = treesitter.Query{
 			name: (_)
 		) @assignment.left
 		(expression_list
+			.
 			value: (identifier) @assignment.right 
+			.
 		)
 	) @variable`,
 }
@@ -28,8 +30,19 @@ var VariableDotFieldAssignmentQuery = treesitter.Query{
 			name: (_)
 		) @assignment.left
 		(expression_list
+			.
 			value: (dot_index_expression) @assignment.right 
+			.
 		)
+	) @variable`,
+}
+
+var VariableFieldQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(field
+		name: (identifier) @assignment.left
+		value: (identifier) @assignment.right
 	) @variable`,
 }
 

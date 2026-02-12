@@ -1,0 +1,231 @@
+{
+    "runtime": {},
+    "types": {
+        "lsp.DynamicCapabilities": {
+            "name": "lsp.DynamicCapabilities",
+            "documentation": [
+                "```lua",
+                "(class) lsp.DynamicCapabilities",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "capabilities",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DynamicCapabilities.capabilities: table\u003cstring, lsp.Registration[]\u003e",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "client_id",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DynamicCapabilities.client_id: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "number"
+                        }
+                    },
+                    {
+                        "name": "get",
+                        "documentation": [
+                            "```lua",
+                            "function get(_: any, method: any, opts: any)",
+                            "  -\u003e lsp.Registration",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "_",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "opts",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "get",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "register",
+                        "documentation": [
+                            "```lua",
+                            "function register(_: any, registrations: any)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "_",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "registrations",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "register",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "supports",
+                        "documentation": [
+                            "```lua",
+                            "function supports(_: any, method: any, opts: any)",
+                            "  -\u003e boolean",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "_",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "opts",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "supports",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "supports_registration",
+                        "documentation": [
+                            "```lua",
+                            "function supports_registration(_: any, method: any)",
+                            "  -\u003e false",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "_",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "supports_registration",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "unregister",
+                        "documentation": [
+                            "```lua",
+                            "function unregister(_: any, unregistrations: any)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "_",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "unregistrations",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "unregister",
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.DynamicCapabilities"
+            }
+        }
+    },
+    "modules": {}
+}

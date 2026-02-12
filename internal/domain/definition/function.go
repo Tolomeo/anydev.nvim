@@ -60,6 +60,37 @@ var FunctionVariableDeclarationQuery = treesitter.Query{
 }
 
 /*
+	F = {
+		...
+			fn = function() end
+			fn = function(name) end
+			fn = function(name, value) end
+			fn = function(name, value, ...) end
+			fn = function(...) end
+		...
+	}
+*/
+var FunctionFieldAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(field
+		name: (identifier) @name
+		value: (function_definition
+			parameters: (parameters
+				(identifier)? @arg
+				("," (identifier) @arg)*
+				("," (vararg_expression) @vararg)?
+				(vararg_expression)? @vararg
+			)
+		) @signature
+		; (#not-has-ancestor? @signature "function_declaration") ; Avoiding nested matches
+		; (#not-has-ancestor? @signature "function_definition") ; Avoiding nested matches
+	) @function 
+	(#not-has-ancestor? @function "field") ; Avoiding nested matches
+	`,
+}
+
+/*
 api['fn'] = function() end
 api['fn'] = function(name) end
 api['fn'] = function(name, value) end

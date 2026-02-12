@@ -10,43 +10,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
-	return nvim.TsNodeQueryMap{
-		origin.Comment: []treesitter.Query{
-			annotation.AtAliasQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf(`(
-					(%s)
-					(#eq? @alias.name "%s")
-				) @origin.alias`, query, c.context.Target().Identifier())
-			}),
-			annotation.AtAliasEnumeratorQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf(`(
-					(%s)
-					(#eq? @alias.name "%s")
-				) @origin.alias.enumerator`, query, c.context.Target().Identifier())
-			}),
-			annotation.AtClassQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf(`(
-					(%s)
-					(#eq? @class.name "%s")
-				) @origin.class`, query, c.context.Target().Identifier())
-			}),
-			annotation.AtFieldQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf(`(
-					(%s)
-					(#eq? @field.name "%s")
-				) @origin.fieldannotation`, query, c.context.Target().Name())
-			}),
-			annotation.AtEnumQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf(`(
-					(%s)
-					(#eq? @enum.name "%s")
-				) @origin.enumannotation`, query, c.context.Target().Identifier())
-			}),
-		},
-	}
-}
-
 func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain, error) {
 	var locationOrigin origin.Origin
 	var err error
@@ -83,6 +46,43 @@ func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain,
 
 	c.context.Logger().Verbosef("Origin found <%T>", locationOrigin)
 	return origin.NewOriginChain(locationOrigin), nil
+}
+
+func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
+	return nvim.TsNodeQueryMap{
+		origin.Comment: []treesitter.Query{
+			annotation.AtAliasQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias`, query, c.context.Target().Identifier())
+			}),
+			annotation.AtAliasEnumeratorQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @alias.name "%s")
+				) @origin.alias.enumerator`, query, c.context.Target().Identifier())
+			}),
+			annotation.AtClassQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @class.name "%s")
+				) @origin.class`, query, c.context.Target().Identifier())
+			}),
+			annotation.AtFieldQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @field.name "%s")
+				) @origin.fieldannotation`, query, c.context.Target().Name())
+			}),
+			annotation.AtEnumQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf(`(
+					(%s)
+					(#eq? @enum.name "%s")
+				) @origin.enumannotation`, query, c.context.Target().Identifier())
+			}),
+		},
+	}
 }
 
 func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, error) {
@@ -240,6 +240,9 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.TableReturnAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
+			definition.ValueAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.value", query)
+			}),
 		},
 		origin.VariableDeclaration: []treesitter.Query{
 			definition.FunctionVariableDeclarationQuery.MapQuery(func(query string) string {
@@ -258,6 +261,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			}),
 		},
 		origin.Field: []treesitter.Query{
+			definition.VariableFieldQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.variable", query)
+			}),
+			definition.FunctionFieldAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 			definition.VirtualFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
@@ -279,13 +288,13 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.ValueFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
-					(#eq? @field.name "%s")
+					(#eq? @value.name "%s")
 				) @origin.value`, query, c.context.Target().Name())
 			}),
 			definition.ValueFieldIndexAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf(`(
 					(%s)
-					(#eq? @field.name "%s")
+					(#eq? @value.name "%s")
 				) @origin.value`, query, c.context.Target().Name())
 			}),
 		},

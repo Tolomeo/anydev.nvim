@@ -5,6 +5,25 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
+// variable = 0
+var ValueAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement
+		(variable_list
+			name: (_) @value.name
+		)
+		(expression_list
+			value: [
+				(number) @value.number
+				(string) @value.string
+				(true) @value.boolean
+				(false) @value.boolean
+			] @value.value
+		)
+	) @value`,
+}
+
 /*
 	{
 		...
@@ -16,13 +35,13 @@ var ValueFieldAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(field
-		name: (identifier) @field.name
+		name: (identifier) @value.name
 		value: [
 			(number) @value.number
 			(string) @value.string
 			(true) @value.boolean
 			(false) @value.boolean
-		] @field.value
+		] @value.value
 	) @value`,
 }
 
@@ -31,7 +50,7 @@ var ValueFieldIndexAssignmentQuery = treesitter.Query{
 	Query: `
 	(field
 		name: (string
-			content: (string_content) @field.name
+			content: (string_content) @value.name
 		)
 		value: [
 			(number) @value.number
