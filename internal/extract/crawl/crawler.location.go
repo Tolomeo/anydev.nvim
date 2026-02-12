@@ -7,7 +7,42 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
-func (c *Crawler) findModuleDefinitionLocations(moduleUrl string) (*[]nvim.Location, error) {
+func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Location, error) {
+	buffer, err := c.context.Nvim().NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	assignment := fmt.Sprintf("local ref = require('%s')", moduleName)
+	err = buffer.SetLines([]string{assignment})
+
+	if err != nil {
+		return nil, err
+	}
+
+	line, character := uint(0), uint(len(assignment)-2)
+	moduleLocations, err := buffer.GetDefinitionLocations(line, character)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if moduleLocations == nil {
+		return nil, fmt.Errorf("No locations found for module named '%s'", moduleName)
+	}
+
+	if len(*moduleLocations) != 1 {
+		return nil, fmt.Errorf("Ambiguous number of locations for module named '%s': <%+v>", moduleName, *moduleLocations)
+	}
+
+	moduleUrl := (*moduleLocations)[0].Url
+	return c.findModuleExportDefinitionLocations(moduleUrl)
+}
+
+func (c *Crawler) findModuleExportDefinitionLocations(moduleUrl string) (*[]nvim.Location, error) {
 	moduleBuffer, err := c.context.Nvim().OpenBuffer(moduleUrl)
 
 	if err != nil {

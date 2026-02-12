@@ -22,6 +22,7 @@ func (o Options) validate() error {
 type result struct {
 	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
 	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
+	Modules map[string]symbol.Symbol `json:"modules" yaml:"modules"`
 }
 
 type extractor struct {
@@ -89,6 +90,13 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 			return nil
 		}
 		e.result.Types[name] = placeholder
+	case target.TargetKindModule:
+		_, hasSymbol := e.result.Modules[name]
+		if hasSymbol {
+			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
+			return nil
+		}
+		e.result.Modules[name] = placeholder
 	}
 
 	extraction := e.newExtraction(kind, name)
@@ -111,6 +119,8 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 		e.result.Runtime[name] = extractionResult
 	case target.TargetKindType:
 		e.result.Types[name] = extractionResult
+	case target.TargetKindModule:
+		e.result.Modules[name] = extractionResult
 	}
 
 	return nil
@@ -167,6 +177,7 @@ func NewExtractor(options Options) (*extractor, error) {
 		result: &result{
 			Runtime: map[string]symbol.Symbol{},
 			Types:   map[string]symbol.Symbol{},
+			Modules: map[string]symbol.Symbol{},
 		},
 	}
 

@@ -31,6 +31,8 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 		locations, err = c.findIdentifierDefinitionLocations(c.context.Target().Identifier())
 	case target.TargetKindType:
 		locations, err = c.findTypeIdentifierDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
+	case target.TargetKindModule:
+		locations, err = c.findModuleDefinitionLocations(c.context.Target().Identifier())
 	}
 
 	if err != nil {
@@ -80,7 +82,7 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 		}
 
 		moduleUrl := (*moduleLocations)[0].Url
-		moduleDefinitionLocations, err := c.findModuleDefinitionLocations(moduleUrl)
+		moduleDefinitionLocations, err := c.findModuleExportDefinitionLocations(moduleUrl)
 
 		if err != nil {
 			return nil, err

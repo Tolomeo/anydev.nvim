@@ -10,8 +10,9 @@ import (
 type TargetKind string
 
 const (
-	TargetKindValue TargetKind = "value"
-	TargetKindType  TargetKind = "type"
+	TargetKindModule TargetKind = "module"
+	TargetKindValue  TargetKind = "value"
+	TargetKindType   TargetKind = "type"
 )
 
 type Target struct {
@@ -84,10 +85,18 @@ func (t *Target) SetDocumentation(documentation symbol.Documentation) {
 	t.documentation = documentation
 }
 
-func (t *Target) NewChild(name string) *Target {
+func (t *Target) Child(name string) *Target {
 	return &Target{
 		parent: t,
 		kind:   t.kind,
+		name:   name,
+	}
+}
+
+func (t *Target) ChildOfKind(kind TargetKind, name string) *Target {
+	return &Target{
+		parent: t,
+		kind:   kind,
 		name:   name,
 	}
 }

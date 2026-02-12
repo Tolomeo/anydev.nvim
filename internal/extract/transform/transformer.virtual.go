@@ -2,6 +2,7 @@ package transform
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
@@ -72,7 +73,14 @@ func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin)
 	}
 
 	if annotations.AtModule != nil {
-		tr.context.Logger().Debugf("Module: %s", annotations.AtModule.Name().Text)
+		moduleName := strings.Trim(annotations.AtModule.Name().Text, "'\"")
+		err := tr.context.Extract("module", moduleName)
+
+		if err != nil {
+			return nil, err
+		}
+
+		return symbol.NewReference(moduleName), nil
 	}
 
 	tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
