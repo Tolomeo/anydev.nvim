@@ -10,30 +10,18 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type AtTypeAnnotation struct {
-	Types         []string
-	Documentation []string
-}
-
-func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*AtTypeAnnotation, error) {
-	captures, err := buffer.TsQueryOne(annotation.AtTypeQuery)
+func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*annotation.AtType, error) {
+	match, err := buffer.SafeTsQueryOne(annotation.AtTypeQuery)
 
 	if err != nil {
 		return nil, err
 	}
 
-	if captures == nil {
+	if match == nil {
 		return nil, nil
 	}
 
-	atTypeAnnotation := annotation.NewAtType(*captures)
-	atType := AtTypeAnnotation{}
-
-	for _, typ := range atTypeAnnotation.Types() {
-		atType.Types = append(atType.Types, typ)
-	}
-
-	return &atType, nil
+	return annotation.NewAtType(match.Captures), nil
 }
 
 var optionalTypeAnnotationQuery = annotation.OptionalQuery.MapQuery(func(query string) string {
@@ -610,7 +598,6 @@ func (tr *Transformer) getReferenceType(name string) (*symbol.TypeReference, err
 	return symbol.NewTypeReference(name), nil
 }
 
-
 func (tr *Transformer) getType(typ string) (symbol.Type, error) {
 	parsedType, err := tr.parseType(typ)
 
@@ -618,7 +605,7 @@ func (tr *Transformer) getType(typ string) (symbol.Type, error) {
 		return nil, err
 	}
 
-	err = tr.resolveReferences(parsedType)
+	err = tr.resolveTypeReferences(parsedType)
 
 	if err != nil {
 		return nil, err
@@ -627,30 +614,30 @@ func (tr *Transformer) getType(typ string) (symbol.Type, error) {
 	return parsedType, nil
 }
 
-func (tr *Transformer) resolveReferences(typeSymbol symbol.Type) error {
+func (tr *Transformer) resolveTypeReferences(typeSymbol symbol.Type) error {
 	switch symbolType := typeSymbol.(type) {
 	case *symbol.Optional:
-		tr.resolveReferences(symbolType.Type)
+		tr.resolveTypeReferences(symbolType.Type)
 	case *symbol.Array:
-		tr.resolveReferences(symbolType.Items)
+		tr.resolveTypeReferences(symbolType.Items)
 	case *symbol.Function:
 		for _, argument := range symbolType.Arguments {
-			tr.resolveReferences(argument.Type)
+			tr.resolveTypeReferences(argument.Type)
 		}
 		for _, ret := range symbolType.Returns {
-			tr.resolveReferences(ret.Type)
+			tr.resolveTypeReferences(ret.Type)
 		}
 	case *symbol.Table:
 		for _, field := range symbolType.Fields {
-			tr.resolveReferences(field.Type)
+			tr.resolveTypeReferences(field.Type)
 		}
 		for _, index := range symbolType.Indexes {
-			tr.resolveReferences(index.Key)
-			tr.resolveReferences(index.Value)
+			tr.resolveTypeReferences(index.Key)
+			tr.resolveTypeReferences(index.Value)
 		}
 	case *symbol.Union:
 		for _, unionType := range symbolType.Types {
-			tr.resolveReferences(unionType)
+			tr.resolveTypeReferences(unionType)
 		}
 	case *symbol.TypeReference:
 		err := tr.context.Extract("type", symbolType.Value)

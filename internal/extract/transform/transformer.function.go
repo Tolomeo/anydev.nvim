@@ -38,7 +38,7 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 		return annotations, err
 	}
 
-	atGenericMatches, err := buffer.TsQueryAll(annotation.AtGenericsQuery)
+	atGenericMatches, err := buffer.SafeTsQueryAll(annotation.AtGenericsQuery)
 
 	if err != nil {
 		return annotations, err
@@ -46,11 +46,16 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 
 	if atGenericMatches != nil {
 		for _, match := range *atGenericMatches {
-			annotations.AtGenerics = append(annotations.AtGenerics, *annotation.NewGenerics(match))
+			if match.HasError {
+				tr.context.Logger().Errorf("Skipping @generic annotation <%v> because it contains syntax errors", match.Captures)
+				continue
+			}
+
+			annotations.AtGenerics = append(annotations.AtGenerics, *annotation.NewGenerics(match.Captures))
 		}
 	}
 
-	atParamMatches, err := buffer.TsQueryAll(annotation.AtParamQuery)
+	atParamMatches, err := buffer.SafeTsQueryAll(annotation.AtParamQuery)
 
 	if err != nil {
 		return annotations, err
@@ -58,7 +63,12 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 
 	if atParamMatches != nil {
 		for _, match := range *atParamMatches {
-			atParamAnnotation := annotation.NewAtParam(match)
+			if match.HasError {
+				tr.context.Logger().Errorf("Skipping @param annotation <%v> because it contains syntax errors", match.Captures)
+				continue
+			}
+
+			atParamAnnotation := annotation.NewAtParam(match.Captures)
 			annotations.AtParams[atParamAnnotation.Name()] = *atParamAnnotation
 		}
 	}
@@ -84,7 +94,7 @@ func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAn
 	if atOverloadMatches != nil {
 		for _, match := range *atOverloadMatches {
 			if match.HasError {
-				tr.context.Logger().Warn(fmt.Sprintf("Skipping overload annotation <%v> because it contains syntax errors", match))
+				tr.context.Logger().Errorf("Skipping @overload annotation <%v> because it contains syntax errors", match.Captures)
 				continue
 			}
 
@@ -148,7 +158,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
-				err := tr.resolveReferences(parsedArgType)
+				err := tr.resolveTypeReferences(parsedArgType)
 				if err != nil {
 					return nil, err
 				}
@@ -174,7 +184,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			if _, isGenericArgType := slicesx.FindFunc(function.Generics, func(generic symbol.FunctionGeneric) bool {
 				return reference.Value == generic.Name
 			}); !isGenericArgType {
-				err := tr.resolveReferences(reference)
+				err := tr.resolveTypeReferences(reference)
 				if err != nil {
 					return nil, err
 				}

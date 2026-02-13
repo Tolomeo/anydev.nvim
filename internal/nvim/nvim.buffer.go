@@ -107,6 +107,18 @@ func (b *Buffer) TsQueryAll(query treesitter.Query) (*[]TsQueryMatch, error) {
 	return b.nvim.tsQueryAll(query)
 }
 
+func (b *Buffer) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+	b.nvim.logger.Sillyf("Executing safe query one in %s buffer", b.name)
+
+	_, err := b.nvim.open(b.name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return b.nvim.safeTsQueryOne(query)
+}
+
 func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
 	b.nvim.logger.Sillyf("Executing safe query all in %s buffer", b.name)
 

@@ -10,7 +10,7 @@ import (
 )
 
 type virtualOriginAtAnnotations struct {
-	AtType   *AtTypeAnnotation
+	AtType   *annotation.AtType
 	AtModule *annotation.AtModule
 }
 
@@ -40,14 +40,18 @@ func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOr
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
-	atModuleMatch, err := buffer.TsQueryOne(annotation.AtModuleQuery)
+	atModuleMatch, err := buffer.SafeTsQueryOne(annotation.AtModuleQuery)
 
 	if err != nil {
 		return annotations, err
 	}
 
 	if atModuleMatch != nil {
-		annotations.AtModule = annotation.NewAtModule(*atModuleMatch)
+		if atModuleMatch.HasError {
+			tr.context.Logger().Errorf("Skipping @module annotation <%v> because it contains syntax errors", atModuleMatch.Captures)
+		} else {
+			annotations.AtModule = annotation.NewAtModule(atModuleMatch.Captures)
+		}
 	}
 
 	annotations.AtType = atType
@@ -63,7 +67,7 @@ func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin)
 
 	if annotations.AtType != nil {
 		// NB: we don't check for the presence of multiple types here
-		lexedType, err := tr.getType(annotations.AtType.Types[0])
+		lexedType, err := tr.getType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err

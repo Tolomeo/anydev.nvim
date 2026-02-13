@@ -3,12 +3,13 @@ package transform
 import (
 	"fmt"
 
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
 type functionCallOriginAtAnnotations struct {
-	AtType *AtTypeAnnotation
+	AtType *annotation.AtType
 }
 
 func (tr *Transformer) getFunctionCallOriginAtAnnotations(docblock []string) (functionCallOriginAtAnnotations, error) {
@@ -49,7 +50,7 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 
 	// NB: we don't check here for the presence of multiple types
 	if annotations.AtType != nil {
-		originType, err := tr.getType(annotations.AtType.Types[0])
+		originType, err := tr.getType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err

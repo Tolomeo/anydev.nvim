@@ -212,7 +212,7 @@ type SafeTsQueryResult struct {
 	Captures TsQueryMatch
 }
 
-/* func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+func (n *Nvim) safeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
 	match, err := n.tsQueryOne(query)
 
 	switch {
@@ -242,7 +242,7 @@ type SafeTsQueryResult struct {
 			Captures: *match,
 		}, nil
 	}
-} */
+}
 
 func (n *Nvim) safeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
 	matches, err := n.tsQueryAll(query)

@@ -3,12 +3,13 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
 type variableOriginAtAnnotations struct {
-	AtType *AtTypeAnnotation
+	AtType *annotation.AtType
 }
 
 func (tr *Transformer) getVariableOriginAnnotations(docblock []string) (variableOriginAtAnnotations, error) {
@@ -51,11 +52,11 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 		return tr.context.Follow()
 	}
 
-	if len(annotations.AtType.Types) < 1 {
+	if len(annotations.AtType.Types()) < 1 {
 		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
 	}
 
-	lexedType, err := tr.getType(annotations.AtType.Types[0])
+	lexedType, err := tr.getType(annotations.AtType.Types()[0])
 
 	if err != nil {
 		return nil, err
