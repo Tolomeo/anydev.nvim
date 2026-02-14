@@ -64,7 +64,9 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 			)
 		)
 		(#not-any-of? @function_call.name "require" "vim._defer_require")
-	) @function_call`,
+	) @function_call
+	(#not-has-ancestor? @function_call "function_call") ; Avoiding nested matches
+	`,
 }
 
 type FunctionCall struct {
