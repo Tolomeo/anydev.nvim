@@ -18,7 +18,29 @@ const (
 	debug   level = "DEBUG"
 )
 
+type color string
+
+const (
+	reset   color = "\033[0m"
+	red     color = "\033[31m"
+	green   color = "\033[32m"
+	yellow  color = "\033[33m"
+	blue    color = "\033[34m"
+	magenta color = "\033[35m"
+	cyan    color = "\033[36m"
+	gray    color = "\033[37m"
+	// white   color = "\033[97m"
+)
+
 var levels = [5]level{error, warn, info, verbose, silly}
+var colors = map[level]color{
+	error:   red,
+	warn:    yellow,
+	info:    green,
+	verbose: blue,
+	silly:   gray,
+	debug:   cyan,
+}
 
 type log struct {
 	level   level
@@ -38,7 +60,11 @@ func (l *Logger) log(newLog log) {
 		return
 	}
 
-	l.stdOut.Printf("%s%s: %s\n", newLog.level, l.prefix, newLog.message)
+	level := fmt.Sprintf("%s%s%s", colors[newLog.level], newLog.level, reset)
+	prefix := fmt.Sprintf("[%s%s%s]", magenta, l.prefix, reset)
+	message := newLog.message
+
+	l.stdOut.Printf("%s%s: %s\n", level, prefix, message)
 }
 
 func (l *Logger) Info(message string) {
@@ -94,10 +120,6 @@ func (l *Logger) Debugf(message string, args ...any) {
 }
 
 func NewLogger(prefix string) *Logger {
-	if prefix != "" {
-		prefix = fmt.Sprintf("[%s]", prefix)
-	}
-
 	return &Logger{
 		level:  3,
 		prefix: prefix,
