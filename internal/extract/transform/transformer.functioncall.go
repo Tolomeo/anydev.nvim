@@ -10,6 +10,7 @@ import (
 
 type functionCallOriginAtAnnotations struct {
 	AtType *annotation.AtType
+	functionAtAnnotations
 }
 
 func (tr *Transformer) getFunctionCallOriginAtAnnotations(docblock []string) (functionCallOriginAtAnnotations, error) {

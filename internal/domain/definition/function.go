@@ -155,6 +155,34 @@ var FunctionFieldDotAssignmentQuery = treesitter.Query{
 	) @function`,
 }
 
+// F.T = memoize('...', function() end)
+var FunctionFieldMemoizedAssignmentQuery = treesitter.Query{
+	Language: "lua",
+	Query: `
+	(assignment_statement 
+		(variable_list 
+			name: (_) @name
+		) 
+		(expression_list 
+			value: (function_call 
+				name: (_) @function_call.name 
+				arguments: (arguments
+					(string)
+					(function_definition
+						parameters: (parameters
+							(identifier)? @arg
+							("," (identifier) @arg)*
+							("," (vararg_expression) @vararg)?
+							(vararg_expression)? @vararg
+						)
+					) @signature
+				)
+			)
+		)
+		(#any-eq? @function_call.name "memoize")
+	) @function`,
+}
+
 /*
 function api.fn() end
 function api.fn(name) end

@@ -216,6 +216,9 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.VirtualVariableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.meta", query)
 			}),
+			definition.FunctionFieldMemoizedAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 			definition.FunctionFieldDotAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function", query)
 			}),
