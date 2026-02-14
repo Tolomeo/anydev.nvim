@@ -15,7 +15,7 @@ type extractionContext struct {
 }
 
 func (c *extractionContext) Target() *target.Target {
-	return c.extraction.target
+	return c.extraction.currentTarget()
 }
 
 func (c *extractionContext) Logger() *log.Logger {
@@ -31,9 +31,9 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 }
 
 func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
-	c.extraction.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.extraction.target.Kind())
+	c.extraction.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.extraction.currentTarget().Kind())
 
-	childExtraction := c.extraction.extractor.newChildExtraction(c.extraction.target, name)
+	childExtraction := c.extraction.extractor.newChildExtraction(c.extraction.currentTarget(), name)
 	err := c.extraction.extractor.extract(childExtraction)
 
 	if err != nil {
@@ -42,16 +42,16 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 
 	namedField := symbol.NewTableField()
 	namedField.Name = name
-	namedField.Metadata = childExtraction.target.Meta()
+	namedField.Metadata = childExtraction.currentTarget().Meta()
 	namedField.Documentation = symbol.Documentation{}
 	namedField.Type = symbol.NewUnknown()
 
-	if childExtraction.target.Type() == nil {
+	if childExtraction.currentTarget().Type() == nil {
 		parent.Fields = append(parent.Fields, *namedField)
 		return nil
 	}
 
-	switch childOriginType := childExtraction.target.Origin().(type) {
+	switch childOriginType := childExtraction.currentTarget().Origin().(type) {
 	case *origin.FieldAnnotationOrigin:
 		if childOriginType.Index() != nil {
 			key, err := c.extraction.transformer.GetType(*childOriginType.Index())
@@ -60,21 +60,23 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 			}
 			indexedField := symbol.NewTableIndex()
 			indexedField.Key = key
-			indexedField.Value = childExtraction.target.Type()
+			indexedField.Value = childExtraction.currentTarget().Type()
 			parent.Indexes = append(parent.Indexes, *indexedField)
 			return nil
 		}
 	}
 
-	namedField.Documentation = childExtraction.target.Documentation()
-	namedField.Type = childExtraction.target.Type()
+	namedField.Documentation = childExtraction.currentTarget().Documentation()
+	namedField.Type = childExtraction.currentTarget().Type()
 	parent.Fields = append(parent.Fields, *namedField)
 
 	return nil
 }
 
-func (c *extractionContext) Follow() (symbol.Type, error) {
-	c.extraction.logger.Info("Following")
+func (c *extractionContext) Follow(name string) (symbol.Type, error) {
+	c.extraction.logger.Infof("Following <%s>", name)
+
+	c.extraction.target = append(c.extraction.target, c.extraction.currentTarget().Follow(name))
 
 	origin, err := c.extraction.crawler.FollowOriginChain()
 
@@ -84,7 +86,8 @@ func (c *extractionContext) Follow() (symbol.Type, error) {
 
 	c.extraction.logger.Info("Follow complete")
 
-	c.extraction.target.SetOriginChain(origin)
+	c.extraction.target = c.extraction.target[:len(c.extraction.target)-1]
+	c.extraction.currentTarget().SetOriginChain(origin)
 
 	return c.extraction.transformer.GetOriginType()
 }
@@ -95,10 +98,14 @@ type extraction struct {
 	transformer *transform.Transformer
 	logger      *log.Logger
 	parent      *extraction
-	target      *target.Target
+	target      []*target.Target
 }
 
 type extractionStep func() (extractionStep, error)
+
+func (t *extraction) currentTarget() *target.Target {
+	return t.target[len(t.target)-1]
+}
 
 func (t *extraction) getOriginChain() (extractionStep, error) {
 	t.logger.Info("Crawling symbol origin")
@@ -116,7 +123,7 @@ func (t *extraction) getOriginChain() (extractionStep, error) {
 
 	t.logger.Infof("Crawling symbol origin yielded <%T>", origin.Last())
 
-	t.target.SetOriginChain(origin)
+	t.currentTarget().SetOriginChain(origin)
 
 	return t.getDocumentation, nil
 }
@@ -130,7 +137,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.target.SetDocumentation(documentation)
+	t.currentTarget().SetDocumentation(documentation)
 
 	return t.getMetadata, nil
 }
@@ -148,7 +155,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 		return t.getType, nil
 	}
 
-	t.target.SetMeta(*meta)
+	t.currentTarget().SetMeta(*meta)
 
 	return t.getType, nil
 }
@@ -162,49 +169,7 @@ func (t *extraction) getType() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.target.SetType(typ)
+	t.currentTarget().SetType(typ)
 
 	return nil, nil
-}
-
-func (e *extractor) newChildExtraction(parent *target.Target, name string) *extraction {
-	var childTarget *target.Target
-
-	switch parent.Kind() {
-	case target.TargetKindModule:
-		childTarget = parent.ChildOfKind(target.TargetKindValue, name)
-	default:
-		childTarget = parent.Child(name)
-	}
-
-	childExtraction := &extraction{
-		extractor: e,
-		target:    childTarget,
-	}
-	targetExtractionContext := extractionContext{
-		extraction: childExtraction,
-	}
-
-	childExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
-	childExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
-	childExtraction.logger = log.NewLogger(childTarget.Identifier())
-
-	return childExtraction
-}
-
-func (e *extractor) newExtraction(kind target.TargetKind, name string) *extraction {
-	target := target.NewTarget(kind, name)
-	targetExtraction := &extraction{
-		extractor: e,
-		target:    target,
-	}
-	targetExtractionContext := extractionContext{
-		extraction: targetExtraction,
-	}
-
-	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
-	targetExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
-	targetExtraction.logger = log.NewLogger(target.Identifier())
-
-	return targetExtraction
 }

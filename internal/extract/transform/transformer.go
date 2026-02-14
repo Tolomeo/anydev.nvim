@@ -17,7 +17,7 @@ type ctx interface {
 	Logger() *log.Logger
 	Extract(target.TargetKind, string) error
 	ExtractChild(*symbol.Table, string) error
-	Follow() (symbol.Type, error)
+	Follow(string) (symbol.Type, error)
 	// AddChild(*symbol.Table, string, symbol.Metadata, []string, symbol.Type)
 }
 

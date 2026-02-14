@@ -49,7 +49,7 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 	}
 
 	if annotations.AtType == nil {
-		return tr.context.Follow()
+		return tr.context.Follow(variableOrigin.Name())
 	}
 
 	if len(annotations.AtType.Types()) < 1 {

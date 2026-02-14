@@ -46,8 +46,8 @@ func (fco *FunctionCallOrigin) Definition() []string {
 	return strings.Split(fco.node.Root().Text, "\n")
 }
 
-func (fco *FunctionCallOrigin) FunctionName() []string {
-	return strings.Split(fco.node.FunctionName().Text, "\n")
+func (fco *FunctionCallOrigin) FunctionName() string {
+	return fco.node.FunctionName().Text
 }
 
 func (fco *FunctionCallOrigin) FunctionNameRange() treesitter.Range {

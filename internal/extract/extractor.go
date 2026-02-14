@@ -6,6 +6,8 @@ import (
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/project"
@@ -50,7 +52,7 @@ func (e *extractor) Flush() {
 }
 
 func (e *extractor) extract(item *extraction) error {
-	e.logger.Infof("Extracting '%s'", item.target.Identifier())
+	e.logger.Infof("Extracting '%s'", item.currentTarget().Identifier())
 
 	e.extractions = append(e.extractions, item)
 
@@ -107,13 +109,13 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.target.Type())
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.currentTarget().Type())
 
-	if extraction.target.Type() == nil {
+	if extraction.currentTarget().Type() == nil {
 		return nil
 	}
 
-	extractionResult := symbol.NewSymbol(name, extraction.target.Meta(), extraction.target.Documentation(), extraction.target.Type())
+	extractionResult := symbol.NewSymbol(name, extraction.currentTarget().Meta(), extraction.currentTarget().Documentation(), extraction.currentTarget().Type())
 
 	switch kind {
 	case target.TargetKindValue:
@@ -125,6 +127,57 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	}
 
 	return nil
+}
+
+func (e *extractor) newExtractionTarget(kind target.TargetKind, name string) *target.Target {
+	return target.NewTarget(kind, name)
+}
+
+func (e *extractor) newExtraction(kind target.TargetKind, name string) *extraction {
+	extractionTarget := e.newExtractionTarget(kind, name)
+	targetExtraction := &extraction{
+		extractor: e,
+		target:    []*target.Target{extractionTarget},
+	}
+	targetExtractionContext := extractionContext{
+		extraction: targetExtraction,
+	}
+
+	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
+	targetExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
+	targetExtraction.logger = log.NewLogger(extractionTarget.Identifier())
+
+	return targetExtraction
+}
+
+func (e *extractor) newChildExtractionTarget(parent *target.Target, name string) *target.Target {
+	var childExtractionTarget *target.Target
+
+	switch parent.Kind() {
+	case target.TargetKindModule:
+		childExtractionTarget = parent.ChildOfKind(target.TargetKindValue, name)
+	default:
+		childExtractionTarget = parent.Child(name)
+	}
+
+	return childExtractionTarget
+}
+
+func (e *extractor) newChildExtraction(parent *target.Target, name string) *extraction {
+	childExtractionTarget := e.newChildExtractionTarget(parent, name)
+	childExtraction := &extraction{
+		extractor: e,
+		target:    []*target.Target{childExtractionTarget},
+	}
+	targetExtractionContext := extractionContext{
+		extraction: childExtraction,
+	}
+
+	childExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
+	childExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
+	childExtraction.logger = log.NewLogger(childExtractionTarget.Identifier())
+
+	return childExtraction
 }
 
 func (e *extractor) initLogger(_ Options) {

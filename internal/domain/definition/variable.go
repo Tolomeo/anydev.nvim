@@ -15,9 +15,9 @@ var VariableAssignmentQuery = treesitter.Query{
 		) @assignment.left
 		(expression_list
 			.
-			value: (identifier) @assignment.right 
+			value: (identifier) @name
 			.
-		)
+		) @assignment.right
 	) @variable`,
 }
 
@@ -31,18 +31,31 @@ var VariableDotFieldAssignmentQuery = treesitter.Query{
 		) @assignment.left
 		(expression_list
 			.
-			value: (dot_index_expression) @assignment.right 
+			value: (dot_index_expression) @name
 			.
-		)
+		) @assignment.right
 	) @variable`,
 }
 
-var VariableFieldQuery = treesitter.Query{
+/*
+	F = {
+		...
+	    T = X,
+		...
+	}
+*/
+var VariableFieldAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(field
 		name: (identifier) @assignment.left
-		value: (identifier) @assignment.right
+		value: [
+			(identifier) @name
+			(dot_index_expression
+				table: (_)
+				field: (identifier) @name
+			)
+		] @assignment.right
 	) @variable`,
 }
 
@@ -66,8 +79,10 @@ func NewVariable(captures nvim.TsQueryMatch) *Variable {
 		switch capture.Id {
 		case "variable":
 			variable.root = capture.Node
-		case "assignment.right":
+		case "name":
 			variable.name = capture.Node
+		/* case "assignment.right":
+			variable.name = capture.Node */
 		}
 	}
 

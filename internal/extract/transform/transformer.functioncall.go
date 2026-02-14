@@ -59,7 +59,7 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 		return originType, nil
 	}
 
-	followedType, err := tr.context.Follow()
+	followedType, err := tr.context.Follow(functionCallOrigin.FunctionName())
 
 	// TODO: support generics?
 	switch functionType := followedType.(type) {
