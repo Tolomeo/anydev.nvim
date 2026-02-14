@@ -459,6 +459,20 @@ func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string
 	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
 }
 
+func (tr *Transformer) getSyntaxErrorFallbackType(buffer *nvim.ScratchBuffer, _ string) (*symbol.Unknown, error) {
+	syntaxError, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: "(ERROR) @error"})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if syntaxError == nil {
+		return nil, nil
+	}
+
+	return symbol.NewUnknown(), nil
+}
+
 func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
 	tr.context.Logger().Verbosef("Transforming text type <%s>", type_)
 
@@ -582,6 +596,17 @@ func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
 
 	if stringLiteralType != nil {
 		return stringLiteralType, nil
+	}
+
+	syntaxErrorFallbackType, err := tr.getSyntaxErrorFallbackType(buffer, type_)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error looking for syntax errors in type <%s>: %w", type_, err)
+	}
+
+	if syntaxErrorFallbackType != nil {
+		tr.context.Logger().Errorf("Using <%T> for unrecognized type text <%s> containing syntax errors", syntaxErrorFallbackType, type_)
+		return syntaxErrorFallbackType, nil
 	}
 
 	return symbol.NewTypeReference(type_), nil
