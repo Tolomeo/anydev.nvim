@@ -56,7 +56,7 @@ luadoc-parser-patch:
 TREE_SITTER_LUADOC_SRC_FILE=libtree-sitter-luadoc.so
 TREE_SITTER_LUADOC_SRC_PATH=$(TREE_SITTER_LUADOC_SRC_DIR)/$(TREE_SITTER_LUADOC_SRC_FILE)
 
-$(TREE_SITTER_LUADOC_SRC_PATH):
+$(TREE_SITTER_LUADOC_SRC_PATH): $(TREE_SITTER_LUADOC_SRC_DIR)/grammar.js
 	@echo "Installing tree-sitter-luadoc dependencies"
 	cd $(TREE_SITTER_LUADOC_SRC_DIR) && npm install
 	$(MAKE) luadoc-parser-patch
