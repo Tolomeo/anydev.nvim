@@ -163,10 +163,11 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.L
 
 	result, err := n.execLua(script, []any{line, character, 15000})
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, fmt.Errorf("Error getting lsp definition: %v", err)
-	case result == nil:
+	}
+
+	if result == nil {
 		return nil, nil
 	}
 
@@ -201,17 +202,18 @@ func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserv
 
 	result, err := n.execLua(script, []any{line, character, 15000})
 
-	switch {
-	case err != nil:
-		return nil, fmt.Errorf("Error getting lsp type definition: %v", err)
-	case result == nil:
+	if err != nil {
+		return nil, fmt.Errorf("Error getting lsp type definition locations: %v", err)
+	}
+
+	if result == nil {
 		return nil, nil
 	}
 
 	stringResult, ok := result.(string)
 
 	if !ok {
-		return nil, fmt.Errorf("Error reading lsp definition response: %v", result)
+		return nil, fmt.Errorf("Error reading lsp type definition response: %v", result)
 	}
 
 	response := languageserver.TextDocumentTypeDefinitionResponse{}
@@ -227,12 +229,15 @@ func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserv
 func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	lspTypeDefinitions, err := n.getLspTypeDefinitions(line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case lspTypeDefinitions == nil:
+	}
+
+	if lspTypeDefinitions == nil {
 		return nil, nil
-	case len(*lspTypeDefinitions) == 0:
+	}
+
+	if len(*lspTypeDefinitions) == 0 {
 		return nil, nil
 	}
 
@@ -262,12 +267,15 @@ func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]Locatio
 func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	lspDefinitions, err := n.getLSPDefinitions(line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case lspDefinitions == nil:
+	}
+
+	if lspDefinitions == nil {
 		return nil, nil
-	case len(*lspDefinitions) == 0:
+	}
+
+	if len(*lspDefinitions) == 0 {
 		return nil, nil
 	}
 
@@ -329,6 +337,10 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting lsp definition: %v", err)
+	}
+
+	if result == nil {
+		return []string{}, nil
 	}
 
 	stringResult, ok := result.(string)

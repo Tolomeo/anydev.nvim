@@ -40,6 +40,8 @@ return {
 				maxSuggestCount = 999999,
 				-- No duplicated completion items for functions with overloads
 				showParams = false,
+				-- No suggested words from buffers content
+				showWord = "Disable",
 				-- No completion items from text
 				workspaceWord = false
 			},
