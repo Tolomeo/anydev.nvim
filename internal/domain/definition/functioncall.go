@@ -63,7 +63,7 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 				name: (_) @function_call.name
 			)
 		)
-		(#not-any-of? @function_call.name "require" "vim._defer_require" "memoize")
+		(#not-any-of? @function_call.name "require" "vim._defer_require" "memoize" "create_option_accessor")
 	) @function_call
 	(#not-has-ancestor? @function_call "function_call") ; Avoiding nested matches
 	`,
