@@ -14,8 +14,8 @@ func (tr *Transformer) getClassOriginType(classOrigin *origin.ClassOrigin) (*sym
 		return nil, err
 	}
 
-	for _, child := range classChildren {
-		err := tr.context.ExtractChild(class, child)
+	for _, childName := range classChildren {
+		err := tr.context.ExtractChild(class, childName)
 
 		if err != nil {
 			return nil, err

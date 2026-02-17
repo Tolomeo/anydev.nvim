@@ -1,6 +1,8 @@
 package extract
 
 import (
+	"strconv"
+
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
@@ -40,14 +42,24 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		return err
 	}
 
-	namedField := symbol.NewTableField()
-	namedField.Name = name
-	namedField.Metadata = childExtraction.currentTarget().Meta()
-	namedField.Documentation = symbol.Documentation{}
-	namedField.Type = symbol.NewUnknown()
+	metadata := childExtraction.currentTarget().Meta()
+	documentation := childExtraction.currentTarget().Documentation()
+	var type_ symbol.Type
+	if childExtraction.currentTarget().Type() != nil {
+		type_ = childExtraction.currentTarget().Type()
+	} else {
+		type_ = symbol.NewUnknown()
+	}
 
-	if childExtraction.currentTarget().Type() == nil {
-		parent.Fields = append(parent.Fields, *namedField)
+	if _, err := strconv.Atoi(name); err == nil {
+		key, err := c.extraction.transformer.GetType(name)
+		if err != nil {
+			return err
+		}
+		indexedField := symbol.NewTableIndex()
+		indexedField.Key = key
+		indexedField.Value = type_
+		parent.Indexes = append(parent.Indexes, *indexedField)
 		return nil
 	}
 
@@ -66,8 +78,12 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		}
 	}
 
-	namedField.Documentation = childExtraction.currentTarget().Documentation()
-	namedField.Type = childExtraction.currentTarget().Type()
+	namedField := symbol.NewTableField()
+	namedField.Name = name
+	namedField.Metadata = metadata
+	namedField.Documentation = documentation
+	namedField.Type = type_
+
 	parent.Fields = append(parent.Fields, *namedField)
 
 	return nil
@@ -110,20 +126,15 @@ func (t *extraction) currentTarget() *target.Target {
 func (t *extraction) getOriginChain() (extractionStep, error) {
 	t.logger.Info("Crawling symbol origin")
 
-	origin, err := t.crawler.GetOriginChain()
+	symbolOrigin, err := t.crawler.GetOriginChain()
 
 	if err != nil {
 		return nil, err
 	}
 
-	if origin == nil {
-		t.logger.Warn("Crawling symbol origin yielded no origin")
-		return nil, nil
-	}
+	t.logger.Infof("Crawling symbol origin yielded <%T>", symbolOrigin.Last())
 
-	t.logger.Infof("Crawling symbol origin yielded <%T>", origin.Last())
-
-	t.currentTarget().SetOriginChain(origin)
+	t.currentTarget().SetOriginChain(symbolOrigin)
 
 	return t.getDocumentation, nil
 }

@@ -41,7 +41,7 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 
 	if locations == nil {
 		c.context.Logger().Warnf("No locations found for '%s' %s symbol", c.context.Target().Identifier(), c.context.Target().Kind())
-		return nil, nil
+		return origin.NewOriginChain(origin.NewUnkownOrigin()), nil
 	}
 
 	origins, err := c.getOriginChain(*locations)
@@ -104,6 +104,7 @@ func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
 }
 
 func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {
+
 	var markupContent *languageserver.MarkupContent
 	var err error
 
