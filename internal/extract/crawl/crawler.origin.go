@@ -2,6 +2,7 @@ package crawl
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
@@ -9,6 +10,34 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
+
+func (c *Crawler) getDefinitionOverrideOriginChain() (origin.OriginChain, error) {
+	definitionOverride := c.context.TargetDefinitionOverride()
+
+	if definitionOverride == nil {
+		return nil, nil
+	}
+
+	buffer, err := c.context.Nvim().NewBuffer()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer buffer.Close()
+
+	lines := strings.Split(*definitionOverride, "\n")
+	err = buffer.SetLines(lines)
+
+	if err != nil {
+		return nil, err
+	}
+
+	url, startLine, startCharacter, endLine, endCharacter := buffer.Name(), len(lines)-1, 0, len(lines)-1, len(lines[len(lines)-1])-1
+	location := nvim.NewLocation(url, startLine, startCharacter, endLine, endCharacter)
+
+	return c.getOriginChain([]nvim.Location{location})
+}
 
 func (c *Crawler) getOriginChain(locations []nvim.Location) (origin.OriginChain, error) {
 	var locationOrigin origin.Origin

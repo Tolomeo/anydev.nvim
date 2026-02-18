@@ -1,0 +1,107 @@
+{
+    "runtime": {
+        "vim.base64": {
+            "name": "vim.base64",
+            "documentation": [
+                "Workspace loading: 65 / 197"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "decode",
+                        "documentation": [
+                            "```lua",
+                            "function vim.base64.decode(str: string)",
+                            "  -\u003e string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Decode a Base64 encoded string.",
+                            "",
+                            "@*param* `str` — Base64 encoded string",
+                            "",
+                            "@*return* — : Decoded string"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "str",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "decode",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "encode",
+                        "documentation": [
+                            "```lua",
+                            "function vim.base64.encode(str: string)",
+                            "  -\u003e string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Encode {str} using Base64.",
+                            "",
+                            "@*param* `str` — String to encode",
+                            "",
+                            "@*return* — : Encoded string"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "str",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "encode",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "base64"
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

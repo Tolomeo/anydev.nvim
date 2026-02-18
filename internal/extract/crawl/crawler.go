@@ -14,6 +14,7 @@ import (
 
 type ctx interface {
 	Target() *target.Target
+	TargetDefinitionOverride() *string
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 }
@@ -23,8 +24,17 @@ type Crawler struct {
 }
 
 func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
+	originOverride, err := c.getDefinitionOverrideOriginChain()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if originOverride != nil {
+		return originOverride, nil
+	}
+
 	var locations *[]nvim.Location
-	var err error
 
 	switch c.context.Target().Kind() {
 	case target.TargetKindValue:

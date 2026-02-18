@@ -14,6 +14,10 @@ type Buffer struct {
 	name string
 }
 
+func (b *Buffer) Name() string {
+	return b.name
+}
+
 func (b *Buffer) ReadLines() ([]string, error) {
 	b.nvim.logger.Sillyf("Reading %s buffer lines", b.name)
 	_, err := b.nvim.open(b.name)

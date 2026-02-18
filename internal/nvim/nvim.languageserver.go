@@ -42,6 +42,24 @@ type Location struct {
 	Url string
 }
 
+func NewLocation(url string, startLine, startCharacter, endLine, endCharacter int) Location {
+	return Location{
+		Location: languageserver.Location{
+			TargetRange: languageserver.Range{
+				Start: languageserver.Position{
+					Line:      float64(startLine),
+					Character: float64(startCharacter),
+				},
+				End: languageserver.Position{
+					Line:      float64(endLine),
+					Character: float64(endCharacter),
+				},
+			},
+		},
+		Url: url,
+	}
+}
+
 func (l *Location) StartLine() uint {
 	return uint(l.TargetRange.Start.Line)
 }

@@ -20,6 +20,23 @@ func (c *extractionContext) Target() *target.Target {
 	return c.extraction.currentTarget()
 }
 
+func (c *extractionContext) TargetDefinitionOverride() *string {
+	id := c.extraction.currentTarget().Identifier()
+	originOverrides := c.extraction.extractor.options.Override.Definition
+
+	if originOverrides == nil {
+		return nil
+	}
+
+	targetOriginOverride, hasOriginOverride := originOverrides[id]
+
+	if !hasOriginOverride {
+		return nil
+	}
+
+	return &targetOriginOverride
+}
+
 func (c *extractionContext) Logger() *log.Logger {
 	return c.extraction.logger
 }

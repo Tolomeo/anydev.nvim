@@ -13,8 +13,13 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/project"
 )
 
+type Override struct {
+	Definition map[string]string
+}
+
 type Options struct {
-	Debug bool
+	Debug    bool
+	Override Override
 }
 
 func (o Options) validate() error {
@@ -28,6 +33,7 @@ type result struct {
 }
 
 type extractor struct {
+	options     Options
 	extractions []*extraction
 	nvim        *nvim.Nvim
 	logger      *log.Logger
@@ -227,6 +233,7 @@ func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
 	xtractor := &extractor{
+		options:     options,
 		extractions: []*extraction{},
 		result: &result{
 			Runtime: map[string]symbol.Symbol{},
