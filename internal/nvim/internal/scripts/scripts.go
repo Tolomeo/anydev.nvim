@@ -16,5 +16,4 @@ func Read(name string) (string, error) {
 	}
 
 	return string(script), nil
-
 }
