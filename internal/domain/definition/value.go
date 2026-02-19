@@ -25,7 +25,7 @@ var ValueAssignmentQuery = treesitter.Query{
 			] @value.value
 			.
 		)
-		(#is? @value.value number string true false)
+		(#match? @value.value "^true|false|\\d+|'.*'|\".*\"$")
 	) @value`,
 }
 
@@ -35,12 +35,10 @@ var ValueFieldDotIndexAssignmentQuery = treesitter.Query{
 	Query: `
 	(assignment_statement
 		(variable_list
-			.
 			name: (dot_index_expression
-					table: (identifier) @value.parent
+					table: (_) @value.parent
 					field: (identifier) @value.name
 				)
-			.
 		)
 		(expression_list
 			.
@@ -52,7 +50,7 @@ var ValueFieldDotIndexAssignmentQuery = treesitter.Query{
 			] @value.value
 			.
 		)
-		(#is? @value.value number string true false)
+		(#match? @value.value "^true|false|\\d+|'.*'|\".*\"$")
 	) @value`,
 }
 
@@ -76,7 +74,7 @@ var ValueFieldAssignmentQuery = treesitter.Query{
 			(true) @value.boolean
 			(false) @value.boolean
 		]) @value.value
-		(#is? @value.value number string true false)
+		(#match? @value.value "^true|false|\\d+|'.*'|\".*\"$")
 	) @value`,
 }
 
@@ -102,7 +100,7 @@ var ValueFieldIndexAssignmentQuery = treesitter.Query{
 			(true) @value.boolean
 			(false) @value.boolean
 		]) @value.value
-		(#is? @value.value number string true false)
+		(#match? @value.value "^true|false|\\d+|'.*'|\".*\"$")
 	) @value`,
 }
 
