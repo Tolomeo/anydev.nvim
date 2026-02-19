@@ -710,7 +710,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -1229,8 +1229,21 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'slash'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'backslash'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -1402,8 +1415,21 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'slash'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'backslash'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -1967,8 +1993,21 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unix'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dos'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'mac'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -2117,8 +2156,21 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unix'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dos'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'mac'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -2655,7 +2707,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -2689,7 +2741,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -2717,7 +2769,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -2745,7 +2797,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4339,7 +4391,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4363,7 +4415,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4384,7 +4436,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4479,7 +4531,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4511,7 +4563,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4835,7 +4887,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -4904,7 +4956,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5045,7 +5097,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5149,7 +5201,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5206,8 +5258,29 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followic'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ignore'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'match'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followscs'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'smart'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -5289,8 +5362,29 @@
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "string"
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followic'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ignore'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'match'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followscs'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'smart'"
+                                }
+                            ]
                         }
                     },
                     {
@@ -5313,7 +5407,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5449,7 +5543,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5527,7 +5621,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5592,7 +5686,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5657,7 +5751,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5809,7 +5903,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     },
                     {
@@ -5833,7 +5927,7 @@
                         "meta": [],
                         "type": {
                             "kind": "builtin",
-                            "value": "number"
+                            "value": "integer"
                         }
                     }
                 ],
