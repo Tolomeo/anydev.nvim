@@ -18,6 +18,7 @@ var ValueAssignmentQuery = treesitter.Query{
 		(expression_list
 			.
 			value: [
+				(unary_expression) @value.number
 				(number) @value.number
 				(string) @value.string
 				(true) @value.boolean
@@ -43,6 +44,7 @@ var ValueFieldDotIndexAssignmentQuery = treesitter.Query{
 		(expression_list
 			.
 			value: [
+				(unary_expression) @value.number
 				(number) @value.number
 				(string) @value.string
 				(true) @value.boolean
@@ -69,6 +71,7 @@ var ValueFieldAssignmentQuery = treesitter.Query{
 		name: (identifier) @value.name
 		.
 		value: ([
+			(unary_expression) @value.number
 			(number) @value.number
 			(string) @value.string
 			(true) @value.boolean
@@ -95,6 +98,7 @@ var ValueFieldIndexAssignmentQuery = treesitter.Query{
 		)
 		.
 		value: ([
+			(unary_expression) @value.number
 			(number) @value.number
 			(string) @value.string
 			(true) @value.boolean
