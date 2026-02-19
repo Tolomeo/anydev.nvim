@@ -236,6 +236,12 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.MetatableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
+			definition.ValueAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.value", query)
+			}),
+			definition.ValueFieldDotIndexAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.value", query)
+			}),
 			definition.TableFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
@@ -271,12 +277,6 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			}),
 			definition.TableReturnAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
-			}),
-			definition.ValueAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.value", query)
-			}),
-			definition.ValueFieldDotIndexAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.value", query)
 			}),
 		},
 		origin.VariableDeclaration: []treesitter.Query{

@@ -9,12 +9,14 @@ import (
 )
 
 type variableOriginAtAnnotations struct {
-	AtType *annotation.AtType
+	AtType  *annotation.AtType
+	AtClass *annotation.AtClass
 }
 
 func (tr *Transformer) getVariableOriginAnnotations(docblock []string) (variableOriginAtAnnotations, error) {
 	annotations := variableOriginAtAnnotations{
-		AtType: nil,
+		AtType:  nil,
+		AtClass: nil,
 	}
 
 	buffer, err := tr.context.Nvim().NewBuffer()
@@ -37,6 +39,16 @@ func (tr *Transformer) getVariableOriginAnnotations(docblock []string) (variable
 		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
 	}
 
+	atClassMatch, err := buffer.TsQueryOne(annotation.AtClassQuery)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	if atClassMatch != nil {
+		annotations.AtClass = annotation.NewAtClass(*atClassMatch)
+	}
+
 	annotations.AtType = atType
 	return annotations, nil
 }
@@ -48,19 +60,26 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 		return nil, err
 	}
 
-	if annotations.AtType == nil {
-		return tr.context.Follow(variableOrigin.Name())
+	if annotations.AtType != nil {
+		if len(annotations.AtType.Types()) < 1 {
+			return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
+		}
+
+		lexedType, err := tr.getType(annotations.AtType.Types()[0])
+
+		if err != nil {
+			return nil, err
+		}
+
+		return lexedType, nil
 	}
 
-	if len(annotations.AtType.Types()) < 1 {
-		return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
+	if annotations.AtClass != nil {
+		table := symbol.NewTable()
+		table.Name = annotations.AtClass.Name().Text
+
+		return tr.getReferenceType(table.Name)
 	}
 
-	lexedType, err := tr.getType(annotations.AtType.Types()[0])
-
-	if err != nil {
-		return nil, err
-	}
-
-	return lexedType, nil
+	return tr.context.Follow(variableOrigin.Name())
 }

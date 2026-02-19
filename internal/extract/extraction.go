@@ -109,7 +109,9 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 func (c *extractionContext) Follow(name string) (symbol.Type, error) {
 	c.extraction.logger.Infof("Following <%s>", name)
 
-	c.extraction.target = append(c.extraction.target, c.extraction.currentTarget().Follow(name))
+	followTarget := target.NewTarget(c.extraction.currentTarget().Kind(), name)
+	followTarget.SetOriginChain(c.extraction.currentTarget().OriginChain())
+	c.extraction.target = append(c.extraction.target, followTarget)
 
 	origin, err := c.extraction.crawler.FollowOriginChain()
 

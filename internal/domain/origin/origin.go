@@ -1,6 +1,8 @@
 package origin
 
 import (
+	"fmt"
+
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 )
 
@@ -21,6 +23,7 @@ type Origin interface {
 	Url() string
 	Line() uint
 	Character() uint
+	Location() string
 	Definition() []string
 	Annotations() []string
 }
@@ -41,6 +44,10 @@ func (l *origin) Line() uint {
 
 func (l *origin) Character() uint {
 	return l.location.StartCharacter()
+}
+
+func (l *origin) Location() string {
+	return fmt.Sprintf("%s:%d:%d", l.Url(), l.Line(), l.Character())
 }
 
 func (l *origin) Annotations() []string {

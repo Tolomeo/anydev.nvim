@@ -25,6 +25,7 @@ var ValueAssignmentQuery = treesitter.Query{
 			] @value.value
 			.
 		)
+		(#is? @value.value number string true false)
 	) @value`,
 }
 
@@ -51,6 +52,7 @@ var ValueFieldDotIndexAssignmentQuery = treesitter.Query{
 			] @value.value
 			.
 		)
+		(#is? @value.value number string true false)
 	) @value`,
 }
 
@@ -65,13 +67,16 @@ var ValueFieldAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(field
+		.
 		name: (identifier) @value.name
-		value: [
+		.
+		value: ([
 			(number) @value.number
 			(string) @value.string
 			(true) @value.boolean
 			(false) @value.boolean
-		] @value.value
+		]) @value.value
+		(#is? @value.value number string true false)
 	) @value`,
 }
 
@@ -86,15 +91,18 @@ var ValueFieldIndexAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(field
+		.
 		name: (string
 			content: (string_content) @value.name
 		)
-		value: [
+		.
+		value: ([
 			(number) @value.number
 			(string) @value.string
 			(true) @value.boolean
 			(false) @value.boolean
-		] @value.value
+		]) @value.value
+		(#is? @value.value number string true false)
 	) @value`,
 }
 

@@ -1,7 +1,6 @@
 package crawl
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
@@ -61,56 +60,6 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 	}
 
 	return origins, nil
-}
-
-func (c *Crawler) FollowOriginChain() (origin.OriginChain, error) {
-	targetOriginChain := c.context.Target().OriginChain()
-	targetOrigin := c.context.Target().Origin()
-
-	switch locationOriginType := targetOrigin.(type) {
-	case *origin.VariableOrigin:
-		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
-
-		url, line, character :=
-			locationOriginType.Url(),
-			uint(locationOriginType.NameRange().End.Line),
-			uint(locationOriginType.NameRange().End.Character)
-		rightValueLocations, err := c.findDefinitionLocationsAt(url, line, character)
-
-		if err != nil {
-			return nil, err
-		}
-
-		variableOriginChain, err := c.getOriginChain(*rightValueLocations)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return targetOriginChain.Concat(variableOriginChain), nil
-	case *origin.FunctionCallOrigin:
-		c.context.Logger().Verbosef("Following variable origin <%+v>", locationOriginType)
-
-		url, line, character :=
-			locationOriginType.Url(),
-			uint(locationOriginType.FunctionNameRange().End.Line),
-			uint(locationOriginType.FunctionNameRange().End.Character)
-		functionLocations, err := c.findDefinitionLocationsAt(url, line, character)
-
-		if err != nil {
-			return nil, err
-		}
-
-		functionOriginChain, err := c.getOriginChain(*functionLocations)
-
-		if err != nil {
-			return nil, err
-		}
-
-		return targetOriginChain.Concat(functionOriginChain), nil
-	}
-
-	return nil, fmt.Errorf("Cannot follow origin of type <%T>", targetOrigin)
 }
 
 func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {

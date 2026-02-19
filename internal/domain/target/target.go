@@ -101,14 +101,6 @@ func (t *Target) ChildOfKind(kind TargetKind, name string) *Target {
 	}
 }
 
-func (t *Target) Follow(name string) *Target {
-	return &Target{
-		kind:        t.kind,
-		name:        name,
-		originChain: origin.OriginChain{t.originChain.Last()},
-	}
-}
-
 func NewTarget(kind TargetKind, name string) *Target {
 	return &Target{
 		kind:          kind,
