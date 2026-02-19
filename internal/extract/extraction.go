@@ -20,7 +20,7 @@ func (c *extractionContext) Target() *target.Target {
 	return c.extraction.currentTarget()
 }
 
-func (c *extractionContext) TargetDefinitionOverride() *string {
+func (c *extractionContext) TargetDefinitionOverride() *[]string {
 	id := c.extraction.currentTarget().Identifier()
 	originOverrides := c.extraction.extractor.options.Override.Definition
 

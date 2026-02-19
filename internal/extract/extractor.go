@@ -14,7 +14,7 @@ import (
 )
 
 type Override struct {
-	Definition map[string]string
+	Definition map[string][]string
 }
 
 type Options struct {

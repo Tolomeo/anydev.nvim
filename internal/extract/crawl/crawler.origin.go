@@ -2,7 +2,6 @@ package crawl
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
@@ -26,7 +25,7 @@ func (c *Crawler) getDefinitionOverrideOriginChain() (origin.OriginChain, error)
 
 	defer buffer.Close()
 
-	lines := strings.Split(*definitionOverride, "\n")
+	lines := *definitionOverride
 	err = buffer.SetLines(lines)
 
 	if err != nil {

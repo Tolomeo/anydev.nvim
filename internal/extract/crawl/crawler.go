@@ -13,7 +13,7 @@ import (
 
 type ctx interface {
 	Target() *target.Target
-	TargetDefinitionOverride() *string
+	TargetDefinitionOverride() *[]string
 	Nvim() *nvim.Nvim
 	Logger() *log.Logger
 }
