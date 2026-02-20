@@ -31,7 +31,7 @@ var values = []string{
 	// "vim.NIL",
 	// "vim.api",
 	// "vim.b",
-	"vim.base64",
+	// "vim.base64",
 	// "vim.bo",
 	// "vim.call",
 	// "vim.cmd",
@@ -45,7 +45,7 @@ var values = []string{
 	// "vim.empty_dict",
 	// "vim.endswith",
 	// "vim.env",
-	// "vim.filetype",
+	"vim.filetype",
 	// "vim.fn",
 	// "vim.fs",
 	// "vim.func",
@@ -189,7 +189,8 @@ func main() {
 	override := extract.Override{
 		Definition: map[string][]string{
 			"vim.base64": {"vim.base64 = {}"},
-			"vim.cmd":    {"---@param command string|table Command(s) to execute.", "vim.cmd = function(command) end"},
+			"vim.cmd":    {"---@type fun(command: string|table)|table<string,fun(...:any)>", "vim.cmd = ..."},
+			"vim.env":    {"---@type table<string, string>", "vim.env = ..."},
 		},
 	}
 

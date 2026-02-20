@@ -1,0 +1,474 @@
+{
+    "runtime": {
+        "vim.diff": {
+            "name": "vim.diff",
+            "documentation": [
+                "```lua",
+                "function vim.diff(a: string, b: string, opts?: vim.diff.Opts)",
+                "  -\u003e (string|integer[][])?",
+                "```",
+                "",
+                "---",
+                "",
+                " Run diff on strings {a} and {b}. Any indices returned by this function,",
+                " either directly or via callback arguments, are 1-based.",
+                "",
+                " Examples:",
+                "",
+                " ```lua",
+                " vim.diff('a\\n', 'b\\nc\\n')",
+                " -- =\u003e",
+                " -- @@ -1 +1,2 @@",
+                " -- -a",
+                " -- +b",
+                " -- +c",
+                "",
+                " vim.diff('a\\n', 'b\\nc\\n', {result_type = 'indices'})",
+                " -- =\u003e",
+                " -- {",
+                " --   {1, 1, 1, 2}",
+                " -- }",
+                " ```",
+                "",
+                "@*param* `a` — First string to compare",
+                "",
+                "@*param* `b` — Second string to compare",
+                "",
+                "     See {opts.result_type}. `nil` if {opts.on_hunk} is given."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "a",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "b",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": true,
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.diff.Opts"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "diff",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {
+        "vim.diff.Opts": {
+            "name": "vim.diff.Opts",
+            "documentation": [
+                "```lua",
+                "(class) vim.diff.Opts",
+                "```",
+                "",
+                "---",
+                "",
+                " Optional parameters:"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "algorithm",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.algorithm: ('histogram'|'minimal'|'myers'|'patience')?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Diff algorithm to use. Values:",
+                            "   - `myers`: the default algorithm",
+                            "   - `minimal`: spend extra time to generate the smallest possible diff",
+                            "   - `patience`: patience diff algorithm",
+                            "   - `histogram`: histogram diff algorithm",
+                            " (default: `'myers'`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'myers'"
+                                    },
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'minimal'"
+                                    },
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'patience'"
+                                    },
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'histogram'"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "ctxlen",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ctxlen: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Context length"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ignore_blank_lines",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ignore_blank_lines: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Ignore blank lines"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ignore_cr_at_eol",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ignore_cr_at_eol: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Ignore carriage return at end-of-line"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ignore_whitespace",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ignore_whitespace: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Ignore whitespace"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ignore_whitespace_change",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ignore_whitespace_change: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Ignore whitespace change"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ignore_whitespace_change_at_eol",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.ignore_whitespace_change_at_eol: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Ignore whitespace change at end-of-line."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "indent_heuristic",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.indent_heuristic: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Use the indent heuristic for the internal diff library."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "interhunkctxlen",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.interhunkctxlen: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Inter hunk context length"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "linematch",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.linematch: (boolean|integer)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Run linematch on the resulting hunks from xdiff. When integer, only hunks",
+                            " upto this size in lines are run through linematch.",
+                            " Requires `result_type = indices`, ignored otherwise."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "on_hunk",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.on_hunk: fun(start_a: integer, count_a: integer, start_b: integer, count_b: integer):integer??",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " Invoked for each hunk in the diff. Return a negative number",
+                            " to cancel the callback for any remaining hunks.",
+                            " Arguments:",
+                            "   - `start_a` (`integer`): Start line of hunk in {a}.",
+                            "   - `count_a` (`integer`): Hunk size in {a}.",
+                            "   - `start_b` (`integer`): Start line of hunk in {b}.",
+                            "   - `count_b` (`integer`): Hunk size in {b}.",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (start_a: integer, count_a: integer, start_b: integer, count_b: integer)",
+                            "  -\u003e integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "start_a",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "count_a",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "start_b",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "count_b",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "result_type",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diff.Opts.result_type: ('indices'|'unified')?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Form of the returned diff:",
+                            "   - `unified`: String in unified format.",
+                            "   - `indices`: Array of hunk locations.",
+                            " Note: This option is ignored if `on_hunk` is used.",
+                            " (default: `'unified'`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'unified'"
+                                    },
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "'indices'"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.diff.Opts"
+            }
+        }
+    },
+    "modules": {}
+}

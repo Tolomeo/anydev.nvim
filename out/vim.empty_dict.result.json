@@ -1,0 +1,41 @@
+{
+    "runtime": {
+        "vim.empty_dict": {
+            "name": "vim.empty_dict",
+            "documentation": [
+                "```lua",
+                "function vim.empty_dict()",
+                "  -\u003e table",
+                "```",
+                "",
+                "---",
+                "",
+                " \u003cDocs described in |vim.empty_dict()| \u003e",
+                " TODO: should be in vim.shared when vim.shared always uses nvim-lua",
+                "",
+                "---",
+                "",
+                " Creates a special empty table (marked with a metatable), which Nvim",
+                " converts to an empty dictionary when translating Lua values to Vimscript",
+                " or API types. Nvim by default converts an empty table `{}` without this",
+                " metatable to an list/array.",
+                "",
+                " Note: If numeric keys are present in the table, Nvim ignores the metatable",
+                " marker and converts the dict to a list/array anyway."
+            ],
+            "meta": [
+                "private",
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [],
+                "generics": [],
+                "name": "empty_dict",
+                "returns": []
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}
