@@ -1,0 +1,64 @@
+{
+    "runtime": {
+        "vim.defer_fn": {
+            "name": "vim.defer_fn",
+            "documentation": [
+                "```lua",
+                "function vim.defer_fn(fn: function, timeout: integer)",
+                "  -\u003e timer: table",
+                "```",
+                "",
+                "---",
+                "",
+                " Defers calling {fn} until {timeout} ms passes.",
+                "",
+                " Use to do a one-shot timer that calls {fn}",
+                " Note: The {fn} is |vim.schedule_wrap()|ped automatically, so API functions are",
+                " safe to call.",
+                "",
+                "@*param* `fn` — Callback to call once `timeout` expires",
+                "",
+                "@*param* `timeout` — Number of milliseconds to wait before calling `fn`",
+                "",
+                "@*return* `timer` — luv timer object"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "fn",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "function"
+                        }
+                    },
+                    {
+                        "name": "timeout",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "defer_fn",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

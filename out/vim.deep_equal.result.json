@@ -1,0 +1,63 @@
+{
+    "runtime": {
+        "vim.deep_equal": {
+            "name": "vim.deep_equal",
+            "documentation": [
+                "```lua",
+                "function vim.deep_equal(a: any, b: any)",
+                "  -\u003e boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Deep compare values for equality",
+                "",
+                " Tables are compared recursively unless they both provide the `eq` metamethod.",
+                " All other types are compared using the equality `==` operator.",
+                "",
+                "@*param* `a` — First value",
+                "",
+                "@*param* `b` — Second value",
+                "",
+                "@*return* — `true` if values are equals, else `false`"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "a",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    },
+                    {
+                        "name": "b",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "deep_equal",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

@@ -1,0 +1,79 @@
+{
+    "runtime": {
+        "vim.deepcopy": {
+            "name": "vim.deepcopy",
+            "documentation": [
+                "```lua",
+                "function vim.deepcopy(orig: \u003cT:table\u003e, noref?: boolean)",
+                "  -\u003e Table: \u003cT:table\u003e",
+                "```",
+                "",
+                "---",
+                "",
+                " Returns a deep copy of the given object. Non-table objects are copied as",
+                " in a typical Lua assignment, whereas table objects are copied recursively.",
+                " Functions are naively copied, so functions in the copied table point to the",
+                " same functions as those in the input table. Userdata and threads are not",
+                " copied and will throw an error.",
+                "",
+                " Note: `noref=true` is much more performant on tables with unique table",
+                " fields, while `noref=false` is more performant on tables that reuse table",
+                " fields.",
+                "",
+                "@*param* `orig` — Table to copy",
+                "",
+                " When `false` (default) a contained table is only copied once and all",
+                " references point to this single copy. When `true` every occurrence of a",
+                " table results in a new copy. This also means that a cyclic reference can",
+                " cause `deepcopy()` to fail.",
+                "",
+                "@*return* `Table` — of copied keys and (nested) values."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "orig",
+                        "optional": false,
+                        "type": {
+                            "kind": "typereference",
+                            "value": "T"
+                        }
+                    },
+                    {
+                        "name": "noref",
+                        "optional": true,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ],
+                "generics": [
+                    {
+                        "name": "T",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "name": "deepcopy",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "typereference",
+                            "value": "T"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

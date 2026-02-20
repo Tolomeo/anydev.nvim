@@ -5,7 +5,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-// local F = ...
+// F = ...
 var VirtualVariableAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
