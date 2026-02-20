@@ -3,6 +3,7 @@ package nvim
 import (
 	"fmt"
 	"net/url"
+	"slices"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
@@ -36,6 +37,9 @@ var metamethods = map[string]struct{}{
 	"__newindex": {},
 	"__call":     {},
 }
+
+// https://www.lua.org/manual/5.1/manual.html#2.1
+var keywords = []string{"and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"}
 
 type Location struct {
 	languageserver.Location
@@ -422,13 +426,10 @@ func (n *Nvim) GetValueType(value string) (string, error) {
 	runtimePath := value
 	parts := strings.Split(runtimePath, ".")
 
-	switch len(parts) {
-	case 1:
-	default:
+	if len(parts) > 1 {
 		tail := parts[len(parts)-1]
-		// https://www.lua.org/manual/5.1/manual.html#2.1
-		switch tail {
-		case "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while":
+
+		if slices.Contains(keywords, tail) {
 			head := parts[:len(parts)-1]
 			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
 		}

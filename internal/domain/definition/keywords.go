@@ -1,0 +1,52 @@
+package definition
+
+// https://www.lua.org/manual/5.1/manual.html#2.1
+var Keywords = map[string]struct{}{
+	"and":      {},
+	"break":    {},
+	"do":       {},
+	"else":     {},
+	"elseif":   {},
+	"end":      {},
+	"false":    {},
+	"for":      {},
+	"function": {},
+	"if":       {},
+	"in":       {},
+	"local":    {},
+	"nil":      {},
+	"not":      {},
+	"or":       {},
+	"repeat":   {},
+	"return":   {},
+	"then":     {},
+	"true":     {},
+	"until":    {},
+	"while":    {},
+}
+
+// https://www.lua.org/manual/5.4/manual.html#2.4
+var Metamethods = map[string]struct{}{
+	"__add":      {},
+	"__sub":      {},
+	"__mul":      {},
+	"__div":      {},
+	"__mod":      {},
+	"__pow":      {},
+	"__unm":      {},
+	"__idiv":     {},
+	"__band":     {},
+	"__bor":      {},
+	"__bxor":     {},
+	"__bnot":     {},
+	"__shl":      {},
+	"__shr":      {},
+	"__concat":   {},
+	"__len":      {},
+	"__eq":       {},
+	"__lt":       {},
+	"__le":       {},
+	"__index":    {},
+	"__newindex": {},
+	"__call":     {},
+}
