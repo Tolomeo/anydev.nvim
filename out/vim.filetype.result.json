@@ -1,0 +1,634 @@
+{
+    "runtime": {
+        "vim.filetype": {
+            "name": "vim.filetype",
+            "documentation": [
+                "```lua",
+                "(global) vim.filetype: table",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "modulereference",
+                "value": "vim.filetype"
+            }
+        }
+    },
+    "types": {
+        "vim.filetype.add.filetypes": {
+            "name": "vim.filetype.add.filetypes",
+            "documentation": [
+                "```lua",
+                "(class) vim.filetype.add.filetypes",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "extension",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.add.filetypes.extension: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.filetype.mapping"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filename",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.add.filetypes.filename: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.filetype.mapping"
+                            }
+                        }
+                    },
+                    {
+                        "name": "pattern",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.add.filetypes.pattern: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.filetype.mapping"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.filetype.add.filetypes"
+            }
+        },
+        "vim.filetype.mapfn": {
+            "name": "vim.filetype.mapfn",
+            "documentation": [
+                "```lua",
+                "(alias) vim.filetype.mapfn Expand to fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?",
+                "```",
+                "",
+                "---",
+                "",
+                "```lua",
+                "function (path: string, bufnr: integer, ...: any)",
+                "  -\u003e string?",
+                "  2. fun(b: integer)?",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "path",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "bufnr",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "generics": [],
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "b",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "vim.filetype.mapping": {
+            "name": "vim.filetype.mapping",
+            "documentation": [
+                "```lua",
+                "(alias) vim.filetype.mapping Expand to table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [],
+                "indexes": [
+                    {
+                        "key": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "value": {
+                            "kind": "typereference",
+                            "value": "vim.filetype.mapping.value"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": ""
+            }
+        },
+        "vim.filetype.mapping.value": {
+            "name": "vim.filetype.mapping.value",
+            "documentation": [
+                "```lua",
+                "(alias) vim.filetype.mapping.value Expand to string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?",
+                "```",
+                "",
+                "---",
+                "",
+                "```lua",
+                "function (path: string, bufnr: integer, ...: any)",
+                "  -\u003e string?",
+                "  2. fun(b: integer)?",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "union",
+                "types": [
+                    {
+                        "kind": "builtin",
+                        "value": "string"
+                    },
+                    {
+                        "kind": "typereference",
+                        "value": "vim.filetype.mapfn"
+                    },
+                    {
+                        "kind": "typereference",
+                        "value": "vim.filetype.maptbl"
+                    }
+                ]
+            }
+        },
+        "vim.filetype.maptbl": {
+            "name": "vim.filetype.maptbl",
+            "documentation": [
+                "```lua",
+                "(alias) vim.filetype.maptbl Expand to [string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "unknown",
+                "documentation": []
+            }
+        },
+        "vim.filetype.match.args": {
+            "name": "vim.filetype.match.args",
+            "documentation": [
+                "```lua",
+                "(class) vim.filetype.match.args",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "buf",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.match.args.buf: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " Buffer number to use for matching. Mutually exclusive with {contents}"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "contents",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.match.args.contents: string[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " An array of lines representing file contents to use for",
+                            " matching. Can be used with {filename}. Mutually exclusive",
+                            " with {buf}."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "filename",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.filetype.match.args.filename: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Filename to use for matching. When {buf} is given,",
+                            " defaults to the filename of the given buffer number. The",
+                            " file need not actually exist in the filesystem. When used",
+                            " without {buf} only the name of the file is used for",
+                            " filetype matching. This may result in failure to detect",
+                            " the filetype in cases where the filename alone is not",
+                            " enough to disambiguate the filetype."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.filetype.match.args"
+            }
+        }
+    },
+    "modules": {
+        "vim.filetype": {
+            "name": "vim.filetype",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "add",
+                        "documentation": [
+                            "```lua",
+                            "function M.add(filetypes: vim.filetype.add.filetypes)",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Add new filetype mappings.",
+                            "",
+                            " Filetype mappings can be added either by extension or by filename (either",
+                            " the \"tail\" or the full file path). The full file path is checked first,",
+                            " followed by the file name. If a match is not found using the filename, then",
+                            " the filename is matched against the list of |lua-pattern|s (sorted by priority)",
+                            " until a match is found. Lastly, if pattern matching does not find a",
+                            " filetype, then the file extension is used.",
+                            "",
+                            " The filetype can be either a string (in which case it is used as the",
+                            " filetype directly) or a function. If a function, it takes the full path and",
+                            " buffer number of the file as arguments (along with captures from the matched",
+                            " pattern, if any) and should return a string that will be used as the",
+                            " buffer's filetype. Optionally, the function can return a second function",
+                            " value which, when called, modifies the state of the buffer. This can be used",
+                            " to, for example, set filetype-specific buffer variables. This function will",
+                            " be called by Nvim before setting the buffer's filetype.",
+                            "",
+                            " Filename patterns can specify an optional priority to resolve cases when a",
+                            " file path matches multiple patterns. Higher priorities are matched first.",
+                            " When omitted, the priority defaults to 0.",
+                            " A pattern can contain environment variables of the form \"${SOME_VAR}\" that will",
+                            " be automatically expanded. If the environment variable is not set, the pattern",
+                            " won't be matched.",
+                            "",
+                            " See $VIMRUNTIME/lua/vim/filetype.lua for more examples.",
+                            "",
+                            " Example:",
+                            "",
+                            " ```lua",
+                            " vim.filetype.add({",
+                            "   extension = {",
+                            "     foo = 'fooscript',",
+                            "     bar = function(path, bufnr)",
+                            "       if some_condition() then",
+                            "         return 'barscript', function(bufnr)",
+                            "           -- Set a buffer variable",
+                            "           vim.b[bufnr].barscript_version = 2",
+                            "         end",
+                            "       end",
+                            "       return 'bar'",
+                            "     end,",
+                            "   },",
+                            "   filename = {",
+                            "     ['.foorc'] = 'toml',",
+                            "     ['/etc/foo/config'] = 'toml',",
+                            "   },",
+                            "   pattern = {",
+                            "     ['.*/etc/foo/.*'] = 'fooscript',",
+                            "     -- Using an optional priority",
+                            "     ['.*/etc/foo/.*%.conf'] = { 'dosini', { priority = 10 } },",
+                            "     -- A pattern containing an environment variable",
+                            "     ['${XDG_CONFIG_HOME}/foo/git'] = 'git',",
+                            "     ['.*README.(%a+)'] = function(path, bufnr, ext)",
+                            "       if ext == 'md' then",
+                            "         return 'markdown'",
+                            "       elseif ext == 'rst' then",
+                            "         return 'rst'",
+                            "       end",
+                            "     end,",
+                            "   },",
+                            " })",
+                            " ```",
+                            "",
+                            " To add a fallback match on contents, use",
+                            "",
+                            " ```lua",
+                            " vim.filetype.add {",
+                            "   pattern = {",
+                            "     ['.*'] = {",
+                            "       function(path, bufnr)",
+                            "         local content = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ''",
+                            "         if vim.regex([[^#!.*\\\\\u003cmine\\\\\u003e]]):match_str(content) ~= nil then",
+                            "           return 'mine'",
+                            "         elseif vim.regex([[\\\\\u003cdrawing\\\\\u003e]]):match_str(content) ~= nil then",
+                            "           return 'drawing'",
+                            "         end",
+                            "       end,",
+                            "       { priority = -math.huge },",
+                            "     },",
+                            "   },",
+                            " }",
+                            " ```",
+                            "",
+                            "@*param* `filetypes` — A table containing new filetype maps (see example)."
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "filetypes",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.filetype.add.filetypes"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "add",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "get_option",
+                        "documentation": [
+                            "```lua",
+                            "function M.get_option(filetype: string, option: string)",
+                            "  -\u003e boolean|string|integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Get the default option value for a {filetype}.",
+                            "",
+                            " The returned value is what would be set in a new buffer after 'filetype'",
+                            " is set, meaning it should respect all FileType autocmds and ftplugin files.",
+                            "",
+                            " Example:",
+                            "",
+                            " ```lua",
+                            " vim.filetype.get_option('vim', 'commentstring')",
+                            " ```",
+                            "",
+                            " Note: this uses |nvim_get_option_value()| but caches the result.",
+                            " This means |ftplugin| and |FileType| autocommands are only",
+                            " triggered once and may not reflect later changes.",
+                            " @since 11",
+                            "",
+                            "@*param* `filetype` — Filetype",
+                            "",
+                            "@*param* `option` — Option name",
+                            "",
+                            "@*return* — : Option value"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "filetype",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                },
+                                {
+                                    "name": "option",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "get_option",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "boolean"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "match",
+                        "documentation": [
+                            "```lua",
+                            "function M.match(args: vim.filetype.match.args)",
+                            "  -\u003e string|nil",
+                            "  2. function|nil",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Perform filetype detection.",
+                            "",
+                            " The filetype can be detected using one of three methods:",
+                            " 1. Using an existing buffer",
+                            " 2. Using only a file name",
+                            " 3. Using only file contents",
+                            "",
+                            " Of these, option 1 provides the most accurate result as it uses both the buffer's filename and",
+                            " (optionally) the buffer contents. Options 2 and 3 can be used without an existing buffer, but",
+                            " may not always provide a match in cases where the filename (or contents) cannot unambiguously",
+                            " determine the filetype.",
+                            "",
+                            " Each of the three options is specified using a key to the single argument of this function.",
+                            " Example:",
+                            "",
+                            " ```lua",
+                            " -- Using a buffer number",
+                            " vim.filetype.match({ buf = 42 })",
+                            "",
+                            " -- Override the filename of the given buffer",
+                            " vim.filetype.match({ buf = 42, filename = 'foo.c' })",
+                            "",
+                            " -- Using a filename without a buffer",
+                            " vim.filetype.match({ filename = 'main.lua' })",
+                            "",
+                            " -- Using file contents",
+                            " vim.filetype.match({ contents = {'#!/usr/bin/env bash'} })",
+                            " ```",
+                            "",
+                            "@*param* `args` — Table specifying which matching strategy to use.",
+                            "",
+                            "                 Accepted keys are:",
+                            "",
+                            "@*return* — If a match was found, the matched filetype.",
+                            "",
+                            "@*return* — A function that modifies buffer state when called (for example, to set some",
+                            "",
+                            "                     filetype specific buffer variables). The function accepts a buffer number as",
+                            "                     its only argument."
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "args",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.filetype.match.args"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "match",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "nil"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "function"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "nil"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        }
+    }
+}
