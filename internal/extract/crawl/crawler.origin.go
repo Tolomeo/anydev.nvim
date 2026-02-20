@@ -136,7 +136,8 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	match := queryResult.Match
+	// we take only the biggest match to filter out nested ones
+	match := queryResult.Matches.BiggestMatch()
 
 	if _, isClass := match.Find("origin.class"); isClass {
 		node := annotation.NewAtClass(match)
@@ -199,7 +200,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 			Start: dockblock.Range.End.Line + 1,
 			End:   dockblock.Range.End.Line + 1,
 		}
-		membersMatch, err := buffer.TsQueryOne(annotation.AtEnumMembersQuery.Ranged(membersPosition))
+		membersMatch, err := buffer.TsQueryOne(annotation.AtEnumMembersQuery.WithRange(membersPosition))
 
 		if err != nil {
 			return nil, err
@@ -210,7 +211,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 		}
 
 		membersRange := membersMatch.LineRange()
-		memberMatches, err := buffer.TsQueryAll(annotation.AtEnumMemberQuery.Ranged(*membersRange))
+		memberMatches, err := buffer.TsQueryAll(annotation.AtEnumMemberQuery.WithRange(*membersRange))
 
 		if err != nil {
 			return nil, err
@@ -362,7 +363,8 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		return nil, nil
 	}
 
-	match := queryResult.Match
+	// we take only the biggest match to filter out nested ones
+	match := queryResult.Matches.BiggestMatch()
 
 	if _, isFunction := match.Find("origin.function"); isFunction {
 		node := definition.NewFunction(match)

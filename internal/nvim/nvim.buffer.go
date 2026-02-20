@@ -99,7 +99,7 @@ func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	return b.nvim.tsQueryOne(query)
 }
 
-func (b *Buffer) TsQueryAll(query treesitter.Query) (*[]TsQueryMatch, error) {
+func (b *Buffer) TsQueryAll(query treesitter.Query) (*TsQueryMatches, error) {
 	b.nvim.logger.Sillyf("Executing query all in %s buffer", b.name)
 
 	_, err := b.nvim.open(b.name)

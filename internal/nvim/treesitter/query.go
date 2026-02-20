@@ -21,7 +21,7 @@ func (q Query) MapQuery(f func(query string) string) Query {
 	}
 }
 
-func (q Query) Ranged(range_ LineRange) Query {
+func (q Query) WithRange(range_ LineRange) Query {
 	return Query{
 		Language: q.Language,
 		Query:    q.Query,
