@@ -4,7 +4,7 @@
             "name": "vim.cmd",
             "documentation": [
                 "```lua",
-                "(global) vim.cmd: function|table",
+                "(global) vim.cmd: table|fun(command: string|table)|table\u003cstring, fun(...any)\u003e",
                 "```",
                 "",
                 "---",
@@ -49,7 +49,7 @@
                 "",
                 "---",
                 "",
-                "@*param* `command` — Command(s) to execute.",
+                "command string|table Command(s) to execute.",
                 "",
                 "---",
                 "",
@@ -57,33 +57,63 @@
                 "function vim.cmd(command: string|table)",
                 "```"
             ],
-            "meta": [
-                "static"
-            ],
+            "meta": [],
             "type": {
-                "kind": "function",
-                "arguments": [
+                "kind": "union",
+                "types": [
                     {
-                        "name": "command",
-                        "optional": false,
-                        "type": {
-                            "kind": "union",
-                            "types": [
-                                {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "command",
+                                "optional": false,
+                                "type": {
+                                    "kind": "union",
+                                    "types": [
+                                        {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        {
+                                            "kind": "builtin",
+                                            "value": "table"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    },
+                    {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
                                     "kind": "builtin",
                                     "value": "string"
                                 },
-                                {
-                                    "kind": "builtin",
-                                    "value": "table"
+                                "value": {
+                                    "kind": "function",
+                                    "arguments": [
+                                        {
+                                            "name": "...",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "any"
+                                            }
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "returns": []
                                 }
-                            ]
-                        }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
                     }
-                ],
-                "generics": [],
-                "name": "cmd",
-                "returns": []
+                ]
             }
         }
     },

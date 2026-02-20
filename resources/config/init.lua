@@ -27,7 +27,7 @@ require("lazydev").setup()
 ---@field lsp_activity anydev_lsp_activity
 _G.Anydev = {
 	ts_parsers = {},
-	lsp_activity = { last = vim.loop.now(), activity = {} },
+	lsp_activity = { last = vim.loop.now() + 500, activity = {} },
 }
 
 _G.Anydev.wait_for_lsp_idle = (function()
