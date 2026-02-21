@@ -89,7 +89,9 @@ func (c *Crawler) findIdentifierDefinitionLocations(identifier string) (*[]nvim.
 			head := strings.Join(identifierParts[:len(identifierParts)-1], ".")
 			lines = append(lines, fmt.Sprintf("%s['%s']", head, tail))
 		} else {
-			lines = append(lines, identifier)
+			// adding a space to account for single-character-named identifiers
+			// which would not be targeted by the -1 character position correction in the GetDefinitionLocations call
+			lines = append(lines, fmt.Sprintf("%s ", identifier))
 		}
 	}
 
@@ -101,7 +103,7 @@ func (c *Crawler) findIdentifierDefinitionLocations(identifier string) (*[]nvim.
 
 	lastLineIndex := len(lines) - 1
 	lastLine := lines[lastLineIndex]
-	line, character := uint(lastLineIndex), uint(len(lastLine))
+	line, character := uint(lastLineIndex), uint(len(lastLine))-1
 	locations, err := buffer.GetDefinitionLocations(line, character)
 
 	if err != nil {

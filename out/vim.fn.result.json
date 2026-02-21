@@ -252,11 +252,56 @@
                     },
                     {
                         "name": "and",
-                        "documentation": [],
-                        "meta": [],
+                        "documentation": [
+                            "```lua",
+                            "function (expr: number, expr1: number)",
+                            "  -\u003e integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Bitwise AND on the two arguments.  The arguments are converted",
+                            " to a number.  A List, Dict or Float argument causes an error.",
+                            " Also see `or()` and `xor()`.",
+                            " Example: \u003evim",
+                            "   let flag = and(bits, 0x80)",
+                            " \u003c",
+                            ""
+                        ],
+                        "meta": [
+                            "static"
+                        ],
                         "type": {
-                            "kind": "unknown",
-                            "documentation": []
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "expr",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "number"
+                                    }
+                                },
+                                {
+                                    "name": "expr1",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "number"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "and",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -8108,11 +8153,138 @@
                     },
                     {
                         "name": "function",
-                        "documentation": [],
-                        "meta": [],
+                        "documentation": [
+                            "```lua",
+                            "function (name: string, arglist?: any, dict?: any)",
+                            "  -\u003e any",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Return a |Funcref| variable that refers to function {name}.",
+                            " {name} can be the name of a user defined function or an",
+                            " internal function.",
+                            "",
+                            " {name} can also be a Funcref or a partial. When it is a",
+                            " partial the dict stored in it will be used and the {dict}",
+                            " argument is not allowed. E.g.: \u003evim",
+                            "   let FuncWithArg = function(dict.Func, [arg])",
+                            "   let Broken = function(dict.Func, [arg], dict)",
+                            " \u003c",
+                            " When using the Funcref the function will be found by {name},",
+                            " also when it was redefined later. Use |funcref()| to keep the",
+                            " same function.",
+                            "",
+                            " When {arglist} or {dict} is present this creates a partial.",
+                            " That means the argument list and/or the dictionary is stored in",
+                            " the Funcref and will be used when the Funcref is called.",
+                            "",
+                            " The arguments are passed to the function in front of other",
+                            " arguments, but after any argument from |method|.  Example: \u003evim",
+                            "   func Callback(arg1, arg2, name)",
+                            "   \"...",
+                            "   endfunc",
+                            "   let Partial = function('Callback', ['one', 'two'])",
+                            "   \"...",
+                            "   call Partial('name')",
+                            " \u003cInvokes the function as with: \u003evim",
+                            "   call Callback('one', 'two', 'name')",
+                            "",
+                            " \u003cWith a |method|: \u003evim",
+                            "   func Callback(one, two, three)",
+                            "   \"...",
+                            "   endfunc",
+                            "   let Partial = function('Callback', ['two'])",
+                            "   \"...",
+                            "   eval 'one'-\u003ePartial('three')",
+                            " \u003cInvokes the function as with: \u003evim",
+                            "   call Callback('one', 'two', 'three')",
+                            "",
+                            " \u003cThe function() call can be nested to add more arguments to the",
+                            " Funcref.  The extra arguments are appended to the list of",
+                            " arguments.  Example: \u003evim",
+                            "   func Callback(arg1, arg2, name)",
+                            "   \"...",
+                            "   endfunc",
+                            "   let Func = function('Callback', ['one'])",
+                            "   let Func2 = function(Func, ['two'])",
+                            "   \"...",
+                            "   call Func2('name')",
+                            " \u003cInvokes the function as with: \u003evim",
+                            "   call Callback('one', 'two', 'name')",
+                            "",
+                            " \u003cThe Dictionary is only useful when calling a \"dict\" function.",
+                            " In that case the {dict} is passed in as \"self\". Example: \u003evim",
+                            "   function Callback() dict",
+                            "      echo \"called for \" .. self.name",
+                            "   endfunction",
+                            "   \"...",
+                            "   let context = {\"name\": \"example\"}",
+                            "   let Func = function('Callback', context)",
+                            "   \"...",
+                            "   call Func()  \" will echo: called for example",
+                            " \u003cThe use of function() is not needed when there are no extra",
+                            " arguments, these two are equivalent, if Callback() is defined",
+                            " as context.Callback(): \u003evim",
+                            "   let Func = function('Callback', context)",
+                            "   let Func = context.Callback",
+                            "",
+                            " \u003cThe argument list and the Dictionary can be combined: \u003evim",
+                            "   function Callback(arg1, count) dict",
+                            "   \"...",
+                            "   endfunction",
+                            "   let context = {\"name\": \"example\"}",
+                            "   let Func = function('Callback', ['one'], context)",
+                            "   \"...",
+                            "   call Func(500)",
+                            " \u003cInvokes the function as with: \u003evim",
+                            "   call context.Callback('one', 500)",
+                            " \u003c",
+                            " Returns 0 on error.",
+                            ""
+                        ],
+                        "meta": [
+                            "static"
+                        ],
                         "type": {
-                            "kind": "unknown",
-                            "documentation": []
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "name",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                },
+                                {
+                                    "name": "arglist",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                },
+                                {
+                                    "name": "dict",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "function",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -20639,11 +20811,60 @@
                     },
                     {
                         "name": "or",
-                        "documentation": [],
-                        "meta": [],
+                        "documentation": [
+                            "```lua",
+                            "function (expr: number, expr1: number)",
+                            "  -\u003e any",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Bitwise OR on the two arguments.  The arguments are converted",
+                            " to a number.  A List, Dict or Float argument causes an error.",
+                            " Also see `and()` and `xor()`.",
+                            " Example: \u003evim",
+                            "   let bits = or(bits, 0x80)",
+                            "",
+                            " \u003cRationale: The reason this is a function and not using the \"|\"",
+                            " character like many languages, is that Vi has always used \"|\"",
+                            " to separate commands.  In many places it would not be clear if",
+                            " \"|\" is an operator or a command separator.",
+                            ""
+                        ],
+                        "meta": [
+                            "static"
+                        ],
                         "type": {
-                            "kind": "unknown",
-                            "documentation": []
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "expr",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "number"
+                                    }
+                                },
+                                {
+                                    "name": "expr1",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "number"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "or",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -22622,11 +22843,58 @@
                     },
                     {
                         "name": "repeat",
-                        "documentation": [],
-                        "meta": [],
+                        "documentation": [
+                            "```lua",
+                            "function (expr: any, count: integer)",
+                            "  -\u003e any",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Repeat {expr} {count} times and return the concatenated",
+                            " result.  Example: \u003evim",
+                            "   let separator = repeat('-', 80)",
+                            " \u003cWhen {count} is zero or negative the result is empty.",
+                            " When {expr} is a |List| or a |Blob| the result is {expr}",
+                            " concatenated {count} times.  Example: \u003evim",
+                            "   let longlist = repeat(['a', 'b'], 3)",
+                            " \u003cResults in ['a', 'b', 'a', 'b', 'a', 'b'].",
+                            ""
+                        ],
+                        "meta": [
+                            "static"
+                        ],
                         "type": {
-                            "kind": "unknown",
-                            "documentation": []
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "expr",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                },
+                                {
+                                    "name": "count",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "repeat",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {

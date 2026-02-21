@@ -18,6 +18,7 @@ func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver
 	defer buffer.Close()
 
 	lines := []string{}
+	line, character := uint(0), uint(len(identifier))-1
 	identifierParts := strings.Split(identifier, ".")
 
 	if len(identifierParts) > 1 {
@@ -25,10 +26,12 @@ func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver
 		_, isKeyword := definition.Keywords[tail]
 
 		if isKeyword {
+			reference := fmt.Sprintf("%s_", identifier)
+			character = uint(len(reference)) - 1
 			head := strings.Join(identifierParts[:len(identifierParts)-1], ".")
-			lines = append(lines, fmt.Sprintf("%s['%s']", head, tail))
+			lines = append(lines, fmt.Sprintf("%s = %s['%s']", reference, head, tail))
 		} else {
-			lines = append(lines, identifier)
+			lines = append(lines, fmt.Sprintf("%s = %s", identifier, identifier))
 		}
 	}
 
@@ -38,9 +41,6 @@ func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver
 		return nil, err
 	}
 
-	lastLineIndex := len(lines) - 1
-	lastLine := lines[lastLineIndex]
-	line, character := uint(lastLineIndex), uint(len(lastLine))
 	hover, err := buffer.GetHover(line, character)
 
 	if err != nil {
