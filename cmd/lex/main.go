@@ -26,6 +26,9 @@ var values = []string{
 	// "vim.F", "vim.validate", "vim.loop", "vim.log", "vim.lsp",
 	// "vim.F", "vim.validate", "vim.loop",
 	// "vim.lsp",
+	// "vim.fn.function", // named as a keyword
+	// "vim.fn.NetUserPass", // symbol unknown to the lsp
+	// "vim.func",
 
 	// "vim.F",
 	// "vim.NIL",
@@ -45,7 +48,7 @@ var values = []string{
 	// "vim.empty_dict",
 	// "vim.endswith",
 	// "vim.env",
-	"vim.filetype",
+	// "vim.filetype",
 	// "vim.fn",
 	// "vim.fs",
 	// "vim.func",
@@ -55,8 +58,8 @@ var values = []string{
 	// "vim.go",
 	// "vim.gsplit",
 	// "vim.health",
-	// "vim.highlight",
-	// "vim.hl",
+	"vim.highlight",
+	"vim.hl",
 	// "vim.iconv",
 	// "vim.in_fast_event",
 	// "vim.inspect",
