@@ -12,8 +12,10 @@ func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata
 	switch symbolOriginType := symbolOrigin.(type) {
 	case *origin.AliasOrigin:
 		return meta, nil
+
 	case *origin.AliasEnumeratorOrigin:
 		return meta, nil
+
 	case *origin.ClassOrigin:
 		return meta, nil
 
@@ -25,6 +27,13 @@ func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata
 
 	case *origin.FunctionOrigin:
 		meta.SetStatic(symbolOriginType.Static())
+
+	case *origin.FunctionCallOrigin:
+		switch symbolOriginType.FunctionName() {
+		case "vim._defer_deprecated_module":
+			meta.SetDeprecated(true)
+			return meta, nil
+		}
 	}
 
 	buffer, err := tr.context.Nvim().NewBuffer()

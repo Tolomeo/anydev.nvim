@@ -2,6 +2,7 @@ package transform
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
@@ -58,6 +59,16 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 		}
 
 		return originType, nil
+	}
+
+	switch functionCallOrigin.FunctionName() {
+	case "vim._defer_deprecated_module":
+		moduleNameArgument := functionCallOrigin.FunctionArguments()[1]
+		err := tr.context.Extract("module", strings.Trim(moduleNameArgument, "'\""))
+		if err != nil {
+			return nil, err
+		}
+		return symbol.NewModuleReference(moduleNameArgument), nil
 	}
 
 	followedType, err := tr.context.Follow(functionCallOrigin.FunctionName())

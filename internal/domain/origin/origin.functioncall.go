@@ -50,6 +50,16 @@ func (fco *FunctionCallOrigin) FunctionName() string {
 	return fco.node.FunctionName().Text
 }
 
+func (fco *FunctionCallOrigin) FunctionArguments() []string {
+	args := []string{}
+
+	for _, node := range fco.node.FunctionArguments() {
+		args = append(args, node.Text)
+	}
+
+	return args
+}
+
 func (fco *FunctionCallOrigin) FunctionNameRange() treesitter.Range {
 	return fco.node.FunctionName().Range
 }

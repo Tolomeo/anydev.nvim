@@ -53,6 +53,7 @@ func NewRequireFunctionCall(match nvim.TsQueryMatch) *RequireFunctionCall {
 	return &requireFnCall
 }
 
+// NOTE: this does not support function calls without parens
 var FunctionCallAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
@@ -61,6 +62,17 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 		(expression_list
 			value: (function_call
 				name: (_) @function_call.name
+				arguments: (
+					(arguments
+						.
+						"("
+						.
+						((_) * @function_call.argument . ","? )*
+						.
+						")"
+						.
+					)
+				)
 			)
 		)
 		(#not-any-of? @function_call.name "require" "vim._defer_require" "memoize" "create_option_accessor")
@@ -70,8 +82,9 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 }
 
 type FunctionCall struct {
-	root         treesitter.TsNode
-	functionName treesitter.TsNode
+	root              treesitter.TsNode
+	functionName      treesitter.TsNode
+	functionArguments []treesitter.TsNode
 }
 
 func (fc *FunctionCall) Root() treesitter.TsNode {
@@ -82,8 +95,14 @@ func (fc *FunctionCall) FunctionName() treesitter.TsNode {
 	return fc.functionName
 }
 
+func (fc *FunctionCall) FunctionArguments() []treesitter.TsNode {
+	return fc.functionArguments
+}
+
 func NewFunctionCall(match nvim.TsQueryMatch) *FunctionCall {
-	functionCallOrigin := FunctionCall{}
+	functionCallOrigin := FunctionCall{
+		functionArguments: []treesitter.TsNode{},
+	}
 
 	for _, capture := range match {
 		switch capture.Id {
@@ -91,6 +110,8 @@ func NewFunctionCall(match nvim.TsQueryMatch) *FunctionCall {
 			functionCallOrigin.root = capture.Node
 		case "function_call.name":
 			functionCallOrigin.functionName = capture.Node
+		case "function_call.argument":
+			functionCallOrigin.functionArguments = append(functionCallOrigin.functionArguments, capture.Node)
 		}
 	}
 
