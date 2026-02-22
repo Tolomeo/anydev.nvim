@@ -110,21 +110,6 @@ var TableReturnAssignmentQuery = treesitter.Query{
 	) @table`,
 }
 
-var MetatableAssignmentQuery = treesitter.Query{
-	Language: "lua",
-	Query: `
-	(assignment_statement
-		(variable_list name: (_) @table.name)
-		(expression_list
-			value: 
-				(function_call 
-					name: (identifier) @setmetatable
-				)
-		) @table.value
-		(#eq? @setmetatable "setmetatable")
-	) @table`,
-}
-
 type Table struct {
 	root treesitter.TsNode
 	name treesitter.TsNode

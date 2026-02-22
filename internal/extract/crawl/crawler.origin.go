@@ -233,9 +233,6 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
-			definition.MetatableAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.table", query)
-			}),
 			definition.ValueAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.value", query)
 			}),
