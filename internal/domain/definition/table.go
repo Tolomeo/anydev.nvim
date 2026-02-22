@@ -106,7 +106,7 @@ var TableReturnAssignmentQuery = treesitter.Query{
 				name: (_) @function.name 
 			)
 		)
-		(#any-of? @function.name "vim._defer_require" "create_option_accessor")
+		(#any-of? @function.name "create_option_accessor")
 	) @table`,
 }
 

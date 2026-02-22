@@ -46,6 +46,10 @@ func (fco *FunctionCallOrigin) Definition() []string {
 	return strings.Split(fco.node.Root().Text, "\n")
 }
 
+func (fco *FunctionCallOrigin) Name() string {
+	return fco.node.Name().Text
+}
+
 func (fco *FunctionCallOrigin) FunctionName() string {
 	return fco.node.FunctionName().Text
 }

@@ -63,12 +63,33 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 
 	switch functionCallOrigin.FunctionName() {
 	case "vim._defer_deprecated_module":
+		tr.context.Logger().Verbosef("Extracting 'vim._defer_deprecated_module' function call as a module require")
 		moduleNameArgument := functionCallOrigin.FunctionArguments()[1]
 		err := tr.context.Extract("module", strings.Trim(moduleNameArgument, "'\""))
 		if err != nil {
 			return nil, err
 		}
 		return symbol.NewModuleReference(moduleNameArgument), nil
+
+	case "vim._defer_require":
+		tr.context.Logger().Verbosef("Extracting 'vim._defer_require' function call as a table")
+		table := symbol.NewTable()
+		table.Name = functionCallOrigin.Name()
+		tableChildren, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
+
+		if err != nil {
+			return nil, err
+		}
+
+		for _, child := range tableChildren {
+			err := tr.context.ExtractChild(table, child)
+
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		return table, nil
 	}
 
 	followedType, err := tr.context.Follow(functionCallOrigin.FunctionName())

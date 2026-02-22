@@ -58,7 +58,17 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 	Language: "lua",
 	Query: `
 	(assignment_statement
-		(variable_list)
+		(variable_list
+			.
+			name: [
+				(identifier) @name
+				(dot_index_expression
+					table: (identifier) @parent
+					field: (identifier) @name
+				)
+			]
+			.
+		)
 		(expression_list
 			value: (function_call
 				name: (_) @function_call.name
@@ -75,7 +85,7 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 				)
 			)
 		)
-		(#not-any-of? @function_call.name "require" "vim._defer_require" "memoize" "create_option_accessor")
+		(#not-any-of? @function_call.name "require" "memoize" "create_option_accessor")
 	) @function_call
 	(#not-has-ancestor? @function_call "function_call") ; Avoiding nested matches
 	`,
@@ -83,12 +93,22 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 
 type FunctionCall struct {
 	root              treesitter.TsNode
+	parent            *treesitter.TsNode
+	name              treesitter.TsNode
 	functionName      treesitter.TsNode
 	functionArguments []treesitter.TsNode
 }
 
 func (fc *FunctionCall) Root() treesitter.TsNode {
 	return fc.root
+}
+
+func (fc *FunctionCall) Parent() *treesitter.TsNode {
+	return fc.parent
+}
+
+func (fc *FunctionCall) Name() treesitter.TsNode {
+	return fc.name
 }
 
 func (fc *FunctionCall) FunctionName() treesitter.TsNode {
@@ -108,6 +128,10 @@ func NewFunctionCall(match nvim.TsQueryMatch) *FunctionCall {
 		switch capture.Id {
 		case "function_call":
 			functionCallOrigin.root = capture.Node
+		case "name":
+			functionCallOrigin.name = capture.Node
+		case "parent":
+			functionCallOrigin.parent = &capture.Node
 		case "function_call.name":
 			functionCallOrigin.functionName = capture.Node
 		case "function_call.argument":
