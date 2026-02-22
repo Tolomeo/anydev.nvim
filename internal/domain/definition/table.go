@@ -94,22 +94,6 @@ var TableFieldIndexAssignmentQuery = treesitter.Query{
 	) @table`,
 }
 
-var TableReturnAssignmentQuery = treesitter.Query{
-	Language: "lua",
-	Query: `
-	(assignment_statement 
-		(variable_list 
-			name: (_) @table.name
-		) 
-		(expression_list 
-			value: (function_call 
-				name: (_) @function.name 
-			)
-		)
-		(#any-of? @function.name "create_option_accessor")
-	) @table`,
-}
-
 type Table struct {
 	root treesitter.TsNode
 	name treesitter.TsNode

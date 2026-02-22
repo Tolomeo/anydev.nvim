@@ -71,7 +71,7 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 		}
 		return symbol.NewModuleReference(moduleNameArgument), nil
 
-	case "vim._defer_require", "setmetatable":
+	case "vim._defer_require", "setmetatable", "create_option_accessor":
 		tr.context.Logger().Verbosef("Extracting '%s' function call as a table", functionCallOrigin.Name())
 		table := symbol.NewTable()
 		table.Name = functionCallOrigin.Name()

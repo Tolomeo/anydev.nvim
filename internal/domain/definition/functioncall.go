@@ -85,7 +85,7 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 				)
 			)
 		)
-		(#not-any-of? @function_call.name "require" "memoize" "create_option_accessor")
+		(#not-any-of? @function_call.name "require" "memoize")
 	) @function_call
 	(#not-has-ancestor? @function_call "function_call") ; Avoiding nested matches
 	`,

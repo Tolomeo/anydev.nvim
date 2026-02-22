@@ -272,9 +272,6 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			definition.TableDeclarationQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.table", query)
 			}),
-			definition.TableReturnAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.table", query)
-			}),
 		},
 		origin.VariableDeclaration: []treesitter.Query{
 			definition.FunctionVariableDeclarationQuery.MapQuery(func(query string) string {
