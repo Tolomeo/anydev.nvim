@@ -6,6 +6,26 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
+func (tr *Transformer) transformTableOrigin(tableOrigin *origin.TableOrigin) (symbol.Type, error) {
+	annotations, err := tr.getTableAnnotations(tableOrigin.Annotations())
+
+	if err != nil {
+		return nil, err
+	}
+
+	name := tableOrigin.Name()
+
+	if annotations.AtClass != nil {
+		return tr.getClassTableSymbol(name, *annotations.AtClass)
+	}
+
+	if annotations.AtEnum != nil {
+		return tr.getEnumeratorTableSymbol(name, *annotations.AtEnum)
+	}
+
+	return tr.getTableSymbol(name)
+}
+
 type tableAnnotations struct {
 	AtClass *annotation.AtClass
 	AtEnum  *annotation.AtEnum
@@ -50,27 +70,9 @@ func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations,
 	return tAnnotations, nil
 }
 
-func (tr *Transformer) getTableOriginType(tableOrigin *origin.TableOrigin) (symbol.Type, error) {
-	annotations, err := tr.getTableAnnotations(tableOrigin.Annotations())
-
-	if err != nil {
-		return nil, err
-	}
-
-	if annotations.AtClass != nil {
-		return tr.getClassTableSymbol(tableOrigin, *annotations.AtClass)
-	}
-
-	if annotations.AtEnum != nil {
-		return tr.getEnumeratorTableSymbol(tableOrigin, *annotations.AtEnum)
-	}
-
-	return tr.getTableSymbol(tableOrigin)
-}
-
-func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.Table, error) {
+func (tr *Transformer) getTableSymbol(name string) (*symbol.Table, error) {
 	table := symbol.NewTable()
-	table.Name = tableOrigin.Name()
+	table.Name = name
 	tableChildren, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
 
 	if err != nil {
@@ -88,14 +90,14 @@ func (tr *Transformer) getTableSymbol(tableOrigin *origin.TableOrigin) (*symbol.
 	return table, nil
 }
 
-func (tr *Transformer) getClassTableSymbol(tableOrigin *origin.TableOrigin, atClassAnnotation annotation.AtClass) (*symbol.TypeReference, error) {
+func (tr *Transformer) getClassTableSymbol(name string, atClassAnnotation annotation.AtClass) (*symbol.TypeReference, error) {
 	table := symbol.NewTable()
-	table.Name = tableOrigin.Name()
+	table.Name = name
 
 	return tr.getReferenceType(atClassAnnotation.Name().Text)
 }
 
-func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin, atEnum annotation.AtEnum) (*symbol.Table, error) {
+func (tr *Transformer) getEnumeratorTableSymbol(name string, atEnum annotation.AtEnum) (*symbol.Table, error) {
 	err := tr.context.Extract("type", atEnum.Name().Text)
 
 	if err != nil {
@@ -103,7 +105,7 @@ func (tr *Transformer) getEnumeratorTableSymbol(tableOrigin *origin.TableOrigin,
 	}
 
 	table := symbol.NewTable()
-	table.Name = tableOrigin.Name()
+	table.Name = name
 	tableFields, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
 
 	if err != nil {

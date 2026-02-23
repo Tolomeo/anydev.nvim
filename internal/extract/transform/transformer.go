@@ -45,7 +45,7 @@ func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 
 	switch targetOriginType := targetOrigin.(type) {
 	case *origin.TableOrigin:
-		tableType, err := tr.getTableOriginType(targetOriginType)
+		tableType, err := tr.transformTableOrigin(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
@@ -122,7 +122,7 @@ func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 		lexedCache.Set(requiredModuleSymbol, cacheId...)
 		return requiredModuleSymbol, nil
 	case *origin.FunctionCallOrigin:
-		originType, err := tr.getFunctionCallOriginType(targetOriginType)
+		originType, err := tr.transformFunctionCallOrigin(targetOriginType)
 		if err != nil {
 			return nil, err
 		}

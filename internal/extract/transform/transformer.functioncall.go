@@ -43,7 +43,7 @@ func (tr *Transformer) getFunctionCallOriginAtAnnotations(docblock []string) (fu
 	return annotations, nil
 }
 
-func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.FunctionCallOrigin) (symbol.Type, error) {
+func (tr *Transformer) transformFunctionCallOrigin(functionCallOrigin *origin.FunctionCallOrigin) (symbol.Type, error) {
 	annotations, err := tr.getFunctionCallOriginAtAnnotations(functionCallOrigin.Annotations())
 
 	if err != nil {
@@ -73,23 +73,19 @@ func (tr *Transformer) getFunctionCallOriginType(functionCallOrigin *origin.Func
 
 	case "vim._defer_require", "setmetatable", "create_option_accessor":
 		tr.context.Logger().Verbosef("Extracting '%s' function call as a table", functionCallOrigin.Name())
-		table := symbol.NewTable()
-		table.Name = functionCallOrigin.Name()
-		tableChildren, err := tr.context.Nvim().GetValueCompletion(tr.context.Target().Identifier())
-
+		annotations, err := tr.getTableAnnotations(functionCallOrigin.Annotations())
 		if err != nil {
 			return nil, err
 		}
-
-		for _, child := range tableChildren {
-			err := tr.context.ExtractChild(table, child)
-
-			if err != nil {
-				return nil, err
-			}
+		name := functionCallOrigin.Name()
+		if annotations.AtClass != nil {
+			return tr.getClassTableSymbol(name, *annotations.AtClass)
 		}
-
-		return table, nil
+		// NOTE: enumerators not accounted for in here
+		/* if annotations.AtEnum != nil {
+			return tr.getEnumeratorTableSymbol(name, *annotations.AtEnum)
+		} */
+		return tr.getTableSymbol(name)
 	}
 
 	followedType, err := tr.context.Follow(functionCallOrigin.FunctionName())

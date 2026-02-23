@@ -233,6 +233,21 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 	return nvim.TsNodeQueryMap{
 		origin.AssignmentStatement: []treesitter.Query{
+			definition.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function_call", query)
+			}),
+			definition.RequireFunctionCallAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.module", query)
+			}),
+			definition.FunctionFieldMemoizedAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
+			definition.FunctionFieldDotAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
+			definition.FunctionFieldIndexAssignmentQuery.MapQuery(func(query string) string {
+				return fmt.Sprintf("(%s) @origin.function", query)
+			}),
 			definition.ValueAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.value", query)
 			}),
@@ -247,21 +262,6 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 			}),
 			definition.VirtualVariableAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.meta", query)
-			}),
-			definition.FunctionFieldMemoizedAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.function", query)
-			}),
-			definition.FunctionFieldDotAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.function", query)
-			}),
-			definition.FunctionFieldIndexAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.function", query)
-			}),
-			definition.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.function_call", query)
-			}),
-			definition.RequireFunctionCallAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.module", query)
 			}),
 			definition.VariableDotFieldAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.variable", query)

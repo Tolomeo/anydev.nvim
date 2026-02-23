@@ -467,6 +467,122 @@
                 "name": "vim.diagnostic.GetOpts"
             }
         },
+        "vim.diagnostic.Handler": {
+            "name": "vim.diagnostic.Handler",
+            "documentation": [
+                "```lua",
+                "(class) vim.diagnostic.Handler",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "hide",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diagnostic.Handler.hide: fun(namespace: integer, bufnr: integer)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (namespace: integer, bufnr: integer)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    },
+                    {
+                        "name": "show",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.diagnostic.Handler.show: fun(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "diagnostics",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "typereference",
+                                                "value": "vim.Diagnostic"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "opts",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.OptsResolved"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.diagnostic.Handler"
+            }
+        },
         "vim.diagnostic.JumpOpts": {
             "name": "vim.diagnostic.JumpOpts",
             "documentation": [
@@ -3921,371 +4037,21 @@
                         ],
                         "meta": [],
                         "type": {
-                            "fields": [
+                            "fields": [],
+                            "indexes": [
                                 {
-                                    "name": "signs",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.diagnostic.handlers.signs: vim.diagnostic.Handler",
-                                        "```"
-                                    ],
-                                    "meta": [],
-                                    "type": {
-                                        "fields": [
-                                            {
-                                                "name": "hide",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.hide: fun(namespace: integer, bufnr: integer)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "name": "show",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.show: fun(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "diagnostics",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "array",
-                                                                    "items": {
-                                                                        "kind": "typereference",
-                                                                        "value": "vim.Diagnostic"
-                                                                    }
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "opts",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "typereference",
-                                                                    "value": "vim.diagnostic.OptsResolved"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            }
-                                        ],
-                                        "kind": "table",
-                                        "name": "linehl"
-                                    }
-                                },
-                                {
-                                    "name": "underline",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.diagnostic.handlers.underline: vim.diagnostic.Handler",
-                                        "```"
-                                    ],
-                                    "meta": [],
-                                    "type": {
+                                    "key": {
                                         "kind": "builtin",
                                         "value": "string"
-                                    }
-                                },
-                                {
-                                    "name": "virtual_lines",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.diagnostic.handlers.virtual_lines: vim.diagnostic.Handler",
-                                        "```"
-                                    ],
-                                    "meta": [],
-                                    "type": {
-                                        "fields": [
-                                            {
-                                                "name": "hide",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.hide: fun(namespace: integer, bufnr: integer)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "name": "show",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.show: fun(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "diagnostics",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "array",
-                                                                    "items": {
-                                                                        "kind": "typereference",
-                                                                        "value": "vim.Diagnostic"
-                                                                    }
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "opts",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "typereference",
-                                                                    "value": "vim.diagnostic.OptsResolved"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            }
-                                        ],
-                                        "kind": "table",
-                                        "name": "virtual_lines"
-                                    }
-                                },
-                                {
-                                    "name": "virtual_text",
-                                    "documentation": [
-                                        "```lua",
-                                        "(global) vim.diagnostic.handlers.virtual_text: vim.diagnostic.Handler",
-                                        "```"
-                                    ],
-                                    "meta": [],
-                                    "type": {
-                                        "fields": [
-                                            {
-                                                "name": "hide",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.hide: fun(namespace: integer, bufnr: integer)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "name": "show",
-                                                "documentation": [
-                                                    "```lua",
-                                                    "(global) vim.diagnostic.Handler.show: fun(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)?",
-                                                    "```",
-                                                    "",
-                                                    "---",
-                                                    "",
-                                                    "```lua",
-                                                    "function (namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)",
-                                                    "```"
-                                                ],
-                                                "meta": [],
-                                                "type": {
-                                                    "kind": "optional",
-                                                    "type": {
-                                                        "kind": "function",
-                                                        "arguments": [
-                                                            {
-                                                                "name": "namespace",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "bufnr",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "builtin",
-                                                                    "value": "integer"
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "diagnostics",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "array",
-                                                                    "items": {
-                                                                        "kind": "typereference",
-                                                                        "value": "vim.Diagnostic"
-                                                                    }
-                                                                }
-                                                            },
-                                                            {
-                                                                "name": "opts",
-                                                                "optional": false,
-                                                                "type": {
-                                                                    "kind": "typereference",
-                                                                    "value": "vim.diagnostic.OptsResolved"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "returns": []
-                                                    }
-                                                }
-                                            }
-                                        ],
-                                        "kind": "table",
-                                        "name": "virtual_text"
+                                    },
+                                    "value": {
+                                        "kind": "typereference",
+                                        "value": "vim.diagnostic.Handler"
                                     }
                                 }
                             ],
                             "kind": "table",
-                            "name": "M.handlers"
+                            "name": ""
                         }
                     },
                     {
