@@ -65,7 +65,7 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 			return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
 		}
 
-		lexedType, err := tr.getType(annotations.AtType.Types()[0])
+		lexedType, err := tr.transformType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err
@@ -75,10 +75,18 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 	}
 
 	if annotations.AtClass != nil {
-		table := symbol.NewTable()
-		table.Name = annotations.AtClass.Name().Text
+		className := annotations.AtClass.Name().Text
 
-		return tr.getReferenceType(table.Name)
+		table := symbol.NewTable()
+		table.Name = className
+
+		err := tr.context.Extract("type", className)
+
+		if err != nil {
+			return nil, nil
+		}
+
+		return symbol.NewTypeReference(className), nil
 	}
 
 	return tr.context.Follow(variableOrigin.Name())

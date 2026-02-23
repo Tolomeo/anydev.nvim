@@ -52,7 +52,7 @@ func (tr *Transformer) transformFunctionCallOrigin(functionCallOrigin *origin.Fu
 
 	// NB: we don't check here for the presence of multiple types
 	if annotations.AtType != nil {
-		originType, err := tr.getType(annotations.AtType.Types()[0])
+		originType, err := tr.transformType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err

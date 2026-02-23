@@ -45,7 +45,7 @@ func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (sy
 	}
 
 	optionalAnnotation := annotation.NewOptional(*match)
-	optionalType, err := tr.parseType(optionalAnnotation.Type())
+	optionalType, err := tr.getType(optionalAnnotation.Type())
 
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	returns := []symbol.FunctionReturn{}
 
 	for _, annotationArg := range functionAnnotation.Arguments() {
-		argType, err := tr.parseType(annotationArg.Type())
+		argType, err := tr.getType(annotationArg.Type())
 
 		if err != nil {
 			return nil, err
@@ -101,7 +101,7 @@ func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Func
 	}
 
 	for _, annotationReturn := range functionAnnotation.Returns() {
-		returnType, err := tr.parseType(annotationReturn.Type())
+		returnType, err := tr.getType(annotationReturn.Type())
 
 		if err != nil {
 			return nil, err
@@ -154,13 +154,13 @@ func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, 
 		tableAnnotation := annotation.NewTable(*match)
 		table := symbol.NewTable()
 
-		keyType, err := tr.parseType(tableAnnotation.Key())
+		keyType, err := tr.getType(tableAnnotation.Key())
 
 		if err != nil {
 			return nil, err
 		}
 
-		valueType, err := tr.parseType(tableAnnotation.Value())
+		valueType, err := tr.getType(tableAnnotation.Value())
 
 		if err != nil {
 			return nil, err
@@ -229,7 +229,7 @@ func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, _ string) (*symb
 	}
 
 	arrayAnnotation := annotation.NewArray(*match)
-	itemsType, err := tr.parseType(arrayAnnotation.ItemsType())
+	itemsType, err := tr.getType(arrayAnnotation.ItemsType())
 
 	if err != nil {
 		return nil, err
@@ -277,7 +277,7 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 		for _, fieldType := range literalTableType.Fields() {
 			tableField := symbol.NewTableField()
 			tableField.Name = fieldType.Key()
-			tableFieldType, err := tr.parseType(fieldType.Value())
+			tableFieldType, err := tr.getType(fieldType.Value())
 
 			if err != nil {
 				return nil, err
@@ -289,13 +289,13 @@ func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.
 
 		for _, indexType := range literalTableType.Indexes() {
 			tableIndex := symbol.NewTableIndex()
-			tableIndexKey, err := tr.parseType(indexType.Key())
+			tableIndexKey, err := tr.getType(indexType.Key())
 
 			if err != nil {
 				return nil, err
 			}
 
-			tableIndexValue, err := tr.parseType(indexType.Value())
+			tableIndexValue, err := tr.getType(indexType.Value())
 
 			if err != nil {
 				return nil, err
@@ -338,7 +338,7 @@ func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (
 	unionTypes := []symbol.Type{}
 
 	for _, typ := range unionAnnotation.Types() {
-		unionType, err := tr.parseType(typ)
+		unionType, err := tr.getType(typ)
 
 		if err != nil {
 			return nil, err
@@ -384,7 +384,7 @@ func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string
 	}
 
 	parenthesizedAnnotation := annotation.NewParenthesized(*match)
-	return tr.parseType(parenthesizedAnnotation.Type())
+	return tr.getType(parenthesizedAnnotation.Type())
 }
 
 var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.MapQuery(func(query string) string {
@@ -473,7 +473,7 @@ func (tr *Transformer) getSyntaxErrorFallbackType(buffer *nvim.ScratchBuffer, _ 
 	return symbol.NewUnknown(), nil
 }
 
-func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
+func (tr *Transformer) getType(type_ string) (symbol.Type, error) {
 	tr.context.Logger().Verbosef("Transforming text type <%s>", type_)
 
 	// source := strings.TrimSpace(typ)
@@ -612,19 +612,8 @@ func (tr *Transformer) parseType(type_ string) (symbol.Type, error) {
 	return symbol.NewTypeReference(type_), nil
 }
 
-// TODO: remove
-func (tr *Transformer) getReferenceType(name string) (*symbol.TypeReference, error) {
-	err := tr.context.Extract("type", name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return symbol.NewTypeReference(name), nil
-}
-
-func (tr *Transformer) getType(typ string) (symbol.Type, error) {
-	parsedType, err := tr.parseType(typ)
+func (tr *Transformer) transformType(typ string) (symbol.Type, error) {
+	parsedType, err := tr.getType(typ)
 
 	if err != nil {
 		return nil, err

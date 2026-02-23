@@ -8,7 +8,7 @@ import (
 )
 
 func (tr *Transformer) getAliasOriginType(aliasOrigin *origin.AliasOrigin) (symbol.Type, error) {
-	lexedAlias, err := tr.getType(aliasOrigin.Type())
+	lexedAlias, err := tr.transformType(aliasOrigin.Type())
 
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (tr *Transformer) getAliasEnumeratorType(aliasEnumeratorOrigin *origin.Alia
 		types = append(types, aliasEnumMember.Type().Text)
 	}
 
-	enumeratorType, err := tr.getType(strings.Join(types, "|"))
+	enumeratorType, err := tr.transformType(strings.Join(types, "|"))
 
 	if err != nil {
 		return nil, err

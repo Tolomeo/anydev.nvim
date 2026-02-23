@@ -27,17 +27,13 @@ type Transformer struct {
 
 var lexedCache = cache.NewCache[symbol.Type]()
 
-func (tr *Transformer) GetOriginType() (symbol.Type, error) {
-	cacheId := []string{
-		tr.context.Target().Origin().Url(),
-		fmt.Sprintf("%d", tr.context.Target().Origin().Line()),
-		fmt.Sprintf("%d", tr.context.Target().Origin().Character()),
-	}
+func (tr *Transformer) TransformOrigin() (symbol.Type, error) {
+	/* cacheId := tr.context.Target().Origin().Location()
 
-	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId...); hasCachedSymbol {
+	if cachedSymbol, hasCachedSymbol := lexedCache.Get(cacheId); hasCachedSymbol {
 		tr.context.Logger().Infof("Using transformed cached result for symbol '%s': <%v> cache id hit", tr.context.Target().Identifier(), cacheId)
 		return cachedSymbol, nil
-	}
+	} */
 
 	targetOrigin := tr.context.Target().Origin()
 
@@ -49,77 +45,77 @@ func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(tableType, cacheId...)
+		// lexedCache.Set(tableType, cacheId)
 		return tableType, nil
 	case *origin.FunctionOrigin:
 		functionType, err := tr.getFunctionOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(functionType, cacheId...)
+		// lexedCache.Set(functionType, cacheId)
 		return functionType, nil
 	case *origin.ValueOrigin:
 		valueType, err := tr.getValueOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(valueType, cacheId...)
+		// lexedCache.Set(valueType, cacheId)
 		return valueType, nil
 	case *origin.VirtualOrigin:
 		metaType, err := tr.getVirtualOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(metaType, cacheId...)
+		// lexedCache.Set(metaType, cacheId)
 		return metaType, nil
 	case *origin.AliasOrigin:
 		aliasType, err := tr.getAliasOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(aliasType, cacheId...)
+		// lexedCache.Set(aliasType, cacheId)
 		return aliasType, nil
 	case *origin.AliasEnumeratorOrigin:
 		aliasEnumeratorType, err := tr.getAliasEnumeratorType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(aliasEnumeratorType, cacheId...)
+		// lexedCache.Set(aliasEnumeratorType, cacheId)
 		return aliasEnumeratorType, nil
 	case *origin.ClassOrigin:
 		classType, err := tr.getClassOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(classType, cacheId...)
+		// lexedCache.Set(classType, cacheId)
 		return classType, nil
 	case *origin.FieldAnnotationOrigin:
 		fieldType, err := tr.getFieldOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(fieldType, cacheId...)
+		// lexedCache.Set(fieldType, cacheId)
 		return fieldType, nil
 	case *origin.EnumeratorAnnotationOrigin:
 		enumSymbol, err := tr.getEnumeratorOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(enumSymbol, cacheId...)
+		// lexedCache.Set(enumSymbol, cacheId)
 		return enumSymbol, nil
 	case *origin.VariableOrigin:
 		variableSymbol, err := tr.getVariableOriginType(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(variableSymbol, cacheId...)
+		// lexedCache.Set(variableSymbol, cacheId)
 		return variableSymbol, nil
 	case *origin.FunctionCallOrigin:
 		originType, err := tr.transformFunctionCallOrigin(targetOriginType)
 		if err != nil {
 			return nil, err
 		}
-		lexedCache.Set(originType, cacheId...)
+		// lexedCache.Set(originType, cacheId)
 		return originType, nil
 	case *origin.UnknownOrigin:
 		return tr.getUnknownOriginType(targetOriginType), nil
@@ -134,7 +130,7 @@ func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 }
 
 func (tr *Transformer) GetType(typ string) (symbol.Type, error) {
-	return tr.getType(typ)
+	return tr.transformType(typ)
 }
 
 func (tr *Transformer) GetMetadata() (*symbol.Metadata, error) {

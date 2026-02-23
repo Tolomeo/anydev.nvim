@@ -58,7 +58,7 @@ func (e *extractor) Flush() {
 }
 
 func (e *extractor) extract(item *extraction) error {
-	e.logger.Infof("Extracting '%s'", item.currentTarget().Identifier())
+	e.logger.Infof("Extracting '%s'", item.target().Identifier())
 
 	e.extractions = append(e.extractions, item)
 
@@ -81,6 +81,8 @@ func (e *extractor) extract(item *extraction) error {
 
 func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
+
+	e.logger.Debugf("%+v", e.result)
 
 	placeholder := symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
 
@@ -115,13 +117,17 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 		return err
 	}
 
-	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, extraction.currentTarget().Type())
+	metadata := extraction.target().Meta()
+	documentation := extraction.target().Documentation()
+	type_ := extraction.target().Type()
 
-	if extraction.currentTarget().Type() == nil {
+	e.logger.Infof("The extraction of '%s' %s target yielded \n<%v>", name, kind, type_)
+
+	if extraction.target().Type() == nil {
 		return nil
 	}
 
-	extractionResult := symbol.NewSymbol(name, extraction.currentTarget().Meta(), extraction.currentTarget().Documentation(), extraction.currentTarget().Type())
+	extractionResult := symbol.NewSymbol(name, metadata, documentation, type_)
 
 	switch kind {
 	case target.TargetKindValue:
@@ -143,7 +149,7 @@ func (e *extractor) newExtraction(kind target.TargetKind, name string) *extracti
 	extractionTarget := e.newExtractionTarget(kind, name)
 	targetExtraction := &extraction{
 		extractor: e,
-		target:    []*target.Target{extractionTarget},
+		targets:    []*target.Target{extractionTarget},
 	}
 	targetExtractionContext := extractionContext{
 		extraction: targetExtraction,
@@ -173,7 +179,7 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	childExtractionTarget := e.newChildExtractionTarget(parent, name)
 	childExtraction := &extraction{
 		extractor: e,
-		target:    []*target.Target{childExtractionTarget},
+		targets:    []*target.Target{childExtractionTarget},
 	}
 	targetExtractionContext := extractionContext{
 		extraction: childExtraction,

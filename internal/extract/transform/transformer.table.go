@@ -91,10 +91,18 @@ func (tr *Transformer) getTableSymbol(name string) (*symbol.Table, error) {
 }
 
 func (tr *Transformer) getClassTableSymbol(name string, atClassAnnotation annotation.AtClass) (*symbol.TypeReference, error) {
+	className := atClassAnnotation.Name().Text
+
 	table := symbol.NewTable()
 	table.Name = name
 
-	return tr.getReferenceType(atClassAnnotation.Name().Text)
+	err := tr.context.Extract("type", className)
+
+	if err != nil {
+		return nil, nil
+	}
+
+	return symbol.NewTypeReference(className), nil
 }
 
 func (tr *Transformer) getEnumeratorTableSymbol(name string, atEnum annotation.AtEnum) (*symbol.Table, error) {

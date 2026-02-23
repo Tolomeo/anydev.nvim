@@ -121,7 +121,7 @@ func (l *Logger) Debugf(message string, args ...any) {
 
 func NewLogger(prefix string) *Logger {
 	return &Logger{
-		level:  4,
+		level:  3,
 		prefix: prefix,
 		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}

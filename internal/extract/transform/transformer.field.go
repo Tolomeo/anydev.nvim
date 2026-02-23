@@ -6,7 +6,7 @@ import (
 )
 
 func (tr *Transformer) getFieldOriginType(fieldOrigin *origin.FieldAnnotationOrigin) (symbol.Type, error) {
-	lexedField, err := tr.getType(fieldOrigin.Type())
+	lexedField, err := tr.transformType(fieldOrigin.Type())
 
 	if err != nil {
 		return nil, err

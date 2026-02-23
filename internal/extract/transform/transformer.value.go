@@ -53,7 +53,7 @@ func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (symb
 			return nil, fmt.Errorf("Error lexing @type annotations for meta type '%s': no type annotations found", tr.context.Target().Name())
 		}
 
-		lexedType, err := tr.getType(annotations.AtType.Types()[0])
+		lexedType, err := tr.transformType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err
@@ -62,7 +62,7 @@ func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (symb
 		return lexedType, nil
 	}
 
-	valueType, err := tr.getType(valueOrigin.Type())
+	valueType, err := tr.transformType(valueOrigin.Type())
 
 	if err != nil {
 		return nil, err

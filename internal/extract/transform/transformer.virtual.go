@@ -67,7 +67,7 @@ func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin)
 
 	if annotations.AtType != nil {
 		// NB: we don't check for the presence of multiple types here
-		lexedType, err := tr.getType(annotations.AtType.Types()[0])
+		lexedType, err := tr.transformType(annotations.AtType.Types()[0])
 
 		if err != nil {
 			return nil, err

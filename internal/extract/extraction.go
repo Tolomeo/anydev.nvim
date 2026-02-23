@@ -17,11 +17,11 @@ type extractionContext struct {
 }
 
 func (c *extractionContext) Target() *target.Target {
-	return c.extraction.currentTarget()
+	return c.extraction.target()
 }
 
 func (c *extractionContext) TargetDefinitionOverride() *[]string {
-	id := c.extraction.currentTarget().Identifier()
+	id := c.extraction.target().Identifier()
 	originOverrides := c.extraction.extractor.options.Override.Definition
 
 	if originOverrides == nil {
@@ -50,20 +50,20 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 }
 
 func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
-	c.extraction.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.extraction.currentTarget().Kind())
+	c.extraction.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.extraction.target().Kind())
 
-	childExtraction := c.extraction.extractor.newChildExtraction(c.extraction.currentTarget(), name)
+	childExtraction := c.extraction.extractor.newChildExtraction(c.extraction.target(), name)
 	err := c.extraction.extractor.extract(childExtraction)
 
 	if err != nil {
 		return err
 	}
 
-	metadata := childExtraction.currentTarget().Meta()
-	documentation := childExtraction.currentTarget().Documentation()
+	metadata := childExtraction.target().Meta()
+	documentation := childExtraction.target().Documentation()
 	var type_ symbol.Type
-	if childExtraction.currentTarget().Type() != nil {
-		type_ = childExtraction.currentTarget().Type()
+	if childExtraction.target().Type() != nil {
+		type_ = childExtraction.target().Type()
 	} else {
 		type_ = symbol.NewUnknown()
 	}
@@ -80,7 +80,7 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 		return nil
 	}
 
-	switch childOriginType := childExtraction.currentTarget().Origin().(type) {
+	switch childOriginType := childExtraction.target().Origin().(type) {
 	case *origin.FieldAnnotationOrigin:
 		if childOriginType.Index() != nil {
 			key, err := c.extraction.transformer.GetType(*childOriginType.Index())
@@ -89,7 +89,7 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 			}
 			indexedField := symbol.NewTableIndex()
 			indexedField.Key = key
-			indexedField.Value = childExtraction.currentTarget().Type()
+			indexedField.Value = childExtraction.target().Type()
 			parent.Indexes = append(parent.Indexes, *indexedField)
 			return nil
 		}
@@ -109,9 +109,9 @@ func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) erro
 func (c *extractionContext) Follow(name string) (symbol.Type, error) {
 	c.extraction.logger.Infof("Following <%s>", name)
 
-	followTarget := target.NewTarget(c.extraction.currentTarget().Kind(), name)
-	followTarget.SetOriginChain(c.extraction.currentTarget().OriginChain())
-	c.extraction.target = append(c.extraction.target, followTarget)
+	followTarget := target.NewTarget(c.extraction.target().Kind(), name)
+	followTarget.SetOriginChain(c.extraction.target().OriginChain())
+	c.extraction.targets = append(c.extraction.targets, followTarget)
 
 	origin, err := c.extraction.crawler.FollowOriginChain()
 
@@ -121,10 +121,10 @@ func (c *extractionContext) Follow(name string) (symbol.Type, error) {
 
 	c.extraction.logger.Info("Follow complete")
 
-	c.extraction.target = c.extraction.target[:len(c.extraction.target)-1]
-	c.extraction.currentTarget().SetOriginChain(origin)
+	c.extraction.targets = c.extraction.targets[:len(c.extraction.targets)-1]
+	c.extraction.target().SetOriginChain(origin)
 
-	return c.extraction.transformer.GetOriginType()
+	return c.extraction.transformer.TransformOrigin()
 }
 
 type extraction struct {
@@ -133,13 +133,13 @@ type extraction struct {
 	transformer *transform.Transformer
 	logger      *log.Logger
 	parent      *extraction
-	target      []*target.Target
+	targets     []*target.Target
 }
 
 type extractionStep func() (extractionStep, error)
 
-func (t *extraction) currentTarget() *target.Target {
-	return t.target[len(t.target)-1]
+func (t *extraction) target() *target.Target {
+	return t.targets[len(t.targets)-1]
 }
 
 func (t *extraction) getOriginChain() (extractionStep, error) {
@@ -153,7 +153,7 @@ func (t *extraction) getOriginChain() (extractionStep, error) {
 
 	t.logger.Infof("Crawling symbol origin yielded <%T>", symbolOrigin.Last())
 
-	t.currentTarget().SetOriginChain(symbolOrigin)
+	t.target().SetOriginChain(symbolOrigin)
 
 	return t.getDocumentation, nil
 }
@@ -167,7 +167,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 		return nil, err
 	}
 
-	t.currentTarget().SetDocumentation(documentation)
+	t.target().SetDocumentation(documentation)
 
 	return t.getMetadata, nil
 }
@@ -185,7 +185,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 		return t.getType, nil
 	}
 
-	t.currentTarget().SetMeta(*meta)
+	t.target().SetMeta(*meta)
 
 	return t.getType, nil
 }
@@ -193,13 +193,13 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 func (t *extraction) getType() (extractionStep, error) {
 	t.logger.Info("Getting symbol type")
 
-	typ, err := t.transformer.GetOriginType()
+	typ, err := t.transformer.TransformOrigin()
 
 	if err != nil {
 		return nil, err
 	}
 
-	t.currentTarget().SetType(typ)
+	t.target().SetType(typ)
 
 	return nil, nil
 }
