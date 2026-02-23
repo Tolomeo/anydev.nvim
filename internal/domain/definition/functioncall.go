@@ -5,54 +5,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-// F = require("T")
-var RequireFunctionCallAssignmentQuery = treesitter.Query{
-	Language: "lua",
-	Query: `
-	(assignment_statement
-		(variable_list)
-		(expression_list
-			value: (function_call
-				name: (_) @require.call
-				arguments: (arguments
-					(string
-						content: (string_content) @require.module
-					)
-				)
-			)
-		) @require
-		(#any-of? @require.call "require")
-	) @module`,
-}
-
-type RequireFunctionCall struct {
-	root treesitter.TsNode
-	name treesitter.TsNode
-}
-
-func (rfc *RequireFunctionCall) Root() treesitter.TsNode {
-	return rfc.root
-}
-
-func (rfc *RequireFunctionCall) RequiredModuleName() treesitter.TsNode {
-	return rfc.name
-}
-
-func NewRequireFunctionCall(match nvim.TsQueryMatch) *RequireFunctionCall {
-	requireFnCall := RequireFunctionCall{}
-
-	for _, capture := range match {
-		switch capture.Id {
-		case "module":
-			requireFnCall.root = capture.Node
-		case "require.module":
-			requireFnCall.name = capture.Node
-		}
-	}
-
-	return &requireFnCall
-}
-
 // NOTE: this does not support function calls without parens
 var FunctionCallAssignmentQuery = treesitter.Query{
 	Language: "lua",
@@ -85,7 +37,7 @@ var FunctionCallAssignmentQuery = treesitter.Query{
 				)
 			)
 		)
-		(#not-any-of? @function_call.name "require" "memoize")
+		(#not-any-of? @function_call.name "memoize")
 	) @function_call
 	(#not-has-ancestor? @function_call "function_call") ; Avoiding nested matches
 	`,

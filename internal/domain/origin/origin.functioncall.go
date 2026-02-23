@@ -8,35 +8,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type RequireFunctionCallOrigin struct {
-	origin
-	node definition.RequireFunctionCall
-}
-
-func (mro *RequireFunctionCallOrigin) Definition() []string {
-	return strings.Split(mro.node.Root().Text, "\n")
-}
-
-func (mro *RequireFunctionCallOrigin) RequiredModuleName() string {
-	return mro.node.RequiredModuleName().Text
-}
-
-func (mro *RequireFunctionCallOrigin) RequiredModuleNameRange() treesitter.Range {
-	return mro.node.RequiredModuleName().Range
-}
-
-func NewRequireFunctionCallOrigin(location nvim.Location, node definition.RequireFunctionCall, annotations []string) *RequireFunctionCallOrigin {
-	moduleOrigin := RequireFunctionCallOrigin{
-		origin: origin{
-			location:    location,
-			annotations: annotations,
-		},
-		node: node,
-	}
-
-	return &moduleOrigin
-}
-
 type FunctionCallOrigin struct {
 	origin
 	node definition.FunctionCall

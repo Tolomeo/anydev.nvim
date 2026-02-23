@@ -198,7 +198,7 @@ func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, er
 
 		membersPosition := treesitter.LineRange{
 			Start: dockblock.Range.End.Line + 1,
-			End:   dockblock.Range.End.Line + 1,
+			End:   dockblock.Range.End.Line + 2,
 		}
 		membersMatch, err := buffer.TsQueryOne(annotation.AtEnumMembersQuery.WithRange(membersPosition))
 
@@ -235,9 +235,6 @@ func (c *Crawler) getDefinitionOriginQueryMap() nvim.TsNodeQueryMap {
 		origin.AssignmentStatement: []treesitter.Query{
 			definition.FunctionCallAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function_call", query)
-			}),
-			definition.RequireFunctionCallAssignmentQuery.MapQuery(func(query string) string {
-				return fmt.Sprintf("(%s) @origin.module", query)
 			}),
 			definition.FunctionFieldMemoizedAssignmentQuery.MapQuery(func(query string) string {
 				return fmt.Sprintf("(%s) @origin.function", query)
@@ -413,17 +410,6 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		}
 
 		return origin.NewFunctionCallOrigin(location, *node, annotations), nil
-	}
-
-	if _, isRequireFunctionCall := match.Find("origin.module"); isRequireFunctionCall {
-		node := definition.NewRequireFunctionCall(match)
-		annotations, err := buffer.GetTsNodeAnnotations(node.Root())
-
-		if err != nil {
-			return nil, err
-		}
-
-		return origin.NewRequireFunctionCallOrigin(location, *node, annotations), nil
 	}
 
 	if _, isVirtual := match.Find("origin.meta"); isVirtual {

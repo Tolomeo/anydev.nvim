@@ -298,10 +298,11 @@ func (n *Nvim) queryTsNodeAt(queryMap TsNodeQueryMap, line uint, character uint)
 func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
 	lines, err := n.getBufferLines(int(line), int(line)+1)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case len(lines) < 1:
+	}
+
+	if len(lines) < 1 {
 		return nil, nil
 	}
 
@@ -310,10 +311,11 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 
 	node, err := n.getTSNodeAt([]string{"comment"}, line, character)
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case node == nil:
+	}
+
+	if node == nil {
 		return nil, nil
 	}
 
@@ -325,10 +327,11 @@ func (n *Nvim) getTsCommentBlockAt(line uint, character uint) (*treesitter.TsNod
 
 	result, err := n.execLua(script, []any{node.Range.Start.Line, node.Range.End.Line})
 
-	switch {
-	case err != nil:
+	if err != nil {
 		return nil, err
-	case result == nil:
+	}
+
+	if result == nil {
 		return nil, nil
 	}
 

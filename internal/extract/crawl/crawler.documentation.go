@@ -31,7 +31,7 @@ func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver
 			head := strings.Join(identifierParts[:len(identifierParts)-1], ".")
 			lines = append(lines, fmt.Sprintf("%s = %s['%s']", reference, head, tail))
 		} else {
-			lines = append(lines, fmt.Sprintf("%s = %s", identifier, identifier))
+			lines = append(lines, fmt.Sprintf("%s", identifier))
 		}
 	}
 

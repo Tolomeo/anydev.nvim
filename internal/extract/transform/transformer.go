@@ -114,13 +114,6 @@ func (tr *Transformer) GetOriginType() (symbol.Type, error) {
 		}
 		lexedCache.Set(variableSymbol, cacheId...)
 		return variableSymbol, nil
-	case *origin.RequireFunctionCallOrigin:
-		requiredModuleSymbol, err := tr.getModuleRequireOriginType(targetOriginType)
-		if err != nil {
-			return nil, err
-		}
-		lexedCache.Set(requiredModuleSymbol, cacheId...)
-		return requiredModuleSymbol, nil
 	case *origin.FunctionCallOrigin:
 		originType, err := tr.transformFunctionCallOrigin(targetOriginType)
 		if err != nil {

@@ -62,14 +62,25 @@ func (tr *Transformer) transformFunctionCallOrigin(functionCallOrigin *origin.Fu
 	}
 
 	switch functionCallOrigin.FunctionName() {
-	case "vim._defer_deprecated_module":
-		tr.context.Logger().Verbosef("Extracting 'vim._defer_deprecated_module' function call as a module require")
-		moduleNameArgument := functionCallOrigin.FunctionArguments()[1]
+	case "require":
+		tr.context.Logger().Verbosef("Extracting 'require' function call as a module reference")
+		moduleNameArgument := functionCallOrigin.FunctionArguments()[0]
+		moduleName := strings.Trim(moduleNameArgument, "'\"")
 		err := tr.context.Extract("module", strings.Trim(moduleNameArgument, "'\""))
 		if err != nil {
 			return nil, err
 		}
-		return symbol.NewModuleReference(moduleNameArgument), nil
+		return symbol.NewModuleReference(moduleName), nil
+
+	case "vim._defer_deprecated_module":
+		tr.context.Logger().Verbosef("Extracting 'vim._defer_deprecated_module' function call as a module reference")
+		moduleNameArgument := functionCallOrigin.FunctionArguments()[1]
+		moduleName := strings.Trim(moduleNameArgument, "'\"")
+		err := tr.context.Extract("module", moduleName)
+		if err != nil {
+			return nil, err
+		}
+		return symbol.NewModuleReference(moduleName), nil
 
 	case "vim._defer_require", "setmetatable", "create_option_accessor":
 		tr.context.Logger().Verbosef("Extracting '%s' function call as a table", functionCallOrigin.Name())
