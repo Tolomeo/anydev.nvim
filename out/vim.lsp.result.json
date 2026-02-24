@@ -71,6 +71,153 @@
                 "name": "Range4"
             }
         },
+        "STTokenRangeInspect": {
+            "name": "STTokenRangeInspect",
+            "documentation": [
+                "```lua",
+                "(class) STTokenRangeInspect",
+                "```",
+                "",
+                "---",
+                "",
+                " @nodoc"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "client_id",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.client_id: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "end_col",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.end_col: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "end column 0-based"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "line",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.line: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "line number 0-based"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "marked",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.marked: boolean",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "whether this token has had extmarks applied"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    },
+                    {
+                        "name": "modifiers",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.modifiers: table\u003cstring, boolean\u003e",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "token modifiers as a set. E.g., { static = true, readonly = true }"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    },
+                    {
+                        "name": "start_col",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.start_col: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "start column 0-based"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "documentation": [
+                            "```lua",
+                            "(field) STTokenRangeInspect.type: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "token type as string"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "STTokenRangeInspect"
+            }
+        },
         "decimal": {
             "name": "decimal",
             "documentation": [
@@ -2920,6 +3067,127 @@
                 ],
                 "kind": "table",
                 "name": "lsp.CodeDescription"
+            }
+        },
+        "lsp.CodeLens": {
+            "name": "lsp.CodeLens",
+            "documentation": [
+                "```lua",
+                "(class) lsp.CodeLens",
+                "```",
+                "",
+                "---",
+                "",
+                "A code lens represents a {@link Command command} that should be shown along with",
+                "source text, like the number of references, a way to run tests, etc.",
+                "",
+                "A code lens is _unresolved_ when no command is associated to it. For performance",
+                "reasons the creation of a code lens and resolving should be done in two stages."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "command",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.CodeLens.command: (lsp.Command)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Represents a reference to a command. Provides a title which",
+                            "will be used to represent a command in the UI and, optionally,",
+                            "an array of arguments which will be passed to the command handler",
+                            "function when invoked.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The command this code lens represents."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Command"
+                            }
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.CodeLens.data: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "The LSP any type.",
+                            "Please note that strictly speaking a property with the value `undefined`",
+                            "can't be converted into JSON preserving the property name. However for",
+                            "convenience it is allowed and assumed that all these properties are",
+                            "optional as well.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "A data entry field that is preserved on a code lens item between",
+                            "a {@link CodeLensRequest} and a {@link CodeLensResolveRequest}",
+                            "",
+                            "---",
+                            "",
+                            "LSP object definition.",
+                            "",
+                            "---",
+                            "",
+                            "LSP arrays."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.LSPAny"
+                            }
+                        }
+                    },
+                    {
+                        "name": "range",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.CodeLens.range: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The range in which this code lens is valid. Should only span a single line."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.CodeLens"
             }
         },
         "lsp.CodeLensClientCapabilities": {
@@ -6625,6 +6893,94 @@
                 "name": "lsp.DocumentFormattingParams"
             }
         },
+        "lsp.DocumentHighlight": {
+            "name": "lsp.DocumentHighlight",
+            "documentation": [
+                "```lua",
+                "(class) lsp.DocumentHighlight",
+                "```",
+                "",
+                "---",
+                "",
+                "A document highlight is a range inside a text document which deserves",
+                "special attention. Usually a document highlight is visualized by changing",
+                "the background color of its range."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "kind",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentHighlight.kind: (1|2|3)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A document highlight kind.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The highlight kind, default is {@link DocumentHighlightKind.Text text}.",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "-- A document highlight kind.",
+                            "lsp.DocumentHighlightKind:",
+                            "    | 1 -- Text",
+                            "    | 2 -- Read",
+                            "    | 3 -- Write",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentHighlightKind"
+                            }
+                        }
+                    },
+                    {
+                        "name": "range",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentHighlight.range: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The range this highlight applies to."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.DocumentHighlight"
+            }
+        },
         "lsp.DocumentHighlightClientCapabilities": {
             "name": "lsp.DocumentHighlightClientCapabilities",
             "documentation": [
@@ -6663,6 +7019,46 @@
                 ],
                 "kind": "table",
                 "name": "lsp.DocumentHighlightClientCapabilities"
+            }
+        },
+        "lsp.DocumentHighlightKind": {
+            "name": "lsp.DocumentHighlightKind",
+            "documentation": [
+                "```lua",
+                "(alias) lsp.DocumentHighlightKind Expand to 1|2|3",
+                "```",
+                "",
+                "---",
+                "",
+                "A document highlight kind.",
+                "",
+                "---",
+                "",
+                "```lua",
+                "-- A document highlight kind.",
+                "lsp.DocumentHighlightKind:",
+                "    | 1 -- Text",
+                "    | 2 -- Read",
+                "    | 3 -- Write",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "union",
+                "types": [
+                    {
+                        "kind": "numericliteral",
+                        "value": "1"
+                    },
+                    {
+                        "kind": "numericliteral",
+                        "value": "2"
+                    },
+                    {
+                        "kind": "numericliteral",
+                        "value": "3"
+                    }
+                ]
             }
         },
         "lsp.DocumentHighlightOptions": {
@@ -7060,6 +7456,261 @@
                     "kind": "typereference",
                     "value": "lsp.DocumentFilter"
                 }
+            }
+        },
+        "lsp.DocumentSymbol": {
+            "name": "lsp.DocumentSymbol",
+            "documentation": [
+                "```lua",
+                "(class) lsp.DocumentSymbol",
+                "```",
+                "",
+                "---",
+                "",
+                "Represents programming constructs like variables, classes, interfaces etc.",
+                "that appear in a document. Document symbols can be hierarchical and they",
+                "have two ranges: one that encloses its definition and one that points to",
+                "its most interesting range, e.g. the range of an identifier."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "children",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.children: lsp.DocumentSymbol[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Children of this symbol, e.g. properties of a class."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.DocumentSymbol"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "deprecated",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.deprecated: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Indicates if this symbol is deprecated.",
+                            ""
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "detail",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.detail: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "More detail for this symbol, e.g the signature of a function."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "kind",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.kind: 1|10|11|12|13|14|15|16|17|18|19|2|20|21|22|23|24|25|26|3|4|5|6|7|8|9",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A symbol kind.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The kind of this symbol.",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "-- A symbol kind.",
+                            "lsp.SymbolKind:",
+                            "    | 1 -- File",
+                            "    | 2 -- Module",
+                            "    | 3 -- Namespace",
+                            "    | 4 -- Package",
+                            "    | 5 -- Class",
+                            "    | 6 -- Method",
+                            "    | 7 -- Property",
+                            "    | 8 -- Field",
+                            "    | 9 -- Constructor",
+                            "    | 10 -- Enum",
+                            "    | 11 -- Interface",
+                            "    | 12 -- Function",
+                            "    | 13 -- Variable",
+                            "    | 14 -- Constant",
+                            "    | 15 -- String",
+                            "    | 16 -- Number",
+                            "    | 17 -- Boolean",
+                            "    | 18 -- Array",
+                            "    | 19 -- Object",
+                            "    | 20 -- Key",
+                            "    | 21 -- Null",
+                            "    | 22 -- EnumMember",
+                            "    | 23 -- Struct",
+                            "    | 24 -- Event",
+                            "    | 25 -- Operator",
+                            "    | 26 -- TypeParameter",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.SymbolKind"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.name: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The name of this symbol. Will be displayed in the user interface and therefore must not be",
+                            "an empty string or a string only consisting of white spaces."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "range",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.range: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The range enclosing this symbol not including leading/trailing whitespace but everything else",
+                            "like comments. This information is typically used to determine if the clients cursor is",
+                            "inside the symbol to reveal in the symbol in the UI."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    },
+                    {
+                        "name": "selectionRange",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.selectionRange: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The range that should be selected and revealed when this symbol is being picked, e.g the name of a function.",
+                            "Must be contained by the `range`."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    },
+                    {
+                        "name": "tags",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.DocumentSymbol.tags: 1[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Tags for this document symbol.",
+                            ""
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.SymbolTag"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.DocumentSymbol"
             }
         },
         "lsp.DocumentSymbolClientCapabilities": {
@@ -9959,6 +10610,317 @@
                 "name": "lsp.InitializeParams"
             }
         },
+        "lsp.InlayHint": {
+            "name": "lsp.InlayHint",
+            "documentation": [
+                "```lua",
+                "(class) lsp.InlayHint",
+                "```",
+                "",
+                "---",
+                "",
+                "Inlay hint information.",
+                ""
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "data",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.data: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "The LSP any type.",
+                            "Please note that strictly speaking a property with the value `undefined`",
+                            "can't be converted into JSON preserving the property name. However for",
+                            "convenience it is allowed and assumed that all these properties are",
+                            "optional as well.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "A data entry field that is preserved on an inlay hint between",
+                            "a `textDocument/inlayHint` and a `inlayHint/resolve` request.",
+                            "",
+                            "---",
+                            "",
+                            "LSP object definition.",
+                            "",
+                            "---",
+                            "",
+                            "LSP arrays."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.LSPAny"
+                            }
+                        }
+                    },
+                    {
+                        "name": "kind",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.kind: (1|2)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Inlay hint kinds.",
+                            "",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The kind of this hint. Can be omitted in which case the client",
+                            "should fall back to a reasonable default.",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "-- Inlay hint kinds.",
+                            "-- ",
+                            "lsp.InlayHintKind:",
+                            "    | 1 -- Type",
+                            "    | 2 -- Parameter",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.InlayHintKind"
+                            }
+                        }
+                    },
+                    {
+                        "name": "label",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.label: string|lsp.InlayHintLabelPart[]",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The label of this hint. A human readable string or an array of",
+                            "InlayHintLabelPart label parts.",
+                            "",
+                            "*Note* that neither the string nor the label part can be empty."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "typereference",
+                                        "value": "lsp.InlayHintLabelPart"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "paddingLeft",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.paddingLeft: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Render padding before the hint.",
+                            "",
+                            "Note: Padding should use the editor's background color, not the",
+                            "background color of the hint itself. That means padding can be used",
+                            "to visually align/separate an inlay hint."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "paddingRight",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.paddingRight: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Render padding after the hint.",
+                            "",
+                            "Note: Padding should use the editor's background color, not the",
+                            "background color of the hint itself. That means padding can be used",
+                            "to visually align/separate an inlay hint."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "position",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.position: lsp.Position",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Position in a text document expressed as zero-based line and character",
+                            "offset. Prior to 3.17 the offsets were always based on a UTF-16 string",
+                            "representation. So a string of the form `a𐐀b` the character offset of the",
+                            "character `a` is 0, the character offset of `𐐀` is 1 and the character",
+                            "offset of b is 3 since `𐐀` is represented using two code units in UTF-16.",
+                            "Since 3.17 clients and servers can agree on a different string encoding",
+                            "representation (e.g. UTF-8). The client announces it's supported encoding",
+                            "via the client capability [`general.positionEncodings`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#clientCapabilities).",
+                            "The value is an array of position encodings the client supports, with",
+                            "decreasing preference (e.g. the encoding at index `0` is the most preferred",
+                            "one). To stay backwards compatible the only mandatory encoding is UTF-16",
+                            "represented via the string `utf-16`. The server can pick one of the",
+                            "encodings offered by the client and signals that encoding back to the",
+                            "client via the initialize result's property",
+                            "[`capabilities.positionEncoding`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#serverCapabilities). If the string value",
+                            "`utf-16` is missing from the client's capability `general.positionEncodings`",
+                            "servers can safely assume that the client supports UTF-16. If the server",
+                            "omits the position encoding in its initialize result the encoding defaults",
+                            "to the string value `utf-16`. Implementation considerations: since the",
+                            "conversion from one encoding into another requires the content of the",
+                            "file / line the conversion is best done where the file is read which is",
+                            "usually on the server side.",
+                            "",
+                            "Positions are line end character agnostic. So you can not specify a position",
+                            "that denotes `\\r|\\n` or `\\n|` where `|` represents the character offset.",
+                            "",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The position of this hint.",
+                            "",
+                            "If multiple hints have the same position, they will be shown in the order",
+                            "they appear in the response."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Position"
+                        }
+                    },
+                    {
+                        "name": "textEdits",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.textEdits: lsp.TextEdit[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Optional text edits that are performed when accepting this inlay hint.",
+                            "",
+                            "*Note* that edits are expected to change the document so that the inlay",
+                            "hint (or its nearest variant) is now part of the document and the inlay",
+                            "hint itself is now obsolete."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.TextEdit"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "tooltip",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHint.tooltip: (string|lsp.MarkupContent)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A `MarkupContent` literal represents a string value which content is interpreted base on its",
+                            "kind flag. Currently the protocol supports `plaintext` and `markdown` as markup kinds.",
+                            "",
+                            "If the kind is `markdown` then the value can contain fenced code blocks like in GitHub issues.",
+                            "See https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting",
+                            "",
+                            "Here is an example how such a string can be constructed using JavaScript / TypeScript:",
+                            "```ts",
+                            "let markdown: MarkdownContent = {",
+                            " kind: MarkupKind.Markdown,",
+                            " value: [",
+                            "   '# Header',",
+                            "   'Some text',",
+                            "   '```typescript',",
+                            "   'someCode();',",
+                            "   '```'",
+                            " ].join('\\n')",
+                            "};",
+                            "```",
+                            "",
+                            "*Please Note* that clients might sanitize the return markdown. A client could decide to",
+                            "remove HTML from the markdown to avoid script execution.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The tooltip text when you hover over this item."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "lsp.MarkupContent"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.InlayHint"
+            }
+        },
         "lsp.InlayHintClientCapabilities": {
             "name": "lsp.InlayHintClientCapabilities",
             "documentation": [
@@ -10020,6 +10982,206 @@
                 ],
                 "kind": "table",
                 "name": "lsp.InlayHintClientCapabilities"
+            }
+        },
+        "lsp.InlayHintKind": {
+            "name": "lsp.InlayHintKind",
+            "documentation": [
+                "```lua",
+                "(alias) lsp.InlayHintKind Expand to 1|2",
+                "```",
+                "",
+                "---",
+                "",
+                "Inlay hint kinds.",
+                "",
+                "",
+                "---",
+                "",
+                "```lua",
+                "-- Inlay hint kinds.",
+                "-- ",
+                "lsp.InlayHintKind:",
+                "    | 1 -- Type",
+                "    | 2 -- Parameter",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "union",
+                "types": [
+                    {
+                        "kind": "numericliteral",
+                        "value": "1"
+                    },
+                    {
+                        "kind": "numericliteral",
+                        "value": "2"
+                    }
+                ]
+            }
+        },
+        "lsp.InlayHintLabelPart": {
+            "name": "lsp.InlayHintLabelPart",
+            "documentation": [
+                "```lua",
+                "(class) lsp.InlayHintLabelPart",
+                "```",
+                "",
+                "---",
+                "",
+                "An inlay hint label part allows for interactive and composite labels",
+                "of inlay hints.",
+                ""
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "command",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHintLabelPart.command: (lsp.Command)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Represents a reference to a command. Provides a title which",
+                            "will be used to represent a command in the UI and, optionally,",
+                            "an array of arguments which will be passed to the command handler",
+                            "function when invoked.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "An optional command for this label part.",
+                            "",
+                            "Depending on the client capability `inlayHint.resolveSupport` clients",
+                            "might resolve this property late using the resolve request."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Command"
+                            }
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHintLabelPart.location: (lsp.Location)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Represents a location inside a resource, such as a line",
+                            "inside a text file.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "An optional source code location that represents this",
+                            "label part.",
+                            "",
+                            "The editor will use this location for the hover and for code navigation",
+                            "features: This part will become a clickable link that resolves to the",
+                            "definition of the symbol at the given location (not necessarily the",
+                            "location itself), it shows the hover that shows at the given location,",
+                            "and it shows a context menu with further code navigation commands.",
+                            "",
+                            "Depending on the client capability `inlayHint.resolveSupport` clients",
+                            "might resolve this property late using the resolve request."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Location"
+                            }
+                        }
+                    },
+                    {
+                        "name": "tooltip",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHintLabelPart.tooltip: (string|lsp.MarkupContent)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A `MarkupContent` literal represents a string value which content is interpreted base on its",
+                            "kind flag. Currently the protocol supports `plaintext` and `markdown` as markup kinds.",
+                            "",
+                            "If the kind is `markdown` then the value can contain fenced code blocks like in GitHub issues.",
+                            "See https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting",
+                            "",
+                            "Here is an example how such a string can be constructed using JavaScript / TypeScript:",
+                            "```ts",
+                            "let markdown: MarkdownContent = {",
+                            " kind: MarkupKind.Markdown,",
+                            " value: [",
+                            "   '# Header',",
+                            "   'Some text',",
+                            "   '```typescript',",
+                            "   'someCode();',",
+                            "   '```'",
+                            " ].join('\\n')",
+                            "};",
+                            "```",
+                            "",
+                            "*Please Note* that clients might sanitize the return markdown. A client could decide to",
+                            "remove HTML from the markdown to avoid script execution.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The tooltip text when you hover over this label part. Depending on",
+                            "the client capability `inlayHint.resolveSupport` clients might resolve",
+                            "this property late using the resolve request."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "lsp.MarkupContent"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.InlayHintLabelPart.value: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The value of this label part."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.InlayHintLabelPart"
             }
         },
         "lsp.InlayHintOptions": {
@@ -11049,6 +12211,149 @@
                 ],
                 "kind": "table",
                 "name": "lsp.Location"
+            }
+        },
+        "lsp.LocationLink": {
+            "name": "lsp.LocationLink",
+            "documentation": [
+                "```lua",
+                "(class) lsp.LocationLink",
+                "```",
+                "",
+                "---",
+                "",
+                "Represents the connection of two locations. Provides additional metadata over normal {@link Location locations},",
+                "including an origin range."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "originSelectionRange",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.LocationLink.originSelectionRange: (lsp.Range)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Span of the origin of this link.",
+                            "",
+                            "Used as the underlined span for mouse interaction. Defaults to the word range at",
+                            "the definition position."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Range"
+                            }
+                        }
+                    },
+                    {
+                        "name": "targetRange",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.LocationLink.targetRange: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The full target range of this link. If the target for example is a symbol then target range is the",
+                            "range enclosing this symbol not including leading/trailing whitespace but everything else",
+                            "like comments. This information is typically used to highlight the range in the editor."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    },
+                    {
+                        "name": "targetSelectionRange",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.LocationLink.targetSelectionRange: lsp.Range",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A range in a text document expressed as (zero-based) start and end positions.",
+                            "",
+                            "If you want to specify a range that contains a line including the line ending",
+                            "character(s) then use an end position denoting the start of the next line.",
+                            "For example:",
+                            "```ts",
+                            "{",
+                            "    start: { line: 5, character: 23 }",
+                            "    end : { line 6, character : 0 }",
+                            "}",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The range that should be selected and revealed when this link is being followed, e.g the name of a function.",
+                            "Must be contained by the `targetRange`. See also `DocumentSymbol#range`"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Range"
+                        }
+                    },
+                    {
+                        "name": "targetUri",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.LocationLink.targetUri: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The target resource identifier of this link."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.DocumentUri"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.LocationLink"
             }
         },
         "lsp.MarkdownClientCapabilities": {
@@ -17248,6 +18553,201 @@
                 "name": "lsp.StringValue"
             }
         },
+        "lsp.SymbolInformation": {
+            "name": "lsp.SymbolInformation",
+            "documentation": [
+                "```lua",
+                "(class) lsp.SymbolInformation",
+                "```",
+                "",
+                "---",
+                "",
+                "Represents information about programming constructs like variables, classes,",
+                "interfaces etc."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "containerName",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.containerName: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The name of the symbol containing this symbol. This information is for",
+                            "user interface purposes (e.g. to render a qualifier in the user interface",
+                            "if necessary). It can't be used to re-infer a hierarchy for the document",
+                            "symbols."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "deprecated",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.deprecated: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Indicates if this symbol is deprecated.",
+                            ""
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "kind",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.kind: 1|10|11|12|13|14|15|16|17|18|19|2|20|21|22|23|24|25|26|3|4|5|6|7|8|9",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "A symbol kind.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The kind of this symbol.",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "-- A symbol kind.",
+                            "lsp.SymbolKind:",
+                            "    | 1 -- File",
+                            "    | 2 -- Module",
+                            "    | 3 -- Namespace",
+                            "    | 4 -- Package",
+                            "    | 5 -- Class",
+                            "    | 6 -- Method",
+                            "    | 7 -- Property",
+                            "    | 8 -- Field",
+                            "    | 9 -- Constructor",
+                            "    | 10 -- Enum",
+                            "    | 11 -- Interface",
+                            "    | 12 -- Function",
+                            "    | 13 -- Variable",
+                            "    | 14 -- Constant",
+                            "    | 15 -- String",
+                            "    | 16 -- Number",
+                            "    | 17 -- Boolean",
+                            "    | 18 -- Array",
+                            "    | 19 -- Object",
+                            "    | 20 -- Key",
+                            "    | 21 -- Null",
+                            "    | 22 -- EnumMember",
+                            "    | 23 -- Struct",
+                            "    | 24 -- Event",
+                            "    | 25 -- Operator",
+                            "    | 26 -- TypeParameter",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.SymbolKind"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.location: lsp.Location",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Represents a location inside a resource, such as a line",
+                            "inside a text file.",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The location of this symbol. The location's range is used by a tool",
+                            "to reveal the location in the editor. If the symbol is selected in the",
+                            "tool the range's start information is used to position the cursor. So",
+                            "the range usually spans more than the actual symbol's name and does",
+                            "normally include things like visibility modifiers.",
+                            "",
+                            "The range doesn't have to denote a node range in the sense of an abstract",
+                            "syntax tree. It can therefore not be used to re-construct a hierarchy of",
+                            "the symbols."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Location"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.name: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The name of this symbol."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "tags",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.SymbolInformation.tags: 1[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "Tags for this symbol.",
+                            ""
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.SymbolTag"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.SymbolInformation"
+            }
+        },
         "lsp.SymbolKind": {
             "name": "lsp.SymbolKind",
             "documentation": [
@@ -19841,6 +21341,62 @@
                 "name": "lsp.UnchangedDocumentDiagnosticReport"
             }
         },
+        "lsp.Unregistration": {
+            "name": "lsp.Unregistration",
+            "documentation": [
+                "```lua",
+                "(class) lsp.Unregistration",
+                "```",
+                "",
+                "---",
+                "",
+                "General parameters to unregister a request or notification."
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "id",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.Unregistration.id: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The id used to unregister the request or notification. Usually an id",
+                            "provided during the register request."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "method",
+                        "documentation": [
+                            "```lua",
+                            "(field) lsp.Unregistration.method: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            "The method to unregister for."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "lsp.Unregistration"
+            }
+        },
         "lsp.WindowClientCapabilities": {
             "name": "lsp.WindowClientCapabilities",
             "documentation": [
@@ -21213,6 +22769,307 @@
                 "value": "integer"
             }
         },
+        "vim.Diagnostic": {
+            "name": "vim.Diagnostic",
+            "documentation": [
+                "```lua",
+                "(class) vim.Diagnostic",
+                "```",
+                "",
+                "---",
+                "",
+                " [diagnostic-structure](file:///usr/local/Cellar/neovim/0.11.4/share/nvim/runtime/lua/vim)",
+                "",
+                " Diagnostics use the same indexing as the rest of the Nvim API (i.e. 0-based",
+                " rows and columns). |api-indexing|"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "_tags",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic._tags: { deprecated: boolean, unnecessary: boolean }?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "fields": [
+                                    {
+                                        "name": "deprecated",
+                                        "documentation": [],
+                                        "meta": [],
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        }
+                                    },
+                                    {
+                                        "name": "unnecessary",
+                                        "documentation": [],
+                                        "meta": [],
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    },
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.bufnr: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Buffer number"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.code: (string|integer)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The diagnostic code"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "col",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.col: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The starting column of the diagnostic (0-indexed)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "end_col",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.end_col: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The final column of the diagnostic (0-indexed)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "end_lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.end_lnum: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The final line of the diagnostic (0-indexed)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.lnum: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The starting line of the diagnostic (0-indexed)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "message",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.message: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The diagnostic text"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "namespace",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.namespace: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "severity",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.severity: (vim.diagnostic.Severity)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @nodoc",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The severity of the diagnostic |vim.diagnostic.severity|"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.source: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The source of the diagnostic"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "user_data",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.Diagnostic.user_data: any",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "arbitrary data plugins can add"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.Diagnostic"
+            }
+        },
+        "vim.NIL": {
+            "name": "vim.NIL",
+            "documentation": [
+                "```lua",
+                "(class) vim.NIL",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [],
+                "kind": "table",
+                "name": "vim.NIL"
+            }
+        },
         "vim.api.keyset.win_config": {
             "name": "vim.api.keyset.win_config",
             "documentation": [
@@ -21714,6 +23571,81 @@
                 ],
                 "kind": "table",
                 "name": "vim.api.keyset.win_config"
+            }
+        },
+        "vim.diagnostic.Severity": {
+            "name": "vim.diagnostic.Severity",
+            "documentation": [
+                "```lua",
+                "(enum) vim.diagnostic.Severity",
+                "```",
+                "",
+                "---",
+                "",
+                " @nodoc"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "enumerator",
+                "name": "vim.diagnostic.Severity",
+                "fields": [
+                    {
+                        "name": "ERROR",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "1"
+                        }
+                    },
+                    {
+                        "name": "WARN",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "2"
+                        }
+                    },
+                    {
+                        "name": "INFO",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "3"
+                        }
+                    },
+                    {
+                        "name": "HINT",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "4"
+                        }
+                    },
+                    {
+                        "name": "E",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "1"
+                        }
+                    },
+                    {
+                        "name": "W",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "2"
+                        }
+                    },
+                    {
+                        "name": "I",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "3"
+                        }
+                    },
+                    {
+                        "name": "N",
+                        "value": {
+                            "kind": "numericliteral",
+                            "value": "4"
+                        }
+                    }
+                ]
             }
         },
         "vim.lsp.Client": {
@@ -27312,6 +29244,69 @@
                 "name": "vim.lsp.inlay_hint.get.Filter"
             }
         },
+        "vim.lsp.inlay_hint.get.ret": {
+            "name": "vim.lsp.inlay_hint.get.ret",
+            "documentation": [
+                "```lua",
+                "(class) vim.lsp.inlay_hint.get.ret",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.lsp.inlay_hint.get.ret.bufnr: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "client_id",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.lsp.inlay_hint.get.ret.client_id: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "inlay_hint",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.lsp.inlay_hint.get.ret.inlay_hint: lsp.InlayHint",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Inlay hint information.",
+                            ""
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.InlayHint"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.lsp.inlay_hint.get.ret"
+            }
+        },
         "vim.lsp.protocol": {
             "name": "vim.lsp.protocol",
             "documentation": [
@@ -32276,6 +34271,318 @@
                 ],
                 "kind": "table",
                 "name": "vim.lsp.util.show_document.Opts"
+            }
+        },
+        "vim.quickfix.entry": {
+            "name": "vim.quickfix.entry",
+            "documentation": [
+                "```lua",
+                "(class) vim.quickfix.entry",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.bufnr: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " buffer number; must be the number of a valid buffer"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "col",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.col: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " column number"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "end_col",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.end_col: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " end column, if the item spans multiple columns"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "end_lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.end_lnum: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " end of lines, if the item spans multiple lines"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filename",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.filename: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " name of a file; only used when \"bufnr\" is not",
+                            " present or it is invalid."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.lnum: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " line number in the file"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "module",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.module: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " name of a module; if given it will be used in",
+                            " quickfix error window instead of the filename."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "nr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.nr: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " error number"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "pattern",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.pattern: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " search pattern used to locate the error"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.text: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " description of the error"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.type: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " single-character error type, 'E', 'W', etc."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "user_data",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.user_data: any",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " custom data associated with the item, can be",
+                            " any type."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    },
+                    {
+                        "name": "valid",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.valid: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " recognized error message"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "vcol",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.quickfix.entry.vcol: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " when non-zero: \"col\" is visual column",
+                            " when zero: \"col\" is byte index"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.quickfix.entry"
             }
         }
     },

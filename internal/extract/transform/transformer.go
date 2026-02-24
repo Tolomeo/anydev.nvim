@@ -48,7 +48,7 @@ func (tr *Transformer) TransformOrigin() (symbol.Type, error) {
 		// lexedCache.Set(tableType, cacheId)
 		return tableType, nil
 	case *origin.FunctionOrigin:
-		functionType, err := tr.getFunctionOriginType(targetOriginType)
+		functionType, err := tr.transformFunctionOrigin(targetOriginType)
 		if err != nil {
 			return nil, err
 		}

@@ -631,35 +631,116 @@ func (tr *Transformer) transformType(typ string) (symbol.Type, error) {
 func (tr *Transformer) resolveTypeReferences(typeSymbol symbol.Type) error {
 	switch symbolType := typeSymbol.(type) {
 	case *symbol.Optional:
-		tr.resolveTypeReferences(symbolType.Type)
-	case *symbol.Array:
-		tr.resolveTypeReferences(symbolType.Items)
-	case *symbol.Function:
-		for _, argument := range symbolType.Arguments {
-			tr.resolveTypeReferences(argument.Type)
-		}
-		for _, ret := range symbolType.Returns {
-			tr.resolveTypeReferences(ret.Type)
-		}
-	case *symbol.Table:
-		for _, field := range symbolType.Fields {
-			tr.resolveTypeReferences(field.Type)
-		}
-		for _, index := range symbolType.Indexes {
-			tr.resolveTypeReferences(index.Key)
-			tr.resolveTypeReferences(index.Value)
-		}
-	case *symbol.Union:
-		for _, unionType := range symbolType.Types {
-			tr.resolveTypeReferences(unionType)
-		}
-	case *symbol.TypeReference:
-		err := tr.context.Extract("type", symbolType.Value)
+		err := tr.resolveTypeReferences(symbolType.Type)
+
 		if err != nil {
 			return err
 		}
-		return nil
+
+	case *symbol.Array:
+		err := tr.resolveTypeReferences(symbolType.Items)
+
+		if err != nil {
+			return err
+		}
+
+	case *symbol.Function:
+		for _, argument := range symbolType.Arguments {
+			err := tr.resolveTypeReferences(argument.Type)
+
+			if err != nil {
+				return err
+			}
+		}
+
+		for _, ret := range symbolType.Returns {
+			err := tr.resolveTypeReferences(ret.Type)
+
+			if err != nil {
+				return err
+			}
+		}
+
+	case *symbol.Table:
+		for _, field := range symbolType.Fields {
+			err := tr.resolveTypeReferences(field.Type)
+
+			if err != nil {
+				return err
+			}
+		}
+
+		for _, index := range symbolType.Indexes {
+			err := tr.resolveTypeReferences(index.Key)
+
+			if err != nil {
+				return err
+			}
+
+			err = tr.resolveTypeReferences(index.Value)
+
+			if err != nil {
+				return err
+			}
+		}
+
+	case *symbol.Union:
+		for _, unionType := range symbolType.Types {
+			err := tr.resolveTypeReferences(unionType)
+
+			if err != nil {
+				return err
+			}
+		}
+
+	case *symbol.TypeReference:
+		err := tr.context.Extract("type", symbolType.Value)
+
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
+}
+
+func (tr *Transformer) extractTypeReferences(typeSymbol symbol.Type) []symbol.TypeReference {
+	typeReferences := []symbol.TypeReference{}
+
+	switch symbolType := typeSymbol.(type) {
+	case *symbol.Optional:
+		typeReferences = append(typeReferences, tr.extractTypeReferences(symbolType.Type)...)
+
+	case *symbol.Array:
+		typeReferences = append(typeReferences, tr.extractTypeReferences(symbolType.Items)...)
+
+	case *symbol.Function:
+		for _, argument := range symbolType.Arguments {
+			typeReferences = append(typeReferences, tr.extractTypeReferences(argument.Type)...)
+		}
+
+		for _, ret := range symbolType.Returns {
+			typeReferences = append(typeReferences, tr.extractTypeReferences(ret.Type)...)
+		}
+
+	case *symbol.Table:
+		for _, field := range symbolType.Fields {
+			typeReferences = append(typeReferences, tr.extractTypeReferences(field.Type)...)
+		}
+
+		for _, index := range symbolType.Indexes {
+			typeReferences = append(typeReferences, tr.extractTypeReferences(index.Key)...)
+			typeReferences = append(typeReferences, tr.extractTypeReferences(index.Value)...)
+		}
+
+	case *symbol.Union:
+		for _, unionType := range symbolType.Types {
+			typeReferences = append(typeReferences, tr.extractTypeReferences(unionType)...)
+		}
+
+	case *symbol.TypeReference:
+		typeReferences = append(typeReferences, *symbolType)
+	}
+
+	return typeReferences
 }

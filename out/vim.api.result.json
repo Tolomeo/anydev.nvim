@@ -11541,6 +11541,239 @@
                 "name": "vim.api.keyset.create_autocmd.callback_args"
             }
         },
+        "vim.api.keyset.create_user_command.command_args": {
+            "name": "vim.api.keyset.create_user_command.command_args",
+            "documentation": [
+                "```lua",
+                "(class) vim.api.keyset.create_user_command.command_args",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "args",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.args: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The args passed to the command, if any \u003cargs\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "bang",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.bang: boolean",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " \"true\" if the command was executed with a ! modifier \u003cbang\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.count: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Any count supplied \u003ccount\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "fargs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.fargs: string[]",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The args split by unescaped whitespace",
+                            " (when more than one argument is allowed), if any \u003cf-args\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "line1",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.line1: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The starting line of the command range \u003cline1\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "line2",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.line2: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The final line of the command range \u003cline2\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "mods",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.mods: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Command modifiers, if any \u003cmods\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.name: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Command name"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "nargs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.nargs: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Number of arguments |:command-nargs|"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "range",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.range: integer",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The number of items in the command range: 0, 1, or 2 \u003crange\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "reg",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.reg: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " The optional register, if specified \u003creg\u003e"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "smods",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.create_user_command.command_args.smods: table",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Command modifiers in a structured format. Has the same structure as the",
+                            " \"mods\" key of |nvim_parse_cmd()|."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.api.keyset.create_user_command.command_args"
+            }
+        },
         "vim.api.keyset.echo_opts": {
             "name": "vim.api.keyset.echo_opts",
             "documentation": [
@@ -12016,6 +12249,197 @@
                 "name": "vim.api.keyset.get_autocmds"
             }
         },
+        "vim.api.keyset.get_autocmds.ret": {
+            "name": "vim.api.keyset.get_autocmds.ret",
+            "documentation": [
+                "```lua",
+                "(class) vim.api.keyset.get_autocmds.ret",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "buffer",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.buffer: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "buflocal",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.buflocal: boolean?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "callback",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.callback: function?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    },
+                    {
+                        "name": "command",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.command: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "desc",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.desc: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "event",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.event: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "group",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.group: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "group_name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.group_name: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.id: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "once",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.once: boolean?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "pattern",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_autocmds.ret.pattern: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.api.keyset.get_autocmds.ret"
+            }
+        },
         "vim.api.keyset.get_commands": {
             "name": "vim.api.keyset.get_commands",
             "documentation": [
@@ -12092,6 +12516,62 @@
                 ],
                 "kind": "table",
                 "name": "vim.api.keyset.get_extmark"
+            }
+        },
+        "vim.api.keyset.get_extmark_item": {
+            "name": "vim.api.keyset.get_extmark_item",
+            "documentation": [
+                "```lua",
+                "(class) vim.api.keyset.get_extmark_item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [],
+                "indexes": [
+                    {
+                        "key": {
+                            "kind": "numericliteral",
+                            "value": "1"
+                        },
+                        "value": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "key": {
+                            "kind": "numericliteral",
+                            "value": "2"
+                        },
+                        "value": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "key": {
+                            "kind": "numericliteral",
+                            "value": "3"
+                        },
+                        "value": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "key": {
+                            "kind": "numericliteral",
+                            "value": "4"
+                        },
+                        "value": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.api.keyset.get_extmark_item"
             }
         },
         "vim.api.keyset.get_extmark_item_by_id": {
@@ -12663,6 +13143,372 @@
                 ],
                 "kind": "table",
                 "name": "vim.api.keyset.get_hl_info"
+            }
+        },
+        "vim.api.keyset.get_keymap": {
+            "name": "vim.api.keyset.get_keymap",
+            "documentation": [
+                "```lua",
+                "(class) vim.api.keyset.get_keymap",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "abbr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.abbr: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "buffer",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.buffer: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "callback",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.callback: function?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    },
+                    {
+                        "name": "desc",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.desc: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "expr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.expr: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "lhs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.lhs: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lhsraw",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.lhsraw: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lhsrawalt",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.lhsrawalt: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.lnum: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.mode: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "mode_bits",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.mode_bits: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "noremap",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.noremap: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "nowait",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.nowait: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "rhs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.rhs: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "script",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.script: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "scriptversion",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.scriptversion: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "sid",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.sid: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "silent",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.api.keyset.get_keymap.silent: (0|1)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.api.keyset.get_keymap"
             }
         },
         "vim.api.keyset.get_mark": {

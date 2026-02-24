@@ -33693,6 +33693,245 @@
         }
     },
     "types": {
+        "vim.fn.getbufinfo.ret.item": {
+            "name": "vim.fn.getbufinfo.ret.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.getbufinfo.ret.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.bufnr: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "changed",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.changed: 0|1",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "changedtick",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.changedtick: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "hidden",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.hidden: 0|1",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "lastused",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.lastused: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "linecount",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.linecount: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "listed",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.listed: 0|1",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.lnum: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "loaded",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.loaded: 0|1",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.name: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "signs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.signs: vim.fn.sign[]",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "typereference",
+                                "value": "vim.fn.sign"
+                            }
+                        }
+                    },
+                    {
+                        "name": "variables",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.variables: table\u003cstring, any\u003e",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    },
+                    {
+                        "name": "windows",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getbufinfo.ret.item.windows: integer[]",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.getbufinfo.ret.item"
+            }
+        },
         "vim.fn.getjumplist.ret": {
             "name": "vim.fn.getjumplist.ret",
             "documentation": [
@@ -33704,6 +33943,60 @@
             "type": {
                 "kind": "unknown",
                 "documentation": []
+            }
+        },
+        "vim.fn.getmarklist.ret.item": {
+            "name": "vim.fn.getmarklist.ret.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.getmarklist.ret.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "file",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getmarklist.ret.item.file: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "mark",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getmarklist.ret.item.mark: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "pos",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getmarklist.ret.item.pos: [integer, integer, integer, integer]",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.getmarklist.ret.item"
             }
         },
         "vim.fn.getmousepos.ret": {
@@ -33810,6 +34103,357 @@
                 ],
                 "kind": "table",
                 "name": "vim.fn.getmousepos.ret"
+            }
+        },
+        "vim.fn.getscriptinfo.ret": {
+            "name": "vim.fn.getscriptinfo.ret",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.getscriptinfo.ret",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "autoload",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.autoload: false",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "booleanliteral",
+                            "value": "false"
+                        }
+                    },
+                    {
+                        "name": "functions",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.functions: string[]?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.name: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "sid",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.sid: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "variables",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.variables: table\u003cstring, any\u003e?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "value": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    },
+                    {
+                        "name": "version",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getscriptinfo.ret.version: 1",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "numericliteral",
+                            "value": "1"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.getscriptinfo.ret"
+            }
+        },
+        "vim.fn.getwininfo.ret.item": {
+            "name": "vim.fn.getwininfo.ret.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.getwininfo.ret.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "botline",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.botline: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.bufnr: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.height: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "loclist",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.loclist: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "quickfix",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.quickfix: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "tabnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.tabnr: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "terminal",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.terminal: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "textoff",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.textoff: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "topline",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.topline: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "variables",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.variables: table\u003cstring, any\u003e",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "any"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.width: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "winbar",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.winbar: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "wincol",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.wincol: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "winid",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.winid: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "winnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.winnr: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "winrow",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.getwininfo.ret.item.winrow: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.getwininfo.ret.item"
             }
         },
         "vim.fn.setqflist.what": {
@@ -34037,6 +34681,86 @@
                 "name": "vim.fn.setqflist.what"
             }
         },
+        "vim.fn.sign": {
+            "name": "vim.fn.sign",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.sign",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "group",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign.group: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign.id: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign.lnum: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign.name: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "priority",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign.priority: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.sign"
+            }
+        },
         "vim.fn.sign_define.dict": {
             "name": "vim.fn.sign_define.dict",
             "documentation": [
@@ -34145,6 +34869,127 @@
                 "name": "vim.fn.sign_define.dict"
             }
         },
+        "vim.fn.sign_getdefined.ret.item": {
+            "name": "vim.fn.sign_getdefined.ret.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.sign_getdefined.ret.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "culhl",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.culhl: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "icon",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.icon: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "linehl",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.linehl: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.name: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "numhl",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.numhl: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.text: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "texthl",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getdefined.ret.item.texthl: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.sign_getdefined.ret.item"
+            }
+        },
         "vim.fn.sign_getplaced.dict": {
             "name": "vim.fn.sign_getplaced.dict",
             "documentation": [
@@ -34217,6 +35062,50 @@
                 "name": "vim.fn.sign_getplaced.dict"
             }
         },
+        "vim.fn.sign_getplaced.ret.item": {
+            "name": "vim.fn.sign_getplaced.ret.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.sign_getplaced.ret.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getplaced.ret.item.bufnr: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "signs",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_getplaced.ret.item.signs: vim.fn.sign[]",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "typereference",
+                                "value": "vim.fn.sign"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.sign_getplaced.ret.item"
+            }
+        },
         "vim.fn.sign_place.dict": {
             "name": "vim.fn.sign_place.dict",
             "documentation": [
@@ -34271,6 +35160,129 @@
                 ],
                 "kind": "table",
                 "name": "vim.fn.sign_place.dict"
+            }
+        },
+        "vim.fn.sign_placelist.list.item": {
+            "name": "vim.fn.sign_placelist.list.item",
+            "documentation": [
+                "```lua",
+                "(class) vim.fn.sign_placelist.list.item",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "buffer",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.buffer: string|integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "group",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.group: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.id: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "lnum",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.lnum: (string|integer)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.name: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "priority",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.fn.sign_placelist.list.item.priority: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.fn.sign_placelist.list.item"
             }
         },
         "vim.fn.sign_unplace.dict": {

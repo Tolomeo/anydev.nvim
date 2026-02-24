@@ -82,7 +82,7 @@ func (e *extractor) extract(item *extraction) error {
 func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
 
-	e.logger.Debugf("%+v", e.result)
+	// e.logger.Debugf("%+v", e.result)
 
 	placeholder := symbol.NewSymbol(name, symbol.Metadata{}, symbol.Documentation{}, symbol.NewUnknown())
 
