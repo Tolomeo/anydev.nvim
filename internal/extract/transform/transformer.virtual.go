@@ -4,65 +4,34 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-type virtualOriginAtAnnotations struct {
-	AtType   *annotation.AtType
-	AtModule *annotation.AtModule
-}
-
-func (tr *Transformer) getVirtualOriginAnnotations(docblock []string) (virtualOriginAtAnnotations, error) {
-	annotations := virtualOriginAtAnnotations{
-		AtType:   nil,
-		AtModule: nil,
-	}
-
+func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (symbol.Type, error) {
 	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
-		return annotations, err
+		return nil, err
 	}
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(docblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	atType, err := tr.getAtTypeAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	atModuleMatch, err := buffer.SafeTsQueryOne(annotation.AtModuleQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atModuleMatch != nil {
-		if atModuleMatch.HasError {
-			tr.context.Logger().Errorf("Skipping @module annotation <%v> because it contains syntax errors", atModuleMatch.Captures)
-		} else {
-			annotations.AtModule = annotation.NewAtModule(atModuleMatch.Captures)
-		}
-	}
-
-	annotations.AtType = atType
-	return annotations, nil
-}
-
-func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin) (symbol.Type, error) {
-	annotations, err := tr.getVirtualOriginAnnotations(virtualOrigin.Annotations())
+	err = buffer.SetLines(virtualOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
+	}
+
+	annotations, err := tr.getTypeAtAnnotations(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations == nil {
+		tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
+		return symbol.NewUnknown(), nil
 	}
 
 	if annotations.AtType != nil {
@@ -87,6 +56,5 @@ func (tr *Transformer) getVirtualOriginType(virtualOrigin *origin.VirtualOrigin)
 		return symbol.NewModuleReference(moduleName), nil
 	}
 
-	tr.context.Logger().Warn(fmt.Sprintf("Unknown meta type '%s' received", tr.context.Target().Name()))
-	return symbol.NewUnknown(), nil
+	return nil, fmt.Errorf("Unreachable: failed to transform virtual type receved <%+v> with type annotations <%+v>", virtualOrigin, annotations)
 }

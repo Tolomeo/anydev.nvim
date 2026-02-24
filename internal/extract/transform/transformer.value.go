@@ -3,49 +3,39 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-type valueOriginAtAnnotations struct {
-	AtType *annotation.AtType
-}
-
-func (tr *Transformer) getValueOriginAnnotations(docblock []string) (valueOriginAtAnnotations, error) {
-	annotations := valueOriginAtAnnotations{
-		AtType: nil,
-	}
-
+func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (symbol.Type, error) {
 	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
-		return annotations, err
+		return nil, err
 	}
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(docblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	atType, err := tr.getAtTypeAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	annotations.AtType = atType
-	return annotations, nil
-}
-
-func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (symbol.Type, error) {
-	annotations, err := tr.getValueOriginAnnotations(valueOrigin.Annotations())
+	err = buffer.SetLines(valueOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
+	}
+
+	annotations, err := tr.getTypeAtAnnotations(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations == nil {
+		valueType, err := tr.transformType(valueOrigin.Type())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return valueType, nil
 	}
 
 	if annotations.AtType != nil {
@@ -62,11 +52,5 @@ func (tr *Transformer) getValueOriginType(valueOrigin *origin.ValueOrigin) (symb
 		return lexedType, nil
 	}
 
-	valueType, err := tr.transformType(valueOrigin.Type())
-
-	if err != nil {
-		return nil, err
-	}
-
-	return valueType, nil
+	return nil, fmt.Errorf("Unreachable: failed to transform value origin <%+v> with annotations <%+v>", valueOrigin, annotations)
 }

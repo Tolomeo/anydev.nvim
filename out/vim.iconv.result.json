@@ -1,0 +1,86 @@
+{
+    "runtime": {
+        "vim.iconv": {
+            "name": "vim.iconv",
+            "documentation": [
+                "```lua",
+                "function vim.iconv(str: string, from: string, to: string, opts: any)",
+                "  -\u003e string?",
+                "```",
+                "",
+                "---",
+                "",
+                " The result is a String, which is the text {str} converted from",
+                " encoding {from} to encoding {to}. When the conversion fails `nil` is",
+                " returned.  When some characters could not be converted they",
+                " are replaced with \"?\".",
+                " The encoding names are whatever the iconv() library function",
+                " can accept, see \":Man 3 iconv\".",
+                "",
+                "@*param* `str` — Text to convert",
+                "",
+                "@*param* `from` — Encoding of {str}",
+                "",
+                "@*param* `to` — Target encoding",
+                "",
+                "@*return* — : Converted string if conversion succeeds, `nil` otherwise."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "str",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "iconv",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

@@ -3,61 +3,33 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-type variableOriginAtAnnotations struct {
-	AtType  *annotation.AtType
-	AtClass *annotation.AtClass
-}
-
-func (tr *Transformer) getVariableOriginAnnotations(docblock []string) (variableOriginAtAnnotations, error) {
-	annotations := variableOriginAtAnnotations{
-		AtType:  nil,
-		AtClass: nil,
-	}
-
+func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrigin) (symbol.Type, error) {
 	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
-		return annotations, err
+		return nil, err
 	}
 
 	defer buffer.Close()
 
-	err = buffer.SetLines(docblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	atType, err := tr.getAtTypeAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	atClassMatch, err := buffer.TsQueryOne(annotation.AtClassQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atClassMatch != nil {
-		annotations.AtClass = annotation.NewAtClass(*atClassMatch)
-	}
-
-	annotations.AtType = atType
-	return annotations, nil
-}
-
-func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrigin) (symbol.Type, error) {
-	annotations, err := tr.getVariableOriginAnnotations(variableOrigin.Annotations())
+	err = buffer.SetLines(variableOrigin.Annotations())
 
 	if err != nil {
 		return nil, err
+	}
+
+	annotations, err := tr.getTypeAtAnnotations(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations == nil {
+		return tr.context.Follow(variableOrigin.Name())
 	}
 
 	if annotations.AtType != nil {
@@ -83,11 +55,21 @@ func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrig
 		err := tr.context.Extract("type", className)
 
 		if err != nil {
-			return nil, nil
+			return nil, err
 		}
 
 		return symbol.NewTypeReference(className), nil
 	}
 
-	return tr.context.Follow(variableOrigin.Name())
+	if annotations.AtOverload != nil {
+		functionType, err := tr.transformType(annotations.AtOverload.Type())
+
+		if err != nil {
+			return nil, err
+		}
+
+		return functionType, nil
+	}
+
+	return nil, fmt.Errorf("Unreachable: failed extracting variable origin type <%+v> from defined annotations <%+v>", variableOrigin, annotations)
 }

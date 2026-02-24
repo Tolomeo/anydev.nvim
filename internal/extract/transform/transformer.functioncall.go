@@ -4,54 +4,33 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 )
 
-type functionCallOriginAtAnnotations struct {
-	AtType *annotation.AtType
-	functionAtAnnotations
-}
-
-func (tr *Transformer) getFunctionCallOriginAtAnnotations(docblock []string) (functionCallOriginAtAnnotations, error) {
-	annotations := functionCallOriginAtAnnotations{
-		AtType: nil,
-	}
-
-	buffer, err := tr.context.Nvim().NewBuffer()
-
-	if err != nil {
-		return annotations, err
-	}
-
-	defer buffer.Close()
-
-	err = buffer.SetLines(docblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	atType, err := tr.getAtTypeAnnotations(buffer)
-
-	if err != nil {
-		return annotations, fmt.Errorf("Error lexing type annotation: %w", err)
-	}
-
-	annotations.AtType = atType
-	return annotations, nil
-}
-
 func (tr *Transformer) transformFunctionCallOrigin(functionCallOrigin *origin.FunctionCallOrigin) (symbol.Type, error) {
-	annotations, err := tr.getFunctionCallOriginAtAnnotations(functionCallOrigin.Annotations())
+	buffer, err := tr.context.Nvim().NewBuffer()
 
 	if err != nil {
 		return nil, err
 	}
 
-	// NB: we don't check here for the presence of multiple types
-	if annotations.AtType != nil {
+	defer buffer.Close()
+
+	err = buffer.SetLines(functionCallOrigin.Annotations())
+
+	if err != nil {
+		return nil, err
+	}
+
+	annotations, err := tr.getTypeAtAnnotations(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if annotations != nil && annotations.AtType != nil {
+		// NB: we don't check here for the presence of multiple types
 		originType, err := tr.transformType(annotations.AtType.Types()[0])
 
 		if err != nil {

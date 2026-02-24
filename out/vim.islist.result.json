@@ -1,0 +1,53 @@
+{
+    "runtime": {
+        "vim.islist": {
+            "name": "vim.islist",
+            "documentation": [
+                "```lua",
+                "function vim.islist(t?: table)",
+                "  -\u003e boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Tests if `t` is a \"list\": a table indexed _only_ by contiguous integers starting from 1 (what",
+                " |lua-length| calls a \"regular array\").",
+                "",
+                " Empty table `{}` is a list, unless it was created by |vim.empty_dict()| or returned as",
+                " a dict-like |API| or Vimscript result, for example from |rpcrequest()| or |vim.fn|.",
+                "",
+                "",
+                "@*return* — `true` if list-like table, else `false`."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "t",
+                        "optional": true,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "islist",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

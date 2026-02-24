@@ -3,107 +3,10 @@ package transform
 import (
 	"fmt"
 
-	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
-
-type functionAtAnnotations struct {
-	AtGenerics  []annotation.AtGenerics
-	AtParams    map[string]annotation.AtParam
-	AtReturns   []annotation.AtReturn
-	AtOverloads []annotation.AtOverload
-}
-
-func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (functionAtAnnotations, error) {
-	annotations := functionAtAnnotations{
-		AtGenerics:  []annotation.AtGenerics{},
-		AtParams:    map[string]annotation.AtParam{},
-		AtReturns:   []annotation.AtReturn{},
-		AtOverloads: []annotation.AtOverload{},
-	}
-
-	buffer, err := tr.context.Nvim().NewBuffer()
-
-	if err != nil {
-		return annotations, err
-	}
-
-	defer buffer.Close()
-
-	err = buffer.SetLines(docblock)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	atGenericMatches, err := buffer.SafeTsQueryAll(annotation.AtGenericsQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atGenericMatches != nil {
-		for _, match := range *atGenericMatches {
-			if match.HasError {
-				tr.context.Logger().Errorf("Skipping @generic annotation <%v> because it contains syntax errors", match.Captures)
-				continue
-			}
-
-			annotations.AtGenerics = append(annotations.AtGenerics, *annotation.NewGenerics(match.Captures))
-		}
-	}
-
-	atParamMatches, err := buffer.SafeTsQueryAll(annotation.AtParamQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atParamMatches != nil {
-		for _, match := range *atParamMatches {
-			if match.HasError {
-				tr.context.Logger().Errorf("Skipping @param annotation <%v> because it contains syntax errors", match.Captures)
-				continue
-			}
-
-			atParamAnnotation := annotation.NewAtParam(match.Captures)
-			annotations.AtParams[atParamAnnotation.Name()] = *atParamAnnotation
-		}
-	}
-
-	atReturnMatches, err := buffer.TsQueryAll(annotation.AtReturnQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atReturnMatches != nil {
-		for _, match := range *atReturnMatches {
-			annotations.AtReturns = append(annotations.AtReturns, *annotation.NewAtReturn(match))
-		}
-	}
-
-	atOverloadMatches, err := buffer.SafeTsQueryAll(annotation.AtOverloadQuery)
-
-	if err != nil {
-		return annotations, err
-	}
-
-	if atOverloadMatches != nil {
-		for _, match := range *atOverloadMatches {
-			if match.HasError {
-				tr.context.Logger().Errorf("Skipping @overload annotation <%v> because it contains syntax errors", match.Captures)
-				continue
-			}
-
-			annotations.AtOverloads = append(annotations.AtOverloads, *annotation.NewOverload(match.Captures))
-		}
-	}
-
-	return annotations, nil
-}
 
 func (tr *Transformer) transformFunctionOrigin(functionOrigin *origin.FunctionOrigin) (*symbol.Function, error) {
 	function := symbol.NewFunction()
@@ -117,6 +20,10 @@ func (tr *Transformer) transformFunctionOrigin(functionOrigin *origin.FunctionOr
 
 	if err != nil {
 		return nil, fmt.Errorf("Error lexing function %s: %w", function.Name, err)
+	}
+
+	if annotations == nil {
+		return function, nil
 	}
 
 	for _, genericsAnnotation := range annotations.AtGenerics {

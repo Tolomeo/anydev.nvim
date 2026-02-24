@@ -10,7 +10,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*annotation.AtType, error) {
+/* func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*annotation.AtType, error) {
 	match, err := buffer.SafeTsQueryOne(annotation.AtTypeQuery)
 
 	if err != nil {
@@ -22,7 +22,7 @@ func (tr *Transformer) getAtTypeAnnotations(buffer *nvim.ScratchBuffer) (*annota
 	}
 
 	return annotation.NewAtType(match.Captures), nil
-}
+} */
 
 var optionalTypeAnnotationQuery = annotation.OptionalQuery.MapQuery(func(query string) string {
 	return fmt.Sprintf(`

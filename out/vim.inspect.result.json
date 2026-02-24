@@ -1,0 +1,166 @@
+{
+    "runtime": {
+        "vim.inspect": {
+            "name": "vim.inspect",
+            "documentation": [
+                "```lua",
+                "(global) vim.inspect: fun(x: any, opts?: vim.inspect.Opts):string",
+                "```",
+                "",
+                "---",
+                "",
+                " Gets a human-readable representation of the given object.",
+                "",
+                "See:",
+                "  * ~https~ ://github.com/kikito/inspect.lua",
+                "  * ~https~ ://github.com/mpeterv/vinspect",
+                "",
+                "---",
+                "",
+                "```lua",
+                "function (x: any, opts?: vim.inspect.Opts)",
+                "  -\u003e string",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "x",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.inspect.Opts"
+                        }
+                    }
+                ],
+                "generics": [],
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {
+        "vim.inspect.Opts": {
+            "name": "vim.inspect.Opts",
+            "documentation": [
+                "```lua",
+                "(class) vim.inspect.Opts",
+                "```",
+                "",
+                "---",
+                "",
+                " @nodoc"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "depth",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.inspect.Opts.depth: integer?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "newline",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.inspect.Opts.newline: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "process",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.inspect.Opts.process: (fun(item: any, path: string[]):any)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (item: any, path: string[])",
+                            "  -\u003e any",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "item",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        }
+                                    },
+                                    {
+                                        "name": "path",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.inspect.Opts"
+            }
+        }
+    },
+    "modules": {}
+}

@@ -4,7 +4,7 @@
             "name": "vim.cmd",
             "documentation": [
                 "```lua",
-                "(global) vim.cmd: table",
+                "(global) vim.cmd: table|fun(command: string|table)|table\u003cstring, fun(...any)\u003e",
                 "```",
                 "",
                 "---",
@@ -45,7 +45,13 @@
                 "",
                 "       - The string form supports multiline Vimscript (alias to |nvim_exec2()|, behaves",
                 "         like |:source|).",
-                "       - The table form executes a single command (alias to |nvim_cmd()|)."
+                "       - The table form executes a single command (alias to |nvim_cmd()|).",
+                "",
+                "---",
+                "",
+                "```lua",
+                "function vim.cmd(command: string|table)",
+                "```"
             ],
             "meta": [],
             "type": {
