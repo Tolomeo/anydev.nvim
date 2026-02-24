@@ -147,7 +147,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 			continue
 		}
 
-		parsedArgType, err := tr.transformType(paramAnnotation.Type())
+		parsedArgType, err := tr.getType(paramAnnotation.Type())
 
 		if err != nil {
 			return nil, err
@@ -173,7 +173,7 @@ func (tr *Transformer) getFunctionOriginType(functionOrigin *origin.FunctionOrig
 		functionReturn := symbol.NewFunctionReturn()
 		functionReturn.Name = returnAnnotation.Name()
 
-		parsedReturnType, err := tr.transformType(returnAnnotation.Type())
+		parsedReturnType, err := tr.getType(returnAnnotation.Type())
 
 		if err != nil {
 			return nil, err
