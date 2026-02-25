@@ -1,0 +1,64 @@
+{
+    "runtime": {
+        "vim.lua_omnifunc": {
+            "name": "vim.lua_omnifunc",
+            "documentation": [
+                "```lua",
+                "function vim.lua_omnifunc(find_start: 0|1, _: any)",
+                "  -\u003e integer|any[]",
+                "```",
+                "",
+                "---",
+                "",
+                " Omnifunc for completing Lua values from the runtime Lua interpreter,",
+                " similar to the builtin completion for the `:lua` command.",
+                "",
+                " Activate using `set omnifunc=v:lua.vim.lua_omnifunc` in a Lua buffer.",
+                "",
+                "```lua",
+                "find_start:",
+                "    | 1",
+                "    | 0",
+                "```"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "find_start",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "_",
+                        "optional": false,
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "lua_omnifunc",
+                "returns": []
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

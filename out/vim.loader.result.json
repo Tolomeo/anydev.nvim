@@ -1,0 +1,680 @@
+{
+    "runtime": {
+        "vim.loader": {
+            "name": "vim.loader",
+            "documentation": [
+                "```lua",
+                "(global) vim.loader: table",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "modulereference",
+                "value": "vim.loader"
+            }
+        }
+    },
+    "types": {
+        "uv.fs_stat.result": {
+            "name": "uv.fs_stat.result",
+            "documentation": [
+                "```lua",
+                "(class) uv.fs_stat.result",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "atime",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.atime: uv.fs_stat.result.time",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "uv.fs_stat.result.time"
+                        }
+                    },
+                    {
+                        "name": "birthtime",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.birthtime: uv.fs_stat.result.time",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "uv.fs_stat.result.time"
+                        }
+                    },
+                    {
+                        "name": "blksize",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.blksize: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "blocks",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.blocks: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "ctime",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.ctime: uv.fs_stat.result.time",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "uv.fs_stat.result.time"
+                        }
+                    },
+                    {
+                        "name": "dev",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.dev: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "flags",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.flags: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "gen",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.gen: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "gid",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.gid: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "ino",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.ino: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.mode: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "mtime",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.mtime: uv.fs_stat.result.time",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "uv.fs_stat.result.time"
+                        }
+                    },
+                    {
+                        "name": "nlink",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.nlink: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "rdev",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.rdev: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.size: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.type: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "uid",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.uid: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "uv.fs_stat.result"
+            }
+        },
+        "uv.fs_stat.result.time": {
+            "name": "uv.fs_stat.result.time",
+            "documentation": [
+                "```lua",
+                "(class) uv.fs_stat.result.time",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "nsec",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.time.nsec: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "sec",
+                        "documentation": [
+                            "```lua",
+                            "(field) uv.fs_stat.result.time.sec: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "uv.fs_stat.result.time"
+            }
+        },
+        "vim.loader.ModuleInfo": {
+            "name": "vim.loader.ModuleInfo",
+            "documentation": [
+                "```lua",
+                "(class) vim.loader.ModuleInfo",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "modname",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.ModuleInfo.modname: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Name of the module"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "modpath",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.ModuleInfo.modpath: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " Path of the module"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "stat",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.ModuleInfo.stat: (uv.fs_stat.result)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " The fs_stat of the module path. Won't be returned for `modname=\"*\"`"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "uv.fs_stat.result"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.loader.ModuleInfo"
+            }
+        },
+        "vim.loader.find.Opts": {
+            "name": "vim.loader.find.Opts",
+            "documentation": [
+                "```lua",
+                "(class) vim.loader.find.Opts",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "all",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.find.Opts.all: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Search for all matches.",
+                            " (default: `false`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "paths",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.find.Opts.paths: string[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Extra paths to search for modname",
+                            " (default: `{}`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "patterns",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.find.Opts.patterns: string[]?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " List of patterns to use when searching for modules.",
+                            " A pattern is a string added to the basename of the Lua module being searched.",
+                            " (default: `{\"/init.lua\", \".lua\"}`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "rtp",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.loader.find.Opts.rtp: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " Search for modname in the runtime path.",
+                            " (default: `true`)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.loader.find.Opts"
+            }
+        }
+    },
+    "modules": {
+        "vim.loader": {
+            "name": "vim.loader",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "disable",
+                        "documentation": [
+                            "```lua",
+                            "function M.disable()",
+                            "```"
+                        ],
+                        "meta": [
+                            "deprecated",
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "name": "disable",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "enable",
+                        "documentation": [
+                            "```lua",
+                            "function M.enable(enable?: boolean)",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Enables or disables the experimental Lua module loader:",
+                            "",
+                            " Enable (`enable=true`):",
+                            " * overrides |loadfile()|",
+                            " * adds the Lua loader using the byte-compilation cache",
+                            " * adds the libs loader",
+                            " * removes the default Nvim loader",
+                            "",
+                            " Disable (`enable=false`):",
+                            " * removes the loaders",
+                            " * adds the default Nvim loader",
+                            "",
+                            " @since 0",
+                            "",
+                            "@*param* `enable` — true/nil to enable, false to disable"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "enable",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "enable",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "enabled",
+                        "documentation": [
+                            "```lua",
+                            "(global) vim.loader.enabled: boolean? = true|false",
+                            "```"
+                        ],
+                        "meta": [
+                            "private"
+                        ],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    },
+                    {
+                        "name": "find",
+                        "documentation": [
+                            "```lua",
+                            "function M.find(modname: string, opts?: vim.loader.find.Opts)",
+                            "  -\u003e vim.loader.ModuleInfo[]",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Finds Lua modules for the given module name.",
+                            "",
+                            " @since 0",
+                            "",
+                            "@*param* `modname` — Module name, or `\"*\"` to find the top-level modules instead",
+                            "",
+                            "@*param* `opts` — Options for finding a module:"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "modname",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                },
+                                {
+                                    "name": "opts",
+                                    "optional": true,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.loader.find.Opts"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "find",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "typereference",
+                                            "value": "vim.loader.ModuleInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "documentation": [
+                            "```lua",
+                            "(global) vim.loader.path: string",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    },
+                    {
+                        "name": "reset",
+                        "documentation": [
+                            "```lua",
+                            "function M.reset(path?: string)",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Resets the cache for the path, or all the paths if path is nil.",
+                            "",
+                            " @since 0",
+                            "",
+                            "@*param* `path` — path to reset"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "path",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "reset",
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        }
+    }
+}

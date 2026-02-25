@@ -1,0 +1,135 @@
+{
+    "runtime": {
+        "vim.on_key": {
+            "name": "vim.on_key",
+            "documentation": [
+                "```lua",
+                "function vim.on_key(fn: fun(key: string, typed: string):string?|nil, ns_id?: integer, opts?: table)",
+                "  -\u003e Namespace: integer",
+                "```",
+                "",
+                "---",
+                "",
+                " Adds Lua function {fn} with namespace id {ns_id} as a listener to every,",
+                " yes every, input key.",
+                "",
+                " The Nvim command-line option |-w| is related but does not support callbacks",
+                " and cannot be toggled dynamically.",
+                "",
+                "           it won't be invoked for those keys.",
+                "",
+                "@*param* `fn` — Function invoked for every input key,",
+                "",
+                "          after mappings have been applied but before further processing. Arguments",
+                "          {key} and {typed} are raw keycodes, where {key} is the key after mappings",
+                "          are applied, and {typed} is the key(s) before mappings are applied.",
+                "          {typed} may be empty if {key} is produced by non-typed key(s) or by the",
+                "          same typed key(s) that produced a previous {key}.",
+                "          If {fn} returns an empty string, {key} is discarded/ignored.",
+                "          When {fn} is `nil`, the callback associated with namespace {ns_id} is removed.",
+                "",
+                "@*param* `ns_id` — Namespace ID. If nil or 0, generates and returns a",
+                "",
+                "                      new |nvim_create_namespace()| id.",
+                "",
+                "@*param* `opts` — Optional parameters",
+                "",
+                "",
+                "",
+                "@*return* `Namespace` — id associated with {fn}. Or count of all callbacks",
+                "",
+                "if on_key() is called without arguments."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "fn",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                },
+                                {
+                                    "kind": "function",
+                                    "arguments": [
+                                        {
+                                            "name": "key",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        },
+                                        {
+                                            "name": "typed",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "returns": [
+                                        {
+                                            "name": "",
+                                            "type": {
+                                                "kind": "optional",
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ns_id",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "on_key",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

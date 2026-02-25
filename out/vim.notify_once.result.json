@@ -1,0 +1,91 @@
+{
+    "runtime": {
+        "vim.notify_once": {
+            "name": "vim.notify_once",
+            "documentation": [
+                "```lua",
+                "function vim.notify_once(msg: string, level: integer|nil, opts: table|nil)",
+                "  -\u003e true: boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Displays a notification only one time.",
+                "",
+                " Like |vim.notify()|, but subsequent calls with the same message will not",
+                " display a notification.",
+                "",
+                "@*param* `msg` — Content of the notification to show to the user.",
+                "",
+                "@*param* `level` — One of the values from |vim.log.levels|.",
+                "",
+                "@*param* `opts` — Optional parameters. Unused by default.",
+                "",
+                "@*return* `true` — if message was displayed, else false"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "msg",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "level",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "notify_once",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}
