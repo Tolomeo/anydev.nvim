@@ -1,0 +1,111 @@
+{
+    "runtime": {
+        "vim.paste": {
+            "name": "vim.paste",
+            "documentation": [
+                "```lua",
+                "function vim.paste(lines: string[], phase: -1|1|2|3)",
+                "  -\u003e result: boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Paste handler, invoked by |nvim_paste()|.",
+                "",
+                " Note: This is provided only as a \"hook\", don't call it directly; call |nvim_paste()| instead,",
+                " which arranges redo (dot-repeat) and invokes `vim.paste`.",
+                "",
+                " Example: To remove ANSI color codes when pasting:",
+                "",
+                " ```lua",
+                " vim.paste = (function(overridden)",
+                "   return function(lines, phase)",
+                "     for i,line in ipairs(lines) do",
+                "       -- Scrub ANSI color codes from paste input.",
+                "       lines[i] = line:gsub('\\27%[[0-9;mK]+', '')",
+                "     end",
+                "     return overridden(lines, phase)",
+                "   end",
+                " end)(vim.paste)",
+                " ```",
+                "",
+                "",
+                "@*param* `lines` — |readfile()|-style list of lines to paste. |channel-lines|",
+                "",
+                "@*param* `phase` — -1: \"non-streaming\" paste: the call contains all lines.",
+                "",
+                "              If paste is \"streamed\", `phase` indicates the stream state:",
+                "                - 1: starts the paste (exactly once)",
+                "                - 2: continues the paste (zero or more times)",
+                "                - 3: ends the paste (exactly once)",
+                "",
+                "@*return* `result` — false if client should cancel the paste.",
+                "",
+                "```lua",
+                "phase:",
+                "    | -1",
+                "    | 1",
+                "    | 2",
+                "    | 3",
+                "```"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "lines",
+                        "optional": false,
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "phase",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "-1"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "2"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "3"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "paste",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

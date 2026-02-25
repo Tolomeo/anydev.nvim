@@ -1,10 +1,10 @@
 {
     "runtime": {
-        "vim.opt": {
-            "name": "vim.opt",
+        "vim.opt_global": {
+            "name": "vim.opt_global",
             "documentation": [
                 "```lua",
-                "(global) vim.opt: table",
+                "(global) vim.opt_global: table",
                 "```",
                 "",
                 "---",
@@ -174,13 +174,13 @@
                         "name": "backup",
                         "documentation": [
                             "```lua",
-                            "(global) table.backup: boolean = false",
+                            "(global) table.backup: unknown",
                             "```"
                         ],
                         "meta": [],
                         "type": {
-                            "kind": "builtin",
-                            "value": "boolean"
+                            "kind": "unknown",
+                            "documentation": []
                         }
                     },
                     {
@@ -4735,7 +4735,7 @@
                     }
                 ],
                 "kind": "table",
-                "name": "opt"
+                "name": "opt_global"
             }
         }
     },

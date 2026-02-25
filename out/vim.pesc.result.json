@@ -1,0 +1,52 @@
+{
+    "runtime": {
+        "vim.pesc": {
+            "name": "vim.pesc",
+            "documentation": [
+                "```lua",
+                "function vim.pesc(s: string)",
+                "  -\u003e string",
+                "```",
+                "",
+                "---",
+                "",
+                " Escapes magic chars in |lua-pattern|s.",
+                "",
+                "@*param* `s` — String to escape",
+                "",
+                "@*return* — %-escaped pattern string",
+                "",
+                "See: ~https~ ://github.com/rxi/lume"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "s",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "pesc",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

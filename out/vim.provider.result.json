@@ -1,0 +1,486 @@
+{
+    "runtime": {
+        "vim.provider": {
+            "name": "vim.provider",
+            "documentation": [
+                "```lua",
+                "(global) vim.provider: table",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "modulereference",
+                "value": "vim.provider"
+            }
+        }
+    },
+    "types": {},
+    "modules": {
+        "vim.provider": {
+            "name": "vim.provider",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "perl",
+                        "documentation": [
+                            "```lua",
+                            "(global) vim.provider.perl: table",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "modulereference",
+                            "value": "vim.provider.perl"
+                        }
+                    },
+                    {
+                        "name": "python",
+                        "documentation": [
+                            "```lua",
+                            "(global) vim.provider.python: table",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "modulereference",
+                            "value": "vim.provider.python"
+                        }
+                    },
+                    {
+                        "name": "ruby",
+                        "documentation": [
+                            "```lua",
+                            "(global) vim.provider.ruby: table",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "modulereference",
+                            "value": "vim.provider.ruby"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        },
+        "vim.provider.perl": {
+            "name": "vim.provider.perl",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "call",
+                        "documentation": [
+                            "```lua",
+                            "function M.call(method: any, args: any)",
+                            "  -\u003e nil",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "args",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "call",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "detect",
+                        "documentation": [
+                            "```lua",
+                            "function M.detect()",
+                            "  -\u003e path: string?",
+                            "  2. error: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "@*return* `path` — to detected perl, if any; nil if not found",
+                            "",
+                            "@*return* `error` — message if perl can't be detected; nil if success"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "name": "detect",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "require",
+                        "documentation": [
+                            "```lua",
+                            "function M.require(host: any, prog: any)",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "host",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "prog",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "require",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "documentation": [
+                            "```lua",
+                            "function M.start()",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "name": "start",
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        },
+        "vim.provider.python": {
+            "name": "vim.provider.python",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "call",
+                        "documentation": [
+                            "```lua",
+                            "function M.call(method: any, args: any)",
+                            "  -\u003e nil",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "args",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "call",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "detect_by_module",
+                        "documentation": [
+                            "```lua",
+                            "function M.detect_by_module(module: string)",
+                            "  -\u003e path: string?",
+                            "  2. error: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "@*return* `path` — to detected python, if any; nil if not found",
+                            "",
+                            "@*return* `error` — message if python can't be detected by {module}; nil if success"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "module",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "detect_by_module",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "optional",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "require",
+                        "documentation": [
+                            "```lua",
+                            "function M.require(host: any)",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "host",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "require",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "documentation": [
+                            "```lua",
+                            "function M.start()",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "name": "start",
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        },
+        "vim.provider.ruby": {
+            "name": "vim.provider.ruby",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "call",
+                        "documentation": [
+                            "```lua",
+                            "function M.call(method: any, args: any)",
+                            "  -\u003e nil",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "method",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                },
+                                {
+                                    "name": "args",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "call",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "detect",
+                        "documentation": [
+                            "```lua",
+                            "function M.detect()",
+                            "  -\u003e string",
+                            "  2. string",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "name": "detect",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "require",
+                        "documentation": [
+                            "```lua",
+                            "function M.require(host: any)",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "host",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "require",
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "documentation": [
+                            "```lua",
+                            "function M.start(plugin_path: any)",
+                            "```"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "plugin_path",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "unknown",
+                                        "documentation": []
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "start",
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        }
+    }
+}
