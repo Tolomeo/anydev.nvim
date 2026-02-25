@@ -1,5 +1,5 @@
 diff --git a/grammar.js b/grammar.js
-index ba24709..92b3944 100644
+index ba24709..b425625 100644
 --- a/grammar.js
 +++ b/grammar.js
 @@ -52,7 +52,7 @@ module.exports = grammar({
@@ -11,6 +11,15 @@ index ba24709..92b3944 100644
        $.type,
        optional(seq(':', commaSep1($.type))),
        optional(choice($.class_at_comment, $.comment)),
+@@ -106,7 +106,7 @@ module.exports = grammar({
+       '@generic',
+       $.identifier,
+       optional(seq(':', field('parent_type', $.type))),
+-      optional(seq(
++      repeat(seq(
+         ',',
+         $.identifier,
+         optional(seq(
 @@ -329,7 +329,7 @@ module.exports = grammar({
  
      indexed_field: $ => seq('[', choice($.identifier, $.string), ']'),
