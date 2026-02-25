@@ -1,0 +1,245 @@
+{
+    "runtime": {
+        "vim.secure": {
+            "name": "vim.secure",
+            "documentation": [
+                "```lua",
+                "(global) vim.secure: table",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "modulereference",
+                "value": "vim.secure"
+            }
+        }
+    },
+    "types": {
+        "vim.trust.opts": {
+            "name": "vim.trust.opts",
+            "documentation": [
+                "```lua",
+                "(class) vim.trust.opts",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "action",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.trust.opts.action: 'allow'|'deny'|'remove'",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " - `'allow'` to add a file to the trust database and trust it,",
+                            " - `'deny'` to add a file to the trust database and deny it,",
+                            " - `'remove'` to remove file from the trust database"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'allow'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'deny'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'remove'"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "bufnr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.trust.opts.bufnr: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Buffer number to update. Mutually exclusive with {path}."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.trust.opts.path: string?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "",
+                            " Path to a file to update. Mutually exclusive with {bufnr}.",
+                            " Cannot be used when {action} is \"allow\"."
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.trust.opts"
+            }
+        }
+    },
+    "modules": {
+        "vim.secure": {
+            "name": "vim.secure",
+            "documentation": [],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "read",
+                        "documentation": [
+                            "```lua",
+                            "function M.read(path: string)",
+                            "  -\u003e If: boolean|string|nil",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " If {path} is a file: attempt to read the file, prompting the user if the file should be",
+                            " trusted.",
+                            "",
+                            " If {path} is a directory: return true if the directory is trusted (non-recursive), prompting",
+                            " the user as necessary.",
+                            "",
+                            " The user's choice is persisted in a trust database at",
+                            " $XDG_STATE_HOME/nvim/trust.",
+                            "",
+                            "",
+                            "@*param* `path` — Path to a file or directory to read.",
+                            "",
+                            "",
+                            "@*return* `If` — {path} is not trusted or does not exist, returns `nil`. Otherwise,",
+                            "",
+                            "        returns the contents of {path} if it is a file, or true if {path} is a directory."
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "path",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "read",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "boolean"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "nil"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "trust",
+                        "documentation": [
+                            "```lua",
+                            "function M.trust(opts: vim.trust.opts)",
+                            "  -\u003e success: boolean",
+                            "  2. msg: string",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " Manage the trust database.",
+                            "",
+                            " The trust database is located at |$XDG_STATE_HOME|/nvim/trust.",
+                            "",
+                            "@*return* `success` — true if operation was successful",
+                            "",
+                            "@*return* `msg` — full path if operation was successful, else error message"
+                        ],
+                        "meta": [
+                            "static"
+                        ],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "opts",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.trust.opts"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "name": "trust",
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "M"
+            }
+        }
+    }
+}

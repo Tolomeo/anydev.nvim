@@ -1,0 +1,57 @@
+{
+    "runtime": {
+        "vim.schedule_wrap": {
+            "name": "vim.schedule_wrap",
+            "documentation": [
+                "```lua",
+                "function vim.schedule_wrap(fn: function)",
+                "  -\u003e function",
+                "```",
+                "",
+                "---",
+                "",
+                " Returns a function which calls {fn} via |vim.schedule()|.",
+                "",
+                " The returned function passes all arguments to {fn}.",
+                "",
+                " Example:",
+                "",
+                " ```lua",
+                " function notify_readable(_err, readable)",
+                "   vim.notify(\"readable? \" .. tostring(readable))",
+                " end",
+                " vim.uv.fs_access(vim.fn.stdpath(\"config\"), \"R\", vim.schedule_wrap(notify_readable))",
+                " ```"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "fn",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "function"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "schedule_wrap",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "function"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

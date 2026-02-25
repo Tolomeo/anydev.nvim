@@ -1,0 +1,40 @@
+{
+    "runtime": {
+        "vim.schedule": {
+            "name": "vim.schedule",
+            "documentation": [
+                "```lua",
+                "function vim.schedule(fn: fun())",
+                "```",
+                "",
+                "---",
+                "",
+                " Schedules {fn} to be invoked soon by the main event-loop. Useful",
+                " to avoid |textlock| or other temporary restrictions."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "fn",
+                        "optional": false,
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "returns": []
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "schedule",
+                "returns": []
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}
