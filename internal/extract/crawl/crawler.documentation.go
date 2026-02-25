@@ -5,8 +5,33 @@ import (
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 )
+
+func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {
+
+	var markupContent *languageserver.MarkupContent
+	var err error
+
+	switch c.context.Target().Kind() {
+	case target.TargetKindValue:
+		markupContent, err = c.getDefinitionDocumentation(c.context.Target().Identifier())
+	case target.TargetKindType:
+		markupContent, err = c.getTypeDefinitionDocumentation(c.context.Target().Name(), c.context.Target().ParentName())
+	}
+
+	if err != nil {
+		return symbol.Documentation{}, err
+	}
+
+	if markupContent == nil {
+		return symbol.Documentation{}, nil
+	}
+
+	return strings.Split(markupContent.Value, "\n"), nil
+}
 
 func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver.MarkupContent, error) {
 	buffer, err := c.context.Nvim().NewBuffer()

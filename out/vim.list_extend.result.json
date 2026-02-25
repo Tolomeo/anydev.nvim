@@ -1,0 +1,95 @@
+{
+    "runtime": {
+        "vim.list_extend": {
+            "name": "vim.list_extend",
+            "documentation": [
+                "```lua",
+                "function vim.list_extend(dst: \u003cT:table\u003e, src: table, start?: integer, finish?: integer)",
+                "  -\u003e dst: \u003cT:table\u003e",
+                "```",
+                "",
+                "---",
+                "",
+                " Extends a list-like table with the values of another list-like table.",
+                "",
+                " NOTE: This mutates dst!",
+                "",
+                "",
+                "@*param* `dst` — List which will be modified and appended to",
+                "",
+                "@*param* `src` — List from which values will be inserted",
+                "",
+                "@*param* `start` — Start index on src. Defaults to 1",
+                "",
+                "@*param* `finish` — Final index on src. Defaults to `#src`"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "dst",
+                        "optional": false,
+                        "type": {
+                            "kind": "typereference",
+                            "value": "T"
+                        }
+                    },
+                    {
+                        "name": "src",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "finish",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    }
+                ],
+                "generics": [
+                    {
+                        "name": "T",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "name": "list_extend",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "typereference",
+                            "value": "T"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

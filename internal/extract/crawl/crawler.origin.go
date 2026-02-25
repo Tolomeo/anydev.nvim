@@ -6,17 +6,49 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/annotation"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/definition"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/origin"
+	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-func (c *Crawler) getDefinitionOverrideOriginChain() (origin.OriginChain, error) {
+func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 	definitionOverride := c.context.TargetDefinitionOverride()
 
-	if definitionOverride == nil {
-		return nil, nil
+	if definitionOverride != nil {
+		return c.getDefinitionOverrideOriginChain(*definitionOverride)
 	}
 
+	var locations *[]nvim.Location
+	var err error
+
+	switch c.context.Target().Kind() {
+	case target.TargetKindValue:
+		locations, err = c.findIdentifierDefinitionLocations(c.context.Target().Identifier())
+	case target.TargetKindType:
+		locations, err = c.findTypeIdentifierDefinitionLocations(c.context.Target().Name(), c.context.Target().ParentName())
+	case target.TargetKindModule:
+		locations, err = c.findModuleDefinitionLocations(c.context.Target().Identifier())
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	if locations == nil {
+		c.context.Logger().Warnf("No locations found for '%s' %s symbol", c.context.Target().Identifier(), c.context.Target().Kind())
+		return origin.NewOriginChain(origin.NewUnkownOrigin()), nil
+	}
+
+	origins, err := c.getOriginChain(*locations)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return origins, nil
+}
+
+func (c *Crawler) getDefinitionOverrideOriginChain(definitionOverride []string) (origin.OriginChain, error) {
 	buffer, err := c.context.Nvim().NewBuffer()
 
 	if err != nil {
@@ -25,7 +57,7 @@ func (c *Crawler) getDefinitionOverrideOriginChain() (origin.OriginChain, error)
 
 	defer buffer.Close()
 
-	lines := *definitionOverride
+	lines := definitionOverride
 	err = buffer.SetLines(lines)
 
 	if err != nil {
