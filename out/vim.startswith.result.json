@@ -1,0 +1,60 @@
+{
+    "runtime": {
+        "vim.startswith": {
+            "name": "vim.startswith",
+            "documentation": [
+                "```lua",
+                "function vim.startswith(s: string, prefix: string)",
+                "  -\u003e boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Tests if `s` starts with `prefix`.",
+                "",
+                "@*param* `s` — String",
+                "",
+                "@*param* `prefix` — Prefix to match",
+                "",
+                "@*return* — `true` if `prefix` is a prefix of `s`"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "s",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "prefix",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "startswith",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

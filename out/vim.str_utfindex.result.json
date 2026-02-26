@@ -1,0 +1,99 @@
+{
+    "runtime": {
+        "vim.str_utfindex": {
+            "name": "vim.str_utfindex",
+            "documentation": [
+                "```lua",
+                "function vim.str_utfindex(s: string, encoding: \"utf-16\"|\"utf-32\"|\"utf-8\", index?: integer, strict_indexing?: boolean)",
+                "  -\u003e integer",
+                "```",
+                "",
+                "---",
+                "",
+                " Convert byte index to UTF-32, UTF-16 or UTF-8 indices. If {index} is not",
+                " supplied, the length of the string is used. All indices are zero-based.",
+                "",
+                " If {strict_indexing} is false then an out of range index will return string",
+                " length instead of throwing an error.",
+                " Invalid UTF-8 bytes, and embedded surrogates are counted as one code point",
+                " each. An {index} in the middle of a UTF-8 sequence is rounded upwards to the end of",
+                " that sequence.",
+                "",
+                "@*param* `strict_indexing` — default: true",
+                "",
+                "```lua",
+                "encoding:",
+                "    | \"utf-8\"",
+                "    | \"utf-16\"",
+                "    | \"utf-32\"",
+                "```"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "s",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "encoding",
+                        "optional": false,
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "\"utf-8\""
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "\"utf-16\""
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "\"utf-32\""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "index",
+                        "optional": true,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "strict_indexing",
+                        "optional": true,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "str_utfindex",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

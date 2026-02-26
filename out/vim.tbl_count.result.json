@@ -1,0 +1,57 @@
+{
+    "runtime": {
+        "vim.tbl_count": {
+            "name": "vim.tbl_count",
+            "documentation": [
+                "```lua",
+                "function vim.tbl_count(t: table)",
+                "  -\u003e integer",
+                "```",
+                "",
+                "---",
+                "",
+                " Counts the number of non-nil values in table `t`.",
+                "",
+                " ```lua",
+                " vim.tbl_count({ a=1, b=2 })  --\u003e 2",
+                " vim.tbl_count({ 1, 2 })      --\u003e 2",
+                " ```",
+                "",
+                "@*param* `t` — Table",
+                "",
+                "@*return* — : Number of non-nil values in table",
+                "",
+                "See: ~https~ ://github.com/Tieske/Penlight/blob/master/lua/pl/tablex.lua"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "t",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "tbl_count",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

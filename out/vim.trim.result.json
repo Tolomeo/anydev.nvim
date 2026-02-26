@@ -1,0 +1,52 @@
+{
+    "runtime": {
+        "vim.trim": {
+            "name": "vim.trim",
+            "documentation": [
+                "```lua",
+                "function vim.trim(s: string)",
+                "  -\u003e String: string",
+                "```",
+                "",
+                "---",
+                "",
+                " Trim whitespace (Lua pattern \"%s\") from both sides of a string.",
+                "",
+                "@*param* `s` — String to trim",
+                "",
+                "@*return* `String` — with whitespace removed from its beginning and end",
+                "",
+                "See: ~https~ ://www.lua.org/pil/20.2.html"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "s",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "trim",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

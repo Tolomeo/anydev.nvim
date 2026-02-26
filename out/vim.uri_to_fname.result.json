@@ -1,0 +1,46 @@
+{
+    "runtime": {
+        "vim.uri_to_fname": {
+            "name": "vim.uri_to_fname",
+            "documentation": [
+                "```lua",
+                "function M.uri_to_fname(uri: string)",
+                "  -\u003e filename: string",
+                "```",
+                "",
+                "---",
+                "",
+                "Gets a filename from a URI.",
+                "",
+                "@*return* `filename` — or unchanged URI for non-file URIs"
+            ],
+            "meta": [],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "uri",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "uri_to_fname",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

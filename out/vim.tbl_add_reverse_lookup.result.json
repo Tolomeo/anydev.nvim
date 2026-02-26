@@ -1,0 +1,53 @@
+{
+    "runtime": {
+        "vim.tbl_add_reverse_lookup": {
+            "name": "vim.tbl_add_reverse_lookup",
+            "documentation": [
+                "```lua",
+                "function vim.tbl_add_reverse_lookup(o: table)",
+                "  -\u003e o: table",
+                "```",
+                "",
+                "---",
+                "",
+                " Add the reverse lookup values to an existing table.",
+                " For example:",
+                " `tbl_add_reverse_lookup { A = 1 } == { [1] = 'A', A = 1 }`",
+                "",
+                " Note that this *modifies* the input.",
+                "",
+                "@*param* `o` — Table to add the reverse to"
+            ],
+            "meta": [
+                "deprecated",
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "o",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "tbl_add_reverse_lookup",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

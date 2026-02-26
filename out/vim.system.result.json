@@ -1,0 +1,697 @@
+{
+    "runtime": {
+        "vim.system": {
+            "name": "vim.system",
+            "documentation": [
+                "```lua",
+                "function vim.system(cmd: string[], opts?: vim.SystemOpts, on_exit?: fun(out: vim.SystemCompleted))",
+                "  -\u003e Object: vim.SystemObj",
+                "```",
+                "",
+                "---",
+                "",
+                " TODO(lewis6991): document that the signature is system({cmd}, [{opts},] {on_exit})",
+                " Runs a system command or throws an error if {cmd} cannot be run.",
+                "",
+                " Examples:",
+                "",
+                " ```lua",
+                " local on_exit = function(obj)",
+                "   print(obj.code)",
+                "   print(obj.signal)",
+                "   print(obj.stdout)",
+                "   print(obj.stderr)",
+                " end",
+                "",
+                " -- Runs asynchronously:",
+                " vim.system({'echo', 'hello'}, { text = true }, on_exit)",
+                "",
+                " -- Runs synchronously:",
+                " local obj = vim.system({'echo', 'hello'}, { text = true }):wait()",
+                " -- { code = 0, signal = 0, stdout = 'hello\\n', stderr = '' }",
+                "",
+                " ```",
+                "",
+                " See |uv.spawn()| for more details. Note: unlike |uv.spawn()|, vim.system",
+                " throws an error if {cmd} cannot be run.",
+                "",
+                "@*param* `cmd` — Command to execute",
+                "",
+                "@*param* `opts` — Options:",
+                "",
+                "   - cwd: (string) Set the current working directory for the sub-process.",
+                "   - env: table\u003cstring,string\u003e Set environment variables for the new process. Inherits the",
+                "     current environment with `NVIM` set to |v:servername|.",
+                "   - clear_env: (boolean) `env` defines the job environment exactly, instead of merging current",
+                "     environment. Note: if `env` is `nil`, the current environment is used but without `NVIM` set.",
+                "   - stdin: (string|string[]|boolean) If `true`, then a pipe to stdin is opened and can be written",
+                "     to via the `write()` method to SystemObj. If string or string[] then will be written to stdin",
+                "     and closed. Defaults to `false`.",
+                "   - stdout: (boolean|function)",
+                "     Handle output from stdout. When passed as a function must have the signature `fun(err: string, data: string)`.",
+                "     Defaults to `true`",
+                "   - stderr: (boolean|function)",
+                "     Handle output from stderr. When passed as a function must have the signature `fun(err: string, data: string)`.",
+                "     Defaults to `true`.",
+                "   - text: (boolean) Handle stdout and stderr as text. Replaces `\\r\\n` with `\\n`.",
+                "   - timeout: (integer) Run the command with a time limit. Upon timeout the process is sent the",
+                "     TERM signal (15) and the exit code is set to 124.",
+                "   - detach: (boolean) If true, spawn the child process in a detached state - this will make it",
+                "     a process group leader, and will effectively enable the child to keep running after the",
+                "     parent exits. Note that the child process will still keep the parent's event loop alive",
+                "     unless the parent process calls |uv.unref()| on the child's process handle.",
+                "",
+                "@*param* `on_exit` — Called when subprocess exits. When provided, the command runs",
+                "",
+                "   asynchronously. Receives SystemCompleted object, see return of SystemObj:wait().",
+                "",
+                "@*return* `Object` — with the fields:",
+                "",
+                "   - cmd (string[]) Command name and args",
+                "   - pid (integer) Process ID",
+                "   - wait (fun(timeout: integer|nil): SystemCompleted) Wait for the process to complete. Upon",
+                "     timeout the process is sent the KILL signal (9) and the exit code is set to 124. Cannot",
+                "     be called in |api-fast|.",
+                "     - SystemCompleted is an object with the fields:",
+                "       - code: (integer)",
+                "       - signal: (integer)",
+                "       - stdout: (string), nil if stdout argument is passed",
+                "       - stderr: (string), nil if stderr argument is passed",
+                "   - kill (fun(signal: integer|string))",
+                "   - write (fun(data: string|nil)) Requires `stdin=true`. Pass `nil` to close the stream.",
+                "   - is_closing (fun(): boolean)"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "cmd",
+                        "optional": false,
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.SystemOpts"
+                            }
+                        }
+                    },
+                    {
+                        "name": "on_exit",
+                        "optional": true,
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "out",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.SystemCompleted"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": []
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "system",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.SystemObj"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {
+        "vim.SystemCompleted": {
+            "name": "vim.SystemCompleted",
+            "documentation": [
+                "```lua",
+                "(class) vim.SystemCompleted",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "code",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemCompleted.code: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "signal",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemCompleted.signal: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "stderr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemCompleted.stderr: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "stdout",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemCompleted.stdout: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.SystemCompleted"
+            }
+        },
+        "vim.SystemObj": {
+            "name": "vim.SystemObj",
+            "documentation": [
+                "```lua",
+                "(class) vim.SystemObj",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "cmd",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.cmd: string[]",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "is_closing",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.is_closing: fun(self: vim.SystemObj):boolean",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (self: vim.SystemObj)",
+                            "  -\u003e boolean",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [],
+                            "generics": [],
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "kill",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.kill: fun(self: vim.SystemObj, signal: string|integer)",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (self: vim.SystemObj, signal: string|integer)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "signal",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": []
+                        }
+                    },
+                    {
+                        "name": "pid",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.pid: integer",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    },
+                    {
+                        "name": "wait",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.wait: fun(self: vim.SystemObj, timeout?: integer):vim.SystemCompleted",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (self: vim.SystemObj, timeout?: integer)",
+                            "  -\u003e vim.SystemCompleted",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "timeout",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.SystemCompleted"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "write",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemObj.write: fun(self: vim.SystemObj, data?: string|string[])",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (self: vim.SystemObj, data?: string|string[])",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "data",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
+                                            {
+                                                "kind": "array",
+                                                "items": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": []
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.SystemObj"
+            }
+        },
+        "vim.SystemOpts": {
+            "name": "vim.SystemOpts",
+            "documentation": [
+                "```lua",
+                "(class) vim.SystemOpts",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "clear_env",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.clear_env: boolean?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "cwd",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.cwd: string?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "detach",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.detach: boolean?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "env",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.env: table\u003cstring, string|number\u003e?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "value": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "number"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    },
+                    {
+                        "name": "stderr",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.stderr: (fun(err?: string, data?: string)|false)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (err: string?, data: string?)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "err",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "data",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": []
+                                    },
+                                    {
+                                        "kind": "booleanliteral",
+                                        "value": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "stdin",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.stdin: (string|string[]|true)?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    },
+                                    {
+                                        "kind": "booleanliteral",
+                                        "value": "true"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "stdout",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.stdout: (fun(err?: string, data?: string)|false)?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "```lua",
+                            "function (err: string?, data: string?)",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "err",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "data",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": []
+                                    },
+                                    {
+                                        "kind": "booleanliteral",
+                                        "value": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.text: boolean?",
+                            "```"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    },
+                    {
+                        "name": "timeout",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.SystemOpts.timeout: integer?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            "Timeout in ms"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.SystemOpts"
+            }
+        }
+    },
+    "modules": {}
+}

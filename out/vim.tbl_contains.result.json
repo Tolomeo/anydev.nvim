@@ -1,0 +1,119 @@
+{
+    "runtime": {
+        "vim.tbl_contains": {
+            "name": "vim.tbl_contains",
+            "documentation": [
+                "```lua",
+                "function vim.tbl_contains(t: table, value: any, opts?: vim.tbl_contains.Opts)",
+                "  -\u003e boolean",
+                "```",
+                "",
+                "---",
+                "",
+                " Checks if a table contains a given value, specified either directly or via",
+                " a predicate that is checked for each value.",
+                "",
+                " Example:",
+                "",
+                " ```lua",
+                " vim.tbl_contains({ 'a', { 'b', 'c' } }, function(v)",
+                "   return vim.deep_equal(v, { 'b', 'c' })",
+                " end, { predicate = true })",
+                " -- true",
+                " ```",
+                "",
+                "",
+                "@*param* `t` — Table to check",
+                "",
+                "@*param* `value` — Value to compare or predicate function reference",
+                "",
+                "@*param* `opts` — Keyword arguments |kwargs|:",
+                "",
+                "@*return* — `true` if `t` contains `value`"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "t",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "table"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    },
+                    {
+                        "name": "opts",
+                        "optional": true,
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.tbl_contains.Opts"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "tbl_contains",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {
+        "vim.tbl_contains.Opts": {
+            "name": "vim.tbl_contains.Opts",
+            "documentation": [
+                "```lua",
+                "(class) vim.tbl_contains.Opts",
+                "```"
+            ],
+            "meta": [],
+            "type": {
+                "fields": [
+                    {
+                        "name": "predicate",
+                        "documentation": [
+                            "```lua",
+                            "(field) vim.tbl_contains.Opts.predicate: boolean?",
+                            "```",
+                            "",
+                            "---",
+                            "",
+                            " @inlinedoc",
+                            "",
+                            " `value` is a function reference to be checked (default false)"
+                        ],
+                        "meta": [],
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": "vim.tbl_contains.Opts"
+            }
+        }
+    },
+    "modules": {}
+}

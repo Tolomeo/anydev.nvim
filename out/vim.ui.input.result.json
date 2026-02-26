@@ -1,0 +1,80 @@
+{
+    "runtime": {
+        "vim.ui.input": {
+            "name": "vim.ui.input",
+            "documentation": [
+                "```lua",
+                "function M.input(opts?: table, on_confirm: function)",
+                "```",
+                "",
+                "---",
+                "",
+                " Prompts the user for input, allowing arbitrary (potentially asynchronous) work until",
+                " `on_confirm`.",
+                "",
+                " Example:",
+                "",
+                " ```lua",
+                " vim.ui.input({ prompt = 'Enter value for shiftwidth: ' }, function(input)",
+                "     vim.o.shiftwidth = tonumber(input)",
+                " end)",
+                " ```",
+                "",
+                "@*param* `opts` — Additional options. See |input()|",
+                "",
+                "     - prompt (string|nil)",
+                "               Text of the prompt",
+                "     - default (string|nil)",
+                "               Default reply to the input",
+                "     - completion (string|nil)",
+                "               Specifies type of completion supported",
+                "               for input. Supported types are the same",
+                "               that can be supplied to a user-defined",
+                "               command using the \"-complete=\" argument.",
+                "               See |:command-completion|",
+                "     - highlight (function)",
+                "               Function that will be used for highlighting",
+                "               user inputs.",
+                "",
+                "@*param* `on_confirm` — ((input|nil) -\u003e ())",
+                "",
+                "               Called once the user confirms or abort the input.",
+                "               `input` is what the user typed (it might be",
+                "               an empty string if nothing was entered), or",
+                "               `nil` if the user aborted the dialog."
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "opts",
+                        "optional": false,
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    },
+                    {
+                        "name": "on_confirm",
+                        "optional": false,
+                        "type": {
+                            "kind": "unknown",
+                            "documentation": []
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "input",
+                "returns": []
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

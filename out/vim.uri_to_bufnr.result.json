@@ -1,0 +1,45 @@
+{
+    "runtime": {
+        "vim.uri_to_bufnr": {
+            "name": "vim.uri_to_bufnr",
+            "documentation": [
+                "```lua",
+                "function M.uri_to_bufnr(uri: string)",
+                "  -\u003e bufnr: integer",
+                "```",
+                "",
+                "---",
+                "",
+                "Gets the buffer for a uri.",
+                "Creates a new unloaded buffer if no buffer for the uri already exists."
+            ],
+            "meta": [],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "uri",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "uri_to_bufnr",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}

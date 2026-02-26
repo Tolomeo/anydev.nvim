@@ -1,0 +1,76 @@
+{
+    "runtime": {
+        "vim.stricmp": {
+            "name": "vim.stricmp",
+            "documentation": [
+                "```lua",
+                "function vim.stricmp(a: string, b: string)",
+                "  -\u003e -1|0|1",
+                "```",
+                "",
+                "---",
+                "",
+                " Compares strings case-insensitively.",
+                " if strings are",
+                " equal, {a} is greater than {b} or {a} is lesser than {b}, respectively.",
+                "",
+                "```lua",
+                "return #1:",
+                "    | 0",
+                "    | 1",
+                "    | -1",
+                "```"
+            ],
+            "meta": [
+                "static"
+            ],
+            "type": {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "a",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    },
+                    {
+                        "name": "b",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                ],
+                "generics": [],
+                "name": "stricmp",
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "union",
+                            "types": [
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "0"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "1"
+                                },
+                                {
+                                    "kind": "numericliteral",
+                                    "value": "-1"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "types": {},
+    "modules": {}
+}
