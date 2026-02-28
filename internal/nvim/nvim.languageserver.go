@@ -39,7 +39,29 @@ var metamethods = map[string]struct{}{
 }
 
 // https://www.lua.org/manual/5.1/manual.html#2.1
-var keywords = []string{"and", "break", "do", "else", "elseif", "end", "false", "for", "function", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"}
+var keywords = []string{
+	"and",
+	"break",
+	"do",
+	"else",
+	"elseif",
+	"end",
+	"false",
+	"for",
+	"function",
+	"if",
+	"in",
+	"local",
+	"nil",
+	"not",
+	"or",
+	"repeat",
+	"return",
+	"then",
+	"true",
+	"until",
+	"while",
+}
 
 type Location struct {
 	languageserver.Location
@@ -263,7 +285,12 @@ func (n *Nvim) getTypeDefinitionLocations(line uint, character uint) (*[]Locatio
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(*lspTypeDefinitions, func(lspLocation languageserver.Location) (Location, error) {
+	// removing any results pointing to scratch buffers
+	typeDefinitions, _ := slicesx.FilterFunc(*lspTypeDefinitions, func(typeDefinition languageserver.Location) (bool, error) {
+		return !scratchBufferName.Match([]byte(typeDefinition.TargetUri)), nil
+	})
+
+	locations, err := slicesx.MapFunc(typeDefinitions, func(lspLocation languageserver.Location) (Location, error) {
 		location := Location{
 			Location: lspLocation,
 		}
@@ -301,9 +328,15 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 		return nil, nil
 	}
 
-	locations, err := slicesx.MapFunc(*lspDefinitions, func(lspLocation languageserver.Location) (Location, error) {
+
+	// removing any results pointing to scratch buffers
+	definitions, _ := slicesx.FilterFunc(*lspDefinitions, func(definition languageserver.Location) (bool, error) {
+		return !scratchBufferName.Match([]byte(definition.TargetUri)), nil
+	})
+
+	locations, err := slicesx.MapFunc(definitions, func(definition languageserver.Location) (Location, error) {
 		location := Location{
-			Location: lspLocation,
+			Location: definition,
 		}
 
 		url, err := url.Parse(string(location.Location.TargetUri))

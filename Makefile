@@ -1,7 +1,10 @@
 BINARY_NAME=anydev
-EXTERNAL_DIR=external
-RESOURCES_DIR=resources
-PATCHES_DIR=$(RESOURCES_DIR)/patches
+export EXTERNAL_DIR=$(CURDIR)/external
+export RESOURCES_DIR=$(CURDIR)/resources
+export CONFIG_DIR=$(RESOURCES_DIR)/config
+export PATCHES_DIR=$(RESOURCES_DIR)/patches
+export OUT_DIR=$(CURDIR)/out
+export TMP_DIR=$(CURDIR)/tmp
 
 .PHONY=all
 all: install
@@ -80,3 +83,7 @@ generate:
 .PHONY=extract
 lex:
 	go run ./cmd/lex
+
+.PHONY=just
+just:
+	echo $(EXTERNAL_DIR)

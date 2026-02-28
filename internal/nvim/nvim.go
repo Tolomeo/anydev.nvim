@@ -157,7 +157,7 @@ func (n *Nvim) write() error {
 	return nil
 }
 
-func (n *Nvim) getBufferName() (string, error) {
+/* func (n *Nvim) getBufferName() (string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_get_name",
 		Params: []any{0},
@@ -175,7 +175,7 @@ func (n *Nvim) getBufferName() (string, error) {
 	}
 
 	return result.(string), nil
-}
+} */
 
 func (n *Nvim) setBufferLines(lines []string) error {
 	request := msgpackrpc.RequestMessage{
@@ -197,7 +197,7 @@ func (n *Nvim) setBufferLines(lines []string) error {
 	return nil
 }
 
-func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
+/* func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_buf_get_text",
 		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
@@ -221,7 +221,7 @@ func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int)
 	}
 
 	return bufferText, nil
-}
+} */
 
 func (n *Nvim) getBufferLines(start int, end int) ([]string, error) {
 	request := msgpackrpc.RequestMessage{

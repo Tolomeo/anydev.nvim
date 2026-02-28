@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"iter"
 	"path"
+	"regexp"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
@@ -281,6 +282,8 @@ func (s *ScratchBuffer) Close() error {
 
 	return nil
 }
+
+var scratchBufferName = regexp.MustCompile(`anydev\.\d+\.lua$`)
 
 func (nvim *Nvim) NewBuffer() (*ScratchBuffer, error) {
 	newBufferCounter += 1
