@@ -84,6 +84,3 @@ generate:
 lex:
 	go run ./cmd/lex
 
-.PHONY=just
-just:
-	echo $(EXTERNAL_DIR)
