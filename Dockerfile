@@ -16,28 +16,24 @@ RUN apk add --no-cache ${NEOVIM_DEPS} && \
 
 FROM node:20-alpine3.17 AS config-builder
 
-ARG TREESITTER_GRAMMAR_DEPS="build-base python3 git"
+ARG TREESITTER_GRAMMAR_DEPS="build-base python3 git patch tree-sitter-cli"
 
 RUN apk add --no-cache ${TREESITTER_GRAMMAR_DEPS} && \
   git --version && \
-  git clone --depth 1 https://github.com/tree-sitter-grammars/tree-sitter-lua.git /external/tree-sitter-lua && \
   git clone --depth 1 https://github.com/tree-sitter-grammars/tree-sitter-luadoc.git /external/tree-sitter-luadoc && \
   git clone --depth 1 https://github.com/folke/lazydev.nvim.git /external/lazydev.nvim && \
   mkdir -p /tmp/.config/nvim
 
-COPY ./resources/config /tmp/.config/nvim
-
-WORKDIR /external/tree-sitter-lua
-
-RUN npm install && \
-  make all && \
-  cp libtree-sitter-lua.a /tmp/.config/nvim/parser/lua.so
+COPY ./resources /resources
 
 WORKDIR /external/tree-sitter-luadoc
 
 RUN npm install && \
-  cc -shared -o libtree-sitter.so -I./src src/parser.c -Os -std=c11 -fPIC && \
-  cp libtree-sitter.so /tmp/.config/nvim/parser/luadoc.so
+  patch -p1 -d "/external/tree-sitter-luadoc" < "/resources/patches/tree-sitter-luadoc-grammar.patch" && \
+	tree-sitter generate && \
+	npx node-gyp build && \
+  cc -shared -o luadoc.so -I./src src/parser.c -Os -std=c11 -fPIC && \
+  cp luadoc.so /resources/config/parser/
 
 FROM alpine:latest
 
@@ -52,7 +48,7 @@ COPY --from=neovim-builder /usr/lib/libintl.so.8 /usr/lib/
 RUN mkdir -p /root/.config/nvim
 
 COPY  --from=config-builder /external /root/external
-COPY --from=config-builder /tmp/.config/nvim /root/.config/nvim
+COPY --from=config-builder /resources/config /root/.config/nvim
 
 WORKDIR /home/dev
 
