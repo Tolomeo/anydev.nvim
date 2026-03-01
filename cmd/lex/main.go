@@ -23,13 +23,14 @@ const debug = true
 // "vim.bo.ai",
 
 var values = []string{
-	// "vim.F", "vim.validate", "vim.loop", "vim.log", "vim.lsp",
 	// "vim.F", "vim.validate", "vim.loop",
-	"vim.lsp",
+	// "vim.lsp",
 	// "vim.treesitter",
 	// "vim.fn.function", // named as a keyword
 	// "vim.fn.NetUserPass", // symbol unknown to the lsp
 	// "vim.func",
+
+	// "vim.validate", "vim.loop", "vim.log", "vim.lsp",
 
 	// "vim.F",
 	// "vim.NIL",
@@ -151,6 +152,8 @@ var values = []string{
 	// "vim.w",
 	// "vim.wait",
 	// "vim.wo",
+
+	"vim",
 }
 
 // var values []string = []string{"vim.F", "vim.validate", "vim.loop", "vim.log", "vim.lsp"}
@@ -192,9 +195,12 @@ func main() {
 
 	override := extract.Override{
 		Definition: map[string][]string{
+			"vim":        {"vim = {}"},
 			"vim.base64": {"vim.base64 = {}"},
 			"vim.cmd":    {"---@type fun(command: string|table)|table<string,fun(...:any)>", "vim.cmd = ..."},
 			"vim.env":    {"---@type table<string, string>", "vim.env = ..."},
+			// TODO: improve module export query
+			"vim.iter": {"---@type IterMod", "vim.iter = ..."},
 		},
 	}
 
