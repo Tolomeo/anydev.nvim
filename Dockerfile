@@ -1,10 +1,10 @@
 # see https://github.com/kanielrkirby/nvim-alpine/blob/master/Dockerfile
 FROM alpine:latest AS neovim-builder
 
-ARG NEOVIM_BUILDER_DEPS="autoconf automake cmake curl g++ git gettext gettext-dev libtool make ninja openssl pkgconfig unzip binutils wget"
-ARG NEOVIM_VERSION=stable
+ARG NEOVIM_BUILDER_DEPENDENCIES="autoconf automake cmake curl g++ git gettext gettext-dev libtool make ninja openssl pkgconfig unzip binutils wget"
+ARG NEOVIM_VERSION="stable"
 
-RUN apk add --no-cache ${NEOVIM_BUILDER_DEPS} && \
+RUN apk add --no-cache ${NEOVIM_BUILDER_DEPENDENCIES} && \
   git --version && \
   git clone https://github.com/neovim/neovim.git /tmp/neovim
 
@@ -16,12 +16,13 @@ RUN  git fetch --all --tags -f && \
   make install && \
   strip /usr/local/bin/nvim
 
-FROM node:20-alpine3.17 AS config-builder
+FROM node:24-alpine AS config-builder
 
-ARG CONFIG_BUILDER_DEPS="build-base linux-headers python3 git patch tree-sitter-cli ninja bash"
+ARG CONFIG_BUILDER_DEPENDENCIES="build-base linux-headers python3 git patch tree-sitter-cli ninja bash"
 ARG LUA_LANGUAGE_SERVER_VERSION="3.16.4"
+ARG TREESITTER_LUADOC_GRAMMAR_VERSION="stable"
 
-RUN apk add --no-cache ${CONFIG_BUILDER_DEPS} && \
+RUN apk add --no-cache ${CONFIG_BUILDER_DEPENDENCIES} && \
   git --version && \
   git clone --depth 1 https://github.com/tree-sitter-grammars/tree-sitter-luadoc.git /tmp/tree-sitter-luadoc && \
   git clone --depth 1 https://github.com/LuaLS/lua-language-server.git /external/lua-language-server && \
@@ -31,7 +32,9 @@ COPY ./resources /resources
 
 WORKDIR /tmp/tree-sitter-luadoc
 
-RUN npm install && \
+RUN git fetch --all --tags -f && \
+	git checkout ${TREESITTER_LUADOC_GRAMMAR_VERSION} && \
+	npm install && \
   patch -p1 -d "/tmp/tree-sitter-luadoc" < "/resources/patches/tree-sitter-luadoc-grammar.patch" && \
   tree-sitter generate && \
   npx node-gyp build && \
@@ -45,7 +48,7 @@ RUN git fetch --all --tags -f && \
   chmod +x ./make.sh && \
   ./make.sh
 
-FROM alpine:latest
+FROM golang:1.26.0-alpine AS runner
 
 COPY --from=neovim-builder /usr/local /usr/local/
 COPY --from=neovim-builder /lib/ld-musl-aarch64.so.1 /lib/
