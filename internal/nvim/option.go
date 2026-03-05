@@ -29,13 +29,8 @@ func NewConfig(directory string) Config {
 }
 
 type options struct {
-	command       string
+	command   string
 	arguments []string
-	config    Config
-}
-
-func (o options) Config() Config {
-	return o.config
 }
 
 type optionProvider func(*options)
@@ -52,15 +47,14 @@ func WithArguments(argument ...string) optionProvider {
 	}
 }
 
-func NewOptions(config Config, opts ...optionProvider) (options, error) {
-	newoptions := options{
-		command:    "nvim",
-		config: config,
+func NewOptions(opts ...optionProvider) options {
+	newOptions := options{
+		command: "nvim",
 	}
 
 	for _, opt := range opts {
-		opt(&newoptions)
+		opt(&newOptions)
 	}
 
-	return newoptions, nil
+	return newOptions
 }

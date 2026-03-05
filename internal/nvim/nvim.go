@@ -4,12 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"os/exec"
 
+	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
-	"github.com/Tolomeo/anydev.nvim/internal/log"
 )
 
 type CursorPosition struct {
@@ -22,6 +21,7 @@ type Nvim struct {
 	logger  *log.Logger
 	cmd     *exec.Cmd
 	rpc     *msgpackrpc.MsgpackRpc
+	config  string
 }
 
 func (n *Nvim) Options() options {
@@ -29,7 +29,30 @@ func (n *Nvim) Options() options {
 }
 
 func (n *Nvim) Start() error {
-	return n.cmd.Start()
+	err := n.cmd.Start()
+
+	if err != nil {
+		return err
+	}
+
+	stdpath, err := n.callFunction("stdpath", []any{"config"})
+
+	if err != nil {
+		return fmt.Errorf("Error retrieving config path: %w", err)
+	}
+
+	config, ok := stdpath.(string)
+
+	if !ok {
+		return fmt.Errorf("Error retrieving config path from value <%+v>", config)
+	}
+
+	n.config = config
+
+	// n.config = "/root/.config/nvim"
+	// n.config = "/Users/diegofrattini/Projects/anydev.nvim/resources/config"
+
+	return nil
 }
 
 func (n *Nvim) Quit() error {
@@ -97,13 +120,13 @@ func (n *Nvim) callFunction(function string, functionArgs []any) (any, error) {
 	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error executing function: %v\n", err)
+		return nil, fmt.Errorf("Error executing function '%s' with arguments <%+v>: %w\n", function, functionArgs, err)
 	}
 
 	result, err := response.Result()
 
 	if err != nil {
-		return nil, fmt.Errorf("Error executing function: %v\n", err)
+		return nil, fmt.Errorf("Error executing function '%s' with arguments <%+v>: %w\n", function, functionArgs, err)
 	}
 
 	return result, nil
@@ -143,7 +166,7 @@ func (n *Nvim) open(file string) (string, error) {
 	return file, nil
 }
 
-func (n *Nvim) write() error {
+/* func (n *Nvim) write() error {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
 		Params: []any{"write"},
@@ -155,7 +178,7 @@ func (n *Nvim) write() error {
 	}
 
 	return nil
-}
+} */
 
 /* func (n *Nvim) getBufferName() (string, error) {
 	request := msgpackrpc.RequestMessage{
@@ -262,17 +285,12 @@ func (n *Nvim) deleteBuffer() error {
 	return nil
 }
 
-func New(config Config, opts ...optionProvider) (*Nvim, error) {
-	options, err := NewOptions(config, opts...)
+func New(opts ...optionProvider) (*Nvim, error) {
+	options := NewOptions(opts...)
 
-	if err != nil {
-		return nil, fmt.Errorf("Error getting nvim options: %v", err)
-	}
-
-	arguments := []string{"--embed", "--headless", "-i", "NONE", "-u", options.config.InitFile()}
+	arguments := []string{"--embed", "--headless", "-i", "NONE"}
 	arguments = append(arguments, options.arguments...)
 	cmd := exec.Command(options.command, arguments...)
-	cmd.Env = append(os.Environ(), "NVIM_APPNAME=anydev")
 
 	rpc, err := msgpackrpc.New(cmd)
 

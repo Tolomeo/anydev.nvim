@@ -4,10 +4,9 @@ vim.opt.writebackup = false
 vim.opt.undofile = false
 vim.g._ts_force_sync_parsing = true
 
-local config_dir = vim.fn.expand("<sfile>:p:h")
-
-vim.opt.runtimepath:prepend(config_dir)
-vim.opt.packpath:prepend(config_dir)
+-- local config_dir = vim.fn.expand("<sfile>:p:h")
+-- vim.opt.runtimepath:prepend(config_dir)
+-- vim.opt.packpath:prepend(config_dir)
 -- vim.opt.packpath = { config_dir }
 -- package.path = package.path .. ';' .. config_dir .. '/lua/?.lua'
 

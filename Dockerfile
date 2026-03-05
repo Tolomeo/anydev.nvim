@@ -59,6 +59,12 @@ COPY --from=config-builder /resources/config /root/.config/nvim
 
 RUN ln -s /root/external/lua-language-server/bin/lua-language-server /usr/local/bin/lua-language-server
 
-WORKDIR /root/dev
+COPY go.mod go.sum /root/run/
+COPY internal /root/run/internal/ 
+COPY cmd /root/run/cmd/
 
-CMD ["nvim"]
+WORKDIR /root/run
+
+RUN go mod download
+
+CMD ["go", "run", "./cmd/lex"]

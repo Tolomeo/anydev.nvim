@@ -197,22 +197,18 @@ func (e *extractor) initLogger(_ Options) {
 }
 
 func (e *extractor) initNvim(options Options) error {
-	configDir, err := project.GetConfigDir()
 	tmpDir, err := project.GetTmpDir()
 
 	if err != nil {
 		return fmt.Errorf("Error reading project directories: %w", err)
 	}
 
-	nvimConfig := nvim.NewConfig(configDir)
-
 	var client *nvim.Nvim
 
 	if !options.Debug {
-		client, err = nvim.New(nvimConfig)
+		client, err = nvim.New()
 	} else {
 		client, err = nvim.New(
-			nvimConfig,
 			nvim.WithArguments(
 				fmt.Sprintf("-V%d%s", 1, path.Join(tmpDir, "nvim.verbosefile")),
 				"--listen", path.Join(tmpDir, "nvim.server.pipe"),

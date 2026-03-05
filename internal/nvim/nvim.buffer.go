@@ -287,7 +287,7 @@ var scratchBufferName = regexp.MustCompile(`anydev\.\d+\.lua$`)
 
 func (nvim *Nvim) NewBuffer() (*ScratchBuffer, error) {
 	newBufferCounter += 1
-	name := path.Join(nvim.Options().Config().Dir(), fmt.Sprintf("anydev.%d.lua", newBufferCounter))
+	name := path.Join(nvim.config, fmt.Sprintf("anydev.%d.lua", newBufferCounter))
 
 	nvim.logger.Sillyf("Opening %s scratch buffer", name)
 
