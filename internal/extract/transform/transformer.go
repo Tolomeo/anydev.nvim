@@ -8,7 +8,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/utils/cache"
+	// "github.com/Tolomeo/anydev.nvim/internal/utils/cache"
 )
 
 type ctx interface {
@@ -25,7 +25,7 @@ type Transformer struct {
 	context ctx
 }
 
-var lexedCache = cache.NewCache[symbol.Type]()
+// var lexedCache = cache.NewCache[symbol.Type]()
 
 func (tr *Transformer) TransformOrigin() (symbol.Type, error) {
 	/* cacheId := tr.context.Target().Origin().Location()

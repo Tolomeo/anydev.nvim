@@ -261,6 +261,8 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 
 func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
 	for _, query := range literalTableAnnotationQueries {
+		// tr.context.Logger().Debugf("Literal table q: %+v", query)
+
 		match, err := buffer.TsQueryOne(query)
 
 		if err != nil {

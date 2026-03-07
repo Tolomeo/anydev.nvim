@@ -19,3 +19,7 @@ clean:
 	docker container ls -aq --filter ancestor=$(IMAGE_NAME) | xargs -r docker container rm -f
 	docker image ls -q --filter reference=$(IMAGE_NAME) | xargs -r docker image rm -f
 	docker builder prune -f
+
+.PHONY=inspect
+inspect:
+	docker run -it --rm $(IMAGE_NAME) /bin/sh

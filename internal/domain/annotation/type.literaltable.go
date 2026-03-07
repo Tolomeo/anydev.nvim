@@ -17,35 +17,31 @@ var LiteralTableTypeQuery = treesitter.Query{
 	Language: "luadoc",
 	Query: fmt.Sprintf(`
 	(table_literal_type
-		"{"
-		field: ([
-			(
-				"["
-				.
-				(_) @table.index.key
-				.
-				"]"
-				.
-				"?"? @table.index.optional
-				.
-				":"
-				.
-				(%s) @table.index.value
-			) @table.index
-			(
-				(identifier) @table.field.name
-				.
-				"?"? @table.field.optional
-				.
-				":"
-				.
-				(%s) @table.field.value
-			) @table.field
-		]
-		","?
-		)+
-		"}"
-	) @table`, AnyTypeQuery, AnyTypeQuery),
+		.
+    "{"
+    .
+    (
+      [
+        (
+          "[" . (_) @table.index.key . "]"
+          "?"? @table.index.optional
+          ":" .
+          (%s) @table.index.value
+        ) @table.index
+        
+        (
+          (identifier) @table.field.name
+          "?"? @table.field.optional
+          ":" .
+          (%s) @table.field.value
+        ) @table.field
+      ]
+      ","?
+    )+
+		.
+    "}"
+		.
+  ) @table`, AnyTypeQuery, AnyTypeQuery),
 }
 
 type literalTableTypeField struct {
