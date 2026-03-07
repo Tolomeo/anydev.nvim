@@ -3,9 +3,11 @@ IMAGE_NAME=anydev:latest
 .PHONY=all
 all: run
 
-.PHONY=build
-build:
+.dockerbuild:Dockerfile .dockerignore go.mod go.sum $(shell find cmd internal resources -type f)
 	docker build --tag $(IMAGE_NAME) .
+	@touch .dockerbuild
+
+build:.dockerbuild
 
 .PHONY=run
 run:build
