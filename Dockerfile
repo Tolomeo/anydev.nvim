@@ -2,7 +2,7 @@
 FROM alpine:latest AS neovim-builder
 
 ARG NEOVIM_BUILDER_DEPENDENCIES="autoconf automake cmake curl g++ git gettext gettext-dev libtool make ninja openssl pkgconfig unzip binutils wget"
-ARG NEOVIM_VERSION="stable"
+ARG NEOVIM_VERSION="v0.11.4"
 
 RUN apk add --no-cache ${NEOVIM_BUILDER_DEPENDENCIES} && \
   git --version && \
@@ -54,10 +54,12 @@ COPY --from=neovim-builder /usr/local /usr/local/
 COPY --from=neovim-builder /lib/ld-musl-aarch64.so.1 /lib/
 COPY --from=neovim-builder /usr/lib/libgcc_s.so.1 /usr/lib/
 COPY --from=neovim-builder /usr/lib/libintl.so.8 /usr/lib/
-COPY --from=config-builder /external /root/external
-COPY --from=config-builder /resources/config /root/.config/nvim
 
+COPY --from=config-builder /external /root/external
 RUN ln -s /root/external/lua-language-server/bin/lua-language-server /usr/local/bin/lua-language-server
+
+ENV NVIM_APPNAME=nvim-anydev
+COPY --from=config-builder /resources/config /root/.config/${NVIM_APPNAME}
 
 COPY go.mod go.sum /root/run/
 COPY internal /root/run/internal/ 

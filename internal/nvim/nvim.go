@@ -7,6 +7,7 @@ import (
 	"os/exec"
 
 	"github.com/Tolomeo/anydev.nvim/internal/log"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
@@ -49,8 +50,17 @@ func (n *Nvim) Start() error {
 
 	n.config = config
 
-	// n.config = "/root/.config/nvim"
-	// n.config = "/Users/diegofrattini/Projects/anydev.nvim/resources/config"
+	script, err := scripts.Read("start")
+
+	if err != nil {
+		return err
+	}
+
+	_, err = n.execLua(script, []any{30000})
+
+	if err != nil {
+		return fmt.Errorf("Error initializing api: %w", err)
+	}
 
 	return nil
 }
