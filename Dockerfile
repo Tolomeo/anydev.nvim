@@ -6,7 +6,7 @@ ARG NEOVIM_VERSION="v0.11.4"
 
 RUN apk add --no-cache ${NEOVIM_BUILDER_DEPENDENCIES} && \
   git --version && \
-  git clone https://github.com/neovim/neovim.git /tmp/neovim
+  git clone --depth 1 https://github.com/neovim/neovim.git /tmp/neovim
 
 WORKDIR /tmp/neovim
 
@@ -25,8 +25,7 @@ ARG TREESITTER_LUADOC_GRAMMAR_VERSION="stable"
 RUN apk add --no-cache ${CONFIG_BUILDER_DEPENDENCIES} && \
   git --version && \
   git clone --depth 1 https://github.com/tree-sitter-grammars/tree-sitter-luadoc.git /tmp/tree-sitter-luadoc && \
-  git clone --depth 1 https://github.com/LuaLS/lua-language-server.git /external/lua-language-server && \
-  git clone --depth 1 https://github.com/folke/lazydev.nvim.git /external/lazydev.nvim
+  git clone --depth 1 https://github.com/LuaLS/lua-language-server.git /external/lua-language-server
 
 COPY ./resources /resources
 
