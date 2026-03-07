@@ -7,6 +7,7 @@ all: run
 	docker build --tag $(IMAGE_NAME) .
 	@touch .dockerbuild
 
+.PHONY=build
 build:.dockerbuild
 
 .PHONY=run
