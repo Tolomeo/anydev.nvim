@@ -68,4 +68,4 @@ WORKDIR /root/run
 
 RUN go mod download
 
-CMD ["go", "run", "./cmd/lex"]
+CMD ["go", "run", "./cmd/extract"]

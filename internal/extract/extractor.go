@@ -28,12 +28,6 @@ func (o Options) validate() error {
 	return nil
 }
 
-/* type result struct {
-	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
-	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
-	Modules map[string]symbol.Symbol `json:"modules" yaml:"modules"`
-} */
-
 type extractor struct {
 	options     Options
 	extractions []*extraction
@@ -45,19 +39,6 @@ type extractor struct {
 func (e *extractor) Nvim() *nvim.Nvim {
 	return e.nvim
 }
-
-/* func (e *extractor) Result() *result {
-	return e.result
-} */
-
-/* func (e *extractor) Flush() {
-	e.extractions = []*extraction{}
-	e.result = &result{
-		Runtime: map[string]symbol.Symbol{},
-		Types:   map[string]symbol.Symbol{},
-		Modules: map[string]symbol.Symbol{},
-	}
-} */
 
 func (e *extractor) extract(item *extraction) error {
 	e.logger.Infof("Extracting '%s'", item.target().Identifier())
@@ -193,8 +174,9 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	return childExtraction
 }
 
-func (e *extractor) initLogger(_ Options) {
+func (e *extractor) initLogger(_ Options) error {
 	e.logger = log.NewLogger("")
+	return nil
 }
 
 func (e *extractor) initNvim(options Options) error {
@@ -250,9 +232,13 @@ func NewExtractor(options Options) (*extractor, error) {
 		extractions: []*extraction{},
 	}
 
-	xtractor.initLogger(options)
+	err := xtractor.initLogger(options)
 
-	err := xtractor.initNvim(options)
+	if err != nil {
+		return nil, err
+	}
+
+	err = xtractor.initNvim(options)
 
 	if err != nil {
 		return nil, err
