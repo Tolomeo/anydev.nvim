@@ -1,0 +1,93 @@
+{
+    "name": "lsp.Registration",
+    "documentation": [
+        "```lua",
+        "(class) lsp.Registration",
+        "```",
+        "",
+        "---",
+        "",
+        "General parameters to register for a notification or to register a provider."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Registration.id: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The id used to register the request. The id can be used to deregister",
+                    "the request again."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "method",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Registration.method: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The method / capability to register for."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "registerOptions",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Registration.registerOptions: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The LSP any type.",
+                    "Please note that strictly speaking a property with the value `undefined`",
+                    "can't be converted into JSON preserving the property name. However for",
+                    "convenience it is allowed and assumed that all these properties are",
+                    "optional as well.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Options necessary for the registration.",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "LSP arrays."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPAny"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.Registration"
+    }
+}

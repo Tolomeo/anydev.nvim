@@ -1,0 +1,1229 @@
+{
+    "name": "TSNode",
+    "documentation": [
+        "```lua",
+        "(class) TSNode",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "__has_ancestor",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:__has_ancestor(node_types: string[])",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if the node has any of the given node types as its ancestor."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node_types",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "__has_ancestor",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "byte_length",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:byte_length()",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the number of bytes spanned by this node."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "byte_length",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "child",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:child(index: integer)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's child at the given {index}, where zero represents the first",
+                    " child."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "child",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "child_count",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:child_count()",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's number of children."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "child_count",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "child_with_descendant",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:child_with_descendant(descendant: TSNode)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's child that contains {descendant} (includes {descendant}).",
+                    "",
+                    " For example, with the following node hierarchy:",
+                    "",
+                    " ```",
+                    " a -\u003e b -\u003e c",
+                    "",
+                    " a:child_with_descendant(c) == b",
+                    " a:child_with_descendant(b) == b",
+                    " a:child_with_descendant(a) == nil",
+                    " ```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "descendant",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "child_with_descendant",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "descendant_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:descendant_for_range(start_row: integer, start_col: integer, end_row: integer, end_col: integer)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the smallest node within this node that spans the given range of (row,",
+                    " column) positions"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "start_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "descendant_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "end_",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:end_()",
+                    "  -\u003e integer",
+                    "  2. integer",
+                    "  3. integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's end position. Return three values: the row, column and",
+                    " total byte count (all zero-based)."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "end_",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "equal",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:equal(node: TSNode)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if {node} refers to the same node within the same tree."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "equal",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "extra",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:extra()",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if the node is extra. Extra nodes represent things like comments,",
+                    " which are not required by the grammar but can appear anywhere."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "extra",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "field",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:field(name: string)",
+                    "  -\u003e TSNode[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a list of all the node's children that have the given field name."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "field",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "has_changes",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:has_changes()",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if a syntax node has been edited."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "has_changes",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "has_error",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:has_error()",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if the node is a syntax error or contains any syntax errors."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "has_error",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:id()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get a unique identifier for the node inside its own tree.",
+                    "",
+                    " No guarantees are made about this identifier's internal representation,",
+                    " except for being a primitive Lua type with value equality (so not a",
+                    " table). Presently it is a (non-printable) string.",
+                    "",
+                    " Note: The `id` is not guaranteed to be unique for nodes from different",
+                    " trees."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "id",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "iter_children",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:iter_children()",
+                    "  -\u003e fun():TSNode, string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Iterates over all the direct children of {TSNode}, regardless of whether",
+                    " they are named or not.",
+                    " Returns the child node plus the eventual field name corresponding to this",
+                    " child node."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "iter_children",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        }
+                                    },
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "missing",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:missing()",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if the node is missing. Missing nodes are inserted by the parser in",
+                    " order to recover from certain kinds of syntax errors."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "missing",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:named()",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check if the node is named. Named nodes correspond to named rules in the",
+                    " grammar, whereas anonymous nodes correspond to string literals in the",
+                    " grammar."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "named",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named_child",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:named_child(index: integer)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's named child at the given {index}, where zero represents the",
+                    " first named child."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "named_child",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named_child_count",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:named_child_count()",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's number of named children."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "named_child_count",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named_children",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:named_children()",
+                    "  -\u003e TSNode[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a list of the node's named children."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "named_children",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named_descendant_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:named_descendant_for_range(start_row: integer, start_col: integer, end_row: integer, end_col: integer)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the smallest named node within this node that spans the given range of",
+                    " (row, column) positions"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "start_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "named_descendant_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "next_named_sibling",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:next_named_sibling()",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's next named sibling."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "next_named_sibling",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "next_sibling",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:next_sibling()",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's next sibling."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "next_sibling",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "parent",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:parent()",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's immediate parent.",
+                    " Prefer |TSNode:child_with_descendant()|",
+                    " for iterating over the node's ancestors."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "parent",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "prev_named_sibling",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:prev_named_sibling()",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's previous named sibling."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "prev_named_sibling",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "prev_sibling",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:prev_sibling()",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's previous sibling."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "prev_sibling",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:range(include_bytes?: false)",
+                    "  -\u003e integer",
+                    "  2. integer",
+                    "  3. integer",
+                    "  4. integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the range of the node.",
+                    "",
+                    " Return four or six values:",
+                    "",
+                    " - start row",
+                    " - start column",
+                    " - start byte (if {include_bytes} is `true`)",
+                    " - end row",
+                    " - end column",
+                    " - end byte (if {include_bytes} is `true`)",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "include_bytes:",
+                    "    | false",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) TSNode:range(include_bytes: true)",
+                    "  -\u003e integer",
+                    "  2. integer",
+                    "  3. integer",
+                    "  4. integer",
+                    "  5. integer",
+                    "  6. integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "include_bytes",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "booleanliteral",
+                                    "value": "false"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "range",
+                    "overloads": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "include_bytes",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "booleanliteral",
+                                        "value": "true"
+                                    }
+                                }
+                            ],
+                            "documentation": [],
+                            "generics": [],
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "sexpr",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:sexpr()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get an S-expression representing the node as a string."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "sexpr",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "start",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:start()",
+                    "  -\u003e integer",
+                    "  2. integer",
+                    "  3. integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's start position. Return three values: the row, column and",
+                    " total byte count (all zero-based)."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "start",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "symbol",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:symbol()",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's type as a numerical id."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "symbol",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "tree",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:tree()",
+                    "  -\u003e TSTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the |TSTree| of the node."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "tree",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "type",
+                "documentation": [
+                    "```lua",
+                    "(method) TSNode:type()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the node's type as a string."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "type",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "TSNode"
+    }
+}

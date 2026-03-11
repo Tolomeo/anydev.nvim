@@ -1,0 +1,58 @@
+{
+    "name": "uv.socketpair.protocol",
+    "documentation": [
+        "```lua",
+        "(alias) uv.socketpair.protocol Expand to string|\"icmp\"|\"ip\"|\"tcp\"|\"udp\"|0|nil",
+        "```",
+        "",
+        "---",
+        "",
+        " When `protocol` is set to 0 or nil, it will be automatically chosen based on the socket's domain and type.",
+        "",
+        " When `protocol` is specified as a string, it will be looked up using the `getprotobyname(3)` function (examples: `\"ip\"`, `\"icmp\"`, `\"tcp\"`, `\"udp\"`, etc).",
+        "",
+        "",
+        "---",
+        "",
+        "```lua",
+        "--  When `protocol` is set to 0 or nil, it will be automatically chosen based on the socket's domain and type.",
+        "-- ",
+        "--  When `protocol` is specified as a string, it will be looked up using the `getprotobyname(3)` function (examples: `\"ip\"`, `\"icmp\"`, `\"tcp\"`, `\"udp\"`, etc).",
+        "-- ",
+        "uv.socketpair.protocol:",
+        "    | 0 -- automatically choose based on socket domain/type",
+        "    | \"ip\"",
+        "    | \"icmp\"",
+        "    | \"tcp\"",
+        "    | \"udp\"",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "uv.socket.protocol:",
+        "    | \"ip\"",
+        "    | \"icmp\"",
+        "    | \"tcp\"",
+        "    | \"udp\"",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "numericliteral",
+                "value": "0"
+            },
+            {
+                "kind": "builtin",
+                "value": "nil"
+            },
+            {
+                "kind": "typereference",
+                "value": "uv.socket.protocol"
+            }
+        ]
+    }
+}

@@ -1,0 +1,124 @@
+{
+    "name": "lsp.RenameFile",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RenameFile",
+        "```",
+        "",
+        "---",
+        "",
+        "Rename file operation"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "annotationId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFile.annotationId: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "An identifier to refer to a change annotation stored with a workspace edit.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional annotation identifier describing the operation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ChangeAnnotationIdentifier"
+                    }
+                }
+            },
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFile.kind: \"rename\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A rename"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"rename\""
+                }
+            },
+            {
+                "name": "newUri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFile.newUri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The new location."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.DocumentUri"
+                }
+            },
+            {
+                "name": "oldUri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFile.oldUri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The old (existing) location."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.DocumentUri"
+                }
+            },
+            {
+                "name": "options",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFile.options: (lsp.RenameFileOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Rename file options",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Rename options."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.RenameFileOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RenameFile"
+    }
+}

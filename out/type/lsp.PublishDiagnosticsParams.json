@@ -1,0 +1,80 @@
+{
+    "name": "lsp.PublishDiagnosticsParams",
+    "documentation": [
+        "```lua",
+        "(class) lsp.PublishDiagnosticsParams",
+        "```",
+        "",
+        "---",
+        "",
+        "The publish diagnostic notification's parameters."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "diagnostics",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsParams.diagnostics: lsp.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An array of diagnostic information items."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.Diagnostic"
+                    }
+                }
+            },
+            {
+                "name": "uri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsParams.uri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The URI for which diagnostic information is reported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.DocumentUri"
+                }
+            },
+            {
+                "name": "version",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsParams.version: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Optional the version number of the document the diagnostics are published for.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.PublishDiagnosticsParams"
+    }
+}

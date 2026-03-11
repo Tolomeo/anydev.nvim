@@ -1,0 +1,88 @@
+{
+    "name": "vim.lsp.ListOpts",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.ListOpts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "loclist",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ListOpts.loclist: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Whether to use the |location-list| or the |quickfix| list in the default handler.",
+                    " ```lua",
+                    " vim.lsp.buf.definition({ loclist = true })",
+                    " vim.lsp.buf.references(nil, { loclist = false })",
+                    " ```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "on_list",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ListOpts.on_list: fun(t: vim.lsp.LocationOpts.OnList)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " list-handler replacing the default handler.",
+                    " Called for any non-empty result.",
+                    " This table can be used with |setqflist()| or |setloclist()|. E.g.:",
+                    " ```lua",
+                    " local function on_list(options)",
+                    "   vim.fn.setqflist({}, ' ', options)",
+                    "   vim.cmd.cfirst()",
+                    " end",
+                    "",
+                    " vim.lsp.buf.definition({ on_list = on_list })",
+                    " vim.lsp.buf.references(nil, { on_list = on_list })",
+                    " ```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (t: vim.lsp.LocationOpts.OnList)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "t",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.LocationOpts.OnList"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.ListOpts"
+    }
+}

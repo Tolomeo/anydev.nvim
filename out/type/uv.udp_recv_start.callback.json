@@ -1,0 +1,81 @@
+{
+    "name": "uv.udp_recv_start.callback",
+    "documentation": [
+        "```lua",
+        "(alias) uv.udp_recv_start.callback Expand to fun(err: string|nil, data: string|nil, addr: uv.udp_recv_start.callback.addr|nil, flags: uv.udp_recv_start.callback.flags)",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: string|nil, data: string|nil, addr: uv.udp_recv_start.callback.addr|nil, flags: uv.udp_recv_start.callback.flags)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "data",
+                "optional": false,
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "addr",
+                "optional": false,
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "uv.udp_recv_start.callback.addr"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "flags",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.udp_recv_start.callback.flags"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": []
+    }
+}

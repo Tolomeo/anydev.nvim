@@ -1,0 +1,88 @@
+{
+    "name": "vim.api.keyset.open_term",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.open_term",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "force_crlf",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.open_term.force_crlf: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "on_input",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.open_term.on_input: fun(_: \"input\", term: integer, bufnr: integer, data: any)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"input\", term: integer, bufnr: integer, data: any)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"input\""
+                                }
+                            },
+                            {
+                                "name": "term",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "data",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "any"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.open_term"
+    }
+}

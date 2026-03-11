@@ -1,0 +1,902 @@
+{
+    "name": "vim.fs",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "abspath",
+                "documentation": [
+                    "```lua",
+                    "function M.abspath(path: string)",
+                    "  -\u003e Absolute: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Convert path to an absolute path. A tilde (~) character at the beginning of the path is expanded",
+                    " to the user's home directory. Does not check if the path exists, normalize the path, resolve",
+                    " symlinks or hardlinks (including `.` and `..`), or expand environment variables. If the path is",
+                    " already absolute, it is returned unchanged. Also converts `\\` path separators to `/`.",
+                    "",
+                    "@*param* `path` — Path",
+                    "",
+                    "@*return* `Absolute` — path"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "abspath",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "basename",
+                "documentation": [
+                    "```lua",
+                    "function M.basename(file: \u003cT:string|nil\u003e)",
+                    "  -\u003e Basename: \u003cT:string|nil\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the basename of the given path",
+                    "",
+                    "@*param* `file` — Path",
+                    "",
+                    "@*return* `Basename` — of {file}"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "file",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "T"
+                            }
+                        }
+                    ],
+                    "generics": [
+                        {
+                            "name": "T",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "name": "basename",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "T"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "dir",
+                "documentation": [
+                    "```lua",
+                    "function M.dir(path: string, opts?: vim.fs.dir.Opts)",
+                    "  -\u003e over: fun():string?, string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return an iterator over the items located in {path}",
+                    "",
+                    "@*param* `path` — An absolute or relative path to the directory to iterate",
+                    "",
+                    "            over. The path is first normalized |vim.fs.normalize()|.",
+                    "",
+                    "@*param* `opts` — Optional keyword arguments:",
+                    "",
+                    "@*return* `over` — items in {path}. Each iteration yields two values: \"name\" and \"type\".",
+                    "",
+                    "        \"name\" is the basename of the item relative to {path}.",
+                    "        \"type\" is one of the following:",
+                    "        \"file\", \"directory\", \"link\", \"fifo\", \"socket\", \"char\", \"block\", \"unknown\"."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.fs.dir.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "dir",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Iterator"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "dirname",
+                "documentation": [
+                    "```lua",
+                    "function M.dirname(file: \u003cT:string|nil\u003e)",
+                    "  -\u003e Parent: \u003cT:string|nil\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the parent directory of the given path (not expanded/resolved, the caller must do that).",
+                    "",
+                    "@*param* `file` — Path",
+                    "",
+                    "@*return* `Parent` — directory of {file}"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "file",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "T"
+                            }
+                        }
+                    ],
+                    "generics": [
+                        {
+                            "name": "T",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "name": "dirname",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "T"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "find",
+                "documentation": [
+                    "```lua",
+                    "function M.find(names: string|fun(name: string, path: string):boolean|string[], opts?: vim.fs.find.Opts)",
+                    "  -\u003e string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Find files or directories (or other items as specified by `opts.type`) in the given path.",
+                    "",
+                    " Finds items given in {names} starting from {path}. If {upward} is \"true\"",
+                    " then the search traverses upward through parent directories; otherwise,",
+                    " the search traverses downward. Note that downward searches are recursive",
+                    " and may search through many directories! If {stop} is non-nil, then the",
+                    " search stops when the directory given in {stop} is reached. The search",
+                    " terminates when {limit} (default 1) matches are found. You can set {type}",
+                    " to \"file\", \"directory\", \"link\", \"socket\", \"char\", \"block\", or \"fifo\"",
+                    " to narrow the search to find only that type.",
+                    "",
+                    " Examples:",
+                    "",
+                    " ```lua",
+                    " -- List all test directories under the runtime directory.",
+                    " local dirs = vim.fs.find(",
+                    "   { 'test', 'tst', 'testdir' },",
+                    "   { limit = math.huge, type = 'directory', path = './runtime/' }",
+                    " )",
+                    "",
+                    " -- Get all \"lib/*.cpp\" and \"lib/*.hpp\" files, using Lua patterns.",
+                    " -- Or use `vim.glob.to_lpeg(…):match(…)` for glob/wildcard matching.",
+                    " local files = vim.fs.find(function(name, path)",
+                    "   return name:match('.*%.[ch]pp$') and path:match('[/\\\\]lib$')",
+                    " end, { limit = math.huge, type = 'file' })",
+                    " ```",
+                    "",
+                    "@*param* `names` — Names of the items to find.",
+                    "",
+                    "             Must be base names, paths and globs are not supported when {names} is a string or a table.",
+                    "             If {names} is a function, it is called for each traversed item with args:",
+                    "             - name: base name of the current item",
+                    "             - path: full path of the current item",
+                    "",
+                    "             The function should return `true` if the given item is considered a match.",
+                    "",
+                    "@*param* `opts` — Optional keyword arguments:",
+                    "",
+                    "@*return* — Normalized paths |vim.fs.normalize()| of all matching items"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "names",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    },
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "name",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            },
+                                            {
+                                                "name": "path",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": [
+                                            {
+                                                "name": "",
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "boolean"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.fs.find.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "find",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "joinpath",
+                "documentation": [
+                    "```lua",
+                    "function M.joinpath(...string)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Concatenates partial paths (one absolute or relative path followed by zero or more relative",
+                    " paths). Slashes are normalized: redundant slashes are removed, and (on Windows) backslashes are",
+                    " replaced with forward-slashes.",
+                    "",
+                    " Examples:",
+                    " - \"foo/\", \"/bar\" =\u003e \"foo/bar\"",
+                    " - Windows: \"a\\foo\\\", \"\\bar\" =\u003e \"a/foo/bar\""
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "joinpath",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "normalize",
+                "documentation": [
+                    "```lua",
+                    "function M.normalize(path: string, opts?: vim.fs.normalize.Opts)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Normalize a path to a standard format. A tilde (~) character at the beginning of the path is",
+                    " expanded to the user's home directory and environment variables are also expanded. \".\" and \"..\"",
+                    " components are also resolved, except when the path is relative and trying to resolve it would",
+                    " result in an absolute path.",
+                    " - \".\" as the only part in a relative path:",
+                    "   - \".\" =\u003e \".\"",
+                    "   - \"././\" =\u003e \".\"",
+                    " - \"..\" when it leads outside the current directory",
+                    "   - \"foo/../../bar\" =\u003e \"../bar\"",
+                    "   - \"../../foo\" =\u003e \"../../foo\"",
+                    " - \"..\" in the root directory returns the root directory.",
+                    "   - \"/../../\" =\u003e \"/\"",
+                    "",
+                    " On Windows, backslash (\\) characters are converted to forward slashes (/).",
+                    "",
+                    " Examples:",
+                    " ```lua",
+                    " [[C:\\Users\\jdoe]]                         =\u003e \"C:/Users/jdoe\"",
+                    " \"~/src/neovim\"                            =\u003e \"/home/jdoe/src/neovim\"",
+                    " \"$XDG_CONFIG_HOME/nvim/init.vim\"          =\u003e \"/Users/jdoe/.config/nvim/init.vim\"",
+                    " \"~/src/nvim/api/../tui/./tui.c\"           =\u003e \"/home/jdoe/src/nvim/tui/tui.c\"",
+                    " \"./foo/bar\"                               =\u003e \"foo/bar\"",
+                    " \"foo/../../../bar\"                        =\u003e \"../../bar\"",
+                    " \"/home/jdoe/../../../bar\"                 =\u003e \"/bar\"",
+                    " \"C:foo/../../baz\"                         =\u003e \"C:../baz\"",
+                    " \"C:/foo/../../baz\"                        =\u003e \"C:/baz\"",
+                    " [[\\\\?\\UNC\\server\\share\\foo\\..\\..\\..\\bar]] =\u003e \"//?/UNC/server/share/bar\"",
+                    " ```",
+                    "",
+                    "@*param* `path` — Path to normalize",
+                    "",
+                    "@*return* — : Normalized path"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.fs.normalize.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "normalize",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "parents",
+                "documentation": [
+                    "```lua",
+                    "function M.parents(start: string)",
+                    "  -\u003e fun(_: any, dir: string):string?",
+                    "  2. nil",
+                    "  3. string|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Iterate over all the parents of the given path (not expanded/resolved, the caller must do that).",
+                    "",
+                    " Example:",
+                    "",
+                    " ```lua",
+                    " local root_dir",
+                    " for dir in vim.fs.parents(vim.api.nvim_buf_get_name(0)) do",
+                    "   if vim.fn.isdirectory(dir .. '/.git') == 1 then",
+                    "     root_dir = dir",
+                    "     break",
+                    "   end",
+                    " end",
+                    "",
+                    " if root_dir then",
+                    "   print('Found git repository at', root_dir)",
+                    " end",
+                    " ```",
+                    "",
+                    "@*param* `start` — Initial path.",
+                    "",
+                    "@*return* — Iterator",
+                    "",
+                    "@*return*",
+                    "",
+                    "@*return*"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "start",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "parents",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "nil"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "relpath",
+                "documentation": [
+                    "```lua",
+                    "function M.relpath(base: string, target: string, opts?: table)",
+                    "  -\u003e string|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets `target` path relative to `base`, or `nil` if `base` is not an ancestor.",
+                    "",
+                    " Example:",
+                    "",
+                    " ```lua",
+                    " vim.fs.relpath('/var', '/var/lib') -- 'lib'",
+                    " vim.fs.relpath('/var', '/usr/bin') -- nil",
+                    " ```",
+                    "",
+                    "@*param* `opts` — Reserved for future use"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "base",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "target",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "relpath",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "rm",
+                "documentation": [
+                    "```lua",
+                    "function M.rm(path: string, opts?: vim.fs.rm.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Remove files or directories",
+                    " @since 13",
+                    "",
+                    "@*param* `path` — Path to remove"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.fs.rm.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "rm",
+                    "returns": []
+                }
+            },
+            {
+                "name": "root",
+                "documentation": [
+                    "```lua",
+                    "function M.root(source: string|integer, marker: string|(string|fun(name: string, path: string):boolean|string[])[]|fun(name: string, path: string):boolean)",
+                    "  -\u003e string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Find the first parent directory containing a specific \"marker\", relative to a file path or",
+                    " buffer.",
+                    "",
+                    " If the buffer is unnamed (has no backing file) or has a non-empty 'buftype' then the search",
+                    " begins from Nvim's |current-directory|.",
+                    "",
+                    " Examples:",
+                    "",
+                    " ```lua",
+                    " -- Find the root of a Python project, starting from file 'main.py'",
+                    " vim.fs.root(vim.fs.joinpath(vim.env.PWD, 'main.py'), {'pyproject.toml', 'setup.py' })",
+                    "",
+                    " -- Find the root of a git repository",
+                    " vim.fs.root(0, '.git')",
+                    "",
+                    " -- Find the parent directory containing any file with a .csproj extension",
+                    " vim.fs.root(0, function(name, path)",
+                    "   return name:match('%.csproj$') ~= nil",
+                    " end)",
+                    "",
+                    " -- Find the first ancestor directory containing EITHER \"stylua.toml\" or \".luarc.json\"; if",
+                    " -- not found, find the first ancestor containing \".git\":",
+                    " vim.fs.root(0, { { 'stylua.toml', '.luarc.json' }, '.git' })",
+                    " ```",
+                    "",
+                    " @since 12",
+                    "",
+                    "@*param* `source` — Buffer number (0 for current buffer) or file path (absolute or",
+                    "",
+                    "               relative to the |current-directory|) to begin the search from.",
+                    "               Filename, function, or list thereof, that decides how to find the root. To",
+                    "               indicate \"equal priority\", specify items in a nested list `{ { 'a.txt', 'b.lua' }, … }`.",
+                    "               A function item must return true if `name` and `path` are a match. Each item",
+                    "               (which may itself be a nested list) is evaluated in-order against all ancestors,",
+                    "               until a match is found.",
+                    "",
+                    "@*return* — Directory path containing one of the given markers, or nil if no directory was",
+                    "",
+                    "                   found."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "source",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "marker",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "array",
+                                                    "items": {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                },
+                                                {
+                                                    "kind": "function",
+                                                    "arguments": [
+                                                        {
+                                                            "name": "name",
+                                                            "optional": false,
+                                                            "type": {
+                                                                "kind": "builtin",
+                                                                "value": "string"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "path",
+                                                            "optional": false,
+                                                            "type": {
+                                                                "kind": "builtin",
+                                                                "value": "string"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "generics": [],
+                                                    "returns": [
+                                                        {
+                                                            "name": "",
+                                                            "type": {
+                                                                "kind": "builtin",
+                                                                "value": "boolean"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "name",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            },
+                                            {
+                                                "name": "path",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": [
+                                            {
+                                                "name": "",
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "boolean"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "root",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

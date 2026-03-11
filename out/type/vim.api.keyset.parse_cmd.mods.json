@@ -1,0 +1,316 @@
+{
+    "name": "vim.api.keyset.parse_cmd.mods",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.parse_cmd.mods",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "browse",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.browse: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "confirm",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.confirm: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "emsg_silent",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.emsg_silent: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "filter",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.filter: { force: boolean, pattern: string }",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "force",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        },
+                        {
+                            "name": "pattern",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "hide",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.hide: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "horizontal",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.horizontal: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "keepalt",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.keepalt: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "keepjumps",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.keepjumps: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "keepmarks",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.keepmarks: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "keeppatterns",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.keeppatterns: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "lockmarks",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.lockmarks: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "noautocmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.noautocmd: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "noswapfile",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.noswapfile: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "sandbox",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.sandbox: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "silent",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.silent: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "split",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.split: ''|'aboveleft'|'belowright'|'botright'|'topleft'",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "stringliteral",
+                            "value": "''"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'botright'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'topleft'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'belowright'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'aboveleft'"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "tab",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.tab: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "unsilent",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.unsilent: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "verbose",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.verbose: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "vertical",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods.vertical: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.parse_cmd.mods"
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "name": "lsp.StringValue",
+    "documentation": [
+        "```lua",
+        "(class) lsp.StringValue",
+        "```",
+        "",
+        "---",
+        "",
+        "A string value used as a snippet is a template which allows to insert text",
+        "and to control the editor cursor when insertion happens.",
+        "",
+        "A snippet can define tab stops and placeholders with `$1`, `$2`",
+        "and `${3:foo}`. `$0` defines the final tab stop, it defaults to",
+        "the end of the snippet. Variables are defined with `$name` and",
+        "`${name:default value}`.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.StringValue.kind: \"snippet\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The kind of string value."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"snippet\""
+                }
+            },
+            {
+                "name": "value",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.StringValue.value: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The snippet string."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.StringValue"
+    }
+}

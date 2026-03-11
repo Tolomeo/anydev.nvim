@@ -1,0 +1,115 @@
+{
+    "name": "vim.treesitter.query.TSMetadata",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.query.TSMetadata",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "conceal",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.query.TSMetadata.conceal: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.query.TSMetadata.range: (Range2|Range4|Range6)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "Range"
+                    }
+                }
+            }
+        ],
+        "indexes": [
+            {
+                "key": {
+                    "kind": "builtin",
+                    "value": "string"
+                },
+                "value": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "key": {
+                    "kind": "builtin",
+                    "value": "string"
+                },
+                "value": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "key": {
+                    "kind": "builtin",
+                    "value": "string"
+                },
+                "value": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.query.TSMetadata"
+    }
+}

@@ -1,0 +1,1526 @@
+{
+    "name": "vim.diagnostic",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "config",
+                "documentation": [
+                    "```lua",
+                    "function M.config(opts?: vim.diagnostic.Opts, namespace?: integer)",
+                    "  -\u003e (vim.diagnostic.Opts)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Configure diagnostic options globally or for a specific diagnostic",
+                    " namespace.",
+                    "",
+                    " Configuration can be specified globally, per-namespace, or ephemerally",
+                    " (i.e. only for a single call to |vim.diagnostic.set()| or",
+                    " |vim.diagnostic.show()|). Ephemeral configuration has highest priority,",
+                    " followed by namespace configuration, and finally global configuration.",
+                    "",
+                    " For example, if a user enables virtual text globally with",
+                    "",
+                    " ```lua",
+                    " vim.diagnostic.config({ virtual_text = true })",
+                    " ```",
+                    "",
+                    " and a diagnostic producer sets diagnostics with",
+                    "",
+                    " ```lua",
+                    " vim.diagnostic.set(ns, 0, diagnostics, { virtual_text = false })",
+                    " ```",
+                    "",
+                    " then virtual text will not be enabled for those diagnostics.",
+                    "",
+                    "@*param* `opts` — When omitted or `nil`, retrieve the current",
+                    "",
+                    "       configuration. Otherwise, a configuration table (see |vim.diagnostic.Opts|).",
+                    "",
+                    "@*param* `namespace` — Update the options for the given namespace.",
+                    "",
+                    "                          When omitted, update the global diagnostic options.",
+                    "",
+                    "@*return* — : Current diagnostic config if {opts} is omitted."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Opts"
+                                }
+                            }
+                        },
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "config",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Opts"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "count",
+                "documentation": [
+                    "```lua",
+                    "function M.count(bufnr?: integer, opts?: vim.diagnostic.GetOpts)",
+                    "  -\u003e table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get current diagnostics count.",
+                    "",
+                    "@*param* `bufnr` — Buffer number to get diagnostics from. Use 0 for",
+                    "",
+                    "                      current buffer or nil for all buffers.",
+                    "",
+                    "@*return* — : Table with actually present severity values as keys",
+                    "",
+                    "                (see |diagnostic-severity|) and integer counts as values."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.GetOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "count",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "disable",
+                "documentation": [
+                    "```lua",
+                    "function M.disable(bufnr: any, namespace: any)",
+                    "```"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "disable",
+                    "returns": []
+                }
+            },
+            {
+                "name": "enable",
+                "documentation": [
+                    "```lua",
+                    "function M.enable(enable: boolean|nil, filter?: vim.diagnostic.Filter)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Enables or disables diagnostics.",
+                    "",
+                    " To \"toggle\", pass the inverse of `is_enabled()`:",
+                    "",
+                    " ```lua",
+                    " vim.diagnostic.enable(not vim.diagnostic.is_enabled())",
+                    " ```",
+                    "",
+                    "@*param* `enable` — true/nil to enable, false to disable"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "enable",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "filter",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Filter"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "enable",
+                    "returns": []
+                }
+            },
+            {
+                "name": "fromqflist",
+                "documentation": [
+                    "```lua",
+                    "function M.fromqflist(list: table[])",
+                    "  -\u003e vim.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Convert a list of quickfix items to a list of diagnostics.",
+                    "",
+                    "@*param* `list` — List of quickfix items from |getqflist()| or |getloclist()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "list",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "fromqflist",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get",
+                "documentation": [
+                    "```lua",
+                    "function M.get(bufnr?: integer, opts?: vim.diagnostic.GetOpts)",
+                    "  -\u003e vim.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get current diagnostics.",
+                    "",
+                    " Modifying diagnostics in the returned table has no effect.",
+                    " To set diagnostics in a buffer, use |vim.diagnostic.set()|.",
+                    "",
+                    "@*param* `bufnr` — Buffer number to get diagnostics from. Use 0 for",
+                    "",
+                    "                      current buffer or nil for all buffers.",
+                    "",
+                    "@*return* — : Fields `bufnr`, `end_lnum`, `end_col`, and `severity`",
+                    "",
+                    "                           are guaranteed to be present."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.GetOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_namespace",
+                "documentation": [
+                    "```lua",
+                    "function M.get_namespace(namespace: integer)",
+                    "  -\u003e vim.diagnostic.NS",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get namespace metadata.",
+                    "",
+                    "@*param* `namespace` — Diagnostic namespace",
+                    "",
+                    "@*return* — : Namespace metadata"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_namespace",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.NS"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_namespaces",
+                "documentation": [
+                    "```lua",
+                    "function M.get_namespaces()",
+                    "  -\u003e table\u003cinteger, vim.diagnostic.NS\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get current diagnostic namespaces.",
+                    "",
+                    "@*return* — : List of active diagnostic namespaces |vim.diagnostic|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "get_namespaces",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.NS"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_next",
+                "documentation": [
+                    "```lua",
+                    "function M.get_next(opts?: vim.diagnostic.JumpOpts)",
+                    "  -\u003e (vim.Diagnostic)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the next diagnostic closest to the cursor position.",
+                    "",
+                    "@*return* — : Next diagnostic"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_next",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_next_pos",
+                "documentation": [
+                    "```lua",
+                    "function M.get_next_pos(opts?: vim.diagnostic.JumpOpts)",
+                    "  -\u003e table|false",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the position of the next diagnostic in the current buffer.",
+                    "",
+                    "@*return* — : Next diagnostic position as a `(row, col)` tuple or false if no next",
+                    "",
+                    "                      diagnostic.",
+                    "",
+                    "```lua",
+                    "return #1:",
+                    "    | false",
+                    "```"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_next_pos",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "booleanliteral",
+                                        "value": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_prev",
+                "documentation": [
+                    "```lua",
+                    "function M.get_prev(opts?: vim.diagnostic.JumpOpts)",
+                    "  -\u003e (vim.Diagnostic)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the previous diagnostic closest to the cursor position.",
+                    "",
+                    "@*return* — : Previous diagnostic"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_prev",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_prev_pos",
+                "documentation": [
+                    "```lua",
+                    "function M.get_prev_pos(opts?: vim.diagnostic.JumpOpts)",
+                    "  -\u003e table|false",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the position of the previous diagnostic in the current buffer.",
+                    "",
+                    "@*return* — : Previous diagnostic position as a `(row, col)` tuple",
+                    "",
+                    "                     or `false` if there is no prior diagnostic.",
+                    "",
+                    "```lua",
+                    "return #1:",
+                    "    | false",
+                    "```"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_prev_pos",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "booleanliteral",
+                                        "value": "false"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "goto_next",
+                "documentation": [
+                    "```lua",
+                    "function M.goto_next(opts?: vim.diagnostic.JumpOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Move to the next diagnostic."
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "goto_next",
+                    "returns": []
+                }
+            },
+            {
+                "name": "goto_prev",
+                "documentation": [
+                    "```lua",
+                    "function M.goto_prev(opts?: vim.diagnostic.JumpOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Move to the previous diagnostic in the current buffer."
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "goto_prev",
+                    "returns": []
+                }
+            },
+            {
+                "name": "handlers",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.diagnostic.handlers: table\u003cstring, vim.diagnostic.Handler\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            "value": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Handler"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "hide",
+                "documentation": [
+                    "```lua",
+                    "function M.hide(namespace?: integer, bufnr?: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Hide currently displayed diagnostics.",
+                    "",
+                    " This only clears the decorations displayed in the buffer. Diagnostics can",
+                    " be redisplayed with |vim.diagnostic.show()|. To completely remove",
+                    " diagnostics, use |vim.diagnostic.reset()|.",
+                    "",
+                    " To hide diagnostics and prevent them from re-displaying, use",
+                    " |vim.diagnostic.enable()|.",
+                    "",
+                    "@*param* `namespace` — Diagnostic namespace. When omitted, hide",
+                    "",
+                    "                          diagnostics from all namespaces.",
+                    "",
+                    "@*param* `bufnr` — Buffer number, or 0 for current buffer. When",
+                    "",
+                    "                      omitted, hide diagnostics in all buffers."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "hide",
+                    "returns": []
+                }
+            },
+            {
+                "name": "is_disabled",
+                "documentation": [
+                    "```lua",
+                    "function M.is_disabled(bufnr: any, namespace: any)",
+                    "  -\u003e boolean",
+                    "```"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_disabled",
+                    "returns": []
+                }
+            },
+            {
+                "name": "is_enabled",
+                "documentation": [
+                    "```lua",
+                    "function M.is_enabled(filter?: vim.diagnostic.Filter)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Check whether diagnostics are enabled.",
+                    "",
+                    " @since 12"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filter",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Filter"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_enabled",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "jump",
+                "documentation": [
+                    "```lua",
+                    "function M.jump(opts: vim.diagnostic.JumpOpts)",
+                    "  -\u003e (vim.Diagnostic)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Move to a diagnostic.",
+                    "",
+                    "@*return* — The diagnostic that was moved to."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.JumpOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "jump",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "match",
+                "documentation": [
+                    "```lua",
+                    "function M.match(str: string, pat: string, groups: string[], severity_map: table, defaults?: table)",
+                    "  -\u003e (vim.Diagnostic)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Parse a diagnostic from a string.",
+                    "",
+                    " For example, consider a line of output from a linter:",
+                    "",
+                    " ```",
+                    " WARNING filename:27:3: Variable 'foo' does not exist",
+                    " ```",
+                    "",
+                    " This can be parsed into |vim.Diagnostic| structure with:",
+                    "",
+                    " ```lua",
+                    " local s = \"WARNING filename:27:3: Variable 'foo' does not exist\"",
+                    " local pattern = \"^(%w+) %w+:(%d+):(%d+): (.+)$\"",
+                    " local groups = { \"severity\", \"lnum\", \"col\", \"message\" }",
+                    " vim.diagnostic.match(s, pattern, groups, { WARNING = vim.diagnostic.WARN })",
+                    " ```",
+                    "",
+                    "@*param* `str` — String to parse diagnostics from.",
+                    "",
+                    "@*param* `pat` — Lua pattern with capture groups.",
+                    "",
+                    "@*param* `groups` — List of fields in a |vim.Diagnostic| structure to",
+                    "",
+                    "                    associate with captures from {pat}.",
+                    "",
+                    "@*param* `severity_map` — A table mapping the severity field from {groups}",
+                    "",
+                    "                          with an item from |vim.diagnostic.severity|.",
+                    "",
+                    "@*param* `defaults` — Table of default values for any fields not listed in {groups}.",
+                    "",
+                    "                       When omitted, numeric values default to 0 and \"severity\" defaults to",
+                    "                       ERROR.",
+                    "",
+                    "@*return* — : |vim.Diagnostic| structure or `nil` if {pat} fails to match {str}."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "str",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "pat",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "groups",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        },
+                        {
+                            "name": "severity_map",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        },
+                        {
+                            "name": "defaults",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "match",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "open_float",
+                "documentation": [
+                    "```lua",
+                    "function M.open_float(opts?: vim.diagnostic.Opts.Float, ...any)",
+                    "  -\u003e float_bufnr: integer?",
+                    "  2. winid: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Show diagnostics in a floating window."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Opts.Float"
+                                }
+                            }
+                        },
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "open_float",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "reset",
+                "documentation": [
+                    "```lua",
+                    "function M.reset(namespace?: integer, bufnr?: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Remove all diagnostics from the given namespace.",
+                    "",
+                    " Unlike |vim.diagnostic.hide()|, this function removes all saved",
+                    " diagnostics. They cannot be redisplayed using |vim.diagnostic.show()|. To",
+                    " simply remove diagnostic decorations in a way that they can be",
+                    " re-displayed, use |vim.diagnostic.hide()|.",
+                    "",
+                    "@*param* `namespace` — Diagnostic namespace. When omitted, remove",
+                    "",
+                    "                          diagnostics from all namespaces.",
+                    "",
+                    "@*param* `bufnr` — Remove diagnostics for the given buffer. When omitted,",
+                    "",
+                    "                     diagnostics are removed for all buffers."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "reset",
+                    "returns": []
+                }
+            },
+            {
+                "name": "set",
+                "documentation": [
+                    "```lua",
+                    "function M.set(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Set diagnostics for the given namespace and buffer.",
+                    "",
+                    "@*param* `namespace` — The diagnostic namespace",
+                    "",
+                    "@*param* `bufnr` — Buffer number",
+                    "",
+                    "@*param* `opts` — Display options to pass to |vim.diagnostic.show()|"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "diagnostics",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set",
+                    "returns": []
+                }
+            },
+            {
+                "name": "setloclist",
+                "documentation": [
+                    "```lua",
+                    "function M.setloclist(opts?: vim.diagnostic.setloclist.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Add buffer diagnostics to the location list."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.setloclist.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "setloclist",
+                    "returns": []
+                }
+            },
+            {
+                "name": "setqflist",
+                "documentation": [
+                    "```lua",
+                    "function M.setqflist(opts?: vim.diagnostic.setqflist.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Add all diagnostics to the quickfix list."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.setqflist.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "setqflist",
+                    "returns": []
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.diagnostic.severity: enum vim.diagnostic.Severity",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "E",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "ERROR",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "HINT",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "I",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "INFO",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "N",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "W",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        },
+                        {
+                            "name": "WARN",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Severity"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "severity"
+                }
+            },
+            {
+                "name": "show",
+                "documentation": [
+                    "```lua",
+                    "function M.show(namespace?: integer, bufnr?: integer, diagnostics?: vim.Diagnostic[], opts?: vim.diagnostic.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Display diagnostics for the given namespace and buffer.",
+                    "",
+                    "@*param* `namespace` — Diagnostic namespace. When omitted, show",
+                    "",
+                    "                          diagnostics from all namespaces.",
+                    "",
+                    "@*param* `bufnr` — Buffer number, or 0 for current buffer. When omitted, show",
+                    "",
+                    "                      diagnostics in all buffers.",
+                    "",
+                    "@*param* `diagnostics` — The diagnostics to display. When omitted, use the",
+                    "",
+                    "                             saved diagnostics for the given namespace and",
+                    "                             buffer. This can be used to display a list of diagnostics",
+                    "                             without saving them or to display only a subset of",
+                    "                             diagnostics. May not be used when {namespace}",
+                    "                             or {bufnr} is nil.",
+                    "",
+                    "@*param* `opts` — Display options."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "namespace",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "diagnostics",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "typereference",
+                                        "value": "vim.Diagnostic"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "show",
+                    "returns": []
+                }
+            },
+            {
+                "name": "toqflist",
+                "documentation": [
+                    "```lua",
+                    "function M.toqflist(diagnostics: vim.Diagnostic[])",
+                    "  -\u003e table[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Convert a list of diagnostics to a list of quickfix items that can be",
+                    " passed to |setqflist()| or |setloclist()|.",
+                    "",
+                    "@*return* — : Quickfix list items |setqflist-what|"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "diagnostics",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "toqflist",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

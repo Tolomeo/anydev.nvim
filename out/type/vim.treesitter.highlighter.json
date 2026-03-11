@@ -1,0 +1,266 @@
+{
+    "name": "vim.treesitter.highlighter",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.highlighter",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "_conceal_checked",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter._conceal_checked: table\u003cinteger, boolean\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "_conceal_line",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter._conceal_line: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "active",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter.active: table\u003cinteger, vim.treesitter.highlighter\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.highlighter"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter.bufnr: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "new",
+                "documentation": [
+                    "```lua",
+                    "function vim.treesitter.highlighter.new(tree: vim.treesitter.LanguageTree, opts: table|nil)",
+                    "  -\u003e Created: vim.treesitter.highlighter",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Creates a highlighter for `tree`.",
+                    "",
+                    "@*param* `tree` — parser object to use for highlighting",
+                    "",
+                    "@*param* `opts` — Configuration of the highlighter:",
+                    "",
+                    "           - queries table overwrite queries used by the highlighter",
+                    "",
+                    "@*return* `Created` — highlighter object"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "tree",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "new",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.highlighter"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "parsing",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter.parsing: table\u003cinteger, boolean\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " A map from window ID to whether we are currently parsing that window asynchronously"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "tree",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.highlighter.tree: vim.treesitter.LanguageTree",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "vim.treesitter.LanguageTree"
+                }
+            },
+            {
+                "name": "destroy",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.highlighter:destroy()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    " Removes all internal references to the highlighter"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "destroy",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get_query",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.highlighter:get_query(lang: string)",
+                    "  -\u003e vim.treesitter.highlighter.Query",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the query used for @param lang",
+                    "",
+                    "@*param* `lang` — Language used by the highlighter."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_query",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.highlighter.Query"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.highlighter"
+    }
+}

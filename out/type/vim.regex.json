@@ -1,0 +1,160 @@
+{
+    "name": "vim.regex",
+    "documentation": [
+        "```lua",
+        "(class) vim.regex",
+        "```",
+        "",
+        "---",
+        "",
+        " @nodoc"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "match_line",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.regex:match_line(bufnr: integer, line_idx: integer, start?: integer, end_?: integer)",
+                    "  -\u003e integer?",
+                    "  2. integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Matches line at `line_idx` (zero-based) in buffer `bufnr`. Match is restricted to byte index",
+                    " range `start` and `end_` if given, otherwise see |regex:match_str()|. Returned byte indices are",
+                    " relative to `start` if given.",
+                    "",
+                    "@*return* — match start (byte index) relative to `start`, or `nil` if no match",
+                    "",
+                    "@*return* — match end (byte index) relative to `start`, or `nil` if no match"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "line_idx",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "match_line",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "match_str",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.regex:match_str(str: string)",
+                    "  -\u003e integer?",
+                    "  2. integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Matches string `str` against this regex. To match the string precisely, surround the regex with",
+                    " \"^\" and \"$\". Returns the byte indices for the start and end of the match, or `nil` if there is",
+                    " no match. Because any integer is \"truthy\", `regex:match_str()` can be directly used as",
+                    " a condition in an if-statement.",
+                    "",
+                    "@*return* — match start (byte index), or `nil` if no match",
+                    "",
+                    "@*return* — match end (byte index), or `nil` if no match"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "str",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "match_str",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.regex"
+    }
+}

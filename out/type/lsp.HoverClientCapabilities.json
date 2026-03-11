@@ -1,0 +1,61 @@
+{
+    "name": "lsp.HoverClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.HoverClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "contentFormat",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.HoverClientCapabilities.contentFormat: \"markdown\"|\"plaintext\"[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the following content formats for the content",
+                    "property. The order describes the preferred format of the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.MarkupKind"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.HoverClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether hover supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.HoverClientCapabilities"
+    }
+}

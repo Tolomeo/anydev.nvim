@@ -1,0 +1,91 @@
+{
+    "name": "lsp.MultiHandler",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.MultiHandler Expand to fun(results: table\u003cinteger, { err: (lsp.ResponseError)?, result: any }\u003e, context: lsp.HandlerContext, config?: table):...unknown",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (results: table\u003cinteger, { err: (lsp.ResponseError)?, result: any }\u003e, context: lsp.HandlerContext, config?: table)",
+        "  -\u003e ...unknown",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "results",
+                "optional": false,
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "fields": [
+                                    {
+                                        "name": "err",
+                                        "documentation": [],
+                                        "meta": [],
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "typereference",
+                                                "value": "lsp.ResponseError"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "result",
+                                        "documentation": [],
+                                        "meta": [],
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "context",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.HandlerContext"
+                }
+            },
+            {
+                "name": "config",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "table"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": [
+            {
+                "name": "",
+                "type": {
+                    "kind": "builtin",
+                    "value": "any"
+                }
+            }
+        ]
+    }
+}

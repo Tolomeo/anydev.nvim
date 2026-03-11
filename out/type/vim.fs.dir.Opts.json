@@ -1,0 +1,110 @@
+{
+    "name": "vim.fs.dir.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.fs.dir.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "depth",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.dir.Opts.depth: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " How deep the traverse.",
+                    " (default: `1`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "follow",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.dir.Opts.follow: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Follow symbolic links.",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "skip",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.dir.Opts.skip: (fun(dir_name: string):boolean)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Predicate to control traversal.",
+                    " Return false to stop searching the current directory.",
+                    " Only useful when depth \u003e 1",
+                    " Return an iterator over the items located in {path}",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (dir_name: string)",
+                    "  -\u003e boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "dir_name",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.fs.dir.Opts"
+    }
+}

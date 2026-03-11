@@ -1,0 +1,38 @@
+{
+    "name": "uv.fs_opendir.callback",
+    "documentation": [
+        "```lua",
+        "(alias) uv.fs_opendir.callback Expand to fun(err: string|nil, dir?: uv.luv_dir_t)",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: string|nil, dir?: uv.luv_dir_t)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.callback.err"
+                }
+            },
+            {
+                "name": "dir",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.luv_dir_t"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": []
+    }
+}

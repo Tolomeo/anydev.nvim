@@ -1,0 +1,106 @@
+{
+    "name": "lsp.CreateFile",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CreateFile",
+        "```",
+        "",
+        "---",
+        "",
+        "Create file operation."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "annotationId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFile.annotationId: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "An identifier to refer to a change annotation stored with a workspace edit.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional annotation identifier describing the operation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ChangeAnnotationIdentifier"
+                    }
+                }
+            },
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFile.kind: \"create\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A create"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"create\""
+                }
+            },
+            {
+                "name": "options",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFile.options: (lsp.CreateFileOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Options to create a file.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Additional options"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CreateFileOptions"
+                    }
+                }
+            },
+            {
+                "name": "uri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFile.uri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The resource to create."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.DocumentUri"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CreateFile"
+    }
+}

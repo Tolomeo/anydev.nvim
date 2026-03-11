@@ -1,0 +1,97 @@
+{
+    "name": "lsp.NotebookCellTextDocumentFilter",
+    "documentation": [
+        "```lua",
+        "(class) lsp.NotebookCellTextDocumentFilter",
+        "```",
+        "",
+        "---",
+        "",
+        "A notebook cell text document filter denotes a cell text",
+        "document by different properties.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "language",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookCellTextDocumentFilter.language: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A language id like `python`.",
+                    "",
+                    "Will be matched against the language id of the",
+                    "notebook cell document. '*' matches every language."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "notebook",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookCellTextDocumentFilter.notebook: string|lsp.NotebookDocumentFilterNotebookType|lsp.NotebookDocumentFilterPattern|lsp.NotebookDocumentFilterScheme",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A notebook document filter denotes a notebook document by",
+                    "different properties. The properties will be match",
+                    "against the notebook's URI (same as with documents)",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A filter that matches against the notebook",
+                    "containing the notebook cell. If a string",
+                    "value is provided it matches against the",
+                    "notebook type. '*' matches every notebook.",
+                    "",
+                    "---",
+                    "",
+                    "A notebook document filter where `notebookType` is required field.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "A notebook document filter where `scheme` is required field.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "A notebook document filter where `pattern` is required field.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.NotebookDocumentFilter"
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.NotebookCellTextDocumentFilter"
+    }
+}

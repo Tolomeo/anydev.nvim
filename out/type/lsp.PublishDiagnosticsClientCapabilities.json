@@ -1,0 +1,132 @@
+{
+    "name": "lsp.PublishDiagnosticsClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.PublishDiagnosticsClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "The publish diagnostic client capabilities."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "codeDescriptionSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsClientCapabilities.codeDescriptionSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports a codeDescription property",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dataSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsClientCapabilities.dataSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports the `data` property which is",
+                    "preserved between a `textDocument/publishDiagnostics` and",
+                    "`textDocument/codeAction` request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "relatedInformation",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsClientCapabilities.relatedInformation: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the clients accepts diagnostics with related information."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "tagSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsClientCapabilities.tagSupport: (lsp.ClientDiagnosticsTagOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the tag property to provide meta data about a diagnostic.",
+                    "Clients supporting tags have to handle unknown tags gracefully.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientDiagnosticsTagOptions"
+                    }
+                }
+            },
+            {
+                "name": "versionSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.PublishDiagnosticsClientCapabilities.versionSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client interprets the version property of the",
+                    "`textDocument/publishDiagnostics` notification's parameter.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.PublishDiagnosticsClientCapabilities"
+    }
+}

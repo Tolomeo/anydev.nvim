@@ -1,0 +1,153 @@
+{
+    "name": "vim.fn.undotree.ret",
+    "documentation": [
+        "```lua",
+        "(class) vim.fn.undotree.ret",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "entries",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.entries: vim.fn.undotree.entry[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " A list of dictionaries with information about",
+                    " undo blocks."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "vim.fn.undotree.entry"
+                    }
+                }
+            },
+            {
+                "name": "save_cur",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.save_cur: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Number of the current position in the undo",
+                    " tree."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "save_last",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.save_last: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Number of the last file write.  Zero when no",
+                    " write yet."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "seq_cur",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.seq_cur: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The sequence number of the current position in",
+                    " the undo tree.  This differs from \"seq_last\"",
+                    " when some changes were undone."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "seq_last",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.seq_last: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The highest undo sequence number used."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "synced",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.synced: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Non-zero when the last undo block was synced.",
+                    " This happens when waiting from input from the",
+                    " user.  See |undo-blocks|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "time_cur",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.undotree.ret.time_cur: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Time last used for |:earlier| and related",
+                    " commands.  Use |strftime()| to convert to",
+                    " something readable."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.fn.undotree.ret"
+    }
+}

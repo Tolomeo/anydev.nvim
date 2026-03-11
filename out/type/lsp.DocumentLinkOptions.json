@@ -1,0 +1,56 @@
+{
+    "name": "lsp.DocumentLinkOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentLinkOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Provider options for a {@link DocumentLinkRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "resolveProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentLinkOptions.resolveProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Document links have a resolve provider as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentLinkOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentLinkOptions"
+    }
+}

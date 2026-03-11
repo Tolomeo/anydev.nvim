@@ -1,0 +1,96 @@
+{
+    "name": "lsp.WindowClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WindowClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "showDocument",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WindowClientCapabilities.showDocument: (lsp.ShowDocumentClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Client capabilities for the showDocument request.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Capabilities specific to the showDocument request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ShowDocumentClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "showMessage",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WindowClientCapabilities.showMessage: (lsp.ShowMessageRequestClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Show message request client capabilities",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Capabilities specific to the showMessage request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ShowMessageRequestClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WindowClientCapabilities.workDoneProgress: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "It indicates whether the client supports server initiated",
+                    "progress using the `window/workDoneProgress/create` request.",
+                    "",
+                    "The capability also controls Whether client supports handling",
+                    "of progress notifications. If set servers are allowed to report a",
+                    "`workDoneProgress` property in the request specific server",
+                    "capabilities.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WindowClientCapabilities"
+    }
+}

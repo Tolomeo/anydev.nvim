@@ -1,0 +1,135 @@
+{
+    "name": "vim.diagnostic.setloclist.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.setloclist.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        "Configuration table with the following keys:"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "namespace",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setloclist.Opts.namespace: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Only add diagnostics from the given namespace."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "open",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setloclist.Opts.open: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Open the location list after setting.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setloclist.Opts.severity: (vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " See |diagnostic-severity| and |vim.diagnostic.get()|",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |diagnostic-severity|.",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.SeverityFilter"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setloclist.Opts.title: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Title of the location list. Defaults to \"Diagnostics\"."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "winnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setloclist.Opts.winnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Window number to set location list for.",
+                    " (default: `0`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.setloclist.Opts"
+    }
+}

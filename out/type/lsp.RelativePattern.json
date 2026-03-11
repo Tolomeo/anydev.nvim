@@ -1,0 +1,83 @@
+{
+    "name": "lsp.RelativePattern",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RelativePattern",
+        "```",
+        "",
+        "---",
+        "",
+        "A relative pattern is a helper to construct glob patterns that are matched",
+        "relatively to a base URI. The common value for a `baseUri` is a workspace",
+        "folder root, but it can be another absolute URI as well.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "baseUri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelativePattern.baseUri: string|lsp.WorkspaceFolder",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A workspace folder inside a client.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A workspace folder or a base URI to which this pattern will be matched",
+                    "against relatively."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.WorkspaceFolder"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.URI"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "pattern",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelativePattern.pattern: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:",
+                    "- `*` to match one or more characters in a path segment",
+                    "- `?` to match on one character in a path segment",
+                    "- `**` to match any number of path segments, including none",
+                    "- `{}` to group conditions (e.g. `**/*.{ts,js}` matches all TypeScript and JavaScript files)",
+                    "- `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)",
+                    "- `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The actual glob pattern;"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.Pattern"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RelativePattern"
+    }
+}

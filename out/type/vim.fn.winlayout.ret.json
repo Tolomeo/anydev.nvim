@@ -1,0 +1,26 @@
+{
+    "name": "vim.fn.winlayout.ret",
+    "documentation": [
+        "```lua",
+        "(alias) vim.fn.winlayout.ret Expand to vim.fn.winlayout.branch|vim.fn.winlayout.empty|vim.fn.winlayout.leaf",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "vim.fn.winlayout.leaf"
+            },
+            {
+                "kind": "typereference",
+                "value": "vim.fn.winlayout.branch"
+            },
+            {
+                "kind": "typereference",
+                "value": "vim.fn.winlayout.empty"
+            }
+        ]
+    }
+}

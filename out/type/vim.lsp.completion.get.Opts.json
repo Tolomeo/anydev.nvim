@@ -1,0 +1,43 @@
+{
+    "name": "vim.lsp.completion.get.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.completion.get.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        " @inlinedoc"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "ctx",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.completion.get.Opts.ctx: (lsp.CompletionContext)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Contains additional information about the context in which a completion request is triggered.",
+                    "",
+                    "---",
+                    "",
+                    "Completion context. Defaults to a trigger kind of `invoked`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CompletionContext"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.completion.get.Opts"
+    }
+}

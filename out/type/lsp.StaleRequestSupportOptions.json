@@ -1,0 +1,56 @@
+{
+    "name": "lsp.StaleRequestSupportOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.StaleRequestSupportOptions",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "cancel",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.StaleRequestSupportOptions.cancel: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client will actively cancel the request."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "retryOnContentModified",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.StaleRequestSupportOptions.retryOnContentModified: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The list of requests for which the client",
+                    "will retry the request if it receives a",
+                    "response with error code `ContentModified`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.StaleRequestSupportOptions"
+    }
+}

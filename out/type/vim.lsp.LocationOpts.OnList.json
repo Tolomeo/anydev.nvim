@@ -1,0 +1,95 @@
+{
+    "name": "vim.lsp.LocationOpts.OnList",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.LocationOpts.OnList",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "context",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.LocationOpts.OnList.context: { bufnr: integer, method: string }?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Subset of `ctx` from |lsp-handler|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [
+                            {
+                                "name": "bufnr",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "method",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "items",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.LocationOpts.OnList.items: table[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Structured like |setqflist-what|"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "table"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.LocationOpts.OnList.title: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Title for the list."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.LocationOpts.OnList"
+    }
+}

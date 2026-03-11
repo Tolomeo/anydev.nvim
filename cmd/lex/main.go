@@ -1,11 +1,7 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/Tolomeo/anydev.nvim/internal/extract"
-	"github.com/Tolomeo/anydev.nvim/internal/output"
-	"github.com/Tolomeo/anydev.nvim/internal/project"
 )
 
 const debug = true
@@ -172,27 +168,11 @@ var values = []string{
 // var types = []string{"vim.lsp.Client"}
 // var types = []string{"lsp.CallHierarchyClientCapabilities"}
 // var types = []string{"Range2"}
+// var types = []string{"uv.socketpair.fds"}
+
 var types = []string{}
 
-func getOutput() (*output.Output, error) {
-	outputDir, err := project.GetOutputDir()
-
-	if err != nil {
-		return nil, fmt.Errorf("Error getting output location: %w", err)
-	}
-
-	out := output.NewOutput(outputDir)
-
-	return out, nil
-}
-
 func main() {
-	out, err := getOutput()
-
-	if err != nil {
-		panic(err)
-	}
-
 	override := extract.Override{
 		Definition: map[string][]string{
 			"vim":        {"vim = {}"},
@@ -216,17 +196,6 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-
-		result := extractor.Result()
-
-		if err := out.WriteFile(fmt.Sprintf("%s.result.json", value), result); err != nil {
-			panic(fmt.Errorf("Error writing result.json: %w", err))
-		}
-
-		/* if err := out.WriteFile(fmt.Sprintf("%s.logs.json", value), logger.Logs()); err != nil {
-			panic(fmt.Errorf("Error writing logs.json: %w", err))
-		} */
-		extractor.Flush()
 	}
 
 	for _, typ := range types {
@@ -235,16 +204,5 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-
-		result := extractor.Result()
-
-		if err := out.WriteFile(fmt.Sprintf("%s.result.json", typ), result); err != nil {
-			panic(fmt.Errorf("Error writing result.json: %w", err))
-		}
-
-		/* if err := out.WriteFile(fmt.Sprintf("%s.logs.json", value), logger.Logs()); err != nil {
-			panic(fmt.Errorf("Error writing logs.json: %w", err))
-		} */
-		extractor.Flush()
 	}
 }

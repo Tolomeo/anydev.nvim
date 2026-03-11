@@ -1,0 +1,150 @@
+{
+    "name": "vim.fs.find.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.fs.find.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "follow",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.follow: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Follow symbolic links.",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "limit",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.limit: number?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Stop the search after finding this many matches.",
+                    " Use `math.huge` to place no limit on the number of matches.",
+                    " (default: `1`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                }
+            },
+            {
+                "name": "path",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.path: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Path to begin searching from. If",
+                    " omitted, the |current-directory| is used."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "stop",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.stop: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Stop searching when this directory is reached.",
+                    " The directory itself is not searched."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "type",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.type: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Find only items of the given type.",
+                    " If omitted, all items that match {names} are included."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "upward",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.find.Opts.upward: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Search upward through parent directories.",
+                    " Otherwise, search through child directories (recursively).",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.fs.find.Opts"
+    }
+}

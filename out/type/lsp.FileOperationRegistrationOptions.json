@@ -1,0 +1,41 @@
+{
+    "name": "lsp.FileOperationRegistrationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FileOperationRegistrationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "The options to register for file operations.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "filters",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationRegistrationOptions.filters: lsp.FileOperationFilter[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The actual filters."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationFilter"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FileOperationRegistrationOptions"
+    }
+}

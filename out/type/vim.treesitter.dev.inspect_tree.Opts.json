@@ -1,0 +1,166 @@
+{
+    "name": "vim.treesitter.dev.inspect_tree.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.dev.inspect_tree.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.dev.inspect_tree.Opts.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Buffer to draw the tree into. If omitted, a new buffer is created."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "command",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.dev.inspect_tree.Opts.command: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Vimscript command to create the window. Default value is \"60vnew\".",
+                    " Only used when {winid} is nil."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "lang",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.dev.inspect_tree.Opts.lang: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " The language of the source buffer. If omitted, the filetype of the source",
+                    " buffer is used."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.dev.inspect_tree.Opts.title: string|fun(bufnr: integer):string|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Title of the window. If a function, it accepts the buffer number of the",
+                    " source buffer as its only argument and should return a string.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (bufnr: integer)",
+                    "  -\u003e string|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "bufnr",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "nil"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "winid",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.dev.inspect_tree.Opts.winid: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Window id to display the tree buffer in. If omitted, a new window is",
+                    " created with {command}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.dev.inspect_tree.Opts"
+    }
+}

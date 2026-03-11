@@ -1,0 +1,61 @@
+{
+    "name": "lsp.WorkspaceFoldersChangeEvent",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WorkspaceFoldersChangeEvent",
+        "```",
+        "",
+        "---",
+        "",
+        "The workspace folder change event."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "added",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceFoldersChangeEvent.added: lsp.WorkspaceFolder[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The array of added workspace folders"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.WorkspaceFolder"
+                    }
+                }
+            },
+            {
+                "name": "removed",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceFoldersChangeEvent.removed: lsp.WorkspaceFolder[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The array of the removed workspace folders"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.WorkspaceFolder"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WorkspaceFoldersChangeEvent"
+    }
+}

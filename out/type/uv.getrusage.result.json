@@ -1,0 +1,287 @@
+{
+    "name": "uv.getrusage.result",
+    "documentation": [
+        "```lua",
+        "(class) uv.getrusage.result",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "idrss",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.idrss: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "integral unshared data size"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "inblock",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.inblock: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "block input operations"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "isrss",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.isrss: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "integral unshared stack size"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ixrss",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.ixrss: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "integral shared memory size"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "majflt",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.majflt: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "page faults (hard page faults)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "maxrss",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.maxrss: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "maximum resident set size"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "minflt",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.minflt: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "page reclaims (soft page faults)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "msgrcv",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.msgrcv: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "IPC messages received"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "msgsnd",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.msgsnd: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "IPC messages sent"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "nivcsw",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.nivcsw: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "involuntary context switches"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "nsignals",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.nsignals: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "signals received"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "nswap",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.nswap: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "swaps"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "nvcsw",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.nvcsw: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "voluntary context switches"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "oublock",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.oublock: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "block output operations"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "stime",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.stime: uv.getrusage.result.time_t",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "system CPU time used"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.getrusage.result.time_t"
+                }
+            },
+            {
+                "name": "utime",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getrusage.result.utime: uv.getrusage.result.time_t",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "user CPU time used"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.getrusage.result.time_t"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.getrusage.result"
+    }
+}

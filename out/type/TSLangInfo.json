@@ -1,0 +1,149 @@
+{
+    "name": "TSLangInfo",
+    "documentation": [
+        "```lua",
+        "(class) TSLangInfo",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "_wasm",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo._wasm: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "abi_version",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.abi_version: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "fields",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.fields: string[]",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "metadata",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.metadata: TSLangMetadata?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "ABI 15 only"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "TSLangMetadata"
+                    }
+                }
+            },
+            {
+                "name": "state_count",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.state_count: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "supertypes",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.supertypes: table\u003cstring, string[]\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            "value": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "symbols",
+                "documentation": [
+                    "```lua",
+                    "(field) TSLangInfo.symbols: table\u003cstring, boolean\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            "value": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "TSLangInfo"
+    }
+}

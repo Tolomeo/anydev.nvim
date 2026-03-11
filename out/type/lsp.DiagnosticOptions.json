@@ -1,0 +1,97 @@
+{
+    "name": "lsp.DiagnosticOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DiagnosticOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Diagnostic options.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "identifier",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticOptions.identifier: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional identifier under which the diagnostics are",
+                    "managed by the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "interFileDependencies",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticOptions.interFileDependencies: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the language has inter file dependencies meaning that",
+                    "editing code in one file can result in a different diagnostic",
+                    "set in another file. Inter file dependencies are common for",
+                    "most programming languages and typically uncommon for linters."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workspaceDiagnostics",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticOptions.workspaceDiagnostics: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support for workspace diagnostics as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DiagnosticOptions"
+    }
+}

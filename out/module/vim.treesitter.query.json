@@ -1,0 +1,735 @@
+{
+    "name": "vim.treesitter.query",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "add_directive",
+                "documentation": [
+                    "```lua",
+                    "function M.add_directive(name: string, handler: fun(match: table\u003cinteger, TSNode[]\u003e, pattern: integer, source: string|integer, predicate: any[], metadata: vim.treesitter.query.TSMetadata), opts: vim.treesitter.query.add_predicate.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Adds a new directive to be used in queries",
+                    "",
+                    " Handlers can set match level data by setting directly on the",
+                    " metadata object `metadata.key = value`. Additionally, handlers",
+                    " can set node level data by using the capture id on the",
+                    " metadata table `metadata[capture_id].key = value`",
+                    "",
+                    "@*param* `name` — Name of the directive, without leading #",
+                    "",
+                    "   - pattern: the index of the matching pattern in the query file",
+                    "   - predicate: list of strings containing the full directive being called, e.g.",
+                    "     `(node (#set! conceal \"-\"))` would get the predicate `{ \"#set!\", \"conceal\", \"-\" }`"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "handler",
+                            "optional": false,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "match",
+                                        "optional": false,
+                                        "type": {
+                                            "fields": [],
+                                            "indexes": [
+                                                {
+                                                    "key": {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    "value": {
+                                                        "kind": "array",
+                                                        "items": {
+                                                            "kind": "typereference",
+                                                            "value": "TSNode"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "kind": "table",
+                                            "name": ""
+                                        }
+                                    },
+                                    {
+                                        "name": "pattern",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "source",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "predicate",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "builtin",
+                                                "value": "any"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "metadata",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.query.TSMetadata"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.query.add_predicate.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "add_directive",
+                    "returns": []
+                }
+            },
+            {
+                "name": "add_predicate",
+                "documentation": [
+                    "```lua",
+                    "function M.add_predicate(name: string, handler: fun(match: table\u003cinteger, TSNode[]\u003e, pattern: integer, source: string|integer, predicate: any[], metadata: vim.treesitter.query.TSMetadata):boolean?, opts?: vim.treesitter.query.add_predicate.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Adds a new predicate to be used in queries",
+                    "",
+                    "@*param* `name` — Name of the predicate, without leading #",
+                    "",
+                    "   - see |vim.treesitter.query.add_directive()| for argument meanings"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "handler",
+                            "optional": false,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "match",
+                                        "optional": false,
+                                        "type": {
+                                            "fields": [],
+                                            "indexes": [
+                                                {
+                                                    "key": {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    "value": {
+                                                        "kind": "array",
+                                                        "items": {
+                                                            "kind": "typereference",
+                                                            "value": "TSNode"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "kind": "table",
+                                            "name": ""
+                                        }
+                                    },
+                                    {
+                                        "name": "pattern",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "source",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "predicate",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "builtin",
+                                                "value": "any"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "metadata",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.query.TSMetadata"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "boolean"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.query.add_predicate.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "add_predicate",
+                    "returns": []
+                }
+            },
+            {
+                "name": "edit",
+                "documentation": [
+                    "```lua",
+                    "function M.edit(lang?: string)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Opens a live editor to query the buffer you started from.",
+                    "",
+                    " Can also be shown with [:EditQuery](file:///usr/local/share/nvim/runtime/lua/vim/treesitter).",
+                    "",
+                    " If you move the cursor to a capture name (\"@foo\"), text matching the capture is highlighted in",
+                    " the source buffer. The query editor is a scratch buffer, use `:write` to save it. You can find",
+                    " example queries at `$VIMRUNTIME/queries/`.",
+                    "",
+                    "@*param* `lang` — language to open the query editor for. If omitted, inferred from the current buffer's filetype."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "edit",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get",
+                "documentation": [
+                    "```lua",
+                    "function (lang: string, query_name: string)",
+                    "  -\u003e (vim.treesitter.Query)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "@*param* `lang` — Language to use for the query",
+                    "",
+                    "@*param* `query_name` — Name of the query (e.g. \"highlights\")",
+                    "",
+                    "@*return* — : Parsed query. `nil` if no query files are found."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "query_name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "M.get",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.Query"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_files",
+                "documentation": [
+                    "```lua",
+                    "function M.get_files(lang: string, query_name: string, is_included?: boolean)",
+                    "  -\u003e query_files: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the list of files used to make up a query",
+                    "",
+                    "@*param* `lang` — Language to get query for",
+                    "",
+                    "@*param* `query_name` — Name of the query to load (e.g., \"highlights\")",
+                    "",
+                    "@*param* `is_included` — Internal parameter, most of the time left as `nil`",
+                    "",
+                    "@*return* `query_files` — List of files to load for given query and language"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "query_name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "is_included",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_files",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "lint",
+                "documentation": [
+                    "```lua",
+                    "function M.lint(buf: integer, opts?: vim.treesitter.query.lint.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lint treesitter queries using installed parser, or clear lint errors.",
+                    "",
+                    " Use |treesitter-parsers| in runtimepath to check the query file in {buf} for errors:",
+                    "",
+                    "   - verify that used nodes are valid identifiers in the grammar.",
+                    "   - verify that predicates and directives are valid.",
+                    "   - verify that top-level s-expressions are valid.",
+                    "",
+                    " The found diagnostics are reported using |diagnostic-api|.",
+                    " By default, the parser used for verification is determined by the containing folder",
+                    " of the query file, e.g., if the path ends in `/lua/highlights.scm`, the parser for the",
+                    " `lua` language will be used.",
+                    "",
+                    "@*param* `buf` — Buffer handle"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "buf",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.query.lint.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "lint",
+                    "returns": []
+                }
+            },
+            {
+                "name": "list_directives",
+                "documentation": [
+                    "```lua",
+                    "function M.list_directives()",
+                    "  -\u003e string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists the currently available directives to use in queries.",
+                    "",
+                    "@*return* — : Supported directives."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "list_directives",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "list_predicates",
+                "documentation": [
+                    "```lua",
+                    "function M.list_predicates()",
+                    "  -\u003e string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists the currently available predicates to use in queries.",
+                    "",
+                    "@*return* — : Supported predicates."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "list_predicates",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "omnifunc",
+                "documentation": [
+                    "```lua",
+                    "function M.omnifunc(findstart: 0|1, base: string)",
+                    "  -\u003e integer|table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Omnifunc for completing node names and predicates in treesitter queries.",
+                    "",
+                    " Use via",
+                    "",
+                    " ```lua",
+                    " vim.bo.omnifunc = 'v:lua.vim.treesitter.query.omnifunc'",
+                    " ```",
+                    "",
+                    "",
+                    "```lua",
+                    "findstart:",
+                    "    | 0",
+                    "    | 1",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "findstart",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "1"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "base",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "omnifunc",
+                    "returns": []
+                }
+            },
+            {
+                "name": "parse",
+                "documentation": [
+                    "```lua",
+                    "function (lang: string, query: string)",
+                    "  -\u003e vim.treesitter.Query",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "@*param* `lang` — Language to use for the query",
+                    "",
+                    "@*param* `query` — Query text, in s-expr syntax",
+                    "",
+                    "@*return* — : Parsed query"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "query",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "M.parse",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.Query"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "set",
+                "documentation": [
+                    "```lua",
+                    "function M.set(lang: string, query_name: string, text: string)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sets the runtime query named {query_name} for {lang}",
+                    "",
+                    " This allows users to override or extend any runtime files and/or configuration",
+                    " set by plugins.",
+                    "",
+                    " For example, you could enable spellchecking of `C` identifiers with the",
+                    " following code:",
+                    " ```lua",
+                    " vim.treesitter.query.set(",
+                    "   'c',",
+                    "   'highlights',",
+                    "   [[;inherits c",
+                    "   (identifier) @spell]])",
+                    " ]])",
+                    " ```",
+                    "",
+                    "@*param* `lang` — Language to use for the query",
+                    "",
+                    "@*param* `query_name` — Name of the query (e.g., \"highlights\")",
+                    "",
+                    "@*param* `text` — Query text (unparsed)."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "query_name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "text",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

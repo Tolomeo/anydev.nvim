@@ -1,0 +1,594 @@
+{
+    "name": "vim.api.keyset.highlight",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.highlight",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "altfont",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.altfont: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "background",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.background: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "bg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.bg: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "bg_indexed",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.bg_indexed: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "blend",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.blend: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "bold",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.bold: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "cterm",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.cterm: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "ctermbg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.ctermbg: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "ctermfg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.ctermfg: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "default",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.default: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "fallback",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.fallback: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "fg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.fg: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "fg_indexed",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.fg_indexed: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "force",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.force: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "foreground",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.foreground: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "global_link",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.global_link: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "italic",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.italic: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "link",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.link: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "nocombine",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.nocombine: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "reverse",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.reverse: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "sp",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.sp: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "special",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.special: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "standout",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.standout: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "strikethrough",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.strikethrough: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "undercurl",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.undercurl: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "underdashed",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.underdashed: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "underdotted",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.underdotted: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "underdouble",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.underdouble: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "underline",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.underline: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "url",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.highlight.url: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.highlight"
+    }
+}

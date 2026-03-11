@@ -1,0 +1,385 @@
+{
+    "name": "vim.lsp.rpc",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "client_errors",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.rpc.client_errors: table\u003cinteger, string\u003e|table\u003cstring, integer\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        },
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "connect",
+                "documentation": [
+                    "```lua",
+                    "function M.connect(host_or_path: string, port?: integer)",
+                    "  -\u003e fun(dispatchers: vim.lsp.rpc.Dispatchers):vim.lsp.rpc.PublicClient",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Create a LSP RPC client factory that connects to either:",
+                    "",
+                    "  - a named pipe (windows)",
+                    "  - a domain socket (unix)",
+                    "  - a host and port via TCP",
+                    "",
+                    " Return a function that can be passed to the `cmd` field for",
+                    " |vim.lsp.start()|.",
+                    "",
+                    "@*param* `host_or_path` — host to connect to or path to a pipe/domain socket",
+                    "",
+                    "@*param* `port` — TCP port to connect to. If absent the first argument must be a pipe"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "host_or_path",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "port",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "connect",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "dispatchers",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.rpc.Dispatchers"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.rpc.PublicClient"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "create_read_loop",
+                "documentation": [
+                    "```lua",
+                    "function M.create_read_loop(handle_body: fun(body: string), on_exit?: fun(), on_error: fun(err: any))",
+                    "  -\u003e function",
+                    "```"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "handle_body",
+                            "optional": false,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "body",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        },
+                        {
+                            "name": "on_exit",
+                            "optional": true,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [],
+                                "generics": [],
+                                "returns": []
+                            }
+                        },
+                        {
+                            "name": "on_error",
+                            "optional": false,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "err",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "create_read_loop",
+                    "returns": []
+                }
+            },
+            {
+                "name": "format_rpc_error",
+                "documentation": [
+                    "```lua",
+                    "function M.format_rpc_error(err: table)",
+                    "  -\u003e error_message: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Constructs an error message from an LSP error object.",
+                    "",
+                    "@*param* `err` — The error object",
+                    "",
+                    "@*return* `error_message` — The formatted error message"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "err",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "format_rpc_error",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "rpc_response_error",
+                "documentation": [
+                    "```lua",
+                    "function M.rpc_response_error(code: integer, message?: string, data?: any)",
+                    "  -\u003e lsp.ResponseError",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Creates an RPC response table `error` to be sent to the LSP response.",
+                    "",
+                    "@*param* `code` — RPC error code defined, see `vim.lsp.protocol.ErrorCodes`",
+                    "",
+                    "@*param* `message` — arbitrary message to send to server",
+                    "",
+                    "@*param* `data` — arbitrary data to send to server",
+                    "",
+                    "",
+                    "See: [lsp.ErrorCodes](file:///usr/local/share/nvim/runtime/lua/vim/lsp/_meta/protocol.lua#5231#10) See `vim.lsp.protocol.ErrorCodes`"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "code",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "data",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "rpc_response_error",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.ResponseError"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "start",
+                "documentation": [
+                    "```lua",
+                    "function M.start(cmd: string[], dispatchers?: vim.lsp.rpc.Dispatchers, extra_spawn_params?: vim.lsp.rpc.ExtraSpawnParams)",
+                    "  -\u003e vim.lsp.rpc.PublicClient",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Starts an LSP server process and create an LSP RPC client object to",
+                    " interact with it. Communication with the spawned process happens via stdio. For",
+                    " communication via TCP, spawn a process manually and use |vim.lsp.rpc.connect()|",
+                    "",
+                    "@*param* `cmd` — Command to start the LSP server."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "cmd",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        },
+                        {
+                            "name": "dispatchers",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.rpc.Dispatchers"
+                            }
+                        },
+                        {
+                            "name": "extra_spawn_params",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.rpc.ExtraSpawnParams"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "start",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.rpc.PublicClient"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

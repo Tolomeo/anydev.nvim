@@ -1,0 +1,24 @@
+{
+    "name": "lsp.DocumentSelector",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.DocumentSelector Expand to lsp.NotebookCellTextDocumentFilter|lsp.TextDocumentFilterLanguage|lsp.TextDocumentFilterPattern|lsp.TextDocumentFilterScheme[]",
+        "```",
+        "",
+        "---",
+        "",
+        "A document selector is the combination of one or many document filters.",
+        "",
+        "\\@sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;",
+        "",
+        "The use of a string as a document filter is deprecated @since 3.16.0."
+    ],
+    "meta": [],
+    "type": {
+        "kind": "array",
+        "items": {
+            "kind": "typereference",
+            "value": "lsp.DocumentFilter"
+        }
+    }
+}

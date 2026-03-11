@@ -1,0 +1,447 @@
+{
+    "name": "vim.diagnostic.Opts.VirtualText",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.Opts.VirtualText",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "current_line",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.current_line: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Only show diagnostics for the current line.",
+                    " (default `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "format",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.format: fun(diagnostic: vim.Diagnostic):string??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " If not nil, the return value is the text used to display the diagnostic. Example:",
+                    " ```lua",
+                    " function(diagnostic)",
+                    "   if diagnostic.severity == vim.diagnostic.severity.ERROR then",
+                    "     return string.format(\"E: %s\", diagnostic.message)",
+                    "   end",
+                    "   return diagnostic.message",
+                    " end",
+                    " ```",
+                    " If the return value is nil, the diagnostic is not displayed by the handler.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (diagnostic: vim.Diagnostic)",
+                    "  -\u003e string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "diagnostic",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "hl_mode",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.hl_mode: ('blend'|'combine'|'replace')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |nvim_buf_set_extmark()|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'replace'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'combine'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'blend'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "prefix",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.prefix: (string|fun(diagnostic: vim.Diagnostic, i: integer, total: integer):string)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Prepend diagnostic message with prefix. If a `function`, {i} is the index",
+                    " of the diagnostic being evaluated, and {total} is the total number of",
+                    " diagnostics for the line. This can be used to render diagnostic symbols",
+                    " or error codes.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (diagnostic: vim.Diagnostic, i: integer, total: integer)",
+                    "  -\u003e string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "diagnostic",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.Diagnostic"
+                                        }
+                                    },
+                                    {
+                                        "name": "i",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "total",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.severity: (vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " See |diagnostic-severity| and |vim.diagnostic.get()|",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Only show virtual text for diagnostics matching the given",
+                    " severity |diagnostic-severity|",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.SeverityFilter"
+                    }
+                }
+            },
+            {
+                "name": "source",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.source: (boolean|\"if_many\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Include the diagnostic source in virtual text. Use `'if_many'` to only",
+                    " show sources if there is more than one diagnostic source in the buffer.",
+                    " Otherwise, any truthy value means to always show the diagnostic source."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "\"if_many\""
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "spacing",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.spacing: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Amount of empty spaces inserted at the beginning of the virtual text."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "suffix",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.suffix: (string|fun(diagnostic: vim.Diagnostic):string)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Append diagnostic message with suffix.",
+                    " This can be used to render an LSP diagnostic error code.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (diagnostic: vim.Diagnostic)",
+                    "  -\u003e string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "diagnostic",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.Diagnostic"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "virt_text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.virt_text: [string, any][]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |nvim_buf_set_extmark()|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "virt_text_hide",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.virt_text_hide: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |nvim_buf_set_extmark()|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virt_text_pos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.virt_text_pos: ('eol'|'eol_right_align'|'inline'|'overlay'|'right_align')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |nvim_buf_set_extmark()|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'eol'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'eol_right_align'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'inline'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'overlay'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'right_align'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "virt_text_win_col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.VirtualText.virt_text_win_col: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |nvim_buf_set_extmark()|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.Opts.VirtualText"
+    }
+}

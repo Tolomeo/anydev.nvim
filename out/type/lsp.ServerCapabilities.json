@@ -1,0 +1,1282 @@
+{
+    "name": "lsp.ServerCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ServerCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Defines the capabilities provided by a language",
+        "server."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "callHierarchyProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.callHierarchyProvider: (boolean|lsp.CallHierarchyOptions|lsp.CallHierarchyRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Call hierarchy options used during static registration.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides call hierarchy support.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Call hierarchy options used during static or dynamic registration.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.CallHierarchyOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.CallHierarchyRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "codeActionProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.codeActionProvider: (boolean|lsp.CodeActionOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link CodeActionRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides code actions. CodeActionOptions may only be",
+                    "specified if the client states that it supports",
+                    "`codeActionLiteralSupport` in its initial `initialize` request."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.CodeActionOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "codeLensProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.codeLensProvider: (lsp.CodeLensOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Code Lens provider options of a {@link CodeLensRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides code lens."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CodeLensOptions"
+                    }
+                }
+            },
+            {
+                "name": "colorProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.colorProvider: (boolean|lsp.DocumentColorOptions|lsp.DocumentColorRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides color provider support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentColorOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentColorRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "completionProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.completionProvider: (lsp.CompletionOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Completion options.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides completion support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CompletionOptions"
+                    }
+                }
+            },
+            {
+                "name": "declarationProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.declarationProvider: (boolean|lsp.DeclarationOptions|lsp.DeclarationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides Goto Declaration support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DeclarationOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DeclarationRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "definitionProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.definitionProvider: (boolean|lsp.DefinitionOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Server Capabilities for a {@link DefinitionRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides goto definition support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DefinitionOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "diagnosticProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.diagnosticProvider: (lsp.DiagnosticOptions|lsp.DiagnosticRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Diagnostic options.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server has support for pull model diagnostics.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Diagnostic registration options.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DiagnosticOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DiagnosticRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "documentFormattingProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentFormattingProvider: (boolean|lsp.DocumentFormattingOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentFormattingRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document formatting."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentFormattingOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "documentHighlightProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentHighlightProvider: (boolean|lsp.DocumentHighlightOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentHighlightRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document highlight support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentHighlightOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "documentLinkProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentLinkProvider: (lsp.DocumentLinkOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentLinkRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document link support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.DocumentLinkOptions"
+                    }
+                }
+            },
+            {
+                "name": "documentOnTypeFormattingProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentOnTypeFormattingProvider: (lsp.DocumentOnTypeFormattingOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentOnTypeFormattingRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document formatting on typing."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.DocumentOnTypeFormattingOptions"
+                    }
+                }
+            },
+            {
+                "name": "documentRangeFormattingProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentRangeFormattingProvider: (boolean|lsp.DocumentRangeFormattingOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentRangeFormattingRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document range formatting."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentRangeFormattingOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "documentSymbolProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.documentSymbolProvider: (boolean|lsp.DocumentSymbolOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link DocumentSymbolRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides document symbol support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentSymbolOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "executeCommandProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.executeCommandProvider: (lsp.ExecuteCommandOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The server capabilities of a {@link ExecuteCommandRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides execute command support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ExecuteCommandOptions"
+                    }
+                }
+            },
+            {
+                "name": "experimental",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.experimental: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The LSP any type.",
+                    "Please note that strictly speaking a property with the value `undefined`",
+                    "can't be converted into JSON preserving the property name. However for",
+                    "convenience it is allowed and assumed that all these properties are",
+                    "optional as well.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Experimental server capabilities.",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "LSP arrays."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPAny"
+                    }
+                }
+            },
+            {
+                "name": "foldingRangeProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.foldingRangeProvider: (boolean|lsp.FoldingRangeOptions|lsp.FoldingRangeRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides folding provider support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.FoldingRangeOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.FoldingRangeRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "hoverProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.hoverProvider: (boolean|lsp.HoverOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Hover options.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides hover support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.HoverOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "implementationProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.implementationProvider: (boolean|lsp.ImplementationOptions|lsp.ImplementationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides Goto Implementation support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.ImplementationOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.ImplementationRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "inlayHintProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.inlayHintProvider: (boolean|lsp.InlayHintOptions|lsp.InlayHintRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Inlay hint options used during static registration.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides inlay hints.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Inlay hint options used during static or dynamic registration.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.InlayHintOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.InlayHintRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "inlineCompletionProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.inlineCompletionProvider: (boolean|lsp.InlineCompletionOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Inline completion options used during static registration.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Inline completion options used during static registration.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.InlineCompletionOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "inlineValueProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.inlineValueProvider: (boolean|lsp.InlineValueOptions|lsp.InlineValueRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Inline value options used during static registration.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides inline values.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Inline value options used during static or dynamic registration.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.InlineValueOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.InlineValueRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "linkedEditingRangeProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.linkedEditingRangeProvider: (boolean|lsp.LinkedEditingRangeOptions|lsp.LinkedEditingRangeRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides linked editing range support.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.LinkedEditingRangeOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.LinkedEditingRangeRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "monikerProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.monikerProvider: (boolean|lsp.MonikerOptions|lsp.MonikerRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides moniker support.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.MonikerOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.MonikerRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "notebookDocumentSync",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.notebookDocumentSync: (lsp.NotebookDocumentSyncOptions|lsp.NotebookDocumentSyncRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Options specific to a notebook plus its cells",
+                    "to be synced to the server.",
+                    "",
+                    "If a selector provides a notebook document",
+                    "filter but no cell selector all cells of a",
+                    "matching notebook document will be synced.",
+                    "",
+                    "If a selector provides no notebook document",
+                    "filter but only a cell selector all notebook",
+                    "document that contain at least one matching",
+                    "cell will be synced.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Defines how notebook documents are synced.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Registration options specific to a notebook.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentSyncOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentSyncRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "positionEncoding",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.positionEncoding: (\"utf-16\"|\"utf-32\"|\"utf-8\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A set of predefined position encoding kinds.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The position encoding the server picked from the encodings offered",
+                    "by the client via the client capability `general.positionEncodings`.",
+                    "",
+                    "If the client didn't provide any position encodings the only valid",
+                    "value that a server can return is 'utf-16'.",
+                    "",
+                    "If omitted it defaults to 'utf-16'.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "-- A set of predefined position encoding kinds.",
+                    "-- ",
+                    "lsp.PositionEncodingKind:",
+                    "    | \"utf-8\" -- UTF8",
+                    "    | \"utf-16\" -- UTF16",
+                    "    | \"utf-32\" -- UTF32",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.PositionEncodingKind"
+                    }
+                }
+            },
+            {
+                "name": "referencesProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.referencesProvider: (boolean|lsp.ReferenceOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Reference options.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides find references support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.ReferenceOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "renameProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.renameProvider: (boolean|lsp.RenameOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Provider options for a {@link RenameRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides rename support. RenameOptions may only be",
+                    "specified if the client states that it supports",
+                    "`prepareSupport` in its initial `initialize` request."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.RenameOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "selectionRangeProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.selectionRangeProvider: (boolean|lsp.SelectionRangeOptions|lsp.SelectionRangeRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides selection range support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.SelectionRangeOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.SelectionRangeRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "semanticTokensProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.semanticTokensProvider: (lsp.SemanticTokensOptions|lsp.SemanticTokensRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides semantic tokens support.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.SemanticTokensOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.SemanticTokensRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "signatureHelpProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.signatureHelpProvider: (lsp.SignatureHelpOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Server Capabilities for a {@link SignatureHelpRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides signature help support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.SignatureHelpOptions"
+                    }
+                }
+            },
+            {
+                "name": "textDocumentSync",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.textDocumentSync: (0|1|2|lsp.TextDocumentSyncOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Defines how the host (editor) should sync",
+                    "document changes to the language server.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Defines how text documents are synced. Is either a detailed structure",
+                    "defining each notification or for backwards compatibility the",
+                    "TextDocumentSyncKind number.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "-- Defines how the host (editor) should sync",
+                    "-- document changes to the language server.",
+                    "lsp.TextDocumentSyncKind:",
+                    "    | 0 -- None",
+                    "    | 1 -- Full",
+                    "    | 2 -- Incremental",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TextDocumentSyncOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TextDocumentSyncKind"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "typeDefinitionProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.typeDefinitionProvider: (boolean|lsp.TypeDefinitionOptions|lsp.TypeDefinitionRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides Goto Type Definition support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TypeDefinitionOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TypeDefinitionRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "typeHierarchyProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.typeHierarchyProvider: (boolean|lsp.TypeHierarchyOptions|lsp.TypeHierarchyRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Type hierarchy options used during static registration.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides type hierarchy support.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Type hierarchy options used during static or dynamic registration.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TypeHierarchyOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TypeHierarchyRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "workspace",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.workspace: (lsp.WorkspaceOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Defines workspace specific capabilities of the server.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Workspace specific server capabilities."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.WorkspaceOptions"
+                    }
+                }
+            },
+            {
+                "name": "workspaceSymbolProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerCapabilities.workspaceSymbolProvider: (boolean|lsp.WorkspaceSymbolOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Server capabilities for a {@link WorkspaceSymbolRequest}.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides workspace symbol support."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.WorkspaceSymbolOptions"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ServerCapabilities"
+    }
+}

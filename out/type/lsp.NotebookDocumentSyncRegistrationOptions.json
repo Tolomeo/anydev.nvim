@@ -1,0 +1,94 @@
+{
+    "name": "lsp.NotebookDocumentSyncRegistrationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.NotebookDocumentSyncRegistrationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Registration options specific to a notebook.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookDocumentSyncRegistrationOptions.id: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The id used to register the request. The id can be used to deregister",
+                    "the request again. See also Registration#id."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "notebookSelector",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookDocumentSyncRegistrationOptions.notebookSelector: (lsp.NotebookDocumentFilterWithCells|lsp.NotebookDocumentFilterWithNotebook)[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The notebooks to be synced"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentFilterWithNotebook"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentFilterWithCells"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "save",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookDocumentSyncRegistrationOptions.save: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether save notification should be forwarded to",
+                    "the server. Will only be honored if mode === `notebook`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.NotebookDocumentSyncRegistrationOptions"
+    }
+}

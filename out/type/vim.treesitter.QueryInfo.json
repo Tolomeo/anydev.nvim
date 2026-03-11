@@ -1,0 +1,90 @@
+{
+    "name": "vim.treesitter.QueryInfo",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.QueryInfo",
+        "```",
+        "",
+        "---",
+        "",
+        "Information for Query, see |vim.treesitter.query.parse()|"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "captures",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.QueryInfo.captures: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "List of (unique) capture names defined in query."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "patterns",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.QueryInfo.patterns: table\u003cinteger, (string|integer)[][]\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Contains information about predicates and directives.",
+                    "Key is pattern id, and value is list of predicates or directives defined in the pattern.",
+                    "A predicate or directive is a list of (integer|string); integer represents `capture_id`, and",
+                    "string represents (literal) arguments to predicate/directive. See |treesitter-predicates|",
+                    "and |treesitter-directives| for more details."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.QueryInfo"
+    }
+}

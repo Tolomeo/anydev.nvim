@@ -1,0 +1,101 @@
+{
+    "name": "vim._inspector.Filter",
+    "documentation": [
+        "```lua",
+        "(class) vim._inspector.Filter",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "extmarks",
+                "documentation": [
+                    "```lua",
+                    "(field) vim._inspector.Filter.extmarks: boolean|\"all\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Include extmarks. When `all`, then extmarks without a `hl_group` will also be included.",
+                    " (default: true)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "\"all\""
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "semantic_tokens",
+                "documentation": [
+                    "```lua",
+                    "(field) vim._inspector.Filter.semantic_tokens: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Include semantic token highlights.",
+                    " (default: true)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "syntax",
+                "documentation": [
+                    "```lua",
+                    "(field) vim._inspector.Filter.syntax: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Include syntax based highlight groups.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "treesitter",
+                "documentation": [
+                    "```lua",
+                    "(field) vim._inspector.Filter.treesitter: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Include treesitter based highlight groups.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim._inspector.Filter"
+    }
+}

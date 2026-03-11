@@ -1,0 +1,59 @@
+{
+    "name": "lsp.ServerInfo",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ServerInfo",
+        "```",
+        "",
+        "---",
+        "",
+        "Information about the server",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerInfo.name: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The name of the server as defined by the server."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "version",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ServerInfo.version: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server's version as defined by the server."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ServerInfo"
+    }
+}

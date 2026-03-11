@@ -1,0 +1,202 @@
+{
+    "name": "vim.api.keyset.create_autocmd",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.create_autocmd",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "buffer",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.buffer: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "callback",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.callback: (string|fun(args: vim.api.keyset.create_autocmd.callback_args):boolean?)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (args: vim.api.keyset.create_autocmd.callback_args)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "args",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.api.keyset.create_autocmd.callback_args"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "boolean"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "command",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.command: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "desc",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.desc: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.group: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "nested",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.nested: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "once",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.once: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "pattern",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.create_autocmd.pattern: (string|string[])?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.create_autocmd"
+    }
+}

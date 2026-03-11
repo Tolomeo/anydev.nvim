@@ -1,0 +1,41 @@
+{
+    "name": "lsp.DocumentDiagnosticReport",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.DocumentDiagnosticReport Expand to lsp.RelatedFullDocumentDiagnosticReport|lsp.RelatedUnchangedDocumentDiagnosticReport",
+        "```",
+        "",
+        "---",
+        "",
+        "The result of a document diagnostic pull request. A report can",
+        "either be a full report containing all diagnostics for the",
+        "requested document or an unchanged report indicating that nothing",
+        "has changed in terms of diagnostics in comparison to the last",
+        "pull request.",
+        "",
+        "",
+        "---",
+        "",
+        "A full diagnostic report with a set of related documents.",
+        "",
+        "",
+        "---",
+        "",
+        "An unchanged diagnostic report with a set of related documents.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "lsp.RelatedFullDocumentDiagnosticReport"
+            },
+            {
+                "kind": "typereference",
+                "value": "lsp.RelatedUnchangedDocumentDiagnosticReport"
+            }
+        ]
+    }
+}

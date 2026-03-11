@@ -1,0 +1,82 @@
+{
+    "name": "lsp.ExecuteCommandParams",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ExecuteCommandParams",
+        "```",
+        "",
+        "---",
+        "",
+        "The parameters of a {@link ExecuteCommandRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "arguments",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ExecuteCommandParams.arguments: boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Arguments that the command should be invoked with."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.LSPAny"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "command",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ExecuteCommandParams.command: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The identifier of the actual command handler."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "workDoneToken",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ExecuteCommandParams.workDoneToken: (string|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional token that a server can use to report work done progress."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ProgressToken"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ExecuteCommandParams"
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "name": "lsp.InlayHintClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.InlayHintClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Inlay hint client capabilities.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether inlay hints support dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "resolveSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintClientCapabilities.resolveSupport: (lsp.ClientInlayHintResolveOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Indicates which properties a client can resolve lazily on an inlay",
+                    "hint."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientInlayHintResolveOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.InlayHintClientCapabilities"
+    }
+}

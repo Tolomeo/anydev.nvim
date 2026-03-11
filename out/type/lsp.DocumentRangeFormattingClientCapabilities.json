@@ -1,0 +1,62 @@
+{
+    "name": "lsp.DocumentRangeFormattingClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentRangeFormattingClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client capabilities of a {@link DocumentRangeFormattingRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentRangeFormattingClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether range formatting supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "rangesSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentRangeFormattingClientCapabilities.rangesSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client supports formatting multiple ranges at once.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentRangeFormattingClientCapabilities"
+    }
+}

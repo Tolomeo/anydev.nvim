@@ -1,0 +1,67 @@
+{
+    "name": "vim.filetype.add.filetypes",
+    "documentation": [
+        "```lua",
+        "(class) vim.filetype.add.filetypes",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "extension",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.add.filetypes.extension: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.filetype.mapping"
+                    }
+                }
+            },
+            {
+                "name": "filename",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.add.filetypes.filename: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.filetype.mapping"
+                    }
+                }
+            },
+            {
+                "name": "pattern",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.add.filetypes.pattern: table\u003cstring, string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.filetype.mapping"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.filetype.add.filetypes"
+    }
+}

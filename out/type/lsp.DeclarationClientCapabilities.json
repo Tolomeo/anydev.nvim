@@ -1,0 +1,59 @@
+{
+    "name": "lsp.DeclarationClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DeclarationClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeclarationClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether declaration supports dynamic registration. If this is set to `true`",
+                    "the client supports the new `DeclarationRegistrationOptions` return value",
+                    "for the corresponding server capability as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "linkSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeclarationClientCapabilities.linkSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports additional metadata in the form of declaration links."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DeclarationClientCapabilities"
+    }
+}

@@ -1,0 +1,779 @@
+{
+    "name": "vim.lsp.buf",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "add_workspace_folder",
+                "documentation": [
+                    "```lua",
+                    "function M.add_workspace_folder(workspace_folder?: string)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Add the folder at path to the workspace folders. If {path} is",
+                    " not provided, the user will be prompted for a path using |input()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "workspace_folder",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "add_workspace_folder",
+                    "returns": []
+                }
+            },
+            {
+                "name": "clear_references",
+                "documentation": [
+                    "```lua",
+                    "function M.clear_references()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Removes document highlights from current buffer."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "clear_references",
+                    "returns": []
+                }
+            },
+            {
+                "name": "code_action",
+                "documentation": [
+                    "```lua",
+                    "function M.code_action(opts?: vim.lsp.buf.code_action.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Selects a code action (LSP: \"textDocument/codeAction\" request) available at cursor position.",
+                    "",
+                    "See:",
+                    "  * ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_codeAction",
+                    "  * [vim.lsp.protocol.CodeActionTriggerKind](file:///usr/local/share/nvim/runtime/lua/vim/lsp/protocol.lua#301#2)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.buf.code_action.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "code_action",
+                    "returns": []
+                }
+            },
+            {
+                "name": "completion",
+                "documentation": [
+                    "```lua",
+                    "function M.completion(context: table)",
+                    "  -\u003e table\u003cinteger, integer\u003e",
+                    "  2. function",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Retrieves the completion items at the current cursor position. Can only be",
+                    " called in Insert mode.",
+                    "",
+                    "@*param* `context` — (context support not yet implemented) Additional information",
+                    "",
+                    " about the context in which a completion was triggered (how it was triggered,",
+                    " and by which trigger character, if applicable)",
+                    "",
+                    "See: [vim.lsp.protocol.CompletionTriggerKind](file:///usr/local/share/nvim/runtime/lua/vim/lsp/protocol.lua#89#2)"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "context",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "completion",
+                    "returns": []
+                }
+            },
+            {
+                "name": "declaration",
+                "documentation": [
+                    "```lua",
+                    "function M.declaration(opts?: vim.lsp.LocationOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Jumps to the declaration of the symbol under the cursor.",
+                    " @note Many servers do not implement this method. Generally, see |vim.lsp.buf.definition()| instead."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.LocationOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "declaration",
+                    "returns": []
+                }
+            },
+            {
+                "name": "definition",
+                "documentation": [
+                    "```lua",
+                    "function M.definition(opts?: vim.lsp.LocationOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Jumps to the definition of the symbol under the cursor."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.LocationOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "definition",
+                    "returns": []
+                }
+            },
+            {
+                "name": "document_highlight",
+                "documentation": [
+                    "```lua",
+                    "function M.document_highlight()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Send request to the server to resolve document highlights for the current",
+                    " text document position. This request can be triggered by a  key mapping or",
+                    " by events such as `CursorHold`, e.g.:",
+                    "",
+                    " ```vim",
+                    " autocmd CursorHold  \u003cbuffer\u003e lua vim.lsp.buf.document_highlight()",
+                    " autocmd CursorHoldI \u003cbuffer\u003e lua vim.lsp.buf.document_highlight()",
+                    " autocmd CursorMoved \u003cbuffer\u003e lua vim.lsp.buf.clear_references()",
+                    " ```",
+                    "",
+                    " Note: Usage of |vim.lsp.buf.document_highlight()| requires the following highlight groups",
+                    "       to be defined or you won't be able to see the actual highlights.",
+                    "         |hl-LspReferenceText|",
+                    "         |hl-LspReferenceRead|",
+                    "         |hl-LspReferenceWrite|"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "document_highlight",
+                    "returns": []
+                }
+            },
+            {
+                "name": "document_symbol",
+                "documentation": [
+                    "```lua",
+                    "function M.document_symbol(opts?: vim.lsp.ListOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all symbols in the current buffer in the |location-list|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.ListOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "document_symbol",
+                    "returns": []
+                }
+            },
+            {
+                "name": "execute_command",
+                "documentation": [
+                    "```lua",
+                    "function M.execute_command(command_params: lsp.ExecuteCommandParams)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Executes an LSP server command.",
+                    "See: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "command_params",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.ExecuteCommandParams"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "execute_command",
+                    "returns": []
+                }
+            },
+            {
+                "name": "format",
+                "documentation": [
+                    "```lua",
+                    "function M.format(opts?: vim.lsp.buf.format.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Formats a buffer using the attached (and optionally filtered) language",
+                    " server clients."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.buf.format.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "format",
+                    "returns": []
+                }
+            },
+            {
+                "name": "hover",
+                "documentation": [
+                    "```lua",
+                    "function M.hover(config?: vim.lsp.buf.hover.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Displays hover information about the symbol under the cursor in a floating",
+                    " window. The window will be dismissed on cursor move.",
+                    " Calling the function twice will jump into the floating window",
+                    " (thus by default, \"KK\" will open the hover window and focus it).",
+                    " In the floating window, all commands and mappings are available as usual,",
+                    " except that \"q\" dismisses the window.",
+                    " You can scroll the contents the same as you would any other buffer.",
+                    "",
+                    " Note: to disable hover highlights, add the following to your config:",
+                    "",
+                    " ```lua",
+                    " vim.api.nvim_create_autocmd('ColorScheme', {",
+                    "   callback = function()",
+                    "     vim.api.nvim_set_hl(0, 'LspReferenceTarget', {})",
+                    "   end,",
+                    " })",
+                    " ```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "config",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.buf.hover.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "hover",
+                    "returns": []
+                }
+            },
+            {
+                "name": "implementation",
+                "documentation": [
+                    "```lua",
+                    "function M.implementation(opts?: vim.lsp.LocationOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all the implementations for the symbol under the cursor in the",
+                    " quickfix window."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.LocationOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "implementation",
+                    "returns": []
+                }
+            },
+            {
+                "name": "incoming_calls",
+                "documentation": [
+                    "```lua",
+                    "function M.incoming_calls()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all the call sites of the symbol under the cursor in the",
+                    " |quickfix| window. If the symbol can resolve to multiple",
+                    " items, the user can pick one in the |inputlist()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "incoming_calls",
+                    "returns": []
+                }
+            },
+            {
+                "name": "list_workspace_folders",
+                "documentation": [
+                    "```lua",
+                    "function M.list_workspace_folders()",
+                    "  -\u003e table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " List workspace folders."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "list_workspace_folders",
+                    "returns": []
+                }
+            },
+            {
+                "name": "outgoing_calls",
+                "documentation": [
+                    "```lua",
+                    "function M.outgoing_calls()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all the items that are called by the symbol under the",
+                    " cursor in the |quickfix| window. If the symbol can resolve to",
+                    " multiple items, the user can pick one in the |inputlist()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "outgoing_calls",
+                    "returns": []
+                }
+            },
+            {
+                "name": "references",
+                "documentation": [
+                    "```lua",
+                    "function M.references(context?: lsp.ReferenceContext, opts?: vim.lsp.ListOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all the references to the symbol under the cursor in the quickfix window.",
+                    "",
+                    "@*param* `context` — Context for the request",
+                    "",
+                    "See: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_references"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "context",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.ReferenceContext"
+                                }
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.ListOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "references",
+                    "returns": []
+                }
+            },
+            {
+                "name": "remove_workspace_folder",
+                "documentation": [
+                    "```lua",
+                    "function M.remove_workspace_folder(workspace_folder?: string)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Remove the folder at path from the workspace folders. If",
+                    " {path} is not provided, the user will be prompted for",
+                    " a path using |input()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "workspace_folder",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "remove_workspace_folder",
+                    "returns": []
+                }
+            },
+            {
+                "name": "rename",
+                "documentation": [
+                    "```lua",
+                    "function M.rename(new_name: string|nil, opts?: vim.lsp.buf.rename.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Renames all references to the symbol under the cursor.",
+                    "",
+                    "@*param* `new_name` — If not provided, the user will be prompted for a new",
+                    "",
+                    "                name using |vim.ui.input()|.",
+                    "",
+                    "@*param* `opts` — Additional options:"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "new_name",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.buf.rename.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "rename",
+                    "returns": []
+                }
+            },
+            {
+                "name": "signature_help",
+                "documentation": [
+                    "```lua",
+                    "function M.signature_help(config?: vim.lsp.buf.signature_help.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Displays signature information about the symbol under the cursor in a",
+                    " floating window."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "config",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.buf.signature_help.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "signature_help",
+                    "returns": []
+                }
+            },
+            {
+                "name": "type_definition",
+                "documentation": [
+                    "```lua",
+                    "function M.type_definition(opts?: vim.lsp.LocationOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Jumps to the definition of the type of the symbol under the cursor."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.LocationOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "type_definition",
+                    "returns": []
+                }
+            },
+            {
+                "name": "typehierarchy",
+                "documentation": [
+                    "```lua",
+                    "function M.typehierarchy(kind: \"subtypes\"|\"supertypes\")",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all the subtypes or supertypes of the symbol under the",
+                    " cursor in the |quickfix| window. If the symbol can resolve to",
+                    " multiple items, the user can pick one using |vim.ui.select()|.",
+                    "",
+                    "```lua",
+                    "kind:",
+                    "    | \"subtypes\"",
+                    "    | \"supertypes\"",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "kind",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "\"subtypes\""
+                                    },
+                                    {
+                                        "kind": "stringliteral",
+                                        "value": "\"supertypes\""
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "typehierarchy",
+                    "returns": []
+                }
+            },
+            {
+                "name": "workspace_symbol",
+                "documentation": [
+                    "```lua",
+                    "function M.workspace_symbol(query?: string, opts?: vim.lsp.ListOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Lists all symbols in the current workspace in the quickfix window.",
+                    "",
+                    " The list is filtered against {query}; if the argument is omitted from the",
+                    " call, the user is prompted to enter a string on the command line. An empty",
+                    " string means no filtering is done.",
+                    "",
+                    "@*param* `query` — optional"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "query",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.ListOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "workspace_symbol",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

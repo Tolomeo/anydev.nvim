@@ -1,0 +1,108 @@
+{
+    "name": "lsp.ClientSignatureInformationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ClientSignatureInformationOptions",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "activeParameterSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSignatureInformationOptions.activeParameterSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports the `activeParameter` property on `SignatureInformation`",
+                    "literal.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "documentationFormat",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSignatureInformationOptions.documentationFormat: \"markdown\"|\"plaintext\"[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the following content formats for the documentation",
+                    "property. The order describes the preferred format of the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.MarkupKind"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "noActiveParameterSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSignatureInformationOptions.noActiveParameterSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports the `activeParameter` property on",
+                    "`SignatureHelp`/`SignatureInformation` being set to `null` to",
+                    "indicate that no parameter should be active.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "parameterInformation",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSignatureInformationOptions.parameterInformation: (lsp.ClientSignatureParameterInformationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client capabilities specific to parameter information."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSignatureParameterInformationOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ClientSignatureInformationOptions"
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "name": "lsp.DocumentRangeFormattingOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentRangeFormattingOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Provider options for a {@link DocumentRangeFormattingRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "rangesSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentRangeFormattingOptions.rangesSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the server supports formatting multiple ranges at once.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentRangeFormattingOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentRangeFormattingOptions"
+    }
+}

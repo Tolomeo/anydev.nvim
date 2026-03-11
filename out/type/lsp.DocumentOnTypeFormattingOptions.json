@@ -1,0 +1,61 @@
+{
+    "name": "lsp.DocumentOnTypeFormattingOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentOnTypeFormattingOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Provider options for a {@link DocumentOnTypeFormattingRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "firstTriggerCharacter",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentOnTypeFormattingOptions.firstTriggerCharacter: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A character on which formatting should be triggered, like `{`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "moreTriggerCharacter",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentOnTypeFormattingOptions.moreTriggerCharacter: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "More trigger characters."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentOnTypeFormattingOptions"
+    }
+}

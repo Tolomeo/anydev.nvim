@@ -1,0 +1,176 @@
+{
+    "name": "vim.lsp.buf.code_action.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.buf.code_action.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "apply",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.code_action.Opts.apply: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " When set to `true`, and there is just one remaining action",
+                    " (after filtering), the action is applied without user query."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "context",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.code_action.Opts.context: (lsp.CodeActionContext)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Contains additional diagnostic information about the context in which",
+                    "a {@link CodeActionProvider.provideCodeActions code action} is run.",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Corresponds to `CodeActionContext` of the LSP specification:",
+                    "   - {diagnostics}? (`table`) LSP `Diagnostic[]`. Inferred from the current",
+                    "     position if not provided.",
+                    "   - {only}? (`table`) List of LSP `CodeActionKind`s used to filter the code actions.",
+                    "     Most language servers support values like `refactor`",
+                    "     or `quickfix`.",
+                    "   - {triggerKind}? (`integer`) The reason why code actions were requested."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CodeActionContext"
+                    }
+                }
+            },
+            {
+                "name": "filter",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.code_action.Opts.filter: (fun(x: lsp.CodeAction|lsp.Command):boolean)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Predicate taking an `CodeAction` and returning a boolean.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (x: lsp.CodeAction|lsp.Command)",
+                    "  -\u003e boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "x",
+                                "optional": false,
+                                "type": {
+                                    "kind": "union",
+                                    "types": [
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.CodeAction"
+                                        },
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.Command"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.code_action.Opts.range: { start: integer[], end: integer[] }?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Range for which code actions should be requested.",
+                    " If in visual mode this defaults to the active selection.",
+                    " Table must contain `start` and `end` keys with {row,col} tuples",
+                    " using mark-like indexing. See |api-indexing|"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [
+                            {
+                                "name": "start",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "end",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.buf.code_action.Opts"
+    }
+}

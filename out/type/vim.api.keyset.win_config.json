@@ -1,0 +1,503 @@
+{
+    "name": "vim.api.keyset.win_config",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.win_config",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "anchor",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.anchor: ('NE'|'NW'|'SE'|'SW')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'NW'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'NE'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'SW'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'SE'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "border",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.border: ('double'|'none'|'rounded'|'shadow'|'single'|'solid'|string[])?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'none'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'single'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'double'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'rounded'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'solid'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'shadow'"
+                            },
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "bufpos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.bufpos: integer[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.col: number?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                }
+            },
+            {
+                "name": "external",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.external: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "fixed",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.fixed: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "focusable",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.focusable: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "footer",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.footer: any",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                }
+            },
+            {
+                "name": "footer_pos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.footer_pos: ('center'|'left'|'right')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'center'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'left'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'right'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "height",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.height: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "hide",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.hide: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "mouse",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.mouse: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "noautocmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.noautocmd: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "relative",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.relative: ('cursor'|'editor'|'laststatus'|'mouse'|'tabline'|'win')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'cursor'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'editor'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'laststatus'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'mouse'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'tabline'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'win'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "row",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.row: number?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "number"
+                    }
+                }
+            },
+            {
+                "name": "split",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.split: ('above'|'below'|'left'|'right')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'left'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'right'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'above'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'below'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "style",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.style: 'minimal'?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "stringliteral",
+                        "value": "'minimal'"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.title: any",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                }
+            },
+            {
+                "name": "title_pos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.title_pos: ('center'|'left'|'right')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'center'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'left'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'right'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "vertical",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.vertical: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "width",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.width: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "win",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.win: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "zindex",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.win_config.zindex: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.win_config"
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "name": "vim.diagnostic.setqflist.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.setqflist.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        " Configuration table with the following keys:"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "namespace",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setqflist.Opts.namespace: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Only add diagnostics from the given namespace."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "open",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setqflist.Opts.open: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Open quickfix list after setting.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setqflist.Opts.severity: (vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " See |diagnostic-severity| and |vim.diagnostic.get()|",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |diagnostic-severity|.",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.SeverityFilter"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.setqflist.Opts.title: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Title of quickfix list. Defaults to \"Diagnostics\". If there's already a quickfix list with this",
+                    " title, it's updated. If not, a new quickfix list is created."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.setqflist.Opts"
+    }
+}

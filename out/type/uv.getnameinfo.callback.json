@@ -1,0 +1,46 @@
+{
+    "name": "uv.getnameinfo.callback",
+    "documentation": [
+        "```lua",
+        "(alias) uv.getnameinfo.callback Expand to fun(err: string|nil, host?: string, service?: string)",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: string|nil, host?: string, service?: string)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.callback.err"
+                }
+            },
+            {
+                "name": "host",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "service",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": []
+    }
+}

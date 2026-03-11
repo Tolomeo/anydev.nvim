@@ -1,0 +1,42 @@
+{
+    "name": "uv.spawn.options.stdio",
+    "documentation": [
+        "```lua",
+        "(alias) uv.spawn.options.stdio Expand to integer|uv.uv_stream_t|nil",
+        "```",
+        "",
+        "---",
+        "",
+        " The `options.stdio` entries can take many shapes.",
+        "",
+        "   - If they are numbers, then the child process inherits that same zero-indexed fd from the parent process.",
+        "   - If `uv_stream_t` handles are passed in, those are used as a read-write pipe or inherited stream depending if the stream has a valid fd.",
+        "   - Including `nil` placeholders means to ignore that fd in the child process.",
+        "",
+        "",
+        "---",
+        "",
+        " Stream handles provide an abstraction of a duplex communication channel.",
+        " `uv_stream_t` is an abstract type, libuv provides 3 stream implementations",
+        " in the form of `uv_tcp_t`, `uv_pipe_t` and `uv_tty_t`.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "builtin",
+                "value": "integer"
+            },
+            {
+                "kind": "typereference",
+                "value": "uv.uv_stream_t"
+            },
+            {
+                "kind": "builtin",
+                "value": "nil"
+            }
+        ]
+    }
+}

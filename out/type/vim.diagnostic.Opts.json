@@ -1,0 +1,462 @@
+{
+    "name": "vim.diagnostic.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        " Many of the configuration options below accept one of the following:",
+        " - `false`: Disable this feature",
+        " - `true`: Enable this feature, use default settings.",
+        " - `table`: Enable this feature with overrides. Use an empty table to use default values.",
+        " - `function`: Function with signature (namespace, bufnr) that returns any of the above."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "float",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.float: (boolean|fun(namespace: integer, bufnr: integer):vim.diagnostic.Opts.Float|vim.diagnostic.Opts.Float)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Options for floating windows. See |vim.diagnostic.Opts.Float|.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "  -\u003e vim.diagnostic.Opts.Float",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.Float"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.Opts.Float"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "jump",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.jump: (vim.diagnostic.Opts.Jump)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Default values for |vim.diagnostic.jump()|. See |vim.diagnostic.Opts.Jump|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.Opts.Jump"
+                    }
+                }
+            },
+            {
+                "name": "severity_sort",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.severity_sort: (boolean|{ reverse: boolean })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Sort diagnostics by severity. This affects the order in which signs,",
+                    " virtual text, and highlights are displayed. When true, higher severities are",
+                    " displayed before lower severities (e.g. ERROR is displayed before WARN).",
+                    " Options:",
+                    "   - {reverse}? (boolean) Reverse sort order",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "fields": [
+                                    {
+                                        "name": "reverse",
+                                        "documentation": [],
+                                        "meta": [],
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "boolean"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "signs",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.signs: (boolean|fun(namespace: integer, bufnr: integer):vim.diagnostic.Opts.Signs|vim.diagnostic.Opts.Signs)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Use signs for diagnostics |diagnostic-signs|.",
+                    " (default: `true`)",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "  -\u003e vim.diagnostic.Opts.Signs",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.Signs"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.Opts.Signs"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "underline",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.underline: (boolean|fun(namespace: integer, bufnr: integer):vim.diagnostic.Opts.Underline|vim.diagnostic.Opts.Underline)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Use underline for diagnostics.",
+                    " (default: `true`)",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "  -\u003e vim.diagnostic.Opts.Underline",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.Underline"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.Opts.Underline"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "update_in_insert",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.update_in_insert: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Update diagnostics in Insert mode",
+                    " (if `false`, diagnostics are updated on |InsertLeave|)",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virtual_lines",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.virtual_lines: (boolean|fun(namespace: integer, bufnr: integer):vim.diagnostic.Opts.VirtualLines|vim.diagnostic.Opts.VirtualLines)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Use virtual lines for diagnostics.",
+                    " (default: `false`)",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "  -\u003e vim.diagnostic.Opts.VirtualLines",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.VirtualLines"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.Opts.VirtualLines"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "virtual_text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.virtual_text: (boolean|fun(namespace: integer, bufnr: integer):vim.diagnostic.Opts.VirtualText|vim.diagnostic.Opts.VirtualText)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Use virtual text for diagnostics. If multiple diagnostics are set for a",
+                    " namespace, one prefix per diagnostic + the last diagnostic message are",
+                    " shown.",
+                    " (default: `false`)",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "  -\u003e vim.diagnostic.Opts.VirtualText",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.VirtualText"
+                            },
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "namespace",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "name": "bufnr",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": [
+                                    {
+                                        "name": "",
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.diagnostic.Opts.VirtualText"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.Opts"
+    }
+}

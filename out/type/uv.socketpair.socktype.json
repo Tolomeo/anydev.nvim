@@ -1,0 +1,48 @@
+{
+    "name": "uv.socketpair.socktype",
+    "documentation": [
+        "```lua",
+        "(alias) uv.socketpair.socktype Expand to integer|\"dgram\"|\"raw\"|\"rdm\"|\"seqpacket\"|\"stream\"|nil",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "uv.socketpair.socktype:",
+        "    | \"stream\"",
+        "    | \"dgram\"",
+        "    | \"raw\"",
+        "    | \"rdm\"",
+        "    | \"seqpacket\"",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "uv.socket.type:",
+        "    | \"stream\"",
+        "    | \"dgram\"",
+        "    | \"raw\"",
+        "    | \"rdm\"",
+        "    | \"seqpacket\"",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "uv.socket.type"
+            },
+            {
+                "kind": "builtin",
+                "value": "integer"
+            },
+            {
+                "kind": "builtin",
+                "value": "nil"
+            }
+        ]
+    }
+}

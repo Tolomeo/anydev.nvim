@@ -1,0 +1,62 @@
+{
+    "name": "lsp.DiagnosticRelatedInformation",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DiagnosticRelatedInformation",
+        "```",
+        "",
+        "---",
+        "",
+        "Represents a related message and source code location for a diagnostic. This should be",
+        "used to point to code locations that cause or related to a diagnostics, e.g when duplicating",
+        "a symbol in a scope."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "location",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRelatedInformation.location: lsp.Location",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Represents a location inside a resource, such as a line",
+                    "inside a text file.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The location of this related diagnostic information."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.Location"
+                }
+            },
+            {
+                "name": "message",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRelatedInformation.message: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The message of this related diagnostic information."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DiagnosticRelatedInformation"
+    }
+}

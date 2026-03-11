@@ -1,0 +1,58 @@
+{
+    "name": "lsp.WorkspaceSymbolOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WorkspaceSymbolOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Server capabilities for a {@link WorkspaceSymbolRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "resolveProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolOptions.resolveProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support to resolve additional",
+                    "information for a workspace symbol.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WorkspaceSymbolOptions"
+    }
+}

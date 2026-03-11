@@ -1,0 +1,37 @@
+{
+    "name": "lsp.InsertTextFormat",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.InsertTextFormat Expand to 1|2",
+        "```",
+        "",
+        "---",
+        "",
+        "Defines whether the insert text in a completion item should be interpreted as",
+        "plain text or a snippet.",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- Defines whether the insert text in a completion item should be interpreted as",
+        "-- plain text or a snippet.",
+        "lsp.InsertTextFormat:",
+        "    | 1 -- PlainText",
+        "    | 2 -- Snippet",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "numericliteral",
+                "value": "1"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "2"
+            }
+        ]
+    }
+}

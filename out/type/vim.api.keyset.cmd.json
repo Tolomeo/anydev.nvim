@@ -1,0 +1,232 @@
+{
+    "name": "vim.api.keyset.cmd",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.cmd",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "addr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.addr: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "args",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.args: string[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "bang",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.bang: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "cmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.cmd: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "count",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.count: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "magic",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.magic: table\u003cstring, any\u003e?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "builtin",
+                                    "value": "any"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "mods",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.mods: table\u003cstring, any\u003e?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "builtin",
+                                    "value": "any"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "nargs",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.nargs: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "nextcmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.nextcmd: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.range: any[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "reg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.cmd.reg: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.cmd"
+    }
+}

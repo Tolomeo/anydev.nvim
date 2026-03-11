@@ -1,0 +1,106 @@
+{
+    "name": "lsp.DeleteFile",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DeleteFile",
+        "```",
+        "",
+        "---",
+        "",
+        "Delete file operation"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "annotationId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFile.annotationId: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "An identifier to refer to a change annotation stored with a workspace edit.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional annotation identifier describing the operation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ChangeAnnotationIdentifier"
+                    }
+                }
+            },
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFile.kind: \"delete\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A delete"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"delete\""
+                }
+            },
+            {
+                "name": "options",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFile.options: (lsp.DeleteFileOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Delete file options",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Delete options."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.DeleteFileOptions"
+                    }
+                }
+            },
+            {
+                "name": "uri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFile.uri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The file to delete."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.DocumentUri"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DeleteFile"
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "name": "lsp.ClientFoldingRangeKindOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ClientFoldingRangeKindOptions",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "valueSet",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientFoldingRangeKindOptions.valueSet: \"comment\"|\"imports\"|\"region\"[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The folding range kind values the client supports. When this",
+                    "property exists the client also guarantees that it will",
+                    "handle values outside its set gracefully and falls back",
+                    "to a default value when unknown."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.FoldingRangeKind"
+                        }
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ClientFoldingRangeKindOptions"
+    }
+}

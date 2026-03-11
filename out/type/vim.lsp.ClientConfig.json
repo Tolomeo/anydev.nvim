@@ -1,0 +1,747 @@
+{
+    "name": "vim.lsp.ClientConfig",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.ClientConfig",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "before_init",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.before_init: fun(params: lsp.InitializeParams, config: vim.lsp.ClientConfig)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Callback invoked before the LSP \"initialize\" phase, where `params` contains the parameters",
+                    " being sent to the server and `config` is the config that was passed to |vim.lsp.start()|.",
+                    " You can use this to modify parameters before they are sent.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (params: lsp.InitializeParams, config: vim.lsp.ClientConfig)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "params",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.InitializeParams"
+                                }
+                            },
+                            {
+                                "name": "config",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.ClientConfig"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "capabilities",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.capabilities: (lsp.ClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Defines the capabilities provided by the client.",
+                    "",
+                    "---",
+                    "",
+                    " Map overriding the default capabilities defined by |vim.lsp.protocol.make_client_capabilities()|,",
+                    " passed to the language server on initialization. Hint: use make_client_capabilities() and modify",
+                    " its result.",
+                    " - Note: To send an empty dictionary use |vim.empty_dict()|, else it will be encoded as an",
+                    "   array."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "cmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.cmd: fun(dispatchers: vim.lsp.rpc.Dispatchers, config: vim.lsp.ClientConfig):vim.lsp.rpc.PublicClient|string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Command `string[]` that launches the language server (treated as in |jobstart()|, must be",
+                    " absolute or on `$PATH`, shell constructs like \"~\" are not expanded), or function that creates an",
+                    " RPC client. Function receives a `dispatchers` table and the resolved `config`, and must return",
+                    " a table with member functions `request`, `notify`, `is_closing` and `terminate`.",
+                    " See |vim.lsp.rpc.request()|, |vim.lsp.rpc.notify()|.",
+                    " For TCP there is a builtin RPC client factory: |vim.lsp.rpc.connect()|",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (dispatchers: vim.lsp.rpc.Dispatchers, config: vim.lsp.ClientConfig)",
+                    "  -\u003e vim.lsp.rpc.PublicClient",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "kind": "function",
+                            "arguments": [
+                                {
+                                    "name": "dispatchers",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.lsp.rpc.Dispatchers"
+                                    }
+                                },
+                                {
+                                    "name": "config",
+                                    "optional": false,
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.lsp.ClientConfig"
+                                    }
+                                }
+                            ],
+                            "generics": [],
+                            "returns": [
+                                {
+                                    "name": "",
+                                    "type": {
+                                        "kind": "typereference",
+                                        "value": "vim.lsp.rpc.PublicClient"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "cmd_cwd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.cmd_cwd: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Directory to launch the `cmd` process. Not related to `root_dir`.",
+                    " (default: cwd)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "cmd_env",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.cmd_env: table?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Environment variables passed to the LSP process on spawn. Non-string values are coerced to",
+                    " string.",
+                    " Example:",
+                    " ```lua",
+                    " { PORT = 8080; HOST = '0.0.0.0'; }",
+                    " ```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "table"
+                    }
+                }
+            },
+            {
+                "name": "commands",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.commands: table\u003cstring, fun(command: lsp.Command, ctx: table)\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Client commands. Map of command names to user-defined functions. Commands passed to `start()`",
+                    " take precedence over the global command registry. Each key must be a unique command name, and",
+                    " the value is a function which is called if any LSP action (code action, code lenses, …) triggers",
+                    " the command."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "function",
+                                    "arguments": [
+                                        {
+                                            "name": "command",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "typereference",
+                                                "value": "lsp.Command"
+                                            }
+                                        },
+                                        {
+                                            "name": "ctx",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "table"
+                                            }
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "returns": []
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "detached",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.detached: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Daemonize the server process so that it runs in a separate process group from Nvim.",
+                    " Nvim will shutdown the process on exit, but if Nvim fails to exit cleanly this could leave",
+                    " behind orphaned server processes.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "flags",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.flags: (vim.lsp.Client.Flags)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " A table with flags for the client. The current (experimental) flags are:"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.lsp.Client.Flags"
+                    }
+                }
+            },
+            {
+                "name": "get_language_id",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.get_language_id: (fun(bufnr: integer, filetype: string):string)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Language ID as string. Defaults to the buffer filetype.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (bufnr: integer, filetype: string)",
+                    "  -\u003e string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "filetype",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "handlers",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.handlers: table\u003cstring, function\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Map of LSP method names to |lsp-handler|s."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "builtin",
+                                    "value": "function"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "init_options",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.init_options: table\u003cstring, boolean|string|number|unknown[]|nil\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Values to pass in the initialization request as `initializationOptions`. See `initialize` in",
+                    " the LSP spec."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPObject"
+                    }
+                }
+            },
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.name: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Name in logs and user messages.",
+                    " (default: client-id)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "offset_encoding",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.offset_encoding: ('utf-16'|'utf-32'|'utf-8')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Called \"position encoding\" in LSP spec. The encoding that the LSP server expects, used for",
+                    " communication. Not validated. Can be modified in `on_init` before text is sent to the server."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'utf-8'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'utf-16'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'utf-32'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "on_attach",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.on_attach: elem_or_list\u003cfun(client: vim.lsp.Client, bufnr: integer)\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Callback invoked when client attaches to a buffer.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (client: vim.lsp.Client, bufnr: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "elem_or_list"
+                    }
+                }
+            },
+            {
+                "name": "on_error",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.on_error: fun(code: integer, err: string)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Callback invoked when the client operation throws an error. `code` is a number describing the error.",
+                    " Other arguments may be passed depending on the error kind.  See `vim.lsp.rpc.client_errors`",
+                    " for possible errors. Use `vim.lsp.rpc.client_errors[code]` to get human-friendly name.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (code: integer, err: string)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "code",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "err",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_exit",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.on_exit: elem_or_list\u003cfun(code: integer, signal: integer, client_id: integer)\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Callback invoked on client exit.",
+                    "   - code: exit code of the process",
+                    "   - signal: number describing the signal used to terminate (if any)",
+                    "   - client_id: client handle",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (code: integer, signal: integer, client_id: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "elem_or_list"
+                    }
+                }
+            },
+            {
+                "name": "on_init",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.on_init: elem_or_list\u003cfun(client: vim.lsp.Client, init_result: lsp.InitializeResult)\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Callback invoked after LSP \"initialize\", where `result` is a table of `capabilities` and",
+                    " anything else the server may send. For example, clangd sends `init_result.offsetEncoding` if",
+                    " `capabilities.offsetEncoding` was sent to it. You can only modify the `client.offset_encoding`",
+                    " here before any notifications are sent.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (client: vim.lsp.Client, init_result: lsp.InitializeResult)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "elem_or_list"
+                    }
+                }
+            },
+            {
+                "name": "root_dir",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.root_dir: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Directory where the LSP server will base its workspaceFolders, rootUri, and rootPath on initialization."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "settings",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.settings: table\u003cstring, boolean|string|number|unknown[]|nil\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Map of language server-specific settings, decided by the client. Sent to the LS if requested via",
+                    " `workspace/configuration`. Keys are case-sensitive."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPObject"
+                    }
+                }
+            },
+            {
+                "name": "trace",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.trace: ('messages'|'off'|'verbose')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Passed directly to the language server in the initialize request. Invalid/empty values will",
+                    " (default: \"off\")"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'off'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'messages'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'verbose'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "workspace_folders",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.workspace_folders: lsp.WorkspaceFolder[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " List of workspace folders passed to the language server. For backwards compatibility rootUri and",
+                    " rootPath are derived from the first workspace folder in this list. Can be `null` if the client",
+                    " supports workspace folders but none are configured. See `workspaceFolders` in LSP spec."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.WorkspaceFolder"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "workspace_required",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.ClientConfig.workspace_required: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Server requires a workspace (no \"single file\" support). Note: Without",
+                    " a workspace, cross-file features (navigation, hover) may or may not work depending on the",
+                    " language server, even if the server doesn't require a workspace.",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.ClientConfig"
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "name": "lsp.MarkdownClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.MarkdownClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client capabilities specific to the used markdown parser.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "allowedTags",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.MarkdownClientCapabilities.allowedTags: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A list of HTML tags that the client allows / supports in",
+                    "Markdown.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "parser",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.MarkdownClientCapabilities.parser: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The name of the parser."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "version",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.MarkdownClientCapabilities.version: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The version of the parser."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.MarkdownClientCapabilities"
+    }
+}

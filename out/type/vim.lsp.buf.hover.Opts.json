@@ -1,0 +1,483 @@
+{
+    "name": "vim.lsp.buf.hover.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.buf.hover.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "_update_win",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts._update_win: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "anchor_bias",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.anchor_bias: ('above'|'auto'|'below')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Adjusts placement relative to cursor.",
+                    " - \"auto\": place window based on which side of the cursor has more lines",
+                    " - \"above\": place the window above the cursor unless there are not enough lines",
+                    "   to display the full window height.",
+                    " - \"below\": place the window below the cursor unless there are not enough lines",
+                    "   to display the full window height.",
+                    " (default: `'auto'`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'auto'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'above'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'below'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "border",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.border: (string|(string|[string, string])[])?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "override `border`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "unknown",
+                                    "documentation": []
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "close_events",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.close_events: table?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " List of events that closes the floating window"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "table"
+                    }
+                }
+            },
+            {
+                "name": "focus",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.focus: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " If `true`, and if {focusable} is also `true`, focus an existing floating",
+                    " window with the same {focus_id}",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "focus_id",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.focus_id: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " If a popup with this id is opened, then focus it"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "focusable",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.focusable: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Make float focusable.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "height",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.height: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Height of floating window"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "max_height",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.max_height: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Maximal height of floating window"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "max_width",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.max_width: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Maximal width of floating window"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "offset_x",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.offset_x: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " offset to add to `col`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "offset_y",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.offset_y: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " offset to add to `row`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "relative",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.relative: ('cursor'|'editor'|'mouse')?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " (default: `'cursor'`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'mouse'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'cursor'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'editor'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "silent",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.silent: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.title: (string|[string, string][])?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "title_pos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.title_pos: ('center'|'left'|'right')?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "stringliteral",
+                                "value": "'left'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'center'"
+                            },
+                            {
+                                "kind": "stringliteral",
+                                "value": "'right'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "width",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.width: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Width of floating window"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "wrap",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.wrap: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Wrap long lines",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "wrap_at",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.wrap_at: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Character to wrap at for computing height when wrap is enabled"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "zindex",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.buf.hover.Opts.zindex: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "override `zindex`, defaults to 50"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.buf.hover.Opts"
+    }
+}

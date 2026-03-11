@@ -1,0 +1,131 @@
+{
+    "name": "vim.lsp.completion",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "enable",
+                "documentation": [
+                    "```lua",
+                    "function M.enable(enable: boolean, client_id: integer, bufnr: integer, opts?: vim.lsp.completion.BufferOpts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Enables or disables completions from the given language client in the given",
+                    " buffer. Effects of enabling completions are:",
+                    "",
+                    " - Calling |vim.lsp.completion.get()| uses the enabled clients to retrieve",
+                    "   completion candidates",
+                    "",
+                    " - Accepting a completion candidate using `\u003cc-y\u003e` applies side effects like",
+                    "   expanding snippets, text edits (e.g. insert import statements) and",
+                    "   executing associated commands. This works for completions triggered via",
+                    "   autotrigger, omnifunc or completion.get()",
+                    "",
+                    " Example: |lsp-attach| |lsp-completion|",
+                    "",
+                    " Note: the behavior of `autotrigger=true` is controlled by the LSP `triggerCharacters` field. You",
+                    " can override it on LspAttach, see |lsp-autocompletion|.",
+                    "",
+                    "@*param* `enable` — True to enable, false to disable",
+                    "",
+                    "@*param* `client_id` — Client ID",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for the current buffer"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "enable",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.completion.BufferOpts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "enable",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get",
+                "documentation": [
+                    "```lua",
+                    "function M.get(opts?: vim.lsp.completion.get.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Triggers LSP completion once in the current buffer, if LSP completion is enabled",
+                    " (see |lsp-attach| |lsp-completion|).",
+                    "",
+                    " Used by the default LSP |omnicompletion| provider |vim.lsp.omnifunc()|, thus |i_CTRL-X_CTRL-O|",
+                    " invokes this in LSP-enabled buffers. Use CTRL-Y to select an item from the completion menu.",
+                    " |complete_CTRL-Y|",
+                    "",
+                    " To invoke manually with CTRL-space, use this mapping:",
+                    " ```lua",
+                    " -- Use CTRL-space to trigger LSP completion.",
+                    " -- Use CTRL-Y to select an item. |complete_CTRL-Y|",
+                    " vim.keymap.set('i', '\u003cc-space\u003e', function()",
+                    "   vim.lsp.completion.get()",
+                    " end)",
+                    " ```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.completion.get.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

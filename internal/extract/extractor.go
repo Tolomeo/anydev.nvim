@@ -7,6 +7,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/domain/symbol"
 	"github.com/Tolomeo/anydev.nvim/internal/domain/target"
 	"github.com/Tolomeo/anydev.nvim/internal/extract/crawl"
+	"github.com/Tolomeo/anydev.nvim/internal/extract/export"
 	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
@@ -22,40 +23,41 @@ type Options struct {
 	Override Override
 }
 
+// TODO: validate options?
 func (o Options) validate() error {
 	return nil
 }
 
-type result struct {
+/* type result struct {
 	Runtime map[string]symbol.Symbol `json:"runtime" yaml:"runtime"`
 	Types   map[string]symbol.Symbol `json:"types" yaml:"types"`
 	Modules map[string]symbol.Symbol `json:"modules" yaml:"modules"`
-}
+} */
 
 type extractor struct {
 	options     Options
 	extractions []*extraction
+	exporter    *export.Exporter
 	nvim        *nvim.Nvim
 	logger      *log.Logger
-	result      *result
 }
 
 func (e *extractor) Nvim() *nvim.Nvim {
 	return e.nvim
 }
 
-func (e *extractor) Result() *result {
+/* func (e *extractor) Result() *result {
 	return e.result
-}
+} */
 
-func (e *extractor) Flush() {
+/* func (e *extractor) Flush() {
 	e.extractions = []*extraction{}
 	e.result = &result{
 		Runtime: map[string]symbol.Symbol{},
 		Types:   map[string]symbol.Symbol{},
 		Modules: map[string]symbol.Symbol{},
 	}
-}
+} */
 
 func (e *extractor) extract(item *extraction) error {
 	e.logger.Infof("Extracting '%s'", item.target().Identifier())
@@ -88,26 +90,23 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 
 	switch kind {
 	case target.TargetKindValue:
-		_, hasSymbol := e.result.Runtime[name]
-		if hasSymbol {
-			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
+		hasExport := e.exporter.Exported("", name)
+		if hasExport {
+			e.logger.Infof("Skipping extraction of '%s' %s target: already exported", name, kind)
 			return nil
 		}
-		e.result.Runtime[name] = placeholder
-	case target.TargetKindType:
-		_, hasSymbol := e.result.Types[name]
-		if hasSymbol {
-			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
+		if err := e.exporter.ExportJson("", name, placeholder); err != nil {
+			return err
+		}
+	default:
+		hasExport := e.exporter.Exported(string(kind), name)
+		if hasExport {
+			e.logger.Infof("Skipping extraction of '%s' %s target: already exported", name, kind)
 			return nil
 		}
-		e.result.Types[name] = placeholder
-	case target.TargetKindModule:
-		_, hasSymbol := e.result.Modules[name]
-		if hasSymbol {
-			e.logger.Infof("Skipping extraction of '%s' %s target: already processed", name, kind)
-			return nil
+		if err := e.exporter.ExportJson(string(kind), name, placeholder); err != nil {
+			return err
 		}
-		e.result.Modules[name] = placeholder
 	}
 
 	extraction := e.newExtraction(kind, name)
@@ -131,11 +130,13 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 
 	switch kind {
 	case target.TargetKindValue:
-		e.result.Runtime[name] = extractionResult
-	case target.TargetKindType:
-		e.result.Types[name] = extractionResult
-	case target.TargetKindModule:
-		e.result.Modules[name] = extractionResult
+		if err := e.exporter.ExportJson("", name, extractionResult); err != nil {
+			return err
+		}
+	default:
+		if err := e.exporter.ExportJson(string(kind), name, extractionResult); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -149,7 +150,7 @@ func (e *extractor) newExtraction(kind target.TargetKind, name string) *extracti
 	extractionTarget := e.newExtractionTarget(kind, name)
 	targetExtraction := &extraction{
 		extractor: e,
-		targets:    []*target.Target{extractionTarget},
+		targets:   []*target.Target{extractionTarget},
 	}
 	targetExtractionContext := extractionContext{
 		extraction: targetExtraction,
@@ -179,7 +180,7 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	childExtractionTarget := e.newChildExtractionTarget(parent, name)
 	childExtraction := &extraction{
 		extractor: e,
-		targets:    []*target.Target{childExtractionTarget},
+		targets:   []*target.Target{childExtractionTarget},
 	}
 	targetExtractionContext := extractionContext{
 		extraction: childExtraction,
@@ -227,7 +228,17 @@ func (e *extractor) initNvim(options Options) error {
 	}
 
 	e.nvim = client
+	return nil
+}
 
+func (e *extractor) initExporter(_ Options) error {
+	outDir, err := project.GetOutputDir()
+
+	if err != nil {
+		return fmt.Errorf("Error reading project directories: %w", err)
+	}
+
+	e.exporter = export.NewExporter(outDir)
 	return nil
 }
 
@@ -237,16 +248,17 @@ func NewExtractor(options Options) (*extractor, error) {
 	xtractor := &extractor{
 		options:     options,
 		extractions: []*extraction{},
-		result: &result{
-			Runtime: map[string]symbol.Symbol{},
-			Types:   map[string]symbol.Symbol{},
-			Modules: map[string]symbol.Symbol{},
-		},
 	}
 
 	xtractor.initLogger(options)
 
 	err := xtractor.initNvim(options)
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = xtractor.initExporter(options)
 
 	if err != nil {
 		return nil, err

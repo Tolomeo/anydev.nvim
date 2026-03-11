@@ -1,0 +1,64 @@
+{
+    "name": "lsp.CompletionItemLabelDetails",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CompletionItemLabelDetails",
+        "```",
+        "",
+        "---",
+        "",
+        "Additional details for a completion item label.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "description",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionItemLabelDetails.description: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional string which is rendered less prominently after {@link CompletionItem.detail}. Should be used",
+                    "for fully qualified names and file paths."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "detail",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionItemLabelDetails.detail: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional string which is rendered less prominently directly after {@link CompletionItem.label label},",
+                    "without any spacing. Should be used for function signatures and type annotations."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CompletionItemLabelDetails"
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "name": "TSQueryInfo",
+    "documentation": [
+        "```lua",
+        "(class) TSQueryInfo",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "captures",
+                "documentation": [
+                    "```lua",
+                    "(field) TSQueryInfo.captures: string[]",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "patterns",
+                "documentation": [
+                    "```lua",
+                    "(field) TSQueryInfo.patterns: table\u003cinteger, (string|integer)[][]\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            "value": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "union",
+                                        "types": [
+                                            {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            },
+                                            {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "TSQueryInfo"
+    }
+}

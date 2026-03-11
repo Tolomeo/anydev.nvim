@@ -1,0 +1,48 @@
+{
+    "name": "lsp.FoldingRangeWorkspaceClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FoldingRangeWorkspaceClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client workspace capabilities specific to folding ranges",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "refreshSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FoldingRangeWorkspaceClientCapabilities.refreshSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client implementation supports a refresh request sent from the",
+                    "server to the client.",
+                    "",
+                    "Note that this event is global and will force the client to refresh all",
+                    "folding ranges currently shown. It should be used with absolute care and is",
+                    "useful for situation where a server for example detects a project wide",
+                    "change that requires such a calculation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FoldingRangeWorkspaceClientCapabilities"
+    }
+}

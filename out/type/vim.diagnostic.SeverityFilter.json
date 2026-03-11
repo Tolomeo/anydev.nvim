@@ -1,0 +1,57 @@
+{
+    "name": "vim.diagnostic.SeverityFilter",
+    "documentation": [
+        "```lua",
+        "(alias) vim.diagnostic.SeverityFilter Expand to vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity }",
+        "```",
+        "",
+        "---",
+        "",
+        " See |diagnostic-severity| and |vim.diagnostic.get()|",
+        "",
+        "---",
+        "",
+        " @nodoc"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "vim.diagnostic.Severity"
+            },
+            {
+                "kind": "array",
+                "items": {
+                    "kind": "typereference",
+                    "value": "vim.diagnostic.Severity"
+                }
+            },
+            {
+                "fields": [
+                    {
+                        "name": "min",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.diagnostic.Severity"
+                        }
+                    },
+                    {
+                        "name": "max",
+                        "documentation": [],
+                        "meta": [],
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.diagnostic.Severity"
+                        }
+                    }
+                ],
+                "kind": "table",
+                "name": ""
+            }
+        ]
+    }
+}

@@ -1,0 +1,251 @@
+{
+    "name": "vim.api.keyset.parse_cmd",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.parse_cmd",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "addr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.addr: '?'|'arg'|'buf'|'line'|'load'|'none'|'qf'|'tab'|'win'",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "stringliteral",
+                            "value": "'line'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'arg'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'buf'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'load'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'win'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'tab'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'qf'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'none'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'?'"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "args",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.args: string[]",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "bang",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.bang: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "cmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.cmd: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "count",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.count: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "magic",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.magic: { bar: boolean, file: boolean }",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "bar",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        },
+                        {
+                            "name": "file",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "mods",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.mods: vim.api.keyset.parse_cmd.mods",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "vim.api.keyset.parse_cmd.mods"
+                }
+            },
+            {
+                "name": "nargs",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.nargs: '*'|'+'|'0'|'1'|'?'",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "stringliteral",
+                            "value": "'0'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'1'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'?'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'+'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'*'"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "nextcmd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.nextcmd: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.range: integer[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "reg",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.parse_cmd.reg: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.parse_cmd"
+    }
+}

@@ -1,0 +1,66 @@
+{
+    "name": "lsp.FileOperationFilter",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FileOperationFilter",
+        "```",
+        "",
+        "---",
+        "",
+        "A filter to describe in which file operation requests or notifications",
+        "the server is interested in receiving.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "pattern",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationFilter.pattern: lsp.FileOperationPattern",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A pattern to describe in which file operation requests or notifications",
+                    "the server is interested in receiving.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The actual file operation pattern."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.FileOperationPattern"
+                }
+            },
+            {
+                "name": "scheme",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationFilter.scheme: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A Uri scheme like `file` or `untitled`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FileOperationFilter"
+    }
+}

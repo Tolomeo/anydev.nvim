@@ -1,0 +1,110 @@
+{
+    "name": "lsp.WorkspaceOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WorkspaceOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Defines workspace specific capabilities of the server.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "fileOperations",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceOptions.fileOperations: (lsp.FileOperationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Options for notifications/requests for user operations on files.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in notifications/requests for operations on files.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationOptions"
+                    }
+                }
+            },
+            {
+                "name": "textDocumentContent",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceOptions.textDocumentContent: (lsp.TextDocumentContentOptions|lsp.TextDocumentContentRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Text document content provider options.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server supports the `workspace/textDocumentContent` request.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "Text document content provider registration options.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TextDocumentContentOptions"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.TextDocumentContentRegistrationOptions"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "workspaceFolders",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceOptions.workspaceFolders: (lsp.WorkspaceFoldersServerCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server supports workspace folder.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.WorkspaceFoldersServerCapabilities"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WorkspaceOptions"
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "name": "lsp.DidChangeWatchedFilesClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DidChangeWatchedFilesClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DidChangeWatchedFilesClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Did change watched files notification supports dynamic registration. Please note",
+                    "that the current protocol doesn't support static configuration for file changes",
+                    "from the server side."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "relativePatternSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DidChangeWatchedFilesClientCapabilities.relativePatternSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client has support for {@link  RelativePattern relative pattern}",
+                    "or not.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DidChangeWatchedFilesClientCapabilities"
+    }
+}

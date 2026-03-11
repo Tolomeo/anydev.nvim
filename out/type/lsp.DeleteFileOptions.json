@@ -1,0 +1,61 @@
+{
+    "name": "lsp.DeleteFileOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DeleteFileOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Delete file options"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "ignoreIfNotExists",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFileOptions.ignoreIfNotExists: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Ignore the operation if the file doesn't exist."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "recursive",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DeleteFileOptions.recursive: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Delete the content recursively if a folder is denoted."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DeleteFileOptions"
+    }
+}

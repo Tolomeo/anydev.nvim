@@ -1,0 +1,116 @@
+{
+    "name": "vim.diagnostic.Handler",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.Handler",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "hide",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Handler.hide: fun(namespace: integer, bufnr: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "namespace",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "show",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Handler.show: fun(namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (namespace: integer, bufnr: integer, diagnostics: vim.Diagnostic[], opts?: vim.diagnostic.OptsResolved)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "namespace",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "diagnostics",
+                                "optional": false,
+                                "type": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "typereference",
+                                        "value": "vim.Diagnostic"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "opts",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.OptsResolved"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.Handler"
+    }
+}

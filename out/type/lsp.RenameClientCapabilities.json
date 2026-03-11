@@ -1,0 +1,117 @@
+{
+    "name": "lsp.RenameClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RenameClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether rename supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "honorsChangeAnnotations",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameClientCapabilities.honorsChangeAnnotations: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client honors the change annotations in",
+                    "text edits and resource operations returned via the",
+                    "rename request's workspace edit by for example presenting",
+                    "the workspace edit in the user interface and asking",
+                    "for confirmation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "prepareSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameClientCapabilities.prepareSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports testing for validity of rename operations",
+                    "before execution.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "prepareSupportDefaultBehavior",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameClientCapabilities.prepareSupportDefaultBehavior: 1?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the default behavior result.",
+                    "",
+                    "The value indicates the default behavior used by the",
+                    "client.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "lsp.PrepareSupportDefaultBehavior:",
+                    "    | 1 -- Identifier",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.PrepareSupportDefaultBehavior"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RenameClientCapabilities"
+    }
+}

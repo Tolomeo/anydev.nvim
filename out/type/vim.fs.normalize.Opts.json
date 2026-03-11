@@ -1,0 +1,60 @@
+{
+    "name": "vim.fs.normalize.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.fs.normalize.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "expand_env",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.normalize.Opts.expand_env: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Expand environment variables.",
+                    " (default: `true`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "win",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fs.normalize.Opts.win: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Path is a Windows path.",
+                    " (default: `true` in Windows, `false` otherwise)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.fs.normalize.Opts"
+    }
+}

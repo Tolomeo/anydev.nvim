@@ -1,0 +1,281 @@
+{
+    "name": "vim.SystemOpts",
+    "documentation": [
+        "```lua",
+        "(class) vim.SystemOpts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "clear_env",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.clear_env: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "cwd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.cwd: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "detach",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.detach: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "env",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.env: table\u003cstring, string|number\u003e?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "union",
+                                    "types": [
+                                        {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        {
+                                            "kind": "builtin",
+                                            "value": "number"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "stderr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.stderr: (fun(err?: string, data?: string)|false)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (err: string?, data: string?)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "err",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "data",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "false"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "stdin",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.stdin: (string|string[]|true)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "stdout",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.stdout: (fun(err?: string, data?: string)|false)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (err: string?, data: string?)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "err",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "data",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "optional",
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            },
+                            {
+                                "kind": "booleanliteral",
+                                "value": "false"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.text: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "timeout",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.SystemOpts.timeout: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Timeout in ms"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.SystemOpts"
+    }
+}

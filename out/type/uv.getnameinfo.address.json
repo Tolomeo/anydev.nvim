@@ -1,0 +1,68 @@
+{
+    "name": "uv.getnameinfo.address",
+    "documentation": [
+        "```lua",
+        "(class) uv.getnameinfo.address",
+        "```",
+        "",
+        "---",
+        "",
+        " uv.getnameinfo.address",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "family",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getnameinfo.address.family: string|integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "ip",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getnameinfo.address.ip: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "port",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getnameinfo.address.port: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.getnameinfo.address"
+    }
+}

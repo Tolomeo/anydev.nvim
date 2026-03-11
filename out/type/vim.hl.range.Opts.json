@@ -1,0 +1,104 @@
+{
+    "name": "vim.hl.range.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.hl.range.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "inclusive",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.hl.range.Opts.inclusive: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Indicates whether the range is end-inclusive",
+                    " (default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "priority",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.hl.range.Opts.priority: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Highlight priority",
+                    " (default: `vim.hl.priorities.user`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "regtype",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.hl.range.Opts.regtype: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Type of range. See [getregtype()]",
+                    " (default: `'v'` i.e. charwise)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "timeout",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.hl.range.Opts.timeout: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Time in ms before highlight is cleared",
+                    " (default: -1 no timeout)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.hl.range.Opts"
+    }
+}

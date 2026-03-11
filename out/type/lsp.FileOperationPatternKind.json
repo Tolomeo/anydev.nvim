@@ -1,0 +1,39 @@
+{
+    "name": "lsp.FileOperationPatternKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.FileOperationPatternKind Expand to \"file\"|\"folder\"",
+        "```",
+        "",
+        "---",
+        "",
+        "A pattern kind describing if a glob pattern matches a file a folder or",
+        "both.",
+        "",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- A pattern kind describing if a glob pattern matches a file a folder or",
+        "-- both.",
+        "-- ",
+        "lsp.FileOperationPatternKind:",
+        "    | \"file\" -- file",
+        "    | \"folder\" -- folder",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"file\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"folder\""
+            }
+        ]
+    }
+}

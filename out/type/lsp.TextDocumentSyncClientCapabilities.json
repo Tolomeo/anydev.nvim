@@ -1,0 +1,101 @@
+{
+    "name": "lsp.TextDocumentSyncClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.TextDocumentSyncClientCapabilities",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "didSave",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentSyncClientCapabilities.didSave: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports did save notifications."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentSyncClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether text document synchronization supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "willSave",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentSyncClientCapabilities.willSave: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports sending will save notifications."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "willSaveWaitUntil",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentSyncClientCapabilities.willSaveWaitUntil: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports sending a will save request and",
+                    "waits for a response providing text edits which will",
+                    "be applied to the document before it is saved."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.TextDocumentSyncClientCapabilities"
+    }
+}

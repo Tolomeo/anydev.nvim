@@ -1,0 +1,47 @@
+{
+    "name": "vim.keymap.del.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.keymap.del.Opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "buffer",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.del.Opts.buffer: (boolean|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Remove a mapping from the given buffer.",
+                    " When `0` or `true`, use the current buffer."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.keymap.del.Opts"
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "name": "uv.fs_event_start.callback",
+    "documentation": [
+        "```lua",
+        "(alias) uv.fs_event_start.callback Expand to fun(err: string|nil, filename: string, events: uv.fs_event_start.callback.events)",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: string|nil, filename: string, events: uv.fs_event_start.callback.events)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.callback.err"
+                }
+            },
+            {
+                "name": "filename",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "events",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.fs_event_start.callback.events"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": []
+    }
+}

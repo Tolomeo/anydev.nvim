@@ -1,0 +1,310 @@
+{
+    "name": "lsp.InitializeParams",
+    "documentation": [
+        "```lua",
+        "(class) lsp.InitializeParams",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "capabilities",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.capabilities: lsp.ClientCapabilities",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Defines the capabilities provided by the client.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The capabilities provided by the client (editor or tool)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.ClientCapabilities"
+                }
+            },
+            {
+                "name": "clientInfo",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.clientInfo: (lsp.ClientInfo)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Information about the client",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Information about the client",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientInfo"
+                    }
+                }
+            },
+            {
+                "name": "initializationOptions",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.initializationOptions: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The LSP any type.",
+                    "Please note that strictly speaking a property with the value `undefined`",
+                    "can't be converted into JSON preserving the property name. However for",
+                    "convenience it is allowed and assumed that all these properties are",
+                    "optional as well.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "User provided initialization options.",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "LSP arrays."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPAny"
+                    }
+                }
+            },
+            {
+                "name": "locale",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.locale: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The locale the client is currently showing the user interface",
+                    "in. This must not necessarily be the locale of the operating",
+                    "system.",
+                    "",
+                    "Uses IETF language tags as the value's syntax",
+                    "(See https://en.wikipedia.org/wiki/IETF_language_tag)",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "processId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.processId: integer|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The process Id of the parent process that started",
+                    "the server.",
+                    "",
+                    "Is `null` if the process has not been started by another process.",
+                    "If the parent process is not alive then the server should exit."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.null"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "rootPath",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.rootPath: (string|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The rootPath of the workspace. Is null",
+                    "if no folder is open.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.null"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "rootUri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.rootUri: string|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The rootUri of the workspace. Is null if no",
+                    "folder is open. If both `rootPath` and `rootUri` are set",
+                    "`rootUri` wins.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.DocumentUri"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.null"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "trace",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.trace: (\"messages\"|\"off\"|\"verbose\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The initial trace setting. If omitted trace is disabled ('off').",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "lsp.TraceValue:",
+                    "    | \"off\" -- Off",
+                    "    | \"messages\" -- Messages",
+                    "    | \"verbose\" -- Verbose",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.TraceValue"
+                    }
+                }
+            },
+            {
+                "name": "workDoneToken",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.workDoneToken: (string|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional token that a server can use to report work done progress."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ProgressToken"
+                    }
+                }
+            },
+            {
+                "name": "workspaceFolders",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InitializeParams.workspaceFolders: (lsp.WorkspaceFolder[]|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The workspace folders configured in the client when the server starts.",
+                    "",
+                    "This property is only available if the client supports workspace folders.",
+                    "It can be `null` if the client supports workspace folders but none are",
+                    "configured.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.WorkspaceFolder"
+                                }
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.null"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.InitializeParams"
+    }
+}

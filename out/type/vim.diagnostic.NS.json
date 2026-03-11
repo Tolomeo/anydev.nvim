@@ -1,0 +1,78 @@
+{
+    "name": "vim.diagnostic.NS",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.NS",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "disabled",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.NS.disabled: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.NS.name: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "opts",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.NS.opts: vim.diagnostic.Opts",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Many of the configuration options below accept one of the following:",
+                    " - `false`: Disable this feature",
+                    " - `true`: Enable this feature, use default settings.",
+                    " - `table`: Enable this feature with overrides. Use an empty table to use default values.",
+                    " - `function`: Function with signature (namespace, bufnr) that returns any of the above."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "vim.diagnostic.Opts"
+                }
+            },
+            {
+                "name": "user_data",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.NS.user_data: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "table"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.NS"
+    }
+}

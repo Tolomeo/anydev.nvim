@@ -1,0 +1,72 @@
+{
+    "name": "vim.treesitter.query.lint.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.query.lint.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        " Optional keyword arguments:"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "clear",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.query.lint.Opts.clear: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Just clear current lint errors"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "langs",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.treesitter.query.lint.Opts.langs: (string|string[])?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Language(s) to use for checking the query.",
+                    " If multiple languages are specified, queries are validated for all of them"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.query.lint.Opts"
+    }
+}

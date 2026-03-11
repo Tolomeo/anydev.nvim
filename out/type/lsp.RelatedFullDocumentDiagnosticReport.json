@@ -1,0 +1,130 @@
+{
+    "name": "lsp.RelatedFullDocumentDiagnosticReport",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RelatedFullDocumentDiagnosticReport",
+        "```",
+        "",
+        "---",
+        "",
+        "A full diagnostic report with a set of related documents.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "items",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedFullDocumentDiagnosticReport.items: lsp.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The actual items."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.Diagnostic"
+                    }
+                }
+            },
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedFullDocumentDiagnosticReport.kind: \"full\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A full document diagnostic report."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"full\""
+                }
+            },
+            {
+                "name": "relatedDocuments",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedFullDocumentDiagnosticReport.relatedDocuments: table\u003cstring, lsp.FullDocumentDiagnosticReport|lsp.UnchangedDocumentDiagnosticReport\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Diagnostics of related documents. This information is useful",
+                    "in programming languages where code in a file A can generate",
+                    "diagnostics in a file B which A depends on. An example of",
+                    "such a language is C/C++ where marco definitions in a file",
+                    "a.cpp and result in errors in a header file b.hpp.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "typereference",
+                                    "value": "lsp.DocumentUri"
+                                },
+                                "value": {
+                                    "kind": "union",
+                                    "types": [
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.FullDocumentDiagnosticReport"
+                                        },
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.UnchangedDocumentDiagnosticReport"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "resultId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedFullDocumentDiagnosticReport.resultId: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional result id. If provided it will",
+                    "be sent on the next diagnostic request for the",
+                    "same document."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RelatedFullDocumentDiagnosticReport"
+    }
+}

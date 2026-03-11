@@ -1,0 +1,91 @@
+{
+    "name": "vim.trust.opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.trust.opts",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "action",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.trust.opts.action: 'allow'|'deny'|'remove'",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " - `'allow'` to add a file to the trust database and trust it,",
+                    " - `'deny'` to add a file to the trust database and deny it,",
+                    " - `'remove'` to remove file from the trust database"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "stringliteral",
+                            "value": "'allow'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'deny'"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'remove'"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.trust.opts.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Buffer number to update. Mutually exclusive with {path}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "path",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.trust.opts.path: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Path to a file to update. Mutually exclusive with {bufnr}.",
+                    " Cannot be used when {action} is \"allow\"."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.trust.opts"
+    }
+}

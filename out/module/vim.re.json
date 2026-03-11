@@ -1,0 +1,360 @@
+{
+    "name": "vim.re",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "compile",
+                "documentation": [
+                    "```lua",
+                    "function vim.re.compile(string: string, defs?: table)",
+                    "  -\u003e vim.lpeg.Pattern",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Compiles the given {string} and returns an equivalent LPeg pattern. The given string may define",
+                    " either an expression or a grammar. The optional {defs} table provides extra Lua values to be used",
+                    " by the pattern.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function compile(p: any, defs: any)",
+                    "  -\u003e unknown",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "string",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "defs",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "compile",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lpeg.Pattern"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "find",
+                "documentation": [
+                    "```lua",
+                    "function vim.re.find(subject: string, pattern: string|vim.lpeg.Pattern, init?: integer)",
+                    "  -\u003e integer|nil",
+                    "  2. integer|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Searches the given {pattern} in the given {subject}. If it finds a match, returns the index",
+                    " where this occurrence starts and the index where it ends. Otherwise, returns nil.",
+                    "",
+                    " An optional numeric argument {init} makes the search starts at that position in the subject",
+                    " string. As usual in Lua libraries, a negative value counts from the end.",
+                    "",
+                    "@*return* — : the index where the occurrence starts, nil if no match",
+                    "",
+                    "@*return* — : the index where the occurrence ends, nil if no match",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function find(s: any, p: any, i: any)",
+                    "  -\u003e unknown",
+                    "  2. unknown|nil",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "subject",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "pattern",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.lpeg.Pattern"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "init",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "find",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "gsub",
+                "documentation": [
+                    "```lua",
+                    "function vim.re.gsub(subject: string, pattern: string|vim.lpeg.Pattern, replacement: string)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Does a global substitution, replacing all occurrences of {pattern} in the given {subject} by",
+                    " {replacement}.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function gsub(s: any, p: any, rep: any)",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "subject",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "pattern",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.lpeg.Pattern"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "replacement",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "gsub",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "match",
+                "documentation": [
+                    "```lua",
+                    "function vim.re.match(subject: string, pattern: string|vim.lpeg.Pattern, init?: integer)",
+                    "  -\u003e integer|vim.lpeg.Pattern|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Matches the given {pattern} against the given {subject}, returning all captures.",
+                    "See: [vim.lpeg.match](file:///usr/local/share/nvim/runtime/lua/vim/_meta/lpeg.lua#64#9) ()",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function match(s: any, p: any, i: any)",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "subject",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "pattern",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.lpeg.Pattern"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "init",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "match",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.lpeg.Capture"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "updatelocale",
+                "documentation": [
+                    "```lua",
+                    "function vim.re.updatelocale()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Updates the pre-defined character classes to the current locale.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function updatelocale()",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "updatelocale",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "re"
+    }
+}
