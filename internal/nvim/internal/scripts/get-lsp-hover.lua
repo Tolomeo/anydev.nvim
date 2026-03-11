@@ -7,6 +7,8 @@ local bufnr = 0
 local position = { line = line, character = character }
 local textDocument = vim.lsp.util.make_text_document_params(bufnr)
 
+_G.Anydev:wait_for_lsp_idle()
+
 local lspResponse, err =
 	vim.lsp.buf_request_sync(bufnr, "textDocument/hover", { textDocument = textDocument, position = position }, timeout)
 

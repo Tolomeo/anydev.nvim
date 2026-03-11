@@ -159,7 +159,7 @@ func (t *extraction) getOriginChain() (extractionStep, error) {
 }
 
 func (t *extraction) getDocumentation() (extractionStep, error) {
-	t.logger.Infof("Getting origins chain")
+	t.logger.Infof("Crawling documentation")
 
 	documentation, err := t.crawler.GetDocumentation()
 
@@ -173,7 +173,7 @@ func (t *extraction) getDocumentation() (extractionStep, error) {
 }
 
 func (t *extraction) getMetadata() (extractionStep, error) {
-	t.logger.Infof("Getting metadata")
+	t.logger.Infof("Crawling metadata")
 
 	meta, err := t.transformer.GetMetadata()
 
@@ -191,7 +191,7 @@ func (t *extraction) getMetadata() (extractionStep, error) {
 }
 
 func (t *extraction) getType() (extractionStep, error) {
-	t.logger.Info("Getting symbol type")
+	t.logger.Info("Transforming symbol type")
 
 	typ, err := t.transformer.TransformOrigin()
 

@@ -11,49 +11,28 @@
 ---@field lsp_activity anydev_lsp_activity
 _G.Anydev = {
 	ts_parsers = {},
-	lsp_activity = { last = vim.loop.now() + 500, activity = {} },
+	lsp_activity = { last = vim.loop.now() + 5000, activity = {} },
 }
 
-_G.Anydev.wait_for_lsp_idle = (function()
-	vim.api.nvim_create_autocmd("LspProgress", {
-		group = vim.api.nvim_create_augroup("LuaLSReady", { clear = true }),
-		callback = function(autocmd_args)
-			local message = string.format(
-				"[Anydev:LspProgress:%s]:%s",
-				autocmd_args.data.params.value.kind,
-				vim.api.nvim_buf_get_name(0)
-			)
-			vim.cmd(string.format("echom '%s'", message))
+function _G.Anydev:wait_for_lsp_idle()
+	vim.wait(15000, function()
+		local has_activity = next(_G.Anydev.lsp_activity.activity) ~= nil
 
-			local value = autocmd_args.data.params.value
-			local token = autocmd_args.data.params.token
+		if has_activity then
+			return false
+		end
 
-			if value.kind == "begin" then
-				_G.Anydev.lsp_activity.activity[token] = value
-			elseif value.kind == "end" then
-				_G.Anydev.lsp_activity.activity[token] = nil
-			end
+		local lsp_status = vim.lsp.status()
 
-			_G.Anydev.lsp_activity.last = vim.loop.now()
-		end,
-	})
+		if lsp_status ~= "" then
+			return false
+		end
 
-	vim.lsp.enable("lua_ls")
+		local is_settled = (vim.loop.now() - _G.Anydev.lsp_activity.last) > 5000
 
-	return function()
-		vim.wait(5000, function()
-			local has_activity = next(_G.Anydev.lsp_activity.activity) ~= nil
-
-			if has_activity then
-				return false
-			end
-
-			local is_settled = (vim.loop.now() - _G.Anydev.lsp_activity.last) > 1500
-
-			return is_settled
-		end, 100)
-	end
-end)()
+		return is_settled
+	end, 200, false)
+end
 
 ---@param buffer integer
 ---@return anydev_ts_parser
@@ -121,3 +100,28 @@ end
 function _G.Anydev:is_separator(char)
 	return char == "," or char == ";"
 end
+
+vim.api.nvim_create_autocmd("LspProgress", {
+	group = vim.api.nvim_create_augroup("LuaLSReady", { clear = true }),
+	callback = function(autocmd_args)
+		local message = string.format(
+			"[Anydev:LspProgress:%s]:%s",
+			autocmd_args.data.params.value.kind,
+			vim.api.nvim_buf_get_name(0)
+		)
+		vim.cmd(string.format("echom '%s'", message))
+
+		local value = autocmd_args.data.params.value
+		local token = autocmd_args.data.params.token
+
+		if value.kind == "begin" then
+			_G.Anydev.lsp_activity.activity[token] = value
+		elseif value.kind == "end" then
+			_G.Anydev.lsp_activity.activity[token] = nil
+		end
+
+		_G.Anydev.lsp_activity.last = vim.loop.now()
+	end,
+})
+
+vim.lsp.enable("lua_ls")
