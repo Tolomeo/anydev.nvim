@@ -67,5 +67,6 @@ COPY cmd /root/run/cmd/
 WORKDIR /root/run
 
 RUN go mod download
+RUN go build -o extract ./cmd/extract
 
-CMD ["go", "run", "./cmd/extract"]
+ENTRYPOINT [ "./extract" ]

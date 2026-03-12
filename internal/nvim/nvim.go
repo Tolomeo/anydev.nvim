@@ -18,14 +18,14 @@ type CursorPosition struct {
 }
 
 type Nvim struct {
-	options options
+	options Options
 	logger  *log.Logger
 	cmd     *exec.Cmd
 	rpc     *msgpackrpc.MsgpackRpc
 	config  string
 }
 
-func (n *Nvim) Options() options {
+func (n *Nvim) Options() Options {
 	return n.options
 }
 
@@ -295,12 +295,13 @@ func (n *Nvim) deleteBuffer() error {
 	return nil
 }
 
-func New(opts ...optionProvider) (*Nvim, error) {
-	options := NewOptions(opts...)
+type Options struct {
+	LogLevel  uint
+	Arguments []string
+}
 
-	arguments := []string{"--embed", "--headless", "-i", "NONE"}
-	arguments = append(arguments, options.arguments...)
-	cmd := exec.Command(options.command, arguments...)
+func New(options Options) (*Nvim, error) {
+	cmd := exec.Command("nvim", options.Arguments...)
 
 	rpc, err := msgpackrpc.New(cmd)
 
@@ -310,7 +311,7 @@ func New(opts ...optionProvider) (*Nvim, error) {
 
 	return &Nvim{
 		options: options,
-		logger:  log.NewLogger("nvim"),
+		logger:  log.NewLogger("nvim", options.LogLevel),
 		cmd:     cmd,
 		rpc:     rpc,
 	}, nil

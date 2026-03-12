@@ -119,9 +119,9 @@ func (l *Logger) Debugf(message string, args ...any) {
 	l.log(log{level: debug, message: message})
 }
 
-func NewLogger(prefix string) *Logger {
+func NewLogger(prefix string, level uint) *Logger {
 	return &Logger{
-		level:  3,
+		level:  level,
 		prefix: prefix,
 		stdOut: stdLog.New(os.Stdout, "", stdLog.Ldate|stdLog.Ltime),
 	}

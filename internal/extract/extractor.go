@@ -11,7 +11,6 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
-	"github.com/Tolomeo/anydev.nvim/internal/project"
 )
 
 type Override struct {
@@ -20,6 +19,9 @@ type Override struct {
 
 type Options struct {
 	Debug    bool
+	LogLevel uint
+	OutDir   string
+	TmpDir   string
 	Override Override
 }
 
@@ -139,7 +141,7 @@ func (e *extractor) newExtraction(kind target.TargetKind, name string) *extracti
 
 	targetExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
 	targetExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
-	targetExtraction.logger = log.NewLogger(extractionTarget.Identifier())
+	targetExtraction.logger = log.NewLogger(extractionTarget.Identifier(), e.options.LogLevel)
 
 	return targetExtraction
 }
@@ -169,35 +171,27 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 
 	childExtraction.crawler = crawl.NewCrawler(&targetExtractionContext)
 	childExtraction.transformer = transform.NewTransformer(&targetExtractionContext)
-	childExtraction.logger = log.NewLogger(childExtractionTarget.Identifier())
+	childExtraction.logger = log.NewLogger(childExtractionTarget.Identifier(), e.options.LogLevel)
 
 	return childExtraction
 }
 
 func (e *extractor) initLogger(_ Options) error {
-	e.logger = log.NewLogger("")
+	e.logger = log.NewLogger("", e.options.LogLevel)
 	return nil
 }
 
 func (e *extractor) initNvim(options Options) error {
-	tmpDir, err := project.GetTmpDir()
+	arguments := []string{"--embed", "--headless", "-i", "NONE"}
 
-	if err != nil {
-		return fmt.Errorf("Error reading project directories: %w", err)
+	if options.Debug {
+		arguments = append(arguments, []string{
+			fmt.Sprintf("-V%d%s", 1, path.Join(options.TmpDir, "nvim.verbosefile")),
+			"--listen", path.Join(options.TmpDir, "nvim.server.pipe"),
+		}...)
 	}
 
-	var client *nvim.Nvim
-
-	if !options.Debug {
-		client, err = nvim.New()
-	} else {
-		client, err = nvim.New(
-			nvim.WithArguments(
-				fmt.Sprintf("-V%d%s", 1, path.Join(tmpDir, "nvim.verbosefile")),
-				"--listen", path.Join(tmpDir, "nvim.server.pipe"),
-			),
-		)
-	}
+	client, err := nvim.New(nvim.Options{Arguments: arguments, LogLevel: options.LogLevel})
 
 	if err != nil {
 		return fmt.Errorf("Error initialising nvim client: %v", err)
@@ -213,14 +207,8 @@ func (e *extractor) initNvim(options Options) error {
 	return nil
 }
 
-func (e *extractor) initExporter(_ Options) error {
-	outDir, err := project.GetOutputDir()
-
-	if err != nil {
-		return fmt.Errorf("Error reading project directories: %w", err)
-	}
-
-	e.exporter = export.NewExporter(outDir)
+func (e *extractor) initExporter(options Options) error {
+	e.exporter = export.NewExporter(options.OutDir)
 	return nil
 }
 
