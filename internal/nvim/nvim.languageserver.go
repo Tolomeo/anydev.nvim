@@ -93,22 +93,6 @@ func (l *Location) StartCharacter() uint {
 	return uint(l.TargetRange.Start.Character)
 }
 
-/* func (n *Nvim) startLSP() error {
-	script, err := scripts.Read("start-lsp")
-
-	if err != nil {
-		return fmt.Errorf("Error starting lua lsp: %v", err)
-	}
-
-	_, err = n.execLua(script, []any{30000})
-
-	if err != nil {
-		return fmt.Errorf("Error starting lua lsp: %v", err)
-	}
-
-	return nil
-} */
-
 /* func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := languageserver.TextDocumentDocumentSymbolResponse{}
 
@@ -404,7 +388,7 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 }
 
 func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
-	 _, err := n.execLua("_G.Anydev:wait_for_lsp_idle()", []any{})
+	_, err := n.execLua("_G.Anydev:wait_for_lsp_idle()", []any{})
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)

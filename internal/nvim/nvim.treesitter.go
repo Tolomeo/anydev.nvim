@@ -10,29 +10,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/utils/slicesx"
 )
 
-func (n *Nvim) startTS() error {
-	script, err := scripts.Read("start-ts")
-
-	if err != nil {
-		return err
-	}
-
-	_, err = n.execLua(script, []any{30000})
-
-	if err != nil {
-		return fmt.Errorf("Error starting treesitter lua: %w", err)
-	}
-
-	return nil
-}
-
 func (n *Nvim) execTsQuery(query treesitter.Query) (*[]treesitter.Capture, error) {
-	err := n.startTS()
-
-	if err != nil {
-		return nil, err
-	}
-
 	script, err := scripts.Read("exec-ts-query")
 
 	if err != nil {
@@ -211,12 +189,6 @@ func (n *Nvim) safeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, err
 }
 
 func (n *Nvim) getTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
-	err := n.startTS()
-
-	if err != nil {
-		return nil, err
-	}
-
 	script, err := scripts.Read("get-ts-node")
 
 	if err != nil {

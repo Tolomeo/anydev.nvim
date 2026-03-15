@@ -125,3 +125,15 @@ vim.api.nvim_create_autocmd("LspProgress", {
 })
 
 vim.lsp.enable("lua_ls")
+
+local ts_ok = pcall(vim.treesitter.language.add, "lua")
+
+if not ts_ok then
+	error("Treesitter Lua parser registration failed.")
+end
+
+ts_ok = pcall(vim.treesitter.language.add, "luadoc")
+
+if not ts_ok then
+	error("Treesitter Luadoc parser registration failed.")
+end
