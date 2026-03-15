@@ -47,6 +47,9 @@ func main() {
 		panic(err)
 	}
 
+	// TODO: deal with Destroy returning an error
+	defer extractor.Destroy()
+
 	for _, target := range targets {
 		err := extractor.Extract("value", target)
 

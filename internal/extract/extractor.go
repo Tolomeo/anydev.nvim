@@ -185,9 +185,12 @@ func (e *extractor) initNvim(options Options) error {
 	arguments := []string{"--embed", "--headless", "-i", "NONE"}
 
 	if options.Debug {
+		verboselevel, verbosefile := 1, path.Join(options.TmpDir, "nvim.verbosefile")
+		pipefile := path.Join(options.TmpDir, "nvim.server.pipe")
+
 		arguments = append(arguments, []string{
-			fmt.Sprintf("-V%d%s", 1, path.Join(options.TmpDir, "nvim.verbosefile")),
-			"--listen", path.Join(options.TmpDir, "nvim.server.pipe"),
+			fmt.Sprintf("-V%d%s", verboselevel, verbosefile),
+			"--listen", pipefile,
 		}...)
 	}
 
@@ -209,6 +212,16 @@ func (e *extractor) initNvim(options Options) error {
 
 func (e *extractor) initExporter(options Options) error {
 	e.exporter = export.NewExporter(options.OutDir)
+	return nil
+}
+
+func (e *extractor) Destroy() error {
+	err := e.nvim.Quit()
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
