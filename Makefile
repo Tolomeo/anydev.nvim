@@ -16,10 +16,13 @@ all: run
 
 .dockerbuild:Dockerfile .dockerignore go.mod go.sum $(shell find cmd internal resources -type f)
 	docker build --tag $(IMAGE_NAME) .
-	@touch .dockerbuild
+	touch .dockerbuild
 
 .PHONY=build
 build:.dockerbuild
+
+.PHONY=rebuild
+rebuild: clean build
 
 .PHONY=run
 run:build
@@ -27,11 +30,11 @@ run:build
 
 .PHONY=clean
 clean:
-	@rm -rf $(OUT_DIR)/*
+	rm -rf $(OUT_DIR)/*
 	docker container ls -aq --filter ancestor=$(IMAGE_NAME) | xargs -r docker container rm -f
 	docker image ls -q --filter reference=$(IMAGE_NAME) | xargs -r docker image rm -f
 	docker builder prune -f
-	@-rm .dockerbuild
+	-rm .dockerbuild
 
 .PHONY=inspect
 inspect:build

@@ -2,10 +2,12 @@ local args = { ... }
 local line = args[1]
 local character = args[2]
 local delay = args[3]
-
 local bufnr = 0
 local textDocumentParams = vim.lsp.util.make_text_document_params(bufnr)
 local positionParams = { line = line, character = character }
+
+_G.Anydev:wait_for_lsp_idle()
+
 local lspResponse, err = vim.lsp.buf_request_sync(
 	bufnr,
 	"textDocument/definition",

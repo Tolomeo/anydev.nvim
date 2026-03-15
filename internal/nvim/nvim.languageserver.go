@@ -3,7 +3,6 @@ package nvim
 import (
 	"fmt"
 	"net/url"
-	"slices"
 	"strings"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/internal/scripts"
@@ -39,28 +38,28 @@ var metamethods = map[string]struct{}{
 }
 
 // https://www.lua.org/manual/5.1/manual.html#2.1
-var keywords = []string{
-	"and",
-	"break",
-	"do",
-	"else",
-	"elseif",
-	"end",
-	"false",
-	"for",
-	"function",
-	"if",
-	"in",
-	"local",
-	"nil",
-	"not",
-	"or",
-	"repeat",
-	"return",
-	"then",
-	"true",
-	"until",
-	"while",
+var keywords = map[string]struct{}{
+	"and":      {},
+	"break":    {},
+	"do":       {},
+	"else":     {},
+	"elseif":   {},
+	"end":      {},
+	"false":    {},
+	"for":      {},
+	"function": {},
+	"if":       {},
+	"in":       {},
+	"local":    {},
+	"nil":      {},
+	"not":      {},
+	"or":       {},
+	"repeat":   {},
+	"return":   {},
+	"then":     {},
+	"true":     {},
+	"until":    {},
+	"while":    {},
 }
 
 type Location struct {
@@ -94,7 +93,7 @@ func (l *Location) StartCharacter() uint {
 	return uint(l.TargetRange.Start.Character)
 }
 
-func (n *Nvim) startLSP() error {
+/* func (n *Nvim) startLSP() error {
 	script, err := scripts.Read("start-lsp")
 
 	if err != nil {
@@ -108,7 +107,7 @@ func (n *Nvim) startLSP() error {
 	}
 
 	return nil
-}
+} */
 
 /* func (n *Nvim) getDocumentSymbols() (*languageserver.TextDocumentDocumentSymbolResponse, error) {
 	documentSymbols := languageserver.TextDocumentDocumentSymbolResponse{}
@@ -151,19 +150,13 @@ func (n *Nvim) startLSP() error {
 } */
 
 func (n *Nvim) getLspHover(line uint, character uint) (*languageserver.MarkupContent, error) {
-	hover := languageserver.TextDocumentHoverResponse{}
-
-	err := n.startLSP()
-
-	if err != nil {
-		return nil, err
-	}
-
 	script, err := scripts.Read("get-lsp-hover")
 
 	if err != nil {
 		return nil, err
 	}
+
+	hover := languageserver.TextDocumentHoverResponse{}
 
 	result, err := n.execLua(script, []any{line, character, 15000})
 
@@ -193,12 +186,6 @@ func (n *Nvim) getLspHover(line uint, character uint) (*languageserver.MarkupCon
 }
 
 func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.Location, error) {
-	err := n.startLSP()
-
-	if err != nil {
-		return nil, err
-	}
-
 	script, err := scripts.Read("get-lsp-definition-locations")
 
 	if err != nil {
@@ -232,12 +219,6 @@ func (n *Nvim) getLSPDefinitions(line uint, character uint) (*[]languageserver.L
 }
 
 func (n *Nvim) getLspTypeDefinitions(line uint, character uint) (*[]languageserver.Location, error) {
-	err := n.startLSP()
-
-	if err != nil {
-		return nil, err
-	}
-
 	script, err := scripts.Read("get-lsp-type-definition-locations")
 
 	if err != nil {
@@ -328,7 +309,6 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 		return nil, nil
 	}
 
-
 	// removing any results pointing to scratch buffers
 	definitions, _ := slicesx.FilterFunc(*lspDefinitions, func(definition languageserver.Location) (bool, error) {
 		return !scratchBufferName.Match([]byte(definition.TargetUri)), nil
@@ -365,12 +345,6 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 	}
 
 	defer buffer.Close()
-
-	err = n.startLSP()
-
-	if err != nil {
-		return []string{}, err
-	}
 
 	script, err := scripts.Read("get-lsp-completion")
 
@@ -430,7 +404,7 @@ func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
 }
 
 func (n *Nvim) GetValueCompletion(value string) ([]string, error) {
-	err := n.startLSP()
+	 _, err := n.execLua("_G.Anydev:wait_for_lsp_idle()", []any{})
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error getting completion for %s: %w", value, err)
@@ -462,7 +436,7 @@ func (n *Nvim) GetValueType(value string) (string, error) {
 	if len(parts) > 1 {
 		tail := parts[len(parts)-1]
 
-		if slices.Contains(keywords, tail) {
+		if _, isKeyword := keywords[tail]; isKeyword {
 			head := parts[:len(parts)-1]
 			runtimePath = strings.Join(head, ".") + "['" + tail + "']"
 		}
