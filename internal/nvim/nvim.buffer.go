@@ -2,242 +2,142 @@ package nvim
 
 import (
 	"fmt"
-	"iter"
 	"path"
 	"regexp"
 
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/languageserver"
-	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
+	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
-type Buffer struct {
-	nvim *Nvim
-	name string
+func (n *Nvim) open(file string) (string, error) {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{fmt.Sprintf("edit %s", file)},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return file, fmt.Errorf("Error opening %s: %v\n", file, err)
+	}
+
+	return file, nil
 }
 
-func (b *Buffer) Name() string {
-	return b.name
+/* func (n *Nvim) write() error {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_command",
+		Params: []any{"write"},
+	}
+	_, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error trying to write buffer: %v\n", err)
+	}
+
+	return nil
+} */
+
+/* func (n *Nvim) getBufferName() (string, error) {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_name",
+		Params: []any{0},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return "", fmt.Errorf("Error reading buffer name: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return "", fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	return result.(string), nil
+} */
+
+func (n *Nvim) setBufferLines(lines []string) error {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_set_lines",
+		Params: []any{0, 0, -1, true, lines},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return fmt.Errorf("Error sending nvim_buf_set_lines rpc message: %v\n", err)
+	}
+
+	_, err = response.Result()
+
+	if err != nil {
+		return fmt.Errorf("Error setting buffer lines: %v\n", err)
+	}
+
+	return nil
 }
 
-func (b *Buffer) ReadLines() ([]string, error) {
-	b.nvim.logger.Sillyf("Reading %s buffer lines", b.name)
-	_, err := b.nvim.open(b.name)
+/* func (n *Nvim) getBufferText(startRow int, startCol int, endRow int, endCol int) ([]string, error) {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_text",
+		Params: []any{0, startRow, startCol, endRow, endCol, struct{}{}},
+	}
+	response, err := n.rpc.Send(request)
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer '%s': %w", b.name, err)
+		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
 	}
 
-	lines, err := b.nvim.getBufferLines(0, -1)
+	result, err := response.Result()
 
 	if err != nil {
-		return []string{}, fmt.Errorf("Error reading buffer '%s': %w", b.name, err)
+		return []string{}, fmt.Errorf("Error reading buffer text: %w\n", err)
 	}
 
-	return lines, nil
+	bufferText, err := anyx.ToSliceOf[string](result)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer text return value: %w", err)
+	}
+
+	return bufferText, nil
+} */
+
+func (n *Nvim) getBufferLines(start int, end int) ([]string, error) {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_get_lines",
+		Params: []any{0, start, end, false},
+	}
+	response, err := n.rpc.Send(request)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer name: %v\n", err)
+	}
+
+	result, err := response.Result()
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error executing lua: %v\n", err)
+	}
+
+	bufferLines, err := anyx.ToSliceOf[string](result)
+
+	if err != nil {
+		return []string{}, fmt.Errorf("Error reading buffer lines return value: %w", err)
+	}
+
+	return bufferLines, nil
 }
 
-func (b *Buffer) SetLines(lines []string) error {
-	b.nvim.logger.Sillyf("Writing %s buffer lines", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return fmt.Errorf("Error writing to buffer '%s': %w", b.name, err)
-	}
-
-	if len(lines) < 1 {
-		return b.nvim.setBufferLines([]string{""})
-	}
-
-	return b.nvim.setBufferLines(lines)
-}
-
-func (b *Buffer) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
-	b.nvim.logger.Sillyf("Getting treesitter node <%s> in %s buffer", nodeTypes, b.name)
-
-	_, err := b.nvim.open(b.name)
+func (n *Nvim) deleteBuffer() error {
+	request := msgpackrpc.RequestMessage{
+		Method: "nvim_buf_delete",
+		Params: []any{0, struct{ force bool }{force: true}}}
+	_, err := n.rpc.Send(request)
 
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("Error trying to delete buffer: %v\n", err)
 	}
-
-	return b.nvim.getTSNodeAt(nodeTypes, line, character)
-}
-
-func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
-	b.nvim.logger.Sillyf("Getting comment block node in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.getTsCommentBlockAt(line, character)
-}
-
-func (b *Buffer) GetTsNodeAnnotations(node treesitter.TsNode) ([]string, error) {
-	b.nvim.logger.Sillyf("Getting node <%v> annotations in %s buffer", node, b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.getNodeAnnotations(node)
-}
-
-func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
-	b.nvim.logger.Sillyf("Executing query one in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.tsQueryOne(query)
-}
-
-func (b *Buffer) TsQueryAll(query treesitter.Query) (*TsQueryMatches, error) {
-	b.nvim.logger.Sillyf("Executing query all in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.tsQueryAll(query)
-}
-
-func (b *Buffer) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
-	b.nvim.logger.Sillyf("Executing safe query one in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.safeTsQueryOne(query)
-}
-
-func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
-	b.nvim.logger.Sillyf("Executing safe query all in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.safeTsQueryAll(query)
-}
-
-func (b *Buffer) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
-	b.nvim.logger.Sillyf("Getting definition locations in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.getDefinitionLocations(line, character)
-}
-
-func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
-	b.nvim.logger.Sillyf("Getting type definition locations in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.getTypeDefinitionLocations(line, character)
-}
-
-func (b *Buffer) GetHover(line uint, character uint) (*languageserver.MarkupContent, error) {
-	b.nvim.logger.Sillyf("Getting lsp hover at %s:%d:%d", b.name, line, character)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.getLspHover(line, character)
-}
-
-func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
-	b.nvim.logger.Sillyf("Querying ts node in %s buffer", b.name)
-
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return b.nvim.queryTsNodeAt(tsNodeQueryMap, line, character)
-}
-
-func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, error], error) {
-	_, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	lines, err := b.nvim.getBufferLines(0, -1)
-
-	// fmt.Println(lines)
-
-	if err != nil {
-		return nil, err
-	}
-
-	linebuffer, err := b.nvim.NewBuffer()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return func(yield func(*ScratchBuffer, error) bool) {
-		for i := startLine; i < uint(len(lines)); i++ {
-
-			err := linebuffer.SetLines([]string{lines[i]})
-
-			if err != nil && !yield(linebuffer, err) {
-				linebuffer.Close()
-				return
-			}
-
-			if !yield(linebuffer, nil) {
-				linebuffer.Close()
-				return
-			}
-		}
-
-		linebuffer.Close()
-	}, nil
-}
-
-func (b *Buffer) Close() error {
-	b.nvim.logger.Sillyf("Closing %s buffer", b.name)
-	/* _, err := b.nvim.open(b.name)
-
-	if err != nil {
-		return err
-	}
-
-	err = b.nvim.deleteBuffer()
-
-	if err != nil {
-		return err
-	} */
 
 	return nil
 }
@@ -259,35 +159,12 @@ func (nvim *Nvim) OpenBuffer(name string) (*Buffer, error) {
 	return buffer, nil
 }
 
-var newBufferCounter = 0
-
-type ScratchBuffer struct {
-	Buffer
-}
-
-func (s *ScratchBuffer) Close() error {
-	s.nvim.logger.Sillyf("Closing %s buffer", s.name)
-
-	_, err := s.nvim.open(s.name)
-
-	if err != nil {
-		return err
-	}
-
-	err = s.nvim.deleteBuffer()
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
+var scratchBufferCounter = 0
 var scratchBufferName = regexp.MustCompile(`anydev\.\d+\.lua$`)
 
 func (nvim *Nvim) NewBuffer() (*ScratchBuffer, error) {
-	newBufferCounter += 1
-	name := path.Join(nvim.config, fmt.Sprintf("anydev.%d.lua", newBufferCounter))
+	scratchBufferCounter += 1
+	name := path.Join(nvim.config, fmt.Sprintf("anydev.%d.lua", scratchBufferCounter))
 
 	nvim.logger.Sillyf("Opening %s scratch buffer", name)
 
