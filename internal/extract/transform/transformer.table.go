@@ -33,7 +33,7 @@ type tableAnnotations struct {
 
 func (tr *Transformer) getTableAnnotations(docblock []string) (tableAnnotations, error) {
 	tAnnotations := tableAnnotations{}
-	buffer, err := tr.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().OpenTemporary()
 
 	if err != nil {
 		return tAnnotations, err

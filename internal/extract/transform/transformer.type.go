@@ -33,7 +33,7 @@ var optionalTypeAnnotationQuery = annotation.OptionalQuery.MapQuery(func(query s
 	)`, query)
 })
 
-func (tr *Transformer) getOptionalType(buffer *nvim.ScratchBuffer, _ string) (symbol.Type, error) {
+func (tr *Transformer) getOptionalType(buffer nvim.Buffer, _ string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(optionalTypeAnnotationQuery)
 
 	if err != nil {
@@ -70,7 +70,7 @@ var functionTypeAnnotationQuery = annotation.FunctionQuery.MapQuery(func(query s
 `, query)
 })
 
-func (tr *Transformer) getFunctionType(buffer *nvim.ScratchBuffer) (*symbol.Function, error) {
+func (tr *Transformer) getFunctionType(buffer nvim.Buffer) (*symbol.Function, error) {
 	captures, err := buffer.TsQueryOne(functionTypeAnnotationQuery)
 
 	if err != nil {
@@ -139,7 +139,7 @@ var tableTypeAnnotationQueries = []treesitter.Query{
 	}),
 }
 
-func (tr *Transformer) getTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
+func (tr *Transformer) getTableType(buffer nvim.Buffer) (*symbol.Table, error) {
 	for _, tableTypeAnnotationQuery := range tableTypeAnnotationQueries {
 		match, err := buffer.TsQueryOne(tableTypeAnnotationQuery)
 
@@ -217,7 +217,7 @@ var arrayTypeAnnotationQuery = annotation.ArrayQuery.MapQuery(func(query string)
 `, query)
 })
 
-func (tr *Transformer) getArrayType(buffer *nvim.ScratchBuffer, _ string) (*symbol.Array, error) {
+func (tr *Transformer) getArrayType(buffer nvim.Buffer, _ string) (*symbol.Array, error) {
 	match, err := buffer.TsQueryOne(arrayTypeAnnotationQuery)
 
 	if err != nil {
@@ -259,7 +259,7 @@ var literalTableAnnotationQueries = map[string]treesitter.Query{
 	}),
 }
 
-func (tr *Transformer) getLiteralTableType(buffer *nvim.ScratchBuffer) (*symbol.Table, error) {
+func (tr *Transformer) getLiteralTableType(buffer nvim.Buffer) (*symbol.Table, error) {
 	for _, query := range literalTableAnnotationQueries {
 		// tr.context.Logger().Debugf("Literal table q: %+v", query)
 
@@ -324,7 +324,7 @@ var unionTypeAnnotationQuery = annotation.UnionQuery.MapQuery(func(query string)
 	)`, query)
 })
 
-func (tr *Transformer) getUnionType(buffer *nvim.ScratchBuffer, source string) (*symbol.Union, error) {
+func (tr *Transformer) getUnionType(buffer nvim.Buffer, source string) (*symbol.Union, error) {
 	match, err := buffer.TsQueryOne(unionTypeAnnotationQuery)
 
 	if err != nil {
@@ -374,7 +374,7 @@ var parenthesizedTypeAnnotationQuery = annotation.ParenthesizedQuery.MapQuery(fu
 `, query)
 })
 
-func (tr *Transformer) getParenthesizedType(buffer *nvim.ScratchBuffer, _ string) (symbol.Type, error) {
+func (tr *Transformer) getParenthesizedType(buffer nvim.Buffer, _ string) (symbol.Type, error) {
 	match, err := buffer.TsQueryOne(parenthesizedTypeAnnotationQuery)
 
 	if err != nil {
@@ -398,7 +398,7 @@ var literalNumberTypeAnnotationQuery = annotation.LiteralNumberQuery.MapQuery(fu
 		)`, query)
 })
 
-func (tr *Transformer) getLiteralNumberType(buffer *nvim.ScratchBuffer, _ string) (*symbol.NumericLiteral, error) {
+func (tr *Transformer) getLiteralNumberType(buffer nvim.Buffer, _ string) (*symbol.NumericLiteral, error) {
 	match, err := buffer.TsQueryOne(literalNumberTypeAnnotationQuery)
 
 	if err != nil {
@@ -422,7 +422,7 @@ var literalBooleanTypeAnnotationQuery = annotation.LiteralBooleanQuery.MapQuery(
 		)`, query)
 })
 
-func (tr *Transformer) getLiteralBooleanType(buffer *nvim.ScratchBuffer) (*symbol.BooleanLiteral, error) {
+func (tr *Transformer) getLiteralBooleanType(buffer nvim.Buffer) (*symbol.BooleanLiteral, error) {
 	match, err := buffer.TsQueryOne(literalBooleanTypeAnnotationQuery)
 
 	if err != nil {
@@ -446,7 +446,7 @@ var literalStringTypeQuery = annotation.LiteralStringQuery.MapQuery(func(query s
 	)`, query)
 })
 
-func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string) (*symbol.StringLiteral, error) {
+func (tr *Transformer) getLiteralStringType(buffer nvim.Buffer, _ string) (*symbol.StringLiteral, error) {
 	match, err := buffer.TsQueryOne(literalStringTypeQuery)
 
 	if err != nil {
@@ -461,7 +461,7 @@ func (tr *Transformer) getLiteralStringType(buffer *nvim.ScratchBuffer, _ string
 	return symbol.NewStringLiteral(literalStringAnnotation.Value()), nil
 }
 
-func (tr *Transformer) getSyntaxErrorFallbackType(buffer *nvim.ScratchBuffer, _ string) (*symbol.Unknown, error) {
+func (tr *Transformer) getSyntaxErrorFallbackType(buffer nvim.Buffer, _ string) (*symbol.Unknown, error) {
 	syntaxError, err := buffer.TsQueryAll(treesitter.Query{Language: "luadoc", Query: "(ERROR) @error"})
 
 	if err != nil {
@@ -485,7 +485,7 @@ func (tr *Transformer) getType(type_ string) (symbol.Type, error) {
 		return builtinType, nil
 	}
 
-	buffer, err := tr.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().OpenTemporary()
 
 	if err != nil {
 		return nil, err

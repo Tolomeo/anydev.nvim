@@ -12,7 +12,7 @@ CONTAINER_OUT_DIR=$(CONTAINER_ROOT)/$(OUT)
 CONTAINER_TMP_DIR=$(CONTAINER_ROOT)/$(TMP)
 
 .PHONY=all
-all: run
+all: rerun
 
 .dockerbuild:Dockerfile .dockerignore go.mod go.sum $(shell find cmd internal resources -type f)
 	docker build --tag $(IMAGE_NAME) .
@@ -22,11 +22,18 @@ all: run
 build:.dockerbuild
 
 .PHONY=rebuild
-rebuild: clean build
+rebuild:
+	$(MAKE) clean
+	$(MAKE) build
 
 .PHONY=run
 run:build
-	docker run -it --rm -v $(OUT_DIR):$(CONTAINER_OUT_DIR) -v $(TMP_DIR):$(CONTAINER_TMP_DIR) $(IMAGE_NAME) -debug -tmp-dir $(TMP) -out-dir $(OUT) vim
+	docker run -it --rm -v $(OUT_DIR):$(CONTAINER_OUT_DIR) -v $(TMP_DIR):$(CONTAINER_TMP_DIR) $(IMAGE_NAME) -debug -tmp-dir $(TMP) -out-dir $(OUT) vim.F
+
+.PHONY=rerun
+rerun:
+	$(MAKE) rebuild
+	$(MAKE) run
 
 .PHONY=clean
 clean:

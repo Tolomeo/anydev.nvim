@@ -43,7 +43,7 @@ type functionAtAnnotations struct {
 func (tr *Transformer) getFunctionAtAnnotations(docblock []string) (*functionAtAnnotations, error) {
 	annotations := functionAtAnnotations{}
 
-	buffer, err := tr.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().OpenTemporary()
 
 	if err != nil {
 		return nil, err
@@ -149,7 +149,7 @@ type typeAtAnnotations struct {
 	AtModule   *annotation.AtModule
 }
 
-func (tr *Transformer) getTypeAtAnnotations(buffer *nvim.ScratchBuffer) (*typeAtAnnotations, error) {
+func (tr *Transformer) getTypeAtAnnotations(buffer nvim.Buffer) (*typeAtAnnotations, error) {
 	annotations := typeAtAnnotations{}
 
 	atTypeMatch, err := buffer.SafeTsQueryOne(annotation.AtTypeQuery)

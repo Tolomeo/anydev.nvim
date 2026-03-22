@@ -9,7 +9,7 @@ import (
 )
 
 func (tr *Transformer) transformFunctionCallOrigin(functionCallOrigin *origin.FunctionCallOrigin) (symbol.Type, error) {
-	buffer, err := tr.context.Nvim().NewBuffer()
+	buffer, err := tr.context.Nvim().OpenTemporary()
 
 	if err != nil {
 		return nil, err

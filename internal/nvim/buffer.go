@@ -8,18 +8,35 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/treesitter"
 )
 
-type Buffer struct {
+type Buffer interface {
+	Name() string
+	ReadLines() ([]string, error)
+	SetLines([]string) error
+	GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error)
+	TsQueryOne(query treesitter.Query) (*TsQueryMatch, error)
+	SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error)
+	TsQueryAll(query treesitter.Query) (*TsQueryMatches, error)
+	SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error)
+	GetDefinitionLocations(line uint, character uint) (*[]Location, error)
+	GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error)
+	GetHover(line uint, character uint) (*languageserver.MarkupContent, error)
+	QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error)
+	NextLineIterator(startLine uint) (iter.Seq2[*TemporaryBuffer, error], error)
+	Close() error
+}
+
+type buffer struct {
 	nvim *Nvim
 	name string
 }
 
-func (b *Buffer) Name() string {
+func (b *buffer) Name() string {
 	return b.name
 }
 
-func (b *Buffer) ReadLines() ([]string, error) {
+func (b *buffer) ReadLines() ([]string, error) {
 	b.nvim.logger.Sillyf("Reading %s buffer lines", b.name)
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return []string{}, fmt.Errorf("Error reading buffer '%s': %w", b.name, err)
@@ -34,10 +51,10 @@ func (b *Buffer) ReadLines() ([]string, error) {
 	return lines, nil
 }
 
-func (b *Buffer) SetLines(lines []string) error {
+func (b *buffer) SetLines(lines []string) error {
 	b.nvim.logger.Sillyf("Writing %s buffer lines", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return fmt.Errorf("Error writing to buffer '%s': %w", b.name, err)
@@ -50,10 +67,10 @@ func (b *Buffer) SetLines(lines []string) error {
 	return b.nvim.setBufferLines(lines)
 }
 
-func (b *Buffer) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
+func (b *buffer) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*treesitter.TsNode, error) {
 	b.nvim.logger.Sillyf("Getting treesitter node <%s> in %s buffer", nodeTypes, b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -62,10 +79,10 @@ func (b *Buffer) GetTSNodeAt(nodeTypes []string, line uint, character uint) (*tr
 	return b.nvim.getTSNodeAt(nodeTypes, line, character)
 }
 
-func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
+func (b *buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsNode, error) {
 	b.nvim.logger.Sillyf("Getting comment block node in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -74,10 +91,10 @@ func (b *Buffer) GetTsCommentBlockAt(line uint, character uint) (*treesitter.TsN
 	return b.nvim.getTsCommentBlockAt(line, character)
 }
 
-func (b *Buffer) GetTsNodeAnnotations(node treesitter.TsNode) ([]string, error) {
+func (b *buffer) GetTsNodeAnnotations(node treesitter.TsNode) ([]string, error) {
 	b.nvim.logger.Sillyf("Getting node <%v> annotations in %s buffer", node, b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -86,10 +103,10 @@ func (b *Buffer) GetTsNodeAnnotations(node treesitter.TsNode) ([]string, error) 
 	return b.nvim.getNodeAnnotations(node)
 }
 
-func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
+func (b *buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	b.nvim.logger.Sillyf("Executing query one in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -98,10 +115,10 @@ func (b *Buffer) TsQueryOne(query treesitter.Query) (*TsQueryMatch, error) {
 	return b.nvim.tsQueryOne(query)
 }
 
-func (b *Buffer) TsQueryAll(query treesitter.Query) (*TsQueryMatches, error) {
+func (b *buffer) TsQueryAll(query treesitter.Query) (*TsQueryMatches, error) {
 	b.nvim.logger.Sillyf("Executing query all in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -110,10 +127,10 @@ func (b *Buffer) TsQueryAll(query treesitter.Query) (*TsQueryMatches, error) {
 	return b.nvim.tsQueryAll(query)
 }
 
-func (b *Buffer) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
+func (b *buffer) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, error) {
 	b.nvim.logger.Sillyf("Executing safe query one in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -122,10 +139,10 @@ func (b *Buffer) SafeTsQueryOne(query treesitter.Query) (*SafeTsQueryResult, err
 	return b.nvim.safeTsQueryOne(query)
 }
 
-func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
+func (b *buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, error) {
 	b.nvim.logger.Sillyf("Executing safe query all in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -134,10 +151,10 @@ func (b *Buffer) SafeTsQueryAll(query treesitter.Query) (*[]SafeTsQueryResult, e
 	return b.nvim.safeTsQueryAll(query)
 }
 
-func (b *Buffer) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
+func (b *buffer) GetDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	b.nvim.logger.Sillyf("Getting definition locations in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -146,10 +163,10 @@ func (b *Buffer) GetDefinitionLocations(line uint, character uint) (*[]Location,
 	return b.nvim.getDefinitionLocations(line, character)
 }
 
-func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
+func (b *buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error) {
 	b.nvim.logger.Sillyf("Getting type definition locations in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -158,10 +175,10 @@ func (b *Buffer) GetTypeDefinitionLocations(line uint, character uint) (*[]Locat
 	return b.nvim.getTypeDefinitionLocations(line, character)
 }
 
-func (b *Buffer) GetHover(line uint, character uint) (*languageserver.MarkupContent, error) {
+func (b *buffer) GetHover(line uint, character uint) (*languageserver.MarkupContent, error) {
 	b.nvim.logger.Sillyf("Getting lsp hover at %s:%d:%d", b.name, line, character)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -170,10 +187,10 @@ func (b *Buffer) GetHover(line uint, character uint) (*languageserver.MarkupCont
 	return b.nvim.getLspHover(line, character)
 }
 
-func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
+func (b *buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error) {
 	b.nvim.logger.Sillyf("Querying ts node in %s buffer", b.name)
 
-	_, err := b.nvim.open(b.name)
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -182,8 +199,8 @@ func (b *Buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, charact
 	return b.nvim.queryTsNodeAt(tsNodeQueryMap, line, character)
 }
 
-func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, error], error) {
-	_, err := b.nvim.open(b.name)
+func (b *buffer) NextLineIterator(startLine uint) (iter.Seq2[*TemporaryBuffer, error], error) {
+	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
 		return nil, err
@@ -197,13 +214,13 @@ func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, err
 		return nil, err
 	}
 
-	linebuffer, err := b.nvim.NewBuffer()
+	linebuffer, err := b.nvim.OpenTemporary()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return func(yield func(*ScratchBuffer, error) bool) {
+	return func(yield func(*TemporaryBuffer, error) bool) {
 		for i := startLine; i < uint(len(lines)); i++ {
 
 			err := linebuffer.SetLines([]string{lines[i]})
@@ -223,7 +240,33 @@ func (b *Buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, err
 	}, nil
 }
 
-func (b *Buffer) Close() error {
+func (b *buffer) Close() error {
+	b.nvim.logger.Sillyf("Closing %s buffer", b.name)
+
+	_, err := b.nvim.edit(b.name)
+
+	if err != nil {
+		return err
+	}
+
+	err = b.nvim.deleteBuffer()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type TemporaryBuffer struct {
+	buffer
+}
+
+type FileBuffer struct {
+	buffer
+}
+
+func (b *FileBuffer) Close() error {
 	b.nvim.logger.Sillyf("Closing %s buffer", b.name)
 	/* _, err := b.nvim.open(b.name)
 
@@ -236,28 +279,6 @@ func (b *Buffer) Close() error {
 	if err != nil {
 		return err
 	} */
-
-	return nil
-}
-
-type ScratchBuffer struct {
-	Buffer
-}
-
-func (s *ScratchBuffer) Close() error {
-	s.nvim.logger.Sillyf("Closing %s buffer", s.name)
-
-	_, err := s.nvim.open(s.name)
-
-	if err != nil {
-		return err
-	}
-
-	err = s.nvim.deleteBuffer()
-
-	if err != nil {
-		return err
-	}
 
 	return nil
 }

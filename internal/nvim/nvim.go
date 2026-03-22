@@ -22,6 +22,7 @@ type Nvim struct {
 	cmd     *exec.Cmd
 	rpc     *msgpackrpc.MsgpackRpc
 	config  string
+	files   []*FileBuffer
 }
 
 func (n *Nvim) Options() Options {
@@ -180,5 +181,6 @@ func New(options Options) (*Nvim, error) {
 		logger:  log.NewLogger("nvim", options.LogLevel),
 		cmd:     cmd,
 		rpc:     rpc,
+		files:   make([]*FileBuffer, 0, 50),
 	}, nil
 }

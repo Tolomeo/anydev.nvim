@@ -49,7 +49,7 @@ func (c *Crawler) GetOriginChain() (origin.OriginChain, error) {
 }
 
 func (c *Crawler) getDefinitionOverrideOriginChain(definitionOverride []string) (origin.OriginChain, error) {
-	buffer, err := c.context.Nvim().NewBuffer()
+	buffer, err := c.context.Nvim().OpenTemporary()
 
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (c *Crawler) getAnnotationOriginMap() nvim.TsNodeQueryMap {
 }
 
 func (c *Crawler) getAnnotationOrigin(location nvim.Location) (origin.Origin, error) {
-	buffer, err := c.context.Nvim().OpenBuffer(location.Url)
+	buffer, err := c.context.Nvim().OpenFile(location.Url)
 
 	if err != nil {
 		return nil, err
@@ -365,7 +365,7 @@ func (c *Crawler) getDefinitionOrigin(location nvim.Location) (origin.Origin, er
 		uint(location.TargetRange.Start.Line),
 		uint(location.TargetRange.Start.Character)
 
-	buffer, err := c.context.Nvim().OpenBuffer(url)
+	buffer, err := c.context.Nvim().OpenFile(url)
 
 	if err != nil {
 		return nil, err

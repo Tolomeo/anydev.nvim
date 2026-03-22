@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"path"
 	"regexp"
+	"slices"
 
 	"github.com/Tolomeo/anydev.nvim/internal/nvim/msgpackrpc"
 	"github.com/Tolomeo/anydev.nvim/internal/utils/anyx"
 )
 
-func (n *Nvim) open(file string) (string, error) {
+func (n *Nvim) edit(file string) (string, error) {
 	request := msgpackrpc.RequestMessage{
 		Method: "nvim_command",
 		Params: []any{fmt.Sprintf("edit %s", file)},
@@ -142,15 +143,45 @@ func (n *Nvim) deleteBuffer() error {
 	return nil
 }
 
-func (nvim *Nvim) OpenBuffer(name string) (*Buffer, error) {
-	nvim.logger.Sillyf("Opening %s buffer", name)
-
-	buffer := &Buffer{
-		nvim: nvim,
-		name: name,
+func (nvim *Nvim) OpenFile(name string) (*FileBuffer, error) {
+	if bufIndex := slices.IndexFunc(nvim.files[:], func(buf *FileBuffer) bool {
+		return buf.name == name
+	}); bufIndex != -1 {
+		nvim.logger.Sillyf("Reopening %s buffer", name)
+		return nvim.files[bufIndex], nil
 	}
 
-	_, err := nvim.open(name)
+	nvim.logger.Sillyf("Opening %s buffer", name)
+
+	buffer := &FileBuffer{
+		buffer: buffer{
+			nvim: nvim,
+			name: name,
+		},
+	}
+
+	nvim.files = append([]*FileBuffer{buffer}, nvim.files...)
+
+	if len(nvim.files) >= 30 {
+		for _, buf := range nvim.files[len(nvim.files)-10:] {
+			_, err := nvim.edit(buf.name)
+
+			if err != nil {
+				return nil, err
+			}
+
+			err = nvim.deleteBuffer()
+
+			if err != nil {
+				return nil, err
+			}
+
+		}
+
+		nvim.files = nvim.files[:len(nvim.files)-10]
+	}
+
+	_, err := nvim.edit(name)
 
 	if err != nil {
 		return nil, err
@@ -162,20 +193,20 @@ func (nvim *Nvim) OpenBuffer(name string) (*Buffer, error) {
 var scratchBufferCounter = 0
 var scratchBufferName = regexp.MustCompile(`anydev\.\d+\.lua$`)
 
-func (nvim *Nvim) NewBuffer() (*ScratchBuffer, error) {
+func (nvim *Nvim) OpenTemporary() (*TemporaryBuffer, error) {
 	scratchBufferCounter += 1
 	name := path.Join(nvim.config, fmt.Sprintf("anydev.%d.lua", scratchBufferCounter))
 
 	nvim.logger.Sillyf("Opening %s scratch buffer", name)
 
-	buffer := &ScratchBuffer{
-		Buffer: Buffer{
+	buffer := &TemporaryBuffer{
+		buffer: buffer{
 			nvim: nvim,
 			name: name,
 		},
 	}
 
-	_, err := nvim.open(name)
+	_, err := nvim.edit(name)
 
 	if err != nil {
 		return nil, err
