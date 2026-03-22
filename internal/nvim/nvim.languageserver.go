@@ -322,7 +322,7 @@ func (n *Nvim) getDefinitionLocations(line uint, character uint) (*[]Location, e
 }
 
 func (n *Nvim) GetTypeCompletion(name string) ([]string, error) {
-	buffer, err := n.OpenTemporary()
+	buffer, err := n.OpenScratchBuffer()
 
 	if err != nil {
 		return []string{}, err

@@ -9,7 +9,7 @@ import (
 )
 
 func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().OpenTemporary()
+	buffer, err := c.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (c *Crawler) findModuleDefinitionLocations(moduleName string) (*[]nvim.Loca
 }
 
 func (c *Crawler) findModuleExportDefinitionLocations(moduleUrl string) (*[]nvim.Location, error) {
-	moduleBuffer, err := c.context.Nvim().OpenFile(moduleUrl)
+	moduleBuffer, err := c.context.Nvim().OpenFileBuffer(moduleUrl)
 
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func (c *Crawler) findModuleExportDefinitionLocations(moduleUrl string) (*[]nvim
 }
 
 func (c *Crawler) findIdentifierDefinitionLocations(identifier string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().OpenTemporary()
+	buffer, err := c.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (c *Crawler) findIdentifierDefinitionLocations(identifier string) (*[]nvim.
 }
 
 func (c *Crawler) findTypeIdentifierDefinitionLocations(typeName string, parentTypeName string) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().OpenTemporary()
+	buffer, err := c.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err
@@ -153,7 +153,7 @@ func (c *Crawler) findTypeIdentifierDefinitionLocations(typeName string, parentT
 }
 
 func (c *Crawler) findDefinitionLocationsAt(url string, line uint, character uint) (*[]nvim.Location, error) {
-	buffer, err := c.context.Nvim().OpenFile(url)
+	buffer, err := c.context.Nvim().OpenFileBuffer(url)
 
 	if err != nil {
 		return nil, err

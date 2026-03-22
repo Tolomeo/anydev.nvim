@@ -8,7 +8,7 @@ import (
 )
 
 func (tr *Transformer) getVariableOriginType(variableOrigin *origin.VariableOrigin) (symbol.Type, error) {
-	buffer, err := tr.context.Nvim().OpenTemporary()
+	buffer, err := tr.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err

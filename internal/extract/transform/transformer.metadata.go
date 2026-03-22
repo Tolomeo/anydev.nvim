@@ -36,7 +36,7 @@ func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata
 		}
 	}
 
-	buffer, err := tr.context.Nvim().OpenTemporary()
+	buffer, err := tr.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return meta, err

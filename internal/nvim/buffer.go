@@ -21,7 +21,7 @@ type Buffer interface {
 	GetTypeDefinitionLocations(line uint, character uint) (*[]Location, error)
 	GetHover(line uint, character uint) (*languageserver.MarkupContent, error)
 	QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, character uint) (*TsNodeQueryMatch, error)
-	NextLineIterator(startLine uint) (iter.Seq2[*TemporaryBuffer, error], error)
+	NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, error], error)
 	Close() error
 }
 
@@ -199,7 +199,7 @@ func (b *buffer) QueryTsNodeAt(tsNodeQueryMap TsNodeQueryMap, line uint, charact
 	return b.nvim.queryTsNodeAt(tsNodeQueryMap, line, character)
 }
 
-func (b *buffer) NextLineIterator(startLine uint) (iter.Seq2[*TemporaryBuffer, error], error) {
+func (b *buffer) NextLineIterator(startLine uint) (iter.Seq2[*ScratchBuffer, error], error) {
 	_, err := b.nvim.edit(b.name)
 
 	if err != nil {
@@ -214,13 +214,13 @@ func (b *buffer) NextLineIterator(startLine uint) (iter.Seq2[*TemporaryBuffer, e
 		return nil, err
 	}
 
-	linebuffer, err := b.nvim.OpenTemporary()
+	linebuffer, err := b.nvim.OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return func(yield func(*TemporaryBuffer, error) bool) {
+	return func(yield func(*ScratchBuffer, error) bool) {
 		for i := startLine; i < uint(len(lines)); i++ {
 
 			err := linebuffer.SetLines([]string{lines[i]})
@@ -258,7 +258,7 @@ func (b *buffer) Close() error {
 	return nil
 }
 
-type TemporaryBuffer struct {
+type ScratchBuffer struct {
 	buffer
 }
 
@@ -266,19 +266,11 @@ type FileBuffer struct {
 	buffer
 }
 
-func (b *FileBuffer) Close() error {
-	b.nvim.logger.Sillyf("Closing %s buffer", b.name)
-	/* _, err := b.nvim.open(b.name)
+func (f *FileBuffer) SetLines() error {
+	return fmt.Errorf("Error writing to a file buffer: denied")
+}
 
-	if err != nil {
-		return err
-	}
-
-	err = b.nvim.deleteBuffer()
-
-	if err != nil {
-		return err
-	} */
-
+func (f *FileBuffer) Close() error {
+	f.nvim.logger.Sillyf("Delegating '%s' buffer close to nvim queue", f.name)
 	return nil
 }

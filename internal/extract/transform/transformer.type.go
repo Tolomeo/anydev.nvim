@@ -485,7 +485,7 @@ func (tr *Transformer) getType(type_ string) (symbol.Type, error) {
 		return builtinType, nil
 	}
 
-	buffer, err := tr.context.Nvim().OpenTemporary()
+	buffer, err := tr.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err

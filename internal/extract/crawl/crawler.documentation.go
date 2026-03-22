@@ -34,7 +34,7 @@ func (c *Crawler) GetDocumentation() (symbol.Documentation, error) {
 }
 
 func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver.MarkupContent, error) {
-	buffer, err := c.context.Nvim().OpenTemporary()
+	buffer, err := c.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (c *Crawler) getDefinitionDocumentation(identifier string) (*languageserver
 }
 
 func (c *Crawler) getTypeDefinitionDocumentation(typeName string, parentTypeName string) (*languageserver.MarkupContent, error) {
-	buffer, err := c.context.Nvim().OpenTemporary()
+	buffer, err := c.context.Nvim().OpenScratchBuffer()
 
 	if err != nil {
 		return nil, err

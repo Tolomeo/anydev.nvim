@@ -143,12 +143,12 @@ func (n *Nvim) deleteBuffer() error {
 	return nil
 }
 
-func (nvim *Nvim) OpenFile(name string) (*FileBuffer, error) {
-	if bufIndex := slices.IndexFunc(nvim.files[:], func(buf *FileBuffer) bool {
+func (nvim *Nvim) OpenFileBuffer(name string) (*FileBuffer, error) {
+	if bufIndex := slices.IndexFunc(nvim.fileBuffers, func(buf *FileBuffer) bool {
 		return buf.name == name
 	}); bufIndex != -1 {
 		nvim.logger.Sillyf("Reopening %s buffer", name)
-		return nvim.files[bufIndex], nil
+		return nvim.fileBuffers[bufIndex], nil
 	}
 
 	nvim.logger.Sillyf("Opening %s buffer", name)
@@ -160,11 +160,19 @@ func (nvim *Nvim) OpenFile(name string) (*FileBuffer, error) {
 		},
 	}
 
-	nvim.files = append([]*FileBuffer{buffer}, nvim.files...)
+	nvim.fileBuffers = append([]*FileBuffer{buffer}, nvim.fileBuffers...)
 
-	if len(nvim.files) >= 30 {
-		for _, buf := range nvim.files[len(nvim.files)-10:] {
-			_, err := nvim.edit(buf.name)
+	// pruning oldest buffers when the capacity is reached
+	if len(nvim.fileBuffers) >= cap(nvim.fileBuffers) {
+		length := len(nvim.fileBuffers)
+		prune := length - length/3
+
+		for i := prune; i < length; i++ {
+			fileBuffer := nvim.fileBuffers[i]
+
+			nvim.logger.Sillyf("Pruning %s buffer", fileBuffer.name)
+
+			_, err := nvim.edit(fileBuffer.name)
 
 			if err != nil {
 				return nil, err
@@ -176,9 +184,10 @@ func (nvim *Nvim) OpenFile(name string) (*FileBuffer, error) {
 				return nil, err
 			}
 
+			nvim.fileBuffers[i] = nil
 		}
 
-		nvim.files = nvim.files[:len(nvim.files)-10]
+		nvim.fileBuffers = nvim.fileBuffers[:prune]
 	}
 
 	_, err := nvim.edit(name)
@@ -193,13 +202,13 @@ func (nvim *Nvim) OpenFile(name string) (*FileBuffer, error) {
 var scratchBufferCounter = 0
 var scratchBufferName = regexp.MustCompile(`anydev\.\d+\.lua$`)
 
-func (nvim *Nvim) OpenTemporary() (*TemporaryBuffer, error) {
+func (nvim *Nvim) OpenScratchBuffer() (*ScratchBuffer, error) {
 	scratchBufferCounter += 1
 	name := path.Join(nvim.config, fmt.Sprintf("anydev.%d.lua", scratchBufferCounter))
 
 	nvim.logger.Sillyf("Opening %s scratch buffer", name)
 
-	buffer := &TemporaryBuffer{
+	buffer := &ScratchBuffer{
 		buffer: buffer{
 			nvim: nvim,
 			name: name,
