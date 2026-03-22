@@ -1,0 +1,35 @@
+{
+    "name": "lsp.ResourceOperationKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.ResourceOperationKind Expand to \"create\"|\"delete\"|\"rename\"",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "lsp.ResourceOperationKind:",
+        "    | \"create\" -- Create",
+        "    | \"rename\" -- Rename",
+        "    | \"delete\" -- Delete",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"create\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"rename\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"delete\""
+            }
+        ]
+    }
+}

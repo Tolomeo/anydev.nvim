@@ -1,0 +1,58 @@
+{
+    "name": "lsp.DocumentSymbolOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentSymbolOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Provider options for a {@link DocumentSymbolRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "label",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolOptions.label: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A human-readable string that is shown when multiple outlines trees",
+                    "are shown for the same document.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentSymbolOptions"
+    }
+}

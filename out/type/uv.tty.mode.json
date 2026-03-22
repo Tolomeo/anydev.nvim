@@ -1,0 +1,42 @@
+{
+    "name": "uv.tty.mode",
+    "documentation": [
+        "```lua",
+        "(alias) uv.tty.mode Expand to 0|1|2",
+        "```",
+        "",
+        "---",
+        "",
+        " TTY mode is a C enum with the following values:",
+        "",
+        "",
+        "---",
+        "",
+        "```lua",
+        "--  TTY mode is a C enum with the following values:",
+        "-- ",
+        "uv.tty.mode:",
+        "    | 0 -- UV_TTY_MODE_NORMAL: Initial/normal terminal mode",
+        "    | 1 -- UV_TTY_MODE_RAW: Raw input mode (On Windows, ENABLE_WINDOW_INPUT is also enabled)",
+        "    | 2 -- UV_TTY_MODE_IO: Binary-safe I/O mode for IPC (Unix-only)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "numericliteral",
+                "value": "0"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "1"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "2"
+            }
+        ]
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "lsp.InlayHintOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.InlayHintOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Inlay hint options used during static registration.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "resolveProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintOptions.resolveProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support to resolve additional",
+                    "information for an inlay hint item."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.InlayHintOptions"
+    }
+}

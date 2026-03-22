@@ -1,0 +1,82 @@
+{
+    "name": "lsp.NotebookDocumentSyncOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.NotebookDocumentSyncOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Options specific to a notebook plus its cells",
+        "to be synced to the server.",
+        "",
+        "If a selector provides a notebook document",
+        "filter but no cell selector all cells of a",
+        "matching notebook document will be synced.",
+        "",
+        "If a selector provides no notebook document",
+        "filter but only a cell selector all notebook",
+        "document that contain at least one matching",
+        "cell will be synced.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "notebookSelector",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookDocumentSyncOptions.notebookSelector: (lsp.NotebookDocumentFilterWithCells|lsp.NotebookDocumentFilterWithNotebook)[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The notebooks to be synced"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentFilterWithNotebook"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.NotebookDocumentFilterWithCells"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "save",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.NotebookDocumentSyncOptions.save: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether save notification should be forwarded to",
+                    "the server. Will only be honored if mode === `notebook`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.NotebookDocumentSyncOptions"
+    }
+}

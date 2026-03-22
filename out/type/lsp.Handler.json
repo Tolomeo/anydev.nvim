@@ -1,0 +1,66 @@
+{
+    "name": "lsp.Handler",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.Handler Expand to fun(err?: lsp.ResponseError, result: any, context: lsp.HandlerContext, config?: table):...unknown",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: (lsp.ResponseError)?, result: any, context: lsp.HandlerContext, config?: table)",
+        "  -\u003e ...unknown",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ResponseError"
+                    }
+                }
+            },
+            {
+                "name": "result",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "any"
+                }
+            },
+            {
+                "name": "context",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.HandlerContext"
+                }
+            },
+            {
+                "name": "config",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "table"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": [
+            {
+                "name": "",
+                "type": {
+                    "kind": "builtin",
+                    "value": "any"
+                }
+            }
+        ]
+    }
+}

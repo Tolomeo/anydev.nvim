@@ -1,0 +1,221 @@
+{
+    "name": "uv.getaddrinfo.hints",
+    "documentation": [
+        "```lua",
+        "(class) uv.getaddrinfo.hints",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "addrconfig",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.addrconfig: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "all",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.all: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "canonname",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.canonname: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "family",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.family: string|integer|\"appletalk\"|\"atmpvc\"|\"ax25\"|\"inet\"|\"inet6\"|\"ipx\"|\"netlink\"|\"packet\"|\"unix\"|\"x25\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.socket.family:",
+                    "    | \"unix\"",
+                    "    | \"inet\"",
+                    "    | \"inet6\"",
+                    "    | \"ipx\"",
+                    "    | \"netlink\"",
+                    "    | \"x25\"",
+                    "    | \"ax25\"",
+                    "    | \"atmpvc\"",
+                    "    | \"appletalk\"",
+                    "    | \"packet\"",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "uv.socket.family"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "numerichost",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.numerichost: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "numericserv",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.numericserv: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "passive",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.passive: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "protocol",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.protocol: string|integer|\"icmp\"|\"ip\"|\"tcp\"|\"udp\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.socket.protocol:",
+                    "    | \"ip\"",
+                    "    | \"icmp\"",
+                    "    | \"tcp\"",
+                    "    | \"udp\"",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "uv.socket.protocol"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "socktype",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.socktype: string|integer|\"dgram\"|\"raw\"|\"rdm\"|\"seqpacket\"|\"stream\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.socket.type:",
+                    "    | \"stream\"",
+                    "    | \"dgram\"",
+                    "    | \"raw\"",
+                    "    | \"rdm\"",
+                    "    | \"seqpacket\"",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "uv.socket.type"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "v4mapped",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.hints.v4mapped: boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.getaddrinfo.hints"
+    }
+}

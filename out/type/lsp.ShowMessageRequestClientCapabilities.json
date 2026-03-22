@@ -1,0 +1,40 @@
+{
+    "name": "lsp.ShowMessageRequestClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ShowMessageRequestClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Show message request client capabilities"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "messageActionItem",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ShowMessageRequestClientCapabilities.messageActionItem: (lsp.ClientShowMessageActionItemOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Capabilities specific to the `MessageActionItem` type."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientShowMessageActionItemOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ShowMessageRequestClientCapabilities"
+    }
+}

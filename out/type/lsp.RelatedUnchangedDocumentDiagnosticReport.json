@@ -1,0 +1,108 @@
+{
+    "name": "lsp.RelatedUnchangedDocumentDiagnosticReport",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RelatedUnchangedDocumentDiagnosticReport",
+        "```",
+        "",
+        "---",
+        "",
+        "An unchanged diagnostic report with a set of related documents.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedUnchangedDocumentDiagnosticReport.kind: \"unchanged\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A document diagnostic report indicating",
+                    "no changes to the last result. A server can",
+                    "only return `unchanged` if result ids are",
+                    "provided."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"unchanged\""
+                }
+            },
+            {
+                "name": "relatedDocuments",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedUnchangedDocumentDiagnosticReport.relatedDocuments: table\u003cstring, lsp.FullDocumentDiagnosticReport|lsp.UnchangedDocumentDiagnosticReport\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Diagnostics of related documents. This information is useful",
+                    "in programming languages where code in a file A can generate",
+                    "diagnostics in a file B which A depends on. An example of",
+                    "such a language is C/C++ where marco definitions in a file",
+                    "a.cpp and result in errors in a header file b.hpp.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "typereference",
+                                    "value": "lsp.DocumentUri"
+                                },
+                                "value": {
+                                    "kind": "union",
+                                    "types": [
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.FullDocumentDiagnosticReport"
+                                        },
+                                        {
+                                            "kind": "typereference",
+                                            "value": "lsp.UnchangedDocumentDiagnosticReport"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "resultId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RelatedUnchangedDocumentDiagnosticReport.resultId: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A result id which will be sent on the next",
+                    "diagnostic request for the same document."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RelatedUnchangedDocumentDiagnosticReport"
+    }
+}

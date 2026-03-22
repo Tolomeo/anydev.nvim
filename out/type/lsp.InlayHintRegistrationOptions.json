@@ -1,0 +1,116 @@
+{
+    "name": "lsp.InlayHintRegistrationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.InlayHintRegistrationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Inlay hint options used during static or dynamic registration.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "documentSelector",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintRegistrationOptions.documentSelector: lsp.NotebookCellTextDocumentFilter|lsp.TextDocumentFilterLanguage|lsp.TextDocumentFilterPattern|lsp.TextDocumentFilterScheme[]|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A document selector is the combination of one or many document filters.",
+                    "",
+                    "\\@sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;",
+                    "",
+                    "The use of a string as a document filter is deprecated @since 3.16.0.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A document selector to identify the scope of the registration. If set to null",
+                    "the document selector provided on the client side will be used."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.DocumentSelector"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.null"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintRegistrationOptions.id: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The id used to register the request. The id can be used to deregister",
+                    "the request again. See also Registration#id."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "resolveProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintRegistrationOptions.resolveProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support to resolve additional",
+                    "information for an inlay hint item."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.InlayHintRegistrationOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.InlayHintRegistrationOptions"
+    }
+}

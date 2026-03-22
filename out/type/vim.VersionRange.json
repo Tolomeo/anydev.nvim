@@ -1,0 +1,79 @@
+{
+    "name": "vim.VersionRange",
+    "documentation": [
+        "```lua",
+        "(class) vim.VersionRange",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "from",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.VersionRange.from: vim.Version",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "vim.Version"
+                }
+            },
+            {
+                "name": "to",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.VersionRange.to: (vim.Version)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.Version"
+                    }
+                }
+            },
+            {
+                "name": "has",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.VersionRange:has(version: string|vim.Version)",
+                    "  -\u003e boolean",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "version",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.Version"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "has",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.VersionRange"
+    }
+}

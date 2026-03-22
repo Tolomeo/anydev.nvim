@@ -1,0 +1,82 @@
+{
+    "name": "lsp.FullDocumentDiagnosticReport",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FullDocumentDiagnosticReport",
+        "```",
+        "",
+        "---",
+        "",
+        "A diagnostic report with a full set of problems.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "items",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FullDocumentDiagnosticReport.items: lsp.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The actual items."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "typereference",
+                        "value": "lsp.Diagnostic"
+                    }
+                }
+            },
+            {
+                "name": "kind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FullDocumentDiagnosticReport.kind: \"full\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A full document diagnostic report."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "stringliteral",
+                    "value": "\"full\""
+                }
+            },
+            {
+                "name": "resultId",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FullDocumentDiagnosticReport.resultId: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional result id. If provided it will",
+                    "be sent on the next diagnostic request for the",
+                    "same document."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FullDocumentDiagnosticReport"
+    }
+}

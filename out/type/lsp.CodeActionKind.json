@@ -1,0 +1,80 @@
+{
+    "name": "lsp.CodeActionKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.CodeActionKind Expand to \"\"|\"notebook\"|\"quickfix\"|\"refactor\"|\"refactor.extract\"|\"refactor.inline\"|\"refactor.move\"|\"refactor.rewrite\"|\"source\"|\"source.fixAll\"|\"source.organizeImports\"",
+        "```",
+        "",
+        "---",
+        "",
+        "A set of predefined code action kinds",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- A set of predefined code action kinds",
+        "lsp.CodeActionKind:",
+        "    | \"\" -- Empty",
+        "    | \"quickfix\" -- QuickFix",
+        "    | \"refactor\" -- Refactor",
+        "    | \"refactor.extract\" -- RefactorExtract",
+        "    | \"refactor.inline\" -- RefactorInline",
+        "    | \"refactor.move\" -- RefactorMove",
+        "    | \"refactor.rewrite\" -- RefactorRewrite",
+        "    | \"source\" -- Source",
+        "    | \"source.organizeImports\" -- SourceOrganizeImports",
+        "    | \"source.fixAll\" -- SourceFixAll",
+        "    | \"notebook\" -- Notebook",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"quickfix\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"refactor\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"refactor.extract\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"refactor.inline\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"refactor.move\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"refactor.rewrite\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"source\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"source.organizeImports\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"source.fixAll\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"notebook\""
+            }
+        ]
+    }
+}

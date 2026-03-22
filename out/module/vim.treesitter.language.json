@@ -1,0 +1,355 @@
+{
+    "name": "vim.treesitter.language",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "add",
+                "documentation": [
+                    "```lua",
+                    "function M.add(lang: string, opts?: vim.treesitter.language.add.Opts)",
+                    "  -\u003e True: boolean?",
+                    "  2. Error: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Load parser with name {lang}",
+                    "",
+                    " Parsers are searched in the `parser` runtime directory, or the provided {path}.",
+                    " Can be used to check for available parsers before enabling treesitter features, e.g.,",
+                    " ```lua",
+                    "   if vim.treesitter.language.add('markdown') then",
+                    "     vim.treesitter.start(bufnr, 'markdown')",
+                    "   end",
+                    " ```",
+                    "",
+                    "@*param* `lang` — Name of the parser (alphanumerical and `_` only)",
+                    "",
+                    "@*param* `opts` — Options:",
+                    "",
+                    "@*return* `True` — if parser is loaded",
+                    "",
+                    "@*return* `Error` — if parser cannot be loaded"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.language.add.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "add",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_filetypes",
+                "documentation": [
+                    "```lua",
+                    "function M.get_filetypes(lang: string)",
+                    "  -\u003e filetypes: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the filetypes for which a parser named {lang} is used.",
+                    "",
+                    " The list includes {lang} itself plus all filetypes registered via",
+                    " |vim.treesitter.language.register()|.",
+                    "",
+                    "@*param* `lang` — Name of parser"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_filetypes",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_lang",
+                "documentation": [
+                    "```lua",
+                    "function M.get_lang(filetype: string)",
+                    "  -\u003e string|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the language name to be used when loading a parser for {filetype}.",
+                    "",
+                    " If no language has been explicitly registered via |vim.treesitter.language.register()|,",
+                    " default to {filetype}. For composite filetypes like `html.glimmer`, only the main filetype is",
+                    " returned."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filetype",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_lang",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "inspect",
+                "documentation": [
+                    "```lua",
+                    "function M.inspect(lang: string)",
+                    "  -\u003e TSLangInfo",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Inspects the provided language.",
+                    "",
+                    " Inspecting provides some useful information on the language like ABI version, parser state count",
+                    " (a measure of parser complexity), node and field names, and whether the language came from a",
+                    " WASM module.",
+                    "",
+                    " Node names are returned in a table mapping each node name to a `boolean` indicating whether or",
+                    " not the node is named (i.e., not anonymous). Anonymous nodes are surrounded with double quotes",
+                    " (`\"`).",
+                    "",
+                    " For ABI 15 parsers, also show parser metadata (major, minor, patch version) and a table of",
+                    " supertypes with their respective subtypes.",
+                    "",
+                    "@*param* `lang` — Language"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "inspect",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSLangInfo"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "register",
+                "documentation": [
+                    "```lua",
+                    "function M.register(lang: string, filetype: string|string[])",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Register a parser named {lang} to be used for {filetype}(s).",
+                    "",
+                    " Note: this adds or overrides the mapping for {filetype}, any existing mappings from other",
+                    " filetypes to {lang} will be preserved.",
+                    "",
+                    "@*param* `lang` — Name of parser",
+                    "",
+                    "@*param* `filetype` — Filetype(s) to associate with lang"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "filetype",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "register",
+                    "returns": []
+                }
+            },
+            {
+                "name": "require_language",
+                "documentation": [
+                    "```lua",
+                    "function M.require_language(lang: any, path: any, silent: any, symbol_name: any)",
+                    "  -\u003e boolean",
+                    "  2. string|nil",
+                    "```"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "path",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "silent",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "symbol_name",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "require_language",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

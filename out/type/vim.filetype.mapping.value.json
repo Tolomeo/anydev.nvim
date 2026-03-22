@@ -1,0 +1,34 @@
+{
+    "name": "vim.filetype.mapping.value",
+    "documentation": [
+        "```lua",
+        "(alias) vim.filetype.mapping.value Expand to string|[string|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?, { priority: number }]|fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (path: string, bufnr: integer, ...: any)",
+        "  -\u003e string?",
+        "  2. fun(b: integer)?",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "builtin",
+                "value": "string"
+            },
+            {
+                "kind": "typereference",
+                "value": "vim.filetype.mapfn"
+            },
+            {
+                "kind": "typereference",
+                "value": "vim.filetype.maptbl"
+            }
+        ]
+    }
+}

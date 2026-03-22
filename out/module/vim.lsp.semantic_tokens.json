@@ -1,0 +1,364 @@
+{
+    "name": "vim.lsp.semantic_tokens",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "force_refresh",
+                "documentation": [
+                    "```lua",
+                    "function M.force_refresh(bufnr: integer|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Force a refresh of all semantic tokens",
+                    "",
+                    " Only has an effect if the buffer is currently active for semantic token",
+                    " highlighting (|vim.lsp.semantic_tokens.start()| has been called for it)",
+                    "",
+                    "@*param* `bufnr` — filter by buffer. All buffers if nil, current",
+                    "",
+                    "       buffer if 0"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "force_refresh",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get_at_pos",
+                "documentation": [
+                    "```lua",
+                    "function M.get_at_pos(bufnr: integer|nil, row: integer|nil, col: integer|nil)",
+                    "  -\u003e STTokenRangeInspect[]|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the semantic token(s) at the given position.",
+                    " If called without arguments, returns the token under the cursor.",
+                    "",
+                    "@*param* `bufnr` — Buffer number (0 for current buffer, default)",
+                    "",
+                    "@*param* `row` — Position row (default cursor position)",
+                    "",
+                    "@*param* `col` — Position column (default cursor position)",
+                    "",
+                    "",
+                    "@*return* — (table|nil) List of tokens at position. Each token has",
+                    "",
+                    "        the following fields:",
+                    "        - line (integer) line number, 0-based",
+                    "        - start_col (integer) start column, 0-based",
+                    "        - end_col (integer) end column, 0-based",
+                    "        - type (string) token type as string, e.g. \"variable\"",
+                    "        - modifiers (table) token modifiers as a set. E.g., { static = true, readonly = true }",
+                    "        - client_id (integer)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "row",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "col",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_at_pos",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "typereference",
+                                            "value": "STTokenRangeInspect"
+                                        }
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "highlight_token",
+                "documentation": [
+                    "```lua",
+                    "function M.highlight_token(token: table, bufnr: integer, client_id: integer, hl_group: string, opts?: vim.lsp.semantic_tokens.highlight_token.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Highlight a semantic token.",
+                    "",
+                    " Apply an extmark with a given highlight group for a semantic token. The",
+                    " mark will be deleted by the semantic token engine when appropriate; for",
+                    " example, when the LSP sends updated tokens. This function is intended for",
+                    " use inside |LspTokenUpdate| callbacks.",
+                    "",
+                    "@*param* `token` — A semantic token, found as `args.data.token` in |LspTokenUpdate|",
+                    "",
+                    "@*param* `bufnr` — The buffer to highlight, or `0` for current buffer",
+                    "",
+                    "@*param* `client_id` — The ID of the |vim.lsp.Client|",
+                    "",
+                    "@*param* `hl_group` — Highlight group name",
+                    "",
+                    "@*param* `opts` — Optional parameters:"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "token",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "hl_group",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.semantic_tokens.highlight_token.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "highlight_token",
+                    "returns": []
+                }
+            },
+            {
+                "name": "start",
+                "documentation": [
+                    "```lua",
+                    "function M.start(bufnr: integer, client_id: integer, opts?: table)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Start the semantic token highlighting engine for the given buffer with the",
+                    " given client. The client must already be attached to the buffer.",
+                    "",
+                    " NOTE: This is currently called automatically by |vim.lsp.buf_attach_client()|. To",
+                    " opt-out of semantic highlighting with a server that supports it, you can",
+                    " delete the semanticTokensProvider table from the {server_capabilities} of",
+                    " your client in your |LspAttach| callback or your configuration's",
+                    " `on_attach` callback:",
+                    "",
+                    " ```lua",
+                    " client.server_capabilities.semanticTokensProvider = nil",
+                    " ```",
+                    "",
+                    "@*param* `bufnr` — Buffer number, or `0` for current buffer",
+                    "",
+                    "@*param* `client_id` — The ID of the |vim.lsp.Client|",
+                    "",
+                    "@*param* `opts` — Optional keyword arguments",
+                    "",
+                    "  - debounce (integer, default: 200): Debounce token requests",
+                    "        to the server by the given number in milliseconds"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "start",
+                    "returns": []
+                }
+            },
+            {
+                "name": "stop",
+                "documentation": [
+                    "```lua",
+                    "function M.stop(bufnr: integer, client_id: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Stop the semantic token highlighting engine for the given buffer with the",
+                    " given client.",
+                    "",
+                    " NOTE: This is automatically called by a |LspDetach| autocmd that is set up as part",
+                    " of `start()`, so you should only need this function to manually disengage the semantic",
+                    " token engine without fully detaching the LSP client from the buffer.",
+                    "",
+                    "@*param* `bufnr` — Buffer number, or `0` for current buffer",
+                    "",
+                    "@*param* `client_id` — The ID of the |vim.lsp.Client|"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "stop",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

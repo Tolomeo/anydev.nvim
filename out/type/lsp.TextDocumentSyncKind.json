@@ -1,0 +1,42 @@
+{
+    "name": "lsp.TextDocumentSyncKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.TextDocumentSyncKind Expand to 0|1|2",
+        "```",
+        "",
+        "---",
+        "",
+        "Defines how the host (editor) should sync",
+        "document changes to the language server.",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- Defines how the host (editor) should sync",
+        "-- document changes to the language server.",
+        "lsp.TextDocumentSyncKind:",
+        "    | 0 -- None",
+        "    | 1 -- Full",
+        "    | 2 -- Incremental",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "numericliteral",
+                "value": "0"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "1"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "2"
+            }
+        ]
+    }
+}

@@ -1,0 +1,337 @@
+{
+    "name": "vim.lsp.codelens",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "clear",
+                "documentation": [
+                    "```lua",
+                    "function M.clear(client_id: integer|nil, bufnr: integer|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Clear the lenses",
+                    "",
+                    "@*param* `client_id` — filter by client_id. All clients if nil",
+                    "",
+                    "@*param* `bufnr` — filter by buffer. All buffers if nil, 0 for current buffer"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "clear",
+                    "returns": []
+                }
+            },
+            {
+                "name": "display",
+                "documentation": [
+                    "```lua",
+                    "function M.display(lenses?: lsp.CodeLens[], bufnr: integer, client_id: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Display the lenses using virtual text",
+                    "",
+                    "@*param* `lenses` — lenses to display"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lenses",
+                            "optional": true,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.CodeLens"
+                                }
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "display",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get",
+                "documentation": [
+                    "```lua",
+                    "function M.get(bufnr: integer)",
+                    "  -\u003e lsp.CodeLens[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return all lenses for the given buffer",
+                    "",
+                    "@*param* `bufnr` — Buffer number. 0 can be used for the current buffer."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.CodeLens"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "on_codelens",
+                "documentation": [
+                    "```lua",
+                    "function M.on_codelens(err?: lsp.ResponseError, result: lsp.CodeLens[], ctx: lsp.HandlerContext)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " |lsp-handler| for the method `textDocument/codeLens`"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "err",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.ResponseError"
+                                }
+                            }
+                        },
+                        {
+                            "name": "result",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.CodeLens"
+                                }
+                            }
+                        },
+                        {
+                            "name": "ctx",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.HandlerContext"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_codelens",
+                    "returns": []
+                }
+            },
+            {
+                "name": "refresh",
+                "documentation": [
+                    "```lua",
+                    "function M.refresh(opts?: vim.lsp.codelens.refresh.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Refresh the lenses.",
+                    "",
+                    " It is recommended to trigger this using an autocmd or via keymap.",
+                    "",
+                    " Example:",
+                    "",
+                    " ```vim",
+                    " autocmd BufEnter,CursorHold,InsertLeave \u003cbuffer\u003e lua vim.lsp.codelens.refresh({ bufnr = 0 })",
+                    " ```",
+                    "",
+                    "@*param* `opts` — Optional fields"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.codelens.refresh.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "refresh",
+                    "returns": []
+                }
+            },
+            {
+                "name": "run",
+                "documentation": [
+                    "```lua",
+                    "function M.run()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Run the code lens in the current line"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "run",
+                    "returns": []
+                }
+            },
+            {
+                "name": "save",
+                "documentation": [
+                    "```lua",
+                    "function M.save(lenses?: lsp.CodeLens[], bufnr: integer, client_id: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Store lenses for a specific buffer and client",
+                    "",
+                    "@*param* `lenses` — lenses to store"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lenses",
+                            "optional": true,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.CodeLens"
+                                }
+                            }
+                        },
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "save",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

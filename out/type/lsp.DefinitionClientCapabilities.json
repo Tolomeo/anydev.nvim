@@ -1,0 +1,62 @@
+{
+    "name": "lsp.DefinitionClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DefinitionClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client Capabilities for a {@link DefinitionRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DefinitionClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether definition supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "linkSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DefinitionClientCapabilities.linkSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports additional metadata in the form of definition links.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DefinitionClientCapabilities"
+    }
+}

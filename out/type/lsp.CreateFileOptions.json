@@ -1,0 +1,61 @@
+{
+    "name": "lsp.CreateFileOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CreateFileOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Options to create a file."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "ignoreIfExists",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFileOptions.ignoreIfExists: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Ignore if exists."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "overwrite",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CreateFileOptions.overwrite: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Overwrite existing file. Overwrite wins over `ignoreIfExists`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CreateFileOptions"
+    }
+}

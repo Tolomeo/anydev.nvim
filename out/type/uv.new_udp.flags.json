@@ -1,0 +1,99 @@
+{
+    "name": "uv.new_udp.flags",
+    "documentation": [
+        "```lua",
+        "(class) uv.new_udp.flags",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "family",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.new_udp.flags.family: \"appletalk\"|\"atmpvc\"|\"ax25\"|\"inet\"|\"inet6\"|\"ipx\"|\"netlink\"|\"packet\"|\"unix\"|\"x25\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.new_udp.flags.family:",
+                    "    | \"unix\"",
+                    "    | \"inet\"",
+                    "    | \"inet6\"",
+                    "    | \"ipx\"",
+                    "    | \"netlink\"",
+                    "    | \"x25\"",
+                    "    | \"ax25\"",
+                    "    | \"atmpvc\"",
+                    "    | \"appletalk\"",
+                    "    | \"packet\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.socket.family:",
+                    "    | \"unix\"",
+                    "    | \"inet\"",
+                    "    | \"inet6\"",
+                    "    | \"ipx\"",
+                    "    | \"netlink\"",
+                    "    | \"x25\"",
+                    "    | \"ax25\"",
+                    "    | \"atmpvc\"",
+                    "    | \"appletalk\"",
+                    "    | \"packet\"",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "uv.new_udp.flags.family"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "mmsgs",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.new_udp.flags.mmsgs: integer|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "default `1`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.new_udp.flags"
+    }
+}

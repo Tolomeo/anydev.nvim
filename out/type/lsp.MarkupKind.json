@@ -1,0 +1,43 @@
+{
+    "name": "lsp.MarkupKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.MarkupKind Expand to \"markdown\"|\"plaintext\"",
+        "```",
+        "",
+        "---",
+        "",
+        "Describes the content type that a client supports in various",
+        "result literals like `Hover`, `ParameterInfo` or `CompletionItem`.",
+        "",
+        "Please note that `MarkupKinds` must not start with a `$`. This kinds",
+        "are reserved for internal usage.",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- Describes the content type that a client supports in various",
+        "-- result literals like `Hover`, `ParameterInfo` or `CompletionItem`.",
+        "-- ",
+        "-- Please note that `MarkupKinds` must not start with a `$`. This kinds",
+        "-- are reserved for internal usage.",
+        "lsp.MarkupKind:",
+        "    | \"plaintext\" -- PlainText",
+        "    | \"markdown\" -- Markdown",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"plaintext\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"markdown\""
+            }
+        ]
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "name": "uv.run.mode",
+    "documentation": [
+        "```lua",
+        "(alias) uv.run.mode Expand to \"default\"|\"nowait\"|\"once\"",
+        "```",
+        "",
+        "---",
+        "",
+        " uv.run() modes:",
+        "",
+        "   - `\"default\"`: Runs the event loop until there are no more active and",
+        "   referenced handles or requests. Returns `true` if `uv.stop()` was called and",
+        "   there are still active handles or requests. Returns `false` in all other",
+        "   cases.",
+        "",
+        "   - `\"once\"`: Poll for I/O once. Note that this function blocks if there are no",
+        "   pending callbacks. Returns `false` when done (no active handles or requests",
+        "   left), or `true` if more callbacks are expected (meaning you should run the",
+        "   event loop again sometime in the future).",
+        "",
+        "   - `\"nowait\"`: Poll for I/O once but don't block if there are no pending",
+        "   callbacks. Returns `false` if done (no active handles or requests left),",
+        "   or `true` if more callbacks are expected (meaning you should run the event",
+        "   loop again sometime in the future).",
+        "",
+        "",
+        "---",
+        "",
+        "```lua",
+        "--  uv.run() modes:",
+        "-- ",
+        "--    - `\"default\"`: Runs the event loop until there are no more active and",
+        "--    referenced handles or requests. Returns `true` if `uv.stop()` was called and",
+        "--    there are still active handles or requests. Returns `false` in all other",
+        "--    cases.",
+        "-- ",
+        "--    - `\"once\"`: Poll for I/O once. Note that this function blocks if there are no",
+        "--    pending callbacks. Returns `false` when done (no active handles or requests",
+        "--    left), or `true` if more callbacks are expected (meaning you should run the",
+        "--    event loop again sometime in the future).",
+        "-- ",
+        "--    - `\"nowait\"`: Poll for I/O once but don't block if there are no pending",
+        "--    callbacks. Returns `false` if done (no active handles or requests left),",
+        "--    or `true` if more callbacks are expected (meaning you should run the event",
+        "--    loop again sometime in the future).",
+        "-- ",
+        "uv.run.mode:",
+        "    | \"default\" -- Runs the event loop until there are no more active and referenced handles or requests.",
+        "    | \"once\" -- Poll for I/O once.",
+        "    | \"nowait\" -- Poll for I/O once but don't block if there are no pending callbacks.",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"default\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"once\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"nowait\""
+            }
+        ]
+    }
+}

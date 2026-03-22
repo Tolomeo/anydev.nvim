@@ -1,0 +1,174 @@
+{
+    "name": "vim.keymap",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "del",
+                "documentation": [
+                    "```lua",
+                    "function keymap.del(modes: string|string[], lhs: string, opts?: vim.keymap.del.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Remove an existing mapping.",
+                    " Examples:",
+                    "",
+                    " ```lua",
+                    " vim.keymap.del('n', 'lhs')",
+                    "",
+                    " vim.keymap.del({'n', 'i', 'v'}, '\u003cleader\u003ew', { buffer = 5 })",
+                    " ```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "modes",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "lhs",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.keymap.del.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "del",
+                    "returns": []
+                }
+            },
+            {
+                "name": "set",
+                "documentation": [
+                    "```lua",
+                    "function keymap.set(mode: string|string[], lhs: string, rhs: string|function, opts?: vim.keymap.set.Opts)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Defines a |mapping| of |keycodes| to a function or keycodes.",
+                    "",
+                    " Examples:",
+                    "",
+                    " ```lua",
+                    " -- Map \"x\" to a Lua function:",
+                    " vim.keymap.set('n', 'x', function() print(\"real lua function\") end)",
+                    " -- Map \"\u003cleader\u003ex\" to multiple modes for the current buffer:",
+                    " vim.keymap.set({'n', 'v'}, '\u003cleader\u003ex', vim.lsp.buf.references, { buffer = true })",
+                    " -- Map \u003cTab\u003e to an expression (|:map-\u003cexpr\u003e|):",
+                    " vim.keymap.set('i', '\u003cTab\u003e', function()",
+                    "   return vim.fn.pumvisible() == 1 and \"\u003cC-n\u003e\" or \"\u003cTab\u003e\"",
+                    " end, { expr = true })",
+                    " -- Map \"[%%\" to a \u003cPlug\u003e mapping:",
+                    " vim.keymap.set('n', '[%%', '\u003cPlug\u003e(MatchitNormalMultiBackward)')",
+                    " ```",
+                    "",
+                    "@*param* `mode` — Mode \"short-name\" (see |nvim_set_keymap()|), or a list thereof.",
+                    "",
+                    "@*param* `lhs` — Left-hand side |{lhs}| of the mapping.",
+                    "",
+                    "@*param* `rhs` — Right-hand side |{rhs}| of the mapping, can be a Lua function."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "mode",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "lhs",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "rhs",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "function"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.keymap.set.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "keymap"
+    }
+}

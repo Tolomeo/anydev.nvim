@@ -1,0 +1,130 @@
+{
+    "name": "lsp.DocumentSymbolClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentSymbolClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client Capabilities for a {@link DocumentSymbolRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether document symbol supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "hierarchicalDocumentSymbolSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolClientCapabilities.hierarchicalDocumentSymbolSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports hierarchical document symbols."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "labelSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolClientCapabilities.labelSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports an additional label presented in the UI when",
+                    "registering a document symbol provider.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "symbolKind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolClientCapabilities.symbolKind: (lsp.ClientSymbolKindOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Specific capabilities for the `SymbolKind` in the",
+                    "`textDocument/documentSymbol` request."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSymbolKindOptions"
+                    }
+                }
+            },
+            {
+                "name": "tagSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentSymbolClientCapabilities.tagSupport: (lsp.ClientSymbolTagOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports tags on `SymbolInformation`. Tags are supported on",
+                    "`DocumentSymbol` if `hierarchicalDocumentSymbolSupport` is set to true.",
+                    "Clients supporting tags have to handle unknown tags gracefully.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSymbolTagOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentSymbolClientCapabilities"
+    }
+}

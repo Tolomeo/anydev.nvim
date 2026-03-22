@@ -1,0 +1,56 @@
+{
+    "name": "lsp.ExecuteCommandOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ExecuteCommandOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "The server capabilities of a {@link ExecuteCommandRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "commands",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ExecuteCommandOptions.commands: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The commands to be executed on the server"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ExecuteCommandOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ExecuteCommandOptions"
+    }
+}

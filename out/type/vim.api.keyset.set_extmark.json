@@ -1,0 +1,601 @@
+{
+    "name": "vim.api.keyset.set_extmark",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.set_extmark",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "conceal",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.conceal: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "conceal_lines",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.conceal_lines: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "cursorline_hl_group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.cursorline_hl_group: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "end_col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.end_col: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "end_line",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.end_line: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "end_right_gravity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.end_right_gravity: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "end_row",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.end_row: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "ephemeral",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.ephemeral: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "hl_eol",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.hl_eol: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "hl_group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.hl_group: any",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                }
+            },
+            {
+                "name": "hl_mode",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.hl_mode: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.id: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "invalidate",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.invalidate: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "line_hl_group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.line_hl_group: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "number_hl_group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.number_hl_group: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "priority",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.priority: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "right_gravity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.right_gravity: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "scoped",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.scoped: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "sign_hl_group",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.sign_hl_group: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "sign_text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.sign_text: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "spell",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.spell: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "strict",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.strict: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "ui_watched",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.ui_watched: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "undo_restore",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.undo_restore: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "url",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.url: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "virt_lines",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_lines: any[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "virt_lines_above",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_lines_above: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virt_lines_leftcol",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_lines_leftcol: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virt_lines_overflow",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_lines_overflow: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "virt_text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_text: any[]?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "virt_text_hide",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_text_hide: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virt_text_pos",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_text_pos: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "virt_text_repeat_linebreak",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_text_repeat_linebreak: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "virt_text_win_col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_extmark.virt_text_win_col: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.set_extmark"
+    }
+}

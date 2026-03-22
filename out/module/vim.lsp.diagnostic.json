@@ -1,0 +1,405 @@
+{
+    "name": "vim.lsp.diagnostic",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "from",
+                "documentation": [
+                    "```lua",
+                    "function M.from(diagnostics: vim.Diagnostic[])",
+                    "  -\u003e lsp.Diagnostic[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Converts the input `vim.Diagnostic`s to LSP diagnostics."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "diagnostics",
+                            "optional": false,
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.Diagnostic"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "from",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "lsp.Diagnostic"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_line_diagnostics",
+                "documentation": [
+                    "```lua",
+                    "function M.get_line_diagnostics(bufnr: integer|nil, line_nr: integer|nil, opts?: { severity: 1|2|3|4 }, client_id: integer|nil)",
+                    "  -\u003e Table: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the diagnostics by line",
+                    "",
+                    " Marked private as this is used internally by the LSP subsystem, but",
+                    " most users should instead prefer |vim.diagnostic.get()|.",
+                    "",
+                    "@*param* `bufnr` — The buffer number",
+                    "",
+                    "@*param* `line_nr` — The line number",
+                    "",
+                    "         - severity: (lsp.DiagnosticSeverity)",
+                    "             - Only return diagnostics with this severity.",
+                    "",
+                    "@*param* `client_id` — the client id",
+                    "",
+                    "@*return* `Table` — with map of line number to list of diagnostics.",
+                    "",
+                    "              Structured: { [1] = {...}, [5] = {.... } }"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "line_nr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "fields": [
+                                        {
+                                            "name": "severity",
+                                            "documentation": [],
+                                            "meta": [],
+                                            "type": {
+                                                "kind": "optional",
+                                                "type": {
+                                                    "kind": "typereference",
+                                                    "value": "lsp.DiagnosticSeverity"
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "kind": "table",
+                                    "name": ""
+                                }
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_line_diagnostics",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_namespace",
+                "documentation": [
+                    "```lua",
+                    "function M.get_namespace(client_id: integer, is_pull?: boolean)",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the diagnostic namespace associated with an LSP client |vim.diagnostic| for diagnostics",
+                    "",
+                    "@*param* `client_id` — The id of the LSP client",
+                    "",
+                    "@*param* `is_pull` — Whether the namespace is for a pull or push client. Defaults to push"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "is_pull",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_namespace",
+                    "returns": []
+                }
+            },
+            {
+                "name": "on_diagnostic",
+                "documentation": [
+                    "```lua",
+                    "function M.on_diagnostic(error?: lsp.ResponseError, result: lsp.RelatedFullDocumentDiagnosticReport|lsp.RelatedUnchangedDocumentDiagnosticReport, ctx: lsp.HandlerContext)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " |lsp-handler| for the method \"textDocument/diagnostic\"",
+                    "",
+                    " See |vim.diagnostic.config()| for configuration options."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "error",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.ResponseError"
+                                }
+                            }
+                        },
+                        {
+                            "name": "result",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.DocumentDiagnosticReport"
+                            }
+                        },
+                        {
+                            "name": "ctx",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.HandlerContext"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_diagnostic",
+                    "returns": []
+                }
+            },
+            {
+                "name": "on_publish_diagnostics",
+                "documentation": [
+                    "```lua",
+                    "function M.on_publish_diagnostics(_?: lsp.ResponseError, params: lsp.PublishDiagnosticsParams, ctx: lsp.HandlerContext)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " |lsp-handler| for the method \"textDocument/publishDiagnostics\"",
+                    "",
+                    " See |vim.diagnostic.config()| for configuration options."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "_",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.ResponseError"
+                                }
+                            }
+                        },
+                        {
+                            "name": "params",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.PublishDiagnosticsParams"
+                            }
+                        },
+                        {
+                            "name": "ctx",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.HandlerContext"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_publish_diagnostics",
+                    "returns": []
+                }
+            },
+            {
+                "name": "reset",
+                "documentation": [
+                    "```lua",
+                    "function M.reset(client_id: integer, buffer_client_map: table\u003cinteger, table\u003cinteger, table\u003e\u003e)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Clear push diagnostics and diagnostic cache.",
+                    "",
+                    " Diagnostic producers should prefer |vim.diagnostic.reset()|. However,",
+                    " this method signature is still used internally in some parts of the LSP",
+                    " implementation so it's simply marked @private rather than @deprecated.",
+                    "",
+                    "@*param* `buffer_client_map` — map of buffers to active clients"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "buffer_client_map",
+                            "optional": false,
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "fields": [],
+                                            "indexes": [
+                                                {
+                                                    "key": {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    "value": {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                }
+                                            ],
+                                            "kind": "table",
+                                            "name": ""
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "reset",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

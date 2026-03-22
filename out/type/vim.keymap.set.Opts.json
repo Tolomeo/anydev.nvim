@@ -1,0 +1,220 @@
+{
+    "name": "vim.keymap.set.Opts",
+    "documentation": [
+        "```lua",
+        "(class) vim.keymap.set.Opts",
+        "```",
+        "",
+        "---",
+        "",
+        " Table of |:map-arguments|.",
+        " Same as |nvim_set_keymap()| {opts}, except:",
+        " - {replace_keycodes} defaults to `true` if \"expr\" is `true`.",
+        "",
+        " Also accepts:"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "buffer",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.buffer: (boolean|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Creates buffer-local mapping, `0` or `true` for current buffer."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "callback",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.callback: function?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "function"
+                    }
+                }
+            },
+            {
+                "name": "desc",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.desc: string?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "expr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.expr: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "noremap",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.noremap: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "nowait",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.nowait: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "remap",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.remap: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Make the mapping recursive. Inverse of {noremap}.",
+                    " (Default: `false`)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "replace_keycodes",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.replace_keycodes: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "script",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.script: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "silent",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.silent: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "unique",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.keymap.set.Opts.unique: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.keymap.set.Opts"
+    }
+}

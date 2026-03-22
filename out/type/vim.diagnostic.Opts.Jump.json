@@ -1,0 +1,97 @@
+{
+    "name": "vim.diagnostic.Opts.Jump",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.Opts.Jump",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "float",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.Jump.float: (boolean|vim.diagnostic.Opts.Float)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Default value of the {float} parameter of |vim.diagnostic.jump()|.",
+                    " (default: false)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "vim.diagnostic.Opts.Float"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.Jump.severity: (vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " See |diagnostic-severity| and |vim.diagnostic.get()|",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Default value of the {severity} parameter of |vim.diagnostic.jump()|.",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.SeverityFilter"
+                    }
+                }
+            },
+            {
+                "name": "wrap",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Opts.Jump.wrap: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Default value of the {wrap} parameter of |vim.diagnostic.jump()|.",
+                    " (default: true)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.Opts.Jump"
+    }
+}

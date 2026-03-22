@@ -1,0 +1,233 @@
+{
+    "name": "TSTree",
+    "documentation": [
+        "```lua",
+        "(class) TSTree",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "copy",
+                "documentation": [
+                    "```lua",
+                    "(method) TSTree:copy()",
+                    "  -\u003e TSTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a copy of the `TSTree`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "copy",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "edit",
+                "documentation": [
+                    "```lua",
+                    "(method) TSTree:edit(start_byte: integer, end_byte_old: integer, end_byte_new: integer, start_row: integer, start_col: integer, end_row_old: integer, end_col_old: integer, end_row_new: integer, end_col_new: integer)",
+                    "  -\u003e TSTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " stylua: ignore"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "start_byte",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_byte_old",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_byte_new",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_row_old",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_col_old",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_row_new",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "end_col_new",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "edit",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "included_ranges",
+                "documentation": [
+                    "```lua",
+                    "(method) TSTree:included_ranges(include_bytes: true)",
+                    "  -\u003e Range6[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "include_bytes:",
+                    "    | true",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) TSTree:included_ranges(include_bytes: false)",
+                    "  -\u003e Range4[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "include_bytes:",
+                    "    | false",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "include_bytes",
+                            "optional": false,
+                            "type": {
+                                "kind": "booleanliteral",
+                                "value": "true"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "included_ranges",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "Range6"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "root",
+                "documentation": [
+                    "```lua",
+                    "(method) TSTree:root()",
+                    "  -\u003e TSNode",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Return the root node of this tree."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "root",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "TSTree"
+    }
+}

@@ -1,0 +1,403 @@
+{
+    "name": "vim.api.keyset.set_decoration_provider",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.set_decoration_provider",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "_on_conceal_line",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider._on_conceal_line: fun(_: \"conceal_line\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"conceal_line\")",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"conceal_line\""
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "_on_hl_def",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider._on_hl_def: fun(_: \"hl_def\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"hl_def\")",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"hl_def\""
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "_on_spell_nav",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider._on_spell_nav: fun(_: \"spell_nav\")?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"spell_nav\")",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"spell_nav\""
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_buf",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider.on_buf: fun(_: \"buf\", bufnr: integer, tick: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"buf\", bufnr: integer, tick: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"buf\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "tick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_end",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider.on_end: fun(_: \"end\", tick: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"end\", tick: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"end\""
+                                }
+                            },
+                            {
+                                "name": "tick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_line",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider.on_line: fun(_: \"line\", winid: integer, bufnr: integer, row: integer):boolean??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"line\", winid: integer, bufnr: integer, row: integer)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"line\""
+                                }
+                            },
+                            {
+                                "name": "winid",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "row",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "on_start",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider.on_start: fun(_: \"start\", tick: integer):boolean??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"start\", tick: integer)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"start\""
+                                }
+                            },
+                            {
+                                "name": "tick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "on_win",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.set_decoration_provider.on_win: fun(_: \"win\", winid: integer, bufnr: integer, toprow: integer, botrow: integer):boolean??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"win\", winid: integer, bufnr: integer, toprow: integer, botrow: integer)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"win\""
+                                }
+                            },
+                            {
+                                "name": "winid",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "toprow",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "botrow",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.set_decoration_provider"
+    }
+}

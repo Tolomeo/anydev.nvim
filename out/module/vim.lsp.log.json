@@ -1,0 +1,561 @@
+{
+    "name": "vim.lsp.log",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "DEBUG",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.DEBUG: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "ERROR",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.ERROR: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "INFO",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.INFO: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "OFF",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.OFF: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "TRACE",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.TRACE: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "WARN",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.WARN: unknown",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "unknown",
+                    "documentation": []
+                }
+            },
+            {
+                "name": "debug",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.debug: fun(...any):boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (...: any)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "error",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.error: fun(...any):boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (...: any)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_filename",
+                "documentation": [
+                    "```lua",
+                    "function log.get_filename()",
+                    "  -\u003e log: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the log filename.",
+                    "",
+                    "@*return* `log` — filename"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "get_filename",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_level",
+                "documentation": [
+                    "```lua",
+                    "function log.get_level()",
+                    "  -\u003e current: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the current log level.",
+                    "",
+                    "@*return* `current` — log level"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "get_level",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "info",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.info: fun(...any):boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (...: any)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "levels",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.levels: table\u003cinteger, string\u003e|table\u003cstring, integer\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Log level dictionary with reverse lookup as well.",
+                    "",
+                    " Can be used to lookup the number from the name or the name from the number.",
+                    " Levels by name: \"TRACE\", \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"OFF\"",
+                    " Level numbers begin with \"TRACE\" at 0",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        },
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "set_format_func",
+                "documentation": [
+                    "```lua",
+                    "function log.set_format_func(handle: function)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sets formatting function used to format logs",
+                    "",
+                    "@*param* `handle` — function to apply to logging arguments, pass vim.inspect for multi-line formatting"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "handle",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set_format_func",
+                    "returns": []
+                }
+            },
+            {
+                "name": "set_level",
+                "documentation": [
+                    "```lua",
+                    "function log.set_level(level: string|integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sets the current log level.",
+                    "",
+                    "@*param* `level` — One of |vim.log.levels|"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "level",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set_level",
+                    "returns": []
+                }
+            },
+            {
+                "name": "should_log",
+                "documentation": [
+                    "```lua",
+                    "function log.should_log(level: integer)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Checks whether the level is sufficient for logging.",
+                    "",
+                    "@*param* `level` — log level",
+                    "",
+                    "@*return* — : true if would log, false if not"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "level",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "should_log",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "trace",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.trace: fun(...any):boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (...: any)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "warn",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log.warn: fun(...any):boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (...: any)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "log"
+    }
+}

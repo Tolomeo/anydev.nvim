@@ -1,0 +1,84 @@
+{
+    "name": "lsp.DocumentFormattingParams",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DocumentFormattingParams",
+        "```",
+        "",
+        "---",
+        "",
+        "The parameters of a {@link DocumentFormattingRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "options",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentFormattingParams.options: lsp.FormattingOptions",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Value-object describing what options formatting should use.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The format options."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.FormattingOptions"
+                }
+            },
+            {
+                "name": "textDocument",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentFormattingParams.textDocument: lsp.TextDocumentIdentifier",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A literal to identify a text document in the client.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The document to format."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.TextDocumentIdentifier"
+                }
+            },
+            {
+                "name": "workDoneToken",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DocumentFormattingParams.workDoneToken: (string|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional token that a server can use to report work done progress."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ProgressToken"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DocumentFormattingParams"
+    }
+}

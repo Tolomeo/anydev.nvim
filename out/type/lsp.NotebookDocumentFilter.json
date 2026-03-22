@@ -1,0 +1,48 @@
+{
+    "name": "lsp.NotebookDocumentFilter",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.NotebookDocumentFilter Expand to lsp.NotebookDocumentFilterNotebookType|lsp.NotebookDocumentFilterPattern|lsp.NotebookDocumentFilterScheme",
+        "```",
+        "",
+        "---",
+        "",
+        "A notebook document filter denotes a notebook document by",
+        "different properties. The properties will be match",
+        "against the notebook's URI (same as with documents)",
+        "",
+        "",
+        "---",
+        "",
+        "A notebook document filter where `notebookType` is required field.",
+        "",
+        "",
+        "---",
+        "",
+        "A notebook document filter where `scheme` is required field.",
+        "",
+        "",
+        "---",
+        "",
+        "A notebook document filter where `pattern` is required field.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "lsp.NotebookDocumentFilterNotebookType"
+            },
+            {
+                "kind": "typereference",
+                "value": "lsp.NotebookDocumentFilterScheme"
+            },
+            {
+                "kind": "typereference",
+                "value": "lsp.NotebookDocumentFilterPattern"
+            }
+        ]
+    }
+}

@@ -1,0 +1,155 @@
+{
+    "name": "lsp.DiagnosticRegistrationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DiagnosticRegistrationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Diagnostic registration options.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "documentSelector",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.documentSelector: lsp.NotebookCellTextDocumentFilter|lsp.TextDocumentFilterLanguage|lsp.TextDocumentFilterPattern|lsp.TextDocumentFilterScheme[]|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "A document selector is the combination of one or many document filters.",
+                    "",
+                    "\\@sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;",
+                    "",
+                    "The use of a string as a document filter is deprecated @since 3.16.0.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A document selector to identify the scope of the registration. If set to null",
+                    "the document selector provided on the client side will be used."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.DocumentSelector"
+                        },
+                        {
+                            "kind": "typereference",
+                            "value": "lsp.null"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.id: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The id used to register the request. The id can be used to deregister",
+                    "the request again. See also Registration#id."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "identifier",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.identifier: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional identifier under which the diagnostics are",
+                    "managed by the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "interFileDependencies",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.interFileDependencies: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the language has inter file dependencies meaning that",
+                    "editing code in one file can result in a different diagnostic",
+                    "set in another file. Inter file dependencies are common for",
+                    "most programming languages and typically uncommon for linters."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workspaceDiagnostics",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticRegistrationOptions.workspaceDiagnostics: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support for workspace diagnostics as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DiagnosticRegistrationOptions"
+    }
+}

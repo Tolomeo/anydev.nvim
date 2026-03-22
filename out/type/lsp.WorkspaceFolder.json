@@ -1,0 +1,56 @@
+{
+    "name": "lsp.WorkspaceFolder",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WorkspaceFolder",
+        "```",
+        "",
+        "---",
+        "",
+        "A workspace folder inside a client."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceFolder.name: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The name of the workspace folder. Used to refer to this",
+                    "workspace folder in the user interface."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "uri",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceFolder.uri: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The associated URI for this workspace folder."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.URI"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WorkspaceFolder"
+    }
+}

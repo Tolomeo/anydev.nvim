@@ -1,0 +1,176 @@
+{
+    "name": "lsp.FileOperationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FileOperationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Options for notifications/requests for user operations on files.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "didCreate",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.didCreate: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving didCreateFiles notifications."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            },
+            {
+                "name": "didDelete",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.didDelete: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving didDeleteFiles file notifications."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            },
+            {
+                "name": "didRename",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.didRename: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving didRenameFiles notifications."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            },
+            {
+                "name": "willCreate",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.willCreate: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving willCreateFiles requests."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            },
+            {
+                "name": "willDelete",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.willDelete: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving willDeleteFiles file requests."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            },
+            {
+                "name": "willRename",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FileOperationOptions.willRename: (lsp.FileOperationRegistrationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The options to register for file operations.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server is interested in receiving willRenameFiles requests."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.FileOperationRegistrationOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FileOperationOptions"
+    }
+}

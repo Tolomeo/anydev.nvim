@@ -1,0 +1,1199 @@
+{
+    "name": "uv.uv_handle_t",
+    "documentation": [
+        "```lua",
+        "(class) uv.uv_handle_t",
+        "```",
+        "",
+        "---",
+        "",
+        " Base handle",
+        "",
+        " `uv_handle_t` is the base type for all libuv handle types. All API functions",
+        " defined here work with any handle type.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "close",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:close(callback?: function)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Request handle to be closed.",
+                    "",
+                    " The `callback` will be called asynchronously after this call.",
+                    "",
+                    " This MUST be called on each handle before memory is released.",
+                    "",
+                    " Handles that wrap file descriptors are closed immediately but `callback` will",
+                    " still be deferred to the next iteration of the event loop. It gives you a chance",
+                    " to free up any resources associated with the handle.",
+                    "",
+                    " In-progress requests, like `uv_connect_t` or `uv_write_t`, are cancelled and",
+                    " have their callbacks called asynchronously with `ECANCELED`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "callback",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "close",
+                    "returns": []
+                }
+            },
+            {
+                "name": "fileno",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:fileno()",
+                    "  -\u003e fileno: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the platform dependent file descriptor equivalent.",
+                    "",
+                    " The following handles are supported: TCP, pipes, TTY, UDP and poll. Calling",
+                    " this method on other handle type will fail with `EINVAL`.",
+                    "",
+                    " If a handle doesn't have an attached file descriptor yet or the handle itself",
+                    " has been closed, this function will return `EBADF`.",
+                    "",
+                    " **Warning**: Be very careful when using this function. libuv assumes it's in",
+                    " control of the file descriptor so any change to it may lead to malfunction.",
+                    "",
+                    "",
+                    "```lua",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "fileno",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_type",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:get_type()",
+                    "  -\u003e type: string",
+                    "  2. enum: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the name of the struct for a given handle (e.g. `\"pipe\"` for `uv_pipe_t`)",
+                    " and the libuv enum integer for the handle's type (`uv_handle_type`)."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "get_type",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "has_ref",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:has_ref()",
+                    "  -\u003e has_ref: boolean|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns `true` if the handle referenced, `false` if not.",
+                    "",
+                    "",
+                    "```lua",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "has_ref",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "is_active",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:is_active()",
+                    "  -\u003e active: boolean|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns `true` if the handle is active, `false` if it's inactive.",
+                    "",
+                    " What \"active” means depends on the type of handle:",
+                    "",
+                    " - A `uv_async_t` handle is always active and cannot be deactivated, except by closing it with `uv.close()`.",
+                    "",
+                    " - A `uv_pipe_t`, `uv_tcp_t`, `uv_udp_t`, etc. handle - basically any handle that deals with I/O - is active when it is doing something that involves I/O, like reading, writing, connecting, accepting new connections, etc.",
+                    "",
+                    " - A `uv_check_t`, `uv_idle_t`, `uv_timer_t`, etc. handle is active when it has been started with a call to `uv.check_start()`, `uv.idle_start()`, `uv.timer_start()` etc. until it has been stopped with a call to its respective stop function.",
+                    "",
+                    "",
+                    "```lua",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "is_active",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "is_closing",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:is_closing()",
+                    "  -\u003e closing: boolean|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns `true` if the handle is closing or closed, `false` otherwise.",
+                    "",
+                    " **Note**: This function should only be used between the initialization of the",
+                    " handle and the arrival of the close callback.",
+                    "",
+                    "",
+                    "```lua",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "is_closing",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "recv_buffer_size",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:recv_buffer_size(size: integer)",
+                    "  -\u003e success: 0|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets or sets the size of the receive buffer that the operating system uses for",
+                    " the socket.",
+                    "",
+                    " If `size` is omitted (or `0`), this will return the current send buffer size; otherwise, this will use `size` to set the new send buffer size.",
+                    "",
+                    " This function works for TCP, pipe and UDP handles on Unix and for TCP and UDP",
+                    " handles on Windows.",
+                    "",
+                    " **Note**: Linux will set double the size and return double the size of the",
+                    " original set value.",
+                    "",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "success:",
+                    "    | 0",
+                    "",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) uv.uv_handle_t:recv_buffer_size()",
+                    "  -\u003e current_size: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) uv.uv_handle_t:recv_buffer_size(size: 0)",
+                    "  -\u003e current_size: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "size",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "recv_buffer_size",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "numericliteral",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "ref",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:ref()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Reference the given handle.",
+                    "",
+                    " References are idempotent, that is, if a handle is already referenced calling this function again will have no effect."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "ref",
+                    "returns": []
+                }
+            },
+            {
+                "name": "send_buffer_size",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:send_buffer_size(size: integer)",
+                    "  -\u003e success: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets or sets the size of the send buffer that the operating system uses for the",
+                    " socket.",
+                    "",
+                    " If `size` is omitted (or `0`), this will return the current send buffer size; otherwise, this will use `size` to set the new send buffer size.",
+                    "",
+                    " This function works for TCP, pipe and UDP handles on Unix and for TCP and UDP",
+                    " handles on Windows.",
+                    "",
+                    " **Note**: Linux will set double the size and return double the size of the",
+                    " original set value.",
+                    "",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "--  An error name string",
+                    "-- ",
+                    "err_name:",
+                    "    | \"E2BIG\" -- argument list too long",
+                    "    | \"EACCES\" -- permission denied",
+                    "    | \"EADDRINUSE\" -- address already in use",
+                    "    | \"EADDRNOTAVAIL\" -- address not available",
+                    "    | \"EAFNOSUPPORT\" -- address family not supported",
+                    "    | \"EAGAIN\" -- resource temporarily unavailable",
+                    "    | \"EAI_ADDRFAMILY\" -- address family not supported",
+                    "    | \"EAI_AGAIN\" -- temporary failure",
+                    "    | \"EAI_BADFLAGS\" -- bad ai_flags value",
+                    "    | \"EAI_BADHINTS\" -- invalid value for hints",
+                    "    | \"EAI_CANCELED\" -- request canceled",
+                    "    | \"EAI_FAIL\" -- permanent failure",
+                    "    | \"EAI_FAMILY\" -- ai_family not supported",
+                    "    | \"EAI_MEMORY\" -- out of memory",
+                    "    | \"EAI_NODATA\" -- no address",
+                    "    | \"EAI_NONAME\" -- unknown node or service",
+                    "    | \"EAI_OVERFLOW\" -- argument buffer overflow",
+                    "    | \"EAI_PROTOCOL\" -- resolved protocol is unknown",
+                    "    | \"EAI_SERVICE\" -- service not available for socket type",
+                    "    | \"EAI_SOCKTYPE\" -- socket type not supported",
+                    "    | \"EALREADY\" -- connection already in progress",
+                    "    | \"EBADF\" -- bad file descriptor",
+                    "    | \"EBUSY\" -- resource busy or locked",
+                    "    | \"ECANCELED\" -- operation canceled",
+                    "    | \"ECHARSET\" -- invalid Unicode character",
+                    "    | \"ECONNABORTED\" -- software caused connection abort",
+                    "    | \"ECONNREFUSED\" -- connection refused",
+                    "    | \"ECONNRESET\" -- connection reset by peer",
+                    "    | \"EDESTADDRREQ\" -- destination address required",
+                    "    | \"EEXIST\" -- file already exists",
+                    "    | \"EFAULT\" -- bad address in system call argument",
+                    "    | \"EFBIG\" -- file too large",
+                    "    | \"EFTYPE\" -- inappropriate file type or format",
+                    "    | \"EHOSTUNREACH\" -- host is unreachable",
+                    "    | \"EILSEQ\" -- illegal byte sequence",
+                    "    | \"EINTR\" -- interrupted system call",
+                    "    | \"EINVAL\" -- invalid argument",
+                    "    | \"EIO\" -- i/o error",
+                    "    | \"EISCONN\" -- socket is already connected",
+                    "    | \"EISDIR\" -- illegal operation on a directory",
+                    "    | \"ELOOP\" -- too many symbolic links encountered",
+                    "    | \"EMFILE\" -- too many open files",
+                    "    | \"EMLINK\" -- too many links",
+                    "    | \"EMSGSIZE\" -- message too long",
+                    "    | \"ENAMETOOLONG\" -- name too long",
+                    "    | \"ENETDOWN\" -- network is down",
+                    "    | \"ENETUNREACH\" -- network is unreachable",
+                    "    | \"ENFILE\" -- file table overflow",
+                    "    | \"ENOBUFS\" -- no buffer space available",
+                    "    | \"ENODEV\" -- no such device",
+                    "    | \"ENOENT\" -- no such file or directory",
+                    "    | \"ENOMEM\" -- not enough memory",
+                    "    | \"ENONET\" -- machine is not on the network",
+                    "    | \"ENOPROTOOPT\" -- protocol not available",
+                    "    | \"ENOSPC\" -- no space left on device",
+                    "    | \"ENOSYS\" -- function not implemented",
+                    "    | \"ENOTCONN\" -- socket is not connected",
+                    "    | \"ENOTDIR\" -- not a directory",
+                    "    | \"ENOTEMPTY\" -- directory not empty",
+                    "    | \"ENOTSOCK\" -- socket operation on non-socket",
+                    "    | \"ENOTSUP\" -- operation not supported on socket",
+                    "    | \"ENOTTY\" -- inappropriate ioctl for device",
+                    "    | \"ENXIO\" -- no such device or address",
+                    "    | \"EOF\" -- end of file",
+                    "    | \"EOVERFLOW\" -- value too large for defined data type",
+                    "    | \"EPERM\" -- operation not permitted",
+                    "    | \"EPIPE\" -- broken pipe",
+                    "    | \"EPROTO\" -- protocol error",
+                    "    | \"EPROTONOSUPPORT\" -- protocol not supported",
+                    "    | \"EPROTOTYPE\" -- protocol wrong type for socket",
+                    "    | \"ERANGE\" -- result too large",
+                    "    | \"EROFS\" -- read-only file system",
+                    "    | \"ESHUTDOWN\" -- cannot send after transport endpoint shutdown",
+                    "    | \"ESOCKTNOSUPPORT\" -- socket type not supported",
+                    "    | \"ESPIPE\" -- invalid seek",
+                    "    | \"ESRCH\" -- no such process",
+                    "    | \"ETIMEDOUT\" -- connection timed out",
+                    "    | \"ETXTBSY\" -- text file is busy",
+                    "    | \"EXDEV\" -- cross-device link not permitted",
+                    "    | \"UNKNOWN\" -- unknown error",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) uv.uv_handle_t:send_buffer_size()",
+                    "  -\u003e current_size: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "(method) uv.uv_handle_t:send_buffer_size(size: 0)",
+                    "  -\u003e current_size: integer|nil",
+                    "  2. err: string|nil",
+                    "  3. err_name: \"E2BIG\"|\"EACCES\"|\"EADDRINUSE\"|\"EADDRNOTAVAIL\"|\"EAFNOSUPPORT\"|\"EAGAIN\"|\"EAI_ADDRFAMILY\"|\"EAI_AGAIN\"|\"EAI_BADFLAGS\"|\"EAI_BADHINTS\"|\"EAI_CANCELED\"|\"EAI_FAIL\"|\"EAI_FAMILY\"|\"EAI_MEMORY\"...(too long)...KNOWN\"|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "size",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "send_buffer_size",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.message"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "uv.error.name"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "unref",
+                "documentation": [
+                    "```lua",
+                    "(method) uv.uv_handle_t:unref()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Un-reference the given handle. References are idempotent, that is, if a handle",
+                    " is not referenced calling this function again will have no effect."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "unref",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.uv_handle_t"
+    }
+}

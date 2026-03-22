@@ -1,0 +1,287 @@
+{
+    "name": "vim.Diagnostic",
+    "documentation": [
+        "```lua",
+        "(class) vim.Diagnostic",
+        "```",
+        "",
+        "---",
+        "",
+        " [diagnostic-structure](file:///usr/local/share/nvim/runtime/lua/vim)",
+        "",
+        " Diagnostics use the same indexing as the rest of the Nvim API (i.e. 0-based",
+        " rows and columns). |api-indexing|"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "_tags",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic._tags: { deprecated: boolean, unnecessary: boolean }?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [
+                            {
+                                "name": "deprecated",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            },
+                            {
+                                "name": "unnecessary",
+                                "documentation": [],
+                                "meta": [],
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            },
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Buffer number"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "code",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.code: (string|integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The diagnostic code"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.col: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The starting column of the diagnostic (0-indexed)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "end_col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.end_col: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The final column of the diagnostic (0-indexed)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "end_lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.end_lnum: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The final line of the diagnostic (0-indexed)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.lnum: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The starting line of the diagnostic (0-indexed)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "message",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.message: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The diagnostic text"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "namespace",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.namespace: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.severity: (vim.diagnostic.Severity)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The severity of the diagnostic |vim.diagnostic.severity|"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.Severity"
+                    }
+                }
+            },
+            {
+                "name": "source",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.source: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The source of the diagnostic"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "user_data",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.Diagnostic.user_data: any",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "arbitrary data plugins can add"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.Diagnostic"
+    }
+}

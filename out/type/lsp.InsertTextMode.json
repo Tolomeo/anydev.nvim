@@ -1,0 +1,39 @@
+{
+    "name": "lsp.InsertTextMode",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.InsertTextMode Expand to 1|2",
+        "```",
+        "",
+        "---",
+        "",
+        "How whitespace and indentation is handled during completion",
+        "item insertion.",
+        "",
+        "",
+        "---",
+        "",
+        "```lua",
+        "-- How whitespace and indentation is handled during completion",
+        "-- item insertion.",
+        "-- ",
+        "lsp.InsertTextMode:",
+        "    | 1 -- asIs",
+        "    | 2 -- adjustIndentation",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "numericliteral",
+                "value": "1"
+            },
+            {
+                "kind": "numericliteral",
+                "value": "2"
+            }
+        ]
+    }
+}

@@ -1,0 +1,77 @@
+{
+    "name": "lsp.ClientSemanticTokensRequestOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ClientSemanticTokensRequestOptions",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "full",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSemanticTokensRequestOptions.full: (boolean|lsp.ClientSemanticTokensRequestFullDelta)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client will send the `textDocument/semanticTokens/full` request if",
+                    "the server provides a corresponding handler."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.ClientSemanticTokensRequestFullDelta"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientSemanticTokensRequestOptions.range: (boolean|lsp._anonym2.range)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client will send the `textDocument/semanticTokens/range` request if",
+                    "the server provides a corresponding handler."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp._anonym2.range"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ClientSemanticTokensRequestOptions"
+    }
+}

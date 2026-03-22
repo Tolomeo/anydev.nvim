@@ -1,0 +1,87 @@
+{
+    "name": "lsp.SignatureHelpClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.SignatureHelpClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client Capabilities for a {@link SignatureHelpRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "contextSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpClientCapabilities.contextSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports to send additional context information for a",
+                    "`textDocument/signatureHelp` request. A client that opts into",
+                    "contextSupport will also support the `retriggerCharacters` on",
+                    "`SignatureHelpOptions`.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether signature help supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "signatureInformation",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpClientCapabilities.signatureInformation: (lsp.ClientSignatureInformationOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports the following `SignatureInformation`",
+                    "specific properties."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSignatureInformationOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.SignatureHelpClientCapabilities"
+    }
+}

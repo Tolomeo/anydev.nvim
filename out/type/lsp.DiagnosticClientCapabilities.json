@@ -1,0 +1,154 @@
+{
+    "name": "lsp.DiagnosticClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.DiagnosticClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client capabilities specific to diagnostic pull requests.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "codeDescriptionSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.codeDescriptionSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports a codeDescription property",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dataSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.dataSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports the `data` property which is",
+                    "preserved between a `textDocument/publishDiagnostics` and",
+                    "`textDocument/codeAction` request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether implementation supports dynamic registration. If this is set to `true`",
+                    "the client supports the new `(TextDocumentRegistrationOptions \u0026 StaticRegistrationOptions)`",
+                    "return value for the corresponding server capability as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "relatedDocumentSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.relatedDocumentSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the clients supports related documents for document diagnostic pulls."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "relatedInformation",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.relatedInformation: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the clients accepts diagnostics with related information."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "tagSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.DiagnosticClientCapabilities.tagSupport: (lsp.ClientDiagnosticsTagOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the tag property to provide meta data about a diagnostic.",
+                    "Clients supporting tags have to handle unknown tags gracefully.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientDiagnosticsTagOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.DiagnosticClientCapabilities"
+    }
+}

@@ -1,0 +1,83 @@
+{
+    "name": "lsp.ChangeAnnotation",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ChangeAnnotation",
+        "```",
+        "",
+        "---",
+        "",
+        "Additional information that describes document changes.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "description",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ChangeAnnotation.description: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A human-readable string which is rendered less prominent in",
+                    "the user interface."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "label",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ChangeAnnotation.label: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A human-readable string describing the actual change. The string",
+                    "is rendered prominent in the user interface."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "needsConfirmation",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ChangeAnnotation.needsConfirmation: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "A flag which indicates that user confirmation is needed",
+                    "before applying the change."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ChangeAnnotation"
+    }
+}

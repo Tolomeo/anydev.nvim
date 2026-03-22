@@ -1,0 +1,40 @@
+{
+    "name": "lsp.FailureHandlingKind",
+    "documentation": [
+        "```lua",
+        "(alias) lsp.FailureHandlingKind Expand to \"abort\"|\"textOnlyTransactional\"|\"transactional\"|\"undo\"",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "lsp.FailureHandlingKind:",
+        "    | \"abort\" -- Abort",
+        "    | \"transactional\" -- Transactional",
+        "    | \"textOnlyTransactional\" -- TextOnlyTransactional",
+        "    | \"undo\" -- Undo",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "stringliteral",
+                "value": "\"abort\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"transactional\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"textOnlyTransactional\""
+            },
+            {
+                "kind": "stringliteral",
+                "value": "\"undo\""
+            }
+        ]
+    }
+}

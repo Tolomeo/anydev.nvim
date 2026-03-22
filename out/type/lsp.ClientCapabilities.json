@@ -1,0 +1,181 @@
+{
+    "name": "lsp.ClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Defines the capabilities provided by the client."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "experimental",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.experimental: (boolean|string|number|boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]|table\u003cstring, lsp.LSPAny\u003e|nil)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "The LSP any type.",
+                    "Please note that strictly speaking a property with the value `undefined`",
+                    "can't be converted into JSON preserving the property name. However for",
+                    "convenience it is allowed and assumed that all these properties are",
+                    "optional as well.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Experimental client capabilities.",
+                    "",
+                    "---",
+                    "",
+                    "LSP object definition.",
+                    "",
+                    "---",
+                    "",
+                    "LSP arrays."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.LSPAny"
+                    }
+                }
+            },
+            {
+                "name": "general",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.general: (lsp.GeneralClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "General client capabilities.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "General client capabilities.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.GeneralClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "notebookDocument",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.notebookDocument: (lsp.NotebookDocumentClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Capabilities specific to the notebook document support.",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Capabilities specific to the notebook document support.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.NotebookDocumentClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "textDocument",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.textDocument: (lsp.TextDocumentClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Text document specific client capabilities.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Text document specific client capabilities."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.TextDocumentClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "window",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.window: (lsp.WindowClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Window specific client capabilities."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.WindowClientCapabilities"
+                    }
+                }
+            },
+            {
+                "name": "workspace",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientCapabilities.workspace: (lsp.WorkspaceClientCapabilities)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Workspace specific client capabilities.",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Workspace specific client capabilities."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.WorkspaceClientCapabilities"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ClientCapabilities"
+    }
+}

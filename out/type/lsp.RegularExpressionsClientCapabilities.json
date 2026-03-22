@@ -1,0 +1,59 @@
+{
+    "name": "lsp.RegularExpressionsClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RegularExpressionsClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client capabilities specific to regular expressions.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "engine",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RegularExpressionsClientCapabilities.engine: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The engine's name."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.RegularExpressionEngineKind"
+                }
+            },
+            {
+                "name": "version",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RegularExpressionsClientCapabilities.version: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The engine's version."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RegularExpressionsClientCapabilities"
+    }
+}

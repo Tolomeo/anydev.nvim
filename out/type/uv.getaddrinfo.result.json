@@ -1,0 +1,136 @@
+{
+    "name": "uv.getaddrinfo.result",
+    "documentation": [
+        "```lua",
+        "(class) uv.getaddrinfo.result",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "addr",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.addr: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "canonname",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.canonname: string|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "family",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.family: string|\"appletalk\"|\"atmpvc\"|\"ax25\"|\"inet\"|\"inet6\"|\"ipx\"|\"netlink\"|\"packet\"|\"unix\"|\"x25\"",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "uv.socket.family:",
+                    "    | \"unix\"",
+                    "    | \"inet\"",
+                    "    | \"inet6\"",
+                    "    | \"ipx\"",
+                    "    | \"netlink\"",
+                    "    | \"x25\"",
+                    "    | \"ax25\"",
+                    "    | \"atmpvc\"",
+                    "    | \"appletalk\"",
+                    "    | \"packet\"",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "uv.socket.family"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "port",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.port: integer|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "protocol",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.protocol: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "socktype",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.getaddrinfo.result.socktype: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.getaddrinfo.result"
+    }
+}

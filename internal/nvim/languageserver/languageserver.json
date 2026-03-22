@@ -1,0 +1,348 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TextDocumentDefinitionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "items": {
+            "$ref": "#/definitions/Location"
+          },
+          "type": "array",
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "TextDocumentHoverResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/Hover",
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "Hover": {
+      "additionalProperties": false,
+      "description": "The result of a hover request.",
+      "properties": {
+        "contents": {
+          "$ref": "#/definitions/MarkupContent",
+          "description": "The hover's content"
+        },
+        "range": {
+          "$ref": "#/definitions/Range",
+          "description": "An optional range"
+        }
+      },
+      "required": ["contents"],
+      "type": "object"
+    },
+    "TextDocumentDocumentSymbolResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/DocumentSymbol"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/SymbolInformation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "TextDocumentCompletionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/CompletionList",
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "TextDocumentTypeDefinitionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/Location"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The result of a request. This member is REQUIRED on success.\r\nThis member MUST NOT exist if there was an error invoking the method."
+        }
+      },
+      "required": ["result"],
+      "type": "object"
+    },
+    "DocumentSymbol": {
+      "additionalProperties": false,
+      "description": "Represents programming constructs like variables, classes, interfaces etc.\r\nthat appear in a document. Document symbols can be hierarchical and they\r\nhave two ranges: one that encloses its definition and one that points to\r\nits most interesting range, e.g. the range of an identifier.",
+      "properties": {
+        "children": {
+          "description": "Children of this symbol, e.g. properties of a class.",
+          "items": {
+            "$ref": "#/definitions/DocumentSymbol"
+          },
+          "type": "array"
+        },
+        "deprecated": {
+          "description": "Indicates if this symbol is deprecated.",
+          "type": "boolean"
+        },
+        "detail": {
+          "description": "More detail for this symbol, e.g the signature of a function.",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/SymbolKind",
+          "description": "The kind of this symbol."
+        },
+        "name": {
+          "description": "The name of this symbol. Will be displayed in the user interface and therefore must not be\r\nan empty string or a string only consisting of white spaces.",
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/definitions/Range",
+          "description": "The range enclosing this symbol not including leading/trailing whitespace but everything else\r\nlike comments. This information is typically used to determine if the the clients cursor is\r\ninside the symbol to reveal in the symbol in the UI."
+        },
+        "selectionRange": {
+          "$ref": "#/definitions/Range",
+          "description": "The range that should be selected and revealed when this symbol is being picked, e.g the name of a function.\r\nMust be contained by the the `range`."
+        }
+      },
+      "required": ["name", "kind", "range", "selectionRange"],
+      "type": "object"
+    },
+    "SymbolKind": {
+      "description": "A symbol kind.",
+      "enum": [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26
+      ],
+      "type": "number"
+    },
+    "LineRange": {
+      "additionalProperties": false,
+      "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+      "properties": {
+        "start": {
+          "type": "number",
+          "description": "The range's line start position"
+        },
+        "end": {
+          "type": "number",
+          "description": "The range's line end position."
+        }
+      },
+      "required": ["start", "end"],
+      "type": "object"
+    },
+    "Range": {
+      "additionalProperties": false,
+      "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+      "properties": {
+        "end": {
+          "$ref": "#/definitions/Position",
+          "description": "The range's end position."
+        },
+        "start": {
+          "$ref": "#/definitions/Position",
+          "description": "The range's start position"
+        }
+      },
+      "required": ["start", "end"],
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "description": "Position in a text document expressed as zero-based line and character offset.\r\nThe offsets are based on a UTF-16 string representation. So a string of the form\r\n`a𐐀b` the character offset of the character `a` is 0, the character offset of `𐐀`\r\nis 1 and the character offset of b is 3 since `𐐀` is represented using two code\r\nunits in UTF-16.\r\n\r\nPositions are line end character agnostic. So you can not specify a position that\r\ndenotes `\\r|\\n` or `\\n|` where `|` represents the character offset. \n The Position namespace provides helper functions to work with\r\n[Position](#Position) literals.",
+      "properties": {
+        "character": {
+          "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+          "type": "number"
+        },
+        "line": {
+          "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+          "type": "number"
+        }
+      },
+      "required": ["line", "character"],
+      "type": "object"
+    },
+    "SymbolInformation": {
+      "additionalProperties": false,
+      "description": "Represents information about programming constructs like variables, classes,\r\ninterfaces etc.",
+      "properties": {
+        "containerName": {
+          "description": "The name of the symbol containing this symbol. This information is for\r\nuser interface purposes (e.g. to render a qualifier in the user interface\r\nif necessary). It can't be used to re-infer a hierarchy for the document\r\nsymbols.",
+          "type": "string"
+        },
+        "deprecated": {
+          "description": "Indicates if this symbol is deprecated.",
+          "type": "boolean"
+        },
+        "kind": {
+          "$ref": "#/definitions/SymbolKind",
+          "description": "The kind of this symbol."
+        },
+        "location": {
+          "$ref": "#/definitions/Location",
+          "description": "The location of this symbol. The location's range is used by a tool\r\nto reveal the location in the editor. If the symbol is selected in the\r\ntool the range's start information is used to position the cursor. So\r\nthe range usually spans more than the actual symbol's name and does\r\nnormally include thinks like visibility modifiers.\r\n\r\nThe range doesn't have to denote a node range in the sense of a abstract\r\nsyntax tree. It can therefore not be used to re-construct a hierarchy of\r\nthe symbols."
+        },
+        "name": {
+          "description": "The name of this symbol.",
+          "type": "string"
+        }
+      },
+      "required": ["name", "kind", "location"],
+      "type": "object"
+    },
+    "Location": {
+      "additionalProperties": false,
+      "description": "Represents a location inside a resource, such as a line\r\ninside a text file. \n The Location namespace provides helper functions to work with\r\n[Location](#Location) literals.",
+      "properties": {
+        "originSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetSelectionRange": {
+          "$ref": "#/definitions/Range"
+        },
+        "targetUri": {
+          "$ref": "#/definitions/DocumentUri"
+        }
+      },
+      "required": ["originSelectionRange", "targetRange", "targetSelectionRange", "targetUri"],
+      "type": "object"
+    },
+    "DocumentUri": {
+      "description": "A tagging type for string properties that are actually URIs.",
+      "type": "string"
+    },
+    "CompletionItem": {
+      "additionalProperties": false,
+      "description": "A completion item represents a text snippet that is\r\nproposed to complete text that is being typed. \n The CompletionItem namespace provides functions to deal with\r\ncompletion items.",
+      "properties": {
+        "deprecated": {
+          "description": "Indicates if this item is deprecated.",
+          "type": "boolean"
+        },
+        "detail": {
+          "description": "A human-readable string with additional information\r\nabout this item, like type or symbol information.",
+          "type": "string"
+        },
+        "documentation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/MarkupContent"
+            }
+          ],
+          "description": "A human-readable string that represents a doc-comment."
+        },
+        "kind": {
+          "$ref": "#/definitions/CompletionItemKind",
+          "description": "The kind of this completion item. Based of the kind\r\nan icon is chosen by the editor."
+        },
+        "label": {
+          "description": "The label of this completion item. By default\r\nalso the text that is inserted when selecting\r\nthis completion.",
+          "type": "string"
+        },
+        "insertText": {
+          "description": "A string that should be inserted into a document when selecting\r\nthis completion. When `falsy` the [label](#CompletionItem.label)\r\nis used.\r\n\r\nThe `insertText` is subject to interpretation by the client side.\r\nSome tools might not take the string literally. For example\r\nVS Code when code complete is requested in this example `con<cursor position>`\r\nand a completion item with an `insertText` of `console` is provided it\r\nwill only insert `sole`. Therefore it is recommended to use `textEdit` instead\r\nsince it avoids additional client side interpretation.",
+          "type": "string"
+        },
+        "insertTextFormat": {
+          "$ref": "#/definitions/InsertTextFormat",
+          "description": "The format of the insert text. The format applies to both the `insertText` property\r\nand the `newText` property of a provided `textEdit`."
+        }
+      },
+      "required": ["label"],
+      "type": "object"
+    },
+    "CompletionList": {
+      "additionalProperties": false,
+      "description": "Represents a collection of [completion items](#CompletionItem) to be presented\r\nin the editor. \n The CompletionList namespace provides functions to deal with\r\ncompletion lists.",
+      "properties": {
+        "isIncomplete": {
+          "description": "This list it not complete. Further typing results in recomputing this list.",
+          "type": "boolean"
+        },
+        "items": {
+          "description": "The completion items.",
+          "items": {
+            "$ref": "#/definitions/CompletionItem"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["isIncomplete", "items"],
+      "type": "object"
+    },
+    "MarkupContent": {
+      "additionalProperties": false,
+      "description": "A `MarkupContent` literal represents a string value which content is interpreted base on its\r\nkind flag. Currently the protocol supports `plaintext` and `markdown` as markup kinds.\r\n\r\nIf the kind is `markdown` then the value can contain fenced code blocks like in GitHub issues.\r\nSee https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting\r\n\r\nHere is an example how such a string can be constructed using JavaScript / TypeScript:\r\n```ts\r\nlet markdown: MarkdownContent = {\r\n  kind: MarkupKind.Markdown,\r\nvalue: [\r\n\t\t'# Header',\r\n\t\t'Some text',\r\n\t\t'```typescript',\r\n\t\t'someCode();',\r\n\t\t'```'\r\n].join('\\n')\r\n};\r\n```\r\n\r\n*Please Note* that clients might sanitize the return markdown. A client could decide to\r\nremove HTML from the markdown to avoid script execution.",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/MarkupKind",
+          "description": "The type of the Markup"
+        },
+        "value": {
+          "description": "The content itself",
+          "type": "string"
+        }
+      },
+      "required": ["kind", "value"],
+      "type": "object"
+    },
+    "MarkupKind": {
+      "description": "Describes the content type that a client supports in various\r\nresult literals like `Hover`, `ParameterInfo` or `CompletionItem`.\r\n\r\nPlease note that `MarkupKinds` must not start with a `$`. This kinds\r\nare reserved for internal usage.",
+      "enum": ["plaintext", "markdown"],
+      "type": "string"
+    },
+    "InsertTextFormat": {
+      "description": "Defines whether the insert text in a completion item should be interpreted as\r\nplain text or a snippet.",
+      "enum": [1, 2],
+      "type": "number"
+    },
+    "CompletionItemKind": {
+      "description": "The kind of a completion entry.",
+      "enum": [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25
+      ],
+      "type": "number"
+    }
+  }
+}

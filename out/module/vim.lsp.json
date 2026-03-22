@@ -1,0 +1,2164 @@
+{
+    "name": "vim.lsp",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "buf",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.buf: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.buf"
+                }
+            },
+            {
+                "name": "buf_attach_client",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_attach_client(bufnr: integer, client_id: integer)",
+                    "  -\u003e success: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Implements the `textDocument/did…` notifications required to track a buffer",
+                    " for any language server.",
+                    "",
+                    " Without calling this, the server won't be notified of changes to a buffer.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current",
+                    "",
+                    "@*param* `client_id` — Client id",
+                    "",
+                    "@*return* `success` — `true` if client was attached successfully; `false` otherwise"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_attach_client",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "buf_detach_client",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_detach_client(bufnr: integer, client_id: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Detaches client from the specified buffer.",
+                    " Note: While the server is notified that the text document (buffer)",
+                    " was closed, it is still able to send notifications should it ignore this notification.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current",
+                    "",
+                    "@*param* `client_id` — Client id"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_detach_client",
+                    "returns": []
+                }
+            },
+            {
+                "name": "buf_get_clients",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_get_clients(bufnr: integer|nil)",
+                    "  -\u003e result: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets a map of client_id:client pairs for the given buffer, where each value",
+                    " is a |vim.lsp.Client| object.",
+                    "",
+                    "@*param* `bufnr` — : Buffer handle, or 0 for current",
+                    "",
+                    "@*return* `result` — is table of (client_id, client) pairs"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_get_clients",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "buf_is_attached",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_is_attached(bufnr: integer, client_id: integer)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Checks if a buffer is attached for a particular client.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current",
+                    "",
+                    "@*param* `client_id` — the client id"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_is_attached",
+                    "returns": []
+                }
+            },
+            {
+                "name": "buf_notify",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_notify(bufnr: integer|nil, method: string, params: any)",
+                    "  -\u003e success: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Send a notification to a server",
+                    "",
+                    "@*param* `bufnr` — The number of the buffer",
+                    "",
+                    "@*param* `method` — Name of the request method",
+                    "",
+                    "@*param* `params` — Arguments to send to the server",
+                    "",
+                    "",
+                    "@*return* `success` — true if any client returns true; false otherwise"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "method",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "params",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_notify",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "buf_request",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_request(bufnr: integer, method: string, params?: table|fun(client: vim.lsp.Client, bufnr: integer):table?, handler?: fun(err?: lsp.ResponseError, result: any, context: lsp.HandlerContext, config?: table):...unknown, on_unsupported?: fun())",
+                    "  -\u003e client_request_ids: table\u003cinteger, integer\u003e",
+                    "  2. _cancel_all_requests: function",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sends an async request for all active clients attached to the",
+                    " buffer.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current.",
+                    "",
+                    "@*param* `method` — LSP method name",
+                    "",
+                    "@*param* `params` — Parameters to send to the server",
+                    "",
+                    "@*param* `handler` — See |lsp-handler|",
+                    "",
+                    "       If nil, follows resolution strategy defined in |lsp-handler-configuration|",
+                    "       Defaults to an `ERROR` level notification.",
+                    "",
+                    "@*return* `client_request_ids` — Map of client-id:request-id pairs",
+                    "",
+                    "for all successful requests.",
+                    "",
+                    "@*return* `_cancel_all_requests` — Function which can be used to",
+                    "",
+                    "cancel all the requests. You could instead",
+                    "iterate all clients and call their `cancel_request()` methods."
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "method",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "params",
+                            "optional": true,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "client",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "typereference",
+                                                    "value": "vim.lsp.Client"
+                                                }
+                                            },
+                                            {
+                                                "name": "bufnr",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": [
+                                            {
+                                                "name": "",
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "handler",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Handler"
+                            }
+                        },
+                        {
+                            "name": "on_unsupported",
+                            "optional": true,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_request",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "buf_request_all",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_request_all(bufnr: integer, method: string, params?: table|fun(client: vim.lsp.Client, bufnr: integer):table?, handler: fun(results: table\u003cinteger, { err: (lsp.ResponseError)?, result: any }\u003e, context: lsp.HandlerContext, config?: table):...unknown)",
+                    "  -\u003e cancel: function",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sends an async request for all active clients attached to the buffer and executes the `handler`",
+                    " callback with the combined result.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current.",
+                    "",
+                    "@*param* `method` — LSP method name",
+                    "",
+                    "@*param* `params` — Parameters to send to the server.",
+                    "",
+                    "               Can also be passed as a function that returns the params table for cases where",
+                    "               parameters are specific to the client.",
+                    "",
+                    "@*param* `handler` — (function)",
+                    "",
+                    " Handler called after all requests are completed. Server results are passed as",
+                    " a `client_id:result` map.",
+                    "",
+                    "@*return* `cancel` — Function that cancels all requests."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "method",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "params",
+                            "optional": true,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "function",
+                                        "arguments": [
+                                            {
+                                                "name": "client",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "typereference",
+                                                    "value": "vim.lsp.Client"
+                                                }
+                                            },
+                                            {
+                                                "name": "bufnr",
+                                                "optional": false,
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                }
+                                            }
+                                        ],
+                                        "generics": [],
+                                        "returns": [
+                                            {
+                                                "name": "",
+                                                "type": {
+                                                    "kind": "optional",
+                                                    "type": {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "handler",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.MultiHandler"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_request_all",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "buf_request_sync",
+                "documentation": [
+                    "```lua",
+                    "function lsp.buf_request_sync(bufnr: integer, method: string, params?: table, timeout_ms?: integer)",
+                    "  -\u003e result: table\u003cinteger, { error: (lsp.ResponseError)?, result: any }\u003e?",
+                    "  2. err: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sends a request to all server and waits for the response of all of them.",
+                    "",
+                    " Calls |vim.lsp.buf_request_all()| but blocks Nvim while awaiting the result.",
+                    " Parameters are the same as |vim.lsp.buf_request_all()| but the result is",
+                    " different. Waits a maximum of {timeout_ms}.",
+                    "",
+                    "@*param* `bufnr` — Buffer handle, or 0 for current.",
+                    "",
+                    "@*param* `method` — LSP method name",
+                    "",
+                    "@*param* `params` — Parameters to send to the server",
+                    "",
+                    "@*param* `timeout_ms` — Maximum time in milliseconds to wait for a result.",
+                    "",
+                    "                           (default: `1000`)",
+                    "",
+                    "@*return* `result` — Map of client_id:request_result.",
+                    "",
+                    "@*return* `err` — On timeout, cancel, or error, `err` is a string describing the failure reason, and `result` is nil."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "method",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "params",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        },
+                        {
+                            "name": "timeout_ms",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "buf_request_sync",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "fields": [],
+                                    "indexes": [
+                                        {
+                                            "key": {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            },
+                                            "value": {
+                                                "fields": [
+                                                    {
+                                                        "name": "error",
+                                                        "documentation": [],
+                                                        "meta": [],
+                                                        "type": {
+                                                            "kind": "optional",
+                                                            "type": {
+                                                                "kind": "typereference",
+                                                                "value": "lsp.ResponseError"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "name": "result",
+                                                        "documentation": [],
+                                                        "meta": [],
+                                                        "type": {
+                                                            "kind": "builtin",
+                                                            "value": "any"
+                                                        }
+                                                    }
+                                                ],
+                                                "kind": "table",
+                                                "name": ""
+                                            }
+                                        }
+                                    ],
+                                    "kind": "table",
+                                    "name": ""
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "client",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.client: vim.lsp.Client",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.client"
+                }
+            },
+            {
+                "name": "client_errors",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.client_errors: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Error codes to be used with `on_error` from |vim.lsp.start_client|.",
+                    " Can be used to look up the string from a the number or the number",
+                    " from the string.",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "table"
+                }
+            },
+            {
+                "name": "client_is_stopped",
+                "documentation": [
+                    "```lua",
+                    "function lsp.client_is_stopped(client_id: integer)",
+                    "  -\u003e stopped: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Checks whether a client is stopped.",
+                    "",
+                    "@*return* `stopped` — true if client is stopped, false otherwise."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "client_is_stopped",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "codelens",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.codelens: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.codelens"
+                }
+            },
+            {
+                "name": "commands",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.commands: table\u003cstring, function\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Registry for client side commands.",
+                    " This is an extension point for plugins to handle custom commands which are",
+                    " not part of the core language server protocol specification.",
+                    "",
+                    " The registry is a table where the key is a unique command name,",
+                    " and the value is a function which is called if any LSP action",
+                    " (code action, code lenses, ...) triggers the command.",
+                    "",
+                    " If an LSP response contains a command for which no matching entry is",
+                    " available in this registry, the command will be executed via the LSP server",
+                    " using `workspace/executeCommand`.",
+                    "",
+                    " The first argument to the function will be the `Command`:",
+                    "   Command",
+                    "     title: String",
+                    "     command: String",
+                    "     arguments?: any[]",
+                    "",
+                    " The second argument is the `ctx` of |lsp-handler|"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            "value": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "completion",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.completion: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.completion"
+                }
+            },
+            {
+                "name": "config",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.config: vim.lsp.config",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "vim.lsp.config"
+                }
+            },
+            {
+                "name": "diagnostic",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.diagnostic: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.diagnostic"
+                }
+            },
+            {
+                "name": "enable",
+                "documentation": [
+                    "```lua",
+                    "function lsp.enable(name: string|string[], enable?: boolean)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Auto-starts LSP when a buffer is opened, based on the |lsp-config| `filetypes`, `root_markers`,",
+                    " and `root_dir` fields.",
+                    "",
+                    " Examples:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.enable('clangd')",
+                    " vim.lsp.enable({'luals', 'pyright'})",
+                    " ```",
+                    "",
+                    " Example: [lsp-restart](file:///usr/local/share/nvim/runtime/lua/vim) Passing `false` stops and detaches the client(s). Thus you can",
+                    " \"restart\" LSP by disabling and re-enabling a given config:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.enable('clangd', false)",
+                    " vim.lsp.enable('clangd', true)",
+                    " ```",
+                    "",
+                    " Example: To _dynamically_ decide whether LSP is activated, define a |lsp-root_dir()| function",
+                    " which calls `on_dir()` only when you want that config to activate:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.config('lua_ls', {",
+                    "   root_dir = function(bufnr, on_dir)",
+                    "     if not vim.fn.bufname(bufnr):match('%.txt$') then",
+                    "       on_dir(vim.fn.getcwd())",
+                    "     end",
+                    "   end",
+                    " })",
+                    " ```",
+                    "",
+                    "@*param* `name` — Name(s) of client(s) to enable.",
+                    "",
+                    "@*param* `enable` — `true|nil` to enable, `false` to disable (actively stops and detaches",
+                    "",
+                    " clients as needed)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "enable",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "enable",
+                    "returns": []
+                }
+            },
+            {
+                "name": "foldclose",
+                "documentation": [
+                    "```lua",
+                    "function lsp.foldclose(kind: \"comment\"|\"imports\"|\"region\", winid?: integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Close all {kind} of folds in the the window with {winid}.",
+                    "",
+                    " To automatically fold imports when opening a file, you can use an autocmd:",
+                    "",
+                    " ```lua",
+                    " vim.api.nvim_create_autocmd('LspNotify', {",
+                    "   callback = function(args)",
+                    "     if args.data.method == 'textDocument/didOpen' then",
+                    "       vim.lsp.foldclose('imports', vim.fn.bufwinid(args.buf))",
+                    "     end",
+                    "   end,",
+                    " })",
+                    " ```",
+                    "",
+                    "@*param* `kind` — Kind to close, one of \"comment\", \"imports\" or \"region\".",
+                    "",
+                    "@*param* `winid` — Defaults to the current window.",
+                    "",
+                    "```lua",
+                    "-- A set of predefined range kinds.",
+                    "kind:",
+                    "    | \"comment\" -- Comment",
+                    "    | \"imports\" -- Imports",
+                    "    | \"region\" -- Region",
+                    "```"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "kind",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.FoldingRangeKind"
+                            }
+                        },
+                        {
+                            "name": "winid",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "foldclose",
+                    "returns": []
+                }
+            },
+            {
+                "name": "foldexpr",
+                "documentation": [
+                    "```lua",
+                    "function lsp.foldexpr(lnum: integer)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Provides an interface between the built-in client and a `foldexpr` function.",
+                    "",
+                    " To use, set 'foldmethod' to \"expr\" and set the value of 'foldexpr':",
+                    "",
+                    " ```lua",
+                    " vim.o.foldmethod = 'expr'",
+                    " vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'",
+                    " ```",
+                    "",
+                    " Or use it only when supported by checking for the \"textDocument/foldingRange\"",
+                    " capability in an |LspAttach| autocommand. Example:",
+                    "",
+                    " ```lua",
+                    " vim.o.foldmethod = 'expr'",
+                    " -- Default to treesitter folding",
+                    " vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'",
+                    " -- Prefer LSP folding if client supports it",
+                    " vim.api.nvim_create_autocmd('LspAttach', {",
+                    "   callback = function(args)",
+                    "     local client = vim.lsp.get_client_by_id(args.data.client_id)",
+                    "     if client:supports_method('textDocument/foldingRange') then",
+                    "       local win = vim.api.nvim_get_current_win()",
+                    "       vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'",
+                    "     end",
+                    "   end,",
+                    " })",
+                    " ```",
+                    "",
+                    "@*param* `lnum` — line number"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lnum",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "foldexpr",
+                    "returns": []
+                }
+            },
+            {
+                "name": "foldtext",
+                "documentation": [
+                    "```lua",
+                    "function lsp.foldtext()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Provides a `foldtext` function that shows the `collapsedText` retrieved,",
+                    " defaults to the first folded line if `collapsedText` is not provided."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "foldtext",
+                    "returns": []
+                }
+            },
+            {
+                "name": "for_each_buffer_client",
+                "documentation": [
+                    "```lua",
+                    "function lsp.for_each_buffer_client(bufnr: integer, fn: function)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Invokes a function for each LSP client attached to a buffer.",
+                    "",
+                    "@*param* `bufnr` — Buffer number",
+                    "",
+                    "@*param* `fn` — Function to run on each client attached to buffer",
+                    "",
+                    "                   {bufnr}. The function takes the client, client ID, and",
+                    "                   buffer number as arguments."
+                ],
+                "meta": [
+                    "private",
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "fn",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "function"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "for_each_buffer_client",
+                    "returns": []
+                }
+            },
+            {
+                "name": "formatexpr",
+                "documentation": [
+                    "```lua",
+                    "function lsp.formatexpr(opts?: vim.lsp.formatexpr.Opts)",
+                    "  -\u003e integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Provides an interface between the built-in client and a `formatexpr` function.",
+                    "",
+                    " Currently only supports a single client. This can be set via",
+                    " `setlocal formatexpr=v:lua.vim.lsp.formatexpr()` or (more typically) in `on_attach`",
+                    " via `vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr(#{timeout_ms:250})'`."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.formatexpr.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "formatexpr",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get_active_clients",
+                "documentation": [
+                    "```lua",
+                    "function lsp.get_active_clients(filter: any)",
+                    "  -\u003e vim.lsp.Client[]",
+                    "```"
+                ],
+                "meta": [
+                    "private",
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filter",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_active_clients",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get_buffers_by_client_id",
+                "documentation": [
+                    "```lua",
+                    "function lsp.get_buffers_by_client_id(client_id: integer)",
+                    "  -\u003e buffers: integer[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns list of buffers attached to client_id.",
+                    "",
+                    "@*param* `client_id` — client id",
+                    "",
+                    "@*return* `buffers` — list of buffer ids"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_buffers_by_client_id",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_client_by_id",
+                "documentation": [
+                    "```lua",
+                    "function lsp.get_client_by_id(client_id: integer)",
+                    "  -\u003e client: vim.lsp.Client|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets a client by id, or nil if the id is invalid.",
+                    " The returned client may not yet be fully initialized.",
+                    "",
+                    "@*param* `client_id` — client id",
+                    "",
+                    "",
+                    "@*return* `client` — rpc object"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_client_by_id",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.lsp.Client"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_clients",
+                "documentation": [
+                    "```lua",
+                    "function lsp.get_clients(filter?: vim.lsp.get_clients.Filter)",
+                    "  -\u003e vim.lsp.Client[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get active clients.",
+                    "",
+                    "@*return* — : List of |vim.lsp.Client| objects"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filter",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.get_clients.Filter"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_clients",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.Client"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_log_path",
+                "documentation": [
+                    "```lua",
+                    "function lsp.get_log_path()",
+                    "  -\u003e path: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the path of the logfile used by the LSP client.",
+                    "",
+                    "@*return* `path` — to log file"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "get_log_path",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "handlers",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.handlers: table\u003cstring, fun(err?: lsp.ResponseError, result: any, context: lsp.HandlerContext, config?: table):...unknown\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.handlers"
+                }
+            },
+            {
+                "name": "inlay_hint",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.inlay_hint: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.inlay_hint"
+                }
+            },
+            {
+                "name": "is_enabled",
+                "documentation": [
+                    "```lua",
+                    "function lsp.is_enabled(name: string)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Checks if the given LSP config is enabled (globally, not per-buffer).",
+                    "",
+                    " Unlike `vim.lsp.config['…']`, this does not have the side-effect of resolving the config.",
+                    "",
+                    "@*param* `name` — Config name"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "name",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_enabled",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "log",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.log"
+                }
+            },
+            {
+                "name": "log_levels",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.log_levels: table\u003cinteger, string\u003e|table\u003cstring, integer\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Log level dictionary with reverse lookup as well.",
+                    "",
+                    " Can be used to lookup the number from the name or the",
+                    " name from the number.",
+                    " Levels by name: \"TRACE\", \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"OFF\"",
+                    " Level numbers begin with \"TRACE\" at 0",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        },
+                        {
+                            "fields": [],
+                            "indexes": [
+                                {
+                                    "key": {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    "value": {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                }
+                            ],
+                            "kind": "table",
+                            "name": ""
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "omnifunc",
+                "documentation": [
+                    "```lua",
+                    "function lsp.omnifunc(findstart: integer, base: integer)",
+                    "  -\u003e Decided: integer|table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Implements 'omnifunc' compatible LSP completion.",
+                    "",
+                    "",
+                    "@*param* `findstart` — 0 or 1, decides behavior",
+                    "",
+                    "@*param* `base` — findstart=0, text to match against",
+                    "",
+                    "",
+                    "@*return* `Decided` — by {findstart}:",
+                    "",
+                    " - findstart=0: column where the completion starts, or -2 or -3",
+                    " - findstart=1: list of matches (actually just calls |complete()|)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "findstart",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "base",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "omnifunc",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "protocol",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.protocol: vim.lsp.protocol",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Protocol for the Microsoft Language Server Protocol (mslsp)"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.protocol"
+                }
+            },
+            {
+                "name": "rpc",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.rpc: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.rpc"
+                }
+            },
+            {
+                "name": "rpc_response_error",
+                "documentation": [
+                    "```lua",
+                    "function M.rpc_response_error(code: integer, message?: string, data?: any)",
+                    "  -\u003e lsp.ResponseError",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Creates an RPC response table `error` to be sent to the LSP response.",
+                    "",
+                    "@*param* `code` — RPC error code defined, see `vim.lsp.protocol.ErrorCodes`",
+                    "",
+                    "@*param* `message` — arbitrary message to send to server",
+                    "",
+                    "@*param* `data` — arbitrary data to send to server",
+                    "",
+                    "",
+                    "See: [lsp.ErrorCodes](file:///usr/local/share/nvim/runtime/lua/vim/lsp/_meta/protocol.lua#5231#10) See `vim.lsp.protocol.ErrorCodes`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "code",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "message",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "data",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "rpc_response_error",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.ResponseError"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "semantic_tokens",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.semantic_tokens: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.semantic_tokens"
+                }
+            },
+            {
+                "name": "set_log_level",
+                "documentation": [
+                    "```lua",
+                    "function lsp.set_log_level(level: string|integer)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Sets the global log level for LSP logging.",
+                    "",
+                    " Levels by name: \"TRACE\", \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"OFF\"",
+                    "",
+                    " Level numbers begin with \"TRACE\" at 0",
+                    "",
+                    " Use `lsp.log_levels` for reverse lookup.",
+                    "",
+                    "",
+                    "@*param* `level` — the case insensitive level name or number"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "level",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "set_log_level",
+                    "returns": []
+                }
+            },
+            {
+                "name": "start",
+                "documentation": [
+                    "```lua",
+                    "function lsp.start(config: vim.lsp.ClientConfig, opts?: vim.lsp.start.Opts)",
+                    "  -\u003e client_id: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Create a new LSP client and start a language server or reuses an already",
+                    " running client if one is found matching `name` and `root_dir`.",
+                    " Attaches the current buffer to the client.",
+                    "",
+                    " Example:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.start({",
+                    "    name = 'my-server-name',",
+                    "    cmd = {'name-of-language-server-executable'},",
+                    "    root_dir = vim.fs.root(0, {'pyproject.toml', 'setup.py'}),",
+                    " })",
+                    " ```",
+                    "",
+                    " See |vim.lsp.ClientConfig| for all available options. The most important are:",
+                    "",
+                    " - `name` arbitrary name for the LSP client. Should be unique per language server.",
+                    " - `cmd` command string[] or function.",
+                    " - `root_dir` path to the project root. By default this is used to decide if an existing client",
+                    "   should be re-used. The example above uses |vim.fs.root()| to detect the root by traversing",
+                    "   the file system upwards starting from the current directory until either a `pyproject.toml`",
+                    "   or `setup.py` file is found.",
+                    " - `workspace_folders` list of `{ uri:string, name: string }` tables specifying the project root",
+                    "   folders used by the language server. If `nil` the property is derived from `root_dir` for",
+                    "   convenience.",
+                    "",
+                    " Language servers use this information to discover metadata like the",
+                    " dependencies of your project and they tend to index the contents within the",
+                    " project folder.",
+                    "",
+                    "",
+                    " To ensure a language server is only started for languages it can handle,",
+                    " make sure to call |vim.lsp.start()| within a |FileType| autocmd.",
+                    " Either use |:au|, |nvim_create_autocmd()| or put the call in a",
+                    " `ftplugin/\u003cfiletype_name\u003e.lua` (See |ftplugin-name|)",
+                    "",
+                    "@*param* `config` — Configuration for the server.",
+                    "",
+                    "@*param* `opts` — Optional keyword arguments."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "config",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.ClientConfig"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.start.Opts"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "start",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "start_client",
+                "documentation": [
+                    "```lua",
+                    "function lsp.start_client(config: vim.lsp.ClientConfig)",
+                    "  -\u003e client_id: integer?",
+                    "  2. string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Starts and initializes a client with the given configuration.",
+                    "",
+                    "@*param* `config` — Configuration for the server.",
+                    "",
+                    "@*return* `client_id` — |vim.lsp.get_client_by_id()| Note: client may not be",
+                    "",
+                    "         fully initialized. Use `on_init` to do any actions once",
+                    "         the client has been initialized.",
+                    "",
+                    "@*return* — Error message, if any"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "config",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.ClientConfig"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "start_client",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "status",
+                "documentation": [
+                    "```lua",
+                    "function lsp.status()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Consumes the latest progress messages from all clients and formats them as a string.",
+                    " Empty if there are no clients or if no new messages"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "status",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "stop_client",
+                "documentation": [
+                    "```lua",
+                    "function lsp.stop_client(client_id: integer|integer[]|vim.lsp.Client[], force?: boolean)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Stops a client(s).",
+                    "",
+                    " You can also use the `stop()` function on a |vim.lsp.Client| object.",
+                    " To stop all clients:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.stop_client(vim.lsp.get_clients())",
+                    " ```",
+                    "",
+                    " By default asks the server to shutdown, unless stop was requested",
+                    " already for this client, then force-shutdown is attempted.",
+                    "",
+                    "@*param* `client_id` — id, list of id's, or list of |vim.lsp.Client| objects",
+                    "",
+                    "@*param* `force` — shutdown forcefully"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "client_id",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.Client"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "force",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "stop_client",
+                    "returns": []
+                }
+            },
+            {
+                "name": "tagfunc",
+                "documentation": [
+                    "```lua",
+                    "function lsp.tagfunc(pattern: string, flags: string)",
+                    "  -\u003e tags: table[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Provides an interface between the built-in client and 'tagfunc'.",
+                    "",
+                    " When used with normal mode commands (e.g. |CTRL-]|) this will invoke",
+                    " the \"textDocument/definition\" LSP method to find the tag under the cursor.",
+                    " Otherwise, uses \"workspace/symbol\". If no results are returned from",
+                    " any LSP servers, falls back to using built-in tags.",
+                    "",
+                    "@*param* `pattern` — Pattern used to find a workspace symbol",
+                    "",
+                    "@*param* `flags` — See |tag-function|",
+                    "",
+                    "",
+                    "@*return* `tags` — A list of matching tags"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "pattern",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "flags",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "tagfunc",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "util",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.lsp.util: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.lsp.util"
+                }
+            },
+            {
+                "name": "with",
+                "documentation": [
+                    "```lua",
+                    "function lsp.with(handler: fun(err?: lsp.ResponseError, result: any, context: lsp.HandlerContext, config?: table):...unknown, override_config: table)",
+                    "  -\u003e function",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Function to manage overriding defaults for LSP handlers.",
+                    "",
+                    "@*param* `handler` — See |lsp-handler|",
+                    "",
+                    "@*param* `override_config` — Table containing the keys to override behavior of the {handler}"
+                ],
+                "meta": [
+                    "deprecated",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "handler",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.Handler"
+                            }
+                        },
+                        {
+                            "name": "override_config",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "with",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp"
+    }
+}

@@ -1,0 +1,108 @@
+{
+    "name": "lsp.WorkspaceSymbolClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.WorkspaceSymbolClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "Client capabilities for a {@link WorkspaceSymbolRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Symbol request supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "resolveSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolClientCapabilities.resolveSupport: (lsp.ClientSymbolResolveOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client support partial workspace symbols. The client will send the",
+                    "request `workspaceSymbol/resolve` to the server to resolve additional",
+                    "properties.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSymbolResolveOptions"
+                    }
+                }
+            },
+            {
+                "name": "symbolKind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolClientCapabilities.symbolKind: (lsp.ClientSymbolKindOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Specific capabilities for the `SymbolKind` in the `workspace/symbol` request."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSymbolKindOptions"
+                    }
+                }
+            },
+            {
+                "name": "tagSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.WorkspaceSymbolClientCapabilities.tagSupport: (lsp.ClientSymbolTagOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client supports tags on `SymbolInformation`.",
+                    "Clients supporting tags have to handle unknown tags gracefully.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientSymbolTagOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.WorkspaceSymbolClientCapabilities"
+    }
+}

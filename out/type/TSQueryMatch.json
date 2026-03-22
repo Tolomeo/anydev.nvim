@@ -1,0 +1,94 @@
+{
+    "name": "TSQueryMatch",
+    "documentation": [
+        "```lua",
+        "(class) TSQueryMatch",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "captures",
+                "documentation": [
+                    "```lua",
+                    "(field) TSQueryMatch.captures: fun(self: TSQueryMatch):table\u003cinteger, TSNode[]\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (self: TSQueryMatch)",
+                    "  -\u003e table\u003cinteger, TSNode[]\u003e",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "typereference",
+                                                "value": "TSNode"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "info",
+                "documentation": [
+                    "```lua",
+                    "(method) TSQueryMatch:info()",
+                    "  -\u003e match_id: integer",
+                    "  2. pattern_index: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "info",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "TSQueryMatch"
+    }
+}

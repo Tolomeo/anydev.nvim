@@ -1,0 +1,1102 @@
+{
+    "name": "vim.treesitter.LanguageTree",
+    "documentation": [
+        "```lua",
+        "(class) vim.treesitter.LanguageTree",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "new",
+                "documentation": [
+                    "```lua",
+                    "function vim.treesitter.LanguageTree.new(source: string|integer, lang: string, opts?: vim.treesitter.LanguageTree.new.Opts)",
+                    "  -\u003e parser: vim.treesitter.LanguageTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc",
+                    "",
+                    " LanguageTree contains a tree of parsers: the root treesitter parser for {lang} and any",
+                    " \"injected\" language parsers, which themselves may inject other languages, recursively.",
+                    "",
+                    "@*param* `source` — Buffer or text string to parse",
+                    "",
+                    "@*param* `lang` — Root language of this tree",
+                    "",
+                    "@*return* `parser` — object"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "source",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.LanguageTree.new.Opts"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "new",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "_on_bytes",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:_on_bytes(bufnr: integer, changed_tick: integer, start_row: integer, start_col: integer, start_byte: integer, old_row: integer, old_col: integer, old_byte: integer, new_row: integer, new_col: integer, new_byte: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "changed_tick",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "start_byte",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "old_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "old_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "old_byte",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "new_row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "new_col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "new_byte",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "_on_bytes",
+                    "returns": []
+                }
+            },
+            {
+                "name": "_on_detach",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:_on_detach(...any)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "_on_detach",
+                    "returns": []
+                }
+            },
+            {
+                "name": "_on_reload",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:_on_reload()",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "_on_reload",
+                    "returns": []
+                }
+            },
+            {
+                "name": "_subtract_time",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:_subtract_time(thread_state: { timeout: integer? }, time: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "thread_state",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "ParserThreadState"
+                            }
+                        },
+                        {
+                            "name": "time",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "_subtract_time",
+                    "returns": []
+                }
+            },
+            {
+                "name": "children",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:children()",
+                    "  -\u003e table\u003cstring, vim.treesitter.LanguageTree\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a map of language to child tree."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "children",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "value": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "contains",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:contains(range: Range4)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Determines whether {range} is contained in the |LanguageTree|."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range4"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "contains",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "destroy",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:destroy()",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Destroys this |LanguageTree| and all its children.",
+                    "",
+                    " Any cleanup logic should be performed here.",
+                    "",
+                    " Note: This DOES NOT remove this tree from a parent. Instead,",
+                    " `remove_child` must be called on the parent to remove it."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "destroy",
+                    "returns": []
+                }
+            },
+            {
+                "name": "for_each_tree",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:for_each_tree(fn: fun(tree: TSTree, ltree: vim.treesitter.LanguageTree))",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Invokes the callback for each |LanguageTree| recursively.",
+                    "",
+                    " Note: This includes the invoking tree's child trees as well."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "fn",
+                            "optional": false,
+                            "type": {
+                                "kind": "function",
+                                "arguments": [
+                                    {
+                                        "name": "tree",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSTree"
+                                        }
+                                    },
+                                    {
+                                        "name": "ltree",
+                                        "optional": false,
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
+                                        }
+                                    }
+                                ],
+                                "generics": [],
+                                "returns": []
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "for_each_tree",
+                    "returns": []
+                }
+            },
+            {
+                "name": "included_regions",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:included_regions()",
+                    "  -\u003e table\u003cinteger, Range6[]\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Gets the set of included regions managed by this LanguageTree. This can be different from the",
+                    "regions set by injection query, because a partial |LanguageTree:parse()| drops the regions",
+                    "outside the requested range.",
+                    "Each list represents a range in the form of",
+                    "{ {start_row}, {start_col}, {start_bytes}, {end_row}, {end_col}, {end_bytes} }."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "included_regions",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "kind": "array",
+                                            "items": {
+                                                "kind": "typereference",
+                                                "value": "Range6"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "invalidate",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:invalidate(reload: boolean|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Invalidates this parser and its children.",
+                    "",
+                    " Should only be called when the tracked state of the LanguageTree is not valid against the parse",
+                    " tree in treesitter. Doesn't clear filesystem cache. Called often, so needs to be fast."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "reload",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "invalidate",
+                    "returns": []
+                }
+            },
+            {
+                "name": "is_valid",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:is_valid(exclude_children?: boolean, range?: Range2|Range4|Range6)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()| reflects the latest",
+                    " state of the source. If invalid, user should call |LanguageTree:parse()|.",
+                    "",
+                    "@*param* `exclude_children` — whether to ignore the validity of children (default `false`)",
+                    "",
+                    "@*param* `range` — range to check for validity"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "exclude_children",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "Range"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_valid",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "lang",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:lang()",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the language of this tree node."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "lang",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "language_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:language_for_range(range: Range4)",
+                    "  -\u003e tree: vim.treesitter.LanguageTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the appropriate language that contains {range}.",
+                    "",
+                    "@*return* `tree` — Managing {range}"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range4"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "language_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "named_node_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:named_node_for_range(range: Range4, opts?: vim.treesitter.LanguageTree.tree_for_range.Opts)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the smallest named node that contains {range}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range4"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "named_node_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "node_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:node_for_range(range: Range4, opts?: vim.treesitter.LanguageTree.tree_for_range.Opts)",
+                    "  -\u003e TSNode?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the smallest node that contains {range}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range4"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "node_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSNode"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "parent",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:parent()",
+                    "  -\u003e (vim.treesitter.LanguageTree)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Returns the parent tree. `nil` for the root tree."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "parent",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.LanguageTree"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "parse",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:parse(range: boolean|Range2|Range4|Range6|nil, on_parse?: fun(err?: string, trees?: table\u003cinteger, TSTree\u003e))",
+                    "  -\u003e table\u003cinteger, TSTree\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Recursively parse all regions in the language tree using |treesitter-parsers|",
+                    " for the corresponding languages and run injection queries on the parsed trees",
+                    " to determine whether child trees should be created and parsed.",
+                    "",
+                    " Any region with empty range (`{}`, typically only the root tree) is always parsed;",
+                    " otherwise (typically injections) only if it intersects {range} (or if {range} is `true`).",
+                    "",
+                    "@*param* `range` — : Parse this range in the parser's source.",
+                    "",
+                    "     Set to `true` to run a complete parse of the source (Note: Can be slow!)",
+                    "     Set to `false|nil` to only parse regions with empty ranges (typically",
+                    "     only the root tree without injections).",
+                    "",
+                    "@*param* `on_parse` — Function invoked when parsing completes.",
+                    "",
+                    "     When provided and `vim.g._ts_force_sync_parsing` is not set, parsing will run",
+                    "     asynchronously. The first argument to the function is a string representing the error type,",
+                    "     in case of a failure (currently only possible for timeouts). The second argument is the list",
+                    "     of trees returned by the parse (upon success), or `nil` if the parse timed out (determined",
+                    "     by 'redrawtime').",
+                    "",
+                    "     If parsing was still able to finish synchronously (within 3ms), `parse()` returns the list",
+                    "     of trees. Otherwise, it returns `nil`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "Range"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "on_parse",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "function",
+                                    "arguments": [
+                                        {
+                                            "name": "err",
+                                            "optional": false,
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        },
+                                        {
+                                            "name": "trees",
+                                            "optional": false,
+                                            "type": {
+                                                "fields": [],
+                                                "indexes": [
+                                                    {
+                                                        "key": {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        },
+                                                        "value": {
+                                                            "kind": "typereference",
+                                                            "value": "TSTree"
+                                                        }
+                                                    }
+                                                ],
+                                                "kind": "table",
+                                                "name": ""
+                                            }
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "returns": []
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "parse",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "fields": [],
+                                    "indexes": [
+                                        {
+                                            "key": {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            },
+                                            "value": {
+                                                "kind": "typereference",
+                                                "value": "TSTree"
+                                            }
+                                        }
+                                    ],
+                                    "kind": "table",
+                                    "name": ""
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "register_cbs",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:register_cbs(cbs: table\u003c'on_bytes'|'on_changedtree'|'on_child_added'|'on_child_removed'|'on_detach', function\u003e, recursive?: boolean)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Registers callbacks for the [LanguageTree].",
+                    "",
+                    "@*param* `cbs` — An [nvim_buf_attach()]-like table argument with the following handlers:",
+                    "",
+                    "           - `on_bytes` : see [nvim_buf_attach()].",
+                    "           - `on_changedtree` : a callback that will be called every time the tree has syntactical changes.",
+                    "              It will be passed two arguments: a table of the ranges (as node ranges) that",
+                    "              changed and the changed tree.",
+                    "           - `on_child_added` : emitted when a child is added to the tree.",
+                    "           - `on_child_removed` : emitted when a child is removed from the tree.",
+                    "           - `on_detach` : emitted when the buffer is detached, see [nvim_buf_detach_event].",
+                    "              Takes one argument, the number of the buffer.",
+                    "",
+                    "@*param* `recursive` — Apply callbacks recursively for all children. Any new children will",
+                    "",
+                    "                           also inherit the callbacks."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "cbs",
+                            "optional": false,
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "typereference",
+                                            "value": "TSCallbackNameOn"
+                                        },
+                                        "value": {
+                                            "kind": "builtin",
+                                            "value": "function"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        },
+                        {
+                            "name": "recursive",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "register_cbs",
+                    "returns": []
+                }
+            },
+            {
+                "name": "source",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:source()",
+                    "  -\u003e string|integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the source content of the language tree (bufnr or string)."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "source",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "tree_for_range",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:tree_for_range(range: Range4, opts?: vim.treesitter.LanguageTree.tree_for_range.Opts)",
+                    "  -\u003e TSTree?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the tree that contains {range}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range4"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "tree_for_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "TSTree"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "trees",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.treesitter.LanguageTree:trees()",
+                    "  -\u003e table\u003cinteger, TSTree\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns all trees of the regions parsed by this parser.",
+                    " Does not include child languages.",
+                    " The result is list-like if",
+                    " * this LanguageTree is the root, in which case the result is empty or a singleton list; or",
+                    " * the root LanguageTree is fully parsed."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "trees",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "fields": [],
+                                "indexes": [
+                                    {
+                                        "key": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "value": {
+                                            "kind": "typereference",
+                                            "value": "TSTree"
+                                        }
+                                    }
+                                ],
+                                "kind": "table",
+                                "name": ""
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.treesitter.LanguageTree"
+    }
+}

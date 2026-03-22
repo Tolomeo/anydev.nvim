@@ -1,0 +1,73 @@
+{
+    "name": "vim.loader.ModuleInfo",
+    "documentation": [
+        "```lua",
+        "(class) vim.loader.ModuleInfo",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "modname",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.loader.ModuleInfo.modname: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Name of the module"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "modpath",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.loader.ModuleInfo.modpath: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Path of the module"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "stat",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.loader.ModuleInfo.stat: (uv.fs_stat.result)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " The fs_stat of the module path. Won't be returned for `modname=\"*\"`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "uv.fs_stat.result"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.loader.ModuleInfo"
+    }
+}

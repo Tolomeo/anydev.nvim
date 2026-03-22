@@ -1,0 +1,82 @@
+{
+    "name": "lsp.ResponseError",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ResponseError",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "code",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ResponseError.code: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "data",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ResponseError.data: boolean|string|number|table|table[]|nil",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "number"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        },
+                        {
+                            "kind": "array",
+                            "items": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "table"
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "message",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ResponseError.message: string",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ResponseError"
+    }
+}

@@ -1,0 +1,121 @@
+{
+    "name": "lsp.FormattingOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.FormattingOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Value-object describing what options formatting should use."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "insertFinalNewline",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FormattingOptions.insertFinalNewline: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Insert a newline character at the end of the file if one does not exist.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "insertSpaces",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FormattingOptions.insertSpaces: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Prefer spaces over tabs."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "tabSize",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FormattingOptions.tabSize: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Size of a tab in spaces."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "uinteger"
+                }
+            },
+            {
+                "name": "trimFinalNewlines",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FormattingOptions.trimFinalNewlines: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Trim all newlines after the final newline at the end of the file.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "trimTrailingWhitespace",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.FormattingOptions.trimTrailingWhitespace: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Trim trailing whitespace on a line.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.FormattingOptions"
+    }
+}

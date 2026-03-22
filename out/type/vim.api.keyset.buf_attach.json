@@ -1,0 +1,420 @@
+{
+    "name": "vim.api.keyset.buf_attach",
+    "documentation": [
+        "```lua",
+        "(class) vim.api.keyset.buf_attach",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "on_bytes",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.on_bytes: fun(_: \"bytes\", bufnr: integer, changedtick: integer, start_row: integer, start_col: integer, start_byte: integer, old_end_row: integer, old_end_col: integer, old_end_byte: integer...(too long)...:boolean??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"bytes\", bufnr: integer, changedtick: integer, start_row: integer, start_col: integer, start_byte: integer, old_end_row: integer, old_end_col: integer, old_end_byte: integer, new_end_row: integer, new_end_col: integer, new_end_byte: integer)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"bytes\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "changedtick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "start_row",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "start_col",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "start_byte",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "old_end_row",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "old_end_col",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "old_end_byte",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "new_end_row",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "new_end_col",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "new_end_byte",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "on_changedtick",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.on_changedtick: fun(_: \"changedtick\", bufnr: integer, changedtick: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"changedtick\", bufnr: integer, changedtick: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"changedtick\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "changedtick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_detach",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.on_detach: fun(_: \"detach\", bufnr: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"detach\", bufnr: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"detach\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "on_lines",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.on_lines: fun(_: \"lines\", bufnr: integer, changedtick: integer, first: integer, last_old: integer, last_new: integer, byte_count: integer, deleted_codepoints?: integer, deleted_codeunits?: integer):boolean??",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"lines\", bufnr: integer, changedtick: integer, first: integer, last_old: integer, last_new: integer, byte_count: integer, deleted_codepoints?: integer, deleted_codeunits?: integer)",
+                    "  -\u003e boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"lines\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "changedtick",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "first",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "last_old",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "last_new",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "byte_count",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "deleted_codepoints",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "name": "deleted_codeunits",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "optional",
+                                    "type": {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "on_reload",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.on_reload: fun(_: \"reload\", bufnr: integer)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (_: \"reload\", bufnr: integer)",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "_",
+                                "optional": false,
+                                "type": {
+                                    "kind": "stringliteral",
+                                    "value": "\"reload\""
+                                }
+                            },
+                            {
+                                "name": "bufnr",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            },
+            {
+                "name": "preview",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.preview: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "utf_sizes",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.api.keyset.buf_attach.utf_sizes: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.api.keyset.buf_attach"
+    }
+}

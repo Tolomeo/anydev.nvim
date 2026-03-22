@@ -1,0 +1,90 @@
+{
+    "name": "vim.filetype.match.args",
+    "documentation": [
+        "```lua",
+        "(class) vim.filetype.match.args",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "buf",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.match.args.buf: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Buffer number to use for matching. Mutually exclusive with {contents}"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "contents",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.match.args.contents: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " An array of lines representing file contents to use for",
+                    " matching. Can be used with {filename}. Mutually exclusive",
+                    " with {buf}."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "filename",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.filetype.match.args.filename: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Filename to use for matching. When {buf} is given,",
+                    " defaults to the filename of the given buffer number. The",
+                    " file need not actually exist in the filesystem. When used",
+                    " without {buf} only the name of the file is used for",
+                    " filetype matching. This may result in failure to detect",
+                    " the filetype in cases where the filename alone is not",
+                    " enough to disambiguate the filetype."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.filetype.match.args"
+    }
+}

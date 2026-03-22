@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TextDocumentTSNodeRequestResponse": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TsNode"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "Capture": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "node": {
+          "$ref": "#/definitions/TsNode"
+        }
+      },
+      "required": ["id", "node"]
+    },
+    "TsNode": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/definitions/Range"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "range", "text"]
+    },
+    "LineRange": {
+      "additionalProperties": false,
+      "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+      "properties": {
+        "start": {
+          "type": "number",
+          "description": "The range's line start position"
+        },
+        "end": {
+          "type": "number",
+          "description": "The range's line end position."
+        }
+      },
+      "required": ["start", "end"],
+      "type": "object"
+    },
+    "Range": {
+      "additionalProperties": false,
+      "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+      "properties": {
+        "end": {
+          "$ref": "#/definitions/Position",
+          "description": "The range's end position."
+        },
+        "start": {
+          "$ref": "#/definitions/Position",
+          "description": "The range's start position"
+        }
+      },
+      "required": ["start", "end"],
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "description": "Position in a text document expressed as zero-based line and character offset.\r\nThe offsets are based on a UTF-16 string representation. So a string of the form\r\n`a𐐀b` the character offset of the character `a` is 0, the character offset of `𐐀`\r\nis 1 and the character offset of b is 3 since `𐐀` is represented using two code\r\nunits in UTF-16.\r\n\r\nPositions are line end character agnostic. So you can not specify a position that\r\ndenotes `\\r|\\n` or `\\n|` where `|` represents the character offset. \n The Position namespace provides helper functions to work with\r\n[Position](#Position) literals.",
+      "properties": {
+        "character": {
+          "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+          "type": "number"
+        },
+        "line": {
+          "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+          "type": "number"
+        }
+      },
+      "required": ["line", "character"],
+      "type": "object"
+    },
+    "TextDocumentTSAncestorBufferLinesResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/BufferLines"
+        }
+      },
+      "required": ["result"]
+    },
+    "BufferLines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

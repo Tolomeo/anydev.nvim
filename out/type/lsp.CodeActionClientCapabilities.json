@@ -1,0 +1,227 @@
+{
+    "name": "lsp.CodeActionClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CodeActionClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "The Client Capabilities of a {@link CodeActionRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "codeActionLiteralSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.codeActionLiteralSupport: (lsp.ClientCodeActionLiteralOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client support code action literals of type `CodeAction` as a valid",
+                    "response of the `textDocument/codeAction` request. If the property is not",
+                    "set the request can only return `Command` literals.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientCodeActionLiteralOptions"
+                    }
+                }
+            },
+            {
+                "name": "dataSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.dataSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports the `data` property which is",
+                    "preserved between a `textDocument/codeAction` and a",
+                    "`codeAction/resolve` request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "disabledSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.disabledSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports the `disabled` property.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "documentationSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.documentationSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client supports documentation for a class of",
+                    "code actions.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "honorsChangeAnnotations",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.honorsChangeAnnotations: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client honors the change annotations in",
+                    "text edits and resource operations returned via the",
+                    "`CodeAction#edit` property by for example presenting",
+                    "the workspace edit in the user interface and asking",
+                    "for confirmation.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "isPreferredSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.isPreferredSupport: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code action supports the `isPreferred` property.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "resolveSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.resolveSupport: (lsp.ClientCodeActionResolveOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client supports resolving additional code action",
+                    "properties via a separate `codeAction/resolve` request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientCodeActionResolveOptions"
+                    }
+                }
+            },
+            {
+                "name": "tagSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeActionClientCapabilities.tagSupport: (lsp.CodeActionTagOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Client supports the tag property on a code action. Clients",
+                    "supporting tags have to handle unknown tags gracefully.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.CodeActionTagOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CodeActionClientCapabilities"
+    }
+}

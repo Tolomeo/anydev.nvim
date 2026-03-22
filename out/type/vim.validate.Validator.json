@@ -1,0 +1,108 @@
+{
+    "name": "vim.validate.Validator",
+    "documentation": [
+        "```lua",
+        "(alias) vim.validate.Validator Expand to \"boolean\"|\"function\"|\"nil\"|\"number\"|\"string\"|\"table\"|\"thread\"|\"userdata\"|'callable'|(\"boolean\"|\"function\"|\"nil\"|\"number\"|\"string\"|\"table\"|\"thread\"|\"userdata\"|'callable')[]|fun(v: any):boolean, string?",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "vim.validate.Validator:",
+        "    | \"nil\"",
+        "    | \"number\"",
+        "    | \"string\"",
+        "    | \"boolean\"",
+        "    | \"table\"",
+        "    | \"function\"",
+        "    | \"thread\"",
+        "    | \"userdata\"",
+        "    | 'callable'",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "type:",
+        "    | \"nil\"",
+        "    | \"number\"",
+        "    | \"string\"",
+        "    | \"boolean\"",
+        "    | \"table\"",
+        "    | \"function\"",
+        "    | \"thread\"",
+        "    | \"userdata\"",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (v: any)",
+        "  -\u003e boolean",
+        "  2. string?",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "typereference",
+                "value": "type"
+            },
+            {
+                "kind": "stringliteral",
+                "value": "'callable'"
+            },
+            {
+                "kind": "array",
+                "items": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "typereference",
+                            "value": "type"
+                        },
+                        {
+                            "kind": "stringliteral",
+                            "value": "'callable'"
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "function",
+                "arguments": [
+                    {
+                        "name": "v",
+                        "optional": false,
+                        "type": {
+                            "kind": "builtin",
+                            "value": "any"
+                        }
+                    }
+                ],
+                "generics": [],
+                "returns": [
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        }
+                    },
+                    {
+                        "name": "",
+                        "type": {
+                            "kind": "optional",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

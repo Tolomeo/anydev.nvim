@@ -1,0 +1,56 @@
+{
+    "name": "vim.fn.sign_place.dict",
+    "documentation": [
+        "```lua",
+        "(class) vim.fn.sign_place.dict",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.sign_place.dict.lnum: (string|integer)?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "priority",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.fn.sign_place.dict.priority: integer?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.fn.sign_place.dict"
+    }
+}

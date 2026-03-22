@@ -1,0 +1,115 @@
+{
+    "name": "lsp.SemanticTokensOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.SemanticTokensOptions",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "full",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SemanticTokensOptions.full: (boolean|lsp.SemanticTokensFullDelta)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Semantic tokens options to support deltas for full documents",
+                    "",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Server supports providing semantic tokens for a full document."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp.SemanticTokensFullDelta"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "legend",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SemanticTokensOptions.legend: lsp.SemanticTokensLegend",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The legend used by the server"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.SemanticTokensLegend"
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SemanticTokensOptions.range: (boolean|lsp._anonym1.range)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Server supports providing semantic tokens for a specific range",
+                    "of a document."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            },
+                            {
+                                "kind": "typereference",
+                                "value": "lsp._anonym1.range"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SemanticTokensOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.SemanticTokensOptions"
+    }
+}

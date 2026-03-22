@@ -1,0 +1,63 @@
+{
+    "name": "lsp.TextDocumentContentRegistrationOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.TextDocumentContentRegistrationOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Text document content provider registration options.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentContentRegistrationOptions.id: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The id used to register the request. The id can be used to deregister",
+                    "the request again. See also Registration#id."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "schemes",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.TextDocumentContentRegistrationOptions.schemes: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The schemes for which the server provides content."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "array",
+                    "items": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.TextDocumentContentRegistrationOptions"
+    }
+}

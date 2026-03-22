@@ -1,0 +1,50 @@
+{
+    "name": "uv.getaddrinfo.callback",
+    "documentation": [
+        "```lua",
+        "(alias) uv.getaddrinfo.callback Expand to fun(err: string|nil, addresses: uv.getaddrinfo.result[]|nil)",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (err: string|nil, addresses: uv.getaddrinfo.result[]|nil)",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "err",
+                "optional": false,
+                "type": {
+                    "kind": "typereference",
+                    "value": "uv.callback.err"
+                }
+            },
+            {
+                "name": "addresses",
+                "optional": false,
+                "type": {
+                    "kind": "union",
+                    "types": [
+                        {
+                            "kind": "array",
+                            "items": {
+                                "kind": "typereference",
+                                "value": "uv.getaddrinfo.result"
+                            }
+                        },
+                        {
+                            "kind": "builtin",
+                            "value": "nil"
+                        }
+                    ]
+                }
+            }
+        ],
+        "generics": [],
+        "returns": []
+    }
+}

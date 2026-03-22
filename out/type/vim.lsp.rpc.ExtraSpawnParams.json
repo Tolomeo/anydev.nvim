@@ -1,0 +1,92 @@
+{
+    "name": "vim.lsp.rpc.ExtraSpawnParams",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.rpc.ExtraSpawnParams",
+        "```",
+        "",
+        "---",
+        "",
+        " Additional context for the LSP server process."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "cwd",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.rpc.ExtraSpawnParams.cwd: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Working directory for the LSP server process"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "detached",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.rpc.ExtraSpawnParams.detached: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Detach the LSP server process from the current process"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "env",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.rpc.ExtraSpawnParams.env: table\u003cstring, string\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Additional environment variables for LSP server process. See |vim.system()|"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "fields": [],
+                        "indexes": [
+                            {
+                                "key": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                "value": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        ],
+                        "kind": "table",
+                        "name": ""
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.rpc.ExtraSpawnParams"
+    }
+}

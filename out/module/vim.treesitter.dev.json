@@ -1,0 +1,101 @@
+{
+    "name": "vim.treesitter.dev",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "edit_query",
+                "documentation": [
+                    "```lua",
+                    "function M.edit_query(lang?: string)",
+                    "  -\u003e boolean?",
+                    "  2. error: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "@*param* `lang` — language to open the query editor for.",
+                    "",
+                    "@*return* — `true` on success, `nil` on failure",
+                    "",
+                    "@*return* `error` — message, if applicable"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lang",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "edit_query",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "inspect_tree",
+                "documentation": [
+                    "```lua",
+                    "function M.inspect_tree(opts?: vim.treesitter.dev.inspect_tree.Opts)",
+                    "```"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.dev.inspect_tree.Opts"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "inspect_tree",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

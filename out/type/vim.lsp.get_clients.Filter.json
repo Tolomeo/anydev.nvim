@@ -1,0 +1,104 @@
+{
+    "name": "vim.lsp.get_clients.Filter",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.get_clients.Filter",
+        "```",
+        "",
+        "---",
+        "",
+        " Key-value pairs used to filter the returned clients."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.get_clients.Filter.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Only return clients attached to this buffer"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "id",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.get_clients.Filter.id: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Only return clients with the given id"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "method",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.get_clients.Filter.method: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Only return clients supporting the given method"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.get_clients.Filter.name: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Only return clients with the given name"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.get_clients.Filter"
+    }
+}

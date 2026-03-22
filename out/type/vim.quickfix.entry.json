@@ -1,0 +1,312 @@
+{
+    "name": "vim.quickfix.entry",
+    "documentation": [
+        "```lua",
+        "(class) vim.quickfix.entry",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " buffer number; must be the number of a valid buffer"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.col: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " column number"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "end_col",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.end_col: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " end column, if the item spans multiple columns"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "end_lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.end_lnum: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " end of lines, if the item spans multiple lines"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "filename",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.filename: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " name of a file; only used when \"bufnr\" is not",
+                    " present or it is invalid."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.lnum: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " line number in the file"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "module",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.module: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " name of a module; if given it will be used in",
+                    " quickfix error window instead of the filename."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "nr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.nr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " error number"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "pattern",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.pattern: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " search pattern used to locate the error"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "text",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.text: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " description of the error"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "type",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.type: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " single-character error type, 'E', 'W', etc."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "user_data",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.user_data: any",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " custom data associated with the item, can be",
+                    " any type."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "any"
+                    }
+                }
+            },
+            {
+                "name": "valid",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.valid: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " recognized error message"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "vcol",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.quickfix.entry.vcol: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " when non-zero: \"col\" is visual column",
+                    " when zero: \"col\" is byte index"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.quickfix.entry"
+    }
+}

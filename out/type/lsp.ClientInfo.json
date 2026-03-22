@@ -1,0 +1,59 @@
+{
+    "name": "lsp.ClientInfo",
+    "documentation": [
+        "```lua",
+        "(class) lsp.ClientInfo",
+        "```",
+        "",
+        "---",
+        "",
+        "Information about the client",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "name",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientInfo.name: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The name of the client as defined by the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "version",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.ClientInfo.version: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The client's version as defined by the client."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.ClientInfo"
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "name": "vim.lpeg.Pattern",
+    "documentation": [
+        "```lua",
+        "(class) vim.lpeg.Pattern",
+        "```",
+        "",
+        "---",
+        "",
+        " @nodoc"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "match",
+                "documentation": [
+                    "```lua",
+                    "(method) vim.lpeg.Pattern:match(subject: string, init?: integer, ...any)",
+                    "  -\u003e ...any",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Matches the given `pattern` against the `subject` string. If the match succeeds, returns the",
+                    " index in the subject of the first character after the match, or the captured values (if the",
+                    " pattern captured any value). An optional numeric argument `init` makes the match start at",
+                    " that position in the subject string. As usual in Lua libraries, a negative value counts from the end.",
+                    " Unlike typical pattern-matching functions, `match` works only in anchored mode; that is, it tries",
+                    " to match the pattern with a prefix of the given subject string (at position `init`), not with",
+                    " an arbitrary substring of the subject. So, if we want to find a pattern anywhere in a string,",
+                    " we must either write a loop in Lua or write a pattern that matches anywhere.",
+                    "",
+                    " Example:",
+                    "",
+                    " ```lua",
+                    " local pattern = lpeg.R('az') ^ 1 * -1",
+                    " assert(pattern:match('hello') == 6)",
+                    " assert(lpeg.match(pattern, 'hello') == 6)",
+                    " assert(pattern:match('1 hello') == nil)",
+                    " ```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "subject",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "init",
+                            "optional": true,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "...",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "match",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "any"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lpeg.Pattern"
+    }
+}

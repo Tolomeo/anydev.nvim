@@ -1,0 +1,63 @@
+{
+    "name": "lsp.CodeLensClientCapabilities",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CodeLensClientCapabilities",
+        "```",
+        "",
+        "---",
+        "",
+        "The client capabilities  of a {@link CodeLensRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dynamicRegistration",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeLensClientCapabilities.dynamicRegistration: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether code lens supports dynamic registration."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "resolveSupport",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CodeLensClientCapabilities.resolveSupport: (lsp.ClientCodeLensResolveOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Whether the client supports resolving additional code lens",
+                    "properties via a separate `codeLens/resolve` request.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ClientCodeLensResolveOptions"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CodeLensClientCapabilities"
+    }
+}

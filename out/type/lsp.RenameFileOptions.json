@@ -1,0 +1,61 @@
+{
+    "name": "lsp.RenameFileOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RenameFileOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Rename file options"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "ignoreIfExists",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFileOptions.ignoreIfExists: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Ignores if target exists."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "overwrite",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameFileOptions.overwrite: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Overwrite target if existing. Overwrite wins over `ignoreIfExists`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RenameFileOptions"
+    }
+}

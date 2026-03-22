@@ -1,0 +1,87 @@
+{
+    "name": "lsp.SignatureHelpOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.SignatureHelpOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Server Capabilities for a {@link SignatureHelpRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "retriggerCharacters",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpOptions.retriggerCharacters: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "List of characters that re-trigger signature help.",
+                    "",
+                    "These trigger characters are only active when signature help is already showing. All trigger characters",
+                    "are also counted as re-trigger characters.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "triggerCharacters",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpOptions.triggerCharacters: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "List of characters that trigger signature help automatically."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.SignatureHelpOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.SignatureHelpOptions"
+    }
+}

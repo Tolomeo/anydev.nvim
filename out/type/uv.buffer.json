@@ -1,0 +1,29 @@
+{
+    "name": "uv.buffer",
+    "documentation": [
+        "```lua",
+        "(alias) uv.buffer Expand to string|string[]",
+        "```",
+        "",
+        "---",
+        "",
+        " Luv APIS that accept a \"buffer\" type will accept either a string or an array-like table of strings"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "union",
+        "types": [
+            {
+                "kind": "builtin",
+                "value": "string"
+            },
+            {
+                "kind": "array",
+                "items": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ]
+    }
+}

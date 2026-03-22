@@ -1,0 +1,151 @@
+{
+    "name": "vim.Ringbuf",
+    "documentation": [
+        "```lua",
+        "(class) vim.Ringbuf",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "clear",
+                "documentation": [
+                    "```lua",
+                    "function vim.Ringbuf.clear(self: vim.Ringbuf)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Clear all items"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "clear",
+                    "returns": []
+                }
+            },
+            {
+                "name": "peek",
+                "documentation": [
+                    "```lua",
+                    "function vim.Ringbuf.peek(self: vim.Ringbuf)",
+                    "  -\u003e \u003cT\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the first unread item without removing it"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [
+                        {
+                            "name": "T",
+                            "type": null
+                        }
+                    ],
+                    "name": "peek",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "T"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "pop",
+                "documentation": [
+                    "```lua",
+                    "function vim.Ringbuf.pop(self: vim.Ringbuf)",
+                    "  -\u003e \u003cT\u003e?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Removes and returns the first unread item"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [
+                        {
+                            "name": "T",
+                            "type": null
+                        }
+                    ],
+                    "name": "pop",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "T"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "push",
+                "documentation": [
+                    "```lua",
+                    "function vim.Ringbuf.push(self: vim.Ringbuf, item: \u003cT\u003e)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Adds an item, overriding the oldest item if the buffer is full."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "item",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "T"
+                            }
+                        }
+                    ],
+                    "generics": [
+                        {
+                            "name": "T",
+                            "type": null
+                        }
+                    ],
+                    "name": "push",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.Ringbuf"
+    }
+}

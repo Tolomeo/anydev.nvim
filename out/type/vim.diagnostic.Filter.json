@@ -1,0 +1,63 @@
+{
+    "name": "vim.diagnostic.Filter",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.Filter",
+        "```",
+        "",
+        "---",
+        "",
+        " TODO: inherit from `vim.diagnostic.Opts`, implement its fields.",
+        " Optional filters |kwargs|, or `nil` for all."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "bufnr",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Filter.bufnr: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Buffer number, or 0 for current buffer, or `nil` for all buffers."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "ns_id",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.Filter.ns_id: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @inlinedoc",
+                    "",
+                    " Diagnostic namespace, or `nil` for all."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.Filter"
+    }
+}

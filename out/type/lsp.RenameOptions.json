@@ -1,0 +1,57 @@
+{
+    "name": "lsp.RenameOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.RenameOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Provider options for a {@link RenameRequest}."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "prepareProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameOptions.prepareProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Renames should be checked and tested before being executed.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.RenameOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.RenameOptions"
+    }
+}

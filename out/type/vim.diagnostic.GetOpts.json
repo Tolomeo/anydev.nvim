@@ -1,0 +1,102 @@
+{
+    "name": "vim.diagnostic.GetOpts",
+    "documentation": [
+        "```lua",
+        "(class) vim.diagnostic.GetOpts",
+        "```",
+        "",
+        "---",
+        "",
+        " A table with the following keys:"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "lnum",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.GetOpts.lnum: integer?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Limit diagnostics to those spanning the specified line number."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "integer"
+                    }
+                }
+            },
+            {
+                "name": "namespace",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.GetOpts.namespace: (integer|integer[])?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " Limit diagnostics to one or more namespaces."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "union",
+                        "types": [
+                            {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            },
+                            {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "severity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.diagnostic.GetOpts.severity: (vim.diagnostic.Severity|vim.diagnostic.Severity[]|{ min: vim.diagnostic.Severity, max: vim.diagnostic.Severity })?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " See |diagnostic-severity| and |vim.diagnostic.get()|",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    " See |diagnostic-severity|.",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "vim.diagnostic.SeverityFilter"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.diagnostic.GetOpts"
+    }
+}

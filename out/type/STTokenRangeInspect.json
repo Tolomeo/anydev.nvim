@@ -1,0 +1,147 @@
+{
+    "name": "STTokenRangeInspect",
+    "documentation": [
+        "```lua",
+        "(class) STTokenRangeInspect",
+        "```",
+        "",
+        "---",
+        "",
+        " @nodoc"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "client_id",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.client_id: integer",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "end_col",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.end_col: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "end column 0-based"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "line",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.line: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "line number 0-based"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "marked",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.marked: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "whether this token has had extmarks applied"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "boolean"
+                }
+            },
+            {
+                "name": "modifiers",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.modifiers: table\u003cstring, boolean\u003e",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "token modifiers as a set. E.g., { static = true, readonly = true }"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "indexes": [
+                        {
+                            "key": {
+                                "kind": "builtin",
+                                "value": "string"
+                            },
+                            "value": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": ""
+                }
+            },
+            {
+                "name": "start_col",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.start_col: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "start column 0-based"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "type",
+                "documentation": [
+                    "```lua",
+                    "(field) STTokenRangeInspect.type: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "token type as string"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "STTokenRangeInspect"
+    }
+}

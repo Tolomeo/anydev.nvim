@@ -1,0 +1,73 @@
+{
+    "name": "lsp.CompletionContext",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CompletionContext",
+        "```",
+        "",
+        "---",
+        "",
+        "Contains additional information about the context in which a completion request is triggered."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "triggerCharacter",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionContext.triggerCharacter: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The trigger character (a single character) that has trigger code complete.",
+                    "Is undefined if `triggerKind !== CompletionTriggerKind.TriggerCharacter`"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "triggerKind",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionContext.triggerKind: 1|2|3",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "How a completion was triggered",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "How the completion was triggered.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "-- How a completion was triggered",
+                    "lsp.CompletionTriggerKind:",
+                    "    | 1 -- Invoked",
+                    "    | 2 -- TriggerCharacter",
+                    "    | 3 -- TriggerForIncompleteCompletions",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "typereference",
+                    "value": "lsp.CompletionTriggerKind"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CompletionContext"
+    }
+}

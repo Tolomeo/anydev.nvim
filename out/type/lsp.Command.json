@@ -1,0 +1,105 @@
+{
+    "name": "lsp.Command",
+    "documentation": [
+        "```lua",
+        "(class) lsp.Command",
+        "```",
+        "",
+        "---",
+        "",
+        "Represents a reference to a command. Provides a title which",
+        "will be used to represent a command in the UI and, optionally,",
+        "an array of arguments which will be passed to the command handler",
+        "function when invoked."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "arguments",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Command.arguments: boolean|string|number|table\u003cstring, lsp.LSPAny\u003e|table\u003cstring, lsp.LSPAny\u003e[]|nil[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Arguments that the command handler should be",
+                    "invoked with."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "typereference",
+                            "value": "lsp.LSPAny"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "command",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Command.command: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The identifier of the actual command handler."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "title",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Command.title: string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Title of the command, like `save`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "tooltip",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.Command.tooltip: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "An optional tooltip.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.Command"
+    }
+}

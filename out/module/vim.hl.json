@@ -1,0 +1,294 @@
+{
+    "name": "vim.hl",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "on_yank",
+                "documentation": [
+                    "```lua",
+                    "function M.on_yank(opts: table|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Highlight the yanked text during a |TextYankPost| event.",
+                    "",
+                    " Add the following to your `init.vim`:",
+                    "",
+                    " ```vim",
+                    " autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=300}",
+                    " ```",
+                    "",
+                    "@*param* `opts` — Optional parameters",
+                    "",
+                    "              - higroup   highlight group for yanked region (default \"IncSearch\")",
+                    "              - timeout   time in ms before highlight is cleared (default 150)",
+                    "              - on_macro  highlight when executing macro (default false)",
+                    "              - on_visual highlight when yanking visual selection (default true)",
+                    "              - event     event structure (default vim.v.event)",
+                    "              - priority  integer priority (default |vim.hl.priorities|`.user`)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_yank",
+                    "returns": []
+                }
+            },
+            {
+                "name": "priorities",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.hl.priorities: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Table with default priorities used for highlighting:",
+                    " - `syntax`: `50`, used for standard syntax highlighting",
+                    " - `treesitter`: `100`, used for treesitter-based highlighting",
+                    " - `semantic_tokens`: `125`, used for LSP semantic token highlighting",
+                    " - `diagnostics`: `150`, used for code analysis such as diagnostics",
+                    " - `user`: `200`, used for user-triggered highlights such as LSP document",
+                    "   symbols or `on_yank` autocommands"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "diagnostics",
+                            "documentation": [
+                                "```lua",
+                                "(global) vim.hl.priorities.diagnostics: integer = 150",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "number"
+                            }
+                        },
+                        {
+                            "name": "semantic_tokens",
+                            "documentation": [
+                                "```lua",
+                                "(global) vim.hl.priorities.semantic_tokens: integer = 125",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "number"
+                            }
+                        },
+                        {
+                            "name": "syntax",
+                            "documentation": [
+                                "```lua",
+                                "(global) vim.hl.priorities.syntax: integer = 50",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "number"
+                            }
+                        },
+                        {
+                            "name": "treesitter",
+                            "documentation": [
+                                "```lua",
+                                "(global) vim.hl.priorities.treesitter: integer = 100",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "number"
+                            }
+                        },
+                        {
+                            "name": "user",
+                            "documentation": [
+                                "```lua",
+                                "(global) vim.hl.priorities.user: integer = 200",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "builtin",
+                                "value": "number"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "priorities"
+                }
+            },
+            {
+                "name": "range",
+                "documentation": [
+                    "```lua",
+                    "function M.range(bufnr: integer, ns: integer, higroup: string, start: string|integer[], finish: string|integer[], opts?: vim.hl.range.Opts)",
+                    "  -\u003e range_timer: (uv.uv_timer_t)?",
+                    "  2. range_clear: fun()?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Apply highlight group to range of text.",
+                    "",
+                    "@*param* `bufnr` — Buffer number to apply highlighting to",
+                    "",
+                    "@*param* `ns` — Namespace to add highlight to",
+                    "",
+                    "@*param* `higroup` — Highlight group to use for highlighting",
+                    "",
+                    "@*param* `start` — Start of region as a (line, column) tuple or string accepted by |getpos()|",
+                    "",
+                    "@*param* `finish` — End of region as a (line, column) tuple or string accepted by |getpos()|",
+                    "",
+                    "@*return* `range_timer` — A timer which manages how much time the",
+                    "",
+                    " highlight has left",
+                    "",
+                    "@*return* `range_clear` — A function which allows clearing the highlight manually.",
+                    "",
+                    " nil is returned if timeout is not specified"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "ns",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "higroup",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "start",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "finish",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "array",
+                                        "items": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        }
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.hl.range.Opts"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "uv.uv_timer_t"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "function",
+                                    "arguments": [],
+                                    "generics": [],
+                                    "returns": []
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

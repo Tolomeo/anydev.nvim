@@ -1,0 +1,141 @@
+{
+    "name": "lsp.CompletionOptions",
+    "documentation": [
+        "```lua",
+        "(class) lsp.CompletionOptions",
+        "```",
+        "",
+        "---",
+        "",
+        "Completion options."
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "allCommitCharacters",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionOptions.allCommitCharacters: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The list of all possible characters that commit a completion. This field can be used",
+                    "if clients don't support individual commit characters per completion item. See",
+                    "`ClientCapabilities.textDocument.completion.completionItem.commitCharactersSupport`",
+                    "",
+                    "If a server provides both `allCommitCharacters` and commit characters on an individual",
+                    "completion item the ones on the completion item win.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "completionItem",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionOptions.completionItem: (lsp.ServerCompletionItemOptions)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server supports the following `CompletionItem` specific",
+                    "capabilities.",
+                    ""
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "typereference",
+                        "value": "lsp.ServerCompletionItemOptions"
+                    }
+                }
+            },
+            {
+                "name": "resolveProvider",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionOptions.resolveProvider: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "The server provides support to resolve additional",
+                    "information for a completion item."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "triggerCharacters",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionOptions.triggerCharacters: string[]?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "",
+                    "Most tools trigger completion request automatically without explicitly requesting",
+                    "it using a keyboard shortcut (e.g. Ctrl+Space). Typically they do so when the user",
+                    "starts to type an identifier. For example if the user types `c` in a JavaScript file",
+                    "code complete will automatically pop up present `console` besides others as a",
+                    "completion item. Characters that make up identifiers don't need to be listed here.",
+                    "",
+                    "If code complete should automatically be trigger on characters not being valid inside",
+                    "an identifier (for example `.` in JavaScript) list them in `triggerCharacters`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "array",
+                        "items": {
+                            "kind": "builtin",
+                            "value": "string"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "workDoneProgress",
+                "documentation": [
+                    "```lua",
+                    "(field) lsp.CompletionOptions.workDoneProgress: boolean?",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "lsp.CompletionOptions"
+    }
+}

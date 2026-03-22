@@ -1,0 +1,72 @@
+{
+    "name": "vim.filetype.mapfn",
+    "documentation": [
+        "```lua",
+        "(alias) vim.filetype.mapfn Expand to fun(path: string, bufnr: integer, ...any):string?, fun(b: integer)?",
+        "```",
+        "",
+        "---",
+        "",
+        "```lua",
+        "function (path: string, bufnr: integer, ...: any)",
+        "  -\u003e string?",
+        "  2. fun(b: integer)?",
+        "```"
+    ],
+    "meta": [],
+    "type": {
+        "kind": "function",
+        "arguments": [
+            {
+                "name": "path",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "string"
+                }
+            },
+            {
+                "name": "bufnr",
+                "optional": false,
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            }
+        ],
+        "generics": [],
+        "returns": [
+            {
+                "name": "",
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "string"
+                    }
+                }
+            },
+            {
+                "name": "",
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "b",
+                                "optional": false,
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": []
+                    }
+                }
+            }
+        ]
+    }
+}

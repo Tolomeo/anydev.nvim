@@ -1,0 +1,1158 @@
+{
+    "name": "vim.treesitter",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "dev",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.dev: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.treesitter.dev"
+                }
+            },
+            {
+                "name": "foldexpr",
+                "documentation": [
+                    "```lua",
+                    "function M.foldexpr(lnum: integer|nil)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the fold level for {lnum} in the current buffer. Can be set directly to 'foldexpr':",
+                    "",
+                    " ```lua",
+                    " vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'",
+                    " ```",
+                    "",
+                    "@*param* `lnum` — Line number to calculate fold level for"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "lnum",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "foldexpr",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_captures_at_cursor",
+                "documentation": [
+                    "```lua",
+                    "function M.get_captures_at_cursor(winnr: integer|nil)",
+                    "  -\u003e List: string[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a list of highlight capture names under the cursor",
+                    "",
+                    "@*param* `winnr` — : |window-ID| or 0 for current window (default)",
+                    "",
+                    "",
+                    "@*return* `List` — of capture names"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "winnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_captures_at_cursor",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_captures_at_pos",
+                "documentation": [
+                    "```lua",
+                    "function M.get_captures_at_pos(bufnr: integer, row: integer, col: integer)",
+                    "  -\u003e { capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer }[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a list of highlight captures at the given position",
+                    "",
+                    " Each capture is represented by a table containing the capture name as a string, the capture's",
+                    " language, a table of metadata (`priority`, `conceal`, ...; empty if none are defined), and the",
+                    " id of the capture.",
+                    "",
+                    "@*param* `bufnr` — Buffer number (0 for current buffer)",
+                    "",
+                    "@*param* `row` — Position row",
+                    "",
+                    "@*param* `col` — Position column"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "row",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_captures_at_pos",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "fields": [
+                                        {
+                                            "name": "capture",
+                                            "documentation": [],
+                                            "meta": [],
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        },
+                                        {
+                                            "name": "lang",
+                                            "documentation": [],
+                                            "meta": [],
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "string"
+                                            }
+                                        },
+                                        {
+                                            "name": "metadata",
+                                            "documentation": [],
+                                            "meta": [],
+                                            "type": {
+                                                "kind": "typereference",
+                                                "value": "vim.treesitter.query.TSMetadata"
+                                            }
+                                        },
+                                        {
+                                            "name": "id",
+                                            "documentation": [],
+                                            "meta": [],
+                                            "type": {
+                                                "kind": "builtin",
+                                                "value": "integer"
+                                            }
+                                        }
+                                    ],
+                                    "kind": "table",
+                                    "name": ""
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_node",
+                "documentation": [
+                    "```lua",
+                    "function M.get_node(opts?: vim.treesitter.get_node.Opts)",
+                    "  -\u003e Node: TSNode|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the smallest named node at the given position",
+                    "",
+                    " NOTE: Calling this on an unparsed tree can yield an invalid node.",
+                    " If the tree is not known to be parsed by, e.g., an active highlighter,",
+                    " parse the tree first via",
+                    "",
+                    " ```lua",
+                    " vim.treesitter.get_parser(bufnr):parse(range)",
+                    " ```",
+                    "",
+                    "",
+                    "@*return* `Node` — at the given position"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.get_node.Opts"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_node",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "TSNode"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_node_range",
+                "documentation": [
+                    "```lua",
+                    "function M.get_node_range(node_or_range: Range4|TSNode)",
+                    "  -\u003e start_row: integer",
+                    "  2. start_col: integer",
+                    "  3. end_row: integer",
+                    "  4. end_col: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the node's range or an unpacked range table",
+                    "",
+                    "@*param* `node_or_range` — Node or table of positions"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node_or_range",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "TSNode"
+                                    },
+                                    {
+                                        "kind": "typereference",
+                                        "value": "Range4"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_node_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_node_text",
+                "documentation": [
+                    "```lua",
+                    "function M.get_node_text(node: TSNode, source: string|integer, opts: table|nil)",
+                    "  -\u003e string",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets the text corresponding to a given node",
+                    "",
+                    "@*param* `source` — Buffer or string from which the {node} is extracted",
+                    "",
+                    "@*param* `opts` — Optional parameters.",
+                    "",
+                    "          - metadata (table) Metadata of a specific capture. This would be",
+                    "            set to `metadata[capture_id]` when using |vim.treesitter.query.add_directive()|."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        },
+                        {
+                            "name": "source",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_node_text",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_parser",
+                "documentation": [
+                    "```lua",
+                    "function M.get_parser(bufnr: integer|nil, lang: string|nil, opts: table|nil)",
+                    "  -\u003e object: (vim.treesitter.LanguageTree)?",
+                    "  2. error: string?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns the parser for a specific buffer and attaches it to the buffer",
+                    "",
+                    " If needed, this will create the parser.",
+                    "",
+                    " If no parser can be created, an error is thrown. Set `opts.error = false` to suppress this and",
+                    " return nil (and an error message) instead. WARNING: This behavior will become default in Nvim",
+                    " 0.12 and the option will be removed.",
+                    "",
+                    "@*param* `bufnr` — Buffer the parser should be tied to (default: current buffer)",
+                    "",
+                    "@*param* `lang` — Language of this parser (default: from buffer filetype)",
+                    "",
+                    "@*param* `opts` — Options to pass to the created language tree",
+                    "",
+                    "",
+                    "@*return* `object` — to use for parsing",
+                    "",
+                    "@*return* `error` — message, if applicable"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_parser",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.LanguageTree"
+                                }
+                            }
+                        },
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_range",
+                "documentation": [
+                    "```lua",
+                    "function M.get_range(node: TSNode, source: string|integer|nil, metadata: vim.treesitter.query.TSMetadata|nil)",
+                    "  -\u003e Range6",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Get the range of a |TSNode|. Can also supply {source} and {metadata}",
+                    "to get the range with directives applied.",
+                    "",
+                    "@*param* `source` — Buffer or string from which the {node} is extracted"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        },
+                        {
+                            "name": "source",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "string"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "metadata",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "vim.treesitter.query.TSMetadata"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "Range6"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "get_string_parser",
+                "documentation": [
+                    "```lua",
+                    "function M.get_string_parser(str: string, lang: string, opts: table|nil)",
+                    "  -\u003e object: vim.treesitter.LanguageTree",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Returns a string parser",
+                    "",
+                    "@*param* `str` — Text to parse",
+                    "",
+                    "@*param* `lang` — Language of this string",
+                    "",
+                    "@*param* `opts` — Options to pass to the created language tree",
+                    "",
+                    "",
+                    "@*return* `object` — to use for parsing"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "str",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "string"
+                            }
+                        },
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get_string_parser",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.treesitter.LanguageTree"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "highlighter",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.highlighter: vim.treesitter.highlighter",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.treesitter.highlighter"
+                }
+            },
+            {
+                "name": "inspect_tree",
+                "documentation": [
+                    "```lua",
+                    "function M.inspect_tree(opts: table|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Open a window that displays a textual representation of the nodes in the language tree.",
+                    "",
+                    " While in the window, press \"a\" to toggle display of anonymous nodes, \"I\" to toggle the",
+                    " display of the source language of each node, \"o\" to toggle the query editor, and press",
+                    " [\u003cEnter\u003e] to jump to the node under the cursor in the source buffer. Folding also works",
+                    " (try |zo|, |zc|, etc.).",
+                    "",
+                    " Can also be shown with `:InspectTree`. [:InspectTree](file:///usr/local/share/nvim/runtime/lua/vim)",
+                    "",
+                    "@*param* `opts` — Optional options table with the following possible keys:",
+                    "",
+                    "                      - lang (string|nil): The language of the source buffer. If omitted, detect",
+                    "                        from the filetype of the source buffer.",
+                    "                      - bufnr (integer|nil): Buffer to draw the tree into. If omitted, a new",
+                    "                        buffer is created.",
+                    "                      - winid (integer|nil): Window id to display the tree buffer in. If omitted,",
+                    "                        a new window is created with {command}.",
+                    "                      - command (string|nil): Vimscript command to create the window. Default",
+                    "                        value is \"60vnew\". Only used when {winid} is nil.",
+                    "                      - title (string|fun(bufnr:integer):string|nil): Title of the window. If a",
+                    "                        function, it accepts the buffer number of the source buffer as its only",
+                    "                        argument and should return a string."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "opts",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "table"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "inspect_tree",
+                    "returns": []
+                }
+            },
+            {
+                "name": "is_ancestor",
+                "documentation": [
+                    "```lua",
+                    "function M.is_ancestor(dest: TSNode, source: TSNode)",
+                    "  -\u003e True: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Determines whether a node is the ancestor of another",
+                    "",
+                    "@*param* `dest` — Possible ancestor",
+                    "",
+                    "@*param* `source` — Possible descendant",
+                    "",
+                    "",
+                    "@*return* `True` — if {dest} is an ancestor of {source}"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "dest",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        },
+                        {
+                            "name": "source",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_ancestor",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "is_in_node_range",
+                "documentation": [
+                    "```lua",
+                    "function M.is_in_node_range(node: TSNode, line: integer, col: integer)",
+                    "  -\u003e True: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Determines whether (line, col) position is in node range",
+                    "",
+                    "@*param* `node` — defining the range",
+                    "",
+                    "@*param* `line` — Line (0-based)",
+                    "",
+                    "@*param* `col` — Column (0-based)",
+                    "",
+                    "",
+                    "@*return* `True` — if the position is in node range"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        },
+                        {
+                            "name": "line",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        },
+                        {
+                            "name": "col",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "integer"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_in_node_range",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "language",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.language: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.treesitter.language"
+                }
+            },
+            {
+                "name": "language_version",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.language_version: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "languagetree",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.languagetree: vim.treesitter.LanguageTree",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.treesitter.languagetree"
+                }
+            },
+            {
+                "name": "minimum_language_version",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.minimum_language_version: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " @nodoc"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "node_contains",
+                "documentation": [
+                    "```lua",
+                    "function M.node_contains(node: TSNode, range: table)",
+                    "  -\u003e True: boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Determines if a node contains a range",
+                    "",
+                    "",
+                    "@*return* `True` — if the {node} contains the {range}"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "node",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "TSNode"
+                            }
+                        },
+                        {
+                            "name": "range",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "node_contains",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "query",
+                "documentation": [
+                    "```lua",
+                    "(global) vim.treesitter.query: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "modulereference",
+                    "value": "vim.treesitter.query"
+                }
+            },
+            {
+                "name": "start",
+                "documentation": [
+                    "```lua",
+                    "function M.start(bufnr?: integer, lang?: string)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Starts treesitter highlighting for a buffer",
+                    "",
+                    " Can be used in an ftplugin or FileType autocommand.",
+                    "",
+                    " Note: By default, disables regex syntax highlighting, which may be required for some plugins.",
+                    " In this case, add `vim.bo.syntax = 'on'` after the call to `start`.",
+                    "",
+                    " Note: By default, the highlighter parses code asynchronously, using a segment time of 3ms.",
+                    "",
+                    " Example:",
+                    "",
+                    " ```lua",
+                    " vim.api.nvim_create_autocmd( 'FileType', { pattern = 'tex',",
+                    "     callback = function(args)",
+                    "         vim.treesitter.start(args.buf, 'latex')",
+                    "         vim.bo[args.buf].syntax = 'on'  -- only if additional legacy syntax is needed",
+                    "     end",
+                    " })",
+                    " ```",
+                    "",
+                    "@*param* `bufnr` — Buffer to be highlighted (default: current buffer)",
+                    "",
+                    "@*param* `lang` — Language of the parser (default: from buffer filetype)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "lang",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "start",
+                    "returns": []
+                }
+            },
+            {
+                "name": "stop",
+                "documentation": [
+                    "```lua",
+                    "function M.stop(bufnr: integer|nil)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Stops treesitter highlighting for a buffer",
+                    "",
+                    "@*param* `bufnr` — Buffer to stop highlighting (default: current buffer)"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "bufnr",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "integer"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "stop",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

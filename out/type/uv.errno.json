@@ -1,0 +1,1380 @@
+{
+    "name": "uv.errno",
+    "documentation": [
+        "```lua",
+        "(class) uv.errno",
+        "```",
+        "",
+        "---",
+        "",
+        " A table value which exposes error constants as a map, where the key is the error name (without the UV_ prefix) and its value is a negative number.",
+        ""
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "E2BIG",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.E2BIG: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "argument list too long."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EACCES",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EACCES: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "permission denied."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EADDRINUSE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EADDRINUSE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "address already in use."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EADDRNOTAVAIL",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EADDRNOTAVAIL: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "address not available."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAFNOSUPPORT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAFNOSUPPORT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "address family not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAGAIN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAGAIN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "resource temporarily unavailable."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_ADDRFAMILY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_ADDRFAMILY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "address family not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_AGAIN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_AGAIN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "temporary failure."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_BADFLAGS",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_BADFLAGS: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "bad ai_flags value."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_BADHINTS",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_BADHINTS: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "invalid value for hints."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_CANCELED",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_CANCELED: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "request canceled."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_FAIL",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_FAIL: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "permanent failure."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_FAMILY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_FAMILY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "ai_family not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_MEMORY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_MEMORY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "out of memory."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_NODATA",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_NODATA: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no address."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_NONAME",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_NONAME: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "unknown node or service."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_OVERFLOW",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_OVERFLOW: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "argument buffer overflow."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_PROTOCOL",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_PROTOCOL: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "resolved protocol is unknown."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_SERVICE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_SERVICE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "service not available for socket type."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EAI_SOCKTYPE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EAI_SOCKTYPE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "socket type not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EALREADY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EALREADY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "connection already in progress."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EBADF",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EBADF: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "bad file descriptor."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EBUSY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EBUSY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "resource busy or locked."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ECANCELED",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ECANCELED: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "operation canceled."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ECHARSET",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ECHARSET: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "invalid Unicode character."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ECONNABORTED",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ECONNABORTED: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "software caused connection abort."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ECONNREFUSED",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ECONNREFUSED: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "connection refused."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ECONNRESET",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ECONNRESET: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "connection reset by peer."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EDESTADDRREQ",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EDESTADDRREQ: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "destination address required."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EEXIST",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EEXIST: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "file already exists."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EFAULT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EFAULT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "bad address in system call argument."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EFBIG",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EFBIG: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "file too large."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EFTYPE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EFTYPE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "inappropriate file type or format."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EHOSTUNREACH",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EHOSTUNREACH: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "host is unreachable."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EILSEQ",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EILSEQ: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "illegal byte sequence."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EINTR",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EINTR: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "interrupted system call."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EINVAL",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EINVAL: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "invalid argument."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EIO",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EIO: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "i/o error."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EISCONN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EISCONN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "socket is already connected."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EISDIR",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EISDIR: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "illegal operation on a directory."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ELOOP",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ELOOP: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "too many symbolic links encountered."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EMFILE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EMFILE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "too many open files."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EMLINK",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EMLINK: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "too many links."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EMSGSIZE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EMSGSIZE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "message too long."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENAMETOOLONG",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENAMETOOLONG: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "name too long."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENETDOWN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENETDOWN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "network is down."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENETUNREACH",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENETUNREACH: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "network is unreachable."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENFILE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENFILE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "file table overflow."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOBUFS",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOBUFS: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no buffer space available."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENODEV",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENODEV: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no such device."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOENT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOENT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no such file or directory."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOMEM",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOMEM: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "not enough memory."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENONET",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENONET: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "machine is not on the network."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOPROTOOPT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOPROTOOPT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "protocol not available."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOSPC",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOSPC: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no space left on device."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOSYS",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOSYS: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "function not implemented."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTCONN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTCONN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "socket is not connected."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTDIR",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTDIR: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "not a directory."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTEMPTY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTEMPTY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "directory not empty."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTSOCK",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTSOCK: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "socket operation on non-socket."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTSUP",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTSUP: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "operation not supported on socket."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENOTTY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENOTTY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "inappropriate ioctl for device."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ENXIO",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ENXIO: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no such device or address."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EOF",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EOF: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "end of file."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EOVERFLOW",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EOVERFLOW: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "value too large for defined data type."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EPERM",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EPERM: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "operation not permitted."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EPIPE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EPIPE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "broken pipe."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EPROTO",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EPROTO: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "protocol error."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EPROTONOSUPPORT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EPROTONOSUPPORT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "protocol not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EPROTOTYPE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EPROTOTYPE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "protocol wrong type for socket."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ERANGE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ERANGE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "result too large."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EROFS",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EROFS: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "read-only file system."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ESHUTDOWN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ESHUTDOWN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "cannot send after transport endpoint shutdown."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ESOCKTNOSUPPORT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ESOCKTNOSUPPORT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "socket type not supported."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ESPIPE",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ESPIPE: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "invalid seek."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ESRCH",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ESRCH: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "no such process."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ETIMEDOUT",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ETIMEDOUT: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "connection timed out."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "ETXTBSY",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.ETXTBSY: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "text file is busy."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "EXDEV",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.EXDEV: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "cross-device link not permitted."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            },
+            {
+                "name": "UNKNOWN",
+                "documentation": [
+                    "```lua",
+                    "(field) uv.errno.UNKNOWN: integer",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "unknown error."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "builtin",
+                    "value": "integer"
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "uv.errno"
+    }
+}

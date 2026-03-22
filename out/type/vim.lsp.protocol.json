@@ -1,0 +1,2995 @@
+{
+    "name": "vim.lsp.protocol",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.protocol",
+        "```",
+        "",
+        "---",
+        "",
+        " Protocol for the Microsoft Language Server Protocol (mslsp)"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "CodeActionKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.CodeActionKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " A set of predefined code action kinds"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Empty",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.Empty: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "QuickFix",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.QuickFix: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Refactor",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.Refactor: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "RefactorExtract",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.RefactorExtract: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "RefactorInline",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.RefactorInline: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "RefactorRewrite",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.RefactorRewrite: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Source",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.Source: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "SourceOrganizeImports",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.SourceOrganizeImports: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "quickfix",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.quickfix: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "refactor",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.refactor: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "source",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionKind.source: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "CodeActionKind"
+                }
+            },
+            {
+                "name": "CodeActionTriggerKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.CodeActionTriggerKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " The reason why code actions were requested."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Automatic",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionTriggerKind.Automatic: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Invoked",
+                            "documentation": [
+                                "```lua",
+                                "(field) CodeActionTriggerKind.Invoked: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "CodeActionTriggerKind"
+                }
+            },
+            {
+                "name": "CompletionItemKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.CompletionItemKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " The kind of a completion entry."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Class",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Class: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Color",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Color: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Constant",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Constant: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Constructor",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Constructor: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Enum",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Enum: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "EnumMember",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.EnumMember: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Event",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Event: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Field",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Field: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "File",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.File: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Folder",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Folder: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Function",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Function: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Interface",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Interface: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Keyword",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Keyword: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Method",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Method: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Module",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Module: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Operator",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Operator: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Property",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Property: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Reference",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Reference: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Snippet",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Snippet: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Struct",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Struct: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Text",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Text: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "TypeParameter",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.TypeParameter: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Unit",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Unit: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Value",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Value: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Variable",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionItemKind.Variable: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "CompletionItemKind"
+                }
+            },
+            {
+                "name": "CompletionTag",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.CompletionTag: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Completion item tags are extra annotations that tweak the rendering of a",
+                    " completion item"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Deprecated",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionTag.Deprecated: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "CompletionTag"
+                }
+            },
+            {
+                "name": "CompletionTriggerKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.CompletionTriggerKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " How a completion was triggered"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Invoked",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionTriggerKind.Invoked: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "TriggerCharacter",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionTriggerKind.TriggerCharacter: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "TriggerForIncompleteCompletions",
+                            "documentation": [
+                                "```lua",
+                                "(field) CompletionTriggerKind.TriggerForIncompleteCompletions: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "CompletionTriggerKind"
+                }
+            },
+            {
+                "name": "DiagnosticSeverity",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.DiagnosticSeverity: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Error",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticSeverity.Error: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Hint",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticSeverity.Hint: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Information",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticSeverity.Information: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Warning",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticSeverity.Warning: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "DiagnosticSeverity"
+                }
+            },
+            {
+                "name": "DiagnosticTag",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.DiagnosticTag: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Deprecated",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticTag.Deprecated: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Unnecessary",
+                            "documentation": [
+                                "```lua",
+                                "(field) DiagnosticTag.Unnecessary: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "DiagnosticTag"
+                }
+            },
+            {
+                "name": "DocumentHighlightKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.DocumentHighlightKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " A document highlight kind."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Read",
+                            "documentation": [
+                                "```lua",
+                                "(field) DocumentHighlightKind.Read: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Text",
+                            "documentation": [
+                                "```lua",
+                                "(field) DocumentHighlightKind.Text: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Write",
+                            "documentation": [
+                                "```lua",
+                                "(field) DocumentHighlightKind.Write: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "DocumentHighlightKind"
+                }
+            },
+            {
+                "name": "ErrorCodes",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.ErrorCodes: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "ContentModified",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.ContentModified: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "InternalError",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.InternalError: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "InvalidParams",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.InvalidParams: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "InvalidRequest",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.InvalidRequest: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "MethodNotFound",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.MethodNotFound: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "ParseError",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.ParseError: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "RequestCancelled",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.RequestCancelled: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "RequestFailed",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.RequestFailed: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "ServerCancelled",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.ServerCancelled: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "ServerNotInitialized",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.ServerNotInitialized: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "UnknownErrorCode",
+                            "documentation": [
+                                "```lua",
+                                "(field) ErrorCodes.UnknownErrorCode: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "ErrorCodes"
+                }
+            },
+            {
+                "name": "FailureHandlingKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.FailureHandlingKind: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Abort",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.Abort: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "TextOnlyTransactional",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.TextOnlyTransactional: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Transactional",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.Transactional: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Undo",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.Undo: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "abort",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.abort: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "textOnlyTransactional",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.textOnlyTransactional: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "transactional",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.transactional: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "undo",
+                            "documentation": [
+                                "```lua",
+                                "(field) FailureHandlingKind.undo: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "FailureHandlingKind"
+                }
+            },
+            {
+                "name": "FileChangeType",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.FileChangeType: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " The file event type."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Changed",
+                            "documentation": [
+                                "```lua",
+                                "(field) FileChangeType.Changed: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Created",
+                            "documentation": [
+                                "```lua",
+                                "(field) FileChangeType.Created: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Deleted",
+                            "documentation": [
+                                "```lua",
+                                "(field) FileChangeType.Deleted: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "FileChangeType"
+                }
+            },
+            {
+                "name": "InitializeError",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.InitializeError: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Known error codes for an `InitializeError`;"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "unknownProtocolVersion",
+                            "documentation": [
+                                "```lua",
+                                "(field) InitializeError.unknownProtocolVersion: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "InitializeError"
+                }
+            },
+            {
+                "name": "InsertTextFormat",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.InsertTextFormat: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Defines whether the insert text in a completion item should be interpreted as",
+                    " plain text or a snippet."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "PlainText",
+                            "documentation": [
+                                "```lua",
+                                "(field) InsertTextFormat.PlainText: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Snippet",
+                            "documentation": [
+                                "```lua",
+                                "(field) InsertTextFormat.Snippet: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "InsertTextFormat"
+                }
+            },
+            {
+                "name": "MarkupKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.MarkupKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Describes the content type that a client supports in various",
+                    " result literals like `Hover`, `ParameterInfo` or `CompletionItem`.",
+                    "",
+                    " Please note that `MarkupKinds` must not start with a `$`. This kinds",
+                    " are reserved for internal usage."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Markdown",
+                            "documentation": [
+                                "```lua",
+                                "(field) MarkupKind.Markdown: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "PlainText",
+                            "documentation": [
+                                "```lua",
+                                "(field) MarkupKind.PlainText: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "markdown",
+                            "documentation": [
+                                "```lua",
+                                "(field) MarkupKind.markdown: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "plaintext",
+                            "documentation": [
+                                "```lua",
+                                "(field) MarkupKind.plaintext: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "MarkupKind"
+                }
+            },
+            {
+                "name": "MessageType",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.MessageType: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Debug",
+                            "documentation": [
+                                "```lua",
+                                "(field) MessageType.Debug: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Error",
+                            "documentation": [
+                                "```lua",
+                                "(field) MessageType.Error: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Info",
+                            "documentation": [
+                                "```lua",
+                                "(field) MessageType.Info: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Log",
+                            "documentation": [
+                                "```lua",
+                                "(field) MessageType.Log: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Warning",
+                            "documentation": [
+                                "```lua",
+                                "(field) MessageType.Warning: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "MessageType"
+                }
+            },
+            {
+                "name": "Methods",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.Methods: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " LSP method names.",
+                    "See: ~https~ ://microsoft.github.io/language-server-protocol/specification/#metaModel"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "callHierarchy_incomingCalls",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "callHierarchy_outgoingCalls",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "client_registerCapability",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "client_unregisterCapability",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "codeAction_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "codeLens_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "completionItem_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "documentLink_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "dollar_cancelRequest",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "dollar_logTrace",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "dollar_progress",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "dollar_setTrace",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "exit",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "initialize",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "initialized",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "inlayHint_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "notebookDocument_didChange",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "notebookDocument_didClose",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "notebookDocument_didOpen",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "notebookDocument_didSave",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "shutdown",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "telemetry_event",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_codeAction",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_codeLens",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_colorPresentation",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_completion",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_declaration",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_definition",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_diagnostic",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_didChange",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_didClose",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_didOpen",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_didSave",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_documentColor",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_documentHighlight",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_documentLink",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_documentSymbol",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_foldingRange",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_formatting",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_hover",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_implementation",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_inlayHint",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_inlineCompletion",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_inlineValue",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_linkedEditingRange",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_moniker",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_onTypeFormatting",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_prepareCallHierarchy",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_prepareRename",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_prepareTypeHierarchy",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_publishDiagnostics",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_rangeFormatting",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_rangesFormatting",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_references",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_rename",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_selectionRange",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_semanticTokens_full",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_semanticTokens_full_delta",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_semanticTokens_range",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_signatureHelp",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_typeDefinition",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_willSave",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "textDocument_willSaveWaitUntil",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "typeHierarchy_subtypes",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "typeHierarchy_supertypes",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_logMessage",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_showDocument",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_showMessage",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_showMessageRequest",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_workDoneProgress_cancel",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "window_workDoneProgress_create",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspaceSymbol_resolve",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_applyEdit",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_codeLens_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_configuration",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_diagnostic",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_diagnostic_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didChangeConfiguration",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didChangeWatchedFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didChangeWorkspaceFolders",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didCreateFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didDeleteFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_didRenameFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_executeCommand",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_foldingRange_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_inlayHint_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_inlineValue_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_semanticTokens_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_symbol",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_textDocumentContent",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_textDocumentContent_refresh",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_willCreateFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_willDeleteFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_willRenameFiles",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        },
+                        {
+                            "name": "workspace_workspaceFolders",
+                            "documentation": [],
+                            "meta": [],
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.protocol.Methods"
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "Methods"
+                }
+            },
+            {
+                "name": "ResourceOperationKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.ResourceOperationKind: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Create",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.Create: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Delete",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.Delete: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Rename",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.Rename: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "create",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.create: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "delete",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.delete: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "rename",
+                            "documentation": [
+                                "```lua",
+                                "(field) ResourceOperationKind.rename: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "ResourceOperationKind"
+                }
+            },
+            {
+                "name": "SymbolKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.SymbolKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " A symbol kind."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Array",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Array: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Boolean",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Boolean: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Class",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Class: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Constant",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Constant: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Constructor",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Constructor: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Enum",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Enum: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "EnumMember",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.EnumMember: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Event",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Event: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Field",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Field: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "File",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.File: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Function",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Function: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Interface",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Interface: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Key",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Key: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Method",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Method: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Module",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Module: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Namespace",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Namespace: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Null",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Null: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Number",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Number: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Object",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Object: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Operator",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Operator: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Package",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Package: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Property",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Property: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "String",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.String: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Struct",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Struct: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "TypeParameter",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.TypeParameter: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Variable",
+                            "documentation": [
+                                "```lua",
+                                "(field) SymbolKind.Variable: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "SymbolKind"
+                }
+            },
+            {
+                "name": "TextDocumentSaveReason",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.TextDocumentSaveReason: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Represents reasons why a text document is saved."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "AfterDelay",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSaveReason.AfterDelay: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "FocusOut",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSaveReason.FocusOut: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Manual",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSaveReason.Manual: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "TextDocumentSaveReason"
+                }
+            },
+            {
+                "name": "TextDocumentSyncKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.TextDocumentSyncKind: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Defines how the host (editor) should sync document changes to the language server."
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Full",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSyncKind.Full: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Incremental",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSyncKind.Incremental: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "None",
+                            "documentation": [
+                                "```lua",
+                                "(field) TextDocumentSyncKind.None: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "TextDocumentSyncKind"
+                }
+            },
+            {
+                "name": "WatchKind",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol.WatchKind: table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [
+                        {
+                            "name": "Change",
+                            "documentation": [
+                                "```lua",
+                                "(field) WatchKind.Change: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Create",
+                            "documentation": [
+                                "```lua",
+                                "(field) WatchKind.Create: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "Delete",
+                            "documentation": [
+                                "```lua",
+                                "(field) WatchKind.Delete: unknown",
+                                "```"
+                            ],
+                            "meta": [],
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        }
+                    ],
+                    "kind": "table",
+                    "name": "WatchKind"
+                }
+            },
+            {
+                "name": "_request_name_to_capability",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.protocol._request_name_to_capability: table",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " stylua: ignore start",
+                    " Generated by gen_lsp.lua, keep at end of file.",
+                    " Maps method names to the required server capability"
+                ],
+                "meta": [],
+                "type": {
+                    "fields": [],
+                    "kind": "table",
+                    "name": "_request_name_to_capability"
+                }
+            },
+            {
+                "name": "make_client_capabilities",
+                "documentation": [
+                    "```lua",
+                    "function vim.lsp.protocol.make_client_capabilities()",
+                    "  -\u003e lsp.ClientCapabilities",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Gets a new ClientCapabilities object describing the LSP client",
+                    " capabilities."
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [],
+                    "generics": [],
+                    "name": "make_client_capabilities",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.ClientCapabilities"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "resolve_capabilities",
+                "documentation": [
+                    "```lua",
+                    "function vim.lsp.protocol.resolve_capabilities(server_capabilities: table)",
+                    "  -\u003e lsp.ServerCapabilities|nil",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Creates a normalized object describing LSP server capabilities.",
+                    "",
+                    "@*param* `server_capabilities` — Table of capabilities supported by the server",
+                    "",
+                    "@*return* — : Normalized table of capabilities"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "server_capabilities",
+                            "optional": false,
+                            "type": {
+                                "kind": "builtin",
+                                "value": "table"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "resolve_capabilities",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "typereference",
+                                        "value": "lsp.ServerCapabilities"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.protocol"
+    }
+}

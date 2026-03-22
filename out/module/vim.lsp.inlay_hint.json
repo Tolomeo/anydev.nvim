@@ -1,0 +1,282 @@
+{
+    "name": "vim.lsp.inlay_hint",
+    "documentation": [],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "enable",
+                "documentation": [
+                    "```lua",
+                    "function M.enable(enable: boolean|nil, filter?: vim.lsp.inlay_hint.enable.Filter)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Enables or disables inlay hints for the {filter}ed scope.",
+                    "",
+                    " To \"toggle\", pass the inverse of `is_enabled()`:",
+                    "",
+                    " ```lua",
+                    " vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())",
+                    " ```",
+                    "",
+                    "@*param* `enable` — true/nil to enable, false to disable",
+                    "",
+                    " @since 12"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "enable",
+                            "optional": false,
+                            "type": {
+                                "kind": "union",
+                                "types": [
+                                    {
+                                        "kind": "builtin",
+                                        "value": "boolean"
+                                    },
+                                    {
+                                        "kind": "builtin",
+                                        "value": "nil"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "filter",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.inlay_hint.enable.Filter"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "enable",
+                    "returns": []
+                }
+            },
+            {
+                "name": "get",
+                "documentation": [
+                    "```lua",
+                    "function M.get(filter?: vim.lsp.inlay_hint.get.Filter)",
+                    "  -\u003e vim.lsp.inlay_hint.get.ret[]",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Get the list of inlay hints, (optionally) restricted by buffer or range.",
+                    "",
+                    " Example usage:",
+                    "",
+                    " ```lua",
+                    " local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })[1] -- 0 for current buffer",
+                    "",
+                    " local client = vim.lsp.get_client_by_id(hint.client_id)",
+                    " local resp = client:request_sync('inlayHint/resolve', hint.inlay_hint, 100, 0)",
+                    " local resolved_hint = assert(resp and resp.result, resp.err)",
+                    " vim.lsp.util.apply_text_edits(resolved_hint.textEdits, 0, client.encoding)",
+                    "",
+                    " location = resolved_hint.label[1].location",
+                    " client:request('textDocument/hover', {",
+                    "   textDocument = { uri = location.uri },",
+                    "   position = location.range.start,",
+                    " })",
+                    " ```",
+                    "",
+                    " @since 12"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filter",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.inlay_hint.get.Filter"
+                                }
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "get",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "array",
+                                "items": {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.inlay_hint.get.ret"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "is_enabled",
+                "documentation": [
+                    "```lua",
+                    "function M.is_enabled(filter?: vim.lsp.inlay_hint.enable.Filter)",
+                    "  -\u003e boolean",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " Query whether inlay hint is enabled in the {filter}ed scope",
+                    " @since 12"
+                ],
+                "meta": [
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "filter",
+                            "optional": true,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "vim.lsp.inlay_hint.enable.Filter"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "is_enabled",
+                    "returns": [
+                        {
+                            "name": "",
+                            "type": {
+                                "kind": "builtin",
+                                "value": "boolean"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "on_inlayhint",
+                "documentation": [
+                    "```lua",
+                    "function M.on_inlayhint(err: any, result?: lsp.InlayHint[], ctx: lsp.HandlerContext)",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " |lsp-handler| for the method `textDocument/inlayHint`",
+                    " Store hints for a specific buffer and client"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "err",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "result",
+                            "optional": false,
+                            "type": {
+                                "kind": "optional",
+                                "type": {
+                                    "kind": "array",
+                                    "items": {
+                                        "kind": "typereference",
+                                        "value": "lsp.InlayHint"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "ctx",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.HandlerContext"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_inlayhint",
+                    "returns": []
+                }
+            },
+            {
+                "name": "on_refresh",
+                "documentation": [
+                    "```lua",
+                    "function M.on_refresh(err: any, _: any, ctx: lsp.HandlerContext)",
+                    "  -\u003e vim.NIL",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    " |lsp-handler| for the method `workspace/inlayHint/refresh`"
+                ],
+                "meta": [
+                    "private",
+                    "static"
+                ],
+                "type": {
+                    "kind": "function",
+                    "arguments": [
+                        {
+                            "name": "err",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "_",
+                            "optional": false,
+                            "type": {
+                                "kind": "unknown",
+                                "documentation": []
+                            }
+                        },
+                        {
+                            "name": "ctx",
+                            "optional": false,
+                            "type": {
+                                "kind": "typereference",
+                                "value": "lsp.HandlerContext"
+                            }
+                        }
+                    ],
+                    "generics": [],
+                    "name": "on_refresh",
+                    "returns": []
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "M"
+    }
+}

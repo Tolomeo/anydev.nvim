@@ -1,0 +1,85 @@
+{
+    "name": "vim.lsp.completion.BufferOpts",
+    "documentation": [
+        "```lua",
+        "(class) vim.lsp.completion.BufferOpts",
+        "```",
+        "",
+        "---",
+        "",
+        " @inlinedoc"
+    ],
+    "meta": [],
+    "type": {
+        "fields": [
+            {
+                "name": "autotrigger",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.completion.BufferOpts.autotrigger: boolean?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "(default: false) When true, completion triggers automatically based on the server's `triggerCharacters`."
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "builtin",
+                        "value": "boolean"
+                    }
+                }
+            },
+            {
+                "name": "convert",
+                "documentation": [
+                    "```lua",
+                    "(field) vim.lsp.completion.BufferOpts.convert: (fun(item: lsp.CompletionItem):table)?",
+                    "```",
+                    "",
+                    "---",
+                    "",
+                    "Transforms an LSP CompletionItem to |complete-items|.",
+                    "",
+                    "---",
+                    "",
+                    "```lua",
+                    "function (item: lsp.CompletionItem)",
+                    "  -\u003e table",
+                    "```"
+                ],
+                "meta": [],
+                "type": {
+                    "kind": "optional",
+                    "type": {
+                        "kind": "function",
+                        "arguments": [
+                            {
+                                "name": "item",
+                                "optional": false,
+                                "type": {
+                                    "kind": "typereference",
+                                    "value": "lsp.CompletionItem"
+                                }
+                            }
+                        ],
+                        "generics": [],
+                        "returns": [
+                            {
+                                "name": "",
+                                "type": {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "kind": "table",
+        "name": "vim.lsp.completion.BufferOpts"
+    }
+}
