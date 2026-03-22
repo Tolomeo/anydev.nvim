@@ -28,7 +28,7 @@ rebuild:
 
 .PHONY=run
 run:build
-	docker run -it --rm -v $(OUT_DIR):$(CONTAINER_OUT_DIR) -v $(TMP_DIR):$(CONTAINER_TMP_DIR) $(IMAGE_NAME) -debug -tmp-dir $(TMP) -out-dir $(OUT) vim.F
+	docker run -it --rm -v $(OUT_DIR):$(CONTAINER_OUT_DIR) -v $(TMP_DIR):$(CONTAINER_TMP_DIR) $(IMAGE_NAME) -debug -tmp-dir $(TMP) -out-dir $(OUT) vim
 
 .PHONY=rerun
 rerun:
