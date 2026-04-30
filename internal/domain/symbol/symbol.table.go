@@ -4,7 +4,7 @@ const TableKind string = "table"
 
 type Table struct {
 	Fields  []TableField `json:"fields" yaml:"fields" mapstructure:"fields"`
-	Indexes []TableIndex `json:"indexes,omitempty" yaml:"indexes,omitempty" mapstructure:"indexes,omitempty"`
+	Indexes []TableIndex `json:"indexes" yaml:"indexes" mapstructure:"indexes"`
 	Kind    string       `json:"kind" yaml:"kind" mapstructure:"kind"`
 	Name    string       `json:"name" yaml:"name" mapstructure:"name"`
 }

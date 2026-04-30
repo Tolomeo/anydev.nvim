@@ -6,8 +6,8 @@ type Function struct {
 	Kind      string             `json:"kind" yaml:"kind" mapstructure:"kind"`
 	Arguments []FunctionArgument `json:"arguments" yaml:"arguments" mapstructure:"arguments"`
 	Generics  []FunctionGeneric  `json:"generics" yaml:"generics" mapstructure:"generics"`
-	Name      string             `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
-	Overloads []FunctionOverload `json:"overloads,omitempty" yaml:"overloads,omitempty" mapstructure:"overloads,omitempty"`
+	Name      string             `json:"name" yaml:"name" mapstructure:"name"`
+	Overloads []FunctionOverload `json:"overloads" yaml:"overloads" mapstructure:"overloads"`
 	Returns   []FunctionReturn   `json:"returns" yaml:"returns" mapstructure:"returns"`
 }
 
@@ -22,7 +22,7 @@ func (f *Function) GetKind() string {
 var _ Type = (*Function)(nil)
 
 type FunctionArgument struct {
-	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 	Name          string        `json:"name" yaml:"name" mapstructure:"name"`
 	Optional      bool          `json:"optional" yaml:"optional" mapstructure:"optional"`
 	Type          Type          `json:"type" yaml:"type" mapstructure:"type"`
@@ -45,7 +45,7 @@ type FunctionOverload struct {
 }
 
 type FunctionReturn struct {
-	Documentation Documentation `json:"documentation,omitempty" yaml:"documentation,omitempty" mapstructure:"documentation,omitempty"`
+	Documentation Documentation `json:"documentation" yaml:"documentation" mapstructure:"documentation"`
 	Name          string        `json:"name" yaml:"name" mapstructure:"name"`
 	Type          Type          `json:"type" yaml:"type" mapstructure:"type"`
 }
