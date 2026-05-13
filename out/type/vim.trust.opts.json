@@ -23,7 +23,9 @@
                     " - `'deny'` to add a file to the trust database and deny it,",
                     " - `'remove'` to remove file from the trust database"
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "union",
                     "types": [
@@ -53,7 +55,9 @@
                     "",
                     " Buffer number to update. Mutually exclusive with {path}."
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -75,7 +79,9 @@
                     " Path to a file to update. Mutually exclusive with {bufnr}.",
                     " Cannot be used when {action} is \"allow\"."
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "optional",
                     "type": {

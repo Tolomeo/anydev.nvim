@@ -32,7 +32,9 @@
                     "- `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)",
                     "- `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)"
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "builtin",
                     "value": "string"
@@ -69,7 +71,9 @@
                     "    | \"folder\" -- folder",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -95,7 +99,9 @@
                     "",
                     "Additional options used during matching."
                 ],
-                "meta": [],
+                "meta": [
+                    "static"
+                ],
                 "type": {
                     "kind": "optional",
                     "type": {
