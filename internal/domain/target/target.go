@@ -29,6 +29,10 @@ func (t *Target) Kind() TargetKind {
 	return t.kind
 }
 
+func (t *Target) IsChild() bool {
+	return t.parent != nil
+}
+
 func (t *Target) ParentName() string {
 	if t.parent == nil {
 		return ""

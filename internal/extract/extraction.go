@@ -145,15 +145,15 @@ func (t *extraction) target() *target.Target {
 func (t *extraction) getOriginChain() (extractionStep, error) {
 	t.logger.Info("Crawling symbol origin")
 
-	symbolOrigin, err := t.crawler.GetOriginChain()
+	symbolOriginChain, err := t.crawler.GetOriginChain()
 
 	if err != nil {
 		return nil, err
 	}
 
-	t.logger.Infof("Crawling symbol origin yielded <%T>", symbolOrigin.Last())
+	t.logger.Infof("Crawling symbol origin yielded <%T>", symbolOriginChain.Last())
 
-	t.target().SetOriginChain(symbolOrigin)
+	t.target().SetOriginChain(symbolOriginChain)
 
 	return t.getDocumentation, nil
 }
