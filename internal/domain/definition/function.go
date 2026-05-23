@@ -269,7 +269,7 @@ func NewFunction(match nvim.TsQueryMatch) *Function {
 			function.root = capture.Node
 		case "name":
 			function.name = capture.Node
-		case "access.class":
+		case "access.instance":
 			function.method = &capture.Node
 		case "arg":
 			switch capture.Node.Text {
