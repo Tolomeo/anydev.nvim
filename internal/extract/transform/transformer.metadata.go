@@ -8,7 +8,6 @@ import (
 
 func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata, error) {
 	meta := symbol.NewMetadata()
-	meta.SetStatic(tr.context.Target().IsChild())
 
 	switch symbolOriginType := symbolOrigin.(type) {
 	case *origin.AliasOrigin:

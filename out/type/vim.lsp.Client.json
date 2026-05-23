@@ -15,9 +15,7 @@
                     "(field) vim.lsp.Client._is_stopping: boolean = false",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "boolean"
@@ -30,9 +28,7 @@
                     "(field) vim.lsp.Client.attached_buffers: table\u003cinteger, true\u003e",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -67,9 +63,7 @@
                     "",
                     " Capabilities provided by the client (editor or tool), at startup."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.ClientCapabilities"
@@ -87,9 +81,7 @@
                     "",
                     " Client commands. See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -143,9 +135,7 @@
                     "",
                     " Copy of the config passed to |vim.lsp.start()|."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.ClientConfig"
@@ -209,9 +199,7 @@
                     "",
                     " Capabilities provided at runtime (after startup)."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.DynamicCapabilities"
@@ -229,9 +217,7 @@
                     "",
                     " A table with flags for the client. The current (experimental) flags are:"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.Client.Flags"
@@ -256,9 +242,7 @@
                     "  -\u003e string",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -308,9 +292,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -341,9 +323,7 @@
                     "",
                     " The id allocated to the client."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "integer"
@@ -356,9 +336,7 @@
                     "(field) vim.lsp.Client.initialized: true?",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -375,8 +353,7 @@
                     "```"
                 ],
                 "meta": [
-                    "deprecated",
-                    "static"
+                    "deprecated"
                 ],
                 "type": {
                     "kind": "builtin",
@@ -395,9 +372,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "string"
@@ -415,9 +390,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "string"
@@ -436,9 +409,7 @@
                     " A ring buffer (|vim.ringbuf()|) containing progress messages",
                     " sent by the server."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.Client.Progress"
@@ -461,9 +432,7 @@
                     " \"complete\" ephemerally while executing |LspRequest| autocmds when replies",
                     " are received from the server."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -527,9 +496,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -555,9 +522,7 @@
                     " RPC client object, for low level interaction with the client.",
                     " See |vim.lsp.rpc.start()|."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.rpc.PublicClient"
@@ -580,9 +545,7 @@
                     "",
                     " Response from the server sent on `initialize` describing the server's capabilities."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -608,9 +571,7 @@
                     "",
                     " Response from the server sent on `initialize` describing server information (e.g. version)."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -635,9 +596,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.LSPObject"
@@ -655,9 +614,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
