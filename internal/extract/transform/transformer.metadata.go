@@ -26,7 +26,7 @@ func (tr *Transformer) getMetadata(symbolOrigin origin.Origin) (*symbol.Metadata
 		return meta, nil
 
 	case *origin.FunctionOrigin:
-		meta.SetStatic(symbolOriginType.Static())
+		meta.SetMethod(symbolOriginType.Method())
 
 	case *origin.FunctionCallOrigin:
 		switch symbolOriginType.FunctionName() {
