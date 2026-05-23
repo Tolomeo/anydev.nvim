@@ -22,8 +22,8 @@ func (fo *FunctionOrigin) Name() string {
 	return fo.node.Name().Text
 }
 
-func (fo *FunctionOrigin) Static() bool {
-	return fo.node.Static() != nil
+func (fo *FunctionOrigin) Method() bool {
+	return fo.node.Method() != nil
 }
 
 func (fo *FunctionOrigin) Args() []string {

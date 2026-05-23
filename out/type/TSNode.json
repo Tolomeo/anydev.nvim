@@ -20,7 +20,9 @@
                     "",
                     " Check if the node has any of the given node types as its ancestor."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -64,7 +66,9 @@
                     "",
                     " Return the number of bytes spanned by this node."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -96,7 +100,9 @@
                     " Get the node's child at the given {index}, where zero represents the first",
                     " child."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -140,7 +146,9 @@
                     "",
                     " Get the node's number of children."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -181,7 +189,9 @@
                     " a:child_with_descendant(a) == nil",
                     " ```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -226,7 +236,9 @@
                     " Get the smallest node within this node that spans the given range of (row,",
                     " column) positions"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -300,7 +312,9 @@
                     " Get the node's end position. Return three values: the row, column and",
                     " total byte count (all zero-based)."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -331,7 +345,9 @@
                     "",
                     " Check if {node} refers to the same node within the same tree."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -373,7 +389,9 @@
                     " Check if the node is extra. Extra nodes represent things like comments,",
                     " which are not required by the grammar but can appear anywhere."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -404,7 +422,9 @@
                     "",
                     " Returns a list of all the node's children that have the given field name."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -448,7 +468,9 @@
                     "",
                     " Check if a syntax node has been edited."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -479,7 +501,9 @@
                     "",
                     " Check if the node is a syntax error or contains any syntax errors."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -517,7 +541,9 @@
                     " Note: The `id` is not guaranteed to be unique for nodes from different",
                     " trees."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -551,7 +577,9 @@
                     " Returns the child node plus the eventual field name corresponding to this",
                     " child node."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -604,7 +632,9 @@
                     " Check if the node is missing. Missing nodes are inserted by the parser in",
                     " order to recover from certain kinds of syntax errors."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -637,7 +667,9 @@
                     " grammar, whereas anonymous nodes correspond to string literals in the",
                     " grammar."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -669,7 +701,9 @@
                     " Get the node's named child at the given {index}, where zero represents the",
                     " first named child."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -713,7 +747,9 @@
                     "",
                     " Get the node's number of named children."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -744,7 +780,9 @@
                     "",
                     " Returns a list of the node's named children."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -779,7 +817,9 @@
                     " Get the smallest named node within this node that spans the given range of",
                     " (row, column) positions"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -850,7 +890,9 @@
                     "",
                     " Get the node's next named sibling."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -884,7 +926,9 @@
                     "",
                     " Get the node's next sibling."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -920,7 +964,9 @@
                     " Prefer |TSNode:child_with_descendant()|",
                     " for iterating over the node's ancestors."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -954,7 +1000,9 @@
                     "",
                     " Get the node's previous named sibling."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -988,7 +1036,9 @@
                     "",
                     " Get the node's previous sibling."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1053,7 +1103,9 @@
                     "  6. integer",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1163,7 +1215,9 @@
                     "",
                     " Get an S-expression representing the node as a string."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1197,7 +1251,9 @@
                     " Get the node's start position. Return three values: the row, column and",
                     " total byte count (all zero-based)."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1228,7 +1284,9 @@
                     "",
                     " Get the node's type as a numerical id."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1259,7 +1317,9 @@
                     "",
                     " Get the |TSTree| of the node."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1290,7 +1350,9 @@
                     "",
                     " Get the node's type as a string."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],

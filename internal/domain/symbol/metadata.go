@@ -11,7 +11,7 @@ type Metadata struct {
 	protected  bool
 	package_   bool
 	deprecated bool
-	static     bool
+	method     bool
 }
 
 func (m Metadata) MarshalJSON() ([]byte, error) {
@@ -85,12 +85,12 @@ func (s *Metadata) SetProtected(v bool) {
 	s.private = !v
 }
 
-func (m *Metadata) GetStatic() bool {
-	return m.static
+func (m *Metadata) GetMethod() bool {
+	return m.method
 }
 
-func (m *Metadata) SetStatic(static bool) {
-	m.static = static
+func (m *Metadata) SetMethod(method bool) {
+	m.method = method
 }
 
 func NewMetadata() *Metadata {

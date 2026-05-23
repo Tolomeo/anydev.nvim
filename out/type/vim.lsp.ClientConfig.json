@@ -28,9 +28,7 @@
                     "function (params: lsp.InitializeParams, config: vim.lsp.ClientConfig)",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -81,9 +79,7 @@
                     " - Note: To send an empty dictionary use |vim.empty_dict()|, else it will be encoded as an",
                     "   array."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -116,9 +112,7 @@
                     "  -\u003e vim.lsp.rpc.PublicClient",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "union",
                     "types": [
@@ -181,9 +175,7 @@
                     " Directory to launch the `cmd` process. Not related to `root_dir`.",
                     " (default: cwd)"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -209,9 +201,7 @@
                     " { PORT = 8080; HOST = '0.0.0.0'; }",
                     " ```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -235,9 +225,7 @@
                     " the value is a function which is called if any LSP action (code action, code lenses, …) triggers",
                     " the command."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -297,9 +285,7 @@
                     " behind orphaned server processes.",
                     " (default: `true`)"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -320,9 +306,7 @@
                     "",
                     " A table with flags for the client. The current (experimental) flags are:"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -350,9 +334,7 @@
                     "  -\u003e string",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -405,9 +387,7 @@
                     "",
                     " Map of LSP method names to |lsp-handler|s."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -446,9 +426,7 @@
                     " Values to pass in the initialization request as `initializationOptions`. See `initialize` in",
                     " the LSP spec."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -470,9 +448,7 @@
                     " Name in logs and user messages.",
                     " (default: client-id)"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -494,9 +470,7 @@
                     " Called \"position encoding\" in LSP spec. The encoding that the LSP server expects, used for",
                     " communication. Not validated. Can be modified in `on_init` before text is sent to the server."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -536,9 +510,7 @@
                     "function (client: vim.lsp.Client, bufnr: integer)",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -567,9 +539,7 @@
                     "function (code: integer, err: string)",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -621,9 +591,7 @@
                     "function (code: integer, signal: integer, client_id: integer)",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -653,9 +621,7 @@
                     "function (client: vim.lsp.Client, init_result: lsp.InitializeResult)",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -676,9 +642,7 @@
                     "",
                     " Directory where the LSP server will base its workspaceFolders, rootUri, and rootPath on initialization."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -704,9 +668,7 @@
                     " Map of language server-specific settings, decided by the client. Sent to the LS if requested via",
                     " `workspace/configuration`. Keys are case-sensitive."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -728,9 +690,7 @@
                     " Passed directly to the language server in the initialize request. Invalid/empty values will",
                     " (default: \"off\")"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -766,9 +726,7 @@
                     " rootPath are derived from the first workspace folder in this list. Can be `null` if the client",
                     " supports workspace folders but none are configured. See `workspaceFolders` in LSP spec."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -795,9 +753,7 @@
                     " language server, even if the server doesn't require a workspace.",
                     " (default: `false`)"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {

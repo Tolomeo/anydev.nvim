@@ -15,9 +15,7 @@
                     "(field) vim.treesitter.highlighter._conceal_checked: table\u003cinteger, boolean\u003e",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -43,9 +41,7 @@
                     "(field) vim.treesitter.highlighter._conceal_line: boolean?",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -61,9 +57,7 @@
                     "(field) vim.treesitter.highlighter.active: table\u003cinteger, vim.treesitter.highlighter\u003e",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -89,9 +83,7 @@
                     "(field) vim.treesitter.highlighter.bufnr: integer",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "integer"
@@ -118,9 +110,7 @@
                     "",
                     "@*return* `Created` — highlighter object"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -178,9 +168,7 @@
                     "",
                     " A map from window ID to whether we are currently parsing that window asynchronously"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -206,9 +194,7 @@
                     "(field) vim.treesitter.highlighter.tree: vim.treesitter.LanguageTree",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.treesitter.LanguageTree"
@@ -226,7 +212,9 @@
                     " @nodoc",
                     " Removes all internal references to the highlighter"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -250,7 +238,9 @@
                     "",
                     "@*param* `lang` — Language used by the highlighter."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [

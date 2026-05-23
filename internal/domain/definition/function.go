@@ -238,7 +238,7 @@ var FunctionFieldMethodDeclarationQuery = treesitter.Query{
 type Function struct {
 	root   treesitter.TsNode
 	name   treesitter.TsNode
-	static *treesitter.TsNode
+	method *treesitter.TsNode
 	args   []treesitter.TsNode
 }
 
@@ -250,8 +250,8 @@ func (f *Function) Name() treesitter.TsNode {
 	return f.name
 }
 
-func (f *Function) Static() *treesitter.TsNode {
-	return f.static
+func (f *Function) Method() *treesitter.TsNode {
+	return f.method
 }
 
 func (f *Function) Args() []treesitter.TsNode {
@@ -269,12 +269,12 @@ func NewFunction(match nvim.TsQueryMatch) *Function {
 			function.root = capture.Node
 		case "name":
 			function.name = capture.Node
-		case "access.class":
-			function.static = &capture.Node
+		case "access.instance":
+			function.method = &capture.Node
 		case "arg":
 			switch capture.Node.Text {
 			case "self":
-				function.static = &capture.Node
+				function.method = &capture.Node
 			default:
 				function.args = append(function.args, capture.Node)
 			}

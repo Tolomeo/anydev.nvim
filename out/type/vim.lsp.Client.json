@@ -15,9 +15,7 @@
                     "(field) vim.lsp.Client._is_stopping: boolean = false",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "boolean"
@@ -30,9 +28,7 @@
                     "(field) vim.lsp.Client.attached_buffers: table\u003cinteger, true\u003e",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -67,9 +63,7 @@
                     "",
                     " Capabilities provided by the client (editor or tool), at startup."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.ClientCapabilities"
@@ -87,9 +81,7 @@
                     "",
                     " Client commands. See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -143,9 +135,7 @@
                     "",
                     " Copy of the config passed to |vim.lsp.start()|."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.ClientConfig"
@@ -163,9 +153,7 @@
                     "",
                     " @nodoc"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -209,9 +197,7 @@
                     "",
                     " Capabilities provided at runtime (after startup)."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.DynamicCapabilities"
@@ -229,9 +215,7 @@
                     "",
                     " A table with flags for the client. The current (experimental) flags are:"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.Client.Flags"
@@ -256,9 +240,7 @@
                     "  -\u003e string",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -308,9 +290,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -341,9 +321,7 @@
                     "",
                     " The id allocated to the client."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "integer"
@@ -356,9 +334,7 @@
                     "(field) vim.lsp.Client.initialized: true?",
                     "```"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -375,8 +351,7 @@
                     "```"
                 ],
                 "meta": [
-                    "deprecated",
-                    "static"
+                    "deprecated"
                 ],
                 "type": {
                     "kind": "builtin",
@@ -395,9 +370,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "string"
@@ -415,9 +388,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "builtin",
                     "value": "string"
@@ -436,9 +407,7 @@
                     " A ring buffer (|vim.ringbuf()|) containing progress messages",
                     " sent by the server."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.Client.Progress"
@@ -461,9 +430,7 @@
                     " \"complete\" ephemerally while executing |LspRequest| autocmds when replies",
                     " are received from the server."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "fields": [],
                     "indexes": [
@@ -527,9 +494,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -555,9 +520,7 @@
                     " RPC client object, for low level interaction with the client.",
                     " See |vim.lsp.rpc.start()|."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "vim.lsp.rpc.PublicClient"
@@ -580,9 +543,7 @@
                     "",
                     " Response from the server sent on `initialize` describing the server's capabilities."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -608,9 +569,7 @@
                     "",
                     " Response from the server sent on `initialize` describing server information (e.g. version)."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -635,9 +594,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "typereference",
                     "value": "lsp.LSPObject"
@@ -655,9 +612,7 @@
                     "",
                     " See [vim.lsp.ClientConfig]."
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "optional",
                     "type": {
@@ -680,7 +635,9 @@
                     "",
                     " Add a directory to the workspace folders."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -711,7 +668,9 @@
                     "  -\u003e (lsp.Registration)?",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -764,7 +723,9 @@
                     "",
                     " Get options for a method that is registered dynamically."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -812,7 +773,9 @@
                     "(method) vim.lsp.Client:_register(registrations: lsp.Registration[])",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -846,7 +809,9 @@
                     "",
                     " Remove a directory to the workspace folders."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -881,7 +846,9 @@
                     "",
                     " Get options for a method that is registered dynamically."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -914,7 +881,9 @@
                     "",
                     "@*param* `bufnr` — Number of the buffer, or 0 for current"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -941,7 +910,9 @@
                     "(method) vim.lsp.Client:_unregister(unregistrations: lsp.Unregistration[])",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -982,7 +953,9 @@
                     "",
                     " @see |Client:notify()|"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1025,7 +998,9 @@
                     "",
                     "@*param* `handler` — only called if a server command"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1089,7 +1064,9 @@
                     "",
                     " @nodoc"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1115,7 +1092,9 @@
                     "",
                     " stopped; false otherwise"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1154,7 +1133,9 @@
                     "",
                     "                        If it is false, then the client has shutdown."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1209,7 +1190,9 @@
                     "",
                     "@*param* `bufnr` — Buffer number"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1263,7 +1246,9 @@
                     " to cancel the-request.",
                     " @see |vim.lsp.buf_request_all()|"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1364,7 +1349,9 @@
                     "                 string describing the failure reason.",
                     " @see |vim.lsp.buf_request_sync()|"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1476,7 +1463,9 @@
                     " you request to stop a client which has previously been requested to",
                     " shutdown, it will automatically escalate and force shutdown."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1511,7 +1500,9 @@
                     "",
                     " Note: Some language server capabilities can be file specific."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [

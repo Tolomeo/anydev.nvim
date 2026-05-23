@@ -29,9 +29,7 @@
                     "",
                     "@*return* `parser` — object"
                 ],
-                "meta": [
-                    "static"
-                ],
+                "meta": [],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -97,7 +95,9 @@
                     "(method) vim.treesitter.LanguageTree:_on_bytes(bufnr: integer, changed_tick: integer, start_row: integer, start_col: integer, start_byte: integer, old_row: integer, old_col: integer, old_byte: integer, new_row: integer, new_col: integer, new_byte: integer)",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -214,7 +214,9 @@
                     "(method) vim.treesitter.LanguageTree:_on_detach(...any)",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -241,7 +243,9 @@
                     "(method) vim.treesitter.LanguageTree:_on_reload()",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -258,7 +262,9 @@
                     "(method) vim.treesitter.LanguageTree:_subtract_time(thread_state: { timeout: integer? }, time: integer)",
                     "```"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -299,7 +305,9 @@
                     "",
                     " Returns a map of language to child tree."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -343,7 +351,9 @@
                     "",
                     " Determines whether {range} is contained in the |LanguageTree|."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -388,7 +398,9 @@
                     " Note: This DOES NOT remove this tree from a parent. Instead,",
                     " `remove_child` must be called on the parent to remove it."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -411,7 +423,9 @@
                     "",
                     " Note: This includes the invoking tree's child trees as well."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -470,7 +484,9 @@
                     "Each list represents a range in the form of",
                     "{ {start_row}, {start_col}, {start_bytes}, {end_row}, {end_col}, {end_bytes} }."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -519,7 +535,9 @@
                     " Should only be called when the tracked state of the LanguageTree is not valid against the parse",
                     " tree in treesitter. Doesn't clear filesystem cache. Called often, so needs to be fast."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -565,7 +583,9 @@
                     "",
                     "@*param* `range` — range to check for validity"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -621,7 +641,9 @@
                     "",
                     " Gets the language of this tree node."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -654,7 +676,9 @@
                     "",
                     "@*return* `tree` — Managing {range}"
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -695,7 +719,9 @@
                     "",
                     " Gets the smallest named node that contains {range}."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -748,7 +774,9 @@
                     "",
                     " Gets the smallest node that contains {range}."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -801,7 +829,9 @@
                     "",
                     "Returns the parent tree. `nil` for the root tree."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -857,7 +887,9 @@
                     "     If parsing was still able to finish synchronously (within 3ms), `parse()` returns the list",
                     "     of trees. Otherwise, it returns `nil`."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -989,7 +1021,9 @@
                     "",
                     "                           also inherit the callbacks."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1043,7 +1077,9 @@
                     "",
                     " Returns the source content of the language tree (bufnr or string)."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
@@ -1083,7 +1119,9 @@
                     "",
                     " Gets the tree that contains {range}."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [
@@ -1140,7 +1178,9 @@
                     " * this LanguageTree is the root, in which case the result is empty or a singleton list; or",
                     " * the root LanguageTree is fully parsed."
                 ],
-                "meta": [],
+                "meta": [
+                    "method"
+                ],
                 "type": {
                     "kind": "function",
                     "arguments": [],
