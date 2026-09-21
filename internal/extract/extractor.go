@@ -33,6 +33,7 @@ func (o Options) validate() error {
 type extractor struct {
 	options     Options
 	extractions []*extraction
+	manifest    []string
 	exporter    *export.Exporter
 	nvim        *nvim.Nvim
 	logger      *log.Logger
@@ -66,6 +67,7 @@ func (e *extractor) extract(item *extraction) error {
 
 func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
+	e.record(name)
 
 	// e.logger.Debugf("%+v", e.result)
 
@@ -176,6 +178,10 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	return childExtraction
 }
 
+func (e *extractor) record(name string) {
+	e.manifest = append(e.manifest, name)
+}
+
 func (e *extractor) initLogger(_ Options) error {
 	e.logger = log.NewLogger("", e.options.LogLevel)
 	return nil
@@ -222,34 +228,38 @@ func (e *extractor) Destroy() error {
 		return err
 	}
 
+	e.exporter.ExportTxt("", "manifest", e.manifest)
+	e.manifest = []string{}
+
 	return nil
 }
 
 func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
-	xtractor := &extractor{
+	newExtractor := &extractor{
 		options:     options,
 		extractions: []*extraction{},
+		manifest:    []string{},
 	}
 
-	err := xtractor.initLogger(options)
+	err := newExtractor.initLogger(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	err = xtractor.initNvim(options)
+	err = newExtractor.initNvim(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	err = xtractor.initExporter(options)
+	err = newExtractor.initExporter(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return xtractor, nil
+	return newExtractor, nil
 }

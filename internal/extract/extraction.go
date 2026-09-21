@@ -51,6 +51,7 @@ func (c *extractionContext) Extract(kind target.TargetKind, name string) error {
 
 func (c *extractionContext) ExtractChild(parent *symbol.Table, name string) error {
 	c.extraction.logger.Infof("Beginning the extraction of '%s' %s child target", name, c.extraction.target().Kind())
+	c.extraction.extractor.record(name)
 
 	childExtraction := c.extraction.extractor.newChildExtraction(c.extraction.target(), name)
 	err := c.extraction.extractor.extract(childExtraction)
