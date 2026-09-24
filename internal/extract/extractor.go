@@ -11,6 +11,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/set"
 )
 
 type Override struct {
@@ -33,7 +34,7 @@ func (o Options) validate() error {
 type extractor struct {
 	options     Options
 	extractions []*extraction
-	manifest    []string
+	manifest    set.Set[string]
 	exporter    *export.Exporter
 	nvim        *nvim.Nvim
 	logger      *log.Logger
@@ -67,7 +68,6 @@ func (e *extractor) extract(item *extraction) error {
 
 func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	e.logger.Infof("Beginning the extraction of '%s' %s target", name, kind)
-	e.record(name)
 
 	// e.logger.Debugf("%+v", e.result)
 
@@ -95,6 +95,9 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	}
 
 	extraction := e.newExtraction(kind, name)
+
+	e.record(extraction.target().Identifier())
+
 	err := e.extract(extraction)
 
 	if err != nil {
@@ -179,7 +182,7 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 }
 
 func (e *extractor) record(name string) {
-	e.manifest = append(e.manifest, name)
+	e.manifest.Add(name)
 }
 
 func (e *extractor) initLogger(_ Options) error {
@@ -221,15 +224,15 @@ func (e *extractor) initExporter(options Options) error {
 	return nil
 }
 
-func (e *extractor) Destroy() error {
+func (e *extractor) Close() error {
 	err := e.nvim.Quit()
 
 	if err != nil {
 		return err
 	}
 
-	e.exporter.ExportTxt("", "manifest", e.manifest)
-	e.manifest = []string{}
+	e.exporter.ExportTxt("", "manifest", e.manifest.Items())
+	e.manifest = set.Set[string]{}
 
 	return nil
 }
@@ -240,7 +243,7 @@ func NewExtractor(options Options) (*extractor, error) {
 	newExtractor := &extractor{
 		options:     options,
 		extractions: []*extraction{},
-		manifest:    []string{},
+		manifest:    set.NewSet[string](),
 	}
 
 	err := newExtractor.initLogger(options)
