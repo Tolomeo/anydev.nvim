@@ -1,13 +1,11 @@
 vim
 vim.F
-vim.F
 vim.F.if_nil
 vim.F.nil_wrap
 vim.F.npcall
 vim.F.ok_or_nil
 vim.F.pack_len
 vim.F.unpack_len
-vim.NIL
 vim.NIL
 vim.api
 vim.api.nvim__buf_debug_extmarks
@@ -462,7 +460,6 @@ vim.api.keyset.parse_cmd.cmd
 vim.api.keyset.parse_cmd.count
 vim.api.keyset.parse_cmd.magic
 vim.api.keyset.parse_cmd.mods
-vim.api.keyset.parse_cmd.mods
 vim.api.keyset.parse_cmd.mods.browse
 vim.api.keyset.parse_cmd.mods.confirm
 vim.api.keyset.parse_cmd.mods.emsg_silent
@@ -591,7 +588,6 @@ vim.var_accessor.string
 vim.base64
 vim.base64.decode
 vim.base64.encode
-vim.bo
 vim.bo
 vim.bo.ai
 vim.bo.ar
@@ -773,7 +769,6 @@ vim.defaulttable
 vim.defer_fn
 vim.deprecate
 vim.diagnostic
-vim.diagnostic
 vim.diagnostic.config
 vim.diagnostic.Opts
 vim.diagnostic.Opts.float
@@ -930,7 +925,6 @@ vim.diff.Opts.result_type
 vim.empty_dict
 vim.endswith
 vim.env
-vim.filetype
 vim.filetype
 vim.filetype.add
 vim.filetype.add.filetypes
@@ -1752,7 +1746,6 @@ vim.fn.wordcount
 vim.fn.writefile
 vim.fn.xor
 vim.fs
-vim.fs
 vim.fs.abspath
 vim.fs.basename
 vim.fs.dir
@@ -1783,10 +1776,8 @@ vim.fs.rm.Opts.force
 vim.fs.rm.Opts.recursive
 vim.fs.root
 vim.func
-vim.func
 vim.funcref
 vim.g
-vim.glob
 vim.glob
 vim.glob.to_lpeg
 vim.lpeg.Pattern
@@ -2160,7 +2151,6 @@ vim.gsplit.Opts
 vim.gsplit.Opts.plain
 vim.gsplit.Opts.trimempty
 vim.health
-vim.health
 vim.health.error
 vim.health.info
 vim.health.ok
@@ -2200,7 +2190,6 @@ uv.uv_timer_t.set_repeat
 uv.uv_timer_t.start
 uv.uv_timer_t.stop
 uv.uv_timer_t.unref
-vim.hl
 vim.iconv
 vim.in_fast_event
 vim.inspect
@@ -2226,7 +2215,6 @@ vim.json.encode
 vim.json.new
 vim.keycode
 vim.keymap
-vim.keymap
 vim.keymap.del
 vim.keymap.del.Opts
 vim.keymap.del.Opts.buffer
@@ -2246,7 +2234,6 @@ vim.keymap.set.Opts.unique
 vim.list_contains
 vim.list_extend
 vim.list_slice
-vim.loader
 vim.loader
 vim.loader.disable
 vim.loader.enable
@@ -2285,7 +2272,6 @@ uv.fs_stat.result.uid
 vim.loader.path
 vim.loader.reset
 vim.log
-vim.log.levels
 vim.log.levels
 vim.loop
 uv
@@ -2382,7 +2368,6 @@ uv.cpu_info.cpu
 uv.cpu_info.cpu.model
 uv.cpu_info.cpu.speed
 uv.cpu_info.cpu.times
-uv.cpu_info.cpu.times
 uv.cpu_info.cpu.times.idle
 uv.cpu_info.cpu.times.irq
 uv.cpu_info.cpu.times.nice
@@ -2390,7 +2375,6 @@ uv.cpu_info.cpu.times.sys
 uv.cpu_info.cpu.times.user
 uv.cwd
 uv.disable_stdio_inheritance
-uv.errno
 uv.errno
 uv.errno.E2BIG
 uv.errno.EACCES
@@ -2895,7 +2879,6 @@ uv.uv_tty_t.write2
 uv.new_udp
 uv.new_udp.flags
 uv.new_udp.flags.family
-uv.new_udp.flags.family
 uv.new_udp.flags.mmsgs
 uv.uv_udp_t
 uv.uv_udp_t.bind
@@ -3047,7 +3030,6 @@ uv.spawn.options.env
 uv.spawn.options.gid
 uv.spawn.options.hide
 uv.spawn.options.stdio
-uv.spawn.options.stdio
 uv.spawn.options.uid
 uv.spawn.options.verbatim
 uv.spawn.on_exit
@@ -3146,8 +3128,6 @@ vim.lpeg.type
 vim.lpeg.utfR
 vim.lpeg.version
 vim.lsp
-vim.lsp
-vim.lsp.buf
 vim.lsp.buf
 vim.lsp.buf.add_workspace_folder
 vim.lsp.buf.clear_references
@@ -4113,10 +4093,8 @@ vim.lsp.buf_request_all
 lsp.MultiHandler
 vim.lsp.buf_request_sync
 vim.lsp.client
-vim.lsp.client
 vim.lsp.client_errors
 vim.lsp.client_is_stopped
-vim.lsp.codelens
 vim.lsp.codelens
 vim.lsp.codelens.clear
 vim.lsp.codelens.display
@@ -4132,7 +4110,6 @@ vim.lsp.codelens.refresh.Opts.bufnr
 vim.lsp.codelens.run
 vim.lsp.codelens.save
 vim.lsp.commands
-vim.lsp.completion
 vim.lsp.completion
 vim.lsp.completion.enable
 vim.lsp.completion.BufferOpts
@@ -4177,9 +4154,7 @@ lsp.CompletionContext.triggerCharacter
 lsp.CompletionContext.triggerKind
 lsp.CompletionTriggerKind
 vim.lsp.config
-vim.lsp.config
 vim.lsp.config.string
-vim.lsp.diagnostic
 vim.lsp.diagnostic
 vim.lsp.diagnostic.from
 vim.lsp.diagnostic.get_line_diagnostics
@@ -4227,7 +4202,6 @@ vim.lsp.get_clients.Filter.method
 vim.lsp.get_clients.Filter.name
 vim.lsp.get_log_path
 vim.lsp.handlers
-vim.lsp.handlers
 vim.lsp.handlers.hover
 lsp.Hover
 lsp.Hover.contents
@@ -4249,7 +4223,6 @@ lsp.SignatureInformation.parameters
 lsp.ParameterInformation
 lsp.ParameterInformation.documentation
 lsp.ParameterInformation.label
-vim.lsp.inlay_hint
 vim.lsp.inlay_hint
 vim.lsp.inlay_hint.enable
 vim.lsp.inlay_hint.enable.Filter
@@ -4282,7 +4255,6 @@ vim.lsp.inlay_hint.on_inlayhint
 vim.lsp.inlay_hint.on_refresh
 vim.lsp.is_enabled
 vim.lsp.log
-vim.lsp.log
 vim.lsp.log.DEBUG
 vim.lsp.log.ERROR
 vim.lsp.log.INFO
@@ -4302,8 +4274,6 @@ vim.lsp.log.trace
 vim.lsp.log.warn
 vim.lsp.log_levels
 vim.lsp.omnifunc
-vim.lsp.protocol
-vim.lsp.protocol
 vim.lsp.protocol
 vim.lsp.protocol.CodeActionKind
 vim.lsp.protocol.CodeActionKind.Empty
@@ -4406,7 +4376,6 @@ vim.lsp.protocol.MessageType.Info
 vim.lsp.protocol.MessageType.Log
 vim.lsp.protocol.MessageType.Warning
 vim.lsp.protocol.Methods
-vim.lsp.protocol.Methods
 vim.lsp.protocol.ResourceOperationKind
 vim.lsp.protocol.ResourceOperationKind.Create
 vim.lsp.protocol.ResourceOperationKind.Delete
@@ -4457,7 +4426,6 @@ vim.lsp.protocol._request_name_to_capability
 vim.lsp.protocol.make_client_capabilities
 vim.lsp.protocol.resolve_capabilities
 vim.lsp.rpc
-vim.lsp.rpc
 vim.lsp.rpc.client_errors
 vim.lsp.rpc.connect
 vim.lsp.rpc.create_read_loop
@@ -4469,7 +4437,6 @@ vim.lsp.rpc.ExtraSpawnParams.cwd
 vim.lsp.rpc.ExtraSpawnParams.detached
 vim.lsp.rpc.ExtraSpawnParams.env
 vim.lsp.rpc_response_error
-vim.lsp.semantic_tokens
 vim.lsp.semantic_tokens
 vim.lsp.semantic_tokens.force_refresh
 vim.lsp.semantic_tokens.get_at_pos
@@ -4497,7 +4464,6 @@ vim.lsp.start_client
 vim.lsp.status
 vim.lsp.stop_client
 vim.lsp.tagfunc
-vim.lsp.util
 vim.lsp.util
 vim.lsp.util.apply_text_document_edit
 vim.lsp.util.apply_text_edits
@@ -6068,33 +6034,27 @@ vim.paste
 vim.pesc
 vim.print
 vim.provider
-vim.provider
-vim.provider.perl
 vim.provider.perl
 vim.provider.perl.call
 vim.provider.perl.detect
 vim.provider.perl.require
 vim.provider.perl.start
 vim.provider.python
-vim.provider.python
 vim.provider.python.call
 vim.provider.python.detect_by_module
 vim.provider.python.require
 vim.provider.python.start
-vim.provider.ruby
 vim.provider.ruby
 vim.provider.ruby.call
 vim.provider.ruby.detect
 vim.provider.ruby.require
 vim.provider.ruby.start
 vim.re
-vim.re
 vim.re.compile
 vim.re.find
 vim.re.gsub
 vim.re.match
 vim.re.updatelocale
-vim.regex
 vim.regex
 vim.regex.match_line
 vim.regex.match_str
@@ -6110,7 +6070,6 @@ vim.rpcrequest
 vim.schedule
 vim.schedule_wrap
 vim.secure
-vim.secure
 vim.secure.read
 vim.secure.trust
 vim.trust.opts
@@ -6118,7 +6077,6 @@ vim.trust.opts.action
 vim.trust.opts.bufnr
 vim.trust.opts.path
 vim.show_pos
-vim.snippet
 vim.snippet
 vim.snippet.active
 vim.snippet.ActiveFilter
@@ -6177,13 +6135,10 @@ vim.tbl_keys
 vim.tbl_map
 vim.tbl_values
 vim.text
-vim.text
 vim.text.hexdecode
 vim.text.hexencode
 vim.text.indent
 vim.treesitter
-vim.treesitter
-vim.treesitter.dev
 vim.treesitter.dev
 vim.treesitter.dev.edit_query
 vim.treesitter.dev.inspect_tree
@@ -6293,8 +6248,6 @@ vim.treesitter.LanguageTree.trees
 vim.treesitter.get_range
 vim.treesitter.get_string_parser
 vim.treesitter.highlighter
-vim.treesitter.highlighter
-vim.treesitter.highlighter
 vim.treesitter.highlighter._conceal_checked
 vim.treesitter.highlighter._conceal_line
 vim.treesitter.highlighter.active
@@ -6309,7 +6262,6 @@ vim.treesitter.highlighter.Query.query
 vim.treesitter.inspect_tree
 vim.treesitter.is_ancestor
 vim.treesitter.is_in_node_range
-vim.treesitter.language
 vim.treesitter.language
 vim.treesitter.language.add
 vim.treesitter.language.add.Opts
@@ -6334,10 +6286,8 @@ vim.treesitter.language.register
 vim.treesitter.language.require_language
 vim.treesitter.language_version
 vim.treesitter.languagetree
-vim.treesitter.languagetree
 vim.treesitter.minimum_language_version
 vim.treesitter.node_contains
-vim.treesitter.query
 vim.treesitter.query
 vim.treesitter.query.add_directive
 vim.treesitter.query.add_predicate.Opts
@@ -6385,7 +6335,6 @@ vim.trim
 vim.type_idx
 vim.types
 vim.ui
-vim.ui
 vim.ui.input
 vim.ui.open
 vim.ui.select
@@ -6401,7 +6350,6 @@ vim.val_idx
 vim.validate
 vim.validate.Validator
 type
-vim.version
 vim.version
 vim.version.cmp
 vim.Version
@@ -6428,7 +6376,6 @@ vim.VersionRange.to
 vim.VersionRange.has
 vim.w
 vim.wait
-vim.wo
 vim.wo
 vim.wo.arab
 vim.wo.arabic
