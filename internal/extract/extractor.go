@@ -11,6 +11,7 @@ import (
 	"github.com/Tolomeo/anydev.nvim/internal/extract/transform"
 	"github.com/Tolomeo/anydev.nvim/internal/log"
 	"github.com/Tolomeo/anydev.nvim/internal/nvim"
+	"github.com/Tolomeo/anydev.nvim/internal/utils/set"
 )
 
 type Override struct {
@@ -33,6 +34,7 @@ func (o Options) validate() error {
 type extractor struct {
 	options     Options
 	extractions []*extraction
+	manifest    set.Set[string]
 	exporter    *export.Exporter
 	nvim        *nvim.Nvim
 	logger      *log.Logger
@@ -93,6 +95,9 @@ func (e *extractor) Extract(kind target.TargetKind, name string) error {
 	}
 
 	extraction := e.newExtraction(kind, name)
+
+	e.record(extraction.target().Identifier())
+
 	err := e.extract(extraction)
 
 	if err != nil {
@@ -176,6 +181,10 @@ func (e *extractor) newChildExtraction(parent *target.Target, name string) *extr
 	return childExtraction
 }
 
+func (e *extractor) record(name string) {
+	e.manifest.Add(name)
+}
+
 func (e *extractor) initLogger(_ Options) error {
 	e.logger = log.NewLogger("", e.options.LogLevel)
 	return nil
@@ -215,12 +224,15 @@ func (e *extractor) initExporter(options Options) error {
 	return nil
 }
 
-func (e *extractor) Destroy() error {
+func (e *extractor) Close() error {
 	err := e.nvim.Quit()
 
 	if err != nil {
 		return err
 	}
+
+	e.exporter.ExportTxt("", "manifest", e.manifest.Items())
+	e.manifest = set.Set[string]{}
 
 	return nil
 }
@@ -228,28 +240,29 @@ func (e *extractor) Destroy() error {
 func NewExtractor(options Options) (*extractor, error) {
 	options.validate()
 
-	xtractor := &extractor{
+	newExtractor := &extractor{
 		options:     options,
 		extractions: []*extraction{},
+		manifest:    set.NewSet[string](),
 	}
 
-	err := xtractor.initLogger(options)
+	err := newExtractor.initLogger(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	err = xtractor.initNvim(options)
+	err = newExtractor.initNvim(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	err = xtractor.initExporter(options)
+	err = newExtractor.initExporter(options)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return xtractor, nil
+	return newExtractor, nil
 }
