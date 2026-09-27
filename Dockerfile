@@ -47,4 +47,11 @@ COPY ./resources /resources
 ENV NVIM_APPNAME=nvim-anydev
 COPY ./resources/config /root/.config/${NVIM_APPNAME}
 
-CMD ["lua-language-server", "--version"]
+WORKDIR /root/run
+
+# CMD echo "$(nvim --headless --clean +'echo $VIMRUNTIME' +qa!)"
+CMD exec lua-language-server \
+	--doc="$(nvim --headless --clean +'lua print(vim.env.VIMRUNTIME)' +qa! 2>&1)" \
+	--doc_out_path="/root/run/out"
+# CMD exec lua-language-server --doc="/usr/local/share/nvim/runtime" --doc_out_path="/root/run/out"
+
