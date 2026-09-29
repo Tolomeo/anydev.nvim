@@ -2500,6 +2500,72 @@ function _G.coxpcall(f: any, err: any, ...any)
 
 ---
 
+# export.gatherGlobals
+
+
+```lua
+function export.gatherGlobals()
+  -> unknown
+```
+
+
+---
+
+# export.getLualsConfig
+
+
+```lua
+function export.getLualsConfig()
+  -> unknown
+```
+
+
+---
+
+# export.makeDocObject.INIT
+
+
+```lua
+function export.makeDocObject.INIT(source: any, has_seen: any)
+  -> unknown
+```
+
+
+---
+
+# export.makeDocObject.doc.class
+
+
+```lua
+function (source: any, obj: any, has_seen: any)
+  -> unknown
+```
+
+
+---
+
+# export.makeDocs
+
+
+```lua
+function export.makeDocs(globals: any, callback: any)
+  -> unknown
+```
+
+
+---
+
+# export.serializeAndExport
+
+
+```lua
+function export.serializeAndExport(docs: any, outputDir: any)
+  -> unknown
+```
+
+
+---
+
 # lsp.AnnotatedTextEdit
 
 A special text edit with an additional change annotation.
@@ -18737,7 +18803,7 @@ function vim._defer_require(root: string, mod: <T>)
 
 
 ```lua
-function vim._ensure_list(x?: <T>|elem_or_list<<T>>)
+function vim._ensure_list(x?: <T>|elem_or_list<T>)
   -> <T>[]
 ```
 
@@ -25044,21 +25110,6 @@ function vim.base64.encode(str: string)
 
 # vim.bo
 
-
-```lua
-table|vim.bo
-```
-
-
-```lua
-table
-```
-
-
----
-
-# vim.bo
-
 ## [integer]
 
 
@@ -26261,6 +26312,21 @@ integer
 
 ```lua
 integer
+```
+
+
+---
+
+# vim.bo
+
+
+```lua
+table|vim.bo
+```
+
+
+```lua
+table
 ```
 
 
@@ -52711,7 +52777,7 @@ function vim.snippet.Tabstop.new(index: integer, bufnr: integer, range: Range4, 
 
 ```lua
 function vim.spairs(t: <T:table>)
-  -> fun(table: table<<K>, <V>>, index?: <K>):<K>, <V>
+  -> fun(table: table<K, V>, index?: <K>):<K>, <V>
   2. <T:table>
 ```
 
@@ -52913,7 +52979,7 @@ function vim.tbl_extend(behavior: 'error'|'force'|'keep', ...table)
 
 
 ```lua
-function vim.tbl_filter(func: fun(value: <T>):boolean, t: table<any, <T>>)
+function vim.tbl_filter(func: fun(value: <T>):boolean, t: table<any, T>)
   -> <T>[]
 ```
 
@@ -52968,7 +53034,7 @@ function vim.tbl_islist(t: any)
 
 
 ```lua
-function vim.tbl_keys(t: table<<T>, any>)
+function vim.tbl_keys(t: table<T, any>)
   -> <T>[]
 ```
 
@@ -52979,7 +53045,7 @@ function vim.tbl_keys(t: table<<T>, any>)
 
 
 ```lua
-function vim.tbl_map(func: fun(value: <T>):any, t: table<any, <T>>)
+function vim.tbl_map(func: fun(value: <T>):any, t: table<any, T>)
   -> table
 ```
 
@@ -52990,7 +53056,7 @@ function vim.tbl_map(func: fun(value: <T>):any, t: table<any, <T>>)
 
 
 ```lua
-function vim.tbl_values(t: table<any, <T>>)
+function vim.tbl_values(t: table<any, T>)
   -> <T>[]
 ```
 
@@ -55227,6 +55293,21 @@ unknown
 
 # vim.v
 
+
+```lua
+vim.v
+```
+
+
+```lua
+unknown
+```
+
+
+---
+
+# vim.v
+
 ## argv
 
 
@@ -56433,21 +56514,6 @@ unknown
 
 ---
 
-# vim.v
-
-
-```lua
-vim.v
-```
-
-
-```lua
-unknown
-```
-
-
----
-
 # vim.v.argv
 
 
@@ -56509,16 +56575,6 @@ unknown
 ---
 
 # vim.v.collate
-
-
-```lua
-unknown
-```
-
-
----
-
-# vim.v.completed_item
 
 
 ```lua
@@ -56647,6 +56703,16 @@ string?
 ```
 
 the text that will be inserted, mandatory
+
+
+---
+
+# vim.v.completed_item
+
+
+```lua
+unknown
+```
 
 
 ---
@@ -57845,6 +57911,21 @@ function vim.wait(time: integer, callback?: fun():boolean, interval?: integer, f
 
 # vim.wo
 
+
+```lua
+table|vim.wo
+```
+
+
+```lua
+table
+```
+
+
+---
+
+# vim.wo
+
 ## [integer]
 
 
@@ -58522,21 +58603,6 @@ string
 
 ```lua
 boolean
-```
-
-
----
-
-# vim.wo
-
-
-```lua
-table|vim.wo
-```
-
-
-```lua
-table
 ```
 
 

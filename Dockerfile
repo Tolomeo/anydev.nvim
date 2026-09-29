@@ -19,7 +19,7 @@ RUN  git fetch --all --tags -f && \
 FROM alpine:latest AS lua-ls-builder
 
 ARG LUA_LS_BUILDER_DEPENDENCIES="build-base linux-headers python3 git patch tree-sitter-cli ninja bash"
-ARG LUA_LS_VERSION="3.16.4"
+ARG LUA_LS_VERSION="3.19.1"
 
 RUN apk add --no-cache ${LUA_LS_BUILDER_DEPENDENCIES} && \
   git --version && \
@@ -43,15 +43,15 @@ COPY --from=lua-ls-builder /external /root/external
 RUN ln -s /root/external/lua-language-server/bin/lua-language-server /usr/local/bin/lua-language-server
 
 COPY ./resources /resources
+RUN ln -s /resources/export/export.lua /usr/local/share/nvim/runtime/export.lua
 
 ENV NVIM_APPNAME=nvim-anydev
 COPY ./resources/config /root/.config/${NVIM_APPNAME}
 
 WORKDIR /root/run
 
-# CMD echo "$(nvim --headless --clean +'echo $VIMRUNTIME' +qa!)"
 CMD exec lua-language-server \
-	--doc="$(nvim --headless --clean +'lua print(vim.env.VIMRUNTIME)' +qa! 2>&1)" \
+	--configpath="/resources/export/.luarc.json" \
+	--doc="/usr/local/share/nvim/runtime" \
 	--doc_out_path="/root/run/out"
-# CMD exec lua-language-server --doc="/usr/local/share/nvim/runtime" --doc_out_path="/root/run/out"
 
