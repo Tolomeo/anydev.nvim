@@ -2889,6 +2889,16 @@ boolean?
 
 ---
 
+# _ENV
+
+
+```lua
+nil
+```
+
+
+---
+
 # copcall
 
 
@@ -2898,7 +2908,7 @@ function
 
 
 ```lua
-function _G.copcall(f: any, ...any)
+function _G.copcall(f: fun(...any):...unknown, ...any)
   -> boolean|unknown
   2. unknown
   3. unknown
@@ -2916,7 +2926,7 @@ function
 
 
 ```lua
-function _G.coxpcall(f: any, err: any, ...any)
+function _G.coxpcall(f: fun(...any):...unknown, err: function, ...any)
   -> boolean|unknown
   2. unknown
   3. unknown
@@ -18528,6 +18538,16 @@ function _G.nvim_health_bugreport_open()
 ---
 
 # pat_table
+
+
+---
+
+# re
+
+
+```lua
+table
+```
 
 
 ---
@@ -61580,14 +61600,14 @@ table
 # vim.NIL
 
 
-```lua
-unknown
-```
-
-
 ---
 
 # vim.NIL
+
+
+```lua
+unknown
+```
 
 
 ---
@@ -69797,16 +69817,6 @@ function vim.api.nvim_win_text_height(win: integer, opts: vim.api.keyset.win_tex
 
 # vim.b
 
-
-```lua
-vim.b
-```
-
-
----
-
-# vim.b
-
 ## [integer]
 
 
@@ -69819,6 +69829,16 @@ vim.var_accessor
 
 ```lua
 any
+```
+
+
+---
+
+# vim.b
+
+
+```lua
+vim.b
 ```
 
 
@@ -82291,14 +82311,14 @@ function vim.funcref(viml_func_name: any)
 # vim.g
 
 
----
-
-# vim.g
-
-
 ```lua
 vim.g|{ [string]: any }
 ```
+
+
+---
+
+# vim.g
 
 
 ---
@@ -102528,6 +102548,16 @@ function vim.system(cmd: string[], opts?: vim.SystemOpts, on_exit?: fun(out: vim
 
 # vim.t
 
+
+```lua
+vim.t
+```
+
+
+---
+
+# vim.t
+
 ## [integer]
 
 
@@ -102540,16 +102570,6 @@ vim.var_accessor
 
 ```lua
 any
-```
-
-
----
-
-# vim.t
-
-
-```lua
-vim.t
 ```
 
 
@@ -103347,7 +103367,7 @@ file*?
 
 
 
-[View documents](command:extension.lua.doc?["en-us/54/manual.html/pdf-file"])
+[View documents](command:extension.lua.doc?["en-us/51/manual.html/pdf-file"])
 
 
 ## _logger
