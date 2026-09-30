@@ -1,8 +1,8 @@
 # see https://github.com/kanielrkirby/nvim-alpine/blob/master/Dockerfile
 FROM alpine:latest AS nvim-builder
 
-ARG NVIM_BUILDER_DEPENDENCIES="autoconf automake cmake curl g++ git gettext gettext-dev libtool make ninja openssl pkgconfig unzip binutils wget"
-ARG NVIM_VERSION="v0.11.4"
+ARG NVIM_BUILDER_DEPENDENCIES="build-base cmake coreutils linux-headers curl gettext-tiny-dev git"
+ARG NVIM_VERSION="v0.12.5"
 
 RUN apk add --no-cache ${NVIM_BUILDER_DEPENDENCIES} && \
   git --version && \
@@ -35,9 +35,7 @@ RUN git fetch --all --tags -f && \
 FROM alpine:latest AS runner
 
 COPY --from=nvim-builder /usr/local /usr/local/
-COPY --from=nvim-builder /lib/ld-musl-aarch64.so.1 /lib/
 COPY --from=nvim-builder /usr/lib/libgcc_s.so.1 /usr/lib/
-COPY --from=nvim-builder /usr/lib/libintl.so.8 /usr/lib/
 
 COPY --from=lua-ls-builder /external /root/external
 RUN ln -s /root/external/lua-language-server/bin/lua-language-server /usr/local/bin/lua-language-server
