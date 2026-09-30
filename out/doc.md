@@ -2,23 +2,6 @@
 
  Special case implementations for iterators on list tables.
 
-## __call
-
-
-```lua
-function ArrayIter.__call(self: ArrayIter)
-  -> unknown
-  2. unknown|nil
-  3. unknown|nil
-  4. unknown|nil
-  5. unknown|nil
-  6. unknown|nil
-  7. unknown|nil
-  8. unknown|nil
-  9. unknown|nil
- 10. unknown|nil
-```
-
 ## __index
 
 
@@ -37,22 +20,6 @@ number
 
 Index to the front of a table iterator
 
-## _next
-
-
-```lua
-fun():...unknown
-```
-
-The underlying function that returns the next value(s) from the source.
-
-## _peeked
-
-
-```lua
-any
-```
-
 ## _table
 
 
@@ -70,36 +37,6 @@ number
 ```
 
 Index to the end of a table iterator (exclusive)
-
-## all
-
-
-```lua
-(method) Iter:all(pred: fun(...any):boolean)
-  -> boolean
-```
-
- Returns true if all items in the iterator match the given predicate.
-
-@*param* `pred` — Predicate function. Takes all values returned from the previous
-
-                          stage in the pipeline as arguments and returns true if the
-                          predicate matches.
-
-## any
-
-
-```lua
-(method) Iter:any(pred: fun(...any):boolean)
-  -> boolean
-```
-
- Returns true if any of the items in the iterator match the given predicate.
-
-@*param* `pred` — Predicate function. Takes all values returned from the previous
-
-                          stage in the pipeline as arguments and returns true if the
-                          predicate matches.
 
 ## each
 
@@ -124,36 +61,6 @@ Index to the end of a table iterator (exclusive)
   -> ArrayIter
 ```
 
-## find
-
-
-```lua
-(method) Iter:find(f: any)
-  -> any
-```
-
- Find the first value in the iterator that satisfies the given predicate.
-
- Advances the iterator. Returns nil and drains the iterator if no value is found.
-
- Examples:
-
- ```lua
-
- local it = vim.iter({ 3, 6, 9, 12 })
- it:find(12)
- -- 12
-
- local it = vim.iter({ 3, 6, 9, 12 })
- it:find(20)
- -- nil
-
- local it = vim.iter({ 3, 6, 9, 12 })
- it:find(function(v) return v % 4 == 0 end)
- -- 12
-
- ```
-
 ## flatten
 
 
@@ -169,24 +76,6 @@ Index to the end of a table iterator (exclusive)
 (method) ArrayIter:fold(init: any, f: fun(acc: <A>, ...any):<A>)
   -> unknown
 ```
-
-## join
-
-
-```lua
-(method) Iter:join(delim: string)
-  -> string
-```
-
- Collect the iterator into a delimited string.
-
- Each element in the iterator is joined into a string separated by {delim}.
-
- Consumes the iterator.
-
- @since 12
-
-@*param* `delim` — Delimiter
 
 ## last
 
@@ -235,36 +124,6 @@ function ArrayIter.new(t: table)
  10. unknown|nil
 ```
 
-## nth
-
-
-```lua
-(method) Iter:nth(n: number)
-  -> any
-```
-
- Gets the nth value of an iterator (and advances to it).
-
- If `n` is negative, offsets from the end of a |list-iterator|.
-
- Example:
-
- ```lua
- local it = vim.iter({ 3, 6, 9, 12 })
- it:nth(2)
- -- 6
- it:nth(2)
- -- 12
-
- local it2 = vim.iter({ 3, 6, 9, 12 })
- it2:nth(-2)
- -- 9
- it2:nth(-2)
- -- 3
- ```
-
-@*param* `n` — Index of the value to return. May be negative if the source is a |list-iterator|.
-
 ## peek
 
 
@@ -282,14 +141,6 @@ function ArrayIter.new(t: table)
 ```
 
  @nodoc
-
-## rev
-
-
-```lua
-(method) ArrayIter:rev()
-  -> ArrayIter
-```
 
 ## rfind
 
@@ -355,44 +206,6 @@ function ArrayIter.new(t: table)
 (method) ArrayIter:totable()
   -> table
 ```
-
-## unique
-
-
-```lua
-(method) Iter:unique(key?: fun(...any):any)
-  -> Iter
-```
-
- Removes duplicate values from an iterator pipeline.
-
- Only the first occurrence of each value is kept.
-
- Accepts an optional `key` argument, which if provided is called for each
- value in the iterator to compute a hash key for uniqueness comparison. This is
- useful for deduplicating table values or complex objects.
- If `key` returns `nil` for a value, that value will be considered unique,
- even if multiple values return `nil`.
-
- If a function-based iterator returns multiple arguments, uniqueness is
- checked based on the first return value. To change this behavior, specify
- `key`.
-
- Examples:
-
- ```lua
- vim.iter({ 1, 2, 2, 3, 2 }):unique():totable()
- -- { 1, 2, 3 }
-
- vim.iter({ {id=1}, {id=2}, {id=1} })
-   :unique(function(x)
-     return x.id
-   end)
-   :totable()
- -- { {id=1}, {id=2} }
- ```
-
-@*param* `key` — Optional hash function to determine uniqueness of values.
 
 
 ---
@@ -607,21 +420,6 @@ any
                           stage in the pipeline as arguments and returns true if the
                           predicate matches.
 
-## any
-
-
-```lua
-(method) Iter:any(pred: fun(...any):boolean)
-  -> boolean
-```
-
- Returns true if any of the items in the iterator match the given predicate.
-
-@*param* `pred` — Predicate function. Takes all values returned from the previous
-
-                          stage in the pipeline as arguments and returns true if the
-                          predicate matches.
-
 ## each
 
 
@@ -754,40 +552,6 @@ any
                         (defaults to 1)
  luacheck: no unused args
 
-## fold
-
-
-```lua
-(method) Iter:fold(init: <A>, f: fun(acc: <A>, ...any):<A>)
-  -> <A>
-```
-
- Folds ("reduces") an iterator into a single value. [Iter:reduce()](file:///usr/local/share/nvim/runtime/lua/vim)
-
- Examples:
-
- ```lua
- -- Create a new table with only even values
- vim.iter({ a = 1, b = 2, c = 3, d = 4 })
-   :filter(function(k, v) return v % 2 == 0 end)
-   :fold({}, function(acc, k, v)
-     acc[k] = v
-     return acc
-   end) --> { b = 2, d = 4 }
-
- -- Get the "maximum" item of an iterable.
- vim.iter({ -99, -4, 3, 42, 0, 0, 7 })
-   :fold({}, function(acc, v)
-     acc.max = math.max(v, acc.max or v)
-     return acc
-   end) --> { max = 42 }
- ```
-
-
-@*param* `init` — Initial value of the accumulator.
-
-@*param* `f` — Accumulation function.
-
 ## join
 
 
@@ -805,30 +569,6 @@ any
  @since 12
 
 @*param* `delim` — Delimiter
-
-## last
-
-
-```lua
-(method) Iter:last()
-  -> any
-```
-
- Drains the iterator and returns the last item.
-
- Example:
-
- ```lua
-
- local it = vim.iter(vim.gsplit('abcdefg', ''))
- it:last()
- -- 'g'
-
- local it = vim.iter({ 3, 6, 9, 12, 15 })
- it:last()
- -- 15
-
- ```
 
 ## map
 
@@ -911,33 +651,6 @@ function Iter.next()
 
 @*param* `n` — Index of the value to return. May be negative if the source is a |list-iterator|.
 
-## peek
-
-
-```lua
-(method) Iter:peek()
-  -> any
-```
-
- Gets the next value from the iterator without consuming it.
-
- The value returned by |Iter:peek()| will be returned again by the next call
- to |Iter:next()|.
-
- Example:
-
- ```lua
-
- local it = vim.iter({ 3, 6, 9, 12 })
- it:peek()
- -- 3
- it:peek()
- -- 3
- it:next()
- -- 3
-
- ```
-
 ## pop
 
 
@@ -956,75 +669,6 @@ function Iter.next()
  -- 4
  it:pop()
  -- 3
- ```
-
-## rev
-
-
-```lua
-(method) Iter:rev()
-  -> Iter
-```
-
- Reverses a |list-iterator| pipeline.
-
- Example:
-
- ```lua
-
- local it = vim.iter({ 3, 6, 9, 12 }):rev()
- it:totable()
- -- { 12, 9, 6, 3 }
-
- ```
-
-## rfind
-
-
-```lua
-(method) Iter:rfind(f: any)
-  -> any
-```
-
- Gets the first value satisfying a predicate, from the end of a |list-iterator|.
-
- Advances the iterator. Returns nil and drains the iterator if no value is found.
-
- Examples:
-
- ```lua
-
- local it = vim.iter({ 1, 2, 3, 2, 1 }):enumerate()
- it:rfind(1)
- -- 5	1
- it:rfind(1)
- -- 1	1
-
- ```
-
-
- luacheck: no unused args
-
-## rpeek
-
-
-```lua
-(method) Iter:rpeek()
-  -> any
-```
-
- Gets the last value of a |list-iterator| without consuming it.
-
- Example:
-
- ```lua
- local it = vim.iter({1, 2, 3, 4})
- it:rpeek()
- -- 4
- it:rpeek()
- -- 4
- it:pop()
- -- 4
  ```
 
 ## rskip
@@ -1080,20 +724,6 @@ function Iter.next()
  ```
 
 @*param* `n` — Number of values to skip or a predicate.
-
-## slice
-
-
-```lua
-(method) Iter:slice(first: number, last: number)
-  -> Iter
-```
-
- Sets the start and end of a |list-iterator| pipeline.
-
- Equivalent to `:skip(first - 1):rskip(len - last + 1)`.
-
- luacheck: no unused args
 
 ## take
 
@@ -1632,13 +1262,6 @@ STHighlighter
 table<integer, STHighlighter>
 ```
 
-## all
-
-
-```lua
-table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), vim.lsp.Capability>
-```
-
 ## augroup
 
 
@@ -1653,13 +1276,6 @@ augroup for buffer events
 
 ```lua
 integer
-```
-
-## cancel_active_request
-
-
-```lua
-(method) STHighlighter:cancel_active_request(client_id: any)
 ```
 
 ## client_state
@@ -1685,30 +1301,6 @@ milliseconds to debounce requests for new tokens
 (method) STHighlighter:debounce_request()
 ```
 
-## destroy
-
-
-```lua
-(method) vim.lsp.Capability:destroy()
-```
-
-## enable
-
-
-```lua
-function vim.lsp.Capability.enable(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), enable?: boolean, filter?: vim.lsp.capability.enable.Filter)
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
 ## get_overscan_range
 
 
@@ -1718,24 +1310,6 @@ name:
 ```
 
  Gets a range that encompasses all visible lines plus overscan across all windows
-
-## is_enabled
-
-
-```lua
-function vim.lsp.Capability.is_enabled(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), filter?: vim.lsp.capability.enable.Filter)
-  -> false
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
 
 ## mark_dirty
 
@@ -1748,77 +1322,6 @@ name:
  requests to the server and pause new highlights from being added
  in the on_win callback. The rest of the current results are saved
  in case the server supports delta requests.
-
-## new
-
-
-```lua
-(method) vim.lsp.Capability:new(bufnr: integer)
-  -> <T:vim.lsp.Capability>
-```
-
-## on_attach
-
-
-```lua
-(method) STHighlighter:on_attach(client_id: integer)
-```
-
-## on_detach
-
-
-```lua
-(method) STHighlighter:on_detach(client_id: integer)
-```
-
-## on_win
-
-
-```lua
-(method) STHighlighter:on_win(topline: integer, botline: integer)
-```
-
- on_win handler for the decoration provider (see |nvim_set_decoration_provider|)
-
- If there is a current result for the buffer and the version matches the
- current document version, then the tokens are valid and can be applied. As
- the buffer is drawn, this function will add extmark highlights for every
- token in the range of visible lines. Once a highlight has been added, it
- sticks around until the document changes and there's a new set of matching
- highlight tokens available.
-
- If this is the first time a buffer is being drawn with a new set of
- highlights for the current document version, the namespace is cleared to
- remove extmarks from the last version. It's done here instead of the response
- handler to avoid the "blink" that occurs due to the timing between the
- response handler and the actual redraw.
-
-## process_response
-
-
-```lua
-(async) (method) STHighlighter:process_response(response: lsp.SemanticTokens|lsp.SemanticTokensDelta, client: vim.lsp.Client, request_id: integer, version: integer, is_range_request: boolean)
-```
-
- This function will parse the semantic token responses and set up the cache
- (current_result). It also performs document synchronization by checking the
- version of the document associated with the resulting request_id and only
- performing work if the response is not out-of-date.
-
- Delta edits are applied if necessary, and new highlight ranges are calculated
- and stored in the buffer state.
-
- Finally, a redraw command is issued to force nvim to redraw the screen to
- pick up changed highlight tokens.
-
-## reset
-
-
-```lua
-(method) STHighlighter:reset()
-```
-
- Reset the buffer's highlighting state and clears the extmark highlights.
 
 ## reset_timer
 
@@ -2042,37 +1545,6 @@ Treesitter folding is done in two steps:
 (1) compute the fold levels with the syntax tree and cache the result (`compute_folds_levels`)
 (2) evaluate foldexpr for each window, which reads from the cache (`foldupdate`)
 
-## add_range
-
-
-```lua
-(method) TS.FoldInfo:add_range(srow: integer, erow: integer)
-```
-
-@*param* `erow` — 0-indexed, exclusive
-
-## do_foldupdate
-
-
-```lua
-(method) TS.FoldInfo:do_foldupdate(bufnr: any)
-```
-
-## foldupdate
-
-
-```lua
-(method) TS.FoldInfo:foldupdate(bufnr: any, srow: integer, erow: integer)
-```
-
- Update the folds in the windows that contain the buffer and use expr foldmethod (assuming that
- the user doesn't use different foldexpr for the same buffer).
-
- Nvim usually automatically updates folds when text changes, but it doesn't work here because
- FoldInfo update is scheduled. So we do it manually.
-
-@*param* `erow` — 0-indexed, exclusive
-
 ## foldupdate_range
 
 
@@ -2102,14 +1574,6 @@ integer[]
 
 the cached raw fold levels
 
-## new
-
-
-```lua
-function TS.FoldInfo.new(buf: integer)
-  -> TS.FoldInfo
-```
-
 ## on_bytes_range
 
 
@@ -2130,15 +1594,6 @@ Should compute fold levels in this range.
 
 
 The treesitter parser associated with this buffer.
-
-## remove_range
-
-
-```lua
-(method) TS.FoldInfo:remove_range(srow: integer, erow: integer)
-```
-
-@*param* `erow` — 0-indexed, exclusive
 
 
 ---
@@ -2908,7 +2363,7 @@ function
 
 
 ```lua
-function _G.copcall(f: fun(...any):...unknown, ...any)
+function _G.copcall(f: any, ...any)
   -> boolean|unknown
   2. unknown
   3. unknown
@@ -2926,7 +2381,7 @@ function
 
 
 ```lua
-function _G.coxpcall(f: fun(...any):...unknown, err: function, ...any)
+function _G.coxpcall(f: any, err: any, ...any)
   -> boolean|unknown
   2. unknown
   3. unknown
@@ -3016,6 +2471,38 @@ function export.makeDocObject.INIT(source: any, has_seen: any)
 ---
 
 # export.makeDocObject.doc.class
+
+
+```lua
+function (source: any, obj: any, has_seen: any)
+  -> unknown
+```
+
+
+---
+
+# export.makeDocObject.doc.type.field
+
+
+```lua
+function (source: any, obj: any, has_seen: any)
+```
+
+
+---
+
+# export.makeDocObject.setfield
+
+
+```lua
+function (source: any, obj: any, has_seen: any)
+  -> unknown
+```
+
+
+---
+
+# export.makeDocObject.variable
 
 
 ```lua
@@ -61600,14 +61087,14 @@ table
 # vim.NIL
 
 
----
-
-# vim.NIL
-
-
 ```lua
 unknown
 ```
+
+
+---
+
+# vim.NIL
 
 
 ---
@@ -62822,29 +62309,6 @@ vim.Version
 ```lua
 (method) vim.Version:__le(other: vim.Version)
   -> boolean
-```
-
-## __lt
-
-
-```lua
-(method) vim.Version:__lt(other: vim.Version)
-  -> boolean
-```
-
-## __newindex
-
-
-```lua
-(method) vim.Version:__newindex(key: any, value: any)
-```
-
-## __tostring
-
-
-```lua
-(method) vim.Version:__tostring()
-  -> string
 ```
 
 ## build
@@ -69817,6 +69281,16 @@ function vim.api.nvim_win_text_height(win: integer, opts: vim.api.keyset.win_tex
 
 # vim.b
 
+
+```lua
+vim.b
+```
+
+
+---
+
+# vim.b
+
 ## [integer]
 
 
@@ -69829,16 +69303,6 @@ vim.var_accessor
 
 ```lua
 any
-```
-
-
----
-
-# vim.b
-
-
-```lua
-vim.b
 ```
 
 
@@ -82311,14 +81775,14 @@ function vim.funcref(viml_func_name: any)
 # vim.g
 
 
-```lua
-vim.g|{ [string]: any }
-```
-
-
 ---
 
 # vim.g
+
+
+```lua
+vim.g|{ [string]: any }
+```
 
 
 ---
@@ -88478,15 +87942,6 @@ vim.lsp.Client
 
  Add a directory to the workspace folders.
 
-## _all
-
-
-```lua
-table<integer, vim.lsp.Client>
-```
-
- Export for internal use only.
-
 ## _before_init_cb
 
 
@@ -88502,22 +87957,6 @@ table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_ed
 ```
 
 
-## _get_language_id
-
-
-```lua
-(method) vim.lsp.Client:_get_language_id(bufnr: any)
-  -> string
-```
-
-## _get_registrations
-
-
-```lua
-(method) vim.lsp.Client:_get_registrations(provider: string, bufnr?: integer)
-  -> lsp.Registration[]?
-```
-
 ## _graceful_shutdown_failed
 
 
@@ -88529,44 +87968,11 @@ true?
  Track this so that we can escalate automatically if we've already tried a
  graceful shutdown
 
-## _handle_restart
-
-
-```lua
-function vim.lsp.Client._handle_restart()
-```
-
 ## _log_prefix
 
 
 ```lua
 string
-```
-
-## _notification
-
-
-```lua
-(method) vim.lsp.Client:_notification(method: '$/cancelRequest'|'$/logTrace'|'$/progress'|'telemetry/event'|'textDocument/publishDiagnostics'...(+2), params: table)
-```
-
- Handles a notification sent by an LSP server by invoking the
- corresponding handler.
-
-@*param* `method` — LSP method name
-
-@*param* `params` — The parameters for that method.
-
-```lua
---  LSP Notification (direction: serverToClient)
-method:
-    | '$/cancelRequest'
-    | '$/logTrace'
-    | '$/progress'
-    | 'telemetry/event'
-    | 'textDocument/publishDiagnostics'
-    | 'window/logMessage'
-    | 'window/showMessage'
 ```
 
 ## _on_attach_cbs
@@ -88585,41 +87991,12 @@ fun(client: vim.lsp.Client, bufnr: integer)[]
 
 @*param* `bufnr` — resolved buffer
 
-## _on_error
-
-
-```lua
-(method) vim.lsp.Client:_on_error(code: integer, err: any)
-```
-
- Invoked when the client operation throws an error.
-
-@*param* `code` — Error code
-
-@*param* `err` — Other arguments may be passed depending on the error kind
-
- `vim.lsp.rpc.client_errors[code]` to get a human-friendly name.
-See: ~vim.lsp.rpc.client_errors~ for possible errors. Use
-
 ## _on_error_cb
 
 
 ```lua
 fun(code: integer, err: string)?
 ```
-
-## _on_exit
-
-
-```lua
-(method) vim.lsp.Client:_on_exit(code: integer, signal: integer)
-```
-
- Invoked on client exit.
-
-@*param* `code` — ) exit code of the process
-
-@*param* `signal` — the signal used to terminate (if any)
 
 ## _on_exit_cbs
 
@@ -88644,131 +88021,6 @@ boolean?
 
 
  Whether on-type formatting is enabled for this client.
-
-## _process_request
-
-
-```lua
-(method) vim.lsp.Client:_process_request(id: integer, req_type: 'cancel'|'complete'|'pending', bufnr?: integer, method?: '$/cancelRequest'|'$/logTrace'|'$/progress'|'$/setTrace'|'callHierarchy/incomingCalls'...(+90))
-```
-
-@*param* `bufnr` — (only required for req_type='pending')
-
-@*param* `method` — (only required for req_type='pending')
-
-```lua
-req_type:
-    | 'pending'
-    | 'complete'
-    | 'cancel'
-
---  LSP Message (direction: clientToServer).
---  LSP Message (direction: clientToServer).
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
---  LSP Notification (direction: clientToServer)
---  LSP Message (direction: serverToClient).
---  LSP Request (direction: serverToClient)
---  LSP Notification (direction: serverToClient)
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-    | '$/cancelRequest'
-    | '$/progress'
-    | '$/setTrace'
-    | 'exit'
-    | 'initialized'
-    | 'notebookDocument/didChange'
-    | 'notebookDocument/didClose'
-    | 'notebookDocument/didOpen'
-    | 'notebookDocument/didSave'
-    | 'textDocument/didChange'
-    | 'textDocument/didClose'
-    | 'textDocument/didOpen'
-    | 'textDocument/didSave'
-    | 'textDocument/willSave'
-    | 'window/workDoneProgress/cancel'
-    | 'workspace/didChangeConfiguration'
-    | 'workspace/didChangeWatchedFiles'
-    | 'workspace/didChangeWorkspaceFolders'
-    | 'workspace/didCreateFiles'
-    | 'workspace/didDeleteFiles'
-    | 'workspace/didRenameFiles'
-    | 'client/registerCapability'
-    | 'client/unregisterCapability'
-    | 'window/showDocument'
-    | 'window/showMessageRequest'
-    | 'window/workDoneProgress/create'
-    | 'workspace/applyEdit'
-    | 'workspace/codeLens/refresh'
-    | 'workspace/configuration'
-    | 'workspace/diagnostic/refresh'
-    | 'workspace/foldingRange/refresh'
-    | 'workspace/inlayHint/refresh'
-    | 'workspace/inlineValue/refresh'
-    | 'workspace/semanticTokens/refresh'
-    | 'workspace/textDocumentContent/refresh'
-    | 'workspace/workspaceFolders'
-    | '$/cancelRequest'
-    | '$/logTrace'
-    | '$/progress'
-    | 'telemetry/event'
-    | 'textDocument/publishDiagnostics'
-    | 'window/logMessage'
-    | 'window/showMessage'
-```
 
 ## _process_static_registrations
 
@@ -88892,151 +88144,12 @@ method:
     | 'textDocument/semanticTokens'
 ```
 
-## _register
-
-
-```lua
-(method) vim.lsp.Client:_register(registrations: lsp.Registration[])
-```
-
 ## _register_dynamic
 
 
 ```lua
 (method) vim.lsp.Client:_register_dynamic(registrations: lsp.Registration[])
 ```
-
-## _registration_provider
-
-
-```lua
-(method) vim.lsp.Client:_registration_provider(method: '$/cancelRequest'|'$/logTrace'|'$/progress'|'$/setTrace'|'callHierarchy/incomingCalls'...(+92))
-  -> string
-```
-
- Get provider for a method to be registered dynamically.
-
-```lua
---  LSP Message (direction: clientToServer).
---  LSP Message (direction: clientToServer).
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
---  LSP Notification (direction: clientToServer)
---  LSP Message (direction: serverToClient).
---  LSP Request (direction: serverToClient)
---  LSP Notification (direction: serverToClient)
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP registration methods
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-    | '$/cancelRequest'
-    | '$/progress'
-    | '$/setTrace'
-    | 'exit'
-    | 'initialized'
-    | 'notebookDocument/didChange'
-    | 'notebookDocument/didClose'
-    | 'notebookDocument/didOpen'
-    | 'notebookDocument/didSave'
-    | 'textDocument/didChange'
-    | 'textDocument/didClose'
-    | 'textDocument/didOpen'
-    | 'textDocument/didSave'
-    | 'textDocument/willSave'
-    | 'window/workDoneProgress/cancel'
-    | 'workspace/didChangeConfiguration'
-    | 'workspace/didChangeWatchedFiles'
-    | 'workspace/didChangeWorkspaceFolders'
-    | 'workspace/didCreateFiles'
-    | 'workspace/didDeleteFiles'
-    | 'workspace/didRenameFiles'
-    | 'client/registerCapability'
-    | 'client/unregisterCapability'
-    | 'window/showDocument'
-    | 'window/showMessageRequest'
-    | 'window/workDoneProgress/create'
-    | 'workspace/applyEdit'
-    | 'workspace/codeLens/refresh'
-    | 'workspace/configuration'
-    | 'workspace/diagnostic/refresh'
-    | 'workspace/foldingRange/refresh'
-    | 'workspace/inlayHint/refresh'
-    | 'workspace/inlineValue/refresh'
-    | 'workspace/semanticTokens/refresh'
-    | 'workspace/textDocumentContent/refresh'
-    | 'workspace/workspaceFolders'
-    | '$/cancelRequest'
-    | '$/logTrace'
-    | '$/progress'
-    | 'telemetry/event'
-    | 'textDocument/publishDiagnostics'
-    | 'window/logMessage'
-    | 'window/showMessage'
-    | 'notebookDocument/sync'
-    | 'textDocument/semanticTokens'
-```
-
-## _remove_workspace_folder
-
-
-```lua
-(method) vim.lsp.Client:_remove_workspace_folder(dir?: string)
-```
-
- Remove a directory to the workspace folders.
 
 ## _resolve_handler
 
@@ -89241,151 +88354,6 @@ method:
 
  Timer for stop() with timeout.
 
-## _supports_registration
-
-
-```lua
-(method) vim.lsp.Client:_supports_registration(method: '$/cancelRequest'|'$/logTrace'|'$/progress'|'$/setTrace'|'callHierarchy/incomingCalls'...(+92))
-  -> boolean
-```
-
- Get options for a method that is registered dynamically.
-
-```lua
---  LSP Message (direction: clientToServer).
---  LSP Message (direction: clientToServer).
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
---  LSP Notification (direction: clientToServer)
---  LSP Message (direction: serverToClient).
---  LSP Request (direction: serverToClient)
---  LSP Notification (direction: serverToClient)
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP registration methods
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-    | '$/cancelRequest'
-    | '$/progress'
-    | '$/setTrace'
-    | 'exit'
-    | 'initialized'
-    | 'notebookDocument/didChange'
-    | 'notebookDocument/didClose'
-    | 'notebookDocument/didOpen'
-    | 'notebookDocument/didSave'
-    | 'textDocument/didChange'
-    | 'textDocument/didClose'
-    | 'textDocument/didOpen'
-    | 'textDocument/didSave'
-    | 'textDocument/willSave'
-    | 'window/workDoneProgress/cancel'
-    | 'workspace/didChangeConfiguration'
-    | 'workspace/didChangeWatchedFiles'
-    | 'workspace/didChangeWorkspaceFolders'
-    | 'workspace/didCreateFiles'
-    | 'workspace/didDeleteFiles'
-    | 'workspace/didRenameFiles'
-    | 'client/registerCapability'
-    | 'client/unregisterCapability'
-    | 'window/showDocument'
-    | 'window/showMessageRequest'
-    | 'window/workDoneProgress/create'
-    | 'workspace/applyEdit'
-    | 'workspace/codeLens/refresh'
-    | 'workspace/configuration'
-    | 'workspace/diagnostic/refresh'
-    | 'workspace/foldingRange/refresh'
-    | 'workspace/inlayHint/refresh'
-    | 'workspace/inlineValue/refresh'
-    | 'workspace/semanticTokens/refresh'
-    | 'workspace/textDocumentContent/refresh'
-    | 'workspace/workspaceFolders'
-    | '$/cancelRequest'
-    | '$/logTrace'
-    | '$/progress'
-    | 'telemetry/event'
-    | 'textDocument/publishDiagnostics'
-    | 'window/logMessage'
-    | 'window/showMessage'
-    | 'notebookDocument/sync'
-    | 'textDocument/semanticTokens'
-```
-
-## _text_document_did_close_handler
-
-
-```lua
-(method) vim.lsp.Client:_text_document_did_close_handler(bufnr: integer)
-```
-
- Default handler for the 'textDocument/didClose' LSP notification.
-
-@*param* `bufnr` — Number of the buffer, or 0 for current
-
-## _text_document_did_open_handler
-
-
-```lua
-(method) vim.lsp.Client:_text_document_did_open_handler(bufnr: integer)
-```
-
- Default handler for the 'textDocument/didOpen' LSP notification.
-
-@*param* `bufnr` — Number of the buffer, or 0 for current
-
 ## _trace
 
 
@@ -89397,20 +88365,6 @@ method:
  The initial trace setting. If omitted trace is disabled ("off").
  trace = "off" | "messages" | "verbose";
 
-## _unregister
-
-
-```lua
-(method) vim.lsp.Client:_unregister(unregistrations: lsp.Unregistration[])
-```
-
-## _unregister_dynamic
-
-
-```lua
-(method) vim.lsp.Client:_unregister_dynamic(unregistrations: lsp.Unregistration[])
-```
-
 ## attached_buffers
 
 
@@ -89420,22 +88374,6 @@ table<integer, string>
 
 
  Each buffer's last used `languageId`.
-
-## cancel_request
-
-
-```lua
-(method) vim.lsp.Client:cancel_request(id: integer)
-  -> status: boolean
-```
-
- Cancels a request with a given request id.
-
-@*param* `id` — id of request to cancel
-
-@*return* `status` — indicating if the notification was successful.
-
- @see |Client:notify()|
 
 ## capabilities
 
@@ -89466,16 +88404,6 @@ vim.lsp.ClientConfig
 
 
  Copy of the config passed to |vim.lsp.start()|.
-
-## create
-
-
-```lua
-function vim.lsp.Client.create(config: vim.lsp.ClientConfig)
-  -> (vim.lsp.Client)?
-```
-
- @nodoc
 
 ## dynamic_capabilities
 
@@ -89550,15 +88478,6 @@ integer
 
  The id allocated to the client.
 
-## initialize
-
-
-```lua
-(method) vim.lsp.Client:initialize()
-```
-
- @nodoc
-
 ## initialized
 
 
@@ -89566,20 +88485,6 @@ integer
 true?
 ```
 
-
-## is_stopped
-
-
-```lua
-(method) vim.lsp.Client:is_stopped()
-  -> boolean
-```
-
- Checks whether a client is stopped.
-
-@*return* — true if client is stopped or in the process of being
-
- stopped; false otherwise
 
 ## name
 
@@ -89591,52 +88496,6 @@ string
 
  See [vim.lsp.ClientConfig].
 
-## notify
-
-
-```lua
-(method) vim.lsp.Client:notify(method: '$/cancelRequest'|'$/progress'|'$/setTrace'|'exit'|'initialized'...(+16), params?: table, bufnr?: integer)
-  -> status: boolean
-```
-
- Sends a notification to an LSP server.
-
-@*param* `method` — LSP method name.
-
-@*param* `params` — LSP request params.
-
-@*param* `bufnr` — Buffer associated with notification.
-
-@*return* `status` — indicating if the notification was successful.
-
-                        If it is false, then the client has shutdown.
-
-```lua
---  LSP Notification (direction: clientToServer)
-method:
-    | '$/cancelRequest'
-    | '$/progress'
-    | '$/setTrace'
-    | 'exit'
-    | 'initialized'
-    | 'notebookDocument/didChange'
-    | 'notebookDocument/didClose'
-    | 'notebookDocument/didOpen'
-    | 'notebookDocument/didSave'
-    | 'textDocument/didChange'
-    | 'textDocument/didClose'
-    | 'textDocument/didOpen'
-    | 'textDocument/didSave'
-    | 'textDocument/willSave'
-    | 'window/workDoneProgress/cancel'
-    | 'workspace/didChangeConfiguration'
-    | 'workspace/didChangeWatchedFiles'
-    | 'workspace/didChangeWorkspaceFolders'
-    | 'workspace/didCreateFiles'
-    | 'workspace/didDeleteFiles'
-    | 'workspace/didRenameFiles'
-```
-
 ## offset_encoding
 
 
@@ -89646,18 +88505,6 @@ method:
 
 
  See [vim.lsp.ClientConfig].
-
-## on_attach
-
-
-```lua
-(method) vim.lsp.Client:on_attach(bufnr: integer)
-```
-
- Runs the on_attach function from the client's config if it was defined.
- Useful for buffer-local setup.
-
-@*param* `bufnr` — Buffer number
 
 ## progress
 
@@ -89677,190 +88524,6 @@ vim.lsp.Client.Progress
 table<string, lsp.Registration[]>
 ```
 
-
-## request
-
-
-```lua
-(method) vim.lsp.Client:request(method: 'callHierarchy/incomingCalls'|'callHierarchy/outgoingCalls'|'codeAction/resolve'|'codeLens/resolve'|'completionItem/resolve'...(+49), params?: table, handler?: fun(err?: lsp.ResponseError, result: any, context: lsp.HandlerContext, config?: table):...unknown, bufnr?: integer)
-  -> status: boolean
-  2. request_id: integer?
-```
-
- Sends a request to the server.
-
- This is a thin wrapper around {client.rpc.request} with some additional
- checks for capabilities and handler availability.
-
-@*param* `method` — LSP method name.
-
-@*param* `params` — LSP request params.
-
-@*param* `handler` — Response |lsp-handler| for this method.
-
-@*param* `bufnr` — (default: 0) Buffer handle, or 0 for current.
-
-@*return* `status` — indicates whether the request was successful.
-
-     If it is `false`, then it will always be `false` (the client has shutdown).
-
-@*return* `request_id` — Can be used with |Client:cancel_request()|.
-
-                             `nil` is request failed.
- to cancel the-request.
- @see |vim.lsp.buf_request_all()|
-
-```lua
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-```
-
-## request_sync
-
-
-```lua
-(method) vim.lsp.Client:request_sync(method: 'callHierarchy/incomingCalls'|'callHierarchy/outgoingCalls'|'codeAction/resolve'|'codeLens/resolve'|'completionItem/resolve'...(+49), params: table, timeout_ms?: integer, bufnr?: integer)
-  -> { err: (lsp.ResponseError)?, result: any }?
-  2. err: string?
-```
-
- Sends a request to the server and synchronously waits for the response.
-
- This is a wrapper around |Client:request()|
-
-@*param* `method` — LSP method name.
-
-@*param* `params` — LSP request params.
-
-@*param* `timeout_ms` — Maximum time in milliseconds to wait for
-
-                                a result. Defaults to 1000
-
-@*param* `bufnr` — (default: 0) Buffer handle, or 0 for current.
-
-@*return* — `result` and `err` from the |lsp-handler|.
-
-                 `nil` is the request was unsuccessful
-
-@*return* `err` — On timeout, cancel or error, where `err` is a
-
-                 string describing the failure reason.
- @see |vim.lsp.buf_request_sync()|
-
-```lua
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-```
 
 ## requests
 
@@ -89928,130 +88591,6 @@ table<string, lsp.LSPAny>
 
  See [vim.lsp.ClientConfig].
 
-## stop
-
-
-```lua
-(method) vim.lsp.Client:stop(force?: boolean|integer)
-```
-
- Stops a client, optionally with force after a timeout.
-
- By default this sends a "shutdown" request to the server, escalating to force-stop if the server
- has not exited after `self.exit_timeout` milliseconds (unless `exit_timeout=false`).
- Calling stop() on a client that was previously requested to shutdown, will escalate to
- force-stop immediately, regardless of `force` (or `self.exit_timeout` if `force=nil`).
-
- Note: Forcing shutdown while a server is busy writing out project or index files can lead to
- file corruption.
-
-@*param* `force` — (default: `self.exit_timeout`) Decides whether to force-stop the server.
-
- - `false`: Do not force-stop after "shutdown" request.
- - `nil`: Defaults to `exit_timeout` from |vim.lsp.ClientConfig|.
- - `true`: Force-stop after "shutdown" request.
- - number: Wait up to `force` milliseconds before force-stop.
-
-## supports_method
-
-
-```lua
-(method) vim.lsp.Client:supports_method(method: '$/cancelRequest'|'$/progress'|'$/setTrace'|'callHierarchy/incomingCalls'|'callHierarchy/outgoingCalls'...(+72), bufnr?: integer)
-  -> boolean
-```
-
- Checks if a client supports a given method.
- Always returns true for unknown off-spec methods.
-
- Note: Some language server capabilities can be file specific.
-
-```lua
---  LSP Message (direction: clientToServer).
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP Request (direction: clientToServer)
---  LSP Notification (direction: clientToServer)
---  Generated by gen_lsp.lua, keep at end of file.
---  LSP registration methods
-method:
-    | 'callHierarchy/incomingCalls'
-    | 'callHierarchy/outgoingCalls'
-    | 'codeAction/resolve'
-    | 'codeLens/resolve'
-    | 'completionItem/resolve'
-    | 'documentLink/resolve'
-    | 'initialize'
-    | 'inlayHint/resolve'
-    | 'shutdown'
-    | 'textDocument/codeAction'
-    | 'textDocument/codeLens'
-    | 'textDocument/colorPresentation'
-    | 'textDocument/completion'
-    | 'textDocument/declaration'
-    | 'textDocument/definition'
-    | 'textDocument/diagnostic'
-    | 'textDocument/documentColor'
-    | 'textDocument/documentHighlight'
-    | 'textDocument/documentLink'
-    | 'textDocument/documentSymbol'
-    | 'textDocument/foldingRange'
-    | 'textDocument/formatting'
-    | 'textDocument/hover'
-    | 'textDocument/implementation'
-    | 'textDocument/inlayHint'
-    | 'textDocument/inlineCompletion'
-    | 'textDocument/inlineValue'
-    | 'textDocument/linkedEditingRange'
-    | 'textDocument/moniker'
-    | 'textDocument/onTypeFormatting'
-    | 'textDocument/prepareCallHierarchy'
-    | 'textDocument/prepareRename'
-    | 'textDocument/prepareTypeHierarchy'
-    | 'textDocument/rangeFormatting'
-    | 'textDocument/rangesFormatting'
-    | 'textDocument/references'
-    | 'textDocument/rename'
-    | 'textDocument/selectionRange'
-    | 'textDocument/semanticTokens/full'
-    | 'textDocument/semanticTokens/full/delta'
-    | 'textDocument/semanticTokens/range'
-    | 'textDocument/signatureHelp'
-    | 'textDocument/typeDefinition'
-    | 'textDocument/willSaveWaitUntil'
-    | 'typeHierarchy/subtypes'
-    | 'typeHierarchy/supertypes'
-    | 'workspaceSymbol/resolve'
-    | 'workspace/diagnostic'
-    | 'workspace/executeCommand'
-    | 'workspace/symbol'
-    | 'workspace/textDocumentContent'
-    | 'workspace/willCreateFiles'
-    | 'workspace/willDeleteFiles'
-    | 'workspace/willRenameFiles'
-    | '$/cancelRequest'
-    | '$/progress'
-    | '$/setTrace'
-    | 'exit'
-    | 'initialized'
-    | 'notebookDocument/didChange'
-    | 'notebookDocument/didClose'
-    | 'notebookDocument/didOpen'
-    | 'notebookDocument/didSave'
-    | 'textDocument/didChange'
-    | 'textDocument/didClose'
-    | 'textDocument/didOpen'
-    | 'textDocument/didSave'
-    | 'textDocument/willSave'
-    | 'window/workDoneProgress/cancel'
-    | 'workspace/didChangeConfiguration'
-    | 'workspace/didChangeWatchedFiles'
-    | 'workspace/didChangeWorkspaceFolders'
-    | 'workspace/didCreateFiles'
-    | 'workspace/didDeleteFiles'
-    | 'workspace/didRenameFiles'
-    | 'notebookDocument/sync'
-    | 'textDocument/semanticTokens'
-```
-
 ## workspace_folders
 
 
@@ -90061,19 +88600,6 @@ lsp.WorkspaceFolder[]?
 
 
  See [vim.lsp.ClientConfig].
-
-## write_error
-
-
-```lua
-(method) vim.lsp.Client:write_error(code: integer, err: any)
-```
-
- Logs the given error to the LSP log and to the error buffer.
-
-@*param* `code` — Error code
-
-@*param* `err` — Error arguments
 
 
 ---
@@ -91708,23 +90234,6 @@ vim.lsp.codelens.Provider
 table<integer, (vim.lsp.codelens.Provider)?>
 ```
 
-## all
-
-
-```lua
-table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), vim.lsp.Capability>
-```
-
-## augroup
-
-
-```lua
-integer
-```
-
-
- The augroup owned by this instance, which will be cleared upon destruction.
-
 ## automatic_request
 
 
@@ -91733,16 +90242,6 @@ integer
 ```
 
  Automatically request with debouncing, used as callbacks in autocmd events.
-
-## bufnr
-
-
-```lua
-integer
-```
-
-
- Buffer number it associated with.
 
 ## client_state
 
@@ -91761,23 +90260,6 @@ table<integer, (vim.lsp.codelens.ClientState)?>?
 (method) vim.lsp.codelens.Provider:destroy()
 ```
 
-## enable
-
-
-```lua
-function vim.lsp.Capability.enable(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), enable?: boolean, filter?: vim.lsp.capability.enable.Filter)
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
 ## handler
 
 
@@ -91786,24 +90268,6 @@ name:
 ```
 
  `lsp.Handler` for `textDocument/codeLens`.
-
-## is_enabled
-
-
-```lua
-function vim.lsp.Capability.is_enabled(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), filter?: vim.lsp.capability.enable.Filter)
-  -> false
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
 
 ## new
 
@@ -91853,13 +90317,6 @@ name:
 
 ```lua
 (method) vim.lsp.codelens.Provider:reset_timer()
-```
-
-## resolve
-
-
-```lua
-(method) vim.lsp.codelens.Provider:resolve(client: vim.lsp.Client, unresolved_lens: lsp.CodeLens)
 ```
 
 ## row_version
@@ -92246,33 +90703,6 @@ vim.lsp.document_color.Provider
 table<integer, (vim.lsp.document_color.Provider)?>
 ```
 
-## all
-
-
-```lua
-table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), vim.lsp.Capability>
-```
-
-## augroup
-
-
-```lua
-integer
-```
-
-
- The augroup owned by this instance, which will be cleared upon destruction.
-
-## bufnr
-
-
-```lua
-integer
-```
-
-
- Buffer number it associated with.
-
 ## clear
 
 
@@ -92285,79 +90715,6 @@ integer
 
 ```lua
 table<integer, (vim.lsp.document_color.ClientState)?>
-```
-
-## destroy
-
-
-```lua
-(method) vim.lsp.Capability:destroy()
-```
-
-## enable
-
-
-```lua
-function vim.lsp.Capability.enable(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), enable?: boolean, filter?: vim.lsp.capability.enable.Filter)
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
-## handler
-
-
-```lua
-(method) vim.lsp.document_color.Provider:handler(err?: lsp.ResponseError, result?: lsp.ColorInformation[], ctx: lsp.HandlerContext)
-```
-
- |lsp-handler| for the `textDocument/documentColor` method.
-
-## is_enabled
-
-
-```lua
-function vim.lsp.Capability.is_enabled(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), filter?: vim.lsp.capability.enable.Filter)
-  -> false
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
-## new
-
-
-```lua
-(method) vim.lsp.document_color.Provider:new(bufnr: integer)
-  -> vim.lsp.document_color.Provider
-```
-
-## on_attach
-
-
-```lua
-(method) vim.lsp.document_color.Provider:on_attach(client_id: integer)
-```
-
-## on_detach
-
-
-```lua
-(method) vim.lsp.document_color.Provider:on_detach(client_id: integer)
 ```
 
 ## request
@@ -92387,33 +90744,6 @@ table<integer, (vim.lsp.folding_range.State)?>
 ```
 
 
-## all
-
-
-```lua
-table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), vim.lsp.Capability>
-```
-
-## augroup
-
-
-```lua
-integer
-```
-
-
- The augroup owned by this instance, which will be cleared upon destruction.
-
-## bufnr
-
-
-```lua
-integer
-```
-
-
- Buffer number it associated with.
-
 ## client_state
 
 
@@ -92427,54 +90757,6 @@ table<integer, lsp.FoldingRange[]?>
 
  Index In the form of client_id -> ranges
 
-## destroy
-
-
-```lua
-(method) vim.lsp.folding_range.State:destroy()
-```
-
-## enable
-
-
-```lua
-function vim.lsp.Capability.enable(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), enable?: boolean, filter?: vim.lsp.capability.enable.Filter)
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
-## evaluate
-
-
-```lua
-(method) vim.lsp.folding_range.State:evaluate()
-```
-
- Re-evaluate the cached foldinfo in the buffer.
-
-## foldclose
-
-
-```lua
-(method) vim.lsp.folding_range.State:foldclose(kind: "comment"|"imports"|"region", winid: integer)
-```
-
-```lua
--- A set of predefined range kinds.
-kind:
-    | "comment" -- Comment
-    | "imports" -- Imports
-    | "region" -- Region
-```
-
 ## handler
 
 
@@ -92483,74 +90765,6 @@ kind:
 ```
 
 @*param* `ctx` — , config?: table
-
-## is_enabled
-
-
-```lua
-function vim.lsp.Capability.is_enabled(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), filter?: vim.lsp.capability.enable.Filter)
-  -> false
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
-## multi_handler
-
-
-```lua
-(method) vim.lsp.folding_range.State:multi_handler(results: table<integer, { err: (lsp.ResponseError)?, result: lsp.FoldingRange[]? }>, ctx: lsp.HandlerContext)
-```
-
-## new
-
-
-```lua
-(method) vim.lsp.folding_range.State:new(bufnr: integer)
-  -> vim.lsp.folding_range.State
-```
-
- Initialize `state` and event hooks, then request folding ranges.
-
-## on_attach
-
-
-```lua
-(method) vim.lsp.folding_range.State:on_attach(client_id: integer)
-```
-
-## on_detach
-
-
-```lua
-(method) vim.lsp.folding_range.State:on_detach(client_id: integer)
-```
-
-## refresh
-
-
-```lua
-(method) vim.lsp.folding_range.State:refresh(client?: vim.lsp.Client)
-```
-
- Request `textDocument/foldingRange` from the server.
- `foldupdate()` is scheduled once after the request is completed.
-
-@*param* `client` — The client whose server supports `foldingRange`.
-
-## reset
-
-
-```lua
-(method) vim.lsp.folding_range.State:reset()
-```
 
 ## row_kinds
 
@@ -92880,55 +91094,11 @@ vim.lsp.inline_completion.Completor
 table<integer, (vim.lsp.inline_completion.Completor)?>
 ```
 
-## all
-
-
-```lua
-table<'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), vim.lsp.Capability>
-```
-
-## augroup
-
-
-```lua
-integer
-```
-
-
- The augroup owned by this instance, which will be cleared upon destruction.
-
-## automatic_request
-
-
-```lua
-(method) vim.lsp.inline_completion.Completor:automatic_request()
-```
-
- Automatically request with debouncing, used as callbacks in autocmd events.
-
-## bufnr
-
-
-```lua
-integer
-```
-
-
- Buffer number it associated with.
-
 ## client_state
 
 
 ```lua
 table<integer, vim.lsp.inline_completion.ClientState>
-```
-
-## count_items
-
-
-```lua
-(method) vim.lsp.inline_completion.Completor:count_items()
-  -> integer
 ```
 
 ## current
@@ -92945,23 +91115,6 @@ Currently selected item
 
 ```lua
 (method) vim.lsp.inline_completion.Completor:destroy()
-```
-
-## enable
-
-
-```lua
-function vim.lsp.Capability.enable(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), enable?: boolean, filter?: vim.lsp.capability.enable.Filter)
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
 ```
 
 ## get_item
@@ -92991,24 +91144,6 @@ name:
 
  Hide the current completion item.
 
-## is_enabled
-
-
-```lua
-function vim.lsp.Capability.is_enabled(name: 'codelens'|'document_color'|'folding_range'|'inline_completion'|'linked_editing_range'...(+1), filter?: vim.lsp.capability.enable.Filter)
-  -> false
-```
-
-```lua
-name:
-    | 'codelens'
-    | 'document_color'
-    | 'semantic_tokens'
-    | 'folding_range'
-    | 'linked_editing_range'
-    | 'inline_completion'
-```
-
 ## new
 
 
@@ -93016,27 +91151,6 @@ name:
 (method) vim.lsp.inline_completion.Completor:new(buf: integer)
   -> vim.lsp.inline_completion.Completor
 ```
-
-## on_attach
-
-
-```lua
-(method) vim.lsp.Capability:on_attach(client_id: integer)
-```
-
- Callback invoked when an LSP client attaches.
- Use it to initialize per-client state (empty table, new namespaces, etc.),
- or issue requests as needed.
-
-## on_detach
-
-
-```lua
-(method) vim.lsp.Capability:on_detach(client_id: integer)
-```
-
- Callback invoked when an LSP client detaches.
- Use it to clear per-client state (cached data, extmarks, etc.).
 
 ## request
 
@@ -93051,13 +91165,6 @@ name:
 kind:
     | 1 -- Invoked
     | 2 -- Automatic
-```
-
-## reset_timer
-
-
-```lua
-(method) vim.lsp.inline_completion.Completor:reset_timer()
 ```
 
 ## select
@@ -102022,17 +100129,6 @@ function vim.re.updatelocale()
 
 # vim.regex
 
-
-```lua
-function vim.regex(re: string)
-  -> vim.regex
-```
-
-
----
-
-# vim.regex
-
  @nodoc
 
 ## match_line
@@ -102069,6 +100165,17 @@ function vim.regex(re: string)
 @*return* — match start (byte index), or `nil` if no match
 
 @*return* — match end (byte index), or `nil` if no match
+
+
+---
+
+# vim.regex
+
+
+```lua
+function vim.regex(re: string)
+  -> vim.regex
+```
 
 
 ---
@@ -102548,16 +100655,6 @@ function vim.system(cmd: string[], opts?: vim.SystemOpts, on_exit?: fun(out: vim
 
 # vim.t
 
-
-```lua
-vim.t
-```
-
-
----
-
-# vim.t
-
 ## [integer]
 
 
@@ -102570,6 +100667,16 @@ vim.var_accessor
 
 ```lua
 any
+```
+
+
+---
+
+# vim.t
+
+
+```lua
+vim.t
 ```
 
 
@@ -103209,18 +101316,6 @@ vim.treesitter.LanguageTree
 (method) vim.treesitter.LanguageTree:_add_injections(injections_by_lang: table<string, Range6[][]>)
 ```
 
-## _async_parse
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_async_parse(range?: boolean|Range2|Range4|Range6, on_parse: fun(err?: string, trees?: table<integer, TSTree>))
-  -> trees: table<integer, TSTree>?
-```
-
- Run an asynchronous parse, calling {on_parse} when complete.
-
-@*return* `trees` — the list of parsed trees, if parsing completed synchronously
-
 ## _callbacks
 
 
@@ -103256,22 +101351,6 @@ table<string, vim.treesitter.LanguageTree>
 ```
 
 Injected languages
-
-## _do_callback
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_do_callback(cb_name: 'bytes'|'changedtree'|'child_added'|'child_removed'|'detach', ...any)
-```
-
-```lua
-cb_name:
-    | 'changedtree'
-    | 'bytes'
-    | 'detach'
-    | 'child_added'
-    | 'child_removed'
-```
 
 ## _edit
 
@@ -103395,27 +101474,6 @@ integer
 
 Number of valid regions
 
-## _on_bytes
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_on_bytes(buf: integer, changed_tick: integer, start_row: integer, start_col: integer, start_byte: integer, old_row: integer, old_col: integer, old_byte: integer, new_row: integer, new_col: integer, new_byte: integer)
-```
-
-## _on_detach
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_on_detach(...any)
-```
-
-## _on_reload
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_on_reload()
-```
-
 ## _opts
 
 
@@ -103433,25 +101491,6 @@ Options
 ```
 
 Parent LanguageTree
-
-## _parse
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_parse(range?: boolean|Range2|Range2|Range4|Range6[]|Range4|Range6, thread_state: { timeout: integer? })
-  -> trees: table<integer, TSTree>
-  2. finished: boolean
-```
-
-## _parse_regions
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_parse_regions(range?: boolean|Range2|Range2|Range4|Range6[]|Range4|Range6, thread_state: { timeout: integer? })
-  -> changes: Range6[]
-  2. no_regions_parsed: integer
-  3. total_parse_time: number
-```
 
 ## _parser
 
@@ -103471,13 +101510,6 @@ Range2|Range4|Range6[]?
 
 Range for which injections have been processed
 
-## _push_async_callback
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_push_async_callback(range?: boolean|Range2|Range4|Range6, callback: fun(err?: string, trees?: table<integer, TSTree>))
-```
-
 ## _ranges_being_parsed
 
 
@@ -103494,20 +101526,6 @@ Table of regions for which the tree is currently running an async parse
 table<integer, Range6[]>?
 ```
 
-## _run_async_callbacks
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_run_async_callbacks(range?: boolean|Range2|Range4|Range6, err?: string, trees?: table<integer, TSTree>)
-```
-
-## _set_logger
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_set_logger()
-```
-
 ## _source
 
 
@@ -103516,13 +101534,6 @@ string|integer
 ```
 
 Buffer or string to parse
-
-## _subtract_time
-
-
-```lua
-(method) vim.treesitter.LanguageTree:_subtract_time(thread_state: { timeout: integer? }, time: integer)
-```
 
 ## _trees
 
@@ -103541,20 +101552,6 @@ table<integer, true>
 ```
 
 Set of valid region IDs.
-
-## add_child
-
-
-```lua
-(method) vim.treesitter.LanguageTree:add_child(lang: string)
-  -> injected: vim.treesitter.LanguageTree
-```
-
- Adds a child language to this |LanguageTree|.
-
- If the language already exists as a child, it will first be removed.
-
-@*param* `lang` — Language to add.
 
 ## children
 
@@ -103576,82 +101573,6 @@ Set of valid region IDs.
 
  Determines whether {range} is contained in the |LanguageTree|.
 
-## destroy
-
-
-```lua
-(method) vim.treesitter.LanguageTree:destroy()
-```
-
- Destroys this |LanguageTree| and all its children.
-
- Any cleanup logic should be performed here.
-
- Note: This DOES NOT remove this tree from a parent. Instead,
- `remove_child` must be called on the parent to remove it.
-
-## for_each_tree
-
-
-```lua
-(method) vim.treesitter.LanguageTree:for_each_tree(fn: fun(tree: TSTree, ltree: vim.treesitter.LanguageTree))
-```
-
- Invokes the callback for each |LanguageTree| recursively.
-
- Note: This includes the invoking tree's child trees as well.
-
-## included_regions
-
-
-```lua
-(method) vim.treesitter.LanguageTree:included_regions()
-  -> table<integer, Range6[]>
-```
-
-Gets the set of included regions managed by this LanguageTree. This can be different from the
-regions set by injection query, because a partial |LanguageTree:parse()| drops the regions
-outside the requested range.
-Each list represents a range in the form of
-{ {start_row}, {start_col}, {start_bytes}, {end_row}, {end_col}, {end_bytes} }.
-
-## invalidate
-
-
-```lua
-(method) vim.treesitter.LanguageTree:invalidate(reload: boolean|nil)
-```
-
- Invalidates this parser and its children.
-
- Should only be called when the tracked state of the LanguageTree is not valid against the parse
- tree in treesitter. Doesn't clear filesystem cache. Called often, so needs to be fast.
-
-## is_valid
-
-
-```lua
-(method) vim.treesitter.LanguageTree:is_valid(exclude_children?: boolean, range?: Range2|Range2|Range4|Range6[]|Range4|Range6)
-  -> boolean
-```
-
- Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()| reflects the latest
- state of the source. If invalid, user should call |LanguageTree:parse()|.
-
-@*param* `exclude_children` — whether to ignore the validity of children (default `false`)
-
-@*param* `range` — range (or list of ranges, sorted by starting point in ascending order) to check for validity
-
-## lang
-
-
-```lua
-(method) vim.treesitter.LanguageTree:lang()
-  -> string
-```
-
- Gets the language of this tree node.
-
 ## language_for_range
 
 
@@ -103664,35 +101585,6 @@ Each list represents a range in the form of
 
 @*return* `tree` — Managing {range}
 
-## named_node_for_range
-
-
-```lua
-(method) vim.treesitter.LanguageTree:named_node_for_range(range: Range4, opts?: vim.treesitter.LanguageTree.tree_for_range.Opts)
-  -> TSNode?
-```
-
- Gets the smallest named node that contains {range}.
-
-## new
-
-
-```lua
-function vim.treesitter.LanguageTree.new(source: string|integer, lang: string, opts?: vim.treesitter.LanguageTree.new.Opts)
-  -> parser: vim.treesitter.LanguageTree
-```
-
- @nodoc
-
- LanguageTree contains a tree of parsers: the root treesitter parser for {lang} and any
- "injected" language parsers, which themselves may inject other languages, recursively.
-
-@*param* `source` — Buffer or text string to parse
-
-@*param* `lang` — Root language of this tree
-
-@*return* `parser` — object
-
 ## node_for_range
 
 
@@ -103702,73 +101594,6 @@ function vim.treesitter.LanguageTree.new(source: string|integer, lang: string, o
 ```
 
  Gets the smallest node that contains {range}.
-
-## parent
-
-
-```lua
-(method) vim.treesitter.LanguageTree:parent()
-  -> (vim.treesitter.LanguageTree)?
-```
-
-Returns the parent tree. `nil` for the root tree.
-
-## parse
-
-
-```lua
-(method) vim.treesitter.LanguageTree:parse(range?: boolean|Range2|Range2|Range4|Range6[]|Range4|Range6, on_parse?: fun(err?: string, trees?: table<integer, TSTree>))
-  -> table<integer, TSTree>?
-```
-
- Recursively parse all regions in the language tree using |treesitter-parsers|
- for the corresponding languages and run injection queries on the parsed trees
- to determine whether child trees should be created and parsed.
-
- Any region with empty range (`{}`, typically only the root tree) is always parsed;
- otherwise (typically injections) only if it intersects {range} (or if {range} is `true`).
-
-@*param* `range` — : Parse this range (or list of ranges, sorted by starting
-
-     point in ascending order) in the parser's source.
-     Set to `true` to run a complete parse of the source (Note: Can be slow!)
-     Set to `false|nil` to only parse regions with empty ranges (typically
-     only the root tree without injections).
-
-@*param* `on_parse` — Function invoked when parsing completes.
-
-     When provided and `vim.g._ts_force_sync_parsing` is not set, parsing will run
-     asynchronously. The first argument to the function is a string representing the error type,
-     in case of a failure (currently only possible for timeouts). The second argument is the list
-     of trees returned by the parse (upon success), or `nil` if the parse timed out (determined
-     by 'redrawtime').
-
-     If parsing was still able to finish synchronously (within 3ms), `parse()` returns the list
-     of trees. Otherwise, it returns `nil`.
-
-## register_cbs
-
-
-```lua
-(method) vim.treesitter.LanguageTree:register_cbs(cbs: table<'on_bytes'|'on_changedtree'|'on_child_added'|'on_child_removed'|'on_detach', function>, recursive?: boolean)
-```
-
- Registers callbacks for the [LanguageTree].
-
-@*param* `cbs` — An [nvim_buf_attach()]-like table argument with the following handlers:
-
-           - `on_bytes` : see [nvim_buf_attach()].
-           - `on_changedtree` : a callback that will be called every time the tree has syntactical changes.
-              It will be passed two arguments: a table of the ranges (as node ranges) that
-              changed and the changed tree.
-           - `on_child_added` : emitted when a child is added to the tree.
-           - `on_child_removed` : emitted when a child is removed from the tree.
-           - `on_detach` : emitted when the buffer is detached, see [nvim_buf_detach_event].
-              Takes one argument, the number of the buffer.
-
-@*param* `recursive` — Apply callbacks recursively for all children. Any new children will
-
-                           also inherit the callbacks.
 
 ## remove_child
 
@@ -103803,40 +101628,6 @@ Returns the parent tree. `nil` for the root tree.
  nodes, which is useful for templating languages like ERB and EJS.
 
 @*param* `new_regions` — List of regions this tree should manage and parse.
-
-## source
-
-
-```lua
-(method) vim.treesitter.LanguageTree:source()
-  -> string|integer
-```
-
- Returns the source content of the language tree (bufnr or string).
-
-## tree_for_range
-
-
-```lua
-(method) vim.treesitter.LanguageTree:tree_for_range(range: Range4, opts?: vim.treesitter.LanguageTree.tree_for_range.Opts)
-  -> TSTree?
-```
-
- Gets the tree that contains {range}.
-
-## trees
-
-
-```lua
-(method) vim.treesitter.LanguageTree:trees()
-  -> table<integer, TSTree>
-```
-
- Returns all trees of the regions parsed by this parser.
- Does not include child languages.
- The result is list-like if
- * this LanguageTree is the root, in which case the result is empty or a singleton list; or
- * the root LanguageTree is fully parsed.
 
 
 ---
@@ -103901,33 +101692,6 @@ vim.treesitter.Query
 Parsed query, see |vim.treesitter.query.parse()|
 
 
-## _apply_directives
-
-
-```lua
-(method) vim.treesitter.Query:_apply_directives(directives: (string|integer)[][], pattern_i: integer, captures: table<integer, TSNode[]>, source: string|integer)
-  -> metadata: vim.treesitter.query.TSMetadata
-```
-
-## _match_predicates
-
-
-```lua
-(method) vim.treesitter.Query:_match_predicates(predicates: vim.treesitter.query.ProcessedPredicate[], pattern_i: integer, captures: table<integer, TSNode[]>, source: string|integer)
-  -> whether: boolean
-```
-
-@*return* `whether` — the predicates match
-
-## _process_patterns
-
-
-```lua
-(method) vim.treesitter.Query:_process_patterns()
-```
-
- Splits the query patterns into predicates and directives.
-
 ## _processed_patterns
 
 
@@ -103971,108 +101735,6 @@ vim.treesitter.QueryInfo
 
 query context (e.g. captures, predicates, directives)
 
-## iter_captures
-
-
-```lua
-(method) vim.treesitter.Query:iter_captures(node: TSNode, source: string|integer, start_row?: integer, end_row?: integer, opts?: table)
-  -> fun(end_line: integer|nil, end_col: integer|nil):integer, TSNode, vim.treesitter.query.TSMetadata, TSQueryMatch, TSTree
-```
-
- Iterates over all captures from all matches in {node}.
-
- {source} is required if the query contains predicates; then the caller
- must ensure to use a freshly parsed tree consistent with the current
- text of the buffer (if relevant). {start} and {stop} can be used to limit
- matches inside a row range (this is typically used with root node
- as the {node}, i.e., to get syntax highlight matches in the current
- viewport). When omitted, the {start} and {stop} row values are used from the given node.
-
- The iterator returns four values:
- 1. the numeric id identifying the capture
- 2. the captured node
- 3. metadata from any directives processing the match
- 4. the match itself
-
- Example: how to get captures by name:
- ```lua
- for id, node, metadata, match in query:iter_captures(tree:root(), bufnr, first, last) do
-   local name = query.captures[id] -- name of the capture in the query
-   -- typically useful info about the node:
-   local type = node:type() -- type of the captured node
-   local row1, col1, row2, col2 = node:range() -- range of the capture
-   -- ... use the info here ...
- end
- ```
-
-@*param* `node` — under which the search will occur
-
-@*param* `source` — Source buffer or string to extract text from
-
-@*param* `start_row` — Starting line for the search. Defaults to `node:start()`.
-
-@*param* `end_row` — Stopping line for the search (end-inclusive, unless `stop_col` is provided). Defaults to `node:end_()`.
-
-@*param* `opts` — Optional keyword arguments:
-
-   - end_col (integer) Stopping column for the search (end-exclusive).
-   - match_limit (integer) Set the maximum number of in-progress matches (Default: 256).
-   - max_start_depth (integer) if non-zero, sets the maximum start depth
-     for each match. This is used to prevent traversing too deep into a tree.
-   - start_col (integer) Starting column for the search.
-
-@*return* — :
-
-        capture id, capture node, metadata, match, tree
-
-## iter_matches
-
-
-```lua
-(method) vim.treesitter.Query:iter_matches(node: TSNode, source: string|integer, start?: integer, stop?: integer, opts?: table)
-  -> fun():integer, table<integer, TSNode[]>, vim.treesitter.query.TSMetadata, TSTree
-```
-
- Iterates the matches of self on a given range.
-
- Iterate over all matches within a {node}. The arguments are the same as for
- |Query:iter_captures()| but the iterated values are different: an (1-based)
- index of the pattern in the query, a table mapping capture indices to a list
- of nodes, and metadata from any directives processing the match.
-
- Example:
-
- ```lua
- for pattern, match, metadata in cquery:iter_matches(tree:root(), bufnr, 0, -1) do
-   for id, nodes in pairs(match) do
-     local name = query.captures[id]
-     for _, node in ipairs(nodes) do
-       -- `node` was captured by the `name` capture in the match
-
-       local node_data = metadata[id] -- Node level metadata
-       -- ... use the info here ...
-     end
-   end
- end
- ```
-
-
-@*param* `node` — under which the search will occur
-
-@*param* `source` — Source buffer or string to search
-
-@*param* `start` — Starting line for the search. Defaults to `node:start()`.
-
-@*param* `stop` — Stopping line for the search (end-exclusive). Defaults to `node:end_()`.
-
-@*param* `opts` — Optional keyword arguments:
-
-   - match_limit (integer) Set the maximum number of in-progress matches (Default: 256).
-   - max_start_depth (integer) if non-zero, sets the maximum start depth
-     for each match. This is used to prevent traversing too deep into a tree.
-
-@*return* — : pattern id, match, metadata, tree
-
 ## lang
 
 
@@ -104081,16 +101743,6 @@ string
 ```
 
 parser language name
-
-## new
-
-
-```lua
-function vim.treesitter.Query.new(lang: string, ts_query: TSQuery)
-  -> vim.treesitter.Query
-```
-
-See: ~vim.treesitter.query.parse~
 
 ## query
 
@@ -104217,19 +101869,6 @@ Text displayed in the inspector for this node. Not computed until the
 vim.treesitter.dev.TSTreeView
 ```
 
-## draw
-
-
-```lua
-(method) vim.treesitter.dev.TSTreeView:draw(buf: integer)
-```
-
- Write the contents of this View into {bufnr}.
-
- Calling this function computes the text that is displayed for each node.
-
-@*param* `buf` — Buffer number to write into.
-
 ## get
 
 
@@ -104244,50 +101883,12 @@ vim.treesitter.dev.TSTreeView
 
 @*param* `i` — Node number to get
 
-## iter
-
-
-```lua
-(method) vim.treesitter.dev.TSTreeView:iter()
-  -> Iterator: fun():integer, vim.treesitter.dev.Node
-  2. table
-  3. integer
-```
-
- Iterate over all of the nodes in this View.
-
-@*return* `Iterator` — over all nodes in this View
-
-@*return*
-
-@*return*
-
 ## named
 
 
 ```lua
 vim.treesitter.dev.Node[]
 ```
-
-## new
-
-
-```lua
-(method) vim.treesitter.dev.TSTreeView:new(buf: integer, lang: string|nil)
-  -> vim.treesitter.dev.TSTreeView|nil
-  2. Error: string|nil
-```
-
- Create a new treesitter view.
-
-@*param* `buf` — Source buffer number
-
-@*param* `lang` — Language of source buffer
-
-
-@*return*
-
-@*return* `Error` — message, if any
 
 ## nodes
 
@@ -104502,42 +102103,11 @@ vim.treesitter.highlighter.State[]
  A map from window ID to highlight states.
  This state is kept during rendering across each line update.
 
-## _on_conceal_line
-
-
-```lua
-function vim.treesitter.highlighter._on_conceal_line(_: any, _: any, buf: integer, row: integer)
-```
-
-## _on_range
-
-
-```lua
-function vim.treesitter.highlighter._on_range(_: any, _: any, buf: integer, br: integer, bc: integer, er: integer, ec: integer, _: any)
-  -> integer|nil
-  2. integer|nil
-```
-
 ## _on_spell_nav
 
 
 ```lua
 function vim.treesitter.highlighter._on_spell_nav(_: any, _: any, buf: integer, srow: integer, _: any, erow: integer, _: any)
-```
-
-## _on_start
-
-
-```lua
-function vim.treesitter.highlighter._on_start()
-```
-
-## _on_win
-
-
-```lua
-function vim.treesitter.highlighter._on_win(_: any, _: any, buf: integer, topline: integer, botline: integer)
-  -> boolean
 ```
 
 ## _queries
@@ -104559,23 +102129,6 @@ table<integer, vim.treesitter.highlighter>
 
 ```lua
 integer
-```
-
-## destroy
-
-
-```lua
-(method) vim.treesitter.highlighter:destroy()
-```
-
- @nodoc
- Removes all internal references to the highlighter
-
-## for_each_highlight_state
-
-
-```lua
-(method) vim.treesitter.highlighter:for_each_highlight_state(fn: fun(state: vim.treesitter.highlighter.State))
 ```
 
 ## get_query
@@ -104689,14 +102242,6 @@ vim.treesitter.highlighter.Query
 Parsed query, see |vim.treesitter.query.parse()|
 
 
-## get_hl_from_capture
-
-
-```lua
-(method) vim.treesitter.highlighter.Query:get_hl_from_capture(capture: integer)
-  -> integer?
-```
-
 ## hl_cache
 
 
@@ -104709,22 +102254,6 @@ table<integer, integer>
 
 ```lua
 string
-```
-
-## new
-
-
-```lua
-function vim.treesitter.highlighter.Query.new(lang: string, query_string?: string)
-  -> vim.treesitter.highlighter.Query
-```
-
-## query
-
-
-```lua
-(method) vim.treesitter.highlighter.Query:query()
-  -> vim.treesitter.Query
 ```
 
 
