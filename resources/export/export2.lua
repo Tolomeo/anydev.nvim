@@ -134,13 +134,12 @@ export.makeDocObject = setmetatable({}, {
 
 export.makeDocObject["INIT"] = function(source, has_seen)
 	local ok, desc = pcall(getDesc, source)
-	local rawok, rawdesc = pcall(getDesc, source, true)
+
 	return {
 		category = source.cate,
 		type = source.type,
 		name = export.documentObject((source.getCodeName and source:getCodeName()) or source.name, has_seen),
-		desc = ok and desc or nil,
-		rawdesc = rawok and rawdesc or nil,
+		documentation = ok and desc or "",
 		location = {
 			file = export.getLocalPath(guide.getUri(source)),
 			start = source.start and { guide.rowColOf(source.start) },
@@ -365,7 +364,6 @@ viewNodeSwitch = util
 
 		local arguments = {}
 
-		--TODO: arg documentation
 		for _, arg in ipairs(source.args) do
 			local name = arg[1]
 			local documentation = arg.bindDocs
