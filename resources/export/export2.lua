@@ -368,10 +368,15 @@ viewNodeSwitch = util
 		--TODO: arg documentation
 		for _, arg in ipairs(source.args) do
 			local name = arg[1]
+			local documentation = arg.bindDocs
+					and arg.bindDocs[1]
+					and arg.bindDocs[1].comment
+					and getDesc(arg.bindDocs[1].comment)
+				or ""
 			local argType, argInfer = export.documentObjectType(arg)
 			local optional = argInfer.node:isOptional()
 
-			table.insert(arguments, { name = name, type = argType, optional = optional })
+			table.insert(arguments, { name = name, documentation = documentation, type = argType, optional = optional })
 		end
 
 		local returns = {}
