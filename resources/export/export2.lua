@@ -386,17 +386,17 @@ viewNodeSwitch = util
 
 		for i = 1, returnsCount do
 			local ret = vm.getReturnOfFunction(source, i)
-			local documentation = ret.comment and getDesc(ret.comment) or ""
 
 			assert(ret ~= nil, "ERROR: could not infer return type")
 
-			--TODO: ret name
 			--TODO: insert unknown when ret is nil
+			local name = ret.name or ""
+			local documentation = ret.comment and getDesc(ret.comment) or ""
 			local retType, retInfer = export.documentObjectType(ret)
 			local optional = retInfer.node:isOptional()
 
 			--TODO: name
-			table.insert(returns, { documentation = documentation, type = retType, optional = optional })
+			table.insert(returns, { name = name, documentation = documentation, type = retType, optional = optional })
 		end
 
 		return {
