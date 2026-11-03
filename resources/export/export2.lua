@@ -723,7 +723,7 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 
 	-- TODO: why does this do
 	doc.name = field[1]
-	doc.meta = export.documentObjectMeta(field)
+	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
 		local fieldType = export.documentObjectType(src)
@@ -762,7 +762,7 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	local field = source.field
 
 	doc.name = field[1]
-	doc.meta = export.documentObjectMeta(field)
+	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
 		local fieldType = export.documentObjectType(src)
@@ -795,17 +795,22 @@ end
 export.makeDocObject["doc.field"] = function(source, init, has_seen)
 	local doc = init
 
-	if source.field.type == "doc.field.name" then
-		doc.name = source.field[1]
+	doc.meta = export.documentObjectMeta(source)
+
+	local field = source.field
+
+	if field.type == "doc.field.name" then
+		doc.name = field[1]
 	else
-		doc.name = ("[%s]"):format(vm.getInfer(source.field):view(ws.rootUri))
+		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-	doc.file = export.getLocalPath(guide.getUri(source))
+
+	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
 	doc.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
 	doc.deprecated = vm.getDeprecated(source) and true or false --  if (depr and not depr.versions) the result.defines[#result.defines].extends['deprecated'] = true end
-	doc.visible = vm.getVisibleType(source)
+	doc.visible = vm.getVisibleType(source) ]]
 	return doc
 end
 
