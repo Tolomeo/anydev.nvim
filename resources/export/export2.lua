@@ -158,20 +158,6 @@ export.makeDocObject["doc.enum"] = function(source, obj, has_seen)
 	obj.file = export.getLocalPath(guide.getUri(source))
 end
 
-export.makeDocObject["doc.field"] = function(source, obj, has_seen)
-	if source.field.type == "doc.field.name" then
-		obj.name = source.field[1]
-	else
-		obj.name = ("[%s]"):format(vm.getInfer(source.field):view(ws.rootUri))
-	end
-	obj.file = export.getLocalPath(guide.getUri(source))
-	obj.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
-	obj.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
-	obj.deprecated = vm.getDeprecated(source) and true or false --  if (depr and not depr.versions) the result.defines[#result.defines].extends['deprecated'] = true end
-	obj.visible = vm.getVisibleType(source)
-	return obj
-end
-
 export.makeDocObject["doc.class"] = function(source, obj, has_seen)
 	local extends = source.extends or source.value --doc.class or other
 	local field = source.field or source.method
@@ -776,58 +762,50 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	local field = source.field
 
 	doc.name = field[1]
+	doc.meta = export.documentObjectMeta(field)
 
-	--[[ if doc.name == "highlighter" or doc.name == "languagetree" or doc.name == "_capability" or doc.name == "status" then
-		return doc
-	end ]]
+	for _, src in ipairs({ source.value, source.field }) do
+		local fieldType = export.documentObjectType(src)
 
-	-- if doc.name == "highlighter" then
-		-- print("HIGHLIGHTER")
-		-- print(export.inspect(source))
-		--[[ print("doc")
-		print(export.inspect(doc))
-		print("field")
-		print(export.inspect(source.field))
-		print("value")
-		print(export.inspect(source.value)) ]]
+		if #fieldType.types > 0 then
+			for i, fieldTypeType in ipairs(fieldType.types) do
+				if
+					fieldTypeType.kind == "table"
+					or (fieldTypeType.kind == "builtin" and fieldTypeType.value == "table")
+				then
+					local fieldTypeTypeFields = export.documentObjectFields(src, export.documentObject)
 
-		for _, src in ipairs({ source.value, source.field }) do
-			local fieldType = export.documentObjectType(src)
-			--[[ print(_)
-			print(export.inspect(src))
-			print("type")
-			print(export.inspect(fieldType)) ]]
-			-- print(src.name)
-
-			if #fieldType.types > 0 then
-				for i, fieldTypeType in ipairs(fieldType.types) do
-					if
-						fieldTypeType.kind == "table"
-						or (fieldTypeType.kind == "builtin" and fieldTypeType.value == "table")
-					then
-						--[[ print(export.inspect(fieldTypeType))
-						print(export.inspect(vm.getFields(src))) ]]
-						local fieldTypeTypeFields = export.documentObjectFields(src, function(fieldSource)
-							--[[ print(fieldSource.type)
-							print(export.inspect(fieldSource)) ]]
-							return export.documentObject(fieldSource)
-						end)
-
-						if #fieldTypeTypeFields > 0 then
-							fieldType.types[i] = {
-								kind = "table",
-								fields = fieldTypeTypeFields,
-							}
-						end
+					if #fieldTypeTypeFields > 0 then
+						fieldType.types[i] = {
+							kind = "table",
+							fields = fieldTypeTypeFields,
+						}
 					end
 				end
-
-				doc.type = fieldType
-				break
 			end
-		end
-	-- end
 
+			doc.type = fieldType
+			break
+		end
+	end
+
+	return doc
+end
+
+export.makeDocObject["doc.field"] = function(source, init, has_seen)
+	local doc = init
+
+	if source.field.type == "doc.field.name" then
+		doc.name = source.field[1]
+	else
+		doc.name = ("[%s]"):format(vm.getInfer(source.field):view(ws.rootUri))
+	end
+
+	doc.file = export.getLocalPath(guide.getUri(source))
+	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
+	doc.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
+	doc.deprecated = vm.getDeprecated(source) and true or false --  if (depr and not depr.versions) the result.defines[#result.defines].extends['deprecated'] = true end
+	doc.visible = vm.getVisibleType(source)
 	return doc
 end
 
