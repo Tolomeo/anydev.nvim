@@ -117,6 +117,7 @@ function export.documentObject(source, has_seen)
 	--if neither, then this is a singular docUnion
 	local obj = export.makeDocObject["INIT"](source, has_seen)
 
+	-- print(obj.type)
 	local res = export.makeDocObject[obj.type](source, obj, has_seen)
 
 	return res or obj
@@ -168,6 +169,7 @@ export.makeDocObject["doc.field"] = function(source, obj, has_seen)
 	obj.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
 	obj.deprecated = vm.getDeprecated(source) and true or false --  if (depr and not depr.versions) the result.defines[#result.defines].extends['deprecated'] = true end
 	obj.visible = vm.getVisibleType(source)
+	return obj
 end
 
 export.makeDocObject["doc.class"] = function(source, obj, has_seen)
@@ -293,6 +295,10 @@ viewNodeSwitch = util
 			return
 		end
 
+		--[[ if source.name == "vim.treesitter.highlighter" then
+			print(export.inspect(source))
+		end ]]
+
 		if isInMeta(source) then
 			return {
 				kind = "builtin",
@@ -395,7 +401,6 @@ viewNodeSwitch = util
 			local retType, retInfer = export.documentObjectType(ret)
 			local optional = retInfer.node:isOptional()
 
-			--TODO: name
 			table.insert(returns, { name = name, documentation = documentation, type = retType, optional = optional })
 		end
 
@@ -607,14 +612,14 @@ function export.documentObjectType(source)
 end
 
 function export.documentObjectFields(source, documentObjectField)
-	local fieldObjs = {}
+	local fieldSources = {}
 	local collected = {}
 
 	local function addFields(fields)
 		for _, fieldObj in ipairs(fields or {}) do
 			if not collected[fieldObj] then
 				collected[fieldObj] = true
-				fieldObjs[#fieldObjs + 1] = fieldObj
+				fieldSources[#fieldSources + 1] = fieldObj
 			end
 		end
 	end
@@ -623,7 +628,7 @@ function export.documentObjectFields(source, documentObjectField)
 
 	local fieldDocs = {}
 
-	for _, fieldObj in ipairs(fieldObjs) do
+	for _, fieldObj in ipairs(fieldSources) do
 		-- if not isSourceBuiltin(fieldObj) then
 		local fieldDoc = documentObjectField(fieldObj)
 
@@ -636,10 +641,6 @@ function export.documentObjectFields(source, documentObjectField)
 	table.sort(fieldDocs, export.sortDoc)
 
 	return fieldDocs
-end
-
-export.makeDocObject["tablefield"] = function(source, init, has_seen)
-	return init
 end
 
 -- TODO: global types
@@ -729,8 +730,13 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 
 	local field = source.field
 
+	--TODO: handle metamethods
+	if field[1] == "__index" then
+		return nil
+	end
+
 	-- TODO: why does this do
-	doc.name = type(field) == "table" and field[1] or nil
+	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(field)
 
 	for _, src in ipairs({ source.value, source.field }) do
@@ -757,6 +763,70 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 			break
 		end
 	end
+
+	return doc
+end
+
+export.makeDocObject["tablefield"] = function(source, init, has_seen)
+	local doc = init
+
+	assert(source.field ~= nil, "Tablefield source without field property")
+	assert(source.value ~= nil, "Tablefield source without value property")
+
+	local field = source.field
+
+	doc.name = field[1]
+
+	--[[ if doc.name == "highlighter" or doc.name == "languagetree" or doc.name == "_capability" or doc.name == "status" then
+		return doc
+	end ]]
+
+	-- if doc.name == "highlighter" then
+		-- print("HIGHLIGHTER")
+		-- print(export.inspect(source))
+		--[[ print("doc")
+		print(export.inspect(doc))
+		print("field")
+		print(export.inspect(source.field))
+		print("value")
+		print(export.inspect(source.value)) ]]
+
+		for _, src in ipairs({ source.value, source.field }) do
+			local fieldType = export.documentObjectType(src)
+			--[[ print(_)
+			print(export.inspect(src))
+			print("type")
+			print(export.inspect(fieldType)) ]]
+			-- print(src.name)
+
+			if #fieldType.types > 0 then
+				for i, fieldTypeType in ipairs(fieldType.types) do
+					if
+						fieldTypeType.kind == "table"
+						or (fieldTypeType.kind == "builtin" and fieldTypeType.value == "table")
+					then
+						--[[ print(export.inspect(fieldTypeType))
+						print(export.inspect(vm.getFields(src))) ]]
+						local fieldTypeTypeFields = export.documentObjectFields(src, function(fieldSource)
+							--[[ print(fieldSource.type)
+							print(export.inspect(fieldSource)) ]]
+							return export.documentObject(fieldSource)
+						end)
+
+						if #fieldTypeTypeFields > 0 then
+							fieldType.types[i] = {
+								kind = "table",
+								fields = fieldTypeTypeFields,
+							}
+						end
+					end
+				end
+
+				doc.type = fieldType
+				break
+			end
+		end
+	-- end
 
 	return doc
 end
