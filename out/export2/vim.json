@@ -768,7 +768,95 @@
                                             "optional": true,
                                             "type": {
                                                 "types": [
-                                                    "{ start_row: integer, start_col: integer, end_row: integer, end_col: integer, max_start_depth: integer, match_limit: integer }"
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "start_row",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "start_col",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "end_row",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "end_col",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "max_start_depth",
+                                                                "optional": true,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "match_limit",
+                                                                "optional": true,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
                                                 ],
                                                 "view": "{ start_row: integer, start_col: integer, end_row: integer, end_col: integer, max_start_depth: integer, match_limit: integer }?"
                                             }
@@ -20411,7 +20499,41 @@
                                     "kind": "typereference",
                                     "value": "vim.g"
                                 },
-                                "{ [string]: any }"
+                                {
+                                    "fields": [
+                                        {
+                                            "documentation": "",
+                                            "location": {
+                                                "file": "lua/vim/_core/editor.lua",
+                                                "finish": [
+                                                    390,
+                                                    43
+                                                ],
+                                                "start": [
+                                                    390,
+                                                    31
+                                                ]
+                                            },
+                                            "name": {
+                                                "documentation": "",
+                                                "location": {
+                                                    "file": "lua/vim/_core/editor.lua",
+                                                    "finish": [
+                                                        390,
+                                                        37
+                                                    ],
+                                                    "start": [
+                                                        390,
+                                                        31
+                                                    ]
+                                                },
+                                                "type": "doc.type"
+                                            },
+                                            "type": "doc.type.field"
+                                        }
+                                    ],
+                                    "kind": "table"
+                                }
                             ],
                             "view": "vim.g|{ [string]: any }"
                         }
@@ -21377,7 +21499,39 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "[integer, integer]",
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[1]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[2]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        },
                                                                         {
                                                                             "kind": "builtin",
                                                                             "value": "string"
@@ -21392,7 +21546,39 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "[integer, integer]",
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[1]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[2]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        },
                                                                         {
                                                                             "kind": "builtin",
                                                                             "value": "string"
@@ -21734,7 +21920,109 @@
                                             "optional": false,
                                             "type": {
                                                 "types": [
-                                                    "{ treesitter: table, syntax: table, extmarks: table, semantic_tokens: table, buffer: integer, col: integer, row: integer }"
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "treesitter",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "table"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "syntax",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "table"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "extmarks",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "table"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "semantic_tokens",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "table"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "buffer",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "col",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "name": "row",
+                                                                "optional": false,
+                                                                "type": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
                                                 ],
                                                 "view": "{ treesitter: table, syntax: table, extmarks: table, semantic_tokens: table, buffer: integer, col: integer, row: integer }"
                                             }
@@ -22637,7 +22925,25 @@
                                                                 "optional": true,
                                                                 "type": {
                                                                     "types": [
-                                                                        "{ print: boolean }"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "print",
+                                                                                    "optional": true,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "boolean"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "boolean?"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "{ print: boolean }?"
                                                                 }
@@ -34278,7 +34584,29 @@
                                                                                     "optional": true,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "{ severity: lsp.DiagnosticSeverity }"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "severity",
+                                                                                                        "optional": true,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "typereference",
+                                                                                                                    "value": "lsp.DiagnosticSeverity"
+                                                                                                                },
+                                                                                                                "1",
+                                                                                                                "2",
+                                                                                                                "3",
+                                                                                                                "4"
+                                                                                                            ],
+                                                                                                            "view": "(lsp.DiagnosticSeverity)?"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "{ severity: lsp.DiagnosticSeverity }?"
                                                                                     }
@@ -52905,7 +53233,39 @@
                                                                                     "optional": true,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "[integer, integer]"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[1]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[2]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "[integer, integer]?"
                                                                                     }
@@ -52916,7 +53276,39 @@
                                                                                     "optional": true,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "[integer, integer]"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[1]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[2]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "[integer, integer]?"
                                                                                     }
@@ -52958,7 +53350,58 @@
                                                                                     "optional": false,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "textDocument",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "fields": [
+                                                                                                                        {
+                                                                                                                            "documentation": "",
+                                                                                                                            "name": "uri",
+                                                                                                                            "optional": false,
+                                                                                                                            "type": {
+                                                                                                                                "types": [
+                                                                                                                                    {
+                                                                                                                                        "kind": "typereference",
+                                                                                                                                        "value": "lsp.DocumentUri"
+                                                                                                                                    },
+                                                                                                                                    {
+                                                                                                                                        "kind": "builtin",
+                                                                                                                                        "value": "string"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                                "view": "lsp.DocumentUri"
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                                    "kind": "table"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "{ uri: lsp.DocumentUri }"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "range",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "typereference",
+                                                                                                                    "value": "lsp.Range"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "lsp.Range"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
                                                                                     }
@@ -53099,7 +53542,58 @@
                                                                                     "optional": false,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "textDocument",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "fields": [
+                                                                                                                        {
+                                                                                                                            "documentation": "",
+                                                                                                                            "name": "uri",
+                                                                                                                            "optional": false,
+                                                                                                                            "type": {
+                                                                                                                                "types": [
+                                                                                                                                    {
+                                                                                                                                        "kind": "typereference",
+                                                                                                                                        "value": "lsp.DocumentUri"
+                                                                                                                                    },
+                                                                                                                                    {
+                                                                                                                                        "kind": "builtin",
+                                                                                                                                        "value": "string"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                                "view": "lsp.DocumentUri"
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                                    "kind": "table"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "{ uri: lsp.DocumentUri }"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "range",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "typereference",
+                                                                                                                    "value": "lsp.Range"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "lsp.Range"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
                                                                                     }
@@ -53558,7 +54052,39 @@
                                                                                     "optional": false,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "[integer, integer]"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[1]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[2]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "[integer, integer]"
                                                                                     }
@@ -53569,7 +54095,39 @@
                                                                                     "optional": false,
                                                                                     "type": {
                                                                                         "types": [
-                                                                                            "[integer, integer]"
+                                                                                            {
+                                                                                                "fields": [
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[1]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "documentation": "",
+                                                                                                        "name": "[2]",
+                                                                                                        "optional": false,
+                                                                                                        "type": {
+                                                                                                            "types": [
+                                                                                                                {
+                                                                                                                    "kind": "builtin",
+                                                                                                                    "value": "integer"
+                                                                                                                }
+                                                                                                            ],
+                                                                                                            "view": "integer"
+                                                                                                        }
+                                                                                                    }
+                                                                                                ],
+                                                                                                "kind": "table"
+                                                                                            }
                                                                                         ],
                                                                                         "view": "[integer, integer]"
                                                                                     }
@@ -54539,7 +55097,27 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "{ close: fun() }"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "close",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "arguments": [],
+                                                                                                "generics": [],
+                                                                                                "kind": "function",
+                                                                                                "returns": []
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "fun()"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "{ close: fun() }"
                                                                 }
@@ -55823,7 +56401,39 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "[integer, integer]"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[1]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[2]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "[integer, integer]"
                                                                 }
@@ -57899,7 +58509,39 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "[integer, integer]"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[1]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[2]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "[integer, integer]"
                                                                 }
@@ -57910,7 +58552,39 @@
                                                                 "optional": false,
                                                                 "type": {
                                                                     "types": [
-                                                                        "[integer, integer]"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[1]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "[2]",
+                                                                                    "optional": false,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "[integer, integer]"
                                                                 }
@@ -62908,7 +63582,25 @@
                                                                 "optional": true,
                                                                 "type": {
                                                                     "types": [
-                                                                        "{ expandtab: integer }"
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "name": "expandtab",
+                                                                                    "optional": true,
+                                                                                    "type": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "builtin",
+                                                                                                "value": "integer"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "integer?"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
                                                                     ],
                                                                     "view": "{ expandtab: integer }?"
                                                                 }
@@ -65181,7 +65873,81 @@
                                                                         {
                                                                             "items": {
                                                                                 "types": [
-                                                                                    "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }"
+                                                                                    {
+                                                                                        "fields": [
+                                                                                            {
+                                                                                                "documentation": "",
+                                                                                                "name": "capture",
+                                                                                                "optional": false,
+                                                                                                "type": {
+                                                                                                    "types": [
+                                                                                                        {
+                                                                                                            "kind": "builtin",
+                                                                                                            "value": "string"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "view": "string"
+                                                                                                }
+                                                                                            },
+                                                                                            {
+                                                                                                "documentation": "",
+                                                                                                "name": "lang",
+                                                                                                "optional": false,
+                                                                                                "type": {
+                                                                                                    "types": [
+                                                                                                        {
+                                                                                                            "kind": "builtin",
+                                                                                                            "value": "string"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "view": "string"
+                                                                                                }
+                                                                                            },
+                                                                                            {
+                                                                                                "documentation": "",
+                                                                                                "name": "metadata",
+                                                                                                "optional": false,
+                                                                                                "type": {
+                                                                                                    "types": [
+                                                                                                        {
+                                                                                                            "kind": "typereference",
+                                                                                                            "value": "vim.treesitter.query.TSMetadata"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "view": "vim.treesitter.query.TSMetadata"
+                                                                                                }
+                                                                                            },
+                                                                                            {
+                                                                                                "documentation": "",
+                                                                                                "name": "id",
+                                                                                                "optional": false,
+                                                                                                "type": {
+                                                                                                    "types": [
+                                                                                                        {
+                                                                                                            "kind": "builtin",
+                                                                                                            "value": "integer"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "view": "integer"
+                                                                                                }
+                                                                                            },
+                                                                                            {
+                                                                                                "documentation": "",
+                                                                                                "name": "pattern_id",
+                                                                                                "optional": false,
+                                                                                                "type": {
+                                                                                                    "types": [
+                                                                                                        {
+                                                                                                            "kind": "builtin",
+                                                                                                            "value": "integer"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "view": "integer"
+                                                                                                }
+                                                                                            }
+                                                                                        ],
+                                                                                        "kind": "table"
+                                                                                    }
                                                                                 ],
                                                                                 "view": "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }"
                                                                             },

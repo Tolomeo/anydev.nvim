@@ -472,12 +472,30 @@ viewNodeSwitch = util
 	end)
 	:case("doc.type.table")
 	:call(function(source, infer, uri)
-		if #source.fields == 0 then
+		--[[ if #source.fields == 0 then
 			infer._hasTable = true
 			return
+		end ]]
+		-- infer._hasClass = true
+		local fields = {}
+		for i, field in ipairs(source.fields) do
+			local name = source.isTuple and ("[%d]"):format(i)
+				or field.name.type == "doc.type" and ("[%s]"):format(vm.getInfer(field.name):view(uri))
+				or type(field.name[1] == "string") and field.name[1]
+				or ("[%q]"):format(field.name[1])
+
+			local documentation = ""
+			local fieldType, fieldInfer = export.documentObjectType(field)
+			local optional = fieldInfer.node:isOptional()
+
+			table.insert(fields, { name = name, documentation = documentation, type = fieldType, optional = optional })
 		end
-		infer._hasClass = true
-		local buf = {}
+
+		return {
+			kind = "table",
+			fields = fields,
+		}
+		--[[ local buf = {}
 		buf[#buf + 1] = source.isTuple and "[" or "{ "
 		for i, field in ipairs(source.fields) do
 			if i > 1 then
@@ -496,7 +514,7 @@ viewNodeSwitch = util
 			buf[#buf + 1] = vm.getInfer(field.extends):view(uri)
 		end
 		buf[#buf + 1] = source.isTuple and "]" or " }"
-		return table.concat(buf)
+		return table.concat(buf) ]]
 	end)
 	:case("doc.type.string")
 	:call(function(source, _infer)
@@ -725,14 +743,14 @@ export.documentObjectMeta = function(source)
 end
 
 export.makeDocObject["setfield"] = function(source, init, has_seen)
+	assert(source.field ~= nil, "Setfield source without field property")
+	assert(source.value ~= nil, "Setfield source without value property")
+
 	-- local extends = source.extends or source.value --doc.class or other
 	-- init.file = export.getLocalPath(guide.getUri(source))
 	-- init.extends = extends and export.documentObject(extends, has_seen)
 
 	local doc = init
-
-	assert(source.field ~= nil, "Setfield source without field property")
-	assert(source.value ~= nil, "Setfield source without value property")
 
 	local field = source.field
 
