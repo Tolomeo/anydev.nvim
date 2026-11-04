@@ -471,6 +471,7 @@ viewNodeSwitch = util
 		return ("%s<%s>"):format(source.node[1], table.concat(buf, ", "))
 	end)
 	:case("doc.type.table")
+	--TODO: kind "tuple"
 	:call(function(source, infer, uri)
 		--[[ if #source.fields == 0 then
 			infer._hasTable = true
@@ -483,7 +484,6 @@ viewNodeSwitch = util
 				or field.name.type == "doc.type" and ("[%s]"):format(vm.getInfer(field.name):view(uri))
 				or type(field.name[1] == "string") and field.name[1]
 				or ("[%q]"):format(field.name[1])
-
 			local documentation = ""
 			local fieldType, fieldInfer = export.documentObjectType(field)
 			local optional = fieldInfer.node:isOptional()
@@ -592,11 +592,18 @@ viewNodeSwitch = util
 function export.documentObjectType(source)
 	local infer = vm.getInfer(source)
 
-	local view = vm.getInfer(source):view(ws.rootUri)
+	local view = infer:view(ws.rootUri)
 	local types = {}
 
 	for n in infer.node:eachObject() do
 		if n.hideView then
+			goto continue
+		end
+
+		-- Avoiding to avoid expand aliases
+		-- infer._drop contains the string representations of expanded types that should be suppressed
+		local nView = vm.viewObject(n, ws.rootUri)
+		if nView and infer._drop[nView] then
 			goto continue
 		end
 
