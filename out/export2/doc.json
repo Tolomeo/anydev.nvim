@@ -3481,7 +3481,15 @@
                                                     "public"
                                                 ],
                                                 "name": "[integer]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.bo"
+                                                        }
+                                                    ],
+                                                    "view": "vim.bo"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -9540,7 +9548,15 @@
                                                     "public"
                                                 ],
                                                 "name": "[integer]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.bo"
+                                                        }
+                                                    ],
+                                                    "view": "vim.bo"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -23357,7 +23373,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "active",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, (vim.lsp.Capability)?>"
+                                                                        ],
+                                                                        "view": "table<integer, (vim.lsp.Capability)?>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n The augroup owned by this instance, which will be cleared upon destruction.",
@@ -23376,7 +23397,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "augroup",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Buffer number it associated with.",
@@ -23395,7 +23424,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "bufnr",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Per-client state data, scoped to the lifetime of the attached client.",
@@ -23414,7 +23451,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "client_state",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, table>"
+                                                                        ],
+                                                                        "view": "table<integer, table>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Static field records the method this capability requires.",
@@ -23433,7 +23475,104 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "method",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.ClientToServer"
+                                                                            },
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.ClientToServer.Request"
+                                                                            },
+                                                                            "'callHierarchy/incomingCalls'",
+                                                                            "'callHierarchy/outgoingCalls'",
+                                                                            "'codeAction/resolve'",
+                                                                            "'codeLens/resolve'",
+                                                                            "'completionItem/resolve'",
+                                                                            "'documentLink/resolve'",
+                                                                            "'initialize'",
+                                                                            "'inlayHint/resolve'",
+                                                                            "'shutdown'",
+                                                                            "'textDocument/codeAction'",
+                                                                            "'textDocument/codeLens'",
+                                                                            "'textDocument/colorPresentation'",
+                                                                            "'textDocument/completion'",
+                                                                            "'textDocument/declaration'",
+                                                                            "'textDocument/definition'",
+                                                                            "'textDocument/diagnostic'",
+                                                                            "'textDocument/documentColor'",
+                                                                            "'textDocument/documentHighlight'",
+                                                                            "'textDocument/documentLink'",
+                                                                            "'textDocument/documentSymbol'",
+                                                                            "'textDocument/foldingRange'",
+                                                                            "'textDocument/formatting'",
+                                                                            "'textDocument/hover'",
+                                                                            "'textDocument/implementation'",
+                                                                            "'textDocument/inlayHint'",
+                                                                            "'textDocument/inlineCompletion'",
+                                                                            "'textDocument/inlineValue'",
+                                                                            "'textDocument/linkedEditingRange'",
+                                                                            "'textDocument/moniker'",
+                                                                            "'textDocument/onTypeFormatting'",
+                                                                            "'textDocument/prepareCallHierarchy'",
+                                                                            "'textDocument/prepareRename'",
+                                                                            "'textDocument/prepareTypeHierarchy'",
+                                                                            "'textDocument/rangeFormatting'",
+                                                                            "'textDocument/rangesFormatting'",
+                                                                            "'textDocument/references'",
+                                                                            "'textDocument/rename'",
+                                                                            "'textDocument/selectionRange'",
+                                                                            "'textDocument/semanticTokens/full'",
+                                                                            "'textDocument/semanticTokens/full/delta'",
+                                                                            "'textDocument/semanticTokens/range'",
+                                                                            "'textDocument/signatureHelp'",
+                                                                            "'textDocument/typeDefinition'",
+                                                                            "'textDocument/willSaveWaitUntil'",
+                                                                            "'typeHierarchy/subtypes'",
+                                                                            "'typeHierarchy/supertypes'",
+                                                                            "'workspaceSymbol/resolve'",
+                                                                            "'workspace/diagnostic'",
+                                                                            "'workspace/executeCommand'",
+                                                                            "'workspace/symbol'",
+                                                                            "'workspace/textDocumentContent'",
+                                                                            "'workspace/willCreateFiles'",
+                                                                            "'workspace/willDeleteFiles'",
+                                                                            "'workspace/willRenameFiles'",
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.ClientToServer.Notification"
+                                                                            },
+                                                                            "'$/cancelRequest'",
+                                                                            "'$/progress'",
+                                                                            "'$/setTrace'",
+                                                                            "'exit'",
+                                                                            "'initialized'",
+                                                                            "'notebookDocument/didChange'",
+                                                                            "'notebookDocument/didClose'",
+                                                                            "'notebookDocument/didOpen'",
+                                                                            "'notebookDocument/didSave'",
+                                                                            "'textDocument/didChange'",
+                                                                            "'textDocument/didClose'",
+                                                                            "'textDocument/didOpen'",
+                                                                            "'textDocument/didSave'",
+                                                                            "'textDocument/willSave'",
+                                                                            "'window/workDoneProgress/cancel'",
+                                                                            "'workspace/didChangeConfiguration'",
+                                                                            "'workspace/didChangeWatchedFiles'",
+                                                                            "'workspace/didChangeWorkspaceFolders'",
+                                                                            "'workspace/didCreateFiles'",
+                                                                            "'workspace/didDeleteFiles'",
+                                                                            "'workspace/didRenameFiles'",
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.Registration"
+                                                                            },
+                                                                            "'notebookDocument/sync'",
+                                                                            "'textDocument/semanticTokens'"
+                                                                        ],
+                                                                        "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Static field as the identifier of the LSP capability it supports.",
@@ -23452,7 +23591,21 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "name",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.capability.Name"
+                                                                            },
+                                                                            "'codelens'",
+                                                                            "'document_color'",
+                                                                            "'semantic_tokens'",
+                                                                            "'folding_range'",
+                                                                            "'linked_editing_range'",
+                                                                            "'inline_completion'"
+                                                                        ],
+                                                                        "view": "vim.lsp.capability.Name"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": " Abstract base class (not instantiable directly).\n For each buffer that has at least one supported client attached,\n exactly one instance of each concrete subclass is created.\n That instance is destroyed once all supporting clients detach from the buffer.",
@@ -28058,7 +28211,48 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_before_init_cb",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.client.before_init_cb"
+                                                                            },
+                                                                            {
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "name": "params",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "typereference",
+                                                                                                    "value": "lsp.InitializeParams"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "lsp.InitializeParams"
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "config",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "typereference",
+                                                                                                    "value": "vim.lsp.ClientConfig"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "vim.lsp.ClientConfig"
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "generics": [],
+                                                                                "kind": "function",
+                                                                                "returns": []
+                                                                            }
+                                                                        ],
+                                                                        "view": "(vim.lsp.client.before_init_cb)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -28077,7 +28271,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "_enabled_capabilities",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<vim.lsp.capability.Name, boolean?>"
+                                                                        ],
+                                                                        "view": "table<vim.lsp.capability.Name, boolean?>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -28270,7 +28469,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_graceful_shutdown_failed",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "true"
+                                                                        ],
+                                                                        "view": "true?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -28372,7 +28576,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_log_prefix",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -28477,7 +28689,56 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_on_attach_cbs",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "vim.lsp.client.on_attach_cb"
+                                                                                        },
+                                                                                        {
+                                                                                            "arguments": [
+                                                                                                {
+                                                                                                    "name": "client",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "typereference",
+                                                                                                                "value": "vim.lsp.Client"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "vim.lsp.Client"
+                                                                                                    }
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "bufnr",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "builtin",
+                                                                                                                "value": "integer"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "integer"
+                                                                                                    }
+                                                                                                }
+                                                                                            ],
+                                                                                            "generics": [],
+                                                                                            "kind": "function",
+                                                                                            "returns": []
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "vim.lsp.client.on_attach_cb"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.client.on_attach_cb[]"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -28652,7 +28913,44 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_on_error_cb",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "name": "code",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "integer"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "integer"
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "err",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "string"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "string"
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "generics": [],
+                                                                                "kind": "function",
+                                                                                "returns": []
+                                                                            }
+                                                                        ],
+                                                                        "view": "fun(code: integer, err: string)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -28757,7 +29055,69 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_on_exit_cbs",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "vim.lsp.client.on_exit_cb"
+                                                                                        },
+                                                                                        {
+                                                                                            "arguments": [
+                                                                                                {
+                                                                                                    "name": "code",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "builtin",
+                                                                                                                "value": "integer"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "integer"
+                                                                                                    }
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "signal",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "builtin",
+                                                                                                                "value": "integer"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "integer"
+                                                                                                    }
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "client_id",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "builtin",
+                                                                                                                "value": "integer"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "integer"
+                                                                                                    }
+                                                                                                }
+                                                                                            ],
+                                                                                            "generics": [],
+                                                                                            "kind": "function",
+                                                                                            "returns": []
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "vim.lsp.client.on_exit_cb"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.client.on_exit_cb[]"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -28776,7 +29136,56 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_on_init_cbs",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "vim.lsp.client.on_init_cb"
+                                                                                        },
+                                                                                        {
+                                                                                            "arguments": [
+                                                                                                {
+                                                                                                    "name": "client",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "typereference",
+                                                                                                                "value": "vim.lsp.Client"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "vim.lsp.Client"
+                                                                                                    }
+                                                                                                },
+                                                                                                {
+                                                                                                    "name": "init_result",
+                                                                                                    "optional": false,
+                                                                                                    "type": {
+                                                                                                        "types": [
+                                                                                                            {
+                                                                                                                "kind": "typereference",
+                                                                                                                "value": "lsp.InitializeResult"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "view": "lsp.InitializeResult"
+                                                                                                    }
+                                                                                                }
+                                                                                            ],
+                                                                                            "generics": [],
+                                                                                            "kind": "function",
+                                                                                            "returns": []
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "vim.lsp.client.on_init_cb"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.client.on_init_cb[]"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Whether on-type formatting is enabled for this client.",
@@ -28795,7 +29204,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "_otf_enabled",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "boolean"
+                                                                            }
+                                                                        ],
+                                                                        "view": "boolean?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -29720,7 +30137,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_shutdown_timer",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "uv.uv_timer_t"
+                                                                            }
+                                                                        ],
+                                                                        "view": "(uv.uv_timer_t)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -29958,7 +30383,14 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_trace",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "'off'",
+                                                                            "'messages'",
+                                                                            "'verbose'"
+                                                                        ],
+                                                                        "view": "'messages'|'off'|'verbose'"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -30117,7 +30549,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "attached_buffers",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, string>"
+                                                                        ],
+                                                                        "view": "table<integer, string>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Capabilities provided by the client (editor or tool), at startup.",
@@ -30136,7 +30573,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "capabilities",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "lsp.ClientCapabilities"
+                                                                            }
+                                                                        ],
+                                                                        "view": "lsp.ClientCapabilities"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Client commands. See [vim.lsp.ClientConfig].",
@@ -30155,7 +30600,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "commands",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, fun(command: lsp.Command, ctx: table)>"
+                                                                        ],
+                                                                        "view": "table<string, fun(command: lsp.Command, ctx: table)>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Copy of the config passed to |vim.lsp.start()|.",
@@ -30174,7 +30624,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "config",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.ClientConfig"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.ClientConfig"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Capabilities provided at runtime (after startup).",
@@ -30193,7 +30651,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "dynamic_capabilities",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "lsp.DynamicCapabilities"
+                                                                            }
+                                                                        ],
+                                                                        "view": "lsp.DynamicCapabilities"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -30470,7 +30936,19 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "exit_timeout",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            },
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "boolean"
+                                                                            }
+                                                                        ],
+                                                                        "view": "boolean|integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Experimental client flags:",
@@ -30489,7 +30967,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "flags",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.Client.Flags"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.Client.Flags"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n See [vim.lsp.ClientConfig].",
@@ -30508,7 +30994,58 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "get_language_id",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "name": "bufnr",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "integer"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "integer"
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "filetype",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "string"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "string"
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "generics": [],
+                                                                                "kind": "function",
+                                                                                "returns": [
+                                                                                    {
+                                                                                        "name": "",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "string"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "string"
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ],
+                                                                        "view": "fun(bufnr: integer, filetype: string):string"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n See [vim.lsp.ClientConfig].",
@@ -30527,7 +31064,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "handlers",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, lsp.Handler>"
+                                                                        ],
+                                                                        "view": "table<string, lsp.Handler>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n The id allocated to the client.",
@@ -30546,7 +31088,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "id",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -30619,7 +31169,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "initialized",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "true"
+                                                                        ],
+                                                                        "view": "true?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -30837,7 +31392,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "name",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -30970,7 +31533,14 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "offset_encoding",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "'utf-8'",
+                                                                            "'utf-16'",
+                                                                            "'utf-32'"
+                                                                        ],
+                                                                        "view": "'utf-16'|'utf-32'|'utf-8'"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -31059,7 +31629,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "progress",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.Client.Progress"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.Client.Progress"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -31078,7 +31656,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "registrations",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, lsp.Registration[]>"
+                                                                        ],
+                                                                        "view": "table<string, lsp.Registration[]>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -31376,7 +31959,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "requests",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, { type: string, bufnr: integer, method: string }?>"
+                                                                        ],
+                                                                        "view": "table<integer, { type: string, bufnr: integer, method: string }?>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n See [vim.lsp.ClientConfig].",
@@ -31395,7 +31983,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "root_dir",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n RPC client object, for low level interaction with the client.\n See |vim.lsp.rpc.start()|.",
@@ -31414,7 +32010,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "rpc",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.rpc.PublicClient"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.rpc.PublicClient"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Response from the server sent on `initialize` describing the server's capabilities.",
@@ -31433,7 +32037,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "server_capabilities",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "lsp.ServerCapabilities"
+                                                                            }
+                                                                        ],
+                                                                        "view": "(lsp.ServerCapabilities)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n Response from the server sent on `initialize` describing server information (e.g. version).",
@@ -31452,7 +32064,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "server_info",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "lsp.ServerInfo"
+                                                                            }
+                                                                        ],
+                                                                        "view": "(lsp.ServerInfo)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "\n See [vim.lsp.ClientConfig].",
@@ -31471,7 +32091,16 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "settings",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "lsp.LSPObject"
+                                                                            },
+                                                                            "table<string, lsp.LSPAny>"
+                                                                        ],
+                                                                        "view": "lsp.LSPObject"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -31655,7 +32284,23 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "workspace_folders",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "lsp.WorkspaceFolder"
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "lsp.WorkspaceFolder"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "lsp.WorkspaceFolder[]?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -47661,7 +48306,12 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "active",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                "table<integer, STHighlighter>"
+                                                                                            ],
+                                                                                            "view": "table<integer, STHighlighter>"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "",
@@ -47797,7 +48447,15 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "augroup",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "integer"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "integer"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "",
@@ -47816,7 +48474,15 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "bufnr",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "integer"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "integer"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "",
@@ -47835,7 +48501,12 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "client_state",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                "table<integer, STClientState>"
+                                                                                            ],
+                                                                                            "view": "table<integer, STClientState>"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "milliseconds to debounce requests for new tokens",
@@ -47854,7 +48525,15 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "debounce",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "integer"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "integer"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "",
@@ -49317,7 +49996,15 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "timer",
-                                                                                        "type": "doc.field"
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "table"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "table"
+                                                                                        }
                                                                                     },
                                                                                     {
                                                                                         "documentation": "",
@@ -54801,7 +55488,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[1]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of col",
@@ -54820,7 +55515,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[2]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of buf",
@@ -54839,7 +55542,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[3]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "buffer handle.",
@@ -54858,7 +55569,15 @@
                                                     "public"
                                                 ],
                                                 "name": "buf",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "0-based byte index.",
@@ -54877,7 +55596,15 @@
                                                     "public"
                                                 ],
                                                 "name": "col",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -55480,7 +56207,15 @@
                                                     "public"
                                                 ],
                                                 "name": "row",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": " Converts |vim.Pos| to cursor position (see |api-indexing|).",
@@ -56756,7 +57491,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[1]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of start_col",
@@ -56775,7 +57518,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[2]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of end_row",
@@ -56794,7 +57545,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[3]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of end_col",
@@ -56813,7 +57572,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[4]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "underlying representation of buf",
@@ -56832,7 +57599,15 @@
                                                     "private"
                                                 ],
                                                 "name": "[5]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -57074,7 +57849,15 @@
                                                     "public"
                                                 ],
                                                 "name": "buf",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": " Creates a new |vim.Range| from mark-like range (see |api-indexing|).\n\n Example:\n ```lua\n local start = vim.api.nvim_win_get_cursor(0)\n -- move the cursor\n local end_ = vim.api.nvim_win_get_cursor(0)\n\n local range = vim.range.cursor(0, start, end_)\n ```",
@@ -57174,7 +57957,15 @@
                                                     "public"
                                                 ],
                                                 "name": "end_col",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "0-based byte index.",
@@ -57193,7 +57984,15 @@
                                                     "public"
                                                 ],
                                                 "name": "end_row",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": " Creates a new |vim.Range| from extmark range (see |api-indexing|).\n\n Example:\n ```lua\n local range = vim.range.extmark(0, 3, 5, 4, 0)\n ```",
@@ -57813,7 +58612,15 @@
                                                     "public"
                                                 ],
                                                 "name": "start_col",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "0-based byte index.",
@@ -57832,7 +58639,15 @@
                                                     "public"
                                                 ],
                                                 "name": "start_row",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "integer"
+                                                        }
+                                                    ],
+                                                    "view": "integer"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -64949,7 +65764,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "_conceal_checked",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, boolean>"
+                                                                        ],
+                                                                        "view": "table<integer, boolean>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -64968,7 +65788,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "_conceal_line",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "boolean"
+                                                                            }
+                                                                        ],
+                                                                        "view": "boolean?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": " A map from window ID to highlight states.\n This state is kept during rendering across each line update.",
@@ -64987,7 +65815,23 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_highlight_states",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "vim.treesitter.highlighter.State"
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "vim.treesitter.highlighter.State"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.treesitter.highlighter.State[]"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -65529,7 +66373,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_queries",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, vim.treesitter.highlighter.Query>"
+                                                                        ],
+                                                                        "view": "table<string, vim.treesitter.highlighter.Query>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -65548,7 +66397,12 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "active",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, vim.treesitter.highlighter>"
+                                                                        ],
+                                                                        "view": "table<integer, vim.treesitter.highlighter>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -65625,7 +66479,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "bufnr",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -66063,7 +66925,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "orig_spelloptions",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": " A map from window ID to whether we are currently parsing that window asynchronously",
@@ -66082,7 +66952,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "parsing",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "boolean"
+                                                                            }
+                                                                        ],
+                                                                        "view": "boolean"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -66187,7 +67065,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "redraw_count",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -66206,7 +67092,15 @@
                                                                         "public"
                                                                     ],
                                                                     "name": "tree",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.treesitter.LanguageTree"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.treesitter.LanguageTree"
+                                                                    }
                                                                 }
                                                             ],
                                                             "kind": "table"
@@ -67188,7 +68082,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_callbacks",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<TSCallbackName, function[]>"
+                                                                        ],
+                                                                        "view": "table<TSCallbackName, function[]>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Callback handlers (recursive)",
@@ -67207,7 +68106,12 @@
                                                                         "package"
                                                                     ],
                                                                     "name": "_callbacks_rec",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<TSCallbackName, function[]>"
+                                                                        ],
+                                                                        "view": "table<TSCallbackName, function[]>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Table of callback queues, keyed by each region for which the callbacks should be run",
@@ -67226,7 +68130,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_cb_queues",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, fun(err?: string, trees?: table<integer, TSTree>)[]>"
+                                                                        ],
+                                                                        "view": "table<string, fun(err?: string, trees?: table<integer, TSTree>)[]>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Injected languages",
@@ -67245,7 +68154,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_children",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, vim.treesitter.LanguageTree>"
+                                                                        ],
+                                                                        "view": "table<string, vim.treesitter.LanguageTree>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -67766,7 +68680,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_injection_query",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.treesitter.Query"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.treesitter.Query"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Whether the entire tree (excluding children) is valid.",
@@ -67785,7 +68707,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_is_entirely_valid",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "boolean"
+                                                                            }
+                                                                        ],
+                                                                        "view": "boolean"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -67874,7 +68804,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_lang",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -67962,7 +68900,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_logfile",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "file*"
+                                                                            }
+                                                                        ],
+                                                                        "view": "file*?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -67981,7 +68927,44 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_logger",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "arguments": [
+                                                                                    {
+                                                                                        "name": "logtype",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "string"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "string"
+                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "name": "msg",
+                                                                                        "optional": false,
+                                                                                        "type": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "kind": "builtin",
+                                                                                                    "value": "string"
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "string"
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "generics": [],
+                                                                                "kind": "function",
+                                                                                "returns": []
+                                                                            }
+                                                                        ],
+                                                                        "view": "fun(logtype: string, msg: string)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "The total number of regions. Since _regions can have holes, we cannot simply read this value from #_regions.",
@@ -68000,7 +68983,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_num_regions",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Number of valid regions",
@@ -68019,7 +69010,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_num_valid_regions",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -68391,7 +69390,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_opts",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "table"
+                                                                            }
+                                                                        ],
+                                                                        "view": "table"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Parent LanguageTree",
@@ -68410,7 +69417,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_parent",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.treesitter.LanguageTree"
+                                                                            }
+                                                                        ],
+                                                                        "view": "(vim.treesitter.LanguageTree)?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -68645,7 +69660,15 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_parser",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "TSParser"
+                                                                            }
+                                                                        ],
+                                                                        "view": "TSParser"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Range for which injections have been processed",
@@ -68664,7 +69687,35 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_processed_injection_region",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "items": {
+                                                                                    "types": [
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "Range"
+                                                                                        },
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "Range2"
+                                                                                        },
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "Range4"
+                                                                                        },
+                                                                                        {
+                                                                                            "kind": "typereference",
+                                                                                            "value": "Range6"
+                                                                                        }
+                                                                                    ],
+                                                                                    "view": "Range"
+                                                                                },
+                                                                                "kind": "array"
+                                                                            }
+                                                                        ],
+                                                                        "view": "Range[]?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -68769,7 +69820,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_ranges_being_parsed",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<string, boolean>"
+                                                                        ],
+                                                                        "view": "table<string, boolean>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -68788,7 +69844,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_regions",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, Range6[]>"
+                                                                        ],
+                                                                        "view": "table<integer, Range6[]>?"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -68963,7 +70024,19 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_source",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            },
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string|integer"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -69068,7 +70141,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_trees",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, TSTree>"
+                                                                        ],
+                                                                        "view": "table<integer, TSTree>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "documentation": "Set of valid region IDs.",
@@ -69087,7 +70165,12 @@
                                                                         "private"
                                                                     ],
                                                                     "name": "_valid_regions",
-                                                                    "type": "doc.field"
+                                                                    "type": {
+                                                                        "types": [
+                                                                            "table<integer, true>"
+                                                                        ],
+                                                                        "view": "table<integer, true>"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "async": false,
@@ -74538,7 +75621,15 @@
                                                     "public"
                                                 ],
                                                 "name": "[integer]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.wo"
+                                                        }
+                                                    ],
+                                                    "view": "vim.wo"
+                                                }
                                             },
                                             {
                                                 "documentation": "",
@@ -77378,7 +78469,15 @@
                                                     "public"
                                                 ],
                                                 "name": "[integer]",
-                                                "type": "doc.field"
+                                                "type": {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.wo"
+                                                        }
+                                                    ],
+                                                    "view": "vim.wo"
+                                                }
                                             },
                                             {
                                                 "documentation": "",

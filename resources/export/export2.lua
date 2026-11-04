@@ -615,6 +615,7 @@ function export.followTypes(source, sourceType)
 end
 
 --TODO: merge fields with the same name (look at vim.v)
+--TODO: optional fields
 function export.documentObjectFields(source, documentObjectField)
 	local sources = {}
 	local has_seen = {}
@@ -780,6 +781,9 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 end
 
 export.makeDocObject["doc.field"] = function(source, init, has_seen)
+	assert(source.field ~= nil, "ERROR: doc.field source missing field")
+	assert(source.extends ~= nil, "ERROR: doc.field source missing extends")
+
 	local doc = init
 
 	doc.meta = export.documentObjectMeta(source)
@@ -792,12 +796,14 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-	--TODO: type
+	doc.type = export.followTypes(source.extends, export.documentObjectType(source.extends))
+
 	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
 	doc.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
 	doc.deprecated = vm.getDeprecated(source) and true or false --  if (depr and not depr.versions) the result.defines[#result.defines].extends['deprecated'] = true end
 	doc.visible = vm.getVisibleType(source) ]]
+
 	return doc
 end
 
