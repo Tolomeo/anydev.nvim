@@ -597,40 +597,59 @@ function export.documentObjectType(source)
 	}, infer
 end
 
+function export.followTypes(source, sourceType)
+	for i, t in ipairs(sourceType.types) do
+		if t.kind == "table" or (t.kind == "builtin" and t.value == "table") then
+			local fields = export.documentObjectFields(source, export.documentObject)
+
+			if #fields > 0 then
+				sourceType.types[i] = {
+					kind = "table",
+					fields = fields,
+				}
+			end
+		end
+	end
+
+	return sourceType
+end
+
+--TODO: merge fields with the same name (look at vim.v)
 function export.documentObjectFields(source, documentObjectField)
-	local fieldSources = {}
-	local collected = {}
+	local sources = {}
+	local has_seen = {}
 
 	local function addFields(fields)
 		for _, fieldObj in ipairs(fields or {}) do
-			if not collected[fieldObj] then
-				collected[fieldObj] = true
-				fieldSources[#fieldSources + 1] = fieldObj
+			if not has_seen[fieldObj] then
+				has_seen[fieldObj] = true
+				sources[#sources + 1] = fieldObj
 			end
 		end
 	end
 
 	addFields(vm.getFields(source))
 
-	local fieldDocs = {}
+	local docs = {}
 
-	for _, fieldObj in ipairs(fieldSources) do
+	for _, fieldObj in ipairs(sources) do
 		-- if not isSourceBuiltin(fieldObj) then
 		local fieldDoc = documentObjectField(fieldObj)
 
 		if fieldDoc then
-			fieldDocs[#fieldDocs + 1] = fieldDoc
+			docs[#docs + 1] = fieldDoc
 		end
 		-- end
 	end
 
-	table.sort(fieldDocs, export.sortDoc)
+	table.sort(docs, export.sortDoc)
 
-	return fieldDocs
+	return docs
 end
 
 -- TODO: global types
 export.makeDocObject["global"] = function(source, init, has_seen)
+	assert(source.cate == "variable", "ERROR: global types yet to be implemented")
 	-- local definitions = source:getSets(ws.rootUri)
 	local definitions = vm.getDefs(source)
 
@@ -650,9 +669,9 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	-- doc.rawDesc = obj.rawDesc
 	doc.meta = export.documentObjectMeta(definition)
 
-	local docType = export.documentObjectType(definition)
+	local docType = export.followTypes(definition, export.documentObjectType(definition))
 
-	for i, docTypeType in ipairs(docType.types) do
+	--[[ for i, docTypeType in ipairs(docType.types) do
 		if docTypeType.kind == "table" or (docTypeType.kind == "builtin" and docTypeType.value == "table") then
 			local docTypeTypeFields = export.documentObjectFields(definition, export.documentObject)
 
@@ -663,7 +682,7 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 				}
 			end
 		end
-	end
+	end ]]
 
 	doc.type = docType
 
@@ -726,26 +745,10 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
-		local fieldType = export.documentObjectType(src)
+		local srcType = export.followTypes(src, export.documentObjectType(src))
 
-		if #fieldType.types > 0 then
-			for i, fieldTypeType in ipairs(fieldType.types) do
-				if
-					fieldTypeType.kind == "table"
-					or (fieldTypeType.kind == "builtin" and fieldTypeType.value == "table")
-				then
-					local fieldTypeTypeFields = export.documentObjectFields(src, export.documentObject)
-
-					if #fieldTypeTypeFields > 0 then
-						fieldType.types[i] = {
-							kind = "table",
-							fields = fieldTypeTypeFields,
-						}
-					end
-				end
-			end
-
-			doc.type = fieldType
+		if #srcType.types > 0 then
+			doc.type = srcType
 			break
 		end
 	end
@@ -765,26 +768,10 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
-		local fieldType = export.documentObjectType(src)
+		local srcType = export.followTypes(src, export.documentObjectType(src))
 
-		if #fieldType.types > 0 then
-			for i, fieldTypeType in ipairs(fieldType.types) do
-				if
-					fieldTypeType.kind == "table"
-					or (fieldTypeType.kind == "builtin" and fieldTypeType.value == "table")
-				then
-					local fieldTypeTypeFields = export.documentObjectFields(src, export.documentObject)
-
-					if #fieldTypeTypeFields > 0 then
-						fieldType.types[i] = {
-							kind = "table",
-							fields = fieldTypeTypeFields,
-						}
-					end
-				end
-			end
-
-			doc.type = fieldType
+		if #srcType.types > 0 then
+			doc.type = srcType
 			break
 		end
 	end
@@ -805,7 +792,7 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-
+	--TODO: type
 	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
 	doc.async = vm.isAsync(source, true) and true or false --if vm.isAsync(set, true) then result.defines[#result.defines].extends['async'] = true end
