@@ -366,7 +366,7 @@ viewNodeSwitch = util
 			local argType, argInfer = export.documentObjectType(arg)
 			local optional = argInfer.node:isOptional()
 
-			table.insert(arguments, { name = name, documentation = documentation, type = argType, optional = optional })
+			table.insert(arguments, { name = name, documentation = documentation, infer = argType, optional = optional })
 		end
 
 		local returns = {}
@@ -387,7 +387,7 @@ viewNodeSwitch = util
 			local retType, retInfer = export.documentObjectType(ret)
 			local optional = retInfer.node:isOptional()
 
-			table.insert(returns, { name = name, documentation = documentation, type = retType, optional = optional })
+			table.insert(returns, { name = name, documentation = documentation, infer = retType, optional = optional })
 		end
 
 		return {
@@ -488,7 +488,7 @@ viewNodeSwitch = util
 			local fieldType, fieldInfer = export.documentObjectType(field)
 			local optional = fieldInfer.node:isOptional()
 
-			table.insert(fields, { name = name, documentation = documentation, type = fieldType, optional = optional })
+			table.insert(fields, { name = name, documentation = documentation, infer = fieldType, optional = optional })
 		end
 
 		return {
@@ -564,7 +564,7 @@ viewNodeSwitch = util
 			local argType, argInfer = export.documentObjectType(arg)
 			local optional = argInfer.node:isOptional()
 
-			table.insert(arguments, { name = name, type = argType, optional = optional })
+			table.insert(arguments, { name = name, infer = argType, optional = optional })
 		end
 
 		local returns = {}
@@ -574,7 +574,7 @@ viewNodeSwitch = util
 			local retType, retInfer = export.documentObjectType(ret)
 			local optional = retInfer.node:isOptional()
 
-			table.insert(returns, { name = name, type = retType, optional = optional })
+			table.insert(returns, { name = name, infer = retType, optional = optional })
 		end
 
 		return {
@@ -589,6 +589,7 @@ viewNodeSwitch = util
 		return vm.viewKey(source, uri)
 	end)
 
+--TODO: Finish implementing infer:view logics
 function export.documentObjectType(source)
 	local infer = vm.getInfer(source)
 
@@ -694,8 +695,7 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	-- doc.desc = obj.desc
 	-- doc.rawDesc = obj.rawDesc
 	doc.meta = export.documentObjectMeta(definition)
-
-	local docType = export.followTypes(definition, export.documentObjectType(definition))
+	doc.infer = export.followTypes(definition, export.documentObjectType(definition))
 
 	--[[ for i, docTypeType in ipairs(docType.types) do
 		if docTypeType.kind == "table" or (docTypeType.kind == "builtin" and docTypeType.value == "table") then
@@ -709,8 +709,6 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 			end
 		end
 	end ]]
-
-	doc.type = docType
 
 	return doc
 
@@ -774,7 +772,7 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 		local srcType = export.followTypes(src, export.documentObjectType(src))
 
 		if #srcType.types > 0 then
-			doc.type = srcType
+			doc.infer = srcType
 			break
 		end
 	end
@@ -797,7 +795,7 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 		local srcType = export.followTypes(src, export.documentObjectType(src))
 
 		if #srcType.types > 0 then
-			doc.type = srcType
+			doc.infer = srcType
 			break
 		end
 	end
@@ -821,7 +819,7 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-	doc.type = export.followTypes(source.extends, export.documentObjectType(source.extends))
+	doc.infer = export.followTypes(source.extends, export.documentObjectType(source.extends))
 
 	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
