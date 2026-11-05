@@ -220,8 +220,6 @@ export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
 
 export.makeDocObject["setindex"] = export.makeDocObject["doc.class"]
 
-export.makeDocObject["setmethod"] = export.makeDocObject["doc.class"]
-
 export.makeDocObject["tableindex"] = function(source, obj, has_seen)
 	obj.name = source.index[1]
 end
@@ -366,7 +364,10 @@ viewNodeSwitch = util
 			local argType, argInfer = export.documentObjectType(arg)
 			local optional = argInfer.node:isOptional()
 
-			table.insert(arguments, { name = name, documentation = documentation, infer = argType, optional = optional })
+			table.insert(
+				arguments,
+				{ name = name, documentation = documentation, infer = argType, optional = optional }
+			)
 		end
 
 		local returns = {}
@@ -731,8 +732,8 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	table.sort(obj.defines, export.sortDoc) ]]
 end
 
-export.documentObjectMeta = function(source)
-	local meta = {}
+export.documentObjectMeta = function(source, meta)
+	meta = meta or {}
 
 	table.insert(meta, vm.getVisibleType(source))
 
@@ -778,6 +779,22 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	end
 
 	return doc
+end
+
+export.makeDocObject["setmethod"] = function(source, init, has_seen)
+	assert(source.method ~= nil, "ERROR: Setmethod source without method property")
+
+	local doc = init
+	local method = source.method
+
+	doc.name = method[1]
+	doc.meta = export.documentObjectMeta(source, { "method" })
+	doc.infer = export.followTypes(method, export.documentObjectType(method))
+
+	return doc
+	-- print(export.inspect(source))
+
+	-- return export.makeDocObject["doc.class"](source, init, has_seen)
 end
 
 export.makeDocObject["tablefield"] = function(source, init, has_seen)
