@@ -605,6 +605,9 @@ function export.documentObjectType(source)
 		-- Avoiding to avoid expand aliases
 		-- infer._drop contains the string representations of expanded types that should be suppressed
 		local nView = vm.viewObject(n, ws.rootUri)
+
+		print(nView)
+
 		if nView and infer._drop[nView] then
 			goto continue
 		end
@@ -624,10 +627,12 @@ function export.documentObjectType(source)
 	}, infer
 end
 
-function export.followTypes(source, sourceType)
+function export.followTypes(source, sourceType, documentObjectField)
+	documentObjectField = documentObjectField or export.documentObject
+
 	for i, t in ipairs(sourceType.types) do
 		if t.kind == "table" or (t.kind == "builtin" and t.value == "table") then
-			local fields = export.documentObjectFields(source, export.documentObject)
+			local fields = export.documentObjectFields(source, documentObjectField)
 
 			if #fields > 0 then
 				sourceType.types[i] = {
@@ -696,7 +701,9 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	-- doc.desc = obj.desc
 	-- doc.rawDesc = obj.rawDesc
 	doc.meta = export.documentObjectMeta(definition)
-	doc.infer = export.followTypes(definition, export.documentObjectType(definition))
+
+	local definitionType = export.documentObjectType(definition)
+	doc.infer = export.followTypes(definition, definitionType)
 
 	--[[ for i, docTypeType in ipairs(docType.types) do
 		if docTypeType.kind == "table" or (docTypeType.kind == "builtin" and docTypeType.value == "table") then
@@ -770,10 +777,11 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
-		local srcType = export.followTypes(src, export.documentObjectType(src))
+		local srcType = export.documentObjectType(src)
+		local srcInfer = export.followTypes(src, srcType)
 
-		if #srcType.types > 0 then
-			doc.infer = srcType
+		if #srcInfer.types > 0 then
+			doc.infer = srcInfer
 			break
 		end
 	end
@@ -789,7 +797,9 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 
 	doc.name = method[1]
 	doc.meta = export.documentObjectMeta(source, { "method" })
-	doc.infer = export.followTypes(method, export.documentObjectType(method))
+
+	local methodType = export.documentObjectType(method)
+	doc.infer = export.followTypes(method, methodType)
 
 	return doc
 	-- print(export.inspect(source))
@@ -809,7 +819,8 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	for _, src in ipairs({ source.value, source.field }) do
-		local srcType = export.followTypes(src, export.documentObjectType(src))
+		local srcInfer = export.documentObjectType(src)
+		local srcType = export.followTypes(src, srcInfer)
 
 		if #srcType.types > 0 then
 			doc.infer = srcType
@@ -829,6 +840,7 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	local field = source.field
+	local extends = source.extends
 
 	if field.type == "doc.field.name" then
 		doc.name = field[1]
@@ -836,7 +848,8 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-	doc.infer = export.followTypes(source.extends, export.documentObjectType(source.extends))
+	local extendsType = export.documentObjectType(extends)
+	doc.infer = export.followTypes(extends, extendsType)
 
 	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
