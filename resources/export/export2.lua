@@ -631,7 +631,7 @@ function export.followTypes(source, sourceType, documentObjectField)
 	documentObjectField = documentObjectField or export.documentObject
 
 	for i, t in ipairs(sourceType.types) do
-		if t.kind == "table" or (t.kind == "builtin" and t.value == "table") then
+		if (t.kind == "table" and not t.fields) or (t.kind == "builtin" and t.value == "table") then
 			local fields = export.documentObjectFields(source, documentObjectField)
 
 			if #fields > 0 then
