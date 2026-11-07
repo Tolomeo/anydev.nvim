@@ -1,0 +1,89 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Parses a raw glob into an |lua-lpeg| pattern.\n\n@*param* `pattern` — The raw glob pattern\n\n@*return* — An |lua-lpeg| representation of the pattern",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The raw glob pattern",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "pattern",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "An |lua-lpeg| representation of the pattern",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lpeg.Pattern"
+                                                    }
+                                                ],
+                                                "view": "vim.lpeg.Pattern"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/glob.lua",
+                            "finish": [
+                                370,
+                                18
+                            ],
+                            "start": [
+                                370,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "to_lpeg",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            17,
+            8
+        ],
+        "start": [
+            17,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "glob",
+    "type": "setfield"
+}

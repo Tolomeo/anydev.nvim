@@ -1,0 +1,1051 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "\n Creates a new Version object, or returns `nil` if `version` is invalid.\n\n@*param* `strict` — Reject \"1.0\", \"0-x\", \"3.2a\" or other non-conforming version strings\n\n Adapted from https://github.com/folke/lazy.nvim",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "version",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Reject \"1.0\", \"0-x\", \"3.2a\" or other non-conforming version strings",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "strict",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    }
+                                                ],
+                                                "view": "(vim.Version)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                164,
+                                19
+                            ],
+                            "start": [
+                                164,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_version",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Parses and compares two version objects (the result of |vim.version.parse()|, or\n specified literally as a `{major, minor, patch}` tuple, e.g. `{1, 0, 3}`).\n\n Example:\n\n ```lua\n if vim.version.cmp({1,0,3}, {0,2,1}) == 0 then\n   -- ...\n end\n local v1 = vim.version.parse('1.0.3-pre')\n local v2 = vim.version.parse('0.2.1')\n if vim.version.cmp(v1, v2) == 0 then\n   -- ...\n end\n ```\n\n @note Per semver, build metadata is ignored when comparing two otherwise-equivalent versions.\n @since 11\n\n@*param* `v1` — Version object.\n\n@*param* `v2` — Version to compare with `v1`.\n\n@*return* — -1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Version object.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Version to compare with `v1`.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "-1 if `v1 < v2`, 0 if `v1 == v2`, 1 if `v1 > v2`.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                420,
+                                14
+                            ],
+                            "start": [
+                                420,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "cmp",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "Returns `true` if the given versions are equal. See |vim.version.cmp()| for usage.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                437,
+                                13
+                            ],
+                            "start": [
+                                437,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "eq",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "Returns `true` if `v1 >= v2`. See |vim.version.cmp()| for usage.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                464,
+                                13
+                            ],
+                            "start": [
+                                464,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "ge",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "Returns `true` if `v1 > v2`. See |vim.version.cmp()| for usage.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                473,
+                                13
+                            ],
+                            "start": [
+                                473,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "gt",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Computes the common range shared by the given ranges.\n\n @since 14\n\n@*param* `r1` — First range to intersect.\n\n@*param* `r2` — Second range to intersect.\n\n@*return* `Maximal` — range that is present inside both `r1` and `r2`.\n\n   `nil` if such range does not exist.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "First range to intersect.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.VersionRange"
+                                                    }
+                                                ],
+                                                "view": "vim.VersionRange"
+                                            },
+                                            "name": "r1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Second range to intersect.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.VersionRange"
+                                                    }
+                                                ],
+                                                "view": "vim.VersionRange"
+                                            },
+                                            "name": "r2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "range that is present inside both `r1` and `r2`.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.VersionRange"
+                                                    }
+                                                ],
+                                                "view": "(vim.VersionRange)?"
+                                            },
+                                            "name": "Maximal",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                376,
+                                20
+                            ],
+                            "start": [
+                                376,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "intersect",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "TODO: generalize this, move to func.lua",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "genericreference",
+                                                                    "value": "T"
+                                                                }
+                                                            ],
+                                                            "view": "<T:vim.Version>"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "<T:vim.Version>[]"
+                                            },
+                                            "name": "versions",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.Version"
+                                                        }
+                                                    ],
+                                                    "view": "vim.Version"
+                                                }
+                                            ],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T:vim.Version>?"
+                                                    }
+                                                ],
+                                                "view": "<T:vim.Version>?"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                218,
+                                15
+                            ],
+                            "start": [
+                                218,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "last",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "Returns `true` if `v1 <= v2`. See |vim.version.cmp()| for usage.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                446,
+                                13
+                            ],
+                            "start": [
+                                446,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "le",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "Returns `true` if `v1 < v2`. See |vim.version.cmp()| for usage.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v1",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "number"
+                                                                }
+                                                            ],
+                                                            "view": "number"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|number[]|vim.Version"
+                                            },
+                                            "name": "v2",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                455,
+                                13
+                            ],
+                            "start": [
+                                455,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "lt",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Parses a semantic version string and returns a version object which can be used with other\n `vim.version` functions. For example \"1.0.1-rc1+build.2\" returns:\n\n ```\n { major = 1, minor = 0, patch = 1, prerelease = \"rc1\", build = \"build.2\" }\n ```\n\n\n@*param* `version` — Version string to parse.\n\n@*param* `opts` — Options for parsing.\n\n@*return* — `Version` object or `nil` if input is invalid.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Version string to parse.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "version",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options for parsing.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.version.parse.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.version.parse.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`Version` object or `nil` if input is invalid.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Version"
+                                                    }
+                                                ],
+                                                "view": "(vim.Version)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                499,
+                                16
+                            ],
+                            "start": [
+                                499,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "parse",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Parses a semver |version-range| \"spec\" and returns |vim.VersionRange| object:\n @since 11\n\n@*param* `spec` — Version range \"spec\"\n\n Adapted from https://github.com/folke/lazy.nvim",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Version range \"spec\"",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "spec",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.VersionRange"
+                                                    }
+                                                ],
+                                                "view": "(vim.VersionRange)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/version.lua",
+                            "finish": [
+                                290,
+                                16
+                            ],
+                            "start": [
+                                290,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "range",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            34,
+            11
+        ],
+        "start": [
+            34,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "version",
+    "type": "setfield"
+}

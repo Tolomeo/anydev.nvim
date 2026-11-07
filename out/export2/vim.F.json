@@ -1,0 +1,487 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Returns the first argument which is not nil.\n\n If all arguments are nil, returns nil.\n\n Examples:\n\n ```lua\n local a = nil\n local b = nil\n local c = 42\n local d = true\n assert(vim.F.if_nil(a, b, c, d) == 42)\n ```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T>"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T>"
+                                                    }
+                                                ],
+                                                "view": "<T>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                19,
+                                17
+                            ],
+                            "start": [
+                                19,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "if_nil",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Wrap a function to return nil if it fails, otherwise the value",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "fn",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [],
+                                                                    "view": "unknown"
+                                                                },
+                                                                "name": "...",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "unknown"
+                                                                        }
+                                                                    ],
+                                                                    "view": "unknown"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "function"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                48,
+                                19
+                            ],
+                            "start": [
+                                48,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "nil_wrap",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Nil pcall.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "...",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "genericreference",
+                                                                            "value": "T"
+                                                                        }
+                                                                    ],
+                                                                    "view": "<T>"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "fun(...any):<T>"
+                                            },
+                                            "name": "fn",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T>?"
+                                            },
+                                            "name": "...",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T>"
+                                                    }
+                                                ],
+                                                "view": "<T>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                43,
+                                17
+                            ],
+                            "start": [
+                                43,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "npcall",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Use in combination with pcall",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "status",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "unknown"
+                                                    }
+                                                ],
+                                                "view": "unknown|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                31,
+                                20
+                            ],
+                            "start": [
+                                31,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "ok_or_nil",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " like {...} except preserve the length explicitly",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                55,
+                                19
+                            ],
+                            "start": [
+                                55,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "pack_len",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " like unpack() but use the length set by F.pack_len if present",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "t",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "unknown"
+                                                    }
+                                                ],
+                                                "view": "unknown"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/F.lua",
+                            "finish": [
+                                60,
+                                21
+                            ],
+                            "start": [
+                                60,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "unpack_len",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            11,
+            5
+        ],
+        "start": [
+            11,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "F",
+    "type": "setfield"
+}

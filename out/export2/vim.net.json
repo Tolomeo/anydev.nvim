@@ -1,0 +1,163 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Makes an HTTP GET request to the given URL, asynchronously passing the result to the specified\n `on_response`, `outpath` or `outbuf`.\n\n Examples:\n ```lua\n -- Write response body to file\n vim.net.request('https://neovim.io/charter/', {\n   outpath = 'vision.html',\n })\n\n -- Process the response\n vim.net.request(\n   'https://api.github.com/repos/neovim/neovim',\n   {},\n   function (err, res)\n     if err then return end\n     local stars = vim.json.decode(res.body).stargazers_count\n     vim.print(('Neovim currently has %d stars'):format(stars))\n   end\n )\n\n -- Write to both file and current buffer, but cancel it\n local job = vim.net.request('https://neovim.io/charter/', {\n   outpath = 'vision.html',\n   outbuf = 0,\n })\n job:close()\n ```\n\n@*param* `url` — The URL for the request.\n\n parameter contains the raw response data (text or binary).\n\n@*return* — Table with method to cancel, similar to [vim.SystemObj].",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The URL for the request.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "url",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.net.request.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.net.request.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.net.request.Response"
+                                                                        }
+                                                                    ],
+                                                                    "view": "(vim.net.request.Response)?"
+                                                                },
+                                                                "name": "response",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(err?: string, response?: vim.net.request.Response)?"
+                                            },
+                                            "name": "on_response",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Table with method to cancel, similar to [vim.SystemObj].",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "arguments": [],
+                                                                            "generics": [],
+                                                                            "kind": "function",
+                                                                            "returns": []
+                                                                        }
+                                                                    ],
+                                                                    "view": "fun()"
+                                                                },
+                                                                "name": "close",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ close: fun() }"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/net.lua",
+                            "finish": [
+                                57,
+                                18
+                            ],
+                            "start": [
+                                57,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "request",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            24,
+            7
+        ],
+        "start": [
+            24,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "net",
+    "type": "setfield"
+}

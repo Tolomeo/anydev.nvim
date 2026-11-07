@@ -1,0 +1,570 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "@*param* `line` — line content\n\n@*param* `lnum` — 0-indexed line number\n\n@*param* `client_id` — client ID\n\n@*param* `client_start_boundary` — 0-indexed word boundary\n\n@*param* `server_start_boundary` — 0-indexed word boundary, based on textEdit.range.start.character\n\n```lua\nencoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "line content",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "line",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "0-indexed line number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "lnum",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "cursor_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "client ID",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "0-indexed word boundary",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_start_boundary",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "0-indexed word boundary, based on textEdit.range.start.character",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "server_start_boundary",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.CompletionResult"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.CompletionResult"
+                                            },
+                                            "name": "result",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "table"
+                                                                }
+                                                            ],
+                                                            "view": "table"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "table[]"
+                                            },
+                                            "name": "matches",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "server_start_boundary",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/completion.lua",
+                            "finish": [
+                                530,
+                                27
+                            ],
+                            "start": [
+                                530,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_convert_results",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Turns the result of a `textDocument/completion` request into vim-compatible\n |complete-items|.\n\n@*param* `result` — Result of `textDocument/completion`\n\n@*param* `prefix` — prefix to filter the completion items\n\n@*param* `client_id` — Client ID\n\n@*param* `server_start_boundary` — server start boundary\n\n@*param* `line` — current line content\n\n@*param* `lnum` — 0-indexed line number\n\n@*param* `encoding` — encoding\n\nSee: ~complete-items~",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Result of `textDocument/completion`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.CompletionResult"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.CompletionResult"
+                                            },
+                                            "name": "result",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "prefix to filter the completion items",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "prefix",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Client ID",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "client_id",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "server start boundary",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "server_start_boundary",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "current line content",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "line",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "0-indexed line number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "lnum",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "encoding",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "encoding",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "table"
+                                                                }
+                                                            ],
+                                                            "view": "table"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "table[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/completion.lua",
+                            "finish": [
+                                362,
+                                33
+                            ],
+                            "start": [
+                                362,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_lsp_to_complete_items",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Implements 'omnifunc' compatible LSP completion.\n\n @see |complete-functions|\n @see |complete-items|\n @see |CompleteDone|\n\n@*param* `findstart` — 0 or 1, decides behavior\n\n@*param* `base` — findstart=0, text to match against\n\n\n@*return* `Decided` — by {findstart}:\n\n - findstart=1: column where the completion starts, or -2 or -3\n - findstart=0: list of matches (actually just calls |complete()|)",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "0 or 1, decides behavior",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "findstart",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "findstart=0, text to match against",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "base",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "by {findstart}:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "integer|table"
+                                            },
+                                            "name": "Decided",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/completion.lua",
+                            "finish": [
+                                1290,
+                                20
+                            ],
+                            "start": [
+                                1290,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_omnifunc",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Enables or disables completions from the given language client in the given\n buffer. Effects of enabling completions are:\n\n - Calling |vim.lsp.completion.get()| uses the enabled clients to retrieve completion candidates.\n - Selecting a completion item shows a preview popup (\"completionItem/resolve\") if 'completeopt'\n   has \"popup\".\n - Accepting a completion item using `<c-y>` applies side effects like expanding snippets,\n   text edits (e.g. insert import statements) and executing associated commands. This works for\n   completions triggered via autotrigger, 'omnifunc' or [vim.lsp.completion.get()].\n\n Examples: |lsp-attach| |lsp-completion|\n\n Note: the behavior of `autotrigger=true` is controlled by the LSP `triggerCharacters` field. You\n can override it on LspAttach, see |lsp-autocompletion|.\n\n@*param* `enable` — True to enable, false to disable\n\n@*param* `client_id` — Client ID\n\n@*param* `bufnr` — Buffer handle, or 0 for the current buffer",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "True to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "enable",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Client ID",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Buffer handle, or 0 for the current buffer",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.completion.BufferOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.completion.BufferOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/completion.lua",
+                            "finish": [
+                                1238,
+                                17
+                            ],
+                            "start": [
+                                1238,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Triggers LSP completion once in the current buffer, if LSP completion is enabled\n (see |lsp-attach| |lsp-completion|).\n\n Used by the default LSP |omnicompletion| provider |vim.lsp.omnifunc()|, thus |i_CTRL-X_CTRL-O|\n invokes this in LSP-enabled buffers. Use CTRL-Y to select an item from the completion menu.\n |complete_CTRL-Y|\n\n To invoke manually with CTRL-space, use this mapping:\n ```lua\n -- Use CTRL-space to trigger LSP completion.\n -- Use CTRL-Y to select an item. |complete_CTRL-Y|\n vim.keymap.set('i', '<c-space>', function()\n   vim.lsp.completion.get()\n end)\n ```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.completion.get.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.completion.get.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/completion.lua",
+                            "finish": [
+                                1269,
+                                14
+                            ],
+                            "start": [
+                                1269,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            13,
+            12
+        ],
+        "start": [
+            13,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "completion",
+    "type": "tablefield"
+}

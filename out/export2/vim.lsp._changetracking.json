@@ -1,0 +1,383 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Sends didOpen/didClose/didSave to all client groups.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                170,
+                                25
+                            ],
+                            "start": [
+                                170,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_send_did_save",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Flushes any outstanding change notification.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.Client"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Client"
+                                            },
+                                            "name": "client",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                404,
+                                16
+                            ],
+                            "start": [
+                                404,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "flush",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.Client"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Client"
+                                            },
+                                            "name": "client",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                131,
+                                15
+                            ],
+                            "start": [
+                                131,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "init",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.Client"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Client"
+                                            },
+                                            "name": "client",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                257,
+                                16
+                            ],
+                            "start": [
+                                257,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "reset",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.Client"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Client"
+                                            },
+                                            "name": "client",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                237,
+                                20
+                            ],
+                            "start": [
+                                237,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "reset_buf",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "firstline",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "lastline",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "new_lastline",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_changetracking.lua",
+                            "finish": [
+                                390,
+                                23
+                            ],
+                            "start": [
+                                390,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "send_changes",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            5,
+            17
+        ],
+        "start": [
+            5,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "_changetracking",
+    "type": "tablefield"
+}

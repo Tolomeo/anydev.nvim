@@ -1,0 +1,770 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Check whether a string matches any of the given Lua patterns.\n\n@*param* `s` — The string to check\n\n@*param* `patterns` — A list of Lua patterns\n\n@*return* — `true` if s matched a pattern, else `false`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The string to check",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "s",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "A list of Lua patterns",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "patterns",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`true` if s matched a pattern, else `false`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                78,
+                                19
+                            ],
+                            "start": [
+                                78,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_findany",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets a best-effort set of all \"known\" filetypes, discovered by:\n - `getcompletion()`\n - `vim.filetype` internal registry",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, true>"
+                                                ],
+                                                "view": "table<string, true>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                109,
+                                31
+                            ],
+                            "start": [
+                                109,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_get_known_filetypes",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get a single line from the buffer.\n\n@*param* `buf` — The buffer to get the lines from\n\n@*param* `start_lnum` — The line number of the first line (inclusive, 1-based)",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The buffer to get the lines from",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number of the first line (inclusive, 1-based)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_lnum",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                64,
+                                19
+                            ],
+                            "start": [
+                                64,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_getline",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get a line range from the buffer.\n\n@*param* `buf` — The buffer to get the lines from\n\n@*param* `start_lnum` — The line number of the first line (inclusive, 1-based)\n\n@*param* `end_lnum` — The line number of the last line (inclusive, 1-based)\n\n@*return* — Array of lines",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The buffer to get the lines from",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number of the first line (inclusive, 1-based)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "start_lnum",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number of the last line (inclusive, 1-based)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "end_lnum",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Array of lines",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                47,
+                                20
+                            ],
+                            "start": [
+                                47,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_getlines",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Check whether the given string matches the Vim regex pattern.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "s",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "pattern",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                148,
+                                24
+                            ],
+                            "start": [
+                                148,
+                                11
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_matchregex",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the next non-whitespace line in the buffer.\n\n@*param* `buf` — The buffer to get the line from\n\n@*param* `start_lnum` — The line number of the first line to start from (inclusive, 1-based)\n\n@*return* `line` — The first non-blank line if found or `nil` otherwise\n\n@*return* `lnum` — The line number of the first non-blank line or `nil`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The buffer to get the line from",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number of the first line to start from (inclusive, 1-based)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_lnum",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "The first non-blank line if found or `nil` otherwise",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "line",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number of the first non-blank line or `nil`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "lnum",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                96,
+                                24
+                            ],
+                            "start": [
+                                96,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_nextnonblank",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Add new filetype mappings.\n\n Filetype mappings can be added either by extension or by filename (either\n the \"tail\" or the full file path). The full file path is checked first,\n followed by the file name. If a match is not found using the filename, then\n the filename is matched against the list of |lua-pattern|s (sorted by priority)\n until a match is found. Lastly, if pattern matching does not find a\n filetype, then the file extension is used.\n\n The filetype can be either a string (in which case it is used as the\n filetype directly) or a function. If a function, it takes the full path and\n buffer number of the file as arguments (along with captures from the matched\n pattern, if any) and should return a string that will be used as the\n buffer's filetype. Optionally, the function can return a second function\n value which, when called, modifies the state of the buffer. This can be used\n to, for example, set filetype-specific buffer variables. This function will\n be called by Nvim before setting the buffer's filetype.\n\n Filename patterns can specify an optional priority to resolve cases when a\n file path matches multiple patterns. Higher priorities are matched first.\n When omitted, the priority defaults to 0.\n A pattern can contain environment variables of the form \"${SOME_VAR}\" that will\n be automatically expanded. If the environment variable is not set, the pattern\n won't be matched.\n\n See $VIMRUNTIME/lua/vim/filetype.lua for more examples.\n\n Example:\n\n ```lua\n vim.filetype.add({\n   extension = {\n     foo = 'fooscript',\n     bar = function(path, bufnr)\n       if some_condition() then\n         return 'barscript', function(bufnr)\n           -- Set a buffer variable\n           vim.b[bufnr].barscript_version = 2\n         end\n       end\n       return 'bar'\n     end,\n   },\n   filename = {\n     ['.foorc'] = 'toml',\n     ['/etc/foo/config'] = 'toml',\n   },\n   pattern = {\n     ['.*/etc/foo/.*'] = 'fooscript',\n     -- Using an optional priority\n     ['.*/etc/foo/.*%.conf'] = { 'dosini', { priority = 10 } },\n     -- A pattern containing an environment variable\n     ['${XDG_CONFIG_HOME}/foo/git'] = 'git',\n     ['.*README.(%a+)'] = function(path, bufnr, ext)\n       if ext == 'md' then\n         return 'markdown'\n       elseif ext == 'rst' then\n         return 'rst'\n       end\n     end,\n   },\n })\n ```\n\n To add a fallback match on contents, use\n\n ```lua\n vim.filetype.add {\n   pattern = {\n     ['.*'] = {\n       function(path, bufnr)\n         local content = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ''\n         if vim.regex([[^#!.*\\\\<mine\\\\>]]):match_str(content) ~= nil then\n           return 'mine'\n         elseif vim.regex([[\\\\<drawing\\\\>]]):match_str(content) ~= nil then\n           return 'drawing'\n         end\n       end,\n       { priority = -math.huge },\n     },\n   },\n }\n ```\n\n@*param* `filetypes` — A table containing new filetype maps (see example).",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "A table containing new filetype maps (see example).",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.filetype.add.filetypes"
+                                                    }
+                                                ],
+                                                "view": "vim.filetype.add.filetypes"
+                                            },
+                                            "name": "filetypes",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                3006,
+                                14
+                            ],
+                            "start": [
+                                3006,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "add",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the default option value for a {filetype}.\n\n The returned value is what would be set in a new buffer after 'filetype'\n is set, meaning it should respect all FileType autocmds and ftplugin files.\n\n Example:\n\n ```lua\n vim.filetype.get_option('vim', 'commentstring')\n ```\n\n Note: this uses |nvim_get_option_value()| but caches the result.\n This means |ftplugin| and |FileType| autocommands are only\n triggered once and may not reflect later changes.\n @since 11\n\n@*param* `filetype` — Filetype\n\n@*param* `option` — Option name\n\n@*return* — : Option value",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Filetype",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "filetype",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Option name",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "option",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Option value",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "boolean|string|integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                3328,
+                                21
+                            ],
+                            "start": [
+                                3328,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_option",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Inspect the current state of the filetype registry.\n\n Returns a copy of the internal tables used for filetype detection by extension, filename, or\n pattern. Note: Due to the dynamic nature of filetype detection, this is only useful for checking\n whether a certain extension, filename, or pattern has been registered so far. In addition, the\n `pattern` table is in an internal format optimized for fast lookup. Prefer |vim.filetype.match()|\n for checking the detected filetype for a given pattern.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, table<string, table<string, vim.filetype.mapping>|vim.filetype.mapping>>"
+                                                ],
+                                                "view": "table<string, table<string, table<string, vim.filetype.mapping>|vim.filetype.mapping>>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                3340,
+                                18
+                            ],
+                            "start": [
+                                3340,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "inspect",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Perform filetype detection.\n\n The filetype can be detected using one of three methods:\n 1. Using an existing buffer\n 2. Using only a file name\n 3. Using only file contents\n\n Of these, option 1 provides the most accurate result as it uses both the buffer's filename and\n (optionally) the buffer contents. Options 2 and 3 can be used without an existing buffer, but\n may not always provide a match in cases where the filename (or contents) cannot unambiguously\n determine the filetype.\n\n Each of the three options is specified using a key to the single argument of this function.\n Example:\n\n ```lua\n -- Using a buffer number\n vim.filetype.match({ buf = 42 })\n\n -- Override the filename of the given buffer\n vim.filetype.match({ buf = 42, filename = 'foo.c' })\n\n -- Using a filename without a buffer\n vim.filetype.match({ filename = 'main.lua' })\n\n -- Using file contents\n vim.filetype.match({ contents = {'#!/usr/bin/env bash'} })\n ```\n\n@*param* `args` — Table specifying which matching strategy to use.\n\n                 Accepted keys are:\n\n@*return* — The matched filetype, if any.\n\n@*return* — A function `fun(buf: integer)` that modifies buffer state when called (for\n\n                     example, to set some filetype specific buffer variables).\n\n@*return* — true if a match was found by falling back to a generic filetype\n\n                     (i.e., \".conf\"), which indicates the filetype should be set with\n                     `:setf FALLBACK conf`. See |:setfiletype|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Table specifying which matching strategy to use.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.filetype.match.args"
+                                                    }
+                                                ],
+                                                "view": "vim.filetype.match.args"
+                                            },
+                                            "name": "args",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "The matched filetype, if any.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "A function `fun(buf: integer)` that modifies buffer state when called (for",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "function"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "function|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "true if a match was found by falling back to a generic filetype",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "boolean|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/filetype.lua",
+                            "finish": [
+                                3203,
+                                16
+                            ],
+                            "start": [
+                                3203,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "match",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            14,
+            12
+        ],
+        "start": [
+            14,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "filetype",
+    "type": "setfield"
+}

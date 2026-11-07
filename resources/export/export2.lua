@@ -924,16 +924,68 @@ export.serializeAndExport = function(docs, outputDir)
 
 	--export variable docs to json
 
-	local variableDocs = {}
+	-- local variableDocs = {}
 
+	local function getJsonDocs(parent, prefix)
+		local parentName = prefix or parent.name
+
+		local jsons = { { name = parentName, doc = parent } }
+
+		-- TODO: remove
+		if not parent.infer then
+			return jsons
+		end
+
+		if #parent.infer.types ~= 1 or parent.infer.types[1].kind ~= "table" or not parent.infer.types[1].fields then
+			return jsons
+		end
+
+		for i = #parent.infer.types[1].fields, 1, -1 do
+			local field = parent.infer.types[1].fields[i]
+
+			-- TODO: remove
+			if not field.infer then
+				goto continue
+			end
+
+			if #field.infer.types ~= 1 or field.infer.types[1].kind ~= "table" or not field.infer.types[1].fields then
+				goto continue
+			end
+
+			local childName = string.format("%s.%s", parentName, field.name)
+			local child = table.remove(parent.infer.types[1].fields, i)
+
+			for _, childChild in ipairs(getJsonDocs(child, childName)) do
+				table.insert(jsons, childChild)
+			end
+
+			::continue::
+		end
+
+		return jsons
+	end
+
+	local variableJsons = {}
 	for i = 1, #docs do
 		local doc = docs[i]
 		if doc.category == "variable" then
-			table.insert(variableDocs, doc)
+			for _, jsonDoc in ipairs(getJsonDocs(doc)) do
+				table.insert(variableJsons, jsonDoc)
+			end
 		end
 	end
 
-	for i = 1, #variableDocs do
+	for _, variableJson in ipairs(variableJsons) do
+		local variableJsonPath = variablesPath .. "/" .. variableJson.name .. ".json"
+
+		local variableOk, variableJsonErr = util.saveFile(variableJsonPath, jsonb.beautify(variableJson.doc))
+
+		if not variableOk then
+			return false, { variableJsonPath }, { variableJsonErr }
+		end
+	end
+
+	--[[ for i = 1, #variableDocs do
 		local variableDoc = variableDocs[i]
 		local variablePath = variablesPath .. "/" .. variableDoc.name .. ".json"
 
@@ -942,7 +994,7 @@ export.serializeAndExport = function(docs, outputDir)
 		if not variableOk then
 			return false, { variablePath }, { variableErr }
 		end
-	end
+	end ]]
 
 	jsonb.supportSparseArray = old_jsonb_supportSparseArray
 

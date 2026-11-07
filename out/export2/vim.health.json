@@ -1,0 +1,418 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Runs the specified healthchecks.\n Runs all discovered healthchecks if plugin_names is empty.\n\n@*param* `mods` — command modifiers that affect splitting a window.\n\n@*param* `plugin_names` — glob of plugin names, split on whitespace. For example, using\n\n                            `:checkhealth vim.* nvim` will healthcheck `vim.lsp`, `vim.treesitter`\n                            and `nvim` modules.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "command modifiers that affect splitting a window.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "mods",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "glob of plugin names, split on whitespace. For example, using",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "plugin_names",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                396,
+                                17
+                            ],
+                            "start": [
+                                396,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_check",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " :checkhealth completion function used by cmdexpand.c get_healthcheck_names()",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                337,
+                                11
+                            ],
+                            "start": [
+                                337,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_complete",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Reports an error.\n\n@*param* `...` — Optional advice",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Optional advice",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string|string[]"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                306,
+                                16
+                            ],
+                            "start": [
+                                306,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "error",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Reports an informational message.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                279,
+                                15
+                            ],
+                            "start": [
+                                279,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "info",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Reports a \"success\" message.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                287,
+                                13
+                            ],
+                            "start": [
+                                287,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "ok",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Starts a new report. Most plugins should call this only once, but if\n you want different sections to appear in your report, call this once\n per section.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                271,
+                                16
+                            ],
+                            "start": [
+                                271,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "start",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Reports a warning.\n\n@*param* `...` — Optional advice",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Optional advice",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string|string[]"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/health.lua",
+                            "finish": [
+                                296,
+                                15
+                            ],
+                            "start": [
+                                296,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "warn",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            18,
+            10
+        ],
+        "start": [
+            18,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "health",
+    "type": "setfield"
+}

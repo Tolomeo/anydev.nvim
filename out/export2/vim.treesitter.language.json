@@ -1,0 +1,536 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Returns available treesitter languages.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                189,
+                                20
+                            ],
+                            "start": [
+                                189,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_complete",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Load parser with name {lang}\n\n Parsers are searched in the `parser` runtime directory, or the provided {path}.\n Can be used to check for available parsers before enabling treesitter features, e.g.,\n ```lua\n   if vim.treesitter.language.add('markdown') then\n     vim.treesitter.start(bufnr, 'markdown')\n   end\n ```\n\n@*param* `lang` — Name of the parser (alphanumerical and `_` only)\n\n@*param* `opts` — Options:\n\n@*return* `True` — if parser is loaded\n\n@*return* `Error` — if parser cannot be loaded",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Name of the parser (alphanumerical and `_` only)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.language.add.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.treesitter.language.add.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "if parser is loaded",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "True",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "if parser cannot be loaded",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "Error",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                106,
+                                14
+                            ],
+                            "start": [
+                                106,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "add",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the filetypes for which a parser named {lang} is used.\n\n The list includes {lang} itself plus all filetypes registered via\n |vim.treesitter.language.register()|.\n\n@*param* `lang` — Name of parser",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Name of parser",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "filetypes",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                17,
+                                24
+                            ],
+                            "start": [
+                                17,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_filetypes",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the language name to be used when loading a parser for {filetype}.\n\n If no language has been explicitly registered via |vim.treesitter.language.register()|,\n default to {filetype}. For composite filetypes like `html.glimmer`, only the main filetype is\n returned.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "filetype",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                35,
+                                19
+                            ],
+                            "start": [
+                                35,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_lang",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Inspects the provided language.\n\n Inspecting provides some useful information on the language like ABI version, parser state count\n (a measure of parser complexity), node and field names, and whether the language came from a\n WASM module.\n\n Node names are returned in a table mapping each node name to a `boolean` indicating whether or\n not the node is named (i.e., not anonymous). Anonymous nodes are surrounded with double quotes\n (`\"`).\n\n For ABI 15 parsers, also show parser metadata (major, minor, patch version) and a table of\n supertypes with their respective subtypes.\n\n@*param* `lang` — Language",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Language",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSLangInfo"
+                                                    }
+                                                ],
+                                                "view": "TSLangInfo"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                183,
+                                18
+                            ],
+                            "start": [
+                                183,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "inspect",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Register a parser named {lang} to be used for {filetype}(s).\n\n Note: this adds or overrides the mapping for {filetype}, any existing mappings from other\n filetypes to {lang} will be preserved.\n\n@*param* `lang` — Name of parser\n\n@*param* `filetype` — Filetype(s) to associate with lang",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Name of parser",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Filetype(s) to associate with lang",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string|string[]"
+                                            },
+                                            "name": "filetype",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                157,
+                                19
+                            ],
+                            "start": [
+                                157,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "register",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "silent",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "symbol_name",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/language.lua",
+                            "finish": [
+                                48,
+                                27
+                            ],
+                            "start": [
+                                48,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "require_language",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/treesitter.lua",
+        "finish": [
+            11,
+            10
+        ],
+        "start": [
+            11,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "language",
+    "type": "tablefield"
+}

@@ -1,0 +1,719 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Enable pull diagnostics for a buffer\n\n@*param* `bufnr` — Buffer handle, or 0 for current",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer handle, or 0 for current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                435,
+                                18
+                            ],
+                            "start": [
+                                435,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Refresh diagnostics, only if we have attached clients that support it\n\n@*param* `bufnr` — buffer number\n\n@*param* `client_id` — Client ID to refresh (default: all clients)\n\n@*param* `only_visible` — Whether to only refresh for the visible regions of the buffer (default: false)",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "buffer number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Client ID to refresh (default: all clients)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "client_id",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Whether to only refresh for the visible regions of the buffer (default: false)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "only_visible",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                372,
+                                19
+                            ],
+                            "start": [
+                                372,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_refresh",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Request workspace-wide diagnostics.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.WorkspaceDiagnosticsOpts"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.WorkspaceDiagnosticsOpts"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                519,
+                                33
+                            ],
+                            "start": [
+                                519,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_workspace_diagnostics",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts the input `vim.Diagnostic`s to LSP diagnostics.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic[]"
+                                            },
+                                            "name": "diagnostics",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.Diagnostic[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                159,
+                                15
+                            ],
+                            "start": [
+                                159,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "from",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the diagnostics by line\n\n Marked private as this is used internally by the LSP subsystem, but\n most users should instead prefer |vim.diagnostic.get()|.\n\n@*param* `bufnr` — The buffer number\n\n@*param* `line_nr` — The line number\n\n         - severity: (lsp.DiagnosticSeverity)\n             - Only return diagnostics with this severity.\n\n@*param* `client_id` — the client id\n\n@*return* `Table` — with map of line number to list of diagnostics.\n\n              Structured: { [1] = {...}, [5] = {.... } }",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The buffer number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The line number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "line_nr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "lsp.DiagnosticSeverity"
+                                                                        }
+                                                                    ],
+                                                                    "view": "(lsp.DiagnosticSeverity)?"
+                                                                },
+                                                                "name": "severity",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ severity: lsp.DiagnosticSeverity }?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "the client id",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "integer|nil"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "with map of line number to list of diagnostics.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "Table",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                334,
+                                31
+                            ],
+                            "start": [
+                                334,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "get_line_diagnostics",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the diagnostic namespace associated with an LSP client |vim.diagnostic| for diagnostics\n\n@*param* `client_id` — The id of the LSP client\n\n@*param* `is_pull` — Whether the namespace is for a pull or push client. Defaults to\n\n                        `false` (push).\n\n@*param* `pull_id` — (default: nil) Optional identifier for pull diagnostic providers.\n\n                       Only used if `is_pull` is `true`.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The id of the LSP client",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Whether the namespace is for a pull or push client. Defaults to",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "is_pull",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "(default: nil) Optional identifier for pull diagnostic providers.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "pull_id",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                200,
+                                24
+                            ],
+                            "start": [
+                                200,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_namespace",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method \"textDocument/diagnostic\"\n\n See |vim.diagnostic.config()| for configuration options.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
+                                                    }
+                                                ],
+                                                "view": "(lsp.ResponseError)?"
+                                            },
+                                            "name": "error",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.DocumentDiagnosticReport"
+                                                    }
+                                                ],
+                                                "view": "lsp.DocumentDiagnosticReport"
+                                            },
+                                            "name": "result",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                275,
+                                24
+                            ],
+                            "start": [
+                                275,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "on_diagnostic",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method \"textDocument/publishDiagnostics\"\n\n See |vim.diagnostic.config()| for configuration options.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
+                                                    }
+                                                ],
+                                                "view": "(lsp.ResponseError)?"
+                                            },
+                                            "name": "_",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.PublishDiagnosticsParams"
+                                                    }
+                                                ],
+                                                "view": "lsp.PublishDiagnosticsParams"
+                                            },
+                                            "name": "params",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                262,
+                                33
+                            ],
+                            "start": [
+                                262,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "on_publish_diagnostics",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method `workspace/diagnostic/refresh`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "err",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "_",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.NIL"
+                                                    }
+                                                ],
+                                                "view": "vim.NIL"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/diagnostic.lua",
+                            "finish": [
+                                412,
+                                21
+                            ],
+                            "start": [
+                                412,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "on_refresh",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            14,
+            12
+        ],
+        "start": [
+            14,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "diagnostic",
+    "type": "tablefield"
+}

@@ -1,0 +1,290 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Highlight the yanked text during a |TextYankPost| event.\n\n Add the following to your `init.vim`:\n\n ```vim\n autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=300}\n ```\n\n@*param* `opts` — Optional parameters\n\n              - event     event structure (default vim.v.event)\n              - higroup   highlight group for yanked region (default \"IncSearch\")\n              - on_macro  highlight when executing macro (default false)\n              - on_visual highlight when yanking visual selection (default true)\n              - priority  integer priority (default |vim.hl.priorities|`.user`)\n              - timeout   time in ms before highlight is cleared (default 150)",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Optional parameters",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "table|nil"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                167,
+                                18
+                            ],
+                            "start": [
+                                167,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "on_yank",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Apply highlight group to range of text.\n\n@*param* `buf` — Buffer number to apply highlighting to\n\n@*param* `ns` — Namespace to add highlight to\n\n@*param* `higroup` — Highlight group to use for highlighting\n\n@*param* `start` — Start of region as a (line, column) tuple or string accepted by |getpos()|\n\n@*param* `finish` — End of region as a (line, column) tuple or string accepted by |getpos()|\n\n@*return* `range_timer` — A timer which manages how much time the\n\n highlight has left\n\n@*return* `range_clear` — A function which allows clearing the highlight manually.\n\n nil is returned if timeout is not specified",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer number to apply highlighting to",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Namespace to add highlight to",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "ns",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Highlight group to use for highlighting",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "higroup",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Start of region as a (line, column) tuple or string accepted by |getpos()|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|[integer, integer]"
+                                            },
+                                            "name": "start",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "End of region as a (line, column) tuple or string accepted by |getpos()|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|[integer, integer]"
+                                            },
+                                            "name": "finish",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.hl.range.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.hl.range.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "A timer which manages how much time the",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "uv.uv_timer_t"
+                                                    }
+                                                ],
+                                                "view": "(uv.uv_timer_t)?"
+                                            },
+                                            "name": "range_timer",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "A function which allows clearing the highlight manually.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun()?"
+                                            },
+                                            "name": "range_clear",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                50,
+                                16
+                            ],
+                            "start": [
+                                50,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "range",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            19,
+            6
+        ],
+        "start": [
+            19,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "hl",
+    "type": "setfield"
+}

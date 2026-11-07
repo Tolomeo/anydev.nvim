@@ -1,0 +1,171 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " If {path} is a file: attempt to read the file, prompting the user if the file should be\n trusted.\n\n If {path} is a directory: return true if the directory is trusted (non-recursive), prompting\n the user as necessary.\n\n The user's choice is persisted in a trust database at\n $XDG_STATE_HOME/nvim/trust.\n\n\n@*param* `path` — Path to a file or directory to read.\n\n\n@*return* `If` — {path} is not trusted or does not exist, returns `nil`. Otherwise,\n\n        returns the contents of {path} if it is a file, or true if {path} is a directory.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path to a file or directory to read.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "{path} is not trusted or does not exist, returns `nil`. Otherwise,",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "boolean|string|nil"
+                                            },
+                                            "name": "If",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/secure.lua",
+                            "finish": [
+                                106,
+                                15
+                            ],
+                            "start": [
+                                106,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "read",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Manage the trust database.\n\n The trust database is located at |$XDG_STATE_HOME|/nvim/trust.\n\n@*return* `success` — true if operation was successful\n\n@*return* `msg` — full path if operation was successful, else error message",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.trust.opts"
+                                                    }
+                                                ],
+                                                "view": "vim.trust.opts"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "true if operation was successful",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "success",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "full path if operation was successful, else error message",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/secure.lua",
+                            "finish": [
+                                190,
+                                16
+                            ],
+                            "start": [
+                                190,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "trust",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            29,
+            10
+        ],
+        "start": [
+            29,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "secure",
+    "type": "setfield"
+}

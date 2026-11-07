@@ -1,0 +1,1840 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Get virtual text chunks to display using |nvim_buf_set_extmark()|.\n\n Exported for backward compatibility with\n vim.lsp.diagnostic.get_virtual_text_chunks_for_line(). When that function is eventually removed,\n this can be made local.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, vim.Diagnostic>"
+                                                ],
+                                                "view": "table<integer, vim.Diagnostic>"
+                                            },
+                                            "name": "line_diags",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts.VirtualText"
+                                                    }
+                                                ],
+                                                "view": "vim.diagnostic.Opts.VirtualText"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    },
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "table|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2249,
+                                32
+                            ],
+                            "start": [
+                                2249,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_get_virt_text_chunks",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Configure diagnostic options globally or for a specific diagnostic\n namespace.\n\n Configuration can be specified globally, per-namespace, or ephemerally\n (i.e. only for a single call to |vim.diagnostic.set()| or\n |vim.diagnostic.show()|). Ephemeral configuration has highest priority,\n followed by namespace configuration, and finally global configuration.\n\n For example, if a user enables virtual text globally with\n\n ```lua\n vim.diagnostic.config({ virtual_text = true })\n ```\n\n and a diagnostic producer sets diagnostics with\n\n ```lua\n vim.diagnostic.set(ns, 0, diagnostics, { virtual_text = false })\n ```\n\n then virtual text will not be enabled for those diagnostics.\n\n@*param* `opts` — When omitted or `nil`, retrieve the current\n\n       configuration. Otherwise, a configuration table (see |vim.diagnostic.Opts|).\n\n@*param* `namespace` — Update the options for the given namespace.\n\n                          When omitted, update the global diagnostic options.\n\n@*return* — : Current diagnostic config if {opts} is omitted.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "When omitted or `nil`, retrieve the current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Update the options for the given namespace.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "namespace",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Current diagnostic config if {opts} is omitted.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Opts)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1284,
+                                17
+                            ],
+                            "start": [
+                                1284,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "config",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get current diagnostics count.\n\n@*param* `bufnr` — Buffer number to get diagnostics from. Use 0 for\n\n                      current buffer or nil for all buffers.\n\n@*return* — : Table with actually present severity values as keys\n\n                (see |diagnostic-severity|) and integer counts as values.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer number to get diagnostics from. Use 0 for",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.GetOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.GetOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Table with actually present severity values as keys",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, integer>"
+                                                ],
+                                                "view": "table<integer, integer>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1517,
+                                16
+                            ],
+                            "start": [
+                                1517,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "count",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Enables or disables diagnostics.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.diagnostic.enable(not vim.diagnostic.is_enabled())\n ```\n\n@*param* `enable` — true/nil to enable, false to disable",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "boolean|nil"
+                                            },
+                                            "name": "enable",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2793,
+                                17
+                            ],
+                            "start": [
+                                2793,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Convert a list of quickfix items to a list of diagnostics.\n\n@*param* `list` — List of quickfix items from |getqflist()| or |getloclist()|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "List of quickfix items from |getqflist()| or |getloclist()|.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.quickfix.entry"
+                                                                }
+                                                            ],
+                                                            "view": "vim.quickfix.entry"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.quickfix.entry[]"
+                                            },
+                                            "name": "list",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.fromqflist.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.fromqflist.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2963,
+                                21
+                            ],
+                            "start": [
+                                2963,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "fromqflist",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get current diagnostics.\n\n Modifying diagnostics in the returned table has no effect.\n To set diagnostics in a buffer, use |vim.diagnostic.set()|.\n\n@*param* `bufnr` — Buffer number to get diagnostics from. Use 0 for\n\n                      current buffer or nil for all buffers.\n\n@*return* — : Fields `bufnr`, `end_lnum`, `end_col`, and `severity`\n\n                           are guaranteed to be present.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer number to get diagnostics from. Use 0 for",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.GetOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.GetOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Fields `bufnr`, `end_lnum`, `end_col`, and `severity`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1503,
+                                14
+                            ],
+                            "start": [
+                                1503,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get namespace metadata.\n\n@*param* `namespace` — Diagnostic namespace\n\n@*return* — : Namespace metadata",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Diagnostic namespace",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "namespace",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Namespace metadata",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.NS"
+                                                    }
+                                                ],
+                                                "view": "vim.diagnostic.NS"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1464,
+                                24
+                            ],
+                            "start": [
+                                1464,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_namespace",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get current diagnostic namespaces.\n\n@*return* — : List of active diagnostic namespaces |vim.diagnostic|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": List of active diagnostic namespaces |vim.diagnostic|.",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, vim.diagnostic.NS>"
+                                                ],
+                                                "view": "table<integer, vim.diagnostic.NS>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1489,
+                                25
+                            ],
+                            "start": [
+                                1489,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_namespaces",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the next diagnostic closest to the cursor position.\n\n@*return* — : Next diagnostic",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Next diagnostic",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Diagnostic"
+                                                    }
+                                                ],
+                                                "view": "(vim.Diagnostic)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1573,
+                                19
+                            ],
+                            "start": [
+                                1573,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_next",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Return the position of the next diagnostic in the current buffer.\n\n@*return* — : Next diagnostic position as a `(row, col)` tuple or false if no next\n\n                      diagnostic.\n\n```lua\nreturn #1:\n    | false\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Next diagnostic position as a `(row, col)` tuple or false if no next",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    },
+                                                    "false"
+                                                ],
+                                                "view": "table|false"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1583,
+                                23
+                            ],
+                            "start": [
+                                1583,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "get_next_pos",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the previous diagnostic closest to the cursor position.\n\n@*return* — : Previous diagnostic",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Previous diagnostic",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Diagnostic"
+                                                    }
+                                                ],
+                                                "view": "(vim.Diagnostic)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1533,
+                                19
+                            ],
+                            "start": [
+                                1533,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_prev",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Return the position of the previous diagnostic in the current buffer.\n\n@*return* — : Previous diagnostic position as a `(row, col)` tuple\n\n                     or `false` if there is no prior diagnostic.\n\n```lua\nreturn #1:\n    | false\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Previous diagnostic position as a `(row, col)` tuple",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    },
+                                                    "false"
+                                                ],
+                                                "view": "table|false"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1543,
+                                23
+                            ],
+                            "start": [
+                                1543,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "get_prev_pos",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Move to the next diagnostic.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1717,
+                                20
+                            ],
+                            "start": [
+                                1717,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "goto_next",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Move to the previous diagnostic in the current buffer.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.JumpOpts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1560,
+                                20
+                            ],
+                            "start": [
+                                1560,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "goto_prev",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "table"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            ],
+                            "view": "table"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                413,
+                                10
+                            ],
+                            "start": [
+                                413,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "handlers",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Hide currently displayed diagnostics.\n\n This only clears the decorations displayed in the buffer. Diagnostics can\n be redisplayed with |vim.diagnostic.show()|. To completely remove\n diagnostics, use |vim.diagnostic.reset()|.\n\n To hide diagnostics and prevent them from re-displaying, use\n |vim.diagnostic.enable()|.\n\n@*param* `namespace` — Diagnostic namespace. When omitted, hide\n\n                          diagnostics from all namespaces.\n\n@*param* `bufnr` — Buffer number, or 0 for current buffer. When\n\n                      omitted, hide diagnostics in all buffers.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Diagnostic namespace. When omitted, hide",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "namespace",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Buffer number, or 0 for current buffer. When",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2302,
+                                15
+                            ],
+                            "start": [
+                                2302,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "hide",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Check whether diagnostics are enabled.\n\n @since 12",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2324,
+                                21
+                            ],
+                            "start": [
+                                2324,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "is_enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Move to a diagnostic.\n\n@*return* — The diagnostic that was moved to.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.JumpOpts"
+                                                    }
+                                                ],
+                                                "view": "vim.diagnostic.JumpOpts"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "The diagnostic that was moved to.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Diagnostic"
+                                                    }
+                                                ],
+                                                "view": "(vim.Diagnostic)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1660,
+                                15
+                            ],
+                            "start": [
+                                1660,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "jump",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Parse a diagnostic from a string.\n\n For example, consider a line of output from a linter:\n\n ```\n WARNING filename:27:3: Variable 'foo' does not exist\n ```\n\n This can be parsed into |vim.Diagnostic| structure with:\n\n ```lua\n local s = \"WARNING filename:27:3: Variable 'foo' does not exist\"\n local pattern = \"^(%w+) %w+:(%d+):(%d+): (.+)$\"\n local groups = { \"severity\", \"lnum\", \"col\", \"message\" }\n vim.diagnostic.match(s, pattern, groups, { WARNING = vim.diagnostic.WARN })\n ```\n\n@*param* `str` — String to parse diagnostics from.\n\n@*param* `pat` — Lua pattern with capture groups.\n\n@*param* `groups` — List of fields in a |vim.Diagnostic| structure to\n\n                    associate with captures from {pat}.\n\n@*param* `severity_map` — A table mapping the severity field from {groups}\n\n                          with an item from |vim.diagnostic.severity|.\n\n@*param* `defaults` — Table of default values for any fields not listed in {groups}.\n\n                       When omitted, numeric values default to 0 and \"severity\" defaults to\n                       ERROR.\n\n@*return* — : |vim.Diagnostic| structure or `nil` if {pat} fails to match {str}.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "String to parse diagnostics from.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Lua pattern with capture groups.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "pat",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "List of fields in a |vim.Diagnostic| structure to",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "groups",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "A table mapping the severity field from {groups}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "severity_map",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Table of default values for any fields not listed in {groups}.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table?"
+                                            },
+                                            "name": "defaults",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": |vim.Diagnostic| structure or `nil` if {pat} fails to match {str}.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.Diagnostic"
+                                                    }
+                                                ],
+                                                "view": "(vim.Diagnostic)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2870,
+                                16
+                            ],
+                            "start": [
+                                2870,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "match",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Show diagnostics in a floating window.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts.Float"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Opts.Float)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "float_bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "winid",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2425,
+                                21
+                            ],
+                            "start": [
+                                2425,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "open_float",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Remove all diagnostics from the given namespace.\n\n Unlike |vim.diagnostic.hide()|, this function removes all saved\n diagnostics. They cannot be redisplayed using |vim.diagnostic.show()|. To\n simply remove diagnostic decorations in a way that they can be\n re-displayed, use |vim.diagnostic.hide()|.\n\n@*param* `namespace` — Diagnostic namespace. When omitted, remove\n\n                          diagnostics from all namespaces.\n\n@*param* `bufnr` — Remove diagnostics for the given buffer. When omitted,\n\n                     diagnostics are removed for all buffers.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Diagnostic namespace. When omitted, remove",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "namespace",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Remove diagnostics for the given buffer. When omitted,",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2696,
+                                16
+                            ],
+                            "start": [
+                                2696,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "reset",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Set diagnostics for the given namespace and buffer.\n\n@*param* `namespace` — The diagnostic namespace\n\n@*param* `bufnr` — Buffer number\n\n@*param* `opts` — Display options to pass to |vim.diagnostic.show()|",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The diagnostic namespace",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "namespace",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Buffer number",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic.Set"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic.Set"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic.Set[]"
+                                            },
+                                            "name": "diagnostics",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Display options to pass to |vim.diagnostic.show()|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                1367,
+                                14
+                            ],
+                            "start": [
+                                1367,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "set",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Add buffer diagnostics to the location list.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.setloclist.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.setloclist.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2779,
+                                21
+                            ],
+                            "start": [
+                                2779,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "setloclist",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Add all diagnostics to the quickfix list.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.setqflist.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.setqflist.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2746,
+                                20
+                            ],
+                            "start": [
+                                2746,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "setqflist",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "enum"
+                                }
+                            ],
+                            "view": "enum vim.diagnostic.Severity"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                356,
+                                10
+                            ],
+                            "start": [
+                                356,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "severity",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Display diagnostics for the given namespace and buffer.\n\n@*param* `namespace` — Diagnostic namespace. When omitted, show\n\n                          diagnostics from all namespaces.\n\n@*param* `bufnr` — Buffer number, or 0 for current buffer. When omitted, show\n\n                      diagnostics in all buffers.\n\n@*param* `diagnostics` — The diagnostics to display. When omitted, use the\n\n                             saved diagnostics for the given namespace and\n                             buffer. This can be used to display a list of diagnostics\n                             without saving them or to display only a subset of\n                             diagnostics. May not be used when {namespace}\n                             or {bufnr} is nil.\n\n@*param* `opts` — Display options.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Diagnostic namespace. When omitted, show",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "namespace",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Buffer number, or 0 for current buffer. When omitted, show",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "The diagnostics to display. When omitted, use the",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic[]?"
+                                            },
+                                            "name": "diagnostics",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Display options.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.diagnostic.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.diagnostic.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2354,
+                                15
+                            ],
+                            "start": [
+                                2354,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "show",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns formatted string with diagnostics for the current buffer.\n The severities with 0 diagnostics are left out.\n Example `E:2 W:3 I:4 H:5`\n\n To customise appearance, see |vim.diagnostic.Opts.Status|.\n\n@*param* `bufnr` — Buffer number to get diagnostics from.\n\n                      Defaults to 0 for the current buffer",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer number to get diagnostics from.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                3021,
+                                17
+                            ],
+                            "start": [
+                                3021,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "status",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Convert a list of diagnostics to a list of quickfix items that can be\n passed to |setqflist()| or |setloclist()|.\n\n@*return* — : Quickfix list items |setqflist-what|",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.Diagnostic"
+                                                                }
+                                                            ],
+                                                            "view": "vim.Diagnostic"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.Diagnostic[]"
+                                            },
+                                            "name": "diagnostics",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Quickfix list items |setqflist-what|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "table"
+                                                                }
+                                                            ],
+                                                            "view": "table"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "table[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/diagnostic.lua",
+                            "finish": [
+                                2918,
+                                19
+                            ],
+                            "start": [
+                                2918,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "toqflist",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            13,
+            14
+        ],
+        "start": [
+            13,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "diagnostic",
+    "type": "setfield"
+}

@@ -1,0 +1,88 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Enables/disables on-type formatting globally or for the {filter}ed scope. The following are some\n practical usage examples:\n\n ```lua\n -- Enable for all clients\n vim.lsp.on_type_formatting.enable()\n\n -- Enable for a specific client\n vim.api.nvim_create_autocmd('LspAttach', {\n   callback = function(ev)\n     local client_id = ev.data.client_id\n     local client = assert(vim.lsp.get_client_by_id(client_id))\n     if client.name == 'rust-analyzer' then\n       vim.lsp.on_type_formatting.enable(true, { client_id = client_id })\n     end\n   end,\n })\n ```\n\n@*param* `enable` — true/nil to enable, false to disable.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.on_type_formatting.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.on_type_formatting.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/on_type_formatting.lua",
+                            "finish": [
+                                244,
+                                17
+                            ],
+                            "start": [
+                                244,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            21,
+            20
+        ],
+        "start": [
+            21,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "on_type_formatting",
+    "type": "tablefield"
+}

@@ -1,0 +1,1172 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Converts `path` to an absolute path. Expands tilde (~) at the beginning of the path\n to the user's home directory. Does not check if the path exists, normalize the path, resolve\n symlinks or hardlinks (including `.` and `..`), or expand environment variables. If the path is\n already absolute, it is returned unchanged. Also converts `\\` path separators to `/`.\n\n @since 13\n\n@*param* `path` — Path\n\n@*return* `Absolute` — path",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "Absolute",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                812,
+                                18
+                            ],
+                            "start": [
+                                812,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "abspath",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets the basename of the given path (not expanded/resolved).\n\n@*param* `file` — Path\n\n@*return* `Basename` — of {file}",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T:string|nil>"
+                                            },
+                                            "name": "file",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "string"
+                                                        }
+                                                    ],
+                                                    "view": "string"
+                                                },
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "nil"
+                                                        }
+                                                    ],
+                                                    "view": "nil"
+                                                }
+                                            ],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "of {file}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T:string|nil>"
+                                                    }
+                                                ],
+                                                "view": "<T:string|nil>"
+                                            },
+                                            "name": "Basename",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                123,
+                                19
+                            ],
+                            "start": [
+                                123,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "basename",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets an iterator over items found in `path` (normalized via |vim.fs.normalize()|).\n\n@*param* `path` — Directory to iterate over, normalized via |vim.fs.normalize()|.\n\n@*param* `opts` — Optional keyword arguments:\n\n@*return* `over` — items in {path}. Each iteration yields two values: \"name\" and \"type\".\n\n        \"name\" is the basename of the item relative to {path}.\n        \"type\" is one of the following:\n        \"file\", \"directory\", \"link\", \"fifo\", \"socket\", \"char\", \"block\", \"unknown\".",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Directory to iterate over, normalized via |vim.fs.normalize()|.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Optional keyword arguments:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.fs.dir.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.fs.dir.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "items in {path}. Each iteration yields two values: \"name\" and \"type\".",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Iterator"
+                                                    }
+                                                ],
+                                                "view": "Iterator"
+                                            },
+                                            "name": "over",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                216,
+                                14
+                            ],
+                            "start": [
+                                216,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "dir",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets the parent directory of the given path (not expanded/resolved, the caller must do that).\n\n@*param* `file` — Path\n\n@*return* `Parent` — directory of {file}",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T:string|nil>"
+                                            },
+                                            "name": "file",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "string"
+                                                        }
+                                                    ],
+                                                    "view": "string"
+                                                },
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "nil"
+                                                        }
+                                                    ],
+                                                    "view": "nil"
+                                                }
+                                            ],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "directory of {file}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T:string|nil>"
+                                                    }
+                                                ],
+                                                "view": "<T:string|nil>"
+                                            },
+                                            "name": "Parent",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                93,
+                                18
+                            ],
+                            "start": [
+                                93,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "dirname",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Return the file's last extension, if any.\n\n Similar to |fnamemodify()| with the |::e| modifier. The extension does not include a leading\n period.\n\n Examples:\n\n ```lua\n vim.fs.ext('archive.tar.gz') -- 'gz'\n vim.fs.ext('~/.git') -- ''\n vim.fs.ext('plugin/myplug.lua') -- 'lua'\n ```\n\n@*param* `file` — Path\n\n@*param* `opts` — Reserved for future use\n\n@*return* `Extension` — of {file}",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "file",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Reserved for future use",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "of {file}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "Extension",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                898,
+                                14
+                            ],
+                            "start": [
+                                898,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "ext",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Find files or directories (or other items as specified by `opts.type`) in the given path.\n\n Finds items given in {names} starting from {path}. If {upward} is \"true\"\n then the search traverses upward through parent directories; otherwise,\n the search traverses downward. Note that downward searches are recursive\n and may search through many directories! If {stop} is non-nil, then the\n search stops when the directory given in {stop} is reached. The search\n terminates when {limit} (default 1) matches are found. You can set {type}\n to \"file\", \"directory\", \"link\", \"socket\", \"char\", \"block\", or \"fifo\"\n to narrow the search to find only that type.\n\n Examples:\n\n ```lua\n -- List all test directories under the runtime directory.\n local dirs = vim.fs.find(\n   { 'test', 'tst', 'testdir' },\n   { limit = math.huge, type = 'directory', path = './runtime/' }\n )\n\n -- Get all \"lib/*.cpp\" and \"lib/*.hpp\" files, using Lua patterns.\n -- Or use `vim.glob.to_lpeg(…):match(…)` for glob/wildcard matching.\n local files = vim.fs.find(function(name, path)\n   return name:match('.*%.[ch]pp$') and path:match('[/\\\\]lib$')\n end, { limit = math.huge, type = 'file' })\n ```\n\n@*param* `names` — Names of the items to find.\n\n             Must be base names, paths and globs are not supported when {names} is a string or a table.\n             If {names} is a function, it is called for each traversed item with args:\n             - name: base name of the current item\n             - path: full path of the current item\n\n             The function should return `true` if the given item is considered a match.\n\n@*param* `opts` — Optional keyword arguments:\n\n@*return* — Normalized paths |vim.fs.normalize()| of all matching items",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Names of the items to find.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "name",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "path",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "string|fun(name: string, path: string):boolean|string[]"
+                                            },
+                                            "name": "names",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Optional keyword arguments:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.fs.find.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.fs.find.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Normalized paths |vim.fs.normalize()| of all matching items",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                327,
+                                15
+                            ],
+                            "start": [
+                                327,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "find",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Concatenates partial paths (one absolute or relative path followed by zero or more relative\n paths). Slashes are normalized: redundant slashes are removed, and (on Windows) backslashes are\n replaced with forward-slashes. Empty segments are removed. Paths are not expanded/resolved.\n\n Examples:\n - \"foo/\", \"/bar\" => \"foo/bar\"\n - \"\", \"after/plugin\" => \"after/plugin\"\n - Windows: \"a\\foo\\\", \"\\bar\" => \"a/foo/bar\"",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                149,
+                                19
+                            ],
+                            "start": [
+                                149,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "joinpath",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Normalize a path to a standard format. A tilde (~) character at the beginning of the path is\n expanded to the user's home directory and environment variables are also expanded. \".\" and \"..\"\n components are also resolved, except when the path is relative and trying to resolve it would\n result in an absolute path.\n - \".\" as the only part in a relative path:\n   - \".\" => \".\"\n   - \"././\" => \".\"\n - \"..\" when it leads outside the current directory\n   - \"foo/../../bar\" => \"../bar\"\n   - \"../../foo\" => \"../../foo\"\n - \"..\" in the root directory returns the root directory.\n   - \"/../../\" => \"/\"\n\n On Windows, backslash (\\) characters are converted to forward slashes (/).\n\n Examples:\n ```lua\n [[C:\\Users\\jdoe]]                         => \"C:/Users/jdoe\"\n \"~/src/neovim\"                            => \"/home/jdoe/src/neovim\"\n \"$XDG_CONFIG_HOME/nvim/init.vim\"          => \"/Users/jdoe/.config/nvim/init.vim\"\n \"~/src/nvim/api/../tui/./tui.c\"           => \"/home/jdoe/src/nvim/tui/tui.c\"\n \"./foo/bar\"                               => \"foo/bar\"\n \"foo/../../../bar\"                        => \"../../bar\"\n \"/home/jdoe/../../../bar\"                 => \"/bar\"\n \"C:foo/../../baz\"                         => \"C:../baz\"\n \"C:/foo/../../baz\"                        => \"C:/baz\"\n [[\\\\?\\UNC\\server\\share\\foo\\..\\..\\..\\bar]] => \"//?/UNC/server/share/bar\"\n ```\n\n@*param* `path` — Path to normalize\n\n@*return* — : Normalized path",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path to normalize",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.fs.normalize.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.fs.normalize.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Normalized path",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                675,
+                                20
+                            ],
+                            "start": [
+                                675,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "normalize",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Iterate over all the parents of the given path (not expanded/resolved, the caller must do that).\n\n Example:\n\n ```lua\n local root_dir\n for dir in vim.fs.parents(vim.api.nvim_buf_get_name(0)) do\n   if vim.fn.isdirectory(dir .. '/.git') == 1 then\n     root_dir = dir\n     break\n   end\n end\n\n if root_dir then\n   print('Found git repository at', root_dir)\n end\n ```\n\n@*param* `start` — Initial path.\n\n@*return* — Iterator\n\n@*return*\n\n@*return*",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Initial path.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "start",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Iterator",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "_",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "dir",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "",
+                                                                "optional": true
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "fun(_: any, dir: string):string?"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                74,
+                                18
+                            ],
+                            "start": [
+                                74,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "parents",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets `target` path relative to `base`, or `nil` if `base` is not an ancestor.\n\n Example:\n\n ```lua\n vim.fs.relpath('/var', '/var/lib') -- 'lib'\n vim.fs.relpath('/var', '/usr/bin') -- nil\n ```\n\n @since 13\n\n@*param* `opts` — Reserved for future use",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "base",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "target",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Reserved for future use",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                861,
+                                18
+                            ],
+                            "start": [
+                                861,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "relpath",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Removes a file or directory.\n\n Removes symlinks without touching the origin. To remove the origin, resolve it explicitly\n with |uv.fs_realpath()|:\n ```lua\n vim.fs.rm(vim.uv.fs_realpath('symlink-dir'), { recursive = true })\n ```\n\n @since 13\n\n@*param* `path` — Path to remove (not expanded/resolved).",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path to remove (not expanded/resolved).",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.fs.rm.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.fs.rm.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                793,
+                                13
+                            ],
+                            "start": [
+                                793,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "rm",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Find the first parent directory containing a specific \"marker\", relative to a file path or\n buffer.\n\n If the buffer is unnamed (has no backing file) or has a non-empty 'buftype' then the search\n begins from Nvim's |current-directory|.\n\n Examples:\n\n ```lua\n -- Find the root of a Python project, starting from file 'main.py'\n vim.fs.root(vim.fs.joinpath(vim.env.PWD, 'main.py'), {'pyproject.toml', 'setup.py' })\n\n -- Find the root of a git repository\n vim.fs.root(0, '.git')\n\n -- Find the parent directory containing any file with a .csproj extension\n vim.fs.root(0, function(name, path)\n   return vim.fs.ext(name) == 'csproj'\n end)\n\n -- Find the first ancestor directory containing EITHER \"stylua.toml\" or \".luarc.json\"; if\n -- not found, find the first ancestor containing \".git\":\n vim.fs.root(0, { { 'stylua.toml', '.luarc.json' }, '.git' })\n ```\n\n @since 12\n\n@*param* `source` — Buffer number (0 for current buffer) or file path (absolute or\n\n               relative, expanded via `abspath()`) to begin the search from.\n               Filename, function, or list thereof, that decides how to find the root. To\n               indicate \"equal priority\", specify items in a nested list `{ { 'a.txt', 'b.lua' }, … }`.\n               A function item must return true if `name` and `path` are a match. Each item\n               (which may itself be a nested list) is evaluated in-order against all ancestors,\n               until a match is found.\n\n@*return* — Directory path containing one of the given markers, or nil if no directory was\n\n                   found.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer number (0 for current buffer) or file path (absolute or",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|integer"
+                                            },
+                                            "name": "source",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                },
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    },
+                                                                    "kind": "array"
+                                                                },
+                                                                {
+                                                                    "arguments": [
+                                                                        {
+                                                                            "infer": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "builtin",
+                                                                                        "value": "string"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "string"
+                                                                            },
+                                                                            "name": "name",
+                                                                            "optional": false
+                                                                        },
+                                                                        {
+                                                                            "infer": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "builtin",
+                                                                                        "value": "string"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "string"
+                                                                            },
+                                                                            "name": "path",
+                                                                            "optional": false
+                                                                        }
+                                                                    ],
+                                                                    "generics": [],
+                                                                    "kind": "function",
+                                                                    "returns": [
+                                                                        {
+                                                                            "infer": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "builtin",
+                                                                                        "value": "boolean"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "boolean"
+                                                                            },
+                                                                            "name": "",
+                                                                            "optional": false
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "view": "string|fun(name: string, path: string):boolean|string[]"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "name",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "path",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "string|(string|fun(name: string, path: string):boolean|string[])[]|fun(name: string, path: string):boolean"
+                                            },
+                                            "name": "marker",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Directory path containing one of the given markers, or nil if no directory was",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/fs.lua",
+                            "finish": [
+                                474,
+                                15
+                            ],
+                            "start": [
+                                474,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "root",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            15,
+            6
+        ],
+        "start": [
+            15,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "fs",
+    "type": "setfield"
+}

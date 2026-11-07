@@ -1,0 +1,705 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "client_id",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                509,
+                                16
+                            ],
+                            "start": [
+                                509,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "clear",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "@*param* `lenses` — lenses to display",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "lenses to display",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.CodeLens"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.CodeLens"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.CodeLens[]?"
+                                            },
+                                            "name": "lenses",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                522,
+                                18
+                            ],
+                            "start": [
+                                522,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "display",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Enables or disables code lens for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())\n ```\n\n To run a code lens, see |vim.lsp.codelens.run()|.\n\n@*param* `enable` — true/nil to enable, false to disable",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                328,
+                                17
+                            ],
+                            "start": [
+                                328,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get all code lenses in the {filter}ed scope.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.get.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.codelens.get.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.lsp.codelens.get.Result"
+                                                                }
+                                                            ],
+                                                            "view": "vim.lsp.codelens.get.Result"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.codelens.get.Result[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                353,
+                                14
+                            ],
+                            "start": [
+                                353,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Query whether code lens is enabled in the {filter}ed scope\n\n@*return* `whether` — code lens is enabled.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "code lens is enabled.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "whether",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                312,
+                                21
+                            ],
+                            "start": [
+                                312,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "is_enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
+                                                    }
+                                                ],
+                                                "view": "(lsp.ResponseError)?"
+                                            },
+                                            "name": "err",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.CodeLens"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.CodeLens"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.CodeLens[]"
+                                            },
+                                            "name": "result",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                540,
+                                22
+                            ],
+                            "start": [
+                                540,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "on_codelens",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method `workspace/codeLens/refresh`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
+                                                    }
+                                                ],
+                                                "view": "lsp.ResponseError"
+                                            },
+                                            "name": "err",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "_",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.NIL"
+                                                    }
+                                                ],
+                                                "view": "vim.NIL"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "kind": "typereference",
+                                    "value": "lsp.Handler"
+                                }
+                            ],
+                            "view": "function|lsp.Handler"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                486,
+                                21
+                            ],
+                            "start": [
+                                486,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "on_refresh",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "@*param* `opts` — Optional fields",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Optional fields",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.refresh.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.codelens.refresh.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                551,
+                                18
+                            ],
+                            "start": [
+                                551,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "refresh",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Run code lens at the current cursor position.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.run.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.codelens.run.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                467,
+                                14
+                            ],
+                            "start": [
+                                467,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "run",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "@*param* `lenses` — lenses to store",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "lenses to store",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.CodeLens"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.CodeLens"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.CodeLens[]?"
+                                            },
+                                            "name": "lenses",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/codelens.lua",
+                            "finish": [
+                                531,
+                                15
+                            ],
+                            "start": [
+                                531,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "save",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            12,
+            10
+        ],
+        "start": [
+            12,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "codelens",
+    "type": "tablefield"
+}

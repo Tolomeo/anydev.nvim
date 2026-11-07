@@ -1,0 +1,751 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Convert LSP MessageType to vim.log.levels\n\n\n```lua\n-- The message type\nmessage_type:\n    | 1 -- Error\n    | 2 -- Warning\n    | 3 -- Info\n    | 4 -- Log\n    | 5 -- Debug\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.MessageType"
+                                                    }
+                                                ],
+                                                "view": "lsp.MessageType"
+                                            },
+                                            "name": "message_type",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                224,
+                                28
+                            ],
+                            "start": [
+                                224,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_from_lsp_level",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "s",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                90,
+                                26
+                            ],
+                            "start": [
+                                90,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_set_filename",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "fun(...any):boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                163,
+                                9
+                            ],
+                            "start": [
+                                163,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "debug",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "fun(...any):boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                166,
+                                9
+                            ],
+                            "start": [
+                                166,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "error",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the log filename.\n\n@*return* `log` — filename",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "filename",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "log",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                85,
+                                25
+                            ],
+                            "start": [
+                                85,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_filename",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets the current log level.\n\n@*return* `current` — log level",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "log level",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "current",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                193,
+                                22
+                            ],
+                            "start": [
+                                193,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_level",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "fun(...any):boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                169,
+                                8
+                            ],
+                            "start": [
+                                169,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "info",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Log level dictionary with reverse lookup as well.\n\n Can be used to lookup the number from the name or the name from the number.\n Levels by name: \"TRACE\", \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"OFF\"\n Level numbers begin with \"TRACE\" at 0\n @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "enum"
+                                }
+                            ],
+                            "view": "enum vim.log.levels"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                35,
+                                10
+                            ],
+                            "start": [
+                                35,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "levels",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Sets the formatting function used to format logs. If the formatting function returns nil, the entry won't\n be written to the log file.\n\n@*param* `handle` — Function to apply to log entries. The default will log the level,\n\ndate, source and line number of the caller, followed by the arguments.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Function to apply to log entries. The default will log the level,",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string"
+                                                                },
+                                                                "name": "level",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "...",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "",
+                                                                "optional": true
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "fun(level: string, ...any):string?"
+                                            },
+                                            "name": "handle",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                201,
+                                28
+                            ],
+                            "start": [
+                                201,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "set_format_func",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Sets the current log level.\n\n@*param* `level` — One of |vim.log.levels|",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "One of |vim.log.levels|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "string|integer"
+                                            },
+                                            "name": "level",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                179,
+                                22
+                            ],
+                            "start": [
+                                179,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "set_level",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Checks whether the level is sufficient for logging.\n\n@*param* `level` — log level\n\n@*return* — : true if would log, false if not",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "log level",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "level",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": true if would log, false if not",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                213,
+                                23
+                            ],
+                            "start": [
+                                213,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "should_log",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "fun(...any):boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                172,
+                                9
+                            ],
+                            "start": [
+                                172,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "trace",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "fun(...any):boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/log.lua",
+                            "finish": [
+                                175,
+                                8
+                            ],
+                            "start": [
+                                175,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "warn",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            20,
+            5
+        ],
+        "start": [
+            20,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "log",
+    "type": "tablefield"
+}

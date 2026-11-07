@@ -1,0 +1,490 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Default excludes the same as VSCode's `files.watcherExclude` setting.\n https://github.com/microsoft/vscode/blob/eef30e7165e19b33daa1e15e92fa34ff4a5df0d3/src/vs/workbench/contrib/files/browser/files.contribution.ts#L261\nparsed Lpeg pattern",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lpeg.Pattern"
+                                }
+                            ],
+                            "view": "vim.lpeg.Pattern"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                80,
+                                23
+                            ],
+                            "start": [
+                                80,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_poll_exclude_pattern",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The path to watch",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Additional options:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.watch.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim._watch.watch.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Callback for new events",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.Callback"
+                                                    }
+                                                ],
+                                                "view": "vim._watch.Callback"
+                                            },
+                                            "name": "callback",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Stops the watcher",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun()"
+                                            },
+                                            "name": "cancel",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                51,
+                                14
+                            ],
+                            "start": [
+                                51,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_watchfunc",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The path to watch. Must refer to a directory.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim._watch.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Callback for new events",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.Callback"
+                                                    }
+                                                ],
+                                                "view": "vim._watch.Callback"
+                                            },
+                                            "name": "callback",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Stops the watcher",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun()"
+                                            },
+                                            "name": "cancel",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                53,
+                                14
+                            ],
+                            "start": [
+                                53,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_watchfunc",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "The path to watch. Must refer to a directory.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Additional options",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim._watch.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Callback for new events",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim._watch.Callback"
+                                                    }
+                                                ],
+                                                "view": "vim._watch.Callback"
+                                            },
+                                            "name": "callback",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Stops the watcher",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun()"
+                                            },
+                                            "name": "cancel",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                55,
+                                14
+                            ],
+                            "start": [
+                                55,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_watchfunc",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                209,
+                                17
+                            ],
+                            "start": [
+                                209,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "cancel",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Registers the workspace/didChangeWatchedFiles capability dynamically.\n\n@*param* `reg` — LSP Registration object.\n\n@*param* `client_id` — Client ID.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "LSP Registration object.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Registration"
+                                                    }
+                                                ],
+                                                "view": "lsp.Registration"
+                                            },
+                                            "name": "reg",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Client ID.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                88,
+                                19
+                            ],
+                            "start": [
+                                88,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "register",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Unregisters the workspace/didChangeWatchedFiles capability dynamically.\n\n@*param* `unreg` — LSP Unregistration object.\n\n@*param* `client_id` — Client ID.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "LSP Unregistration object.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Unregistration"
+                                                    }
+                                                ],
+                                                "view": "lsp.Unregistration"
+                                            },
+                                            "name": "unreg",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Client ID.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_watchfiles.lua",
+                            "finish": [
+                                196,
+                                21
+                            ],
+                            "start": [
+                                196,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "unregister",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            9,
+            13
+        ],
+        "start": [
+            9,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "_watchfiles",
+    "type": "tablefield"
+}

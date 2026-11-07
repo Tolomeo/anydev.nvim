@@ -1,0 +1,217 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Remove an existing mapping.\n Examples:\n\n ```lua\n vim.keymap.del('n', 'lhs')\n\n vim.keymap.del({'n', 'i', 'v'}, '<leader>w', { buf = 5 })\n ```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string|string[]"
+                                            },
+                                            "name": "modes",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lhs",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.keymap.del.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.keymap.del.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/keymap.lua",
+                            "finish": [
+                                125,
+                                19
+                            ],
+                            "start": [
+                                125,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "del",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Defines a |mapping| of |keycodes| to a function or keycodes.\n\n Examples:\n\n ```lua\n -- Map \"x\" to a Lua function:\n vim.keymap.set('n', 'x', function() print('real lua function') end)\n -- Map \"<leader>x\" to multiple modes for the current buffer:\n vim.keymap.set({'n', 'v'}, '<leader>x', vim.lsp.buf.references, { buf = 0 })\n -- Map <Tab> to an expression (|:map-<expr>|):\n vim.keymap.set('i', '<Tab>', function()\n   return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'\n end, { expr = true })\n -- Map \"[%%\" to a <Plug> mapping:\n vim.keymap.set('n', '[%%', '<Plug>(MatchitNormalMultiBackward)')\n\n -- Use `getregionpos(getpos('v'))` to get the \"current visual selection\":\n vim.keymap.set('x', 'M', function()\n   local region = vim.fn.getregionpos(vim.fn.getpos('v'), vim.fn.getpos('.'), {\n     type = 'v',\n     exclusive = false,\n     eol = false,\n   })\n   local line1 = region[1][1][2]\n   local line2 = region[#region][1][2]\n   vim.print({ line1, line2 })\n end)\n ```\n\n@*param* `modes` — Mode \"short-name\" (see |nvim_set_keymap()|), or a list thereof.\n\n@*param* `lhs` — Left-hand side |{lhs}| of the mapping.\n\n@*param* `rhs` — Right-hand side |{rhs}| of the mapping, can be a Lua function.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Mode \"short-name\" (see |nvim_set_keymap()|), or a list thereof.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string|string[]"
+                                            },
+                                            "name": "modes",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Left-hand side |{lhs}| of the mapping.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lhs",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Right-hand side |{rhs}| of the mapping, can be a Lua function.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "function"
+                                                    }
+                                                ],
+                                                "view": "string|function"
+                                            },
+                                            "name": "rhs",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.keymap.set.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.keymap.set.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/keymap.lua",
+                            "finish": [
+                                56,
+                                19
+                            ],
+                            "start": [
+                                56,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "set",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            21,
+            10
+        ],
+        "start": [
+            21,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "keymap",
+    "type": "setfield"
+}

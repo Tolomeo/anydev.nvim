@@ -1,0 +1,148 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " @nodoc\n\n@*param* `lang` — language to open the query editor for.\n\n@*return* — `true` on success, `nil` on failure\n\n@*return* `error` — message, if applicable",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "language to open the query editor for.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "lang",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`true` on success, `nil` on failure",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "message, if applicable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "error",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/dev.lua",
+                            "finish": [
+                                631,
+                                21
+                            ],
+                            "start": [
+                                631,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "edit_query",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " @nodoc",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.dev.inspect_tree.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.treesitter.dev.inspect_tree.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/dev.lua",
+                            "finish": [
+                                342,
+                                23
+                            ],
+                            "start": [
+                                342,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "inspect_tree",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/treesitter.lua",
+        "finish": [
+            9,
+            5
+        ],
+        "start": [
+            9,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "dev",
+    "type": "tablefield"
+}

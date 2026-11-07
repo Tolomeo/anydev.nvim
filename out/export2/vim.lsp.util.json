@@ -1,0 +1,3135 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Cancel all {filter}ed requests.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util._cancel_requests.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util._cancel_requests.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2343,
+                                27
+                            ],
+                            "start": [
+                                2343,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_cancel_requests",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Position"
+                                                    }
+                                                ],
+                                                "view": "lsp.Position"
+                                            },
+                                            "name": "position",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2368,
+                                30
+                            ],
+                            "start": [
+                                2368,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_get_line_byte_from_position",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Utility function for getting the encoding of the first LSP client on the given buffer.\n\n@*param* `bufnr` — buffer handle or 0 for current, defaults to current\n\n@*return* `encoding` — first client if there is one, nil otherwise\n\n```lua\nencoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "buffer handle or 0 for current, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "first client if there is one, nil otherwise",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "encoding",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2109,
+                                31
+                            ],
+                            "start": [
+                                2109,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "_get_offset_encoding",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Computes size of float needed to show contents (with optional wrapping)\n\n@*param* `contents` — of lines to show in window\n\n@*return* `width` — size of float\n\n@*return* `height` — size of float",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "of lines to show in window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "contents",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "size of float",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "width",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "size of float",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "height",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1536,
+                                36
+                            ],
+                            "start": [
+                                1536,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_make_floating_popup_size",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts line range (0-based, end-inclusive) to lsp range,\n handles absence of a trailing newline\n\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_line",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "end_line",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Range"
+                                                    }
+                                                ],
+                                                "view": "lsp.Range"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2308,
+                                34
+                            ],
+                            "start": [
+                                2308,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_make_line_range_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Normalizes Markdown input to a canonical form.\n\n The returned Markdown adheres to the GitHub Flavored Markdown (GFM)\n specification, as required by the LSP.\n\n The following transformations are made:\n\n   1. Carriage returns ('\\r') and empty lines at the beginning and end are removed\n   2. Successive empty lines are collapsed into a single empty line\n   3. Thematic breaks are expanded to the given width\n\n@*return* `table` — of lines containing normalized Markdown\n\nSee:\n  * ~https~ ://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#markupContent\n  * ~https~ ://github.github.com/gfm",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "contents",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util._normalize_markdown.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util._normalize_markdown.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "of lines containing normalized Markdown",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "table",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1456,
+                                30
+                            ],
+                            "start": [
+                                1456,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_normalize_markdown",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Applies a `TextDocumentEdit`, which is a list of changes to a single\n document.\n\n@*param* `index` — : Optional index of the edit, if from a list of edits (or nil, if not from a list)\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocumentEdit",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.TextDocumentEdit"
+                                                    }
+                                                ],
+                                                "view": "lsp.TextDocumentEdit"
+                                            },
+                                            "name": "text_document_edit",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": ": Optional index of the edit, if from a list of edits (or nil, if not from a list)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "index",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, lsp.ChangeAnnotation>"
+                                                ],
+                                                "view": "table<string, lsp.ChangeAnnotation>?"
+                                            },
+                                            "name": "change_annotations",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                516,
+                                35
+                            ],
+                            "start": [
+                                516,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "apply_text_document_edit",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Applies a list of text edits to a buffer. Note: this mutates `text_edits` (sorts in-place and\n adds `_index` fields).\n\n@*param* `bufnr` — Buffer id\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textEdit",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.TextEdit"
+                                                                },
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.AnnotatedTextEdit"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.AnnotatedTextEdit|lsp.TextEdit"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "(lsp.AnnotatedTextEdit|lsp.TextEdit)[]"
+                                            },
+                                            "name": "text_edits",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Buffer id",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, lsp.ChangeAnnotation>"
+                                                ],
+                                                "view": "table<string, lsp.ChangeAnnotation>?"
+                                            },
+                                            "name": "change_annotations",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                313,
+                                27
+                            ],
+                            "start": [
+                                313,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "apply_text_edits",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Applies a `WorkspaceEdit`.\n\n@*param* `position_encoding` — (required)\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_applyEdit",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.WorkspaceEdit"
+                                                    }
+                                                ],
+                                                "view": "lsp.WorkspaceEdit"
+                                            },
+                                            "name": "workspace_edit",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "(required)",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                709,
+                                31
+                            ],
+                            "start": [
+                                709,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "apply_workspace_edit",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Removes document highlights from a buffer.\n\n@*param* `bufnr` — Buffer id",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer id",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1827,
+                                33
+                            ],
+                            "start": [
+                                1827,
+                                11
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "buf_clear_references",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Shows a list of document highlights for a certain buffer.\n\n@*param* `bufnr` — Buffer id\n\n@*param* `references` — objects to highlight\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specification/#textDocumentContentChangeEvent",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer id",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "objects to highlight",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.DocumentHighlight"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.DocumentHighlight"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.DocumentHighlight[]"
+                                            },
+                                            "name": "references",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1837,
+                                37
+                            ],
+                            "start": [
+                                1837,
+                                11
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "buf_highlight_references",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "table"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            ],
+                            "view": "table"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2372,
+                                14
+                            ],
+                            "start": [
+                                2372,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "buf_versions",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the UTF-32 and UTF-16 offsets for a position in a certain buffer.\n\n@*param* `buf` — buffer number (0 for current)\n\n@*param* `row` — 0-indexed line\n\n@*param* `col` — 0-indexed byte offset in line\n\n                        defaults to `offset_encoding` of first client of `buf`\n\n@*return* — `offset_encoding` index of the character in line {row} column {col} in buffer {buf}\n\n```lua\noffset_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "buffer number (0 for current)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "0-indexed line",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "0-indexed byte offset in line",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "offset_encoding",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`offset_encoding` index of the character in line {row} column {col} in buffer {buf}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2270,
+                                27
+                            ],
+                            "start": [
+                                2270,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "character_offset",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts any of `MarkedString` | `MarkedString[]` | `MarkupContent` into\n a list of lines containing valid markdown. Useful to populate the hover\n window for `textDocument/hover`, for parsing the result of\n `textDocument/signatureHelp`, and potentially others.\n\n Note that if the input is of type `MarkupContent` and its kind is `plaintext`,\n then the corresponding value is returned without further modifications.\n\n@*param* `contents` — List of strings to extend with converted lines. Defaults to {}.\n\n@*return* `extended` — with lines of converted markdown.\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_hover",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.MarkedString"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.MarkedString"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.MarkedString"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.MarkupContent"
+                                                    }
+                                                ],
+                                                "view": "lsp.MarkedString|lsp.MarkedString[]|lsp.MarkupContent"
+                                            },
+                                            "name": "input",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "List of strings to extend with converted lines. Defaults to {}.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]?"
+                                            },
+                                            "name": "contents",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "with lines of converted markdown.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "extended",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                767,
+                                42
+                            ],
+                            "start": [
+                                767,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "convert_input_to_markdown_lines",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts `textDocument/signatureHelp` response to markdown lines.\n\n@*param* `signature_help` — Response of `textDocument/SignatureHelp`\n\n@*param* `ft` — filetype that will be use as the `lang` for the label markdown code block\n\n@*param* `triggers` — list of trigger characters from the lsp server. used to better determine parameter offsets\n\n@*return* — lines of converted markdown.\n\n@*return* — highlight range for the active parameter\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Response of `textDocument/SignatureHelp`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.SignatureHelp"
+                                                    }
+                                                ],
+                                                "view": "lsp.SignatureHelp"
+                                            },
+                                            "name": "signature_help",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "filetype that will be use as the `lang` for the label markdown code block",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "ft",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "list of trigger characters from the lsp server. used to better determine parameter offsets",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]?"
+                                            },
+                                            "name": "triggers",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "lines of converted markdown.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "highlight range for the active parameter",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                821,
+                                51
+                            ],
+                            "start": [
+                                821,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "convert_signature_help_to_markdown_lines",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns indentation size.\n\n@*param* `bufnr` — : Buffer handle, defaults to current\n\n@*return* `indentation` — size",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": ": Buffer handle, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "size",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "indentation",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2238,
+                                32
+                            ],
+                            "start": [
+                                2238,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_effective_tabstop",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Jumps to a location.\n\n@*param* `reuse_win` — Jump to existing window if buffer is already open.\n\n@*return* — `true` if the jump succeeded\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Location"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.LocationLink"
+                                                    }
+                                                ],
+                                                "view": "lsp.Location|lsp.LocationLink"
+                                            },
+                                            "name": "location",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Jump to existing window if buffer is already open.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "reuse_win",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`true` if the jump succeeded",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1085,
+                                27
+                            ],
+                            "start": [
+                                1085,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "jump_to_location",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the items with the byte position calculated correctly and in sorted\n order, for display in quickfix and location lists.\n\n The `user_data` field of each resulting item will contain the original\n `Location` or `LocationLink` it was computed from.\n\n The result can be passed to the {list} argument of |setqflist()| or\n |setloclist()|.\n\n                         default to first client of buffer\n\n@*return* — See |setqflist()| for the format\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.Location"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.Location"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.LocationLink"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.LocationLink"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.LocationLink[]|lsp.Location[]"
+                                            },
+                                            "name": "locations",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "See |setqflist()| for the format",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.quickfix.entry"
+                                                                }
+                                                            ],
+                                                            "view": "vim.quickfix.entry"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.quickfix.entry[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1883,
+                                29
+                            ],
+                            "start": [
+                                1883,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "locations_to_items",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Helper function to return nested values in language server settings\n\n@*param* `settings` — language server settings\n\n@*param* `section` — indicating the field of the settings table\n\n@*return* `The` — value of settings accessed via section. `vim.NIL` if not found.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "language server settings",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "settings",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "indicating the field of the settings table",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "section",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "value of settings accessed via section. `vim.NIL` if not found.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.NIL"
+                                                    }
+                                                ],
+                                                "view": "string|table|vim.NIL"
+                                            },
+                                            "name": "The",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2288,
+                                25
+                            ],
+                            "start": [
+                                2288,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "lookup_section",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Creates a table with sensible default options for a floating window. The\n table can be passed to |nvim_open_win()|.\n\n@*param* `width` — window width (in character cells)\n\n@*param* `height` — window height (in character cells)",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "window width (in character cells)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "width",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "window height (in character cells)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "height",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.api.keyset.win_config"
+                                                    }
+                                                ],
+                                                "view": "vim.api.keyset.win_config"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                929,
+                                38
+                            ],
+                            "start": [
+                                929,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_floating_popup_options",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Creates a `DocumentFormattingParams` object for the current buffer and cursor position.\n\n@*param* `options` — with valid `FormattingOptions` entries\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_formatting",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "with valid `FormattingOptions` entries",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.FormattingOptions"
+                                                    }
+                                                ],
+                                                "view": "(lsp.FormattingOptions)?"
+                                            },
+                                            "name": "options",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.DocumentFormattingParams"
+                                                    }
+                                                ],
+                                                "view": "lsp.DocumentFormattingParams"
+                                            },
+                                            "name": "object",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2250,
+                                33
+                            ],
+                            "start": [
+                                2250,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_formatting_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Using the given range in the current buffer, creates an object that\n is similar to |vim.lsp.util.make_range_params()|.\n\n@*param* `start_pos` — {row,col} mark-indexed position.\n\n Defaults to the start of the last visual selection.\n\n@*param* `end_pos` — {row,col} mark-indexed position.\n\n Defaults to the end of the last visual selection.\n\n@*param* `bufnr` — buffer handle or 0 for current, defaults to current\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "{row,col} mark-indexed position.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "[integer, integer]?"
+                                            },
+                                            "name": "start_pos",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "{row,col} mark-indexed position.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "[integer, integer]?"
+                                            },
+                                            "name": "end_pos",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "buffer handle or 0 for current, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "infer": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "typereference",
+                                                                                                "value": "lsp.DocumentUri"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "lsp.DocumentUri"
+                                                                                    },
+                                                                                    "name": "uri",
+                                                                                    "optional": false
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "{ uri: lsp.DocumentUri }"
+                                                                },
+                                                                "name": "textDocument",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "lsp.Range"
+                                                                        }
+                                                                    ],
+                                                                    "view": "lsp.Range"
+                                                                },
+                                                                "name": "range",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2174,
+                                34
+                            ],
+                            "start": [
+                                2174,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_given_range_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Creates a `TextDocumentPositionParams` object for the current buffer and cursor position.\n\n@*param* `win` — : |window-ID| or 0 for current, defaults to current\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocumentPositionParams",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": ": |window-ID| or 0 for current, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "win",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "'utf-16'|'utf-32'|'utf-8'"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.TextDocumentPositionParams"
+                                                    }
+                                                ],
+                                                "view": "lsp.TextDocumentPositionParams"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2088,
+                                31
+                            ],
+                            "start": [
+                                2088,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_position_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Using the current position in the current buffer, creates an object that\n can be used as a building block for several LSP requests, such as\n `textDocument/codeAction`, `textDocument/colorPresentation`,\n `textDocument/rangeFormatting`.\n\n@*param* `win` — : |window-ID| or 0 for current, defaults to current\n\n```lua\nposition_encoding:\n    | \"utf-8\"\n    | \"utf-16\"\n    | \"utf-32\"\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": ": |window-ID| or 0 for current, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "win",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "\"utf-8\"",
+                                                    "\"utf-16\"",
+                                                    "\"utf-32\""
+                                                ],
+                                                "view": "\"utf-16\"|\"utf-32\"|\"utf-8\""
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "fields": [
+                                                                                {
+                                                                                    "documentation": "",
+                                                                                    "infer": {
+                                                                                        "types": [
+                                                                                            {
+                                                                                                "kind": "typereference",
+                                                                                                "value": "lsp.DocumentUri"
+                                                                                            }
+                                                                                        ],
+                                                                                        "view": "lsp.DocumentUri"
+                                                                                    },
+                                                                                    "name": "uri",
+                                                                                    "optional": false
+                                                                                }
+                                                                            ],
+                                                                            "kind": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "{ uri: lsp.DocumentUri }"
+                                                                },
+                                                                "name": "textDocument",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "lsp.Range"
+                                                                        }
+                                                                    ],
+                                                                    "view": "lsp.Range"
+                                                                },
+                                                                "name": "range",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ textDocument: { uri: lsp.DocumentUri }, range: lsp.Range }"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2147,
+                                28
+                            ],
+                            "start": [
+                                2147,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_range_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Creates a `TextDocumentIdentifier` object for the current buffer.\n\n@*param* `bufnr` — : Buffer handle, defaults to current\n\nSee: ~https~ ://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocumentIdentifier",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": ": Buffer handle, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.TextDocumentIdentifier"
+                                                    }
+                                                ],
+                                                "view": "lsp.TextDocumentIdentifier"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2221,
+                                36
+                            ],
+                            "start": [
+                                2221,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_text_document_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Create the workspace params",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.WorkspaceFolder"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.WorkspaceFolder"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.WorkspaceFolder[]"
+                                            },
+                                            "name": "added",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.WorkspaceFolder"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.WorkspaceFolder"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.WorkspaceFolder[]"
+                                            },
+                                            "name": "removed",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.DidChangeWorkspaceFoldersParams"
+                                                    }
+                                                ],
+                                                "view": "lsp.DidChangeWorkspaceFoldersParams"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2229,
+                                32
+                            ],
+                            "start": [
+                                2229,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_workspace_params",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Shows contents in a floating window.\n\n@*param* `contents` — of lines to show in window\n\n@*param* `syntax` — of syntax to set for opened buffer\n\n@*param* `opts` — with optional fields\n\n (additional keys are filtered with |vim.lsp.util.make_floating_popup_options()|\n before they are passed on to |nvim_open_win()|)\n\n@*return* `bufnr` — of newly created float window\n\n@*return* `winid` — of newly created float window preview window",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "of lines to show in window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "contents",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "of syntax to set for opened buffer",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "syntax",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "with optional fields",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "of newly created float window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "of newly created float window preview window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "winid",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1676,
+                                32
+                            ],
+                            "start": [
+                                1676,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "open_floating_preview",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Previews a location in a floating window\n\n behavior depends on type of location:\n   - for Location, range is shown (e.g., function definition)\n   - for LocationLink, targetRange is shown (e.g., body of function definition)\n\n@*return* `buffer` — id of float window\n\n@*return* `window` — id of float window",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Location"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.LocationLink"
+                                                    }
+                                                ],
+                                                "view": "lsp.Location|lsp.LocationLink"
+                                            },
+                                            "name": "location",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "id of float window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "buffer",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1100,
+                                27
+                            ],
+                            "start": [
+                                1100,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "preview_location",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Rename old_fname to new_fname\n\n Existing buffers are renamed as well, while maintaining their bufnr.\n\n It deletes existing buffers that conflict with the renamed file name only when\n * `opts` requests overwriting; or\n * the conflicting buffers are not loaded, so that deleting them does not result in data loss.\n\n@*param* `opts` — Options:",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "old_fname",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "new_fname",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.rename.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.rename.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                610,
+                                17
+                            ],
+                            "start": [
+                                610,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "rename",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Replaces text in a range with new text.\n\n CAUTION: Changes in-place!\n\n@*param* `lines` — Original list of strings\n\n@*param* `A` — Start position; a 2-tuple of {line,col} numbers\n\n@*param* `B` — End position; a 2-tuple {line,col} numbers\n\n@*param* `new_lines` — list of strings to replace the original\n\n@*return* `The` — modified {lines} object",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Original list of strings",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "lines",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Start position; a 2-tuple of {line,col} numbers",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "[integer, integer]"
+                                            },
+                                            "name": "A",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "End position; a 2-tuple {line,col} numbers",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[1]",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "[2]",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "[integer, integer]"
+                                            },
+                                            "name": "B",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "list of strings to replace the original",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "new_lines",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "modified {lines} object",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "The",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                141,
+                                20
+                            ],
+                            "start": [
+                                141,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "set_lines",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Shows document and optionally jumps to the location.\n\n@*return* — `true` if succeeded\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Location"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.LocationLink"
+                                                    }
+                                                ],
+                                                "view": "lsp.Location|lsp.LocationLink"
+                                            },
+                                            "name": "location",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.util.show_document.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.util.show_document.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`true` if succeeded",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1016,
+                                24
+                            ],
+                            "start": [
+                                1016,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "show_document",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts markdown into syntax highlighted regions by stripping the code\n blocks and converting them into highlighted code.\n This will by default insert a blank line separator after those code block\n regions to improve readability.\n\n This method configures the given buffer and returns the lines to set.\n\n If you want to open a popup with fancy markdown, use `open_floating_preview` instead\n\n@*param* `contents` — of lines to show in window\n\n@*param* `opts` — with optional fields\n\n  - height    of floating window\n  - max_height maximal height of floating window\n  - max_width  maximal width of floating window\n  - separator insert separator after code block\n  - width     of floating window\n  - wrap_at   character to wrap at for computing height\n\n@*return* `stripped` — content",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "of lines to show in window",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "contents",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "with optional fields",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "content",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "stripped",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1253,
+                                27
+                            ],
+                            "start": [
+                                1253,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "stylize_markdown",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Converts symbols to quickfix list items.\n\n@*param* `symbols` — list of symbols\n\n@*param* `bufnr` — buffer handle or 0 for current, defaults to current\n\n                         default to first client of buffer\n\n@*return* — See |setqflist()| for the format\n\n```lua\nposition_encoding:\n    | 'utf-8'\n    | 'utf-16'\n    | 'utf-32'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "list of symbols",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.DocumentSymbol"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.DocumentSymbol"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.SymbolInformation"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.SymbolInformation"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.WorkspaceSymbol"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.WorkspaceSymbol"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.DocumentSymbol[]|lsp.SymbolInformation[]|lsp.WorkspaceSymbol[]"
+                                            },
+                                            "name": "symbols",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "buffer handle or 0 for current, defaults to current",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer?"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "'utf-8'",
+                                                    "'utf-16'",
+                                                    "'utf-32'"
+                                                ],
+                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                            },
+                                            "name": "position_encoding",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "See |setqflist()| for the format",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.quickfix.entry"
+                                                                }
+                                                            ],
+                                                            "view": "vim.quickfix.entry"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.quickfix.entry[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                1950,
+                                27
+                            ],
+                            "start": [
+                                1950,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "symbols_to_items",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Removes empty lines from the beginning and end.\n\n@*param* `lines` — list of lines to trim\n\n@*return* `trimmed` — list of lines",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "list of lines to trim",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "lines",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "list of lines",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "trimmed",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2016,
+                                27
+                            ],
+                            "start": [
+                                2016,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "trim_empty_lines",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Accepts markdown lines and tries to reduce them to a filetype if they\n comprise just a single code block.\n\n CAUTION: Modifies the input in-place!\n\n@*param* `lines` — list of lines\n\n@*return* `filetype` — or \"markdown\" if it was unchanged.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "list of lines",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "lines",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "or \"markdown\" if it was unchanged.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "filetype",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/util.lua",
+                            "finish": [
+                                2043,
+                                40
+                            ],
+                            "start": [
+                                2043,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "try_trim_markdown_code_blocks",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            25,
+            6
+        ],
+        "start": [
+            25,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "util",
+    "type": "tablefield"
+}

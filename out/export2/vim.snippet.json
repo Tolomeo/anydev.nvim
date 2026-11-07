@@ -1,0 +1,293 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.snippet.Session"
+                                }
+                            ],
+                            "view": "vim.snippet.Session"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                596,
+                                12
+                            ],
+                            "start": [
+                                596,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_session",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                683,
+                                12
+                            ],
+                            "start": [
+                                683,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_session",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns `true` if there's an active snippet in the current buffer,\n applying the given filter if provided.\n\n@*param* `filter` — Filter to constrain the search with:\n\n - `direction` (vim.snippet.Direction): Navigation direction. Will return `true` if the snippet\n can be jumped in the given direction.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Filter to constrain the search with:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.snippet.ActiveFilter"
+                                                    }
+                                                ],
+                                                "view": "(vim.snippet.ActiveFilter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                663,
+                                17
+                            ],
+                            "start": [
+                                663,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "active",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Expands the given snippet text.\n Refer to https://microsoft.github.io/language-server-protocol/specification/#snippet_syntax\n for the specification of valid input.\n\n Tabstops are highlighted with |hl-SnippetTabstop| and |hl-SnippetTabstopActive|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "input",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                479,
+                                17
+                            ],
+                            "start": [
+                                479,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "expand",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Jumps to the next (or previous) placeholder in the current snippet, if possible.\n\n By default `<Tab>` is setup to jump if a snippet is active. The default mapping looks like:\n\n ```lua\n vim.keymap.set({ 'i', 's' }, '<Tab>', function()\n    if vim.snippet.active({ direction = 1 }) then\n      return '<Cmd>lua vim.snippet.jump(1)<CR>'\n    else\n      return '<Tab>'\n    end\n  end, { desc = '...', expr = true, silent = true })\n ```\n\n@*param* `direction` — Navigation direction. -1 for previous, 1 for next.\n\n```lua\ndirection:\n    | -1\n    | 1\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Navigation direction. -1 for previous, 1 for next.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.snippet.Direction"
+                                                    }
+                                                ],
+                                                "view": "vim.snippet.Direction"
+                                            },
+                                            "name": "direction",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                619,
+                                15
+                            ],
+                            "start": [
+                                619,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "jump",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                307,
+                                19
+                            ],
+                            "start": [
+                                307,
+                                12
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "session",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Exits the current snippet.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/snippet.lua",
+                            "finish": [
+                                675,
+                                15
+                            ],
+                            "start": [
+                                675,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "stop",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            30,
+            11
+        ],
+        "start": [
+            30,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "snippet",
+    "type": "setfield"
+}

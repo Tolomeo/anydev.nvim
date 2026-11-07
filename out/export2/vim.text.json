@@ -1,0 +1,355 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Run diff on strings {a} and {b}. Any indices returned by this function,\n either directly or via callback arguments, are 1-based.\n\n Examples:\n\n ```lua\n vim.text.diff('a\\n', 'b\\nc\\n')\n -- =>\n -- @@ -1 +1,2 @@\n -- -a\n -- +b\n -- +c\n\n vim.text.diff('a\\n', 'b\\nc\\n', {result_type = 'indices'})\n -- =>\n -- {\n --   {1, 1, 1, 2}\n -- }\n ```\n\n@*param* `a` — First string to compare\n\n@*param* `b` — Second string to compare\n\n@*return* — See {opts.result_type}. `nil` if {opts.on_hunk} is given.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "See {opts.result_type}. `nil` if {opts.on_hunk} is given.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "view": "integer[]"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "(string|integer[][])?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/text.lua",
+                            "finish": [
+                                74,
+                                15
+                            ],
+                            "start": [
+                                74,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "diff",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Hex decode a string.\n\n@*param* `enc` — String to decode\n\n@*return* — : Decoded string\n\n@*return* — : Error message, if any",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "String to decode",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "enc",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Decoded string",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": ": Error message, if any",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/text.lua",
+                            "finish": [
+                                110,
+                                20
+                            ],
+                            "start": [
+                                110,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "hexdecode",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Hex encode a string.\n\n@*param* `str` — String to encode\n\n@*return* — : Hex encoded string",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "String to encode",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Hex encoded string",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/text.lua",
+                            "finish": [
+                                95,
+                                20
+                            ],
+                            "start": [
+                                95,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "hexencode",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Sets the indent (i.e. the common leading whitespace) of non-empty lines in `text` to `size`\n spaces/tabs.\n\n Indent is calculated by number of consecutive indent chars.\n - The first indented, non-empty line decides the indent char (space/tab):\n   - `SPC SPC TAB …` = two-space indent.\n   - `TAB SPC …` = one-tab indent.\n - Set `opts.expandtab` to treat tabs as spaces.\n\n To \"dedent\" (remove the common indent), pass `size=0`:\n ```lua\n vim.print(vim.text.indent(0, ' a\\n  b\\n'))\n ```\n\n To adjust relative-to an existing indent, call indent() twice:\n ```lua\n local indented, old_indent = vim.text.indent(0, ' a\\n b\\n')\n indented = vim.text.indent(old_indent + 2, indented)\n vim.print(indented)\n ```\n\n To ignore the final, blank line when calculating the indent, use gsub() before calling indent():\n ```lua\n local text = '  a\\n  b\\n '\n vim.print(vim.text.indent(0, (text:gsub('\\n[\\t ]+\\n?$', '\\n'))))\n ```\n\n@*param* `size` — Number of spaces.\n\n@*param* `text` — Text to indent.\n\n@*return* — Indented text.\n\n@*return* — Indent size _before_ modification.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Number of spaces.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "size",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Text to indent.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "text",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                },
+                                                                "name": "expandtab",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ expandtab: integer }?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Indented text.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Indent size _before_ modification.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/text.lua",
+                            "finish": [
+                                159,
+                                17
+                            ],
+                            "start": [
+                                159,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "indent",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            31,
+            8
+        ],
+        "start": [
+            31,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "text",
+    "type": "setfield"
+}

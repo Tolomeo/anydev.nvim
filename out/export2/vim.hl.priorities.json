@@ -1,0 +1,169 @@
+{
+    "documentation": " Table with default priorities used for highlighting:\n - `syntax`: `50`, used for standard syntax highlighting\n - `treesitter`: `100`, used for treesitter-based highlighting\n - `semantic_tokens`: `125`, used for LSP semantic token highlighting\n - `diagnostics`: `150`, used for code analysis such as diagnostics\n - `user`: `200`, used for user-triggered highlights such as LSP document\n   symbols or `on_yank` autocommands",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                15,
+                                13
+                            ],
+                            "start": [
+                                15,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "diagnostics",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                14,
+                                17
+                            ],
+                            "start": [
+                                14,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "semantic_tokens",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                12,
+                                8
+                            ],
+                            "start": [
+                                12,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "syntax",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                13,
+                                12
+                            ],
+                            "start": [
+                                13,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "treesitter",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/hl.lua",
+                            "finish": [
+                                16,
+                                6
+                            ],
+                            "start": [
+                                16,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "user",
+                        "type": "tablefield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/hl.lua",
+        "finish": [
+            11,
+            12
+        ],
+        "start": [
+            11,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "priorities",
+    "type": "setfield"
+}

@@ -1,0 +1,324 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Add plugin to current session\n\n - For each specification check that plugin exists on disk in |vim.pack-directory|:\n     - If exists, check if its `src` is the same as input. If not - delete\n       immediately to clean install from the new source. Otherwise do nothing.\n     - If doesn't exist, install it by downloading from `src` into `name`\n       subdirectory (via partial blobless `git clone`) and update revision\n       to match `version` (via `git checkout`). Plugin will not be on disk if\n       any step resulted in an error.\n - For each plugin execute |:packadd| (or customizable `load` function) making\n   it reachable by Nvim.\n\n Notes:\n - Installation is done in parallel, but waits for all to finish before\n   continuing next code execution.\n - If plugin is already present on disk, there are no checks about its current revision.\n   The specified `version` can be not the one actually present on disk.\n   Execute |vim.pack.update()| to synchronize.\n - Adding plugin second and more times during single session does nothing:\n   only the data from the first adding is registered.\n\n@*param* `specs` — List of plugin specifications. String item\n\n is treated as `src`.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "List of plugin specifications. String item",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                },
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.pack.Spec"
+                                                                }
+                                                            ],
+                                                            "view": "string|vim.pack.Spec"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "(string|vim.pack.Spec)[]"
+                                            },
+                                            "name": "specs",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.pack.keyset.add"
+                                                    }
+                                                ],
+                                                "view": "(vim.pack.keyset.add)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/pack.lua",
+                            "finish": [
+                                1003,
+                                14
+                            ],
+                            "start": [
+                                1003,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "add",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Remove plugins from disk\n\n@*param* `names` — List of plugin names to remove from disk. Must be managed\n\n by |vim.pack|, not necessarily already added to current session.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "List of plugin names to remove from disk. Must be managed",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "names",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.pack.keyset.del"
+                                                    }
+                                                ],
+                                                "view": "(vim.pack.keyset.del)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/pack.lua",
+                            "finish": [
+                                1361,
+                                14
+                            ],
+                            "start": [
+                                1361,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "del",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets |vim.pack| plugin info, optionally filtered by `names`.\n\n@*param* `names` — List of plugin names. Default: all plugins managed by |vim.pack|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "List of plugin names. Default: all plugins managed by |vim.pack|.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]?"
+                                            },
+                                            "name": "names",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.pack.keyset.get"
+                                                    }
+                                                ],
+                                                "view": "(vim.pack.keyset.get)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.pack.PlugData"
+                                                                }
+                                                            ],
+                                                            "view": "vim.pack.PlugData"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.pack.PlugData[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/pack.lua",
+                            "finish": [
+                                1431,
+                                14
+                            ],
+                            "start": [
+                                1431,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Update plugins\n\n - Download new changes from source.\n - Infer update info (current/target revisions, changelog, etc.).\n - If `force` is `false` (default), show confirmation buffer.\n   If `force` is `true`, make updates right away.\n\n Notes:\n - Every actual update is logged in \"nvim-pack.log\" file inside \"log\" |standard-path|.\n - It doesn't update source's default branch if it has changed (like from `master` to `main`).\n   To have `version = nil` point to a new default branch, re-install the plugin\n   (|vim.pack.del()| + |vim.pack.add()|).\n\n Confirmation buffer ~\n\n The goal of the confirmation buffer is to show update details for the user to read, confirm\n (execute |:write|) or deny (execute |:quit|) the update.\n\n Pending changes starting with `>` will be applied while the ones starting with `<` will be\n reverted.\n\n There are convenience buffer-local mappings:\n - |]]| and |[[| to navigate through plugin sections.\n\n Some features are provided via LSP:\n - 'textDocument/documentSymbol' (`gO` via |lsp-defaults| or |vim.lsp.buf.document_symbol()|) -\n   show structure of the buffer.\n - 'textDocument/hover' (`K` via |lsp-defaults| or |vim.lsp.buf.hover()|) - show more\n   information at cursor. Like details of particular pending change or newer tag.\n - 'textDocument/codeAction' (`gra` via |lsp-defaults| or |vim.lsp.buf.code_action()|) - show\n   code actions relevant for \"plugin at cursor\". Like \"delete\" (if plugin is not active),\n   \"update\" or \"skip updating\" (if there are pending updates).\n\n@*param* `names` — List of plugin names to update. Must be managed\n\n by |vim.pack|, not necessarily already added to current session.\n Default: names of all plugins managed by |vim.pack|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "List of plugin names to update. Must be managed",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]?"
+                                            },
+                                            "name": "names",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.pack.keyset.update"
+                                                    }
+                                                ],
+                                                "view": "(vim.pack.keyset.update)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/pack.lua",
+                            "finish": [
+                                1262,
+                                17
+                            ],
+                            "start": [
+                                1262,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "update",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            25,
+            8
+        ],
+        "start": [
+            25,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "pack",
+    "type": "setfield"
+}

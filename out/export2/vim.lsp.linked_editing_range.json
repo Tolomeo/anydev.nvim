@@ -1,0 +1,88 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Enable or disable a linked editing session globally or for a specific client. The following is a\n practical usage example:\n\n ```lua\n vim.lsp.start({\n   name = 'html',\n   cmd = '…',\n   on_attach = function(client)\n     vim.lsp.linked_editing_range.enable(true, { client_id = client.id })\n   end,\n })\n ```\n\n@*param* `enable` — `true` or `nil` to enable, `false` to disable.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "`true` or `nil` to enable, `false` to disable.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.linked_editing_range.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.linked_editing_range.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/linked_editing_range.lua",
+                            "finish": [
+                                339,
+                                17
+                            ],
+                            "start": [
+                                339,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            19,
+            22
+        ],
+        "start": [
+            19,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "linked_editing_range",
+    "type": "tablefield"
+}

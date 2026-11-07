@@ -1,0 +1,949 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Adds a new directive to be used in queries\n\n Handlers can set match level data by setting directly on the\n metadata object `metadata.key = value`. Additionally, handlers\n can set node level data by using the capture id on the\n metadata table `metadata[capture_id].key = value`\n\n@*param* `name` — Name of the directive, without leading #\n\n@*param* `handler` — \n\n   - match: A table mapping capture IDs to a list of captured nodes\n   - pattern: the index of the matching pattern in the query file\n   - predicate: list of strings containing the full directive being called, e.g.\n     `(node (#set! conceal \"-\"))` would get the predicate `{ \"#set!\", \"conceal\", \"-\" }`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Name of the directive, without leading #",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        "table<integer, TSNode[]>"
+                                                                    ],
+                                                                    "view": "table<integer, TSNode[]>"
+                                                                },
+                                                                "name": "match",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "pattern",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        },
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string|integer"
+                                                                },
+                                                                "name": "source",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "items": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "builtin",
+                                                                                        "value": "any"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "any"
+                                                                            },
+                                                                            "kind": "array"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any[]"
+                                                                },
+                                                                "name": "predicate",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.treesitter.query.TSMetadata"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.treesitter.query.TSMetadata"
+                                                                },
+                                                                "name": "metadata",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(match: table<integer, TSNode[]>, pattern: integer, source: string|integer, predicate: any[], metadata: vim.treesitter.query.TSMetadata)"
+                                            },
+                                            "name": "handler",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.query.add_predicate.Opts"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.query.add_predicate.Opts"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                793,
+                                24
+                            ],
+                            "start": [
+                                793,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "add_directive",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Adds a new predicate to be used in queries\n\n@*param* `name` — Name of the predicate, without leading #\n\n@*param* `handler` — \n\n   - see |vim.treesitter.query.add_directive()| for argument meanings",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Name of the predicate, without leading #",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        "table<integer, TSNode[]>"
+                                                                    ],
+                                                                    "view": "table<integer, TSNode[]>"
+                                                                },
+                                                                "name": "match",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "pattern",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        },
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string|integer"
+                                                                },
+                                                                "name": "source",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "items": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "builtin",
+                                                                                        "value": "any"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "any"
+                                                                            },
+                                                                            "kind": "array"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any[]"
+                                                                },
+                                                                "name": "predicate",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.treesitter.query.TSMetadata"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.treesitter.query.TSMetadata"
+                                                                },
+                                                                "name": "metadata",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean?"
+                                                                },
+                                                                "name": "",
+                                                                "optional": true
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "fun(match: table<integer, TSNode[]>, pattern: integer, source: string|integer, predicate: any[], metadata: vim.treesitter.query.TSMetadata):boolean?"
+                                            },
+                                            "name": "handler",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.query.add_predicate.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.treesitter.query.add_predicate.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                764,
+                                24
+                            ],
+                            "start": [
+                                764,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "add_predicate",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Opens a live editor to query the buffer you started from.\n\n Can also be shown with the [:EditQuery](file:///usr/local/share/nvim/runtime/lua/vim/treesitter) command. `:EditQuery <tab>` completes available\n parsers.\n\n If you move the cursor to a capture name (\"@foo\"), text matching the capture is highlighted\n with |hl-DiagnosticVirtualTextHint| in the source buffer. The query editor is a scratch buffer,\n use `:write` to save it. You can find example queries at `$VIMRUNTIME/queries/`.\n\n@*param* `lang` — language to open the query editor for. If omitted, inferred from the current buffer's filetype.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "language to open the query editor for. If omitted, inferred from the current buffer's filetype.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "lang",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                1150,
+                                15
+                            ],
+                            "start": [
+                                1150,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "edit",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns the runtime query {query_name} for {lang}.\n\n",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Language to use for the query",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Name of the query (e.g. \"highlights\")",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "query_name",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Parsed query. `nil` if no query files are found.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.Query"
+                                                    }
+                                                ],
+                                                "view": "(vim.treesitter.Query)?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                289,
+                                5
+                            ],
+                            "start": [
+                                289,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets the list of files used to make up a query\n\n@*param* `lang` — Language to get query for\n\n@*param* `query_name` — Name of the query to load (e.g., \"highlights\")\n\n@*param* `is_included` — Internal parameter, most of the time left as `nil`\n\n@*return* `query_files` — List of files to load for given query and language",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Language to get query for",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Name of the query to load (e.g., \"highlights\")",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "query_name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Internal parameter, most of the time left as `nil`",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "is_included",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "List of files to load for given query and language",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "query_files",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                157,
+                                20
+                            ],
+                            "start": [
+                                157,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get_files",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Lint treesitter queries using installed parser, or clear lint errors.\n\n Use |treesitter-parsers| in runtimepath to check the query file in {buf} for errors:\n\n   - verify that used nodes are valid identifiers in the grammar.\n   - verify that predicates and directives are valid.\n   - verify that top-level s-expressions are valid.\n\n The found diagnostics are reported using |diagnostic-api|.\n By default, the parser used for verification is determined by the containing folder\n of the query file, e.g., if the path ends in `/lua/highlights.scm`, the parser for the\n `lua` language will be used.\n\n@*param* `buf` — Buffer handle",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer handle",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.query.lint.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.treesitter.query.lint.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                1118,
+                                15
+                            ],
+                            "start": [
+                                1118,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "lint",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Lists the currently available directives to use in queries.\n\n@*return* — : Supported directives.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Supported directives.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                810,
+                                26
+                            ],
+                            "start": [
+                                810,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "list_directives",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Lists the currently available predicates to use in queries.\n\n@*return* — : Supported predicates.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Supported predicates.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                816,
+                                26
+                            ],
+                            "start": [
+                                816,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "list_predicates",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Omnifunc for completing node names and predicates in treesitter queries.\n\n Use via\n\n ```lua\n vim.bo.omnifunc = 'v:lua.vim.treesitter.query.omnifunc'\n ```\n\n\n```lua\nfindstart:\n    | 0\n    | 1\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "0",
+                                                    "1"
+                                                ],
+                                                "view": "0|1"
+                                            },
+                                            "name": "findstart",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "base",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "integer|table"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                1136,
+                                19
+                            ],
+                            "start": [
+                                1136,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "omnifunc",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Parses a {query} string and returns a `Query` object (|lua-treesitter-query|), which can be used\n to search the tree for the query patterns (via |Query:iter_captures()|, |Query:iter_matches()|),\n or inspect/modify the query via these fields:\n   - `captures`: a list of unique capture names defined in the query (alias: `info.captures`).\n   - `info.patterns`: information about predicates.\n   - `query`: the underlying |TSQuery| which can be used to disable patterns or captures.\n\n Example:\n ```lua\n local query = vim.treesitter.query.parse('vimdoc', [[\n   ; query\n   ((h1) @str\n     (#trim! @str 1 1 1 1))\n ]])\n local tree = vim.treesitter.get_parser():parse()[1]\n for id, node, metadata in query:iter_captures(tree:root(), 0) do\n    -- Print the node name and source text.\n    vim.print({node:type(), vim.treesitter.get_node_text(node, vim.api.nvim_get_current_buf())})\n end\n ```\n\n\n",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Language to use for the query",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Query text, in s-expr syntax",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "query",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Parsed query",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.Query"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.Query"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                371,
+                                7
+                            ],
+                            "start": [
+                                371,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "parse",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Sets the runtime query named {query_name} for {lang}\n\n This allows users to override or extend any runtime files and/or configuration\n set by plugins.\n\n For example, you could enable spellchecking of `C` identifiers with the\n following code:\n ```lua\n vim.treesitter.query.set(\n   'c',\n   'highlights',\n   [[;inherits c\n   (identifier) @spell]]\n )\n ```\n\n@*param* `lang` — Language to use for the query\n\n@*param* `query_name` — Name of the query (e.g., \"highlights\")\n\n@*param* `text` — Query text (unparsed).",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Language to use for the query",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Name of the query (e.g., \"highlights\")",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "query_name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Query text (unparsed).",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "text",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/query.lua",
+                            "finish": [
+                                277,
+                                14
+                            ],
+                            "start": [
+                                277,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "set",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/treesitter.lua",
+        "finish": [
+            13,
+            7
+        ],
+        "start": [
+            13,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "query",
+    "type": "tablefield"
+}

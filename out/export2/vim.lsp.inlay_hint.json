@@ -1,0 +1,389 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Enables or disables inlay hints for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())\n ```\n\n@*param* `enable` — true/nil to enable, false to disable\n\n @since 12",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "boolean|nil"
+                                            },
+                                            "name": "enable",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.inlay_hint.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inlay_hint.lua",
+                            "finish": [
+                                406,
+                                17
+                            ],
+                            "start": [
+                                406,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Get the list of inlay hints, (optionally) restricted by buffer or range.\n\n Example usage:\n\n ```lua\n local hint = vim.lsp.inlay_hint.get({ bufnr = 0 })[1] -- 0 for current buffer\n\n local client = vim.lsp.get_client_by_id(hint.client_id)\n local resp = client:request_sync('inlayHint/resolve', hint.inlay_hint, 100, 0)\n local resolved_hint = assert(resp and resp.result, resp.err)\n vim.lsp.util.apply_text_edits(resolved_hint.textEdits, 0, client.encoding)\n\n location = resolved_hint.label[1].location\n client:request('textDocument/hover', {\n   textDocument = { uri = location.uri },\n   position = location.range.start,\n })\n ```\n\n @since 12",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.get.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.inlay_hint.get.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.lsp.inlay_hint.get.ret"
+                                                                }
+                                                            ],
+                                                            "view": "vim.lsp.inlay_hint.get.ret"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.inlay_hint.get.ret[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inlay_hint.lua",
+                            "finish": [
+                                167,
+                                14
+                            ],
+                            "start": [
+                                167,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Query whether inlay hint is enabled in the {filter}ed scope\n @since 12",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.inlay_hint.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inlay_hint.lua",
+                            "finish": [
+                                378,
+                                21
+                            ],
+                            "start": [
+                                378,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "is_enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method `textDocument/inlayHint`\n Store hints for a specific buffer and client",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "err",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.InlayHint"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.InlayHint"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "lsp.InlayHint[]?"
+                                            },
+                                            "name": "result",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inlay_hint.lua",
+                            "finish": [
+                                39,
+                                23
+                            ],
+                            "start": [
+                                39,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "on_inlayhint",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " |lsp-handler| for the method `workspace/inlayHint/refresh`",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "err",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "_",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.HandlerContext"
+                                                    }
+                                                ],
+                                                "view": "lsp.HandlerContext"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.NIL"
+                                                    }
+                                                ],
+                                                "view": "vim.NIL"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inlay_hint.lua",
+                            "finish": [
+                                115,
+                                21
+                            ],
+                            "start": [
+                                115,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "on_refresh",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            17,
+            12
+        ],
+        "start": [
+            17,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "inlay_hint",
+    "type": "tablefield"
+}

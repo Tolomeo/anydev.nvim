@@ -1,0 +1,145 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " TODO(lewis6991): Private for now until:\n - There are other places in the codebase that could benefit from this\n   (e.g. LSP), but might require other changes to accommodate.\n - I don't think the story around `hash` is completely thought out. We\n   may be able to have a good default hash by hashing each argument,\n   so basically a better 'concat'.\n - Need to support multi level caches. Can be done by allow `hash` to\n   return multiple values.\n\n Memoizes a function {fn} using {hash} to hash the arguments.\n\n Internally uses a |lua-weaktable| to cache the results of {fn} meaning the\n cache will be invalidated whenever Lua does garbage collection.\n\n The cache can also be manually invalidated by calling `:clear()` on the returned object.\n Calling this function with no arguments clears the entire cache; otherwise, the arguments will\n be interpreted as function inputs, and only the cache entry at their hash will be cleared.\n\n The memoized function returns shared references so be wary about\n mutating return values.\n\n@*param* `hash` — Hash function to create a hash to use as a key to\n\n     store results. Possible values:\n     - When integer, refers to the index of a {fn} argument (of any type) to hash.\n     - When function, is evaluated using the same arguments passed to {fn}.\n     - When \"concat\", hash is determined by string-concatenating all {fn} arguments.\n     - When \"concat-n\", hash is determined by string-concatenating the first n {fn} arguments.\n\n@*param* `fn` — Function to memoize.\n\n@*param* `weak` — Use a weak table (default `true`)\n\n@*return* — Memoized version of {fn}",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Hash function to create a hash to use as a key to",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "function"
+                                                    }
+                                                ],
+                                                "view": "string|integer|function"
+                                            },
+                                            "name": "hash",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Function to memoize.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "F"
+                                                    }
+                                                ],
+                                                "view": "<F:function>"
+                                            },
+                                            "name": "fn",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Use a weak table (default `true`)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "weak",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "builtin",
+                                                            "value": "function"
+                                                        }
+                                                    ],
+                                                    "view": "function"
+                                                }
+                                            ],
+                                            "name": "F"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Memoized version of {fn}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "F"
+                                                            }
+                                                        ],
+                                                        "view": "<F:function>"
+                                                    }
+                                                ],
+                                                "view": "<F:function>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/func.lua",
+                            "finish": [
+                                34,
+                                19
+                            ],
+                            "start": [
+                                34,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_memoize",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            16,
+            8
+        ],
+        "start": [
+            16,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "func",
+    "type": "setfield"
+}

@@ -1,0 +1,522 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Prints all cache stats",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean?"
+                                                                },
+                                                                "name": "print",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "{ print: boolean }?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader.Stats"
+                                                    }
+                                                ],
+                                                "view": "vim.loader.Stats"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                512,
+                                19
+                            ],
+                            "start": [
+                                512,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_inspect",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Debug function that wraps all loaders and tracks stats\n Must be called before vim.loader.enable()",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader._profile.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.loader._profile.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                491,
+                                19
+                            ],
+                            "start": [
+                                491,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_profile",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                464,
+                                18
+                            ],
+                            "start": [
+                                464,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public",
+                            "deprecated"
+                        ],
+                        "name": "disable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Enables or disables the experimental Lua module loader:\n\n Enable (`enable=true`):\n * overrides |loadfile()|\n * adds the Lua loader using the byte-compilation cache\n * adds the libs loader\n * removes the default Nvim loader\n\n Disable (`enable=false`):\n * removes the loaders\n * adds the default Nvim loader\n\n @since 0\n\n@*param* `enable` — true/nil to enable, false to disable",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                431,
+                                17
+                            ],
+                            "start": [
+                                431,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            ],
+                            "view": "boolean"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                54,
+                                9
+                            ],
+                            "start": [
+                                54,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            ],
+                            "view": "boolean?"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                436,
+                                11
+                            ],
+                            "start": [
+                                436,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Finds Lua modules for the given module name.\n\n @since 0\n\n@*param* `modname` — Module name, or `\"*\"` to find the top-level modules instead\n\n@*param* `opts` — Options for finding a module:",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Module name, or `\"*\"` to find the top-level modules instead",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "modname",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options for finding a module:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader.find.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.loader.find.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.loader.ModuleInfo"
+                                                                }
+                                                            ],
+                                                            "view": "vim.loader.ModuleInfo"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.loader.ModuleInfo[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                313,
+                                15
+                            ],
+                            "start": [
+                                313,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "find",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Module name, or `\"*\"` to find the top-level modules instead",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "modname",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options for finding a module:",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader.find.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.loader.find.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.loader.ModuleInfo"
+                                                                }
+                                                            ],
+                                                            "view": "vim.loader.ModuleInfo"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "vim.loader.ModuleInfo[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                497,
+                                8
+                            ],
+                            "start": [
+                                497,
+                                2
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "find",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            ],
+                            "view": "string"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                51,
+                                6
+                            ],
+                            "start": [
+                                51,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "path",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Resets the cache for the path, or all the paths if path is nil.\n\n @since 0\n\n@*param* `path` — path to reset",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "path to reset",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "path",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/loader.lua",
+                            "finish": [
+                                403,
+                                16
+                            ],
+                            "start": [
+                                403,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "reset",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            22,
+            10
+        ],
+        "start": [
+            22,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "loader",
+    "type": "setfield"
+}

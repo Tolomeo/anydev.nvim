@@ -1,0 +1,253 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Enables or disables inline completion for the {filter}ed scope,\n inline completion will automatically be refreshed when you are in insert mode.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())\n ```\n\n@*param* `enable` — true/nil to enable, false to disable",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "true/nil to enable, false to disable",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean?"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inline_completion.lua",
+                            "finish": [
+                                386,
+                                17
+                            ],
+                            "start": [
+                                386,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Accept the currently displayed completion candidate to the buffer.\n\n It returns false when no candidate can be accepted,\n so you can use the return value to implement a fallback:\n\n ```lua\n  vim.keymap.set('i', '<Tab>', function()\n   if not vim.lsp.inline_completion.get() then\n     return '<Tab>'\n   end\n end, { expr = true, desc = 'Accept the current inline completion' })\n ````\n\n@*return* — `true` if a completion was applied, else `false`.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inline_completion.get.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.inline_completion.get.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "`true` if a completion was applied, else `false`.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inline_completion.lua",
+                            "finish": [
+                                464,
+                                14
+                            ],
+                            "start": [
+                                464,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "get",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Query whether inline completion is enabled in the {filter}ed scope",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "false"
+                                                    }
+                                                ],
+                                                "view": "false"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inline_completion.lua",
+                            "finish": [
+                                371,
+                                21
+                            ],
+                            "start": [
+                                371,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "is_enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Switch between available inline completion candidates.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inline_completion.select.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.inline_completion.select.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/inline_completion.lua",
+                            "finish": [
+                                409,
+                                17
+                            ],
+                            "start": [
+                                409,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "select",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            18,
+            19
+        ],
+        "start": [
+            18,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "inline_completion",
+    "type": "tablefield"
+}

@@ -1,0 +1,496 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Get an available command used to open the path or URL.\n\n@*return* — Command, or nil if not found.\n\n@*return* — Error message on failure, or nil on success.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Command, or nil if not found.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "string[]|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Error message on failure, or nil on success.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                210,
+                                24
+                            ],
+                            "start": [
+                                210,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_get_open_cmd",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Returns all URLs at cursor, if any.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "string[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                267,
+                                20
+                            ],
+                            "start": [
+                                267,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_get_urls",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Prompts the user for input, allowing arbitrary (potentially asynchronous) work until\n `on_confirm`.\n\n Example:\n\n ```lua\n local opts = { prompt = 'Enter value for shiftwidth: ', scope = 'buffer' }\n vim.ui.input(opts, function(input)\n     vim.o.shiftwidth = tonumber(input)\n end)\n ```\n\n@*param* `opts` — Additional options. See |input()|\n\n               `input` is what the user typed (it might be\n               an empty string if nothing was entered), or\n               `nil` if the user aborted the dialog.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Additional options. See |input()|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.ui.input.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.ui.input.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "input",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(input?: string)"
+                                            },
+                                            "name": "on_confirm",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                123,
+                                16
+                            ],
+                            "start": [
+                                123,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "input",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Opens `path` with the system default handler (macOS `open`, Windows `explorer.exe`, Linux\n `xdg-open`, …), or returns (but does not show) an error message on failure.\n\n Can also be invoked with `:Open`. [:Open](file:///usr/local/share/nvim/runtime/lua/vim)\n\n Expands \"~/\" and environment variables in filesystem paths.\n\n Examples:\n\n ```lua\n -- Asynchronous.\n vim.ui.open(\"https://neovim.io/\")\n vim.ui.open(\"~/path/to/file\")\n -- Use the \"osurl\" command to handle the path or URL.\n vim.ui.open(\"gh#neovim/neovim!29490\", { cmd = { 'osurl' } })\n -- Synchronous (wait until the process exits).\n local cmd, err = vim.ui.open(\"$VIMRUNTIME\")\n if cmd then\n   cmd:wait()\n end\n ```\n\n@*param* `path` — Path or URL to open\n\n@*param* `opt` — Options\n\n\n@*return* — Command object, or nil if not found.\n\n@*return* — Error message on failure, or nil on success.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Path or URL to open",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "path",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.ui.open.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.ui.open.Opts)?"
+                                            },
+                                            "name": "opt",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Command object, or nil if not found.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.SystemObj"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "vim.SystemObj|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Error message on failure, or nil on success.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                177,
+                                15
+                            ],
+                            "start": [
+                                177,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "open",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets a status description summarizing currently running progress messages.\n Convenient for inclusion in 'statusline'.\n\n@*return* — Progress status",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Progress status",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                389,
+                                28
+                            ],
+                            "start": [
+                                389,
+                                11
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "progress_status",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Prompts the user to pick from a list of items, allowing arbitrary (potentially asynchronous)\n work until `on_choice`.\n\n Plugins may override `vim.ui.select` to provide a custom \"picker\" interface; they are expected\n to call the `format_item` and `preview_item` handlers (if any) provided by the caller. They may\n also use the `kind` hint (if provided by the caller) to decide how to handle some items.\n\n Note: the default `vim.ui.select` currently doesn't support preview.\n\n Example:\n\n ```lua\n vim.ui.select({ 'tabs', 'spaces' }, {\n   prompt = 'Select tabs or spaces:',\n   format_item = function(item)\n     return ('I choose %s!'):format(item)\n   end,\n   preview_item = function(item)\n     local lines = { 'This is ' .. vim.inspect(item) }\n     local buf = vim.api.nvim_create_buf(false, true)\n     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)\n     vim.bo[buf].bufhidden = 'wipe'\n     return { buf = buf }\n   end,\n }, function(choice)\n   vim.o.expandtab = choice == 'spaces'\n   vim.print(('Selected \"%s\" => expandtab=%s'):format(choice, vim.o.expandtab))\n end)\n ```\n\n@*param* `items` — Arbitrary items\n\n@*param* `opts` — Options\n\n@*param* `on_choice` — Called once the user made a choice.\n\n `idx` is the 1-based index of `item` within `items`, or `nil` if the user aborted the dialog.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Arbitrary items",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "genericreference",
+                                                                    "value": "T"
+                                                                }
+                                                            ],
+                                                            "view": "<T>"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "<T>[]"
+                                            },
+                                            "name": "items",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Options",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.ui.select.Opts"
+                                                    }
+                                                ],
+                                                "view": "vim.ui.select.Opts"
+                                            },
+                                            "name": "opts",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Called once the user made a choice.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "genericreference",
+                                                                            "value": "T"
+                                                                        },
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "<T>|nil"
+                                                                },
+                                                                "name": "item",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        },
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer|nil"
+                                                                },
+                                                                "name": "idx",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(item: <T>|nil, idx: integer|nil)"
+                                            },
+                                            "name": "on_choice",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/ui.lua",
+                            "finish": [
+                                60,
+                                17
+                            ],
+                            "start": [
+                                60,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "select",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta.lua",
+        "finish": [
+            33,
+            6
+        ],
+        "start": [
+            33,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "ui",
+    "type": "setfield"
+}
