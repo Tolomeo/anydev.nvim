@@ -14,6 +14,12 @@ function export.inspect(value, maxDepth, depth, seen)
 
 	if kind ~= "table" then
 		if kind == "string" then
+			local maxLength = 150
+
+			if #value > maxLength then
+				value = value:sub(1, maxLength) .. "..."
+			end
+
 			return string.format("%q", value)
 		end
 
@@ -606,8 +612,6 @@ function export.documentObjectType(source)
 		-- infer._drop contains the string representations of expanded types that should be suppressed
 		local nView = vm.viewObject(n, ws.rootUri)
 
-		print(nView)
-
 		if nView and infer._drop[nView] then
 			goto continue
 		end
@@ -686,37 +690,19 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	-- local definitions = source:getSets(ws.rootUri)
 	local definitions = vm.getDefs(source)
 
-	local doc = util.tableMerge(init, export.documentObject(definitions[1], has_seen))
-
 	assert(
 		#definitions == 1,
 		string.format("Global '%s' with an unexpected number of definitions received", source.name)
 	)
 
+	local doc = util.tableMerge(init, export.documentObject(definitions[1], has_seen))
+
 	local definition = definitions[1]
 
-	-- print(export.inspect(definitions[1]))
-	-- local doc = export.documentObject(definitions[1], has_seen)
-	-- doc.category = obj.category
-	-- doc.desc = obj.desc
-	-- doc.rawDesc = obj.rawDesc
 	doc.meta = export.documentObjectMeta(definition)
 
 	local definitionType = export.documentObjectType(definition)
 	doc.infer = export.followTypes(definition, definitionType)
-
-	--[[ for i, docTypeType in ipairs(docType.types) do
-		if docTypeType.kind == "table" or (docTypeType.kind == "builtin" and docTypeType.value == "table") then
-			local docTypeTypeFields = export.documentObjectFields(definition, export.documentObject)
-
-			if #docTypeTypeFields > 0 then
-				docType.types[i] = {
-					kind = "table",
-					fields = docTypeTypeFields,
-				}
-			end
-		end
-	end ]]
 
 	return doc
 
@@ -802,9 +788,6 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 	doc.infer = export.followTypes(method, methodType)
 
 	return doc
-	-- print(export.inspect(source))
-
-	-- return export.makeDocObject["doc.class"](source, init, has_seen)
 end
 
 export.makeDocObject["tablefield"] = function(source, init, has_seen)
