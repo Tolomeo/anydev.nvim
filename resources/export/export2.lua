@@ -643,6 +643,11 @@ function export.followTypes(source, sourceType, documentObjectField)
 					kind = "table",
 					fields = fields,
 				}
+			else
+				sourceType.types[i] = {
+					kind = "builtin",
+					value = "table",
+				}
 			end
 		end
 	end
@@ -683,6 +688,10 @@ function export.documentObjectFields(source, documentObjectField)
 
 	return docs
 end
+
+--[[ export.makeDocObject["doc.type"] = function(source, init, has_seen)
+	return init
+end ]]
 
 -- TODO: global types
 export.makeDocObject["global"] = function(source, init, has_seen)
@@ -873,7 +882,6 @@ function export.makeDocs(globals, callback)
 		table.insert(docs, export.documentObject(globalVar))
 		callback(i, #globals)
 	end
-	docs[#docs + 1] = export.getLualsConfig()
 	table.sort(docs, export.sortDoc)
 	return docs
 end
