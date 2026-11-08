@@ -1610,43 +1610,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    {
-                                                        "fields": [
-                                                            {
-                                                                "documentation": "",
-                                                                "location": {
-                                                                    "file": "[FOREIGN] /root/external/lua-language-server/meta/LuaJIT en-us utf8/builtin.lua",
-                                                                    "finish": [
-                                                                        11,
-                                                                        31
-                                                                    ],
-                                                                    "start": [
-                                                                        11,
-                                                                        26
-                                                                    ]
-                                                                },
-                                                                "name": {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "[FOREIGN] /root/external/lua-language-server/meta/LuaJIT en-us utf8/builtin.lua",
-                                                                        "finish": [
-                                                                            11,
-                                                                            27
-                                                                        ],
-                                                                        "start": [
-                                                                            11,
-                                                                            26
-                                                                        ]
-                                                                    },
-                                                                    "type": "doc.type"
-                                                                },
-                                                                "type": "doc.type.field"
-                                                            }
-                                                        ],
-                                                        "kind": "table"
-                                                    }
+                                                    "table<integer, vim.treesitter.highlighter>"
                                                 ],
-                                                "view": "table"
+                                                "view": "table<integer, vim.treesitter.highlighter>"
                                             },
                                             "location": {
                                                 "file": "lua/vim/treesitter/highlighter.lua",
@@ -3730,21 +3696,6 @@
                                         },
                                         {
                                             "documentation": "",
-                                            "location": {
-                                                "file": "lua/vim/treesitter/languagetree.lua",
-                                                "finish": [
-                                                    119,
-                                                    20
-                                                ],
-                                                "start": [
-                                                    119,
-                                                    0
-                                                ]
-                                            },
-                                            "type": "setfield"
-                                        },
-                                        {
-                                            "documentation": "",
                                             "infer": {
                                                 "types": [
                                                     {
@@ -4594,6 +4545,53 @@
                                             "type": "doc.field"
                                         },
                                         {
+                                            "documentation": "Buffer or string to parse",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string|integer"
+                                            },
+                                            "location": {
+                                                "file": "lua/vim/treesitter/languagetree.lua",
+                                                "finish": [
+                                                    103,
+                                                    42
+                                                ],
+                                                "start": [
+                                                    103,
+                                                    10
+                                                ]
+                                            },
+                                            "meta": [
+                                                "private"
+                                            ],
+                                            "name": "_source",
+                                            "type": "doc.field"
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "location": {
+                                                "file": "lua/vim/treesitter/languagetree.lua",
+                                                "finish": [
+                                                    119,
+                                                    20
+                                                ],
+                                                "start": [
+                                                    119,
+                                                    0
+                                                ]
+                                            },
+                                            "type": "setfield"
+                                        },
+                                        {
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
@@ -4733,38 +4731,6 @@
                                             ],
                                             "name": "_set_logger",
                                             "type": "setmethod"
-                                        },
-                                        {
-                                            "documentation": "Buffer or string to parse",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string|integer"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/treesitter/languagetree.lua",
-                                                "finish": [
-                                                    103,
-                                                    42
-                                                ],
-                                                "start": [
-                                                    103,
-                                                    10
-                                                ]
-                                            },
-                                            "meta": [
-                                                "private"
-                                            ],
-                                            "name": "_source",
-                                            "type": "doc.field"
                                         },
                                         {
                                             "documentation": "",

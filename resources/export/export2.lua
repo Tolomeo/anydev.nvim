@@ -774,13 +774,15 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 
 	debug = field[1] == "_enabled_configs"
 
-	if debug then print(export.inspect(source)) end
+	if debug then
+		print(export.inspect(source))
+	end
 
 	-- TODO: why does this do
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	local candidates = {source.field, source.value }
+	local candidates = { source.field, source.value }
 
 	for _, src in ipairs(candidates) do
 		local srcType = export.documentObjectType(src)
@@ -821,7 +823,9 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	for _, src in ipairs({ source.value, source.field }) do
+	local candidates = { source.field, source.value }
+
+	for _, src in ipairs(candidates) do
 		local srcInfer = export.documentObjectType(src)
 		local srcType = export.followTypes(src, srcInfer)
 
