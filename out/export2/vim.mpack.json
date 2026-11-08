@@ -1,0 +1,119 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Decodes (or \"unpacks\") the msgpack-encoded {str} to a Lua object.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/mpack.lua",
+                            "finish": [
+                                17,
+                                25
+                            ],
+                            "start": [
+                                17,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "decode",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Encodes (or \"packs\") Lua object {obj} as msgpack in a Lua string.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "obj",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/mpack.lua",
+                            "finish": [
+                                22,
+                                25
+                            ],
+                            "start": [
+                                22,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "encode",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta/mpack.lua",
+        "finish": [
+            7,
+            9
+        ],
+        "start": [
+            7,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "mpack",
+    "type": "setfield"
+}

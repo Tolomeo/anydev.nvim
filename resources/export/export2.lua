@@ -690,6 +690,11 @@ function export.documentObjectFields(source, documentObjectField)
 end
 
 --[[ export.makeDocObject["doc.type"] = function(source, init, has_seen)
+	local doc = init
+	print(export.inspect(init))
+
+	doc.infer = export.documentObjectType(source)
+
 	return init
 end ]]
 
@@ -767,11 +772,17 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 		return nil
 	end
 
+	debug = field[1] == "_enabled_configs"
+
+	if debug then print(export.inspect(source)) end
+
 	-- TODO: why does this do
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	for _, src in ipairs({ source.value, source.field }) do
+	local candidates = {source.field, source.value }
+
+	for _, src in ipairs(candidates) do
 		local srcType = export.documentObjectType(src)
 		local srcInfer = export.followTypes(src, srcType)
 

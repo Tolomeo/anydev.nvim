@@ -8,11 +8,10 @@
                         "documentation": " @nodoc",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "enum"
-                                }
+                                "table<string, integer>",
+                                "table<integer, string>"
                             ],
-                            "view": "enum vim.lsp.rpc.ClientErrors"
+                            "view": "table<integer, string>|table<string, integer>"
                         },
                         "location": {
                             "file": "lua/vim/lsp/rpc.lua",

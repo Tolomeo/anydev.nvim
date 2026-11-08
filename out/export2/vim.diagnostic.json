@@ -900,16 +900,9 @@
                         "documentation": " @nodoc",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "table"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "table"
-                                }
+                                "table<string, vim.diagnostic.Handler>"
                             ],
-                            "view": "table"
+                            "view": "table<string, vim.diagnostic.Handler>"
                         },
                         "location": {
                             "file": "lua/vim/diagnostic.lua",

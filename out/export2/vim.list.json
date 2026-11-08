@@ -1,0 +1,260 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Search for a position in a sorted |lua-list| {t} where {val} can be inserted while keeping the\n list sorted.\n\n Use {bound} to determine whether to return the first or the last position,\n defaults to \"lower\", i.e., the first position.\n\n NOTE: Behavior is undefined on unsorted lists!\n\n Example:\n ```lua\n\n local t = { 1, 2, 2, 3, 3, 3 }\n local first = vim.list.bisect(t, 3)\n -- `first` is `val`'s first index if found,\n -- useful for existence checks.\n print(t[first]) -- 3\n\n local last = vim.list.bisect(t, 3, { bound = 'upper' })\n -- Note that `last` is 7, not 6,\n -- this is suitable for insertion.\n\n table.insert(t, last, 4)\n -- t is now { 1, 2, 2, 3, 3, 3, 4 }\n\n -- You can use lower bound and upper bound together\n -- to obtain the range of occurrences of `val`.\n\n -- 3 is in [first, last)\n for i = first, last - 1 do\n   print(t[i]) -- { 3, 3, 3 }\n end\n ```\n\n@*param* `t` — A comparable list.\n\n@*param* `val` — The value to search.\n\n@*return* `index` — serves as either the lower bound or the upper bound position.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "A comparable list.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "genericreference",
+                                                                    "value": "T"
+                                                                }
+                                                            ],
+                                                            "view": "<T>"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "<T>[]"
+                                            },
+                                            "name": "t",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "The value to search.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T>"
+                                            },
+                                            "name": "val",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.list.bisect.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.list.bisect.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "serves as either the lower bound or the upper bound position.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "index",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_core/shared.lua",
+                            "finish": [
+                                548,
+                                24
+                            ],
+                            "start": [
+                                548,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "bisect",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Removes duplicate values from a |lua-list| in-place.\n\n Only the first occurrence of each value is kept.\n The operation is performed in-place and the input table is modified.\n\n Accepts an optional `key` argument, which if provided is called for each\n value in the list to compute a hash key for uniqueness comparison.\n This is useful for deduplicating table values or complex objects.\n If `key` returns `nil` for a value, that value will be considered unique,\n even if multiple values return `nil`.\n\n Example:\n ```lua\n\n local t = {1, 2, 2, 3, 1}\n vim.list.unique(t)\n -- t is now {1, 2, 3}\n\n local t = { {id=1}, {id=2}, {id=1} }\n vim.list.unique(t, function(x) return x.id end)\n -- t is now { {id=1}, {id=2} }\n ```\n\n @since 14\n\n@*param* `key` — Optional hash function to determine uniqueness of values\n\n@*return* — : The deduplicated list\n\n @see |Iter:unique()|",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "genericreference",
+                                                                    "value": "T"
+                                                                }
+                                                            ],
+                                                            "view": "<T>"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "<T>[]"
+                                            },
+                                            "name": "t",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Optional hash function to determine uniqueness of values",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "genericreference",
+                                                                            "value": "T"
+                                                                        }
+                                                                    ],
+                                                                    "view": "<T>"
+                                                                },
+                                                                "name": "x",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "(fun(x: <T>):any)?"
+                                            },
+                                            "name": "key",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": The deduplicated list",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "items": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "genericreference",
+                                                                            "value": "T"
+                                                                        }
+                                                                    ],
+                                                                    "view": "<T>"
+                                                                },
+                                                                "kind": "array"
+                                                            }
+                                                        ],
+                                                        "view": "<T>[]"
+                                                    }
+                                                ],
+                                                "view": "<T>[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_core/shared.lua",
+                            "finish": [
+                                416,
+                                24
+                            ],
+                            "start": [
+                                416,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "unique",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_core/shared.lua",
+        "finish": [
+            376,
+            8
+        ],
+        "start": [
+            376,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "list",
+    "type": "setfield"
+}

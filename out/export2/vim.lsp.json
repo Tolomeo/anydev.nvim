@@ -819,6 +819,31 @@
                         "documentation": "",
                         "infer": {
                             "types": [
+                                "table<string, { resolved_config: (vim.lsp.Config)? }>"
+                            ],
+                            "view": "table<string, { resolved_config: (vim.lsp.Config)? }>"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp.lua",
+                            "finish": [
+                                291,
+                                20
+                            ],
+                            "start": [
+                                291,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "_enabled_configs",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
                                 {
                                     "arguments": [
                                         {
@@ -1952,6 +1977,74 @@
                                 {
                                     "fields": [
                                         {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.client.before_init_cb"
+                                                    }
+                                                ],
+                                                "view": "(vim.lsp.client.before_init_cb)?"
+                                            },
+                                            "location": {
+                                                "file": "lua/vim/lsp/client.lua",
+                                                "finish": [
+                                                    244,
+                                                    65
+                                                ],
+                                                "start": [
+                                                    244,
+                                                    11
+                                                ]
+                                            },
+                                            "meta": [
+                                                "private"
+                                            ],
+                                            "name": "_before_init_cb",
+                                            "type": "doc.field"
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<vim.lsp.capability.Name, boolean?>"
+                                                ],
+                                                "view": "table<vim.lsp.capability.Name, boolean?>"
+                                            },
+                                            "location": {
+                                                "file": "lua/vim/lsp/client.lua",
+                                                "finish": [
+                                                    226,
+                                                    73
+                                                ],
+                                                "start": [
+                                                    226,
+                                                    11
+                                                ]
+                                            },
+                                            "meta": [
+                                                "public"
+                                            ],
+                                            "name": "_enabled_capabilities",
+                                            "type": "doc.field"
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "location": {
+                                                "file": "lua/vim/lsp/client.lua",
+                                                "finish": [
+                                                    250,
+                                                    14
+                                                ],
+                                                "start": [
+                                                    250,
+                                                    0
+                                                ]
+                                            },
+                                            "type": "setfield"
+                                        },
+                                        {
                                             "documentation": " Add a directory to the workspace folders.",
                                             "infer": {
                                                 "types": [
@@ -2073,59 +2166,6 @@
                                             ],
                                             "name": "_all",
                                             "type": "setfield"
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.client.before_init_cb"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.client.before_init_cb)?"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp/client.lua",
-                                                "finish": [
-                                                    244,
-                                                    65
-                                                ],
-                                                "start": [
-                                                    244,
-                                                    11
-                                                ]
-                                            },
-                                            "meta": [
-                                                "private"
-                                            ],
-                                            "name": "_before_init_cb",
-                                            "type": "doc.field"
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    "table<vim.lsp.capability.Name, boolean?>"
-                                                ],
-                                                "view": "table<vim.lsp.capability.Name, boolean?>"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp/client.lua",
-                                                "finish": [
-                                                    226,
-                                                    73
-                                                ],
-                                                "start": [
-                                                    226,
-                                                    11
-                                                ]
-                                            },
-                                            "meta": [
-                                                "public"
-                                            ],
-                                            "name": "_enabled_capabilities",
-                                            "type": "doc.field"
                                         },
                                         {
                                             "documentation": "",
@@ -2365,11 +2405,13 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "function"
                                             },
                                             "location": {
                                                 "file": "lua/vim/lsp/client.lua",
@@ -4637,6 +4679,84 @@
                                             "type": "doc.field"
                                         },
                                         {
+                                            "documentation": " Cancels a request with a given request id.\n\n@*param* `id` — id of request to cancel\n\n@*return* `status` — indicating if the notification was successful.\n\n @see |Client:notify()|",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.lsp.Client"
+                                                                        },
+                                                                        {
+                                                                            "kind": "table"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.lsp.Client"
+                                                                },
+                                                                "name": "self",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "id of request to cancel",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "id",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "documentation": "indicating if the notification was successful.",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean"
+                                                                },
+                                                                "name": "status",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "function"
+                                            },
+                                            "location": {
+                                                "file": "lua/vim/lsp/client.lua",
+                                                "finish": [
+                                                    861,
+                                                    30
+                                                ],
+                                                "start": [
+                                                    861,
+                                                    9
+                                                ]
+                                            },
+                                            "meta": [
+                                                "method",
+                                                "public"
+                                            ],
+                                            "name": "cancel_request",
+                                            "type": "setmethod"
+                                        },
+                                        {
                                             "documentation": "\n Capabilities provided by the client (editor or tool), at startup.",
                                             "infer": {
                                                 "types": [
@@ -4718,127 +4838,6 @@
                                             "type": "doc.field"
                                         },
                                         {
-                                            "documentation": "\n Capabilities provided at runtime (after startup).",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "lsp.DynamicCapabilities"
-                                                    }
-                                                ],
-                                                "view": "lsp.DynamicCapabilities"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp/client.lua",
-                                                "finish": [
-                                                    169,
-                                                    55
-                                                ],
-                                                "start": [
-                                                    169,
-                                                    11
-                                                ]
-                                            },
-                                            "meta": [
-                                                "public"
-                                            ],
-                                            "name": "dynamic_capabilities",
-                                            "type": "doc.field"
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "location": {
-                                                "file": "lua/vim/lsp/client.lua",
-                                                "finish": [
-                                                    250,
-                                                    14
-                                                ],
-                                                "start": [
-                                                    250,
-                                                    0
-                                                ]
-                                            },
-                                            "type": "setfield"
-                                        },
-                                        {
-                                            "documentation": " Cancels a request with a given request id.\n\n@*param* `id` — id of request to cancel\n\n@*return* `status` — indicating if the notification was successful.\n\n @see |Client:notify()|",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "arguments": [
-                                                            {
-                                                                "documentation": "",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "typereference",
-                                                                            "value": "vim.lsp.Client"
-                                                                        },
-                                                                        {
-                                                                            "kind": "table"
-                                                                        }
-                                                                    ],
-                                                                    "view": "vim.lsp.Client"
-                                                                },
-                                                                "name": "self",
-                                                                "optional": false
-                                                            },
-                                                            {
-                                                                "documentation": "id of request to cancel",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "integer"
-                                                                        }
-                                                                    ],
-                                                                    "view": "integer"
-                                                                },
-                                                                "name": "id",
-                                                                "optional": false
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": [
-                                                            {
-                                                                "documentation": "indicating if the notification was successful.",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "boolean"
-                                                                        }
-                                                                    ],
-                                                                    "view": "boolean"
-                                                                },
-                                                                "name": "status",
-                                                                "optional": false
-                                                            }
-                                                        ]
-                                                    }
-                                                ],
-                                                "view": "function"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp/client.lua",
-                                                "finish": [
-                                                    861,
-                                                    30
-                                                ],
-                                                "start": [
-                                                    861,
-                                                    9
-                                                ]
-                                            },
-                                            "meta": [
-                                                "method",
-                                                "public"
-                                            ],
-                                            "name": "cancel_request",
-                                            "type": "setmethod"
-                                        },
-                                        {
                                             "documentation": " @nodoc",
                                             "infer": {
                                                 "types": [
@@ -4897,6 +4896,34 @@
                                             ],
                                             "name": "create",
                                             "type": "setfield"
+                                        },
+                                        {
+                                            "documentation": "\n Capabilities provided at runtime (after startup).",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.DynamicCapabilities"
+                                                    }
+                                                ],
+                                                "view": "lsp.DynamicCapabilities"
+                                            },
+                                            "location": {
+                                                "file": "lua/vim/lsp/client.lua",
+                                                "finish": [
+                                                    169,
+                                                    55
+                                                ],
+                                                "start": [
+                                                    169,
+                                                    11
+                                                ]
+                                            },
+                                            "meta": [
+                                                "public"
+                                            ],
+                                            "name": "dynamic_capabilities",
+                                            "type": "doc.field"
                                         },
                                         {
                                             "documentation": " Execute a lsp command, either via client command function (if available)\n or via workspace/executeCommand (if supported by the server)\n\n@*param* `handler` — only called if a server command",
@@ -6599,16 +6626,9 @@
                         "documentation": " Map of client-defined handlers implementing custom (off-spec) commands which a server may\n invoke. Each key is a unique command name; each value is a function which is called when an LSP\n action (code action, code lenses, …) requests it by name.\n\n If an LSP response requests a command not defined client-side, Nvim will forward it to the\n server as `workspace/executeCommand`.\n\n - Argument 1 is the `Command`:\n   ```\n   Command\n     title: String\n     command: String\n     arguments?: any[]\n   ```\n - Argument 2 is the |lsp-handler| `ctx`.\n\n Example:\n\n ```lua\n vim.lsp.commands['java.action.generateToStringPrompt'] = function(_, ctx)\n   require(\"jdtls.async\").run(function()\n     local _, result = request(ctx.bufnr, 'java/checkToStringStatus', ctx.params)\n     local fields = ui.pick_many(result.fields, 'Include item in toString?', function(x)\n       return string.format('%s: %s', x.name, x.type)\n     end)\n     local _, edit = request(ctx.bufnr, 'java/generateToString', { context = ctx.params; fields = fields; })\n     vim.lsp.util.apply_workspace_edit(edit, offset_encoding)\n   end)\n end\n ```\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "table"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "table"
-                                }
+                                "table<string, fun(command: lsp.Command, ctx: table)>"
                             ],
-                            "view": "table"
+                            "view": "table<string, fun(command: lsp.Command, ctx: table)>"
                         },
                         "location": {
                             "file": "lua/vim/lsp.lua",
@@ -6632,73 +6652,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "fields": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp.lua",
-                                                "finish": [
-                                                    322,
-                                                    36
-                                                ],
-                                                "start": [
-                                                    322,
-                                                    28
-                                                ]
-                                            },
-                                            "meta": [
-                                                "public"
-                                            ],
-                                            "name": "_configs",
-                                            "type": "tablefield"
-                                        }
-                                    ],
-                                    "kind": "table"
-                                },
-                                {
-                                    "fields": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table"
-                                            },
-                                            "location": {
-                                                "file": "lua/vim/lsp.lua",
-                                                "finish": [
-                                                    322,
-                                                    36
-                                                ],
-                                                "start": [
-                                                    322,
-                                                    28
-                                                ]
-                                            },
-                                            "meta": [
-                                                "public"
-                                            ],
-                                            "name": "_configs",
-                                            "type": "tablefield"
-                                        }
-                                    ],
-                                    "kind": "table"
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.config"
                                 }
                             ],
-                            "view": "table"
+                            "view": "vim.lsp.config"
                         },
                         "location": {
                             "file": "lua/vim/lsp.lua",

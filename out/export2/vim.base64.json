@@ -1,0 +1,119 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Decode a Base64 encoded string.\n\n@*param* `str` — Base64 encoded string\n\n@*return* — : Decoded string",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Base64 encoded string",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/base64.lua",
+                            "finish": [
+                                16,
+                                26
+                            ],
+                            "start": [
+                                16,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "decode",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Encode {str} using Base64.\n\n@*param* `str` — String to encode\n\n@*return* — : Encoded string",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "String to encode",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/base64.lua",
+                            "finish": [
+                                10,
+                                26
+                            ],
+                            "start": [
+                                10,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "encode",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta/base64.lua",
+        "finish": [
+            4,
+            10
+        ],
+        "start": [
+            4,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "base64",
+    "type": "setfield"
+}

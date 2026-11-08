@@ -1,0 +1,147 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Decodes (or \"unpacks\") stringified JSON to a Lua object.\n\n - Decodes JSON \"null\" as |vim.NIL| (controllable by {opts}, see below).\n - Decodes empty object as |vim.empty_dict()|.\n - Decodes empty array as `{}` (empty Lua table).\n\n Example:\n\n ```lua\n vim.print(vim.json.decode('{\"bar\":[],\"foo\":{},\"zub\":null}'))\n -- { bar = {}, foo = vim.empty_dict(), zub = vim.NIL }\n ```\n\n@*param* `str` — Stringified JSON data.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Stringified JSON data.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "str",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.json.decode.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.json.decode.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/json.lua",
+                            "finish": [
+                                59,
+                                24
+                            ],
+                            "start": [
+                                59,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "decode",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Encodes (or \"packs\") a Lua object to stringified JSON.\n\n Example: Implement a basic 'formatexpr' for JSON, so |gq| with a motion formats JSON in\n a buffer. (The motion must operate on a valid JSON object.)\n\n ```lua\n function _G.fmt_json()\n   local indent = vim.bo.expandtab and (' '):rep(vim.o.shiftwidth) or '\\t'\n   local lines = vim.api.nvim_buf_get_lines(0, vim.v.lnum - 1, vim.v.lnum + vim.v.count - 1, true)\n   local o = vim.json.decode(table.concat(lines, '\\n'))\n   local stringified = vim.json.encode(o, { indent = indent, sort_keys = true })\n   lines = vim.split(stringified, '\\n')\n   vim.api.nvim_buf_set_lines(0, vim.v.lnum - 1, vim.v.count, true, lines)\n end\n vim.o.formatexpr = 'v:lua.fmt_json()'\n ```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "obj",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.json.encode.Opts"
+                                                    }
+                                                ],
+                                                "view": "(vim.json.encode.Opts)?"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/_meta/json.lua",
+                            "finish": [
+                                81,
+                                24
+                            ],
+                            "start": [
+                                81,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "encode",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/_meta/json.lua",
+        "finish": [
+            5,
+            8
+        ],
+        "start": [
+            5,
+            0
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "json",
+    "type": "setfield"
+}

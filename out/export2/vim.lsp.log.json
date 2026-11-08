@@ -389,11 +389,10 @@
                         "documentation": " Log level dictionary with reverse lookup as well.\n\n Can be used to lookup the number from the name or the name from the number.\n Levels by name: \"TRACE\", \"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"OFF\"\n Level numbers begin with \"TRACE\" at 0\n @nodoc",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "enum"
-                                }
+                                "table<string, integer>",
+                                "table<integer, string>"
                             ],
-                            "view": "enum vim.log.levels"
+                            "view": "table<integer, string>|table<string, integer>"
                         },
                         "location": {
                             "file": "lua/vim/lsp/log.lua",
