@@ -698,9 +698,7 @@ end
 	return init
 end ]]
 
--- TODO: global types
-export.makeDocObject["global"] = function(source, init, has_seen)
-	assert(source.cate == "variable", "ERROR: global types yet to be implemented")
+export.makeDocObject["variable"] = function(source, init, has_seen)
 	-- local definitions = source:getSets(ws.rootUri)
 	local definitions = vm.getDefs(source)
 
@@ -719,6 +717,13 @@ export.makeDocObject["global"] = function(source, init, has_seen)
 	doc.infer = export.followTypes(definition, definitionType)
 
 	return doc
+end
+
+-- TODO: global types
+export.makeDocObject["global"] = function(source, init, has_seen)
+	assert(source.cate == "variable", "ERROR: global types yet to be implemented")
+
+	return export.makeDocObject[source.cate](source, init, has_seen)
 
 	--[[ for _, set in ipairs(definitions) do
 		if
