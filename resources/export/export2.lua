@@ -603,24 +603,30 @@ function export.documentObjectType(source)
 	local view = infer:view(ws.rootUri)
 	local types = {}
 
-	for n in infer.node:eachObject() do
-		if n.hideView then
+	print("view", export.inspect(infer.views))
+
+	for nodeObject in infer.node:eachObject() do
+		if nodeObject.hideView then
 			goto continue
 		end
 
 		-- Avoiding to avoid expand aliases
 		-- infer._drop contains the string representations of expanded types that should be suppressed
-		local nView = vm.viewObject(n, ws.rootUri)
+		local nodeObjectView = vm.viewObject(nodeObject, ws.rootUri)
 
-		if nView and infer._drop[nView] then
+		if not nodeObjectView or infer._drop[nodeObjectView] or not infer.views[nodeObjectView] then
 			goto continue
 		end
 
-		local nType = viewNodeSwitch(n.type, n, infer, ws.rootUri)
+		print("nView", nodeObjectView)
 
-		if nType then
-			table.insert(types, nType)
+		local nodeObjectType = viewNodeSwitch(nodeObject.type, nodeObject, infer, ws.rootUri)
+
+		if not nodeObjectType then
+			goto continue
 		end
+
+		table.insert(types, nodeObjectType)
 
 		::continue::
 	end
@@ -780,7 +786,7 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	debug = field[1] == "_enabled_configs"
 
 	if debug then
-		print(export.inspect(source))
+		-- print(export.inspect(source))
 	end
 
 	-- TODO: why does this do
