@@ -123,6 +123,14 @@ function export.documentObject(source, has_seen)
 	--if neither, then this is a singular docUnion
 	local obj = export.makeDocObject["INIT"](source, has_seen)
 
+	print(
+		obj.type,
+		obj.name,
+		obj.location.file,
+		export.inspect(obj.location.start),
+		export.inspect(obj.location.finish)
+	)
+
 	-- print(obj.type)
 	local res = export.makeDocObject[obj.type](source, obj, has_seen)
 
@@ -282,7 +290,7 @@ viewNodeSwitch = util
 	:case("global")
 	:call(function(source, infer)
 		if source.cate ~= "type" then
-			return
+			error("ERROR: trying to extract the type from a value is not supported")
 		end
 
 		--[[ if source.name == "vim.treesitter.highlighter" then
@@ -598,37 +606,47 @@ viewNodeSwitch = util
 
 --TODO: Finish implementing infer:view logics
 function export.documentObjectType(source)
+	local uri = ws.rootUri
 	local infer = vm.getInfer(source)
+	local view = infer:view(uri)
 
-	local view = infer:view(ws.rootUri)
+	if infer.views["any"] then
+		return {
+			view = view,
+			types = {
+				{
+
+					kind = "builtin",
+					value = "any",
+				},
+			},
+		}, infer
+	end
+
+	--[[ if debug then
+		print("view", export.inspect(infer.views))
+		print("subviews", export.inspect(infer:getSubViews()))
+	end ]]
+
+	local typeNodes = {}
+
+	for typeNode in infer.node:eachObject() do
+		local typeNodeView = vm.getInfer(typeNode):view()
+		-- local nodeObjectType = viewNodeSwitch(nodeObject.type, nodeObject, infer, uri)
+
+		typeNodes[typeNodeView] = typeNode
+	end
+
 	local types = {}
+	local subViews = infer:getSubViews(uri) or {}
 
-	print("view", export.inspect(infer.views))
+	for _, subView in ipairs(subViews) do
+		local typeNode = typeNodes[subView]
+		local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, uri) or nil
 
-	for nodeObject in infer.node:eachObject() do
-		if nodeObject.hideView then
-			goto continue
+		if nodeType then
+			table.insert(types, nodeType)
 		end
-
-		-- Avoiding to avoid expand aliases
-		-- infer._drop contains the string representations of expanded types that should be suppressed
-		local nodeObjectView = vm.viewObject(nodeObject, ws.rootUri)
-
-		if not nodeObjectView or infer._drop[nodeObjectView] or not infer.views[nodeObjectView] then
-			goto continue
-		end
-
-		print("nView", nodeObjectView)
-
-		local nodeObjectType = viewNodeSwitch(nodeObject.type, nodeObject, infer, ws.rootUri)
-
-		if not nodeObjectType then
-			goto continue
-		end
-
-		table.insert(types, nodeObjectType)
-
-		::continue::
 	end
 
 	return {
@@ -783,7 +801,7 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 		return nil
 	end
 
-	debug = field[1] == "_enabled_configs"
+	debug = field[1] == "F"
 
 	if debug then
 		-- print(export.inspect(source))
@@ -804,6 +822,8 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 			break
 		end
 	end
+
+	debug = false
 
 	return doc
 end
