@@ -616,7 +616,7 @@ function export.inferObject(...)
 		local view = infer:view(uri)
 
 		if infer.views["any"] then
-			return {
+			local sourceInfer = {
 				view = view,
 				types = {
 					{
@@ -625,8 +625,8 @@ function export.inferObject(...)
 						value = "any",
 					},
 				},
-			},
-				infer
+			}
+			return sourceInfer, infer, source
 		end
 
 		--[[ if debug then
@@ -654,14 +654,15 @@ function export.inferObject(...)
 		end
 
 		if #types > 0 then
-			return {
+			local sourceInfer = {
 				view = view,
 				types = types,
-			}, infer, source
+			}
+			return sourceInfer, infer, source
 		end
 	end
 
-	return {
+	local sourceInfer = {
 		view = "unknown",
 		types = {
 			{
@@ -669,7 +670,8 @@ function export.inferObject(...)
 				value = "unknown",
 			},
 		},
-	}, nil, nil
+	}
+	return sourceInfer, nil, nil
 end
 
 function export.followTypes(inferSource, inferObject, documentObjectField)
