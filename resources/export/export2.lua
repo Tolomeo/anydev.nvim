@@ -356,7 +356,7 @@ viewNodeSwitch = util
 
 					if generic.extends then
 						for _, genericTypeConstraint in ipairs(generic.extends.types) do
-							local constraintType = export.documentObjectType(genericTypeConstraint)
+							local constraintType = export.inferObject(genericTypeConstraint)
 							table.insert(constraints, constraintType)
 						end
 					end
@@ -375,8 +375,8 @@ viewNodeSwitch = util
 					and arg.bindDocs[1].comment
 					and getDesc(arg.bindDocs[1].comment)
 				or ""
-			local argType, argInfer = export.documentObjectType(arg)
-			local optional = argInfer.node:isOptional()
+			local argType, argInfer = export.inferObject(arg)
+			local optional = argInfer and argInfer.node:isOptional() or false
 
 			table.insert(
 				arguments,
@@ -399,8 +399,8 @@ viewNodeSwitch = util
 			--TODO: insert unknown when ret is nil
 			local name = ret.name or ""
 			local documentation = ret.comment and getDesc(ret.comment) or ""
-			local retType, retInfer = export.documentObjectType(ret)
-			local optional = retInfer.node:isOptional()
+			local retType, retInfer = export.inferObject(ret)
+			local optional = retInfer and retInfer.node:isOptional() or false
 
 			table.insert(returns, { name = name, documentation = documentation, infer = retType, optional = optional })
 		end
@@ -444,7 +444,8 @@ viewNodeSwitch = util
 	end)
 	:case("generic")
 	:call(function(source, _infer, uri)
-		return export.documentObjectType(source.proto)
+		local inferObject = export.inferObject(source.proto)
+		return inferObject
 	end)
 	:case("doc.generic.name")
 	:call(function(source, _infer, uri)
@@ -455,9 +456,10 @@ viewNodeSwitch = util
 	end)
 	:case("doc.type.array")
 	:call(function(source, infer, uri)
+		local itemsInfer = export.inferObject(source.node)
 		return {
 			kind = "array",
-			items = export.documentObjectType(source.node),
+			items = itemsInfer,
 		}
 	end)
 	:case("doc.type.sign")
@@ -500,8 +502,8 @@ viewNodeSwitch = util
 				or type(field.name[1] == "string") and field.name[1]
 				or ("[%q]"):format(field.name[1])
 			local documentation = ""
-			local fieldType, fieldInfer = export.documentObjectType(field)
-			local optional = fieldInfer.node:isOptional()
+			local fieldType, fieldInfer = export.inferObject(field)
+			local optional = fieldInfer and fieldInfer.node:isOptional() or false
 
 			table.insert(fields, { name = name, documentation = documentation, infer = fieldType, optional = optional })
 		end
@@ -562,8 +564,8 @@ viewNodeSwitch = util
 
 					if generic.extends then
 						for _, genericTypeConstraint in ipairs(generic.extends.types) do
-							local constraintType = export.documentObjectType(genericTypeConstraint)
-							table.insert(constraints, constraintType)
+							local constraintInfer = export.inferObject(genericTypeConstraint)
+							table.insert(constraints, constraintInfer)
 						end
 					end
 
@@ -576,8 +578,8 @@ viewNodeSwitch = util
 
 		for _, arg in ipairs(source.args) do
 			local name = arg.name[1]
-			local argType, argInfer = export.documentObjectType(arg)
-			local optional = argInfer.node:isOptional()
+			local argType, argInfer = export.inferObject(arg)
+			local optional = argInfer and argInfer.node:isOptional() or false
 
 			table.insert(arguments, { name = name, infer = argType, optional = optional })
 		end
@@ -586,8 +588,8 @@ viewNodeSwitch = util
 
 		for _, ret in ipairs(source.returns) do
 			local name = ret.name and ret.name[1] or ""
-			local retType, retInfer = export.documentObjectType(ret)
-			local optional = retInfer.node:isOptional()
+			local retType, retInfer = export.inferObject(ret)
+			local optional = retInfer and retInfer.node:isOptional() or false
 
 			table.insert(returns, { name = name, infer = retType, optional = optional })
 		end
@@ -605,70 +607,85 @@ viewNodeSwitch = util
 	end)
 
 --TODO: Finish implementing infer:view logics
-function export.documentObjectType(source)
+function export.inferObject(...)
+	local sources = { ... }
 	local uri = ws.rootUri
-	local infer = vm.getInfer(source)
-	local view = infer:view(uri)
 
-	if infer.views["any"] then
-		return {
-			view = view,
-			types = {
-				{
+	for _, source in ipairs(sources) do
+		local infer = vm.getInfer(source)
+		local view = infer:view(uri)
 
-					kind = "builtin",
-					value = "any",
+		if infer.views["any"] then
+			return {
+				view = view,
+				types = {
+					{
+
+						kind = "builtin",
+						value = "any",
+					},
 				},
 			},
-		}, infer
-	end
+				infer
+		end
 
-	--[[ if debug then
+		--[[ if debug then
 		print("view", export.inspect(infer.views))
 		print("subviews", export.inspect(infer:getSubViews()))
 	end ]]
 
-	local typeNodes = {}
+		local typeNodes = {}
 
-	for typeNode in infer.node:eachObject() do
-		local typeNodeView = vm.getInfer(typeNode):view()
-		-- local nodeObjectType = viewNodeSwitch(nodeObject.type, nodeObject, infer, uri)
+		for typeNode in infer.node:eachObject() do
+			local typeNodeView = vm.getInfer(typeNode):view()
+			typeNodes[typeNodeView] = typeNode
+		end
 
-		typeNodes[typeNodeView] = typeNode
-	end
+		local types = {}
+		local subViews = infer:getSubViews(uri) or {}
 
-	local types = {}
-	local subViews = infer:getSubViews(uri) or {}
+		for _, subView in ipairs(subViews) do
+			local typeNode = typeNodes[subView]
+			local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, uri) or nil
 
-	for _, subView in ipairs(subViews) do
-		local typeNode = typeNodes[subView]
-		local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, uri) or nil
+			if nodeType then
+				table.insert(types, nodeType)
+			end
+		end
 
-		if nodeType then
-			table.insert(types, nodeType)
+		if #types > 0 then
+			return {
+				view = view,
+				types = types,
+			}, infer, source
 		end
 	end
 
 	return {
-		view = view,
-		types = types,
-	}, infer
+		view = "unknown",
+		types = {
+			{
+				kind = "builtin",
+				value = "unknown",
+			},
+		},
+	}, nil, nil
 end
 
-function export.followTypes(source, sourceType, documentObjectField)
+function export.followTypes(inferSource, inferObject, documentObjectField)
 	documentObjectField = documentObjectField or export.documentObject
 
-	for i, t in ipairs(sourceType.types) do
+	for i, t in ipairs(inferObject.types) do
 		if (t.kind == "table" and not t.fields) or (t.kind == "builtin" and t.value == "table") then
-			local fields = export.documentObjectFields(source, documentObjectField)
+			local fields = export.documentObjectFields(inferSource, documentObjectField)
 
 			if #fields > 0 then
-				sourceType.types[i] = {
+				inferObject.types[i] = {
 					kind = "table",
 					fields = fields,
 				}
 			else
-				sourceType.types[i] = {
+				inferObject.types[i] = {
 					kind = "builtin",
 					value = "table",
 				}
@@ -676,7 +693,7 @@ function export.followTypes(source, sourceType, documentObjectField)
 		end
 	end
 
-	return sourceType
+	return inferObject
 end
 
 --TODO: merge fields with the same name (look at vim.v)
@@ -737,8 +754,8 @@ export.makeDocObject["variable"] = function(source, init, has_seen)
 
 	doc.meta = export.documentObjectMeta(definition)
 
-	local definitionType = export.documentObjectType(definition)
-	doc.infer = export.followTypes(definition, definitionType)
+	local docInfer = export.inferObject(definition)
+	doc.infer = export.followTypes(definition, docInfer)
 
 	return doc
 end
@@ -811,17 +828,21 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	local candidates = { source.field, source.value }
+	-- local candidates = { source.field, source.value }
 
-	for _, src in ipairs(candidates) do
-		local srcType = export.documentObjectType(src)
+	local inferObject, _, inferSource = export.inferObject(source.field, source.value)
+
+	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
+
+	--[[ for _, src in ipairs(candidates) do
+		local srcType = export.inferObject(src)
 		local srcInfer = export.followTypes(src, srcType)
 
 		if #srcInfer.types > 0 then
 			doc.infer = srcInfer
 			break
 		end
-	end
+	end ]]
 
 	debug = false
 
@@ -837,8 +858,11 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 	doc.name = method[1]
 	doc.meta = export.documentObjectMeta(source, { "method" })
 
-	local methodType = export.documentObjectType(method)
-	doc.infer = export.followTypes(method, methodType)
+	local inferObject = export.inferObject(method)
+	doc.infer = export.followTypes(method, inferObject)
+
+	--[[ local methodType = export.inferObject(method)
+	doc.infer = export.followTypes(method, methodType) ]]
 
 	return doc
 end
@@ -854,17 +878,20 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	local candidates = { source.field, source.value }
+	-- local candidates = { source.field, source.value }
 
-	for _, src in ipairs(candidates) do
-		local srcInfer = export.documentObjectType(src)
+	local inferObject, _, inferSource = export.inferObject(source.field, source.value)
+
+	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
+	--[[ for _, src in ipairs(candidates) do
+		local srcInfer = export.inferObject(src)
 		local srcType = export.followTypes(src, srcInfer)
 
 		if #srcType.types > 0 then
 			doc.infer = srcType
 			break
 		end
-	end
+	end ]]
 
 	return doc
 end
@@ -886,8 +913,9 @@ export.makeDocObject["doc.field"] = function(source, init, has_seen)
 		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
-	local extendsType = export.documentObjectType(extends)
-	doc.infer = export.followTypes(extends, extendsType)
+	-- TODO: follow?
+	local inferObject = export.inferObject(extends)
+	doc.infer = export.followTypes(extends, inferObject)
 
 	--[[ doc.file = export.getLocalPath(guide.getUri(source))
 	doc.extends = source.extends and export.documentObject(source.extends, has_seen) --check if bug?
