@@ -1,0 +1,640 @@
+{
+    "documentation": " Abstract base class (not instantiable directly).\n For each buffer that has at least one supported client attached,\n exactly one instance of each concrete subclass is created.\n That instance is destroyed once all supporting clients detach from the buffer.",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "\n Static field for retrieving the instance associated with a specific `bufnr`.\n\n Index in the form of `bufnr` -> `capability`",
+                        "infer": {
+                            "types": [
+                                "table<integer, (vim.lsp.Capability)?>"
+                            ],
+                            "view": "table<integer, (vim.lsp.Capability)?>"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                30,
+                                52
+                            ],
+                            "start": [
+                                30,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "active",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n The augroup owned by this instance, which will be cleared upon destruction.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                36,
+                                25
+                            ],
+                            "start": [
+                                36,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "augroup",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n Buffer number it associated with.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                33,
+                                23
+                            ],
+                            "start": [
+                                33,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "bufnr",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n Per-client state data, scoped to the lifetime of the attached client.",
+                        "infer": {
+                            "types": [
+                                "table<integer, table>"
+                            ],
+                            "view": "table<integer, table>"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                39,
+                                44
+                            ],
+                            "start": [
+                                39,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "client_state",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n Static field records the method this capability requires.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.protocol.Method.ClientToServer"
+                                },
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.protocol.Method.Registration"
+                                }
+                            ],
+                            "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                25,
+                                94
+                            ],
+                            "start": [
+                                25,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "method",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n Static field as the identifier of the LSP capability it supports.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.capability.Name"
+                                }
+                            ],
+                            "view": "vim.lsp.capability.Name"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                22,
+                                38
+                            ],
+                            "start": [
+                                22,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "name",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": " Abstract base class (not instantiable directly).\n For each buffer that has at least one supported client attached,\n exactly one instance of each concrete subclass is created.\n That instance is destroyed once all supporting clients detach from the buffer.",
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                41,
+                                9
+                            ],
+                            "start": [
+                                41,
+                                0
+                            ]
+                        },
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                            ],
+                            "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                213,
+                                5
+                            ],
+                            "start": [
+                                213,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "all",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Capability"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                72,
+                                18
+                            ],
+                            "start": [
+                                72,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "destroy",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "```lua\nname:\n    | 'codelens'\n    | 'document_color'\n    | 'semantic_tokens'\n    | 'folding_range'\n    | 'linked_editing_range'\n    | 'inline_completion'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.Name"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.capability.Name"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "enable",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                117,
+                                17
+                            ],
+                            "start": [
+                                117,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "enable",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "```lua\nname:\n    | 'codelens'\n    | 'document_color'\n    | 'semantic_tokens'\n    | 'folding_range'\n    | 'linked_editing_range'\n    | 'inline_completion'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.Name"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.capability.Name"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "filter",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "false"
+                                                    }
+                                                ],
+                                                "view": "false"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                195,
+                                21
+                            ],
+                            "start": [
+                                195,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "is_enabled",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "genericreference",
+                                                        "value": "T"
+                                                    }
+                                                ],
+                                                "view": "<T:vim.lsp.Capability>"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "bufnr",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [
+                                        {
+                                            "constraints": [
+                                                {
+                                                    "types": [
+                                                        {
+                                                            "kind": "typereference",
+                                                            "value": "vim.lsp.Capability"
+                                                        }
+                                                    ],
+                                                    "view": "vim.lsp.Capability"
+                                                }
+                                            ],
+                                            "name": "T"
+                                        }
+                                    ],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "types": [
+                                                            {
+                                                                "kind": "genericreference",
+                                                                "value": "T"
+                                                            }
+                                                        ],
+                                                        "view": "<T:vim.lsp.Capability>"
+                                                    }
+                                                ],
+                                                "view": "<T:vim.lsp.Capability>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                47,
+                                14
+                            ],
+                            "start": [
+                                47,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "new",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Callback invoked when an LSP client attaches.\n Use it to initialize per-client state (empty table, new namespaces, etc.),\n or issue requests as needed.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Capability"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                86,
+                                20
+                            ],
+                            "start": [
+                                86,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "on_attach",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Callback invoked when an LSP client detaches.\n Use it to clear per-client state (cached data, extmarks, etc.).",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.lsp.Capability"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                93,
+                                20
+                            ],
+                            "start": [
+                                93,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "on_detach",
+                        "type": "setmethod"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "vim.lsp.Capability"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            4,
+            13
+        ],
+        "start": [
+            4,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "_capability",
+    "type": "tablefield"
+}

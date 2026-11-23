@@ -1,0 +1,138 @@
+{
+    "documentation": " Protocol for the Microsoft Language Server Protocol (mslsp)",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Gets a new ClientCapabilities object describing the LSP client\n capabilities.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ClientCapabilities"
+                                                    }
+                                                ],
+                                                "view": "lsp.ClientCapabilities"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                342,
+                                42
+                            ],
+                            "start": [
+                                342,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "make_client_capabilities",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Creates a normalized object describing LSP server capabilities.\n\n@*param* `server_capabilities` — Table of capabilities supported by the server\n\n@*return* — : Normalized table of capabilities",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Table of capabilities supported by the server",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "server_capabilities",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": ": Normalized table of capabilities",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ServerCapabilities"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "lsp.ServerCapabilities|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                651,
+                                38
+                            ],
+                            "start": [
+                                651,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "resolve_capabilities",
+                        "type": "setfield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "vim.lsp.protocol"
+    },
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            22,
+            10
+        ],
+        "start": [
+            22,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "protocol",
+    "type": "tablefield"
+}

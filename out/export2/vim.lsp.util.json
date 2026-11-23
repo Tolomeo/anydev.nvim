@@ -15,11 +15,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util._cancel_requests.Filter"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util._cancel_requests.Filter)?"
+                                                "view": "nil"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -87,9 +87,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -164,9 +164,9 @@
                                             "documentation": "first client if there is one, nil otherwise",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -229,11 +229,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -344,9 +344,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -426,11 +426,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util._normalize_markdown.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util._normalize_markdown.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -509,10 +509,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "index",
                                             "optional": true
@@ -521,11 +521,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "position_encoding",
                                             "optional": true
@@ -534,9 +535,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "table<string, lsp.ChangeAnnotation>"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "table<string, lsp.ChangeAnnotation>?"
+                                                "view": "nil"
                                             },
                                             "name": "change_annotations",
                                             "optional": true
@@ -581,11 +585,11 @@
                                                             "types": [
                                                                 {
                                                                     "kind": "typereference",
-                                                                    "value": "lsp.TextEdit"
+                                                                    "value": "lsp.AnnotatedTextEdit"
                                                                 },
                                                                 {
                                                                     "kind": "typereference",
-                                                                    "value": "lsp.AnnotatedTextEdit"
+                                                                    "value": "lsp.TextEdit"
                                                                 }
                                                             ],
                                                             "view": "lsp.AnnotatedTextEdit|lsp.TextEdit"
@@ -616,9 +620,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -629,9 +633,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "table<string, lsp.ChangeAnnotation>"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "table<string, lsp.ChangeAnnotation>?"
+                                                "view": "nil"
                                             },
                                             "name": "change_annotations",
                                             "optional": true
@@ -685,9 +692,9 @@
                                             "documentation": "(required)",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -731,10 +738,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -810,9 +817,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -921,11 +928,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "offset_encoding",
                                             "optional": true
@@ -1011,19 +1019,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "builtin",
-                                                                    "value": "string"
-                                                                }
-                                                            ],
-                                                            "view": "string"
-                                                        },
-                                                        "kind": "array"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string[]?"
+                                                "view": "nil"
                                             },
                                             "name": "contents",
                                             "optional": true
@@ -1102,10 +1102,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string?"
+                                                "view": "nil"
                                             },
                                             "name": "ft",
                                             "optional": true
@@ -1115,19 +1115,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "builtin",
-                                                                    "value": "string"
-                                                                }
-                                                            ],
-                                                            "view": "string"
-                                                        },
-                                                        "kind": "array"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string[]?"
+                                                "view": "nil"
                                             },
                                             "name": "triggers",
                                             "optional": true
@@ -1141,19 +1133,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "builtin",
-                                                                    "value": "string"
-                                                                }
-                                                            ],
-                                                            "view": "string"
-                                                        },
-                                                        "kind": "array"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string[]?"
+                                                "view": "nil"
                                             },
                                             "name": "",
                                             "optional": true
@@ -1163,11 +1147,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "Range4"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "Range4?"
+                                                "view": "nil"
                                             },
                                             "name": "",
                                             "optional": true
@@ -1206,10 +1190,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -1282,11 +1266,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "position_encoding",
                                             "optional": true
@@ -1297,10 +1282,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "boolean"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "boolean?"
+                                                "view": "nil"
                                             },
                                             "name": "reuse_win",
                                             "optional": true
@@ -1361,10 +1346,10 @@
                                                             "types": [
                                                                 {
                                                                     "kind": "typereference",
-                                                                    "value": "lsp.Location"
+                                                                    "value": "lsp.LocationLink"
                                                                 }
                                                             ],
-                                                            "view": "lsp.Location"
+                                                            "view": "lsp.LocationLink"
                                                         },
                                                         "kind": "array"
                                                     },
@@ -1373,10 +1358,10 @@
                                                             "types": [
                                                                 {
                                                                     "kind": "typereference",
-                                                                    "value": "lsp.LocationLink"
+                                                                    "value": "lsp.Location"
                                                                 }
                                                             ],
-                                                            "view": "lsp.LocationLink"
+                                                            "view": "lsp.Location"
                                                         },
                                                         "kind": "array"
                                                     }
@@ -1390,11 +1375,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "position_encoding",
                                             "optional": true
@@ -1491,11 +1477,11 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "table"
+                                                        "value": "string"
                                                     },
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
+                                                        "value": "table"
                                                     },
                                                     {
                                                         "kind": "typereference",
@@ -1569,11 +1555,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -1629,11 +1615,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "lsp.FormattingOptions"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(lsp.FormattingOptions)?"
+                                                "view": "nil"
                                             },
                                             "name": "options",
                                             "optional": true
@@ -1689,40 +1675,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "fields": [
-                                                            {
-                                                                "documentation": "",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "integer"
-                                                                        }
-                                                                    ],
-                                                                    "view": "integer"
-                                                                },
-                                                                "name": "[1]",
-                                                                "optional": false
-                                                            },
-                                                            {
-                                                                "documentation": "",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "integer"
-                                                                        }
-                                                                    ],
-                                                                    "view": "integer"
-                                                                },
-                                                                "name": "[2]",
-                                                                "optional": false
-                                                            }
-                                                        ],
-                                                        "kind": "table"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "[integer, integer]?"
+                                                "view": "nil"
                                             },
                                             "name": "start_pos",
                                             "optional": true
@@ -1732,40 +1689,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "fields": [
-                                                            {
-                                                                "documentation": "",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "integer"
-                                                                        }
-                                                                    ],
-                                                                    "view": "integer"
-                                                                },
-                                                                "name": "[1]",
-                                                                "optional": false
-                                                            },
-                                                            {
-                                                                "documentation": "",
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "integer"
-                                                                        }
-                                                                    ],
-                                                                    "view": "integer"
-                                                                },
-                                                                "name": "[2]",
-                                                                "optional": false
-                                                            }
-                                                        ],
-                                                        "kind": "table"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "[integer, integer]?"
+                                                "view": "nil"
                                             },
                                             "name": "end_pos",
                                             "optional": true
@@ -1776,10 +1704,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -1788,9 +1716,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -1893,10 +1821,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "win",
                                             "optional": true
@@ -1905,9 +1833,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
                                                     "'utf-16'",
-                                                    "'utf-32'"
+                                                    "'utf-32'",
+                                                    "'utf-8'"
                                                 ],
                                                 "view": "'utf-16'|'utf-32'|'utf-8'"
                                             },
@@ -1966,10 +1894,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "win",
                                             "optional": true
@@ -1978,9 +1906,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "\"utf-8\"",
                                                     "\"utf-16\"",
-                                                    "\"utf-32\""
+                                                    "\"utf-32\"",
+                                                    "\"utf-8\""
                                                 ],
                                                 "view": "\"utf-16\"|\"utf-32\"|\"utf-8\""
                                             },
@@ -2083,10 +2011,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -2260,11 +2188,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2352,11 +2280,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.open_floating_preview.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.open_floating_preview.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2371,10 +2299,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "buffer",
                                             "optional": true
@@ -2440,11 +2368,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.rename.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.rename.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2687,11 +2615,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "position_encoding",
                                             "optional": true
@@ -2701,11 +2630,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.util.show_document.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.util.show_document.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2798,10 +2727,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "table"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "table?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2905,10 +2834,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -2917,11 +2846,12 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'utf-8'",
-                                                    "'utf-16'",
-                                                    "'utf-32'"
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
                                                 ],
-                                                "view": "('utf-16'|'utf-32'|'utf-8')?"
+                                                "view": "nil"
                                             },
                                             "name": "position_encoding",
                                             "optional": true

@@ -176,8 +176,8 @@
                         "documentation": " Tells Vim what to do with characters with East Asian Width Class\n Ambiguous (such as Euro, Registered Sign, Copyright Sign, Greek\n letters, Cyrillic letters).\n\n There are currently two possible values:\n \"single\":\tUse the same width as characters in US-ASCII.  This is\n \t\texpected by most users.\n \"double\":\tUse twice the width of ASCII characters.\n \t\t\t\t\t\t*E834* *E835*\n The value \"double\" cannot be used if 'listchars' or 'fillchars'\n contains a character that would be double width.  These errors may\n also be given when calling setcellwidths().\n\n The values are overruled for characters specified with\n `setcellwidths()`.\n\n There are a number of CJK fonts for which the width of glyphs for\n those characters are solely based on how many octets they take in\n legacy/traditional CJK encodings.  In those encodings, Euro,\n Registered sign, Greek/Cyrillic letters are represented by two octets,\n therefore those fonts have \"wide\" glyphs for them.  This is also\n true of some line drawing characters used to make tables in text\n file.  Therefore, when a CJK font is used for GUI Vim or\n Vim is running inside a terminal (emulators) that uses a CJK font\n (or Vim is run inside an xterm invoked with \"-cjkwidth\" option.),\n this option should be set to \"double\" to match the width perceived\n by Vim with the width of glyphs in the font.  Perhaps it also has\n to be set to \"double\" under CJK MS-Windows when the system locale is\n set to one of CJK locales.  See Unicode Standard Annex #11\n (https://www.unicode.org/reports/tr11).\n",
                         "infer": {
                             "types": [
-                                "'single'",
-                                "'double'"
+                                "'double'",
+                                "'single'"
                             ],
                             "view": "'double'|'single'"
                         },
@@ -202,8 +202,8 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'single'",
-                                "'double'"
+                                "'double'",
+                                "'single'"
                             ],
                             "view": "'double'|'single'"
                         },
@@ -676,8 +676,8 @@
                         "documentation": " When set to \"dark\" or \"light\", adjusts the default color groups for\n that background type.  The `TUI` or other UI sets this on startup\n if it can detect the background color.\n\n This option does NOT change the background color, it tells Nvim what\n the \"inherited\" (terminal/GUI) background looks like.\n See `:hi-normal` if you want to set the background color explicitly.\n \t\t\t\t\t*g:colors_name*\n When a color scheme is loaded (the \"g:colors_name\" variable is set)\n changing 'background' will cause the color scheme to be reloaded.  If\n the color scheme adjusts to the value of 'background' this will work.\n However, if the color scheme sets 'background' itself the effect may\n be undone.  First delete the \"g:colors_name\" variable when needed.\n\n Normally this option would be set in the vimrc file.  Possibly\n depending on the terminal name.  Example:\n\n ```vim\n \tif $TERM ==# \"xterm\"\n \t  set background=dark\n \tendif\n ```\n When this option is changed, the default settings for the highlight groups\n will change.  To use other settings, place \":highlight\" commands AFTER\n the setting of the 'background' option.\n",
                         "infer": {
                             "types": [
-                                "'light'",
-                                "'dark'"
+                                "'dark'",
+                                "'light'"
                             ],
                             "view": "'dark'|'light'"
                         },
@@ -954,8 +954,8 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'light'",
-                                "'dark'"
+                                "'dark'",
+                                "'light'"
                             ],
                             "view": "'dark'|'light'"
                         },
@@ -981,9 +981,9 @@
                         "infer": {
                             "types": [
                                 "''",
+                                "'delete'",
                                 "'hide'",
                                 "'unload'",
-                                "'delete'",
                                 "'wipe'"
                             ],
                             "view": "''|'delete'|'hide'|'unload'|'wipe'"
@@ -1434,9 +1434,9 @@
                                 "'help'",
                                 "'nofile'",
                                 "'nowrite'",
+                                "'prompt'",
                                 "'quickfix'",
-                                "'terminal'",
-                                "'prompt'"
+                                "'terminal'"
                             ],
                             "view": "''|'acwrite'|'help'|'nofile'|'nowrite'...(+3)"
                         },
@@ -1462,9 +1462,9 @@
                         "infer": {
                             "types": [
                                 "''",
+                                "'delete'",
                                 "'hide'",
                                 "'unload'",
-                                "'delete'",
                                 "'wipe'"
                             ],
                             "view": "''|'delete'|'hide'|'unload'|'wipe'"
@@ -1523,9 +1523,9 @@
                                 "'help'",
                                 "'nofile'",
                                 "'nowrite'",
+                                "'prompt'",
                                 "'quickfix'",
-                                "'terminal'",
-                                "'prompt'"
+                                "'terminal'"
                             ],
                             "view": "''|'acwrite'|'help'|'nofile'|'nowrite'...(+3)"
                         },
@@ -1606,10 +1606,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "string"
@@ -1837,10 +1833,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -1896,10 +1888,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "integer"
+                                    "value": "unknown"
                                 }
                             ],
-                            "view": "integer"
+                            "view": "unknown"
                         },
                         "location": {
                             "file": "lua/vim/_meta/options.gen.lua",
@@ -2370,10 +2362,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "string"
@@ -2907,8 +2895,8 @@
                         "infer": {
                             "types": [
                                 "''",
-                                "'slash'",
-                                "'backslash'"
+                                "'backslash'",
+                                "'slash'"
                             ],
                             "view": "''|'backslash'|'slash'"
                         },
@@ -3017,10 +3005,6 @@
                         "documentation": " If performing an operation that would fail due to unsaved changes in the buffer (like `:q`),\n instead raise a dialog asking if you wish to save the current file(s). See `:h 'confirm'`",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -3246,8 +3230,8 @@
                         "infer": {
                             "types": [
                                 "''",
-                                "'slash'",
-                                "'backslash'"
+                                "'backslash'",
+                                "'slash'"
                             ],
                             "view": "''|'backslash'|'slash'"
                         },
@@ -3328,10 +3312,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -3444,10 +3424,6 @@
                         "documentation": " Highlight the line where the cursor is on.",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -4149,8 +4125,8 @@
                         "infer": {
                             "types": [
                                 "'both'",
-                                "'ver'",
-                                "'hor'"
+                                "'hor'",
+                                "'ver'"
                             ],
                             "view": "'both'|'hor'|'ver'"
                         },
@@ -4176,8 +4152,8 @@
                         "infer": {
                             "types": [
                                 "'both'",
-                                "'ver'",
-                                "'hor'"
+                                "'hor'",
+                                "'ver'"
                             ],
                             "view": "'both'|'hor'|'ver'"
                         },
@@ -4958,16 +4934,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'",
                                 "'0'",
                                 "'1'",
                                 "'2'",
@@ -4977,7 +4943,17 @@
                                 "'6'",
                                 "'7'",
                                 "'8'",
-                                "'9'"
+                                "'9'",
+                                "'auto'",
+                                "'auto:1'",
+                                "'auto:2'",
+                                "'auto:3'",
+                                "'auto:4'",
+                                "'auto:5'",
+                                "'auto:6'",
+                                "'auto:7'",
+                                "'auto:8'",
+                                "'auto:9'"
                             ],
                             "view": "'0'|'1'|'2'|'3'|'4'...(+15)"
                         },
@@ -5114,12 +5090,12 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'manual'",
+                                "'diff'",
                                 "'expr'",
-                                "'marker'",
                                 "'indent'",
-                                "'syntax'",
-                                "'diff'"
+                                "'manual'",
+                                "'marker'",
+                                "'syntax'"
                             ],
                             "view": "'diff'|'expr'|'indent'|'manual'|'marker'...(+1)"
                         },
@@ -5340,9 +5316,9 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'unix'",
                                 "'dos'",
-                                "'mac'"
+                                "'mac'",
+                                "'unix'"
                             ],
                             "view": "'dos'|'mac'|'unix'"
                         },
@@ -5507,9 +5483,9 @@
                         "documentation": " This gives the <EOL> of the current buffer, which is used for\n reading/writing the buffer from/to a file:\n     dos\t    <CR><NL>\n     unix    <NL>\n     mac\t    <CR>\n When \"dos\" is used, CTRL-Z at the end of a file is ignored.\n See `file-formats` and `file-read`.\n For the character encoding of the file see 'fileencoding'.\n When 'binary' is set, the value of 'fileformat' is ignored, file I/O\n works like it was set to \"unix\".\n This option is set automatically when starting to edit a file and\n 'fileformats' is not empty and 'binary' is off.\n When this option is set, after starting to edit a file, the 'modified'\n option is set, because the file would be different when written.\n This option cannot be changed when 'modifiable' is off.\n",
                         "infer": {
                             "types": [
-                                "'unix'",
                                 "'dos'",
-                                "'mac'"
+                                "'mac'",
+                                "'unix'"
                             ],
                             "view": "'dos'|'mac'|'unix'"
                         },
@@ -5870,16 +5846,6 @@
                         "documentation": " When and how to draw the foldcolumn. Valid values are:\n     \"auto\":       resize to the minimum amount of folds to display.\n     \"auto:[1-9]\": resize to accommodate multiple folds up to the\n \t\t  selected level\n     \"0\":          to disable foldcolumn\n     \"[1-9]\":      to display a fixed number of columns\n See `folding`.\n",
                         "infer": {
                             "types": [
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'",
                                 "'0'",
                                 "'1'",
                                 "'2'",
@@ -5889,7 +5855,17 @@
                                 "'6'",
                                 "'7'",
                                 "'8'",
-                                "'9'"
+                                "'9'",
+                                "'auto'",
+                                "'auto:1'",
+                                "'auto:2'",
+                                "'auto:3'",
+                                "'auto:4'",
+                                "'auto:5'",
+                                "'auto:6'",
+                                "'auto:7'",
+                                "'auto:8'",
+                                "'auto:9'"
                             ],
                             "view": "'0'|'1'|'2'|'3'|'4'...(+15)"
                         },
@@ -6082,12 +6058,12 @@
                         "documentation": " The kind of folding used for the current window.  Possible values:\n `fold-manual`\tmanual\t    Folds are created manually.\n `fold-indent`\tindent\t    Lines with equal indent form a fold.\n `fold-expr`\texpr\t    'foldexpr' gives the fold level of a line.\n `fold-marker`\tmarker\t    Markers are used to specify folds.\n `fold-syntax`\tsyntax\t    Syntax highlighting items specify folds.\n `fold-diff`\tdiff\t    Fold text that is not changed.\n",
                         "infer": {
                             "types": [
-                                "'manual'",
+                                "'diff'",
                                 "'expr'",
-                                "'marker'",
                                 "'indent'",
-                                "'syntax'",
-                                "'diff'"
+                                "'manual'",
+                                "'marker'",
+                                "'syntax'"
                             ],
                             "view": "'diff'|'expr'|'indent'|'manual'|'marker'...(+1)"
                         },
@@ -6479,10 +6455,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -6567,10 +6539,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -6596,10 +6564,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "string"
@@ -6631,10 +6595,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -6663,10 +6623,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -6692,10 +6648,6 @@
                         "documentation": " Program to use for the `:grep` command.\n Note: if you change this then you must also update 'grepformat'.\n\n May contain \"%\" and \"#\" characters, are expanded per `cmdline-special`.\n The placeholder \"$*\" specifies where the arguments will be included.\n Environment variables are expanded `:set_env`.  See `option-backslash`\n about including spaces and backslashes.\n\n Special value: When 'grepprg' is set to \"internal\" the `:grep` command\n works like `:vimgrep`, `:lgrep` like `:lvimgrep`, `:grepadd` like\n `:vimgrepadd` and `:lgrepadd` like `:lvimgrepadd`.\n\n See also `:make_makeprg`, most of the comments there apply to 'grepprg'.\n\n Defaults to:\n - \"rg --vimgrep -uu \" if ripgrep is available (`:checkhealth`),\n - \"grep -HIn $* /dev/null\" on Unix,\n - \"findstr /n $* nul\" on Windows.\n\n Ripgrep may perform additional filtering such as using .gitignore rules\n and skipping hidden files. This is disabled by default (via \"-u\") to\n more closely match the behaviour of standard grep.\n You can make ripgrep match Vim's case handling using the\n -i/--ignore-case and -S/--smart-case options. Handle `OptionSet` to\n dynamically update 'grepprg' when e.g. 'ignorecase' is changed.\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "string"
@@ -7147,10 +7099,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -7176,9 +7124,9 @@
                         "documentation": "",
                         "infer": {
                             "types": [
+                                "''",
                                 "'nosplit'",
-                                "'split'",
-                                "''"
+                                "'split'"
                             ],
                             "view": "''|'nosplit'|'split'"
                         },
@@ -7262,10 +7210,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -7291,10 +7235,6 @@
                         "documentation": " Ignore case in search patterns, `cmdline-completion`, when\n searching in the tags file, `expr-==` and for Insert-mode completion\n `ins-completion`.\n Also see 'smartcase' and 'tagcase'.\n Can be overruled by using \"\\c\" or \"\\C\" in the pattern, see\n `/ignorecase`.\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -7463,9 +7403,9 @@
                         "documentation": " When nonempty, shows the effects of `:substitute`, `:smagic`,\n `:snomagic` and user commands with the `:command-preview` flag as you\n type.\n\n Possible values:\n \tnosplit\tShows the effects of a command incrementally in the\n \t\tbuffer.\n \tsplit\tLike \"nosplit\", but also shows partial off-screen\n \t\tresults in a preview window.\n\n If the preview for built-in commands is too slow (exceeds\n 'redrawtime') then 'inccommand' is automatically disabled until\n `Command-line-mode` is done.\n",
                         "infer": {
                             "types": [
+                                "''",
                                 "'nosplit'",
-                                "'split'",
-                                "''"
+                                "'split'"
                             ],
                             "view": "''|'nosplit'|'split'"
                         },
@@ -8722,10 +8662,6 @@
                         "documentation": " Show <tab> and trailing spaces.",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -10463,10 +10399,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -10495,10 +10427,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -10524,10 +10452,6 @@
                         "documentation": " Print the line number in front of each line.  When the 'n' option is\n excluded from 'cpoptions' a wrapped line will not use the column of\n line numbers.\n Use the 'numberwidth' option to adjust the room for the line number.\n When a long, wrapped line doesn't start with the first character, '-'\n characters are put before the number.\n For highlighting see `hl-LineNr`, `hl-CursorLineNr`, and the\n `:sign-define` \"numhl\" argument.\n \t\t\t\t\t*number_relativenumber*\n The 'relativenumber' option changes the displayed number to be\n relative to the cursor.  Together with 'number' there are these\n four combinations (cursor in line 3):\n\n \t'nonu'          'nu'            'nonu'          'nu'\n \t'nornu'         'nornu'         'rnu'           'rnu'\n ```\n     |apple          |  1 apple      |  2 apple      |  2 apple\n     |pear           |  2 pear       |  1 pear       |  1 pear\n     |nobody         |  3 nobody     |  0 nobody     |3   nobody\n     |there          |  4 there      |  1 there      |  1 there\n ```\n\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -10671,10 +10595,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -10703,10 +10623,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "string"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
                                 }
                             ],
                             "view": "string"
@@ -10732,10 +10648,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "string"
@@ -11831,10 +11743,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -12084,10 +11992,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -12480,8 +12384,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'yes'",
-                                "'no'",
                                 "'auto'",
                                 "'auto:1'",
                                 "'auto:2'",
@@ -12492,6 +12394,9 @@
                                 "'auto:7'",
                                 "'auto:8'",
                                 "'auto:9'",
+                                "'no'",
+                                "'number'",
+                                "'yes'",
                                 "'yes:1'",
                                 "'yes:2'",
                                 "'yes:3'",
@@ -12500,8 +12405,7 @@
                                 "'yes:6'",
                                 "'yes:7'",
                                 "'yes:8'",
-                                "'yes:9'",
-                                "'number'"
+                                "'yes:9'"
                             ],
                             "view": "'auto'|'auto:1'|'auto:2'|'auto:3'|'auto:4'...(+17)"
                         },
@@ -12669,10 +12573,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "integer"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
                                 }
                             ],
                             "view": "integer"
@@ -12698,10 +12598,6 @@
                         "documentation": " Minimal number of screen lines to keep above and below the cursor.\n This will make some context visible around where you are working.  If\n you set it to a very large value (999) the cursor line will always be\n in the middle of the window (except at the start or end of the file or\n when long lines wrap).\n After using the local value, go back the global value with one of\n these two:\n\n ```vim\n \tsetlocal scrolloff<\n \tsetlocal scrolloff=-1\n ```\n For scrolling horizontally see 'sidescrolloff'.\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "integer"
@@ -12758,10 +12654,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -12902,8 +12794,8 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'inclusive'",
                                 "'exclusive'",
+                                "'inclusive'",
                                 "'old'"
                             ],
                             "view": "'exclusive'|'inclusive'|'old'"
@@ -12929,8 +12821,8 @@
                         "documentation": " This option defines the behavior of the selection.  It is only used\n in Visual and Select mode.\n Possible values:\n    value\tpast line     inclusive ~\n    old\t\t   no\t\tyes\n    inclusive\t   yes\t\tyes\n    exclusive\t   yes\t\tno\n \"past line\" means that the cursor is allowed to be positioned one\n character past the line.\n \"inclusive\" means that the last character of the selection is included\n in an operation.  For example, when \"x\" is used to delete the\n selection.\n When \"old\" is used and 'virtualedit' allows the cursor to move past\n the end of line the line break still isn't included.\n When \"exclusive\" is used, cursor position in visual mode will be\n adjusted for inclusive motions `inclusive-motion-selection-exclusive`.\n\n Note:\n - When \"exclusive\" is used and selecting from the end backwards, you\n   cannot include the last character of a line, when starting in Normal\n   mode and 'virtualedit' empty.\n - when \"exclusive\" is used with a single character visual selection,\n   Vim will behave as if the 'selection' is inclusive (in other words,\n   you cannot visually select an empty region).\n",
                         "infer": {
                             "types": [
-                                "'inclusive'",
                                 "'exclusive'",
+                                "'inclusive'",
                                 "'old'"
                             ],
                             "view": "'exclusive'|'inclusive'|'old'"
@@ -13823,8 +13715,6 @@
                         "documentation": " When and how to draw the signcolumn.  Valid values are:\n    \"auto\"\tonly when there is a sign to display\n    \"auto:[1-9]\" resize to accommodate multiple signs up to the\n \t\tgiven number (maximum 9), e.g. \"auto:4\"\n    \"auto:[1-8]-[2-9]\"\n \t\tresize to accommodate multiple signs up to the\n \t\tgiven maximum number (maximum 9) while keeping\n \t\tat least the given minimum (maximum 8) fixed\n \t\tspace. The minimum number should always be less\n \t\tthan the maximum number, e.g. \"auto:2-5\"\n    \"no\"\t\tnever\n    \"yes\"\talways\n    \"yes:[1-9]\"  always, with fixed space for signs up to the given\n \t\tnumber (maximum 9), e.g. \"yes:3\"\n    \"number\"\tdisplay signs in the 'number' column.  If the number\n \t\tcolumn is not present, then behaves like \"auto\".\n",
                         "infer": {
                             "types": [
-                                "'yes'",
-                                "'no'",
                                 "'auto'",
                                 "'auto:1'",
                                 "'auto:2'",
@@ -13835,6 +13725,9 @@
                                 "'auto:7'",
                                 "'auto:8'",
                                 "'auto:9'",
+                                "'no'",
+                                "'number'",
+                                "'yes'",
                                 "'yes:1'",
                                 "'yes:2'",
                                 "'yes:3'",
@@ -13843,8 +13736,7 @@
                                 "'yes:6'",
                                 "'yes:7'",
                                 "'yes:8'",
-                                "'yes:9'",
-                                "'number'"
+                                "'yes:9'"
                             ],
                             "view": "'auto'|'auto:1'|'auto:2'|'auto:3'|'auto:4'...(+17)"
                         },
@@ -14011,10 +13903,6 @@
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
-                                },
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
                                 }
                             ],
                             "view": "boolean"
@@ -14040,10 +13928,6 @@
                         "documentation": " Override the 'ignorecase' option if the search pattern contains upper\n case characters.  Only used when the search pattern is typed and\n 'ignorecase' option is on.  Used for the commands \"/\", \"?\", \"n\", \"N\",\n \":g\" and \":s\" and when filtering matches for the completion menu\n `compl-states`.\n Not used for \"*\", \"#\", \"gd\", tag search, etc.  After \"*\" and \"#\" you\n can make 'smartcase' used by doing a \"/\" command, recalling the search\n pattern from history and hitting <Enter>.\n",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "boolean"
@@ -14240,10 +14124,6 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                },
                                 {
                                     "kind": "builtin",
                                     "value": "integer"
@@ -15755,9 +15635,9 @@
                         "infer": {
                             "types": [
                                 "'followic'",
+                                "'followscs'",
                                 "'ignore'",
                                 "'match'",
-                                "'followscs'",
                                 "'smart'"
                             ],
                             "view": "'followic'|'followscs'|'ignore'|'match'|'smart'"
@@ -16008,9 +15888,9 @@
                         "infer": {
                             "types": [
                                 "'followic'",
+                                "'followscs'",
                                 "'ignore'",
                                 "'match'",
-                                "'followscs'",
                                 "'smart'"
                             ],
                             "view": "'followic'|'followscs'|'ignore'|'match'|'smart'"
@@ -17800,9 +17680,9 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'yes'",
                                 "'menu'",
-                                "'no'"
+                                "'no'",
+                                "'yes'"
                             ],
                             "view": "'menu'|'no'|'yes'"
                         },
@@ -18443,9 +18323,9 @@
                         "documentation": " \t\tonly used in Win32\n Some GUI versions allow the access to menu entries by using the ALT\n key in combination with a character that appears underlined in the\n menu.  This conflicts with the use of the ALT key for mappings and\n entering special characters.  This option tells what to do:\n   no\tDon't use ALT keys for menus.  ALT key combinations can be\n \tmapped, but there is no automatic handling.\n   yes\tALT key handling is done by the windowing system.  ALT key\n \tcombinations cannot be mapped.\n   menu\tUsing ALT in combination with a character that is a menu\n \tshortcut key, will be handled by the windowing system.  Other\n \tkeys can be mapped.\n If the menu is disabled by excluding 'm' from 'guioptions', the ALT\n key is never used for the menu.\n This option is not used for <F10>; on Win32.\n",
                         "infer": {
                             "types": [
-                                "'yes'",
                                 "'menu'",
-                                "'no'"
+                                "'no'",
+                                "'yes'"
                             ],
                             "view": "'menu'|'no'|'yes'"
                         },

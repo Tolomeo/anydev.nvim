@@ -1,0 +1,85 @@
+{
+    "documentation": " The reason why code actions were requested.",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Code actions were requested automatically.\n\n This typically happens when current selection in a file changes, but can\n also be triggered when file content changes.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                312,
+                                13
+                            ],
+                            "start": [
+                                312,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Automatic",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Code actions were explicitly requested by the user or by an extension.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                307,
+                                11
+                            ],
+                            "start": [
+                                307,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Invoked",
+                        "type": "tablefield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp/protocol.lua",
+        "finish": [
+            305,
+            23
+        ],
+        "start": [
+            305,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "CodeActionTriggerKind",
+    "type": "tablefield"
+}

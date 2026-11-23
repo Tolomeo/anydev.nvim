@@ -1,0 +1,113 @@
+{
+    "documentation": " Represents reasons why a text document is saved.",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Automatic after a delay.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                157,
+                                14
+                            ],
+                            "start": [
+                                157,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "AfterDelay",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " When the editor lost focus.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                159,
+                                12
+                            ],
+                            "start": [
+                                159,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "FocusOut",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Manually triggered, e.g. by the user pressing save, by starting debugging,\n or by an API call.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                155,
+                                10
+                            ],
+                            "start": [
+                                155,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Manual",
+                        "type": "tablefield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp/protocol.lua",
+        "finish": [
+            152,
+            24
+        ],
+        "start": [
+            152,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "TextDocumentSaveReason",
+    "type": "tablefield"
+}

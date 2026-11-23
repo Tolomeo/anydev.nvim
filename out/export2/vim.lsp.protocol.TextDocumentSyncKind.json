@@ -1,0 +1,113 @@
+{
+    "documentation": " Defines how the host (editor) should sync document changes to the language server.",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Documents are synced by always sending the full content\n of the document.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                229,
+                                8
+                            ],
+                            "start": [
+                                229,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Full",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Documents are synced by sending the full content on open.\n After that only incremental updates to the document are\n send.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                233,
+                                15
+                            ],
+                            "start": [
+                                233,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Incremental",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Documents should not be synced at all.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                226,
+                                8
+                            ],
+                            "start": [
+                                226,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "None",
+                        "type": "tablefield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp/protocol.lua",
+        "finish": [
+            224,
+            22
+        ],
+        "start": [
+            224,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "TextDocumentSyncKind",
+    "type": "tablefield"
+}

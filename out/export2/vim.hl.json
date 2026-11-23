@@ -106,6 +106,10 @@
                                             "infer": {
                                                 "types": [
                                                     {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
                                                         "fields": [
                                                             {
                                                                 "documentation": "",
@@ -137,10 +141,6 @@
                                                             }
                                                         ],
                                                         "kind": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
                                                     }
                                                 ],
                                                 "view": "string|[integer, integer]"
@@ -153,6 +153,10 @@
                                             "infer": {
                                                 "types": [
                                                     {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
                                                         "fields": [
                                                             {
                                                                 "documentation": "",
@@ -184,10 +188,6 @@
                                                             }
                                                         ],
                                                         "kind": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
                                                     }
                                                 ],
                                                 "view": "string|[integer, integer]"
@@ -200,11 +200,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.hl.range.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.hl.range.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -218,11 +218,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "uv.uv_timer_t"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(uv.uv_timer_t)?"
+                                                "view": "nil"
                                             },
                                             "name": "range_timer",
                                             "optional": true
@@ -232,13 +232,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "arguments": [],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "fun()?"
+                                                "view": "nil"
                                             },
                                             "name": "range_clear",
                                             "optional": true

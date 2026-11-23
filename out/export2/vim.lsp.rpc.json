@@ -8,8 +8,8 @@
                         "documentation": " @nodoc",
                         "infer": {
                             "types": [
-                                "table<string, integer>",
-                                "table<integer, string>"
+                                "table<integer, string>",
+                                "table<string, integer>"
                             ],
                             "view": "table<integer, string>|table<string, integer>"
                         },
@@ -56,10 +56,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "integer?"
+                                                "view": "nil"
                                             },
                                             "name": "port",
                                             "optional": true
@@ -175,13 +175,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "arguments": [],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "fun()?"
+                                                "view": "nil"
                                             },
                                             "name": "on_exit",
                                             "optional": true
@@ -191,40 +189,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "arguments": [
-                                                            {
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "any"
-                                                                        }
-                                                                    ],
-                                                                    "view": "any"
-                                                                },
-                                                                "name": "err",
-                                                                "optional": false
-                                                            },
-                                                            {
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "typereference",
-                                                                            "value": "vim.lsp.rpc.ClientErrors"
-                                                                        }
-                                                                    ],
-                                                                    "view": "vim.lsp.rpc.ClientErrors"
-                                                                },
-                                                                "name": "errkind",
-                                                                "optional": false
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "fun(err: any, errkind: vim.lsp.rpc.ClientErrors)?"
+                                                "view": "nil"
                                             },
                                             "name": "on_error",
                                             "optional": true
@@ -386,10 +355,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string?"
+                                                "view": "nil"
                                             },
                                             "name": "message",
                                             "optional": true
@@ -481,11 +450,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.rpc.Dispatchers"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.rpc.Dispatchers)?"
+                                                "view": "nil"
                                             },
                                             "name": "dispatchers",
                                             "optional": true
@@ -495,11 +464,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.rpc.ExtraSpawnParams"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.lsp.rpc.ExtraSpawnParams)?"
+                                                "view": "nil"
                                             },
                                             "name": "extra_spawn_params",
                                             "optional": true

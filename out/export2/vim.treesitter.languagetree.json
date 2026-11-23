@@ -1,0 +1,3742 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, Range6[][]>"
+                                                ],
+                                                "view": "table<string, Range6[][]>"
+                                            },
+                                            "name": "injections_by_lang",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                478,
+                                37
+                            ],
+                            "start": [
+                                478,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_add_injections",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Run an asynchronous parse, calling {on_parse} when complete.\n\n@*return* `trees` — the list of parsed trees, if parsing completed synchronously",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "nil"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "nil"
+                                                                },
+                                                                "name": "trees",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(err?: string, trees?: table<integer, TSTree>)"
+                                            },
+                                            "name": "on_parse",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "the list of parsed trees, if parsing completed synchronously",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "trees",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                555,
+                                34
+                            ],
+                            "start": [
+                                555,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_async_parse",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Callback handlers",
+                        "infer": {
+                            "types": [
+                                "table<TSCallbackName, function[]>"
+                            ],
+                            "view": "table<TSCallbackName, function[]>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                85,
+                                61
+                            ],
+                            "start": [
+                                85,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_callbacks",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Callback handlers (recursive)",
+                        "infer": {
+                            "types": [
+                                "table<TSCallbackName, function[]>"
+                            ],
+                            "view": "table<TSCallbackName, function[]>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                86,
+                                65
+                            ],
+                            "start": [
+                                86,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "package"
+                        ],
+                        "name": "_callbacks_rec",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Table of callback queues, keyed by each region for which the callbacks should be run",
+                        "infer": {
+                            "types": [
+                                "table<string, fun(err?: string, trees?: table<integer, TSTree>)[]>"
+                            ],
+                            "view": "table<string, fun(err?: string, trees?: table<integer, TSTree>)[]>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                95,
+                                95
+                            ],
+                            "start": [
+                                95,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_cb_queues",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Injected languages",
+                        "infer": {
+                            "types": [
+                                "table<string, vim.treesitter.LanguageTree>"
+                            ],
+                            "view": "table<string, vim.treesitter.LanguageTree>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                87,
+                                69
+                            ],
+                            "start": [
+                                87,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_children",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "```lua\ncb_name:\n    | 'changedtree'\n    | 'bytes'\n    | 'detach'\n    | 'child_added'\n    | 'child_removed'\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSCallbackName"
+                                                    }
+                                                ],
+                                                "view": "TSCallbackName"
+                                            },
+                                            "name": "cb_name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "unknown"
+                                                    }
+                                                ],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1152,
+                                34
+                            ],
+                            "start": [
+                                1152,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_do_callback",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "start_byte",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_byte_old",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_byte_new",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "start_row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "start_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_row_old",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_col_old",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_row_new",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "end_col_new",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1162,
+                                27
+                            ],
+                            "start": [
+                                1162,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "package"
+                        ],
+                        "name": "_edit",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Extract injections according to:\n https://tree-sitter.github.io/tree-sitter/3-syntax-highlighting.html#language-injection",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, TSNode[]>"
+                                                ],
+                                                "view": "table<integer, TSNode[]>"
+                                            },
+                                            "name": "match",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.query.TSMetadata"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.query.TSMetadata"
+                                            },
+                                            "name": "metadata",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range6"
+                                                                }
+                                                            ],
+                                                            "view": "Range6"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "Range6[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1049,
+                                36
+                            ],
+                            "start": [
+                                1049,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_get_injection",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Gets language injection regions by language.\n\n This is where most of the injection processing occurs.\n\n TODO: Allow for an offset predicate to tailor the injection range\n       instead of using the entire nodes range.\n\n```lua\nrange:\n    | true\n```",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range"
+                                                                }
+                                                            ],
+                                                            "view": "Range"
+                                                        },
+                                                        "kind": "array"
+                                                    },
+                                                    "true"
+                                                ],
+                                                "view": "Range|Range[]|true"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "ParserThreadState"
+                                                    }
+                                                ],
+                                                "view": "ParserThreadState"
+                                            },
+                                            "name": "thread_state",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, Range6[][]>"
+                                                ],
+                                                "view": "table<string, Range6[][]>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1090,
+                                37
+                            ],
+                            "start": [
+                                1090,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_get_injections",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Queries defining injected languages",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.Query"
+                                }
+                            ],
+                            "view": "vim.treesitter.Query"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                88,
+                                55
+                            ],
+                            "start": [
+                                88,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_injection_query",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Whether the entire tree (excluding children) is valid.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "boolean"
+                                }
+                            ],
+                            "view": "boolean"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                108,
+                                44
+                            ],
+                            "start": [
+                                108,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_is_entirely_valid",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Iterate through all the regions. fn returns a boolean to indicate if the\nregion is valid or not.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "index",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "items": {
+                                                                                "types": [
+                                                                                    {
+                                                                                        "kind": "typereference",
+                                                                                        "value": "Range6"
+                                                                                    }
+                                                                                ],
+                                                                                "view": "Range6"
+                                                                            },
+                                                                            "kind": "array"
+                                                                        }
+                                                                    ],
+                                                                    "view": "Range6[]"
+                                                                },
+                                                                "name": "region",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "view": "fun(index: integer, region: Range6[]):boolean"
+                                            },
+                                            "name": "fn",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                797,
+                                35
+                            ],
+                            "start": [
+                                797,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_iter_regions",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Language name",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            ],
+                            "view": "string"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                101,
+                                30
+                            ],
+                            "start": [
+                                101,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_lang",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                223,
+                                26
+                            ],
+                            "start": [
+                                223,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_log",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "\n\n\n[View documents](command:extension.lua.doc?[\"en-us/51/manual.html/pdf-file\"])\n",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                110,
+                                33
+                            ],
+                            "start": [
+                                110,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_logfile",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                109,
+                                60
+                            ],
+                            "start": [
+                                109,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_logger",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "The total number of regions. Since _regions can have holes, we cannot simply read this value from #_regions.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                98,
+                                38
+                            ],
+                            "start": [
+                                98,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_num_regions",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Number of valid regions",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                107,
+                                44
+                            ],
+                            "start": [
+                                107,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_num_valid_regions",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                119,
+                                20
+                            ],
+                            "start": [
+                                119,
+                                0
+                            ]
+                        },
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "buf",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "changed_tick",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_byte",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "old_row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "old_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "old_byte",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "new_row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "new_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "new_byte",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1246,
+                                31
+                            ],
+                            "start": [
+                                1246,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "_on_bytes",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "unknown"
+                                                    }
+                                                ],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1310,
+                                32
+                            ],
+                            "start": [
+                                1310,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "_on_detach",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1306,
+                                32
+                            ],
+                            "start": [
+                                1306,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "_on_reload",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Options",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "table"
+                                }
+                            ],
+                            "view": "table"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                90,
+                                29
+                            ],
+                            "start": [
+                                90,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_opts",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Parent LanguageTree",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                102,
+                                54
+                            ],
+                            "start": [
+                                102,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_parent",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "ParserThreadState"
+                                                    }
+                                                ],
+                                                "view": "ParserThreadState"
+                                            },
+                                            "name": "thread_state",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, TSTree>"
+                                                ],
+                                                "view": "table<integer, TSTree>"
+                                            },
+                                            "name": "trees",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "finished",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                656,
+                                28
+                            ],
+                            "start": [
+                                656,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_parse",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "ParserThreadState"
+                                                    }
+                                                ],
+                                                "view": "ParserThreadState"
+                                            },
+                                            "name": "thread_state",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range6"
+                                                                }
+                                                            ],
+                                                            "view": "Range6"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "Range6[]"
+                                            },
+                                            "name": "changes",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "no_regions_parsed",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "number"
+                                                    }
+                                                ],
+                                                "view": "number"
+                                            },
+                                            "name": "total_parse_time",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                415,
+                                36
+                            ],
+                            "start": [
+                                415,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_parse_regions",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Parser for language",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "TSParser"
+                                }
+                            ],
+                            "view": "TSParser"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                91,
+                                34
+                            ],
+                            "start": [
+                                91,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_parser",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Range for which injections have been processed",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                89,
+                                54
+                            ],
+                            "start": [
+                                89,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_processed_injection_region",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "nil"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "nil"
+                                                                        }
+                                                                    ],
+                                                                    "view": "nil"
+                                                                },
+                                                                "name": "trees",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(err?: string, trees?: table<integer, TSTree>)"
+                                            },
+                                            "name": "callback",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                529,
+                                42
+                            ],
+                            "start": [
+                                529,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_push_async_callback",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Table of regions for which the tree is currently running an async parse",
+                        "infer": {
+                            "types": [
+                                "table<string, boolean>"
+                            ],
+                            "view": "table<string, boolean>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                93,
+                                61
+                            ],
+                            "start": [
+                                93,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_ranges_being_parsed",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "nil"
+                                }
+                            ],
+                            "view": "nil"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                96,
+                                52
+                            ],
+                            "start": [
+                                96,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_regions",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "err",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "trees",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                540,
+                                42
+                            ],
+                            "start": [
+                                540,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_run_async_callbacks",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                177,
+                                33
+                            ],
+                            "start": [
+                                177,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "_set_logger",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Buffer or string to parse",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                },
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "string|integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                103,
+                                42
+                            ],
+                            "start": [
+                                103,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_source",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "ParserThreadState"
+                                                    }
+                                                ],
+                                                "view": "ParserThreadState"
+                                            },
+                                            "name": "thread_state",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "time",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                644,
+                                36
+                            ],
+                            "start": [
+                                644,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "_subtract_time",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Reference to parsed tree (one for each language).",
+                        "infer": {
+                            "types": [
+                                "table<integer, TSTree>"
+                            ],
+                            "view": "table<integer, TSTree>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                104,
+                                47
+                            ],
+                            "start": [
+                                104,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_trees",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "Set of valid region IDs.",
+                        "infer": {
+                            "types": [
+                                "table<integer, true>"
+                            ],
+                            "view": "table<integer, true>"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                106,
+                                52
+                            ],
+                            "start": [
+                                106,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "private"
+                        ],
+                        "name": "_valid_regions",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": " Adds a child language to this |LanguageTree|.\n\n If the language already exists as a child, it will first be removed.\n\n@*param* `lang` — Language to add.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Language to add.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "injected",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                731,
+                                31
+                            ],
+                            "start": [
+                                731,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "add_child",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Returns a map of language to child tree.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<string, vim.treesitter.LanguageTree>"
+                                                ],
+                                                "view": "table<string, vim.treesitter.LanguageTree>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                399,
+                                30
+                            ],
+                            "start": [
+                                399,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "children",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Determines whether {range} is contained in the |LanguageTree|.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1371,
+                                30
+                            ],
+                            "start": [
+                                1371,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "contains",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Destroys this |LanguageTree| and all its children.\n\n Any cleanup logic should be performed here.\n\n Note: This DOES NOT remove this tree from a parent. Instead,\n `remove_child` must be called on the parent to remove it.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                776,
+                                29
+                            ],
+                            "start": [
+                                776,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "destroy",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Invokes the callback for each |LanguageTree| recursively.\n\n Note: This includes the invoking tree's child trees as well.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "TSTree"
+                                                                        }
+                                                                    ],
+                                                                    "view": "TSTree"
+                                                                },
+                                                                "name": "tree",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.treesitter.LanguageTree"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.treesitter.LanguageTree"
+                                                                },
+                                                                "name": "ltree",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
+                                                    }
+                                                ],
+                                                "view": "fun(tree: TSTree, ltree: vim.treesitter.LanguageTree)"
+                                            },
+                                            "name": "fn",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                714,
+                                35
+                            ],
+                            "start": [
+                                714,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "for_each_tree",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Gets the set of included regions managed by this LanguageTree. This can be different from the\nregions set by injection query, because a partial |LanguageTree:parse()| drops the regions\noutside the requested range.\nEach list represents a range in the form of\n{ {start_row}, {start_col}, {start_bytes}, {end_row}, {end_col}, {end_bytes} }.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, Range6[]>"
+                                                ],
+                                                "view": "table<integer, Range6[]>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                885,
+                                38
+                            ],
+                            "start": [
+                                885,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "included_regions",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Invalidates this parser and its children.\n\n Should only be called when the tracked state of the LanguageTree is not valid against the parse\n tree in treesitter. Doesn't clear filesystem cache. Called often, so needs to be fast.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "boolean|nil"
+                                            },
+                                            "name": "reload",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                258,
+                                32
+                            ],
+                            "start": [
+                                258,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "invalidate",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Returns whether this LanguageTree is valid, i.e., |LanguageTree:trees()| reflects the latest\n state of the source. If invalid, user should call |LanguageTree:parse()|.\n\n@*param* `exclude_children` — whether to ignore the validity of children (default `false`)\n\n@*param* `range` — range (or list of ranges, sorted by starting point in ascending order) to check for validity",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "whether to ignore the validity of children (default `false`)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "exclude_children",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "range (or list of ranges, sorted by starting point in ascending order) to check for validity",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                358,
+                                30
+                            ],
+                            "start": [
+                                358,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "is_valid",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Gets the language of this tree node.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                290,
+                                26
+                            ],
+                            "start": [
+                                290,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "lang",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Gets the appropriate language that contains {range}.\n\n@*return* `tree` — Managing {range}",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "Managing {range}",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "tree",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1443,
+                                40
+                            ],
+                            "start": [
+                                1443,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "language_for_range",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Gets the smallest named node that contains {range}.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1432,
+                                42
+                            ],
+                            "start": [
+                                1432,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "named_node_for_range",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " @nodoc\n\n LanguageTree contains a tree of parsers: the root treesitter parser for {lang} and any\n \"injected\" language parsers, which themselves may inject other languages, recursively.\n\n@*param* `source` — Buffer or text string to parse\n\n@*param* `lang` — Root language of this tree\n\n@*return* `parser` — object",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "Buffer or text string to parse",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "string|integer"
+                                            },
+                                            "name": "source",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Root language of this tree",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "object",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "parser",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                130,
+                                25
+                            ],
+                            "start": [
+                                130,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "new",
+                        "type": "setfield"
+                    },
+                    {
+                        "documentation": " Gets the smallest node that contains {range}.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1420,
+                                36
+                            ],
+                            "start": [
+                                1420,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "node_for_range",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": "Returns the parent tree. `nil` for the root tree.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                752,
+                                28
+                            ],
+                            "start": [
+                                752,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "parent",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Recursively parse all regions in the language tree using |treesitter-parsers|\n for the corresponding languages and run injection queries on the parsed trees\n to determine whether child trees should be created and parsed.\n\n Any region with empty range (`{}`, typically only the root tree) is always parsed;\n otherwise (typically injections) only if it intersects {range} (or if {range} is `true`).\n\n@*param* `range` — : Parse this range (or list of ranges, sorted by starting\n\n     point in ascending order) in the parser's source.\n     Set to `true` to run a complete parse of the source (Note: Can be slow!)\n     Set to `false|nil` to only parse regions with empty ranges (typically\n     only the root tree without injections).\n\n@*param* `on_parse` — Function invoked when parsing completes.\n\n     When provided and `vim.g._ts_force_sync_parsing` is not set, parsing will run\n     asynchronously. The first argument to the function is a string representing the error type,\n     in case of a failure (currently only possible for timeouts). The second argument is the list\n     of trees returned by the parse (upon success), or `nil` if the parse timed out (determined\n     by 'redrawtime').\n\n     If parsing was still able to finish synchronously (within 3ms), `parse()` returns the list\n     of trees. Otherwise, it returns `nil`.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": ": Parse this range (or list of ranges, sorted by starting",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "range",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Function invoked when parsing completes.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "on_parse",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                634,
+                                27
+                            ],
+                            "start": [
+                                634,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "parse",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Registers callbacks for the [LanguageTree].\n\n@*param* `cbs` — An [nvim_buf_attach()]-like table argument with the following handlers:\n\n           - `on_bytes` : see [nvim_buf_attach()].\n           - `on_changedtree` : a callback that will be called every time the tree has syntactical changes.\n              It will be passed two arguments: a table of the ranges (as node ranges) that\n              changed and the changed tree.\n           - `on_child_added` : emitted when a child is added to the tree.\n           - `on_child_removed` : emitted when a child is removed from the tree.\n           - `on_detach` : emitted when the buffer is detached, see [nvim_buf_detach_event].\n              Takes one argument, the number of the buffer.\n\n@*param* `recursive` — Apply callbacks recursively for all children. Any new children will\n\n                           also inherit the callbacks.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "An [nvim_buf_attach()]-like table argument with the following handlers:",
+                                            "infer": {
+                                                "types": [
+                                                    "table<TSCallbackNameOn, function>"
+                                                ],
+                                                "view": "table<TSCallbackNameOn, function>"
+                                            },
+                                            "name": "cbs",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Apply callbacks recursively for all children. Any new children will",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "recursive",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1332,
+                                34
+                            ],
+                            "start": [
+                                1332,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "register_cbs",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Removes a child language from this |LanguageTree|.\n\n@*param* `lang` — Language to remove.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Language to remove.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "lang",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                760,
+                                34
+                            ],
+                            "start": [
+                                760,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "remove_child",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Sets the included regions that should be parsed by this |LanguageTree|.\n A region is a set of nodes and/or ranges that will be parsed in the same context.\n\n For example, `{ { node1 }, { node2} }` contains two separate regions.\n They will be parsed by the parser in two different contexts, thus resulting\n in two separate trees.\n\n On the other hand, `{ { node1, node2 } }` is a single region consisting of\n two nodes. This will be parsed by the parser in a single context, thus resulting\n in a single tree.\n\n This allows for embedded languages to be parsed together across different\n nodes, which is useful for templating languages like ERB and EJS.\n\n@*param* `new_regions` — List of regions this tree should manage and parse.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "List of regions this tree should manage and parse.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "Range4"
+                                                                            },
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "Range6"
+                                                                            },
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "TSNode"
+                                                                            }
+                                                                        ],
+                                                                        "view": "Range4|Range6|TSNode"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "view": "(Range4|Range6|TSNode)[]"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "(Range4|Range6|TSNode)[][]"
+                                            },
+                                            "name": "new_regions",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                845,
+                                42
+                            ],
+                            "start": [
+                                845,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "private"
+                        ],
+                        "name": "set_included_regions",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Returns the source content of the language tree (bufnr or string).",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "string|integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                405,
+                                28
+                            ],
+                            "start": [
+                                405,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "source",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Gets the tree that contains {range}.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range4"
+                                                    }
+                                                ],
+                                                "view": "Range4"
+                                            },
+                                            "name": "range",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "opts",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                1393,
+                                36
+                            ],
+                            "start": [
+                                1393,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "tree_for_range",
+                        "type": "setmethod"
+                    },
+                    {
+                        "documentation": " Returns all trees of the regions parsed by this parser.\n Does not include child languages.\n The result is list-like if\n * this LanguageTree is the root, in which case the result is empty or a singleton list; or\n * the root LanguageTree is fully parsed.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "vim.treesitter.LanguageTree"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "table<integer, TSTree>"
+                                                ],
+                                                "view": "table<integer, TSTree>"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/treesitter/languagetree.lua",
+                            "finish": [
+                                284,
+                                27
+                            ],
+                            "start": [
+                                284,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "public"
+                        ],
+                        "name": "trees",
+                        "type": "setmethod"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "vim.treesitter.LanguageTree"
+    },
+    "location": {
+        "file": "lua/vim/treesitter.lua",
+        "finish": [
+            12,
+            14
+        ],
+        "start": [
+            12,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "languagetree",
+    "type": "tablefield"
+}

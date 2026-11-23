@@ -16,41 +16,6 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "string",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table?"
-                                            },
-                                            "name": "defs",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                },
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
                                                         "value": "any"
                                                     }
                                                 ],
@@ -191,59 +156,6 @@
                         "documentation": " Searches the given {pattern} in the given {subject}. If it finds a match, returns the index\n where this occurrence starts and the index where it ends. Otherwise, returns nil.\n\n An optional numeric argument {init} makes the search starts at that position in the subject\n string. As usual in Lua libraries, a negative value counts from the end.\n\n@*return* — : the index where the occurrence starts, nil if no match\n\n@*return* — : the index where the occurrence ends, nil if no match",
                         "infer": {
                             "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "subject",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lpeg.Pattern"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string|vim.lpeg.Pattern"
-                                            },
-                                            "name": "pattern",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer?"
-                                            },
-                                            "name": "init",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                },
                                 {
                                     "arguments": [
                                         {
@@ -464,59 +376,6 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "subject",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lpeg.Pattern"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string|vim.lpeg.Pattern"
-                                            },
-                                            "name": "pattern",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "replacement",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                },
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
                                                         "value": "any"
                                                     }
                                                 ],
@@ -693,59 +552,6 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "subject",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lpeg.Pattern"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string|vim.lpeg.Pattern"
-                                            },
-                                            "name": "pattern",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer?"
-                                            },
-                                            "name": "init",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                },
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
                                                         "value": "any"
                                                     }
                                                 ],
@@ -914,12 +720,6 @@
                         "documentation": " Updates the pre-defined character classes to the current locale.",
                         "infer": {
                             "types": [
-                                {
-                                    "arguments": [],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                },
                                 {
                                     "arguments": [],
                                     "generics": [],

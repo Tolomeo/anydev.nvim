@@ -1,0 +1,85 @@
+{
+    "documentation": "",
+    "infer": {
+        "types": [
+            {
+                "fields": [
+                    {
+                        "documentation": " Completion was triggered automatically while editing.\n It is sufficient to return a single completion item in this case.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                320,
+                                13
+                            ],
+                            "start": [
+                                320,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Automatic",
+                        "type": "tablefield"
+                    },
+                    {
+                        "documentation": " Completion was triggered explicitly by a user gesture.\n Return multiple completion items to enable cycling through them.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "integer"
+                                }
+                            ],
+                            "view": "integer"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/protocol.lua",
+                            "finish": [
+                                317,
+                                11
+                            ],
+                            "start": [
+                                317,
+                                4
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "Invoked",
+                        "type": "tablefield"
+                    }
+                ],
+                "kind": "table"
+            }
+        ],
+        "view": "table"
+    },
+    "location": {
+        "file": "lua/vim/lsp/protocol.lua",
+        "finish": [
+            314,
+            29
+        ],
+        "start": [
+            314,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "InlineCompletionTriggerKind",
+    "type": "tablefield"
+}

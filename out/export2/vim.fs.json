@@ -178,11 +178,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.fs.dir.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.fs.dir.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -342,10 +342,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "table"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "table?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -405,18 +405,6 @@
                                                         "value": "string"
                                                     },
                                                     {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "builtin",
-                                                                    "value": "string"
-                                                                }
-                                                            ],
-                                                            "view": "string"
-                                                        },
-                                                        "kind": "array"
-                                                    },
-                                                    {
                                                         "arguments": [
                                                             {
                                                                 "infer": {
@@ -462,6 +450,18 @@
                                                                 "optional": false
                                                             }
                                                         ]
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                }
+                                                            ],
+                                                            "view": "string"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
                                                 "view": "string|fun(name: string, path: string):boolean|string[]"
@@ -474,11 +474,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.fs.find.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.fs.find.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -616,11 +616,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.fs.normalize.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.fs.normalize.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -730,10 +730,10 @@
                                                                     "types": [
                                                                         {
                                                                             "kind": "builtin",
-                                                                            "value": "string"
+                                                                            "value": "nil"
                                                                         }
                                                                     ],
-                                                                    "view": "string?"
+                                                                    "view": "nil"
                                                                 },
                                                                 "name": "",
                                                                 "optional": true
@@ -840,10 +840,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "table"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "table?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -917,11 +917,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "typereference",
-                                                        "value": "vim.fs.rm.Opts"
+                                                        "kind": "builtin",
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "(vim.fs.rm.Opts)?"
+                                                "view": "nil"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -963,11 +963,11 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "integer"
+                                                        "value": "string"
                                                     },
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
+                                                        "value": "integer"
                                                     }
                                                 ],
                                                 "view": "string|integer"
@@ -980,23 +980,15 @@
                                             "infer": {
                                                 "types": [
                                                     {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
                                                         "items": {
                                                             "types": [
                                                                 {
                                                                     "kind": "builtin",
                                                                     "value": "string"
-                                                                },
-                                                                {
-                                                                    "items": {
-                                                                        "types": [
-                                                                            {
-                                                                                "kind": "builtin",
-                                                                                "value": "string"
-                                                                            }
-                                                                        ],
-                                                                        "view": "string"
-                                                                    },
-                                                                    "kind": "array"
                                                                 },
                                                                 {
                                                                     "arguments": [
@@ -1044,15 +1036,23 @@
                                                                             "optional": false
                                                                         }
                                                                     ]
+                                                                },
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "string"
+                                                                            }
+                                                                        ],
+                                                                        "view": "string"
+                                                                    },
+                                                                    "kind": "array"
                                                                 }
                                                             ],
                                                             "view": "string|fun(name: string, path: string):boolean|string[]"
                                                         },
                                                         "kind": "array"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
                                                     },
                                                     {
                                                         "arguments": [
@@ -1117,10 +1117,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "string"
+                                                        "value": "nil"
                                                     }
                                                 ],
-                                                "view": "string?"
+                                                "view": "nil"
                                             },
                                             "name": "",
                                             "optional": true
