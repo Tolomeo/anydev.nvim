@@ -85,10 +85,14 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range)?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -104,10 +108,10 @@
                                                                     "types": [
                                                                         {
                                                                             "kind": "builtin",
-                                                                            "value": "nil"
+                                                                            "value": "string"
                                                                         }
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "string?"
                                                                 },
                                                                 "name": "err",
                                                                 "optional": true
@@ -115,12 +119,9 @@
                                                             {
                                                                 "infer": {
                                                                     "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "nil"
-                                                                        }
+                                                                        "table<integer, TSTree>"
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "table<integer, TSTree>?"
                                                                 },
                                                                 "name": "trees",
                                                                 "optional": true
@@ -144,12 +145,9 @@
                                             "documentation": "the list of parsed trees, if parsing completed synchronously",
                                             "infer": {
                                                 "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
+                                                    "table<integer, TSTree>"
                                                 ],
-                                                "view": "nil"
+                                                "view": "table<integer, TSTree>?"
                                             },
                                             "name": "trees",
                                             "optional": true
@@ -575,10 +573,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -999,10 +997,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "nil"
+                                    "value": "file*"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "file*?"
                         },
                         "location": {
                             "file": "lua/vim/treesitter/languagetree.lua",
@@ -1026,11 +1024,40 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "logtype",
+                                            "optional": false
+                                        },
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "msg",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "view": "nil"
+                            "view": "fun(logtype: string, msg: string)?"
                         },
                         "location": {
                             "file": "lua/vim/treesitter/languagetree.lua",
@@ -1456,11 +1483,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "kind": "typereference",
+                                    "value": "vim.treesitter.LanguageTree"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "(vim.treesitter.LanguageTree)?"
                         },
                         "location": {
                             "file": "lua/vim/treesitter/languagetree.lua",
@@ -1504,10 +1531,26 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range"
+                                                                }
+                                                            ],
+                                                            "view": "Range"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range|Range[])?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -1603,10 +1646,26 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range"
+                                                                }
+                                                            ],
+                                                            "view": "Range"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range|Range[])?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -1735,11 +1794,19 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "items": {
+                                        "types": [
+                                            {
+                                                "kind": "typereference",
+                                                "value": "Range"
+                                            }
+                                        ],
+                                        "view": "Range"
+                                    },
+                                    "kind": "array"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "Range[]?"
                         },
                         "location": {
                             "file": "lua/vim/treesitter/languagetree.lua",
@@ -1783,10 +1850,14 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range)?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -1802,10 +1873,10 @@
                                                                     "types": [
                                                                         {
                                                                             "kind": "builtin",
-                                                                            "value": "nil"
+                                                                            "value": "string"
                                                                         }
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "string?"
                                                                 },
                                                                 "name": "err",
                                                                 "optional": true
@@ -1813,12 +1884,9 @@
                                                             {
                                                                 "infer": {
                                                                     "types": [
-                                                                        {
-                                                                            "kind": "builtin",
-                                                                            "value": "nil"
-                                                                        }
+                                                                        "table<integer, TSTree>"
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "table<integer, TSTree>?"
                                                                 },
                                                                 "name": "trees",
                                                                 "optional": true
@@ -1889,12 +1957,9 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "nil"
-                                }
+                                "table<integer, Range6[]>"
                             ],
-                            "view": "nil"
+                            "view": "table<integer, Range6[]>?"
                         },
                         "location": {
                             "file": "lua/vim/treesitter/languagetree.lua",
@@ -1938,10 +2003,14 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range)?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -1952,10 +2021,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "err",
                                             "optional": true
@@ -1964,12 +2033,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
+                                                    "table<integer, TSTree>"
                                                 ],
-                                                "view": "nil"
+                                                "view": "table<integer, TSTree>?"
                                             },
                                             "name": "trees",
                                             "optional": true
@@ -2683,10 +2749,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "exclude_children",
                                             "optional": true
@@ -2696,11 +2762,23 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "Range"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range"
+                                                                }
+                                                            ],
+                                                            "view": "Range"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(Range|Range[])?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -2918,11 +2996,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.treesitter.LanguageTree.tree_for_range.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -2936,11 +3014,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "TSNode"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "TSNode?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -3011,11 +3089,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree.new.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.treesitter.LanguageTree.new.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -3098,11 +3176,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.treesitter.LanguageTree.tree_for_range.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -3116,11 +3194,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "TSNode"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "TSNode?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -3176,11 +3254,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.treesitter.LanguageTree)?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -3233,10 +3311,26 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "Range"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "Range"
+                                                                }
+                                                            ],
+                                                            "view": "Range"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|Range|Range[])?"
                                             },
                                             "name": "range",
                                             "optional": true
@@ -3246,11 +3340,37 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        "table<integer, TSTree>"
+                                                                    ],
+                                                                    "view": "table<integer, TSTree>?"
+                                                                },
+                                                                "name": "trees",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun(err?: string, trees?: table<integer, TSTree>)?"
                                             },
                                             "name": "on_parse",
                                             "optional": true
@@ -3263,12 +3383,9 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
+                                                    "table<integer, TSTree>"
                                                 ],
-                                                "view": "nil"
+                                                "view": "table<integer, TSTree>?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -3332,10 +3449,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "recursive",
                                             "optional": true
@@ -3610,11 +3727,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.treesitter.LanguageTree.tree_for_range.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.treesitter.LanguageTree.tree_for_range.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -3628,11 +3745,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "TSTree"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "TSTree?"
                                             },
                                             "name": "",
                                             "optional": true

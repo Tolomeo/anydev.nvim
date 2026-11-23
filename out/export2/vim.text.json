@@ -34,10 +34,30 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "view": "integer[]"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(string|integer[][])?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -94,10 +114,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -108,10 +128,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -237,11 +257,26 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                },
+                                                                "name": "expandtab",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ expandtab: integer }?"
                                             },
                                             "name": "opts",
                                             "optional": true

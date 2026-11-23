@@ -59,10 +59,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "base",
                                             "optional": true
@@ -261,11 +261,96 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "start_row",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "start_col",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "end_row",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer"
+                                                                },
+                                                                "name": "end_col",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                },
+                                                                "name": "max_start_depth",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                },
+                                                                "name": "match_limit",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ start_row: integer, start_col: integer, end_row: integer, end_col: integer, max_start_depth: integer, match_limit: integer }?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -1380,10 +1465,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "buf",
                                             "optional": true
@@ -1490,10 +1575,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "base",
                                             "optional": true
@@ -1508,10 +1593,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "integer",
                                             "optional": true
@@ -1638,10 +1723,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "symbol_name",
                                             "optional": true
@@ -14541,10 +14626,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "noref",
                                             "optional": true
@@ -14620,11 +14705,41 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "key",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(fun(key: any):any)?"
                                             },
                                             "name": "createfn",
                                             "optional": true
@@ -14914,11 +15029,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.text.diff.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.text.diff.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -15243,11 +15358,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.gsplit.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.gsplit.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -15270,10 +15385,10 @@
                                                                     "types": [
                                                                         {
                                                                             "kind": "builtin",
-                                                                            "value": "nil"
+                                                                            "value": "string"
                                                                         }
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "string?"
                                                                 },
                                                                 "name": "",
                                                                 "optional": true
@@ -15476,11 +15591,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.inspect.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.inspect.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -15536,10 +15651,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "buf",
                                             "optional": true
@@ -15550,10 +15665,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "row",
                                             "optional": true
@@ -15564,10 +15679,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "col",
                                             "optional": true
@@ -15577,11 +15692,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim._inspector.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim._inspector.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -16107,10 +16222,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "start",
                                             "optional": true
@@ -16121,10 +16236,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "finish",
                                             "optional": true
@@ -16648,10 +16763,10 @@
                                                                     "types": [
                                                                         {
                                                                             "kind": "builtin",
-                                                                            "value": "nil"
+                                                                            "value": "string"
                                                                         }
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "string?"
                                                                 },
                                                                 "name": "",
                                                                 "optional": true
@@ -16674,10 +16789,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "ns_id",
                                             "optional": true
@@ -16688,10 +16803,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "table?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -19180,11 +19295,11 @@
                                                                 "infer": {
                                                                     "types": [
                                                                         {
-                                                                            "kind": "builtin",
-                                                                            "value": "nil"
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.Range"
                                                                         }
                                                                     ],
-                                                                    "view": "nil"
+                                                                    "view": "(vim.Range)?"
                                                                 },
                                                                 "name": "range",
                                                                 "optional": true
@@ -20287,10 +20402,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "buf",
                                             "optional": true
@@ -20301,10 +20416,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "row",
                                             "optional": true
@@ -20315,10 +20430,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "col",
                                             "optional": true
@@ -20328,11 +20443,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim._inspector.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim._inspector.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -20431,11 +20546,11 @@
                                                                         "infer": {
                                                                             "types": [
                                                                                 {
-                                                                                    "kind": "builtin",
-                                                                                    "value": "nil"
+                                                                                    "kind": "genericreference",
+                                                                                    "value": "K"
                                                                                 }
                                                                             ],
-                                                                            "view": "nil"
+                                                                            "view": "<K>?"
                                                                         },
                                                                         "name": "index",
                                                                         "optional": true
@@ -20561,11 +20676,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.gsplit.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.gsplit.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -20745,10 +20860,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "strict_indexing",
                                             "optional": true
@@ -20995,10 +21110,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "index",
                                             "optional": true
@@ -21009,10 +21124,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "strict_indexing",
                                             "optional": true
@@ -21167,11 +21282,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.SystemOpts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.SystemOpts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -21181,11 +21296,27 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.SystemCompleted"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.SystemCompleted"
+                                                                },
+                                                                "name": "out",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun(out: vim.SystemCompleted)?"
                                             },
                                             "name": "on_exit",
                                             "optional": true
@@ -21358,11 +21489,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.tbl_contains.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.tbl_contains.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -22998,10 +23129,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "optional",
                                             "optional": true
@@ -23012,10 +23143,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "message",
                                             "optional": true
@@ -23098,11 +23229,40 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "unknown"
+                                                                        }
+                                                                    ],
+                                                                    "view": "unknown"
+                                                                },
+                                                                "name": "...",
+                                                                "optional": false
+                                                            }
+                                                        ]
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(fun():boolean, ...unknown)?"
                                             },
                                             "name": "callback",
                                             "optional": true
@@ -23113,10 +23273,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "interval",
                                             "optional": true
@@ -23127,10 +23287,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "fast_only",
                                             "optional": true

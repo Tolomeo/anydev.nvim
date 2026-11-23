@@ -75,10 +75,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "client_id",
                                             "optional": true
@@ -89,10 +89,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "only_visible",
                                             "optional": true
@@ -290,11 +290,26 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "lsp.DiagnosticSeverity"
+                                                                        }
+                                                                    ],
+                                                                    "view": "(lsp.DiagnosticSeverity)?"
+                                                                },
+                                                                "name": "severity",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ severity: lsp.DiagnosticSeverity }?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -383,10 +398,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "is_pull",
                                             "optional": true
@@ -397,10 +412,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "pull_id",
                                             "optional": true
@@ -456,11 +471,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.ResponseError)?"
                                             },
                                             "name": "error",
                                             "optional": true
@@ -529,11 +544,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.ResponseError)?"
                                             },
                                             "name": "_",
                                             "optional": true

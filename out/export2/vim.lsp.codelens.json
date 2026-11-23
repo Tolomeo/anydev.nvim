@@ -16,10 +16,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "client_id",
                                             "optional": true
@@ -30,10 +30,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -75,11 +75,19 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.CodeLens"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.CodeLens"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "lsp.CodeLens[]?"
                                             },
                                             "name": "lenses",
                                             "optional": true
@@ -150,10 +158,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "enable",
                                             "optional": true
@@ -163,11 +171,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -208,11 +216,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.get.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.codelens.get.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -276,11 +284,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.capability.enable.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.capability.enable.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -336,11 +344,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.ResponseError)?"
                                             },
                                             "name": "err",
                                             "optional": true
@@ -446,11 +454,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.refresh.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.codelens.refresh.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -492,11 +500,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.codelens.run.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.codelens.run.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -537,11 +545,19 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.CodeLens"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.CodeLens"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "lsp.CodeLens[]?"
                                             },
                                             "name": "lenses",
                                             "optional": true

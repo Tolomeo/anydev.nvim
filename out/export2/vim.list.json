@@ -51,11 +51,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.list.bisect.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.list.bisect.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -138,11 +138,41 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "genericreference",
+                                                                            "value": "T"
+                                                                        }
+                                                                    ],
+                                                                    "view": "<T>"
+                                                                },
+                                                                "name": "x",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "",
+                                                                "optional": false
+                                                            }
+                                                        ]
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(fun(x: <T>):any)?"
                                             },
                                             "name": "key",
                                             "optional": true

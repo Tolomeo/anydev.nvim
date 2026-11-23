@@ -29,11 +29,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.net.request.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.net.request.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -43,11 +43,40 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "string"
+                                                                        }
+                                                                    ],
+                                                                    "view": "string?"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.net.request.Response"
+                                                                        }
+                                                                    ],
+                                                                    "view": "(vim.net.request.Response)?"
+                                                                },
+                                                                "name": "response",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun(err?: string, response?: vim.net.request.Response)?"
                                             },
                                             "name": "on_response",
                                             "optional": true

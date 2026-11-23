@@ -200,11 +200,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.hl.range.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.hl.range.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -218,11 +218,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "uv.uv_timer_t"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(uv.uv_timer_t)?"
                                             },
                                             "name": "range_timer",
                                             "optional": true
@@ -232,11 +232,13 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun()?"
                                             },
                                             "name": "range_clear",
                                             "optional": true

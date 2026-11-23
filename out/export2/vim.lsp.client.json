@@ -9,11 +9,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.client.before_init_cb"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "(vim.lsp.client.before_init_cb)?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -97,10 +97,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "dir",
                                             "optional": true
@@ -269,10 +269,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -286,11 +286,19 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.Registration"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.Registration"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "lsp.Registration[]?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -322,12 +330,9 @@
                         "documentation": "\n Track this so that we can escalate automatically if we've already tried a\n graceful shutdown",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "nil"
-                                }
+                                "true"
                             ],
-                            "view": "nil"
+                            "view": "true?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -708,11 +713,40 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "code",
+                                            "optional": false
+                                        },
+                                        {
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "err",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "view": "nil"
+                            "view": "fun(code: integer, err: string)?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -882,10 +916,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "nil"
+                                    "value": "boolean"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "boolean?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -956,10 +990,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -969,11 +1003,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.protocol.Method"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.protocol.Method)?"
                                             },
                                             "name": "method",
                                             "optional": true
@@ -1379,10 +1413,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "dir",
                                             "optional": true
@@ -1455,11 +1489,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Handler"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.Handler)?"
                                             },
                                             "name": "handler",
                                             "optional": true
@@ -1512,10 +1546,14 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|integer)?"
                                             },
                                             "name": "force",
                                             "optional": true
@@ -1711,11 +1749,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.ResponseError"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.ResponseError)?"
                                             },
                                             "name": "error",
                                             "optional": true
@@ -1748,11 +1786,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "kind": "typereference",
+                                    "value": "uv.uv_timer_t"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "(uv.uv_timer_t)?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -2337,11 +2375,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.Client"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.Client)?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -2434,11 +2472,26 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "integer"
+                                                                        }
+                                                                    ],
+                                                                    "view": "integer?"
+                                                                },
+                                                                "name": "bufnr",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ bufnr: integer }?"
                                             },
                                             "name": "context",
                                             "optional": true
@@ -2448,11 +2501,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Handler"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.Handler)?"
                                             },
                                             "name": "handler",
                                             "optional": true
@@ -2716,12 +2769,9 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "nil"
-                                }
+                                "true"
                             ],
-                            "view": "nil"
+                            "view": "true?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -2867,10 +2917,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "table?"
                                             },
                                             "name": "params",
                                             "optional": true
@@ -2881,10 +2931,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -3108,10 +3158,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "table?"
                                             },
                                             "name": "params",
                                             "optional": true
@@ -3121,11 +3171,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "lsp.Handler"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(lsp.Handler)?"
                                             },
                                             "name": "handler",
                                             "optional": true
@@ -3136,10 +3186,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -3168,10 +3218,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "request_id",
                                             "optional": true
@@ -3252,10 +3302,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "timeout_ms",
                                             "optional": true
@@ -3266,10 +3316,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -3283,11 +3333,40 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "lsp.ResponseError"
+                                                                        }
+                                                                    ],
+                                                                    "view": "(lsp.ResponseError)?"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": true
+                                                            },
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "result",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ err: (lsp.ResponseError)?, result: any }?"
                                             },
                                             "name": "",
                                             "optional": true
@@ -3298,10 +3377,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "err",
                                             "optional": true
@@ -3360,10 +3439,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "nil"
+                                    "value": "string"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "string?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -3415,11 +3494,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "kind": "typereference",
+                                    "value": "lsp.ServerCapabilities"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "(lsp.ServerCapabilities)?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -3443,11 +3522,11 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "kind": "typereference",
+                                    "value": "lsp.ServerInfo"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "(lsp.ServerInfo)?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",
@@ -3519,10 +3598,14 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
+                                                    },
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(boolean|integer)?"
                                             },
                                             "name": "force",
                                             "optional": true
@@ -3596,10 +3679,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "bufnr",
                                             "optional": true
@@ -3650,11 +3733,19 @@
                         "infer": {
                             "types": [
                                 {
-                                    "kind": "builtin",
-                                    "value": "nil"
+                                    "items": {
+                                        "types": [
+                                            {
+                                                "kind": "typereference",
+                                                "value": "lsp.WorkspaceFolder"
+                                            }
+                                        ],
+                                        "view": "lsp.WorkspaceFolder"
+                                    },
+                                    "kind": "array"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "lsp.WorkspaceFolder[]?"
                         },
                         "location": {
                             "file": "lua/vim/lsp/client.lua",

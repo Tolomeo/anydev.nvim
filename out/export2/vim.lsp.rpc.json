@@ -56,10 +56,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "integer"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "integer?"
                                             },
                                             "name": "port",
                                             "optional": true
@@ -175,11 +175,13 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun()?"
                                             },
                                             "name": "on_exit",
                                             "optional": true
@@ -189,11 +191,40 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "arguments": [
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "any"
+                                                                        }
+                                                                    ],
+                                                                    "view": "any"
+                                                                },
+                                                                "name": "err",
+                                                                "optional": false
+                                                            },
+                                                            {
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.lsp.rpc.ClientErrors"
+                                                                        }
+                                                                    ],
+                                                                    "view": "vim.lsp.rpc.ClientErrors"
+                                                                },
+                                                                "name": "errkind",
+                                                                "optional": false
+                                                            }
+                                                        ],
+                                                        "generics": [],
+                                                        "kind": "function",
+                                                        "returns": []
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "fun(err: any, errkind: vim.lsp.rpc.ClientErrors)?"
                                             },
                                             "name": "on_error",
                                             "optional": true
@@ -355,10 +386,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "message",
                                             "optional": true
@@ -450,11 +481,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.rpc.Dispatchers"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.rpc.Dispatchers)?"
                                             },
                                             "name": "dispatchers",
                                             "optional": true
@@ -464,11 +495,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.rpc.ExtraSpawnParams"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.rpc.ExtraSpawnParams)?"
                                             },
                                             "name": "extra_spawn_params",
                                             "optional": true

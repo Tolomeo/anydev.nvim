@@ -33,11 +33,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.enable.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.inlay_hint.enable.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -78,11 +78,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.get.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.inlay_hint.get.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -146,11 +146,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.lsp.inlay_hint.enable.Filter"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.lsp.inlay_hint.enable.Filter)?"
                                             },
                                             "name": "filter",
                                             "optional": true
@@ -220,11 +220,19 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "typereference",
+                                                                    "value": "lsp.InlayHint"
+                                                                }
+                                                            ],
+                                                            "view": "lsp.InlayHint"
+                                                        },
+                                                        "kind": "array"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "lsp.InlayHint[]?"
                                             },
                                             "name": "result",
                                             "optional": true

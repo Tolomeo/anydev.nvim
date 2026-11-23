@@ -15,11 +15,26 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "fields": [
+                                                            {
+                                                                "documentation": "",
+                                                                "infer": {
+                                                                    "types": [
+                                                                        {
+                                                                            "kind": "builtin",
+                                                                            "value": "boolean"
+                                                                        }
+                                                                    ],
+                                                                    "view": "boolean?"
+                                                                },
+                                                                "name": "print",
+                                                                "optional": true
+                                                            }
+                                                        ],
+                                                        "kind": "table"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "{ print: boolean }?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -75,11 +90,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader._profile.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.loader._profile.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -152,10 +167,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "boolean"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "boolean?"
                                             },
                                             "name": "enable",
                                             "optional": true
@@ -191,10 +206,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "nil"
+                                    "value": "boolean"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "boolean?"
                         },
                         "location": {
                             "file": "lua/vim/loader.lua",
@@ -219,10 +234,10 @@
                             "types": [
                                 {
                                     "kind": "builtin",
-                                    "value": "nil"
+                                    "value": "boolean"
                                 }
                             ],
-                            "view": "nil"
+                            "view": "boolean?"
                         },
                         "location": {
                             "file": "lua/vim/loader.lua",
@@ -266,11 +281,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader.find.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.loader.find.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -348,11 +363,11 @@
                                             "infer": {
                                                 "types": [
                                                     {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
+                                                        "kind": "typereference",
+                                                        "value": "vim.loader.find.Opts"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "(vim.loader.find.Opts)?"
                                             },
                                             "name": "opts",
                                             "optional": true
@@ -445,10 +460,10 @@
                                                 "types": [
                                                     {
                                                         "kind": "builtin",
-                                                        "value": "nil"
+                                                        "value": "string"
                                                     }
                                                 ],
-                                                "view": "nil"
+                                                "view": "string?"
                                             },
                                             "name": "path",
                                             "optional": true
