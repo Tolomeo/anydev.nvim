@@ -609,11 +609,11 @@ viewNodeSwitch = util
 --TODO: Finish implementing infer:view logics
 function export.inferObject(...)
 	local sources = { ... }
-	local uri = ws.rootUri
+	local wsRootUri = ws.rootUri
 
 	for _, source in ipairs(sources) do
 		local infer = vm.getInfer(source)
-		local view = infer:view(uri)
+		local view = infer:view(wsRootUri)
 
 		if infer.views["any"] then
 			local sourceInfer = {
@@ -642,11 +642,11 @@ function export.inferObject(...)
 		end
 
 		local types = {}
-		local subViews = infer:getSubViews(uri) or {}
+		local subViews = infer:getSubViews(wsRootUri) or {}
 
 		for _, subView in ipairs(subViews) do
 			local typeNode = typeNodes[subView]
-			local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, uri) or nil
+			local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, wsRootUri) or nil
 
 			if nodeType then
 				table.insert(types, nodeType)
