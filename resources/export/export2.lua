@@ -184,7 +184,7 @@ end ]]
 	obj.file = export.getLocalPath(guide.getUri(source))
 end ]]
 
-export.makeDocObject["doc.class"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.class"] = function(source, obj, has_seen)
 	local extends = source.extends or source.value --doc.class or other
 	local field = source.field or source.method
 	obj.name = type(field) == "table" and field[1] or nil
@@ -193,7 +193,7 @@ export.makeDocObject["doc.class"] = function(source, obj, has_seen)
 	obj.async = vm.isAsync(source, true) and true or false
 	obj.deprecated = vm.getDeprecated(source) and true or false
 	obj.visible = vm.getVisibleType(source)
-end
+end ]]
 
 export.makeDocObject["doc.field.name"] = function(source, obj, has_seen)
 	obj["[1]"] = export.documentObject(source[1], has_seen)
@@ -242,7 +242,7 @@ end
 
 export.makeDocObject["self"] = export.makeDocObject["local"]
 
-export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
+-- export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
 
 export.makeDocObject["tableindex"] = function(source, obj, has_seen)
 	obj.name = source.index[1]
@@ -882,7 +882,7 @@ export.makeDocObject["setindex"] = function(source, init, has_seen)
 	doc.name = source.index[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	local inferObject, infer = export.inferObject(value)
+	local inferObject = export.inferObject(value)
 	doc.infer = export.followTypes(value, inferObject)
 
 	return doc
