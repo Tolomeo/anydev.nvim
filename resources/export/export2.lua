@@ -5,67 +5,81 @@ local furi = require("file-uri")
 
 local debug = false
 
-function export.inspect(value, maxDepth, depth, seen)
-	maxDepth = maxDepth or 3
-	depth = depth or 0
-	seen = seen or {}
+function export.inspect(value, options)
+	options = options or {}
 
-	local kind = type(value)
+	local maxDepth = options.maxDepth or 3
+	local maxTableChildren = options.maxTableChildren or 50
+	local maxStringLength = options.maxStringLength or 150
 
-	if kind ~= "table" then
-		if kind == "string" then
-			local maxLength = 150
+	local function inspect(value, depth, seen)
+		local kind = type(value)
 
-			if #value > maxLength then
-				value = value:sub(1, maxLength) .. "..."
+		if kind ~= "table" then
+			if kind == "string" then
+				if #value > maxStringLength then
+					value = value:sub(1, maxStringLength) .. "..."
+				end
+
+				return string.format("%q", value)
 			end
 
-			return string.format("%q", value)
+			return tostring(value)
 		end
 
-		return tostring(value)
+		if seen[value] then
+			return "<recursive>"
+		end
+
+		if depth >= maxDepth then
+			return "<table>"
+		end
+
+		seen[value] = true
+
+		local parts = {}
+		local count = 0
+
+		for key, child in pairs(value) do
+			count = count + 1
+
+			if count <= maxTableChildren then
+				parts[#parts + 1] = {
+					key = tostring(key),
+					value = child,
+				}
+			end
+		end
+
+		table.sort(parts, function(a, b)
+			return a.key < b.key
+		end)
+
+		local lines = { "{" }
+
+		for _, entry in ipairs(parts) do
+			lines[#lines + 1] = string.rep("  ", depth + 1)
+				.. entry.key
+				.. " = "
+				.. inspect(entry.value, depth + 1, seen)
+				.. ","
+		end
+
+		if count > maxTableChildren then
+			lines[#lines + 1] = string.rep("  ", depth + 1)
+				.. "... ("
+				.. (count - maxTableChildren)
+				.. " more children)"
+		end
+
+		lines[#lines + 1] = string.rep("  ", depth) .. "}"
+
+		seen[value] = nil
+
+		return table.concat(lines, "\n")
 	end
 
-	if seen[value] then
-		return "<recursive>"
-	end
-
-	if depth >= maxDepth then
-		return "<table>"
-	end
-
-	seen[value] = true
-
-	local parts = {}
-
-	for key, child in pairs(value) do
-		parts[#parts + 1] = {
-			key = tostring(key),
-			value = child,
-		}
-	end
-
-	table.sort(parts, function(a, b)
-		return a.key < b.key
-	end)
-
-	local lines = {
-		"{",
-	}
-
-	for _, entry in ipairs(parts) do
-		lines[#lines + 1] = string.rep("  ", depth + 1)
-			.. entry.key
-			.. " = "
-			.. export.inspect(entry.value, maxDepth, depth + 1, seen)
-			.. ","
-	end
-
-	lines[#lines + 1] = string.rep("  ", depth) .. "}"
-
-	seen[value] = nil
-
-	return table.concat(lines, "\n")
+	return inspect(value, 0, {})
 end
 
 function export.getLocalPath(uri)
@@ -159,7 +173,6 @@ export.makeDocObject["INIT"] = function(source, has_seen)
 			start = source.start and { guide.rowColOf(source.start) },
 			finish = source.finish and { guide.rowColOf(source.finish) },
 		},
-		-- types = export.documentObject(source.types, has_seen),
 	}
 end
 
@@ -382,11 +395,7 @@ viewNodeSwitch = util
 		end
 
 		local returns = {}
-
-		local returnsCount = 0
-		for _, returnStatement in ipairs(source.returns or {}) do
-			returnsCount = math.max(returnsCount, #returnStatement)
-		end
+		local _, _, returnsCount = vm.countReturnsOfFunction(source)
 
 		for i = 1, returnsCount do
 			local ret = vm.getReturnOfFunction(source, i)
@@ -873,9 +882,8 @@ export.makeDocObject["setindex"] = function(source, init, has_seen)
 	doc.name = source.index[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	local inferObject = export.inferObject(value)
+	local inferObject, infer = export.inferObject(value)
 	doc.infer = export.followTypes(value, inferObject)
-	-- print(export.inspect({ index = source.index, value = source.value }))
 
 	return doc
 end

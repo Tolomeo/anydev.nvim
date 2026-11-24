@@ -504,6 +504,48 @@
                                             },
                                             "name": "start_row",
                                             "optional": false
+                                        },
+                                        {
+                                            "documentation": "(byte offset)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "start_col",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "end_row",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "(byte offset)",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "end_col",
+                                            "optional": false
                                         }
                                     ]
                                 }
@@ -1309,22 +1351,7 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "returns": []
                                 }
                             ],
                             "view": "function"

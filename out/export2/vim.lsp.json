@@ -1525,22 +1525,7 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "returns": []
                                 }
                             ],
                             "view": "function"
@@ -2604,6 +2589,20 @@
                                                 "view": "integer?"
                                             },
                                             "name": "client_id",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "Error message, if any",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "",
                                             "optional": true
                                         }
                                     ]

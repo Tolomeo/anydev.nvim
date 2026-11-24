@@ -200,7 +200,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSParser"
+                                                    }
+                                                ],
+                                                "view": "TSParser"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -358,7 +373,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSQueryCursor"
+                                                    }
+                                                ],
+                                                "view": "TSQueryCursor"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -1823,7 +1853,22 @@
                                     "arguments": [],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -1853,7 +1898,22 @@
                                     "arguments": [],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -1898,7 +1958,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSLangInfo"
+                                                    }
+                                                ],
+                                                "view": "TSLangInfo"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -1957,7 +2032,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "TSQuery"
+                                                    }
+                                                ],
+                                                "view": "TSQuery"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -14476,7 +14566,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -15041,7 +15146,42 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "See {opts.result_type}. `nil` if {opts.on_hunk} is given.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    },
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "items": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "builtin",
+                                                                                "value": "integer"
+                                                                            }
+                                                                        ],
+                                                                        "view": "integer"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "view": "integer[]"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "(string|integer[][])?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -15072,7 +15212,22 @@
                                     "arguments": [],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "table"
+                                                    }
+                                                ],
+                                                "view": "table"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -15516,7 +15671,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": ": Converted string if conversion succeeds, `nil` otherwise.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "",
+                                            "optional": true
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -19914,7 +20084,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "typereference",
+                                                        "value": "vim.regex"
+                                                    }
+                                                ],
+                                                "view": "vim.regex"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -20308,7 +20493,36 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "nil"
+                                            },
+                                            "name": "result",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "Error message if scheduling failed, `nil` otherwise.",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string?"
+                                            },
+                                            "name": "err",
+                                            "optional": true
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -20945,7 +21159,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -20990,7 +21219,30 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "items": {
+                                                            "types": [
+                                                                {
+                                                                    "kind": "builtin",
+                                                                    "value": "integer"
+                                                                }
+                                                            ],
+                                                            "view": "integer"
+                                                        },
+                                                        "kind": "array"
+                                                    }
+                                                ],
+                                                "view": "integer[]"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -21049,7 +21301,22 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -21149,24 +21416,6 @@
                                             },
                                             "name": "",
                                             "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
                                         }
                                     ]
                                 }
@@ -21227,7 +21476,21 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "-1",
+                                                    "0",
+                                                    "1"
+                                                ],
+                                                "view": "-1|0|1"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
@@ -23298,7 +23561,52 @@
                                     ],
                                     "generics": [],
                                     "kind": "function",
-                                    "returns": []
+                                    "returns": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "boolean"
+                                                    }
+                                                ],
+                                                "view": "boolean"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    "-1",
+                                                    "-2",
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "nil"
+                                                    }
+                                                ],
+                                                "view": "-1|-2|nil"
+                                            },
+                                            "name": "",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "unknown"
+                                                    }
+                                                ],
+                                                "view": "unknown"
+                                            },
+                                            "name": "...",
+                                            "optional": false
+                                        }
+                                    ]
                                 }
                             ],
                             "view": "function"
