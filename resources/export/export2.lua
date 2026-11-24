@@ -123,15 +123,14 @@ function export.documentObject(source, has_seen)
 	--if neither, then this is a singular docUnion
 	local obj = export.makeDocObject["INIT"](source, has_seen)
 
-	print(
+	--[[ print(
 		obj.type,
 		obj.name,
 		obj.location.file,
 		export.inspect(obj.location.start),
 		export.inspect(obj.location.finish)
-	)
+	) ]]
 
-	-- print(obj.type)
 	local res = export.makeDocObject[obj.type](source, obj, has_seen)
 
 	return res or obj
@@ -164,13 +163,13 @@ export.makeDocObject["INIT"] = function(source, has_seen)
 	}
 end
 
-export.makeDocObject["doc.alias"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.alias"] = function(source, obj, has_seen)
 	obj.file = export.getLocalPath(guide.getUri(source))
-end
+end ]]
 
-export.makeDocObject["doc.enum"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.enum"] = function(source, obj, has_seen)
 	obj.file = export.getLocalPath(guide.getUri(source))
-end
+end ]]
 
 export.makeDocObject["doc.class"] = function(source, obj, has_seen)
 	local extends = source.extends or source.value --doc.class or other
@@ -231,8 +230,6 @@ end
 export.makeDocObject["self"] = export.makeDocObject["local"]
 
 export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
-
-export.makeDocObject["setindex"] = export.makeDocObject["doc.class"]
 
 export.makeDocObject["tableindex"] = function(source, obj, has_seen)
 	obj.name = source.index[1]
@@ -865,6 +862,20 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 
 	--[[ local methodType = export.inferObject(method)
 	doc.infer = export.followTypes(method, methodType) ]]
+
+	return doc
+end
+
+export.makeDocObject["setindex"] = function(source, init, has_seen)
+	local doc = init
+	local value = source.value
+
+	doc.name = source.index[1]
+	doc.meta = export.documentObjectMeta(source)
+
+	local inferObject = export.inferObject(value)
+	doc.infer = export.followTypes(value, inferObject)
+	-- print(export.inspect({ index = source.index, value = source.value }))
 
 	return doc
 end

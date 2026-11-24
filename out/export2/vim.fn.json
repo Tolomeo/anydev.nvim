@@ -154,69 +154,47 @@
                         "type": "setfield"
                     },
                     {
-                        "async": false,
-                        "deprecated": false,
                         "documentation": " Bitwise AND on the two arguments.  The arguments are converted\n to a number.  A List, Dict or Float argument causes an error.\n Also see |or()| and |xor()|.\n Example: >vim\n   let flag = and(bits, 0x80)\n <\n",
-                        "extends": {
-                            "args": [
+                        "infer": {
+                            "types": [
                                 {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            63,
-                                            29
-                                        ],
-                                        "start": [
-                                            63,
-                                            25
-                                        ]
-                                    },
-                                    "name": "expr",
-                                    "type": "local"
-                                },
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            63,
-                                            36
-                                        ],
-                                        "start": [
-                                            63,
-                                            31
-                                        ]
-                                    },
-                                    "name": "expr1",
-                                    "type": "local"
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "number"
+                                                    }
+                                                ],
+                                                "view": "number"
+                                            },
+                                            "name": "expr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "number"
+                                                    }
+                                                ],
+                                                "view": "number"
+                                            },
+                                            "name": "expr1",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "documentation": " Bitwise AND on the two arguments.  The arguments are converted\n to a number.  A List, Dict or Float argument causes an error.\n Also see |or()| and |xor()|.\n Example: >vim\n   let flag = and(bits, 0x80)\n <\n",
-                            "location": {
-                                "file": "lua/vim/_meta/vimfn.gen.lua",
-                                "finish": [
-                                    63,
-                                    41
-                                ],
-                                "start": [
-                                    63,
-                                    16
-                                ]
-                            },
-                            "returns": [
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua"
-                                    },
-                                    "type": "function.return"
-                                }
-                            ],
-                            "type": "function",
-                            "view": "function (expr: number, expr1: number)\n  -> integer"
+                            "view": "function"
                         },
-                        "file": "lua/vim/_meta/vimfn.gen.lua",
                         "location": {
                             "file": "lua/vim/_meta/vimfn.gen.lua",
                             "finish": [
@@ -228,8 +206,11 @@
                                 0
                             ]
                         },
-                        "type": "setindex",
-                        "visible": "public"
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "and",
+                        "type": "setindex"
                     },
                     {
                         "documentation": " Returns Dictionary of |api-metadata|.\n\n View it in a nice human-readable format: >vim\n        lua vim.print(vim.fn.api_info())\n <",
@@ -7037,85 +7018,61 @@
                         "type": "setfield"
                     },
                     {
-                        "async": false,
-                        "deprecated": false,
                         "documentation": " Return a |Funcref| variable that refers to function {name}.\n {name} can be the name of a user defined function or an\n internal function.\n\n {name} can also be a Funcref or a partial. When it is a\n partial the dict stored in it will be used and the {dict}\n argument is not allowed.  E.g.: >vim\n   let FuncWithArg = function(dict.Func, [arg])\n   let Broken = function(dict.Func, [arg], dict)\n <\n When using the Funcref the function will be found by {name},\n also when it was redefined later. Use |funcref()| to keep the\n same function.\n\n When {arglist} or {dict} is present this creates a partial.\n That means the argument list and/or the dictionary is stored\n in the Funcref and will be used when the Funcref is called.\n\n The arguments are passed to the function in front of other\n arguments, but after any argument from |method|.  Example: >vim\n   func Callback(arg1, arg2, name)\n   \"...\n   endfunc\n   let Partial = function('Callback', ['one', 'two'])\n   \"...\n   call Partial('name')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'name')\n\n <With a |method|: >vim\n   func Callback(one, two, three)\n   \"...\n   endfunc\n   let Partial = function('Callback', ['two'])\n   \"...\n   eval 'one'->Partial('three')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'three')\n\n <The function() call can be nested to add more arguments to the\n Funcref.  The extra arguments are appended to the list of\n arguments.  Example: >vim\n   func Callback(arg1, arg2, name)\n   \"...\n   endfunc\n   let Func = function('Callback', ['one'])\n   let Func2 = function(Func, ['two'])\n   \"...\n   call Func2('name')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'name')\n\n <The Dictionary is only useful when calling a \"dict\" function.\n In that case the {dict} is passed in as \"self\".  Example: >vim\n   function Callback() dict\n      echo \"called for \" .. self.name\n   endfunction\n   \"...\n   let context = {\"name\": \"example\"}\n   let Func = function('Callback', context)\n   \"...\n   call Func()  \" will echo: called for example\n <The use of function() is not needed when there are no extra\n arguments, these two are equivalent, if Callback() is defined\n as context.Callback(): >vim\n   let Func = function('Callback', context)\n   let Func = context.Callback\n\n <The argument list and the Dictionary can be combined: >vim\n   function Callback(arg1, count) dict\n   \"...\n   endfunction\n   let context = {\"name\": \"example\"}\n   let Func = function('Callback', ['one'], context)\n   \"...\n   call Func(500)\n <Invokes the function as with: >vim\n   call context.Callback('one', 500)\n <\n Returns 0 on error.\n",
-                        "extends": {
-                            "args": [
+                        "infer": {
+                            "types": [
                                 {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            2560,
-                                            34
-                                        ],
-                                        "start": [
-                                            2560,
-                                            30
-                                        ]
-                                    },
-                                    "name": "name",
-                                    "type": "local"
-                                },
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            2560,
-                                            43
-                                        ],
-                                        "start": [
-                                            2560,
-                                            36
-                                        ]
-                                    },
-                                    "name": "arglist",
-                                    "type": "local"
-                                },
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            2560,
-                                            49
-                                        ],
-                                        "start": [
-                                            2560,
-                                            45
-                                        ]
-                                    },
-                                    "name": "dict",
-                                    "type": "local"
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "string"
+                                                    }
+                                                ],
+                                                "view": "string"
+                                            },
+                                            "name": "name",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "arglist",
+                                            "optional": true
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "dict",
+                                            "optional": true
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "documentation": " Return a |Funcref| variable that refers to function {name}.\n {name} can be the name of a user defined function or an\n internal function.\n\n {name} can also be a Funcref or a partial. When it is a\n partial the dict stored in it will be used and the {dict}\n argument is not allowed.  E.g.: >vim\n   let FuncWithArg = function(dict.Func, [arg])\n   let Broken = function(dict.Func, [arg], dict)\n <\n When using the Funcref the function will be found by {name},\n also when it was redefined later. Use |funcref()| to keep the\n same function.\n\n When {arglist} or {dict} is present this creates a partial.\n That means the argument list and/or the dictionary is stored\n in the Funcref and will be used when the Funcref is called.\n\n The arguments are passed to the function in front of other\n arguments, but after any argument from |method|.  Example: >vim\n   func Callback(arg1, arg2, name)\n   \"...\n   endfunc\n   let Partial = function('Callback', ['one', 'two'])\n   \"...\n   call Partial('name')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'name')\n\n <With a |method|: >vim\n   func Callback(one, two, three)\n   \"...\n   endfunc\n   let Partial = function('Callback', ['two'])\n   \"...\n   eval 'one'->Partial('three')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'three')\n\n <The function() call can be nested to add more arguments to the\n Funcref.  The extra arguments are appended to the list of\n arguments.  Example: >vim\n   func Callback(arg1, arg2, name)\n   \"...\n   endfunc\n   let Func = function('Callback', ['one'])\n   let Func2 = function(Func, ['two'])\n   \"...\n   call Func2('name')\n <Invokes the function as with: >vim\n   call Callback('one', 'two', 'name')\n\n <The Dictionary is only useful when calling a \"dict\" function.\n In that case the {dict} is passed in as \"self\".  Example: >vim\n   function Callback() dict\n      echo \"called for \" .. self.name\n   endfunction\n   \"...\n   let context = {\"name\": \"example\"}\n   let Func = function('Callback', context)\n   \"...\n   call Func()  \" will echo: called for example\n <The use of function() is not needed when there are no extra\n arguments, these two are equivalent, if Callback() is defined\n as context.Callback(): >vim\n   let Func = function('Callback', context)\n   let Func = context.Callback\n\n <The argument list and the Dictionary can be combined: >vim\n   function Callback(arg1, count) dict\n   \"...\n   endfunction\n   let context = {\"name\": \"example\"}\n   let Func = function('Callback', ['one'], context)\n   \"...\n   call Func(500)\n <Invokes the function as with: >vim\n   call context.Callback('one', 500)\n <\n Returns 0 on error.\n",
-                            "location": {
-                                "file": "lua/vim/_meta/vimfn.gen.lua",
-                                "finish": [
-                                    2560,
-                                    54
-                                ],
-                                "start": [
-                                    2560,
-                                    21
-                                ]
-                            },
-                            "returns": [
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua"
-                                    },
-                                    "type": "function.return"
-                                }
-                            ],
-                            "type": "function",
-                            "view": "function (name: string, arglist?: any, dict?: any)\n  -> any"
+                            "view": "function"
                         },
-                        "file": "lua/vim/_meta/vimfn.gen.lua",
                         "location": {
                             "file": "lua/vim/_meta/vimfn.gen.lua",
                             "finish": [
@@ -7127,8 +7084,11 @@
                                 0
                             ]
                         },
-                        "type": "setindex",
-                        "visible": "public"
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "function",
+                        "type": "setindex"
                     },
                     {
                         "documentation": " Cleanup unused |Lists| and |Dictionaries| that have circular\n references.\n\n There is hardly ever a need to invoke this function, as it is\n automatically done when Vim runs out of memory or is waiting\n for the user to press a key after 'updatetime'.  Items without\n circular references are always freed when they become unused.\n This is useful if you have deleted a very big |List| and/or\n |Dictionary| with circular references in a script that runs\n for a long time.\n\n When the optional {atexit} argument is one, garbage\n collection will also be done when exiting Vim, if it wasn't\n done before.  This is useful when checking for memory leaks.\n\n The garbage collection is not done immediately but only when\n it's safe to perform.  This is when waiting for the user to\n type a character.",
@@ -16058,69 +16018,47 @@
                         "type": "setfield"
                     },
                     {
-                        "async": false,
-                        "deprecated": false,
                         "documentation": " Bitwise OR on the two arguments.  The arguments are converted\n to a number.  A List, Dict or Float argument causes an error.\n Also see `and()` and `xor()`.\n Example: >vim\n   let bits = or(bits, 0x80)\n\n <Rationale: The reason this is a function and not using the \"|\"\n character like many languages, is that Vi has always used \"|\"\n to separate commands.  In many places it would not be clear if\n \"|\" is an operator or a command separator.\n",
-                        "extends": {
-                            "args": [
+                        "infer": {
+                            "types": [
                                 {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            6493,
-                                            28
-                                        ],
-                                        "start": [
-                                            6493,
-                                            24
-                                        ]
-                                    },
-                                    "name": "expr",
-                                    "type": "local"
-                                },
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            6493,
-                                            35
-                                        ],
-                                        "start": [
-                                            6493,
-                                            30
-                                        ]
-                                    },
-                                    "name": "expr1",
-                                    "type": "local"
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "number"
+                                                    }
+                                                ],
+                                                "view": "number"
+                                            },
+                                            "name": "expr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "number"
+                                                    }
+                                                ],
+                                                "view": "number"
+                                            },
+                                            "name": "expr1",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "documentation": " Bitwise OR on the two arguments.  The arguments are converted\n to a number.  A List, Dict or Float argument causes an error.\n Also see `and()` and `xor()`.\n Example: >vim\n   let bits = or(bits, 0x80)\n\n <Rationale: The reason this is a function and not using the \"|\"\n character like many languages, is that Vi has always used \"|\"\n to separate commands.  In many places it would not be clear if\n \"|\" is an operator or a command separator.\n",
-                            "location": {
-                                "file": "lua/vim/_meta/vimfn.gen.lua",
-                                "finish": [
-                                    6493,
-                                    40
-                                ],
-                                "start": [
-                                    6493,
-                                    15
-                                ]
-                            },
-                            "returns": [
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua"
-                                    },
-                                    "type": "function.return"
-                                }
-                            ],
-                            "type": "function",
-                            "view": "function (expr: number, expr1: number)\n  -> any"
+                            "view": "function"
                         },
-                        "file": "lua/vim/_meta/vimfn.gen.lua",
                         "location": {
                             "file": "lua/vim/_meta/vimfn.gen.lua",
                             "finish": [
@@ -16132,8 +16070,11 @@
                                 0
                             ]
                         },
-                        "type": "setindex",
-                        "visible": "public"
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "or",
+                        "type": "setindex"
                     },
                     {
                         "documentation": " Shorten directory names in the path {path} and return the\n result.  The tail, the file name, is kept as-is.  The other\n components in the path are reduced to {len} letters in length.\n If {len} is omitted or smaller than 1 then 1 is used (single\n letters).  Leading '~' and '.' characters are kept.  Examples: >vim\n   echo pathshorten('~/.config/nvim/autoload/file1.vim')\n <  ~/.c/n/a/file1.vim ~\n >vim\n   echo pathshorten('~/.config/nvim/autoload/file2.vim', 2)\n <  ~/.co/nv/au/file2.vim ~\n It doesn't matter if the path exists or not.\n Returns an empty string on error.",
@@ -18195,69 +18136,47 @@
                         "type": "setfield"
                     },
                     {
-                        "async": false,
-                        "deprecated": false,
                         "documentation": " Repeat {expr} {count} times and return the concatenated\n result.  Example: >vim\n   let separator = repeat('-', 80)\n <When {count} is zero or negative the result is empty.\n When {expr} is a |List| or a |Blob| the result is {expr}\n concatenated {count} times.  Example: >vim\n   let longlist = repeat(['a', 'b'], 3)\n <Results in ['a', 'b', 'a', 'b', 'a', 'b'].\n",
-                        "extends": {
-                            "args": [
+                        "infer": {
+                            "types": [
                                 {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            7389,
-                                            32
-                                        ],
-                                        "start": [
-                                            7389,
-                                            28
-                                        ]
-                                    },
-                                    "name": "expr",
-                                    "type": "local"
-                                },
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua",
-                                        "finish": [
-                                            7389,
-                                            39
-                                        ],
-                                        "start": [
-                                            7389,
-                                            34
-                                        ]
-                                    },
-                                    "name": "count",
-                                    "type": "local"
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "any"
+                                                    }
+                                                ],
+                                                "view": "any"
+                                            },
+                                            "name": "expr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "count",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
                                 }
                             ],
-                            "documentation": " Repeat {expr} {count} times and return the concatenated\n result.  Example: >vim\n   let separator = repeat('-', 80)\n <When {count} is zero or negative the result is empty.\n When {expr} is a |List| or a |Blob| the result is {expr}\n concatenated {count} times.  Example: >vim\n   let longlist = repeat(['a', 'b'], 3)\n <Results in ['a', 'b', 'a', 'b', 'a', 'b'].\n",
-                            "location": {
-                                "file": "lua/vim/_meta/vimfn.gen.lua",
-                                "finish": [
-                                    7389,
-                                    44
-                                ],
-                                "start": [
-                                    7389,
-                                    19
-                                ]
-                            },
-                            "returns": [
-                                {
-                                    "documentation": "",
-                                    "location": {
-                                        "file": "lua/vim/_meta/vimfn.gen.lua"
-                                    },
-                                    "type": "function.return"
-                                }
-                            ],
-                            "type": "function",
-                            "view": "function (expr: any, count: integer)\n  -> any"
+                            "view": "function"
                         },
-                        "file": "lua/vim/_meta/vimfn.gen.lua",
                         "location": {
                             "file": "lua/vim/_meta/vimfn.gen.lua",
                             "finish": [
@@ -18269,8 +18188,11 @@
                                 0
                             ]
                         },
-                        "type": "setindex",
-                        "visible": "public"
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "repeat",
+                        "type": "setindex"
                     },
                     {
                         "documentation": " On MS-Windows, when {filename} is a shortcut (a .lnk file),\n returns the path the shortcut points to in a simplified form.\n On Unix, repeat resolving symbolic links in all path\n components of {filename} and return the simplified result.\n To cope with link cycles, resolving of symbolic links is\n stopped after 100 iterations.\n On other systems, return the simplified {filename}.\n The simplification step is done as by |simplify()|.\n resolve() keeps a leading path component specifying the\n current directory (provided the result is still a relative\n path name) and also keeps a trailing path separator.",
