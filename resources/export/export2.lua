@@ -145,10 +145,14 @@ function export.documentObject(source, has_seen)
 		export.inspect(obj.location.finish)
 	) ]]
 
+	export.objTypes[obj.type] = export.objTypes[obj.type] and export.objTypes[obj.type] + 1 or 1
+
 	local res = export.makeDocObject[obj.type](source, obj, has_seen)
 
 	return res or obj
 end
+
+export.objTypes = {}
 
 ---Switch statement table. functions can be overriden by user file.
 ---@table
@@ -210,15 +214,15 @@ end ]]
 	obj.fields = export.documentObject(source.fields, has_seen)
 end ]]
 
-export.makeDocObject["funcargs"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["funcargs"] = function(source, obj, has_seen)
 	local objs = {} --make a pure numerical array
 	for i, child in ipairs(source) do
 		objs[i] = export.documentObject(child, has_seen)
 	end
 	return objs
-end
+end ]]
 
-export.makeDocObject["function"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["function"] = function(source, obj, has_seen)
 	obj.args = export.documentObject(source.args, has_seen)
 	obj.view = getLabel(source, source.parent.type == "setmethod", 1)
 	local _, _, max = vm.countReturnsOfFunction(source)
@@ -228,23 +232,24 @@ export.makeDocObject["function"] = function(source, obj, has_seen)
 	for i = 1, max do
 		obj.returns[i] = export.documentObject(vm.getReturnOfFunction(source, i), has_seen) --check if bug?
 	end
-end
+end ]]
 
-export.makeDocObject["function.return"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["function.return"] = function(source, obj, has_seen)
 	obj.desc = source.comment and getDesc(source.comment)
 	obj.rawdesc = source.comment and getDesc(source.comment, true)
-end
+end ]]
 
-export.makeDocObject["local"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["local"] = function(source, obj, has_seen)
 	obj.name = source[1]
-end
+end ]]
 
-export.makeDocObject["self"] = export.makeDocObject["local"]
+-- export.makeDocObject["self"] = export.makeDocObject["local"]
 
 -- export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
 
 export.makeDocObject["tableindex"] = function(source, obj, has_seen)
 	obj.name = source.index[1]
+	return obj
 end
 
 --[[ export.makeDocObject["type"] = function(source, obj, has_seen)
