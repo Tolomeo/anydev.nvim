@@ -166,7 +166,6 @@ export.makeDocObject["INIT"] = function(source, has_seen)
 	return {
 		category = source.cate,
 		type = source.type,
-		name = export.documentObject((source.getCodeName and source:getCodeName()) or source.name, has_seen),
 		documentation = ok and desc or "",
 		location = {
 			file = export.getLocalPath(guide.getUri(source)),
@@ -195,10 +194,10 @@ end ]]
 	obj.visible = vm.getVisibleType(source)
 end ]]
 
-export.makeDocObject["doc.field.name"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.field.name"] = function(source, obj, has_seen)
 	obj["[1]"] = export.documentObject(source[1], has_seen)
 	obj.view = source[1]
-end
+end ]]
 
 export.makeDocObject["doc.type.arg.name"] = export.makeDocObject["doc.field.name"]
 
@@ -821,38 +820,24 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 
 	local field = source.field
 
-	--TODO: handle metamethods
 	if field[1] == "__index" then
+		print("Setfield: skipping '__index' metamethod")
 		return nil
 	end
 
-	debug = field[1] == "F"
+	-- debug = field[1] == "F"
 
 	if debug then
 		-- print(export.inspect(source))
 	end
 
-	-- TODO: why does this do
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	-- local candidates = { source.field, source.value }
-
 	local inferObject, _, inferSource = export.inferObject(source.field, source.value)
-
 	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
 
-	--[[ for _, src in ipairs(candidates) do
-		local srcType = export.inferObject(src)
-		local srcInfer = export.followTypes(src, srcType)
-
-		if #srcInfer.types > 0 then
-			doc.infer = srcInfer
-			break
-		end
-	end ]]
-
-	debug = false
+	-- debug = false
 
 	return doc
 end
@@ -868,9 +853,6 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 
 	local inferObject = export.inferObject(method)
 	doc.infer = export.followTypes(method, inferObject)
-
-	--[[ local methodType = export.inferObject(method)
-	doc.infer = export.followTypes(method, methodType) ]]
 
 	return doc
 end
@@ -899,20 +881,8 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
-	-- local candidates = { source.field, source.value }
-
 	local inferObject, _, inferSource = export.inferObject(source.field, source.value)
-
 	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
-	--[[ for _, src in ipairs(candidates) do
-		local srcInfer = export.inferObject(src)
-		local srcType = export.followTypes(src, srcInfer)
-
-		if #srcType.types > 0 then
-			doc.infer = srcType
-			break
-		end
-	end ]]
 
 	return doc
 end
