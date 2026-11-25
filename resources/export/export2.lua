@@ -247,11 +247,6 @@ end ]]
 
 -- export.makeDocObject["setglobal"] = export.makeDocObject["doc.class"]
 
-export.makeDocObject["tableindex"] = function(source, obj, has_seen)
-	obj.name = source.index[1]
-	return obj
-end
-
 --[[ export.makeDocObject["type"] = function(source, obj, has_seen)
 	if export.makeDocObject["variable"](source, obj, has_seen) == false then
 		return false
@@ -887,6 +882,20 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	doc.meta = export.documentObjectMeta(source)
 
 	local inferObject, _, inferSource = export.inferObject(source.field, source.value)
+	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
+
+	return doc
+end
+
+export.makeDocObject["tableindex"] = function(source, init, has_seen)
+	local doc = init
+	local index = source.index
+	local value = source.value
+
+	doc.name = index[1]
+	doc.meta = export.documentObjectMeta(source)
+
+	local inferObject, _, inferSource = export.inferObject(index, value)
 	doc.infer = inferSource and export.followTypes(inferSource, inferObject) or inferObject
 
 	return doc

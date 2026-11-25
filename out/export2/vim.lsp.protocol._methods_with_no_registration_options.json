@@ -6,6 +6,15 @@
                 "fields": [
                     {
                         "documentation": "",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "builtin",
+                                    "value": "string"
+                                }
+                            ],
+                            "view": "string"
+                        },
                         "location": {
                             "file": "lua/vim/lsp/protocol.lua",
                             "finish": [
@@ -17,6 +26,9 @@
                                 2
                             ]
                         },
+                        "meta": [
+                            "public"
+                        ],
                         "name": "workspace/didChangeWorkspaceFolders",
                         "type": "tableindex"
                     }
