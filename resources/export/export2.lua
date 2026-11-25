@@ -199,16 +199,16 @@ end ]]
 	obj.view = source[1]
 end ]]
 
-export.makeDocObject["doc.type.arg.name"] = export.makeDocObject["doc.field.name"]
+-- export.makeDocObject["doc.type.arg.name"] = export.makeDocObject["doc.field.name"]
 
-export.makeDocObject["doc.type.function"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.type.function"] = function(source, obj, has_seen)
 	obj.args = export.documentObject(source.args, has_seen)
 	obj.returns = export.documentObject(source.returns, has_seen)
-end
+end ]]
 
-export.makeDocObject["doc.type.table"] = function(source, obj, has_seen)
+--[[ export.makeDocObject["doc.type.table"] = function(source, obj, has_seen)
 	obj.fields = export.documentObject(source.fields, has_seen)
-end
+end ]]
 
 export.makeDocObject["funcargs"] = function(source, obj, has_seen)
 	local objs = {} --make a pure numerical array
