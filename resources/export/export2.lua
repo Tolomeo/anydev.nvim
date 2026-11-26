@@ -149,7 +149,7 @@ function export.documentObject(source, has_seen)
 
 	local res = export.makeDocObject[obj.type](source, obj, has_seen)
 
-	return res or obj
+	return res and res or nil
 end
 
 export.objTypes = {}
@@ -840,6 +840,11 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	-- debug = false
 
 	return doc
+end
+
+export.makeDocObject["getfield"] = function(source, init, has_seen)
+	-- print(export.inspect(source))
+	print(string.format("Getfield: skipping '%s'", source._variableNode.id))
 end
 
 export.makeDocObject["setmethod"] = function(source, init, has_seen)

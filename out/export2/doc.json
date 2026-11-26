@@ -83048,36 +83048,6 @@
                                                                     ],
                                                                     "name": "user",
                                                                     "type": "tablefield"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "lua/vim/hl.lua",
-                                                                        "finish": [
-                                                                            56,
-                                                                            53
-                                                                        ],
-                                                                        "start": [
-                                                                            56,
-                                                                            36
-                                                                        ]
-                                                                    },
-                                                                    "type": "getfield"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "lua/vim/hl.lua",
-                                                                        "finish": [
-                                                                            199,
-                                                                            49
-                                                                        ],
-                                                                        "start": [
-                                                                            199,
-                                                                            32
-                                                                        ]
-                                                                    },
-                                                                    "type": "getfield"
                                                                 }
                                                             ],
                                                             "kind": "table"
@@ -87337,6 +87307,31 @@
                                                                     "type": "doc.field"
                                                                 },
                                                                 {
+                                                                    "documentation": "",
+                                                                    "infer": {
+                                                                        "types": [
+                                                                            "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                                                                        ],
+                                                                        "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                                                                    },
+                                                                    "location": {
+                                                                        "file": "lua/vim/lsp/_capability.lua",
+                                                                        "finish": [
+                                                                            213,
+                                                                            5
+                                                                        ],
+                                                                        "start": [
+                                                                            213,
+                                                                            0
+                                                                        ]
+                                                                    },
+                                                                    "meta": [
+                                                                        "public"
+                                                                    ],
+                                                                    "name": "all",
+                                                                    "type": "setfield"
+                                                                },
+                                                                {
                                                                     "documentation": "\n The augroup owned by this instance, which will be cleared upon destruction.",
                                                                     "infer": {
                                                                         "types": [
@@ -87416,106 +87411,6 @@
                                                                     ],
                                                                     "name": "client_state",
                                                                     "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": "\n Static field records the method this capability requires.",
-                                                                    "infer": {
-                                                                        "types": [
-                                                                            {
-                                                                                "kind": "typereference",
-                                                                                "value": "vim.lsp.protocol.Method.ClientToServer"
-                                                                            },
-                                                                            {
-                                                                                "kind": "typereference",
-                                                                                "value": "vim.lsp.protocol.Method.Registration"
-                                                                            }
-                                                                        ],
-                                                                        "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
-                                                                    },
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/_capability.lua",
-                                                                        "finish": [
-                                                                            25,
-                                                                            94
-                                                                        ],
-                                                                        "start": [
-                                                                            25,
-                                                                            10
-                                                                        ]
-                                                                    },
-                                                                    "meta": [
-                                                                        "public"
-                                                                    ],
-                                                                    "name": "method",
-                                                                    "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": "\n Static field as the identifier of the LSP capability it supports.",
-                                                                    "infer": {
-                                                                        "types": [
-                                                                            {
-                                                                                "kind": "typereference",
-                                                                                "value": "vim.lsp.capability.Name"
-                                                                            }
-                                                                        ],
-                                                                        "view": "vim.lsp.capability.Name"
-                                                                    },
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/_capability.lua",
-                                                                        "finish": [
-                                                                            22,
-                                                                            38
-                                                                        ],
-                                                                        "start": [
-                                                                            22,
-                                                                            10
-                                                                        ]
-                                                                    },
-                                                                    "meta": [
-                                                                        "public"
-                                                                    ],
-                                                                    "name": "name",
-                                                                    "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": " Abstract base class (not instantiable directly).\n For each buffer that has at least one supported client attached,\n exactly one instance of each concrete subclass is created.\n That instance is destroyed once all supporting clients detach from the buffer.",
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/_capability.lua",
-                                                                        "finish": [
-                                                                            41,
-                                                                            9
-                                                                        ],
-                                                                        "start": [
-                                                                            41,
-                                                                            0
-                                                                        ]
-                                                                    },
-                                                                    "type": "setfield"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "infer": {
-                                                                        "types": [
-                                                                            "table<vim.lsp.capability.Name, vim.lsp.Capability>"
-                                                                        ],
-                                                                        "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
-                                                                    },
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/_capability.lua",
-                                                                        "finish": [
-                                                                            213,
-                                                                            5
-                                                                        ],
-                                                                        "start": [
-                                                                            213,
-                                                                            0
-                                                                        ]
-                                                                    },
-                                                                    "meta": [
-                                                                        "public"
-                                                                    ],
-                                                                    "name": "all",
-                                                                    "type": "setfield"
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -87708,6 +87603,66 @@
                                                                     ],
                                                                     "name": "is_enabled",
                                                                     "type": "setfield"
+                                                                },
+                                                                {
+                                                                    "documentation": "\n Static field records the method this capability requires.",
+                                                                    "infer": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.ClientToServer"
+                                                                            },
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.protocol.Method.Registration"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
+                                                                    },
+                                                                    "location": {
+                                                                        "file": "lua/vim/lsp/_capability.lua",
+                                                                        "finish": [
+                                                                            25,
+                                                                            94
+                                                                        ],
+                                                                        "start": [
+                                                                            25,
+                                                                            10
+                                                                        ]
+                                                                    },
+                                                                    "meta": [
+                                                                        "public"
+                                                                    ],
+                                                                    "name": "method",
+                                                                    "type": "doc.field"
+                                                                },
+                                                                {
+                                                                    "documentation": "\n Static field as the identifier of the LSP capability it supports.",
+                                                                    "infer": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.capability.Name"
+                                                                            }
+                                                                        ],
+                                                                        "view": "vim.lsp.capability.Name"
+                                                                    },
+                                                                    "location": {
+                                                                        "file": "lua/vim/lsp/_capability.lua",
+                                                                        "finish": [
+                                                                            22,
+                                                                            38
+                                                                        ],
+                                                                        "start": [
+                                                                            22,
+                                                                            10
+                                                                        ]
+                                                                    },
+                                                                    "meta": [
+                                                                        "public"
+                                                                    ],
+                                                                    "name": "name",
+                                                                    "type": "doc.field"
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -91416,74 +91371,6 @@
                                                         {
                                                             "fields": [
                                                                 {
-                                                                    "documentation": "",
-                                                                    "infer": {
-                                                                        "types": [
-                                                                            {
-                                                                                "kind": "typereference",
-                                                                                "value": "vim.lsp.client.before_init_cb"
-                                                                            }
-                                                                        ],
-                                                                        "view": "(vim.lsp.client.before_init_cb)?"
-                                                                    },
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/client.lua",
-                                                                        "finish": [
-                                                                            244,
-                                                                            65
-                                                                        ],
-                                                                        "start": [
-                                                                            244,
-                                                                            11
-                                                                        ]
-                                                                    },
-                                                                    "meta": [
-                                                                        "private"
-                                                                    ],
-                                                                    "name": "_before_init_cb",
-                                                                    "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "infer": {
-                                                                        "types": [
-                                                                            "table<vim.lsp.capability.Name, boolean?>"
-                                                                        ],
-                                                                        "view": "table<vim.lsp.capability.Name, boolean?>"
-                                                                    },
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/client.lua",
-                                                                        "finish": [
-                                                                            226,
-                                                                            73
-                                                                        ],
-                                                                        "start": [
-                                                                            226,
-                                                                            11
-                                                                        ]
-                                                                    },
-                                                                    "meta": [
-                                                                        "public"
-                                                                    ],
-                                                                    "name": "_enabled_capabilities",
-                                                                    "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "lua/vim/lsp/client.lua",
-                                                                        "finish": [
-                                                                            250,
-                                                                            14
-                                                                        ],
-                                                                        "start": [
-                                                                            250,
-                                                                            0
-                                                                        ]
-                                                                    },
-                                                                    "type": "setfield"
-                                                                },
-                                                                {
                                                                     "documentation": " Add a directory to the workspace folders.",
                                                                     "infer": {
                                                                         "types": [
@@ -91566,6 +91453,59 @@
                                                                     ],
                                                                     "name": "_all",
                                                                     "type": "setfield"
+                                                                },
+                                                                {
+                                                                    "documentation": "",
+                                                                    "infer": {
+                                                                        "types": [
+                                                                            {
+                                                                                "kind": "typereference",
+                                                                                "value": "vim.lsp.client.before_init_cb"
+                                                                            }
+                                                                        ],
+                                                                        "view": "(vim.lsp.client.before_init_cb)?"
+                                                                    },
+                                                                    "location": {
+                                                                        "file": "lua/vim/lsp/client.lua",
+                                                                        "finish": [
+                                                                            244,
+                                                                            65
+                                                                        ],
+                                                                        "start": [
+                                                                            244,
+                                                                            11
+                                                                        ]
+                                                                    },
+                                                                    "meta": [
+                                                                        "private"
+                                                                    ],
+                                                                    "name": "_before_init_cb",
+                                                                    "type": "doc.field"
+                                                                },
+                                                                {
+                                                                    "documentation": "",
+                                                                    "infer": {
+                                                                        "types": [
+                                                                            "table<vim.lsp.capability.Name, boolean?>"
+                                                                        ],
+                                                                        "view": "table<vim.lsp.capability.Name, boolean?>"
+                                                                    },
+                                                                    "location": {
+                                                                        "file": "lua/vim/lsp/client.lua",
+                                                                        "finish": [
+                                                                            226,
+                                                                            73
+                                                                        ],
+                                                                        "start": [
+                                                                            226,
+                                                                            11
+                                                                        ]
+                                                                    },
+                                                                    "meta": [
+                                                                        "public"
+                                                                    ],
+                                                                    "name": "_enabled_capabilities",
+                                                                    "type": "doc.field"
                                                                 },
                                                                 {
                                                                     "documentation": "",
@@ -114609,6 +114549,65 @@
                                                                                         "type": "setfield"
                                                                                     },
                                                                                     {
+                                                                                        "documentation": " Mark a client's results as dirty. This method will cancel any active\n requests to the server and pause new highlights from being added\n in the on_win callback. The rest of the current results are saved\n in case the server supports delta requests.",
+                                                                                        "infer": {
+                                                                                            "types": [
+                                                                                                {
+                                                                                                    "arguments": [
+                                                                                                        {
+                                                                                                            "documentation": "",
+                                                                                                            "infer": {
+                                                                                                                "types": [
+                                                                                                                    {
+                                                                                                                        "kind": "table"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "view": "STHighlighter"
+                                                                                                            },
+                                                                                                            "name": "self",
+                                                                                                            "optional": false
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "documentation": "",
+                                                                                                            "infer": {
+                                                                                                                "types": [
+                                                                                                                    {
+                                                                                                                        "kind": "builtin",
+                                                                                                                        "value": "integer"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "view": "integer"
+                                                                                                            },
+                                                                                                            "name": "client_id",
+                                                                                                            "optional": false
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "generics": [],
+                                                                                                    "kind": "function",
+                                                                                                    "returns": []
+                                                                                                }
+                                                                                            ],
+                                                                                            "view": "function"
+                                                                                        },
+                                                                                        "location": {
+                                                                                            "file": "lua/vim/lsp/semantic_tokens.lua",
+                                                                                            "finish": [
+                                                                                                746,
+                                                                                                33
+                                                                                            ],
+                                                                                            "start": [
+                                                                                                746,
+                                                                                                9
+                                                                                            ]
+                                                                                        },
+                                                                                        "meta": [
+                                                                                            "method",
+                                                                                            "package"
+                                                                                        ],
+                                                                                        "name": "mark_dirty",
+                                                                                        "type": "setmethod"
+                                                                                    },
+                                                                                    {
                                                                                         "documentation": "",
                                                                                         "infer": {
                                                                                             "types": [
@@ -114757,80 +114756,6 @@
                                                                                             "public"
                                                                                         ],
                                                                                         "name": "new",
-                                                                                        "type": "setmethod"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                                                                                            "finish": [
-                                                                                                52,
-                                                                                                21
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                52,
-                                                                                                0
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "setfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": " Mark a client's results as dirty. This method will cancel any active\n requests to the server and pause new highlights from being added\n in the on_win callback. The rest of the current results are saved\n in case the server supports delta requests.",
-                                                                                        "infer": {
-                                                                                            "types": [
-                                                                                                {
-                                                                                                    "arguments": [
-                                                                                                        {
-                                                                                                            "documentation": "",
-                                                                                                            "infer": {
-                                                                                                                "types": [
-                                                                                                                    {
-                                                                                                                        "kind": "table"
-                                                                                                                    }
-                                                                                                                ],
-                                                                                                                "view": "STHighlighter"
-                                                                                                            },
-                                                                                                            "name": "self",
-                                                                                                            "optional": false
-                                                                                                        },
-                                                                                                        {
-                                                                                                            "documentation": "",
-                                                                                                            "infer": {
-                                                                                                                "types": [
-                                                                                                                    {
-                                                                                                                        "kind": "builtin",
-                                                                                                                        "value": "integer"
-                                                                                                                    }
-                                                                                                                ],
-                                                                                                                "view": "integer"
-                                                                                                            },
-                                                                                                            "name": "client_id",
-                                                                                                            "optional": false
-                                                                                                        }
-                                                                                                    ],
-                                                                                                    "generics": [],
-                                                                                                    "kind": "function",
-                                                                                                    "returns": []
-                                                                                                }
-                                                                                            ],
-                                                                                            "view": "function"
-                                                                                        },
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                                                                                            "finish": [
-                                                                                                746,
-                                                                                                33
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                746,
-                                                                                                9
-                                                                                            ]
-                                                                                        },
-                                                                                        "meta": [
-                                                                                            "method",
-                                                                                            "package"
-                                                                                        ],
-                                                                                        "name": "mark_dirty",
                                                                                         "type": "setmethod"
                                                                                     },
                                                                                     {
@@ -141156,21 +141081,6 @@
                                                 "type": "doc.field"
                                             },
                                             {
-                                                "documentation": "",
-                                                "location": {
-                                                    "file": "lua/vim/pos.lua",
-                                                    "finish": [
-                                                        46,
-                                                        18
-                                                    ],
-                                                    "start": [
-                                                        46,
-                                                        9
-                                                    ]
-                                                },
-                                                "type": "setfield"
-                                            },
-                                            {
                                                 "documentation": " Converts |vim.Pos| to cursor position (see |api-indexing|).",
                                                 "infer": {
                                                     "types": [
@@ -142597,21 +142507,6 @@
                                                 ],
                                                 "name": "[5]",
                                                 "type": "doc.field"
-                                            },
-                                            {
-                                                "documentation": "",
-                                                "location": {
-                                                    "file": "lua/vim/range.lua",
-                                                    "finish": [
-                                                        54,
-                                                        18
-                                                    ],
-                                                    "start": [
-                                                        54,
-                                                        9
-                                                    ]
-                                                },
-                                                "type": "setfield"
                                             },
                                             {
                                                 "documentation": "",
@@ -149054,126 +148949,6 @@
                                                                                         ],
                                                                                         "name": "ne",
                                                                                         "type": "tablefield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                101,
-                                                                                                17
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                101,
-                                                                                                5
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                106,
-                                                                                                17
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                106,
-                                                                                                5
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                123,
-                                                                                                27
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                123,
-                                                                                                15
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                124,
-                                                                                                27
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                124,
-                                                                                                15
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                128,
-                                                                                                25
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                128,
-                                                                                                13
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                129,
-                                                                                                25
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                129,
-                                                                                                13
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                157,
-                                                                                                17
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                157,
-                                                                                                5
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
-                                                                                    },
-                                                                                    {
-                                                                                        "documentation": "",
-                                                                                        "location": {
-                                                                                            "file": "lua/vim/treesitter/_range.lua",
-                                                                                            "finish": [
-                                                                                                162,
-                                                                                                17
-                                                                                            ],
-                                                                                            "start": [
-                                                                                                162,
-                                                                                                5
-                                                                                            ]
-                                                                                        },
-                                                                                        "type": "getfield"
                                                                                     }
                                                                                 ],
                                                                                 "kind": "table"
@@ -151872,21 +151647,6 @@
                                                                     "type": "doc.field"
                                                                 },
                                                                 {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "lua/vim/treesitter/highlighter.lua",
-                                                                        "finish": [
-                                                                            81,
-                                                                            21
-                                                                        ],
-                                                                        "start": [
-                                                                            81,
-                                                                            0
-                                                                        ]
-                                                                    },
-                                                                    "type": "setfield"
-                                                                },
-                                                                {
                                                                     "documentation": " @nodoc\n Removes all internal references to the highlighter",
                                                                     "infer": {
                                                                         "types": [
@@ -154404,21 +154164,6 @@
                                                                     ],
                                                                     "name": "_num_valid_regions",
                                                                     "type": "doc.field"
-                                                                },
-                                                                {
-                                                                    "documentation": "",
-                                                                    "location": {
-                                                                        "file": "lua/vim/treesitter/languagetree.lua",
-                                                                        "finish": [
-                                                                            119,
-                                                                            20
-                                                                        ],
-                                                                        "start": [
-                                                                            119,
-                                                                            0
-                                                                        ]
-                                                                    },
-                                                                    "type": "setfield"
                                                                 },
                                                                 {
                                                                     "documentation": "",

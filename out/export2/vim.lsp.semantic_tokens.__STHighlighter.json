@@ -573,6 +573,65 @@
                         "type": "setfield"
                     },
                     {
+                        "documentation": " Mark a client's results as dirty. This method will cancel any active\n requests to the server and pause new highlights from being added\n in the on_win callback. The rest of the current results are saved\n in case the server supports delta requests.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "arguments": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "table"
+                                                    }
+                                                ],
+                                                "view": "STHighlighter"
+                                            },
+                                            "name": "self",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "types": [
+                                                    {
+                                                        "kind": "builtin",
+                                                        "value": "integer"
+                                                    }
+                                                ],
+                                                "view": "integer"
+                                            },
+                                            "name": "client_id",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "view": "function"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/semantic_tokens.lua",
+                            "finish": [
+                                746,
+                                33
+                            ],
+                            "start": [
+                                746,
+                                9
+                            ]
+                        },
+                        "meta": [
+                            "method",
+                            "package"
+                        ],
+                        "name": "mark_dirty",
+                        "type": "setmethod"
+                    },
+                    {
                         "documentation": "",
                         "infer": {
                             "types": [
@@ -721,80 +780,6 @@
                             "public"
                         ],
                         "name": "new",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                52,
-                                21
-                            ],
-                            "start": [
-                                52,
-                                0
-                            ]
-                        },
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Mark a client's results as dirty. This method will cancel any active\n requests to the server and pause new highlights from being added\n in the on_win callback. The rest of the current results are saved\n in case the server supports delta requests.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "STHighlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "client_id",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                746,
-                                33
-                            ],
-                            "start": [
-                                746,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "package"
-                        ],
-                        "name": "mark_dirty",
                         "type": "setmethod"
                     },
                     {

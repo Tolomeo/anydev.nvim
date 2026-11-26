@@ -30,6 +30,31 @@
                         "type": "doc.field"
                     },
                     {
+                        "documentation": "",
+                        "infer": {
+                            "types": [
+                                "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                            ],
+                            "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                213,
+                                5
+                            ],
+                            "start": [
+                                213,
+                                0
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "all",
+                        "type": "setfield"
+                    },
+                    {
                         "documentation": "\n The augroup owned by this instance, which will be cleared upon destruction.",
                         "infer": {
                             "types": [
@@ -109,106 +134,6 @@
                         ],
                         "name": "client_state",
                         "type": "doc.field"
-                    },
-                    {
-                        "documentation": "\n Static field records the method this capability requires.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "typereference",
-                                    "value": "vim.lsp.protocol.Method.ClientToServer"
-                                },
-                                {
-                                    "kind": "typereference",
-                                    "value": "vim.lsp.protocol.Method.Registration"
-                                }
-                            ],
-                            "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
-                        },
-                        "location": {
-                            "file": "lua/vim/lsp/_capability.lua",
-                            "finish": [
-                                25,
-                                94
-                            ],
-                            "start": [
-                                25,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "method",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": "\n Static field as the identifier of the LSP capability it supports.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "typereference",
-                                    "value": "vim.lsp.capability.Name"
-                                }
-                            ],
-                            "view": "vim.lsp.capability.Name"
-                        },
-                        "location": {
-                            "file": "lua/vim/lsp/_capability.lua",
-                            "finish": [
-                                22,
-                                38
-                            ],
-                            "start": [
-                                22,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "name",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": " Abstract base class (not instantiable directly).\n For each buffer that has at least one supported client attached,\n exactly one instance of each concrete subclass is created.\n That instance is destroyed once all supporting clients detach from the buffer.",
-                        "location": {
-                            "file": "lua/vim/lsp/_capability.lua",
-                            "finish": [
-                                41,
-                                9
-                            ],
-                            "start": [
-                                41,
-                                0
-                            ]
-                        },
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                "table<vim.lsp.capability.Name, vim.lsp.Capability>"
-                            ],
-                            "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
-                        },
-                        "location": {
-                            "file": "lua/vim/lsp/_capability.lua",
-                            "finish": [
-                                213,
-                                5
-                            ],
-                            "start": [
-                                213,
-                                0
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "all",
-                        "type": "setfield"
                     },
                     {
                         "documentation": "",
@@ -401,6 +326,66 @@
                         ],
                         "name": "is_enabled",
                         "type": "setfield"
+                    },
+                    {
+                        "documentation": "\n Static field records the method this capability requires.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.protocol.Method.ClientToServer"
+                                },
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.protocol.Method.Registration"
+                                }
+                            ],
+                            "view": "vim.lsp.protocol.Method.ClientToServer|vim.lsp.protocol.Method.Registration"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                25,
+                                94
+                            ],
+                            "start": [
+                                25,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "method",
+                        "type": "doc.field"
+                    },
+                    {
+                        "documentation": "\n Static field as the identifier of the LSP capability it supports.",
+                        "infer": {
+                            "types": [
+                                {
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.capability.Name"
+                                }
+                            ],
+                            "view": "vim.lsp.capability.Name"
+                        },
+                        "location": {
+                            "file": "lua/vim/lsp/_capability.lua",
+                            "finish": [
+                                22,
+                                38
+                            ],
+                            "start": [
+                                22,
+                                10
+                            ]
+                        },
+                        "meta": [
+                            "public"
+                        ],
+                        "name": "name",
+                        "type": "doc.field"
                     },
                     {
                         "documentation": "",
