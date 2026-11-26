@@ -821,7 +821,14 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	local field = source.field
 
 	if field[1] == "__index" then
-		print("Setfield: skipping '__index' metamethod")
+		print(
+			string.format(
+				"Setfield: skipping '__index' metamethod, found at '%s:%d:%d'",
+				init.location.file,
+				init.location.start[1],
+				init.location.start[2]
+			)
+		)
 		return nil
 	end
 
@@ -844,7 +851,15 @@ end
 
 export.makeDocObject["getfield"] = function(source, init, has_seen)
 	-- print(export.inspect(source))
-	print(string.format("Getfield: skipping '%s'", source._variableNode.id))
+	print(
+		string.format(
+			"Getfield: skipping '%s', found at %s:%d:%d",
+			source._variableNode.id,
+			init.location.file,
+			init.location.start[1],
+			init.location.start[2]
+		)
+	)
 end
 
 export.makeDocObject["setmethod"] = function(source, init, has_seen)
