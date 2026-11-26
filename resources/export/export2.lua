@@ -214,7 +214,7 @@ end
 export.makeInferObject = setmetatable({}, {
 	__index = function(_, k)
 		return function()
-			print('makeInferObject error: no type "' .. k .. '"')
+			print('MakeInferObject error: no type "' .. k .. '"')
 		end
 	end,
 })
@@ -481,7 +481,8 @@ export.makeInferObject["doc.type.integer"] = function(source, uri)
 end
 
 export.makeInferObject["doc.type.code"] = function(source, uri)
-	return ("`%s`"):format(source[1])
+	print("MakeInferObject['doc.type.code'] error: unsupported")
+	-- return ("`%s`"):format(source[1])
 end
 
 export.makeInferObject["doc.type.function"] = function(source, uri)
@@ -798,7 +799,7 @@ export.makeDocObject["setfield"] = function(source, init)
 	if field[1] == "__index" then
 		print(
 			string.format(
-				"Setfield: skipping '__index' metamethod, found at '%s:%d:%d'",
+				"MakeDocObject['setfield'] warning: skipping '__index' metamethod, found at '%s:%d:%d'",
 				init.location.file,
 				init.location.start[1],
 				init.location.start[2]
@@ -828,7 +829,7 @@ export.makeDocObject["getfield"] = function(source, init)
 	-- print(export.inspect(source))
 	print(
 		string.format(
-			"Getfield: skipping '%s', found at %s:%d:%d",
+			"MakeDocObject['getfield'] warning: skipping '%s', found at %s:%d:%d",
 			source._variableNode.id,
 			init.location.file,
 			init.location.start[1],
