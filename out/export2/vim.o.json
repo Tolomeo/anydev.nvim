@@ -176,8 +176,14 @@
                         "documentation": " Tells Vim what to do with characters with East Asian Width Class\n Ambiguous (such as Euro, Registered Sign, Copyright Sign, Greek\n letters, Cyrillic letters).\n\n There are currently two possible values:\n \"single\":\tUse the same width as characters in US-ASCII.  This is\n \t\texpected by most users.\n \"double\":\tUse twice the width of ASCII characters.\n \t\t\t\t\t\t*E834* *E835*\n The value \"double\" cannot be used if 'listchars' or 'fillchars'\n contains a character that would be double width.  These errors may\n also be given when calling setcellwidths().\n\n The values are overruled for characters specified with\n `setcellwidths()`.\n\n There are a number of CJK fonts for which the width of glyphs for\n those characters are solely based on how many octets they take in\n legacy/traditional CJK encodings.  In those encodings, Euro,\n Registered sign, Greek/Cyrillic letters are represented by two octets,\n therefore those fonts have \"wide\" glyphs for them.  This is also\n true of some line drawing characters used to make tables in text\n file.  Therefore, when a CJK font is used for GUI Vim or\n Vim is running inside a terminal (emulators) that uses a CJK font\n (or Vim is run inside an xterm invoked with \"-cjkwidth\" option.),\n this option should be set to \"double\" to match the width perceived\n by Vim with the width of glyphs in the font.  Perhaps it also has\n to be set to \"double\" under CJK MS-Windows when the system locale is\n set to one of CJK locales.  See Unicode Standard Annex #11\n (https://www.unicode.org/reports/tr11).\n",
                         "infer": {
                             "types": [
-                                "'double'",
-                                "'single'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'double'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'single'"
+                                }
                             ],
                             "view": "'double'|'single'"
                         },
@@ -202,8 +208,14 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'double'",
-                                "'single'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'double'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'single'"
+                                }
                             ],
                             "view": "'double'|'single'"
                         },
@@ -676,8 +688,14 @@
                         "documentation": " When set to \"dark\" or \"light\", adjusts the default color groups for\n that background type.  The `TUI` or other UI sets this on startup\n if it can detect the background color.\n\n This option does NOT change the background color, it tells Nvim what\n the \"inherited\" (terminal/GUI) background looks like.\n See `:hi-normal` if you want to set the background color explicitly.\n \t\t\t\t\t*g:colors_name*\n When a color scheme is loaded (the \"g:colors_name\" variable is set)\n changing 'background' will cause the color scheme to be reloaded.  If\n the color scheme adjusts to the value of 'background' this will work.\n However, if the color scheme sets 'background' itself the effect may\n be undone.  First delete the \"g:colors_name\" variable when needed.\n\n Normally this option would be set in the vimrc file.  Possibly\n depending on the terminal name.  Example:\n\n ```vim\n \tif $TERM ==# \"xterm\"\n \t  set background=dark\n \tendif\n ```\n When this option is changed, the default settings for the highlight groups\n will change.  To use other settings, place \":highlight\" commands AFTER\n the setting of the 'background' option.\n",
                         "infer": {
                             "types": [
-                                "'dark'",
-                                "'light'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dark'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'light'"
+                                }
                             ],
                             "view": "'dark'|'light'"
                         },
@@ -954,8 +972,14 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'dark'",
-                                "'light'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dark'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'light'"
+                                }
                             ],
                             "view": "'dark'|'light'"
                         },
@@ -980,11 +1004,26 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "''",
-                                "'delete'",
-                                "'hide'",
-                                "'unload'",
-                                "'wipe'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'delete'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'hide'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unload'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'wipe'"
+                                }
                             ],
                             "view": "''|'delete'|'hide'|'unload'|'wipe'"
                         },
@@ -1429,14 +1468,38 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "''",
-                                "'acwrite'",
-                                "'help'",
-                                "'nofile'",
-                                "'nowrite'",
-                                "'prompt'",
-                                "'quickfix'",
-                                "'terminal'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'acwrite'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'help'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nofile'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nowrite'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'prompt'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'quickfix'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'terminal'"
+                                }
                             ],
                             "view": "''|'acwrite'|'help'|'nofile'|'nowrite'...(+3)"
                         },
@@ -1461,11 +1524,26 @@
                         "documentation": " This option specifies what happens when a buffer is no longer\n displayed in a window:\n   <empty>\tfollow the global 'hidden' option\n   hide\t\thide the buffer (don't unload it), even if 'hidden' is\n \t\tnot set\n   unload\tunload the buffer, even if 'hidden' is set; the\n \t\t`:hide` command will also unload the buffer\n   delete\tdelete the buffer from the buffer list, even if\n \t\t'hidden' is set; the `:hide` command will also delete\n \t\tthe buffer, making it behave like `:bdelete`\n   wipe\t\twipe the buffer from the buffer list, even if\n \t\t'hidden' is set; the `:hide` command will also wipe\n \t\tout the buffer, making it behave like `:bwipeout`\n\n CAREFUL: when \"unload\", \"delete\" or \"wipe\" is used changes in a buffer\n are lost without a warning.  Also, these values may break autocommands\n that switch between buffers temporarily.\n This option is used together with 'buftype' and 'swapfile' to specify\n special kinds of buffers.   See `special-buffers`.\n",
                         "infer": {
                             "types": [
-                                "''",
-                                "'delete'",
-                                "'hide'",
-                                "'unload'",
-                                "'wipe'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'delete'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'hide'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unload'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'wipe'"
+                                }
                             ],
                             "view": "''|'delete'|'hide'|'unload'|'wipe'"
                         },
@@ -1518,14 +1596,38 @@
                         "documentation": " The value of this option specifies the type of a buffer:\n   <empty>\tnormal buffer\n   acwrite\tbuffer will always be written with `BufWriteCmd`s\n   help\t\thelp buffer (do not set this manually)\n   nofile\tbuffer is not related to a file, will not be written\n   nowrite\tbuffer will not be written\n   prompt\tbuffer where only the last section can be edited, for\n \t\tuse by plugins. `prompt-buffer`\n   quickfix\tlist of errors `:cwindow` or locations `:lwindow`\n   terminal\t`terminal-emulator` buffer\n\n This option is used together with 'bufhidden' and 'swapfile' to\n specify special kinds of buffers.   See `special-buffers`.\n Also see `win_gettype()`, which returns the type of the window.\n\n Be careful with changing this option, it can have many side effects!\n One such effect is that Vim will not check the timestamp of the file,\n if the file is changed by another program this will not be noticed.\n\n A \"quickfix\" buffer is only used for the error list and the location\n list.  This value is set by the `:cwindow` and `:lwindow` commands and\n you are not supposed to change it.\n\n \"nofile\" and \"nowrite\" buffers are similar:\n both:\t\tThe buffer is not to be written to disk, \":w\" doesn't\n \t\twork (\":w filename\" does work though).\n both:\t\tThe buffer is never considered to be 'modified'.\n \t\tThere is no warning when the changes will be lost, for\n \t\texample when you quit Vim.\n both:\t\tA swap file is only created when using too much memory\n \t\t(when 'swapfile' has been reset there is never a swap\n \t\tfile).\n nofile only:\tThe buffer name is fixed, it is not handled like a\n \t\tfile name.  It is not modified in response to a `:cd`\n \t\tcommand.\n both:\t\tWhen using \":e bufname\" and already editing \"bufname\"\n \t\tthe buffer is made empty and autocommands are\n \t\ttriggered as usual for `:edit`.\n \t\t\t\t\t\t*E676*\n \"acwrite\" implies that the buffer name is not related to a file, like\n \"nofile\", but it will be written.  Thus, in contrast to \"nofile\" and\n \"nowrite\", \":w\" does work and a modified buffer can't be abandoned\n without saving.  For writing there must be matching `BufWriteCmd`,\n `FileWriteCmd` or `FileAppendCmd` autocommands.\n",
                         "infer": {
                             "types": [
-                                "''",
-                                "'acwrite'",
-                                "'help'",
-                                "'nofile'",
-                                "'nowrite'",
-                                "'prompt'",
-                                "'quickfix'",
-                                "'terminal'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'acwrite'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'help'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nofile'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nowrite'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'prompt'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'quickfix'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'terminal'"
+                                }
                             ],
                             "view": "''|'acwrite'|'help'|'nofile'|'nowrite'...(+3)"
                         },
@@ -2894,9 +2996,18 @@
                         "documentation": " \t\tonly modifiable in MS-Windows\n When this option is set it overrules 'shellslash' for completion:\n - When this option is set to \"slash\", a forward slash is used for path\n   completion in insert mode.  This is useful when editing HTML tag, or\n   Makefile with 'noshellslash' on MS-Windows.\n - When this option is set to \"backslash\", backslash is used.  This is\n   useful when editing a batch file with 'shellslash' set on\n   MS-Windows.\n - When this option is empty, same character is used as for\n   'shellslash'.\n For Insert mode completion the buffer-local value is used.  For\n command line completion the global value is used.\n",
                         "infer": {
                             "types": [
-                                "''",
-                                "'backslash'",
-                                "'slash'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'backslash'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'slash'"
+                                }
                             ],
                             "view": "''|'backslash'|'slash'"
                         },
@@ -3229,9 +3340,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "''",
-                                "'backslash'",
-                                "'slash'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'backslash'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'slash'"
+                                }
                             ],
                             "view": "''|'backslash'|'slash'"
                         },
@@ -4124,9 +4244,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'both'",
-                                "'hor'",
-                                "'ver'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'both'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'hor'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ver'"
+                                }
                             ],
                             "view": "'both'|'hor'|'ver'"
                         },
@@ -4151,9 +4280,18 @@
                         "documentation": " Tells when the 'equalalways' option applies:\n \tver\tvertically, width of windows is not affected\n \thor\thorizontally, height of windows is not affected\n \tboth\twidth and height of windows is affected\n",
                         "infer": {
                             "types": [
-                                "'both'",
-                                "'hor'",
-                                "'ver'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'both'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'hor'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ver'"
+                                }
                             ],
                             "view": "'both'|'hor'|'ver'"
                         },
@@ -4934,26 +5072,86 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'0'",
-                                "'1'",
-                                "'2'",
-                                "'3'",
-                                "'4'",
-                                "'5'",
-                                "'6'",
-                                "'7'",
-                                "'8'",
-                                "'9'",
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'0'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'9'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:9'"
+                                }
                             ],
                             "view": "'0'|'1'|'2'|'3'|'4'...(+15)"
                         },
@@ -5090,12 +5288,30 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'diff'",
-                                "'expr'",
-                                "'indent'",
-                                "'manual'",
-                                "'marker'",
-                                "'syntax'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'diff'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'expr'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'indent'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'manual'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'marker'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'syntax'"
+                                }
                             ],
                             "view": "'diff'|'expr'|'indent'|'manual'|'marker'...(+1)"
                         },
@@ -5316,9 +5532,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'dos'",
-                                "'mac'",
-                                "'unix'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dos'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'mac'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unix'"
+                                }
                             ],
                             "view": "'dos'|'mac'|'unix'"
                         },
@@ -5483,9 +5708,18 @@
                         "documentation": " This gives the <EOL> of the current buffer, which is used for\n reading/writing the buffer from/to a file:\n     dos\t    <CR><NL>\n     unix    <NL>\n     mac\t    <CR>\n When \"dos\" is used, CTRL-Z at the end of a file is ignored.\n See `file-formats` and `file-read`.\n For the character encoding of the file see 'fileencoding'.\n When 'binary' is set, the value of 'fileformat' is ignored, file I/O\n works like it was set to \"unix\".\n This option is set automatically when starting to edit a file and\n 'fileformats' is not empty and 'binary' is off.\n When this option is set, after starting to edit a file, the 'modified'\n option is set, because the file would be different when written.\n This option cannot be changed when 'modifiable' is off.\n",
                         "infer": {
                             "types": [
-                                "'dos'",
-                                "'mac'",
-                                "'unix'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'dos'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'mac'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'unix'"
+                                }
                             ],
                             "view": "'dos'|'mac'|'unix'"
                         },
@@ -5846,26 +6080,86 @@
                         "documentation": " When and how to draw the foldcolumn. Valid values are:\n     \"auto\":       resize to the minimum amount of folds to display.\n     \"auto:[1-9]\": resize to accommodate multiple folds up to the\n \t\t  selected level\n     \"0\":          to disable foldcolumn\n     \"[1-9]\":      to display a fixed number of columns\n See `folding`.\n",
                         "infer": {
                             "types": [
-                                "'0'",
-                                "'1'",
-                                "'2'",
-                                "'3'",
-                                "'4'",
-                                "'5'",
-                                "'6'",
-                                "'7'",
-                                "'8'",
-                                "'9'",
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'0'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'9'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:9'"
+                                }
                             ],
                             "view": "'0'|'1'|'2'|'3'|'4'...(+15)"
                         },
@@ -6058,12 +6352,30 @@
                         "documentation": " The kind of folding used for the current window.  Possible values:\n `fold-manual`\tmanual\t    Folds are created manually.\n `fold-indent`\tindent\t    Lines with equal indent form a fold.\n `fold-expr`\texpr\t    'foldexpr' gives the fold level of a line.\n `fold-marker`\tmarker\t    Markers are used to specify folds.\n `fold-syntax`\tsyntax\t    Syntax highlighting items specify folds.\n `fold-diff`\tdiff\t    Fold text that is not changed.\n",
                         "infer": {
                             "types": [
-                                "'diff'",
-                                "'expr'",
-                                "'indent'",
-                                "'manual'",
-                                "'marker'",
-                                "'syntax'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'diff'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'expr'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'indent'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'manual'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'marker'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'syntax'"
+                                }
                             ],
                             "view": "'diff'|'expr'|'indent'|'manual'|'marker'...(+1)"
                         },
@@ -7124,9 +7436,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "''",
-                                "'nosplit'",
-                                "'split'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nosplit'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'split'"
+                                }
                             ],
                             "view": "''|'nosplit'|'split'"
                         },
@@ -7403,9 +7724,18 @@
                         "documentation": " When nonempty, shows the effects of `:substitute`, `:smagic`,\n `:snomagic` and user commands with the `:command-preview` flag as you\n type.\n\n Possible values:\n \tnosplit\tShows the effects of a command incrementally in the\n \t\tbuffer.\n \tsplit\tLike \"nosplit\", but also shows partial off-screen\n \t\tresults in a preview window.\n\n If the preview for built-in commands is too slow (exceeds\n 'redrawtime') then 'inccommand' is automatically disabled until\n `Command-line-mode` is done.\n",
                         "infer": {
                             "types": [
-                                "''",
-                                "'nosplit'",
-                                "'split'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "''"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'nosplit'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'split'"
+                                }
                             ],
                             "view": "''|'nosplit'|'split'"
                         },
@@ -10034,9 +10364,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'extend'",
-                                "'popup'",
-                                "'popup_setpos'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'extend'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'popup'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'popup_setpos'"
+                                }
                             ],
                             "view": "'extend'|'popup'|'popup_setpos'"
                         },
@@ -10089,9 +10428,18 @@
                         "documentation": " Sets the model to use for the mouse.  The name mostly specifies what\n the right mouse button is used for:\n    extend\tRight mouse button extends a selection.  This works\n \t\tlike in an xterm.\n    popup\tRight mouse button pops up a menu.  The shifted left\n \t\tmouse button extends a selection.  This works like\n \t\twith Microsoft Windows.\n    popup_setpos Like \"popup\", but the cursor will be moved to the\n \t\tposition where the mouse was clicked, and thus the\n \t\tselected operation will act upon the clicked object.\n \t\tIf clicking inside a selection, that selection will\n \t\tbe acted upon, i.e. no cursor move.  This implies of\n \t\tcourse, that right clicking outside a selection will\n \t\tend Visual mode.\n Overview of what button does what for each model:\n mouse\t\t    extend\t\tpopup(_setpos) ~\n left click\t    place cursor\tplace cursor\n left drag\t    start selection\tstart selection\n shift-left\t    search word\t\textend selection\n right click\t    extend selection\tpopup menu (place cursor)\n right drag\t    extend selection\t-\n middle click\t    paste\t\tpaste\n\n In the \"popup\" model the right mouse button produces a pop-up menu.\n Nvim creates a default `popup-menu` but you can redefine it.\n\n Note that you can further refine the meaning of buttons with mappings.\n See `mouse-overview`.  But mappings are NOT used for modeless selection.\n\n Example:\n\n ```vim\n     map <S-LeftMouse>     <RightMouse>\n     map <S-LeftDrag>      <RightDrag>\n     map <S-LeftRelease>   <RightRelease>\n     map <2-S-LeftMouse>   <2-RightMouse>\n     map <2-S-LeftDrag>    <2-RightDrag>\n     map <2-S-LeftRelease> <2-RightRelease>\n     map <3-S-LeftMouse>   <3-RightMouse>\n     map <3-S-LeftDrag>    <3-RightDrag>\n     map <3-S-LeftRelease> <3-RightRelease>\n     map <4-S-LeftMouse>   <4-RightMouse>\n     map <4-S-LeftDrag>    <4-RightDrag>\n     map <4-S-LeftRelease> <4-RightRelease>\n ```\n\n Mouse commands requiring the CTRL modifier can be simulated by typing\n the \"g\" key before using the mouse:\n     \"g<LeftMouse>\"  is \"<C-LeftMouse>\t(jump to tag under mouse click)\n     \"g<RightMouse>\" is \"<C-RightMouse>\t(\"CTRL-T\")\n",
                         "infer": {
                             "types": [
-                                "'extend'",
-                                "'popup'",
-                                "'popup_setpos'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'extend'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'popup'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'popup_setpos'"
+                                }
                             ],
                             "view": "'extend'|'popup'|'popup_setpos'"
                         },
@@ -12384,28 +12732,94 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'",
-                                "'no'",
-                                "'number'",
-                                "'yes'",
-                                "'yes:1'",
-                                "'yes:2'",
-                                "'yes:3'",
-                                "'yes:4'",
-                                "'yes:5'",
-                                "'yes:6'",
-                                "'yes:7'",
-                                "'yes:8'",
-                                "'yes:9'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:9'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'no'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'number'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:9'"
+                                }
                             ],
                             "view": "'auto'|'auto:1'|'auto:2'|'auto:3'|'auto:4'...(+17)"
                         },
@@ -12794,9 +13208,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'exclusive'",
-                                "'inclusive'",
-                                "'old'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'exclusive'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'inclusive'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'old'"
+                                }
                             ],
                             "view": "'exclusive'|'inclusive'|'old'"
                         },
@@ -12821,9 +13244,18 @@
                         "documentation": " This option defines the behavior of the selection.  It is only used\n in Visual and Select mode.\n Possible values:\n    value\tpast line     inclusive ~\n    old\t\t   no\t\tyes\n    inclusive\t   yes\t\tyes\n    exclusive\t   yes\t\tno\n \"past line\" means that the cursor is allowed to be positioned one\n character past the line.\n \"inclusive\" means that the last character of the selection is included\n in an operation.  For example, when \"x\" is used to delete the\n selection.\n When \"old\" is used and 'virtualedit' allows the cursor to move past\n the end of line the line break still isn't included.\n When \"exclusive\" is used, cursor position in visual mode will be\n adjusted for inclusive motions `inclusive-motion-selection-exclusive`.\n\n Note:\n - When \"exclusive\" is used and selecting from the end backwards, you\n   cannot include the last character of a line, when starting in Normal\n   mode and 'virtualedit' empty.\n - when \"exclusive\" is used with a single character visual selection,\n   Vim will behave as if the 'selection' is inclusive (in other words,\n   you cannot visually select an empty region).\n",
                         "infer": {
                             "types": [
-                                "'exclusive'",
-                                "'inclusive'",
-                                "'old'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'exclusive'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'inclusive'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'old'"
+                                }
                             ],
                             "view": "'exclusive'|'inclusive'|'old'"
                         },
@@ -13464,9 +13896,18 @@
                         "documentation": " This option can be used to display the (partially) entered command in\n another location.  Possible values are:\n   last\t\tLast line of the screen (default).\n   statusline\tStatus line of the current window.\n   tabline\tFirst line of the screen if 'showtabline' is enabled.\n Setting this option to \"statusline\" or \"tabline\" means that these will\n be redrawn whenever the command changes, which can be on every key\n pressed.\n The %S 'statusline' item can be used in 'statusline' or 'tabline' to\n place the text.  Without a custom 'statusline' or 'tabline' it will be\n displayed in a convenient location.\n",
                         "infer": {
                             "types": [
-                                "'last'",
-                                "'statusline'",
-                                "'tabline'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'last'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'statusline'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'tabline'"
+                                }
                             ],
                             "view": "'last'|'statusline'|'tabline'"
                         },
@@ -13715,28 +14156,94 @@
                         "documentation": " When and how to draw the signcolumn.  Valid values are:\n    \"auto\"\tonly when there is a sign to display\n    \"auto:[1-9]\" resize to accommodate multiple signs up to the\n \t\tgiven number (maximum 9), e.g. \"auto:4\"\n    \"auto:[1-8]-[2-9]\"\n \t\tresize to accommodate multiple signs up to the\n \t\tgiven maximum number (maximum 9) while keeping\n \t\tat least the given minimum (maximum 8) fixed\n \t\tspace. The minimum number should always be less\n \t\tthan the maximum number, e.g. \"auto:2-5\"\n    \"no\"\t\tnever\n    \"yes\"\talways\n    \"yes:[1-9]\"  always, with fixed space for signs up to the given\n \t\tnumber (maximum 9), e.g. \"yes:3\"\n    \"number\"\tdisplay signs in the 'number' column.  If the number\n \t\tcolumn is not present, then behaves like \"auto\".\n",
                         "infer": {
                             "types": [
-                                "'auto'",
-                                "'auto:1'",
-                                "'auto:2'",
-                                "'auto:3'",
-                                "'auto:4'",
-                                "'auto:5'",
-                                "'auto:6'",
-                                "'auto:7'",
-                                "'auto:8'",
-                                "'auto:9'",
-                                "'no'",
-                                "'number'",
-                                "'yes'",
-                                "'yes:1'",
-                                "'yes:2'",
-                                "'yes:3'",
-                                "'yes:4'",
-                                "'yes:5'",
-                                "'yes:6'",
-                                "'yes:7'",
-                                "'yes:8'",
-                                "'yes:9'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'auto:9'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'no'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'number'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:1'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:2'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:3'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:4'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:5'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:6'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:7'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:8'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes:9'"
+                                }
                             ],
                             "view": "'auto'|'auto:1'|'auto:2'|'auto:3'|'auto:4'...(+17)"
                         },
@@ -13845,9 +14352,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'last'",
-                                "'statusline'",
-                                "'tabline'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'last'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'statusline'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'tabline'"
+                                }
                             ],
                             "view": "'last'|'statusline'|'tabline'"
                         },
@@ -14460,9 +14976,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'cursor'",
-                                "'screen'",
-                                "'topline'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'cursor'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'screen'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'topline'"
+                                }
                             ],
                             "view": "'cursor'|'screen'|'topline'"
                         },
@@ -14543,9 +15068,18 @@
                         "documentation": " The value of this option determines the scroll behavior when opening,\n closing or resizing horizontal splits.\n\n Possible values are:\n   cursor\tKeep the same relative cursor position.\n   screen\tKeep the text on the same screen line.\n   topline\tKeep the topline the same.\n\n For the \"screen\" and \"topline\" values, the cursor position will be\n changed when necessary.  In this case, the jumplist will be populated\n with the previous cursor position.  For \"screen\", the text cannot\n always be kept on the same screen line when 'wrap' is enabled.\n",
                         "infer": {
                             "types": [
-                                "'cursor'",
-                                "'screen'",
-                                "'topline'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'cursor'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'screen'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'topline'"
+                                }
                             ],
                             "view": "'cursor'|'screen'|'topline'"
                         },
@@ -15634,11 +16168,26 @@
                         "documentation": " This option specifies how case is handled when searching the tags\n file:\n    followic\tFollow the 'ignorecase' option\n    followscs    Follow the 'smartcase' and 'ignorecase' options\n    ignore\tIgnore case\n    match\tMatch case\n    smart\tIgnore case unless an upper case letter is used\n",
                         "infer": {
                             "types": [
-                                "'followic'",
-                                "'followscs'",
-                                "'ignore'",
-                                "'match'",
-                                "'smart'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followic'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followscs'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ignore'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'match'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'smart'"
+                                }
                             ],
                             "view": "'followic'|'followscs'|'ignore'|'match'|'smart'"
                         },
@@ -15887,11 +16436,26 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'followic'",
-                                "'followscs'",
-                                "'ignore'",
-                                "'match'",
-                                "'smart'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followic'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'followscs'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'ignore'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'match'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'smart'"
+                                }
                             ],
                             "view": "'followic'|'followscs'|'ignore'|'match'|'smart'"
                         },
@@ -17680,9 +18244,18 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "'menu'",
-                                "'no'",
-                                "'yes'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'menu'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'no'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes'"
+                                }
                             ],
                             "view": "'menu'|'no'|'yes'"
                         },
@@ -18323,9 +18896,18 @@
                         "documentation": " \t\tonly used in Win32\n Some GUI versions allow the access to menu entries by using the ALT\n key in combination with a character that appears underlined in the\n menu.  This conflicts with the use of the ALT key for mappings and\n entering special characters.  This option tells what to do:\n   no\tDon't use ALT keys for menus.  ALT key combinations can be\n \tmapped, but there is no automatic handling.\n   yes\tALT key handling is done by the windowing system.  ALT key\n \tcombinations cannot be mapped.\n   menu\tUsing ALT in combination with a character that is a menu\n \tshortcut key, will be handled by the windowing system.  Other\n \tkeys can be mapped.\n If the menu is disabled by excluding 'm' from 'guioptions', the ALT\n key is never used for the menu.\n This option is not used for <F10>; on Win32.\n",
                         "infer": {
                             "types": [
-                                "'menu'",
-                                "'no'",
-                                "'yes'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'menu'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'no'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'yes'"
+                                }
                             ],
                             "view": "'menu'|'no'|'yes'"
                         },

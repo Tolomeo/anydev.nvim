@@ -460,15 +460,24 @@ export.makeInferObject["doc.type.table"] = function(source, uri)
 end
 
 export.makeInferObject["doc.type.string"] = function(source, uri)
-	return util.viewString(source[1], source[2])
+	return {
+		kind = "stringliteral",
+		value = util.viewString(source[1], source[2]),
+	}
 end
 
 export.makeInferObject["doc.type.boolean"] = function(source, uri)
-	return ("%q"):format(source[1])
+	return {
+		kind = "booleanliteral",
+		value = ("%q"):format(source[1]),
+	}
 end
 
 export.makeInferObject["doc.type.integer"] = function(source, uri)
-	return ("%q"):format(source[1])
+	return {
+		kind = "numericliteral",
+		value = ("%q"):format(source[1]),
+	}
 end
 
 export.makeInferObject["doc.type.code"] = function(source, uri)

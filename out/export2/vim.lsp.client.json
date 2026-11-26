@@ -315,7 +315,10 @@
                         "documentation": "\n Track this so that we can escalate automatically if we've already tried a\n graceful shutdown",
                         "infer": {
                             "types": [
-                                "true"
+                                {
+                                    "kind": "booleanliteral",
+                                    "value": "true"
+                                }
                             ],
                             "view": "true?"
                         },
@@ -960,9 +963,18 @@
                                             "documentation": "",
                                             "infer": {
                                                 "types": [
-                                                    "'cancel'",
-                                                    "'complete'",
-                                                    "'pending'"
+                                                    {
+                                                        "kind": "stringliteral",
+                                                        "value": "'cancel'"
+                                                    },
+                                                    {
+                                                        "kind": "stringliteral",
+                                                        "value": "'complete'"
+                                                    },
+                                                    {
+                                                        "kind": "stringliteral",
+                                                        "value": "'pending'"
+                                                    }
                                                 ],
                                                 "view": "'cancel'|'complete'|'pending'"
                                             },
@@ -1994,9 +2006,18 @@
                         "documentation": "\n The initial trace setting. If omitted trace is disabled (\"off\").\n trace = \"off\" | \"messages\" | \"verbose\";",
                         "infer": {
                             "types": [
-                                "'messages'",
-                                "'off'",
-                                "'verbose'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'messages'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'off'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'verbose'"
+                                }
                             ],
                             "view": "'messages'|'off'|'verbose'"
                         },
@@ -2754,7 +2775,10 @@
                         "documentation": "",
                         "infer": {
                             "types": [
-                                "true"
+                                {
+                                    "kind": "booleanliteral",
+                                    "value": "true"
+                                }
                             ],
                             "view": "true?"
                         },
@@ -2969,9 +2993,18 @@
                         "documentation": "\n See [vim.lsp.ClientConfig].",
                         "infer": {
                             "types": [
-                                "'utf-16'",
-                                "'utf-32'",
-                                "'utf-8'"
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'utf-16'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'utf-32'"
+                                },
+                                {
+                                    "kind": "stringliteral",
+                                    "value": "'utf-8'"
+                                }
                             ],
                             "view": "'utf-16'|'utf-32'|'utf-8'"
                         },
