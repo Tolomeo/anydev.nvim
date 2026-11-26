@@ -109,51 +109,6 @@ function export.sortDoc(a, b)
 	return export.positionOf(a.location.start) < export.positionOf(b.location.start)
 end
 
-function export.documentObject(source)
-	local obj = export.makeDocObject["INIT"](source)
-
-	--[[ print(
-		obj.type,
-		obj.name,
-		obj.location.file,
-		export.inspect(obj.location.start),
-		export.inspect(obj.location.finish)
-	) ]]
-
-	export.objTypes[obj.type] = export.objTypes[obj.type] and export.objTypes[obj.type] + 1 or 1
-
-	local res = export.makeDocObject[obj.type](source, obj)
-
-	return res and res or nil
-end
-
-export.objTypes = {}
-
----Switch statement table. functions can be overriden by user file.
----@table
-export.makeDocObject = setmetatable({}, {
-	__index = function(t, k)
-		return function()
-			print('DocError: no type "' .. k .. '"')
-		end
-	end,
-})
-
-export.makeDocObject["INIT"] = function(source)
-	local ok, desc = pcall(getDesc, source)
-
-	return {
-		category = source.cate,
-		type = source.type,
-		documentation = ok and desc or "",
-		location = {
-			file = export.getLocalPath(guide.getUri(source)),
-			start = source.start and { guide.rowColOf(source.start) },
-			finish = source.finish and { guide.rowColOf(source.finish) },
-		},
-	}
-end
-
 --[[ export.makeDocObject["doc.alias"] = function(source, obj, has_seen)
 	obj.file = export.getLocalPath(guide.getUri(source))
 end ]]
@@ -256,243 +211,233 @@ local function isInMeta(source)
 	return relative ~= ".." and relative:sub(1, 3) ~= "../" and relative:sub(1, 3) ~= "..\\"
 end
 
-local viewNodeSwitch
-viewNodeSwitch = util
-	.switch()
-	:case("nil")
-	:case("boolean")
-	:case("string")
-	:case("integer")
-	:case("number")
-	:call(function(source, _infer)
-		return {
-			kind = "builtin",
-			value = source.type,
-		}
-		-- return source.type
-	end)
-	:case("global")
-	:call(function(source, infer)
-		if source.cate ~= "type" then
-			error("ERROR: trying to extract the type from a value is not supported")
+export.makeInferObject = setmetatable({}, {
+	__index = function(_, k)
+		return function()
+			print('makeInferObject error: no type "' .. k .. '"')
 		end
+	end,
+})
 
-		--[[ if source.name == "vim.treesitter.highlighter" then
+export.makeInferObject["builtin"] = function(source)
+	return {
+		kind = "builtin",
+		value = source.type,
+	}
+end
+
+export.makeInferObject["nil"] = export.makeInferObject["builtin"]
+export.makeInferObject["boolean"] = export.makeInferObject["builtin"]
+export.makeInferObject["string"] = export.makeInferObject["builtin"]
+export.makeInferObject["integer"] = export.makeInferObject["builtin"]
+export.makeInferObject["number"] = export.makeInferObject["builtin"]
+
+export.makeInferObject["global"] = function(source)
+	if source.cate ~= "type" then
+		error("ERROR: trying to extract the type from a value is not supported")
+	end
+
+	--[[ if source.name == "vim.treesitter.highlighter" then
 			print(export.inspect(source))
 		end ]]
 
-		if isInMeta(source) then
-			return {
-				kind = "builtin",
-				value = source.name,
-			}
-		else
-			return {
-				kind = "typereference",
-				value = source.name,
-			}
-		end
-	end)
-	:case("table")
-	:call(function(source, infer, uri)
-		local docs = source.bindDocs
+	if isInMeta(source) then
+		return {
+			kind = "builtin",
+			value = source.name,
+		}
+	else
+		return {
+			kind = "typereference",
+			value = source.name,
+		}
+	end
+end
 
-		if docs then
-			for _, doc in ipairs(docs) do
-				if doc.type == "doc.enum" then
-					-- TODO: handle enums
-					-- return "enum " .. doc.enum[1]
-					return {
-						kind = "enum",
-					}
-				end
+export.makeInferObject["table"] = function(source, uri)
+	local docs = source.bindDocs
+
+	if docs then
+		for _, doc in ipairs(docs) do
+			if doc.type == "doc.enum" then
+				-- TODO: handle enums
+				-- return "enum " .. doc.enum[1]
+				return {
+					kind = "enum",
+				}
 			end
 		end
+	end
 
-		-- TODO: what is this
-		if #source == 1 and source[1].type == "varargs" then
-			local node = vm.getInfer(source[1]):view(uri)
-			return ("%s[]"):format(node)
-		end
+	-- TODO: what is this
+	if #source == 1 and source[1].type == "varargs" then
+		local node = vm.getInfer(source[1]):view(uri)
+		return ("%s[]"):format(node)
+	end
 
-		return {
-			kind = "table",
-		}
-	end)
-	:case("function")
-	:call(function(source, infer)
-		-- TODO: what is this?
-		--[[ local parent = source.parent
+	return {
+		kind = "table",
+	}
+end
+
+export.makeInferObject["function"] = function(source, uri)
+	-- TODO: what is this?
+	--[[ local parent = source.parent
 		if guide.isAssign(parent) then
 			infer._hasFunctionDef = true
 		end ]]
 
-		local generics = {}
+	local generics = {}
 
-		--Forcing sign calculation
-		local sign = vm.getSign(source)
+	--Forcing sign calculation
+	local sign = vm.getSign(source)
 
-		if sign then
-			for _, docGeneric in ipairs(sign.docGeneric) do
-				for _, generic in ipairs(docGeneric.generics) do
-					local name = generic.generic[1]
-					local constraints = {}
+	if sign then
+		for _, docGeneric in ipairs(sign.docGeneric) do
+			for _, generic in ipairs(docGeneric.generics) do
+				local name = generic.generic[1]
+				local constraints = {}
 
-					if generic.extends then
-						for _, genericTypeConstraint in ipairs(generic.extends.types) do
-							local constraintType = export.inferObject(genericTypeConstraint)
-							table.insert(constraints, constraintType)
-						end
+				if generic.extends then
+					for _, genericTypeConstraint in ipairs(generic.extends.types) do
+						local constraintType = export.inferObject(genericTypeConstraint)
+						table.insert(constraints, constraintType)
 					end
-
-					table.insert(generics, { name = name, constraints = constraints })
 				end
+
+				table.insert(generics, { name = name, constraints = constraints })
 			end
 		end
+	end
 
-		local arguments = {}
+	local arguments = {}
 
-		for _, arg in ipairs(source.args) do
-			local name = arg[1]
-			local documentation = arg.bindDocs
-					and arg.bindDocs[1]
-					and arg.bindDocs[1].comment
-					and getDesc(arg.bindDocs[1].comment)
-				or ""
-			local argType, argInfer = export.inferObject(arg)
-			local optional = argInfer and argInfer.node:isOptional() or false
+	for _, arg in ipairs(source.args) do
+		local name = arg[1]
+		local documentation = arg.bindDocs
+				and arg.bindDocs[1]
+				and arg.bindDocs[1].comment
+				and getDesc(arg.bindDocs[1].comment)
+			or ""
+		local argType, argInfer = export.inferObject(arg)
+		local optional = argInfer and argInfer.node:isOptional() or false
 
-			table.insert(
-				arguments,
-				{ name = name, documentation = documentation, infer = argType, optional = optional }
-			)
-		end
+		table.insert(arguments, { name = name, documentation = documentation, infer = argType, optional = optional })
+	end
 
-		local returns = {}
-		local _, _, returnsCount = vm.countReturnsOfFunction(source)
+	local returns = {}
+	local _, _, returnsCount = vm.countReturnsOfFunction(source)
 
-		for i = 1, returnsCount do
-			local ret = vm.getReturnOfFunction(source, i)
+	for i = 1, returnsCount do
+		local ret = vm.getReturnOfFunction(source, i)
 
-			assert(ret ~= nil, "ERROR: could not infer return type")
+		assert(ret ~= nil, "ERROR: could not infer return type")
 
-			--TODO: insert unknown when ret is nil
-			local name = ret.name or ""
-			local documentation = ret.comment and getDesc(ret.comment) or ""
-			local retType, retInfer = export.inferObject(ret)
-			local optional = retInfer and retInfer.node:isOptional() or false
+		--TODO: insert unknown when ret is nil
+		local name = ret.name or ""
+		local documentation = ret.comment and getDesc(ret.comment) or ""
+		local retType, retInfer = export.inferObject(ret)
+		local optional = retInfer and retInfer.node:isOptional() or false
 
-			table.insert(returns, { name = name, documentation = documentation, infer = retType, optional = optional })
-		end
+		table.insert(returns, { name = name, documentation = documentation, infer = retType, optional = optional })
+	end
 
-		return {
-			kind = "function",
-			generics = generics,
-			arguments = arguments,
-			returns = returns,
-		}
-	end)
-	--[[ :case("local")
-	:call(function(source, infer)
-		if source.parent == "funcargs" then
-			infer._isParam = true
-		else
-			infer._isLocal = true
-		end
-	end) ]]
-	:case(
-		"doc.type"
-	)
-	:call(function(source, infer, uri)
-		local buf = {}
-		for _, tp in ipairs(source.types) do
-			buf[#buf + 1] = viewNodeSwitch(tp.type, tp, infer, uri)
-		end
-		return table.concat(buf, "|")
-	end)
-	:case("doc.type.name")
-	:call(function(source, _infer, uri)
-		if source.signs then
-			local buf = {}
-			for i, sign in ipairs(source.signs) do
-				buf[i] = vm.getInfer(sign):view(uri)
-			end
-			return ("%s<%s>"):format(source[1], table.concat(buf, ", "))
-		else
-			return source[1]
-		end
-	end)
-	:case("generic")
-	:call(function(source, _infer, uri)
-		local inferObject = export.inferObject(source.proto)
-		return inferObject
-	end)
-	:case("doc.generic.name")
-	:call(function(source, _infer, uri)
-		return {
-			kind = "genericreference",
-			value = source[1],
-		}
-	end)
-	:case("doc.type.array")
-	:call(function(source, infer, uri)
-		local itemsInfer = export.inferObject(source.node)
-		return {
-			kind = "array",
-			items = itemsInfer,
-		}
-	end)
-	:case("doc.type.sign")
-	:call(function(source, infer, uri)
-		infer._hasClass = true
+	return {
+		kind = "function",
+		generics = generics,
+		arguments = arguments,
+		returns = returns,
+	}
+end
+
+export.makeInferObject["doc.type"] = function(source, uri)
+	local buf = {}
+	for _, tp in ipairs(source.types) do
+		buf[#buf + 1] = export.makeInferObject[tp.type](tp, uri)
+	end
+	return table.concat(buf, "|")
+end
+
+export.makeInferObject["doc.type.name"] = function(source, uri)
+	if source.signs then
 		local buf = {}
 		for i, sign in ipairs(source.signs) do
-			local view = vm.getInfer(sign):view(uri)
-			-- Strip outer <> from generic names since the sign
-			-- already wraps parameters in <>, avoiding list<<T>>
-			if view and view:sub(1, 1) == "<" and view:sub(-1) == ">" then
-				view = view:sub(2, -2)
-			end
-			buf[i] = view
+			buf[i] = vm.getInfer(sign):view(uri)
 		end
-		local node = vm.compileNode(source)
-		for c in node:eachObject() do
-			if guide.isLiteral(c) then
-				---@cast c parser.object
-				local view = vm.getInfer(c):view(uri)
-				if view then
-					infer._drop[view] = true
-				end
+		return ("%s<%s>"):format(source[1], table.concat(buf, ", "))
+	else
+		return source[1]
+	end
+end
+
+export.makeInferObject["generic"] = function(source, uri)
+	local inferObject = export.inferObject(source.proto)
+	return inferObject
+end
+
+export.makeInferObject["doc.generic.name"] = function(source, uri)
+	return {
+		kind = "genericreference",
+		value = source[1],
+	}
+end
+
+export.makeInferObject["doc.type.array"] = function(source, uri)
+	local itemsInfer = export.inferObject(source.node)
+	return {
+		kind = "array",
+		items = itemsInfer,
+	}
+end
+
+export.makeInferObject["doc.type.sign"] = function(source, uri)
+	local buf = {}
+	for i, sign in ipairs(source.signs) do
+		local view = vm.getInfer(sign):view(uri)
+		-- Strip outer <> from generic names since the sign
+		-- already wraps parameters in <>, avoiding list<<T>>
+		if view and view:sub(1, 1) == "<" and view:sub(-1) == ">" then
+			view = view:sub(2, -2)
+		end
+		buf[i] = view
+	end
+	local node = vm.compileNode(source)
+	for c in node:eachObject() do
+		if guide.isLiteral(c) then
+			---@cast c parser.object
+			local view = vm.getInfer(c):view(uri)
+			if view then
+				-- infer._drop[view] = true
 			end
 		end
-		return ("%s<%s>"):format(source.node[1], table.concat(buf, ", "))
-	end)
-	:case("doc.type.table")
-	--TODO: kind "tuple"
-	:call(function(source, infer, uri)
-		--[[ if #source.fields == 0 then
+	end
+	return ("%s<%s>"):format(source.node[1], table.concat(buf, ", "))
+end
+
+export.makeInferObject["doc.type.table"] = function(source, uri)
+	--[[ if #source.fields == 0 then
 			infer._hasTable = true
 			return
 		end ]]
-		-- infer._hasClass = true
-		local fields = {}
-		for i, field in ipairs(source.fields) do
-			local name = source.isTuple and ("[%d]"):format(i)
-				or field.name.type == "doc.type" and ("[%s]"):format(vm.getInfer(field.name):view(uri))
-				or type(field.name[1] == "string") and field.name[1]
-				or ("[%q]"):format(field.name[1])
-			local documentation = ""
-			local fieldType, fieldInfer = export.inferObject(field)
-			local optional = fieldInfer and fieldInfer.node:isOptional() or false
+	-- infer._hasClass = true
+	local fields = {}
+	for i, field in ipairs(source.fields) do
+		local name = source.isTuple and ("[%d]"):format(i)
+			or field.name.type == "doc.type" and ("[%s]"):format(vm.getInfer(field.name):view(uri))
+			or type(field.name[1] == "string") and field.name[1]
+			or ("[%q]"):format(field.name[1])
+		local documentation = ""
+		local fieldType, fieldInfer = export.inferObject(field)
+		local optional = fieldInfer and fieldInfer.node:isOptional() or false
 
-			table.insert(fields, { name = name, documentation = documentation, infer = fieldType, optional = optional })
-		end
+		table.insert(fields, { name = name, documentation = documentation, infer = fieldType, optional = optional })
+	end
 
-		return {
-			kind = "table",
-			fields = fields,
-		}
-		--[[ local buf = {}
+	return {
+		kind = "table",
+		fields = fields,
+	}
+	--[[ local buf = {}
 		buf[#buf + 1] = source.isTuple and "[" or "{ "
 		for i, field in ipairs(source.fields) do
 			if i > 1 then
@@ -512,79 +457,82 @@ viewNodeSwitch = util
 		end
 		buf[#buf + 1] = source.isTuple and "]" or " }"
 		return table.concat(buf) ]]
-	end)
-	:case("doc.type.string")
-	:call(function(source, _infer)
-		return util.viewString(source[1], source[2])
-	end)
-	:case("doc.type.integer")
-	:case("doc.type.boolean")
-	:call(function(source, _infer)
-		return ("%q"):format(source[1])
-	end)
-	:case("doc.type.code")
-	:call(function(source, _infer)
-		return ("`%s`"):format(source[1])
-	end)
-	:case("doc.type.function")
-	:call(function(source, infer, uri)
-		local generics = {}
+end
 
-		--Forcing sign calculation
-		local sign = vm.getSign(source)
+export.makeInferObject["doc.type.string"] = function(source, uri)
+	return util.viewString(source[1], source[2])
+end
 
-		--TODO: does this work?
-		--This was copied as is from :case("function")
-		--When that was done, this had no effect on the output
-		if sign then
-			for _, docGeneric in ipairs(sign.docGeneric) do
-				for _, generic in ipairs(docGeneric.generics) do
-					local name = generic.generic[1]
-					local constraints = {}
+export.makeInferObject["doc.type.boolean"] = function(source, uri)
+	return ("%q"):format(source[1])
+end
 
-					if generic.extends then
-						for _, genericTypeConstraint in ipairs(generic.extends.types) do
-							local constraintInfer = export.inferObject(genericTypeConstraint)
-							table.insert(constraints, constraintInfer)
-						end
+export.makeInferObject["doc.type.integer"] = function(source, uri)
+	return ("%q"):format(source[1])
+end
+
+export.makeInferObject["doc.type.code"] = function(source, uri)
+	return ("`%s`"):format(source[1])
+end
+
+export.makeInferObject["doc.type.function"] = function(source, uri)
+	local generics = {}
+
+	--Forcing sign calculation
+	local sign = vm.getSign(source)
+
+	--TODO: does this work?
+	--This was copied as is from :case("function")
+	--When that was done, this had no effect on the output
+	if sign then
+		for _, docGeneric in ipairs(sign.docGeneric) do
+			for _, generic in ipairs(docGeneric.generics) do
+				local name = generic.generic[1]
+				local constraints = {}
+
+				if generic.extends then
+					for _, genericTypeConstraint in ipairs(generic.extends.types) do
+						local constraintInfer = export.inferObject(genericTypeConstraint)
+						table.insert(constraints, constraintInfer)
 					end
-
-					table.insert(generics, { name = name, constraints = constraints })
 				end
+
+				table.insert(generics, { name = name, constraints = constraints })
 			end
 		end
+	end
 
-		local arguments = {}
+	local arguments = {}
 
-		for _, arg in ipairs(source.args) do
-			local name = arg.name[1]
-			local argType, argInfer = export.inferObject(arg)
-			local optional = argInfer and argInfer.node:isOptional() or false
+	for _, arg in ipairs(source.args) do
+		local name = arg.name[1]
+		local argType, argInfer = export.inferObject(arg)
+		local optional = argInfer and argInfer.node:isOptional() or false
 
-			table.insert(arguments, { name = name, infer = argType, optional = optional })
-		end
+		table.insert(arguments, { name = name, infer = argType, optional = optional })
+	end
 
-		local returns = {}
+	local returns = {}
 
-		for _, ret in ipairs(source.returns) do
-			local name = ret.name and ret.name[1] or ""
-			local retType, retInfer = export.inferObject(ret)
-			local optional = retInfer and retInfer.node:isOptional() or false
+	for _, ret in ipairs(source.returns) do
+		local name = ret.name and ret.name[1] or ""
+		local retType, retInfer = export.inferObject(ret)
+		local optional = retInfer and retInfer.node:isOptional() or false
 
-			table.insert(returns, { name = name, infer = retType, optional = optional })
-		end
+		table.insert(returns, { name = name, infer = retType, optional = optional })
+	end
 
-		return {
-			kind = "function",
-			generics = generics,
-			arguments = arguments,
-			returns = returns,
-		}
-	end)
-	:case("doc.field.name")
-	:call(function(source, _infer, uri)
-		return vm.viewKey(source, uri)
-	end)
+	return {
+		kind = "function",
+		generics = generics,
+		arguments = arguments,
+		returns = returns,
+	}
+end
+
+export.makeInferObject["doc.field.name"] = function(source, uri)
+	return vm.viewKey(source, uri)
+end
 
 --TODO: Finish implementing infer:view logics
 function export.inferObject(...)
@@ -626,7 +574,7 @@ function export.inferObject(...)
 
 		for _, subView in ipairs(subViews) do
 			local typeNode = typeNodes[subView]
-			local nodeType = typeNode and viewNodeSwitch(typeNode.type, typeNode, infer, wsRootUri) or nil
+			local nodeType = typeNode and export.makeInferObject[typeNode.type](typeNode, wsRootUri) or nil
 
 			if nodeType then
 				table.insert(types, nodeType)
@@ -720,6 +668,49 @@ end
 
 	return init
 end ]]
+
+function export.documentObject(source)
+	local obj = export.makeDocObject["INIT"](source)
+
+	--[[ print(
+		obj.type,
+		obj.name,
+		obj.location.file,
+		export.inspect(obj.location.start),
+		export.inspect(obj.location.finish)
+	) ]]
+
+	-- export.objTypes[obj.type] = export.objTypes[obj.type] and export.objTypes[obj.type] + 1 or 1
+
+	local res = export.makeDocObject[obj.type](source, obj)
+
+	return res and res or nil
+end
+
+-- export.objTypes = {}
+
+export.makeDocObject = setmetatable({}, {
+	__index = function(t, k)
+		return function()
+			print('MakeDocObject error: no type "' .. k .. '"')
+		end
+	end,
+})
+
+export.makeDocObject["INIT"] = function(source)
+	local ok, desc = pcall(getDesc, source)
+
+	return {
+		category = source.cate,
+		type = source.type,
+		documentation = ok and desc or "",
+		location = {
+			file = export.getLocalPath(guide.getUri(source)),
+			start = source.start and { guide.rowColOf(source.start) },
+			finish = source.finish and { guide.rowColOf(source.finish) },
+		},
+	}
+end
 
 export.makeDocObject["variable"] = function(source, init)
 	-- local definitions = source:getSets(ws.rootUri)
