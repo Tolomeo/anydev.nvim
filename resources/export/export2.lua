@@ -109,33 +109,8 @@ function export.sortDoc(a, b)
 	return export.positionOf(a.location.start) < export.positionOf(b.location.start)
 end
 
---- recursively generate documentation all parser objects downstream of `source`
-function export.documentObject(source, has_seen)
-	--is this a primative type? then we dont need to process it.
-	if type(source) ~= "table" then
-		return source
-	end
-
-	--set up/check recursion
-	if not has_seen then
-		has_seen = {}
-	end
-	if has_seen[source] then
-		return nil
-	end
-	has_seen[source] = true
-
-	--is this an array type? then process each array item and collect it
-	if #source > 0 and next(source, #source) == nil then
-		local objs = {} --make a pure numerical array
-		for i, child in ipairs(source) do
-			objs[i] = export.documentObject(child, has_seen)
-		end
-		return objs
-	end
-
-	--if neither, then this is a singular docUnion
-	local obj = export.makeDocObject["INIT"](source, has_seen)
+function export.documentObject(source)
+	local obj = export.makeDocObject["INIT"](source)
 
 	--[[ print(
 		obj.type,
@@ -147,7 +122,7 @@ function export.documentObject(source, has_seen)
 
 	export.objTypes[obj.type] = export.objTypes[obj.type] and export.objTypes[obj.type] + 1 or 1
 
-	local res = export.makeDocObject[obj.type](source, obj, has_seen)
+	local res = export.makeDocObject[obj.type](source, obj)
 
 	return res and res or nil
 end
@@ -164,7 +139,7 @@ export.makeDocObject = setmetatable({}, {
 	end,
 })
 
-export.makeDocObject["INIT"] = function(source, has_seen)
+export.makeDocObject["INIT"] = function(source)
 	local ok, desc = pcall(getDesc, source)
 
 	return {
@@ -746,7 +721,7 @@ end
 	return init
 end ]]
 
-export.makeDocObject["variable"] = function(source, init, has_seen)
+export.makeDocObject["variable"] = function(source, init)
 	-- local definitions = source:getSets(ws.rootUri)
 	local definitions = vm.getDefs(source)
 
@@ -755,7 +730,7 @@ export.makeDocObject["variable"] = function(source, init, has_seen)
 		string.format("Global '%s' with an unexpected number of definitions received", source.name)
 	)
 
-	local doc = util.tableMerge(init, export.documentObject(definitions[1], has_seen))
+	local doc = util.tableMerge(init, export.documentObject(definitions[1]))
 
 	local definition = definitions[1]
 
@@ -768,10 +743,10 @@ export.makeDocObject["variable"] = function(source, init, has_seen)
 end
 
 -- TODO: global types
-export.makeDocObject["global"] = function(source, init, has_seen)
+export.makeDocObject["global"] = function(source, init)
 	assert(source.cate == "variable", "ERROR: global types yet to be implemented")
 
-	return export.makeDocObject[source.cate](source, init, has_seen)
+	return export.makeDocObject[source.cate](source, init)
 
 	--[[ for _, set in ipairs(definitions) do
 		if
@@ -808,13 +783,13 @@ export.documentObjectMeta = function(source, meta)
 	return meta
 end
 
-export.makeDocObject["setfield"] = function(source, init, has_seen)
+export.makeDocObject["setfield"] = function(source, init)
 	assert(source.field ~= nil, "Setfield source without field property")
 	assert(source.value ~= nil, "Setfield source without value property")
 
 	-- local extends = source.extends or source.value --doc.class or other
 	-- init.file = export.getLocalPath(guide.getUri(source))
-	-- init.extends = extends and export.documentObject(extends, has_seen)
+	-- init.extends = extends and export.documentObject(extends)
 
 	local doc = init
 
@@ -849,7 +824,7 @@ export.makeDocObject["setfield"] = function(source, init, has_seen)
 	return doc
 end
 
-export.makeDocObject["getfield"] = function(source, init, has_seen)
+export.makeDocObject["getfield"] = function(source, init)
 	-- print(export.inspect(source))
 	print(
 		string.format(
@@ -862,7 +837,7 @@ export.makeDocObject["getfield"] = function(source, init, has_seen)
 	)
 end
 
-export.makeDocObject["setmethod"] = function(source, init, has_seen)
+export.makeDocObject["setmethod"] = function(source, init)
 	assert(source.method ~= nil, "ERROR: Setmethod source without method property")
 
 	local doc = init
@@ -877,7 +852,7 @@ export.makeDocObject["setmethod"] = function(source, init, has_seen)
 	return doc
 end
 
-export.makeDocObject["setindex"] = function(source, init, has_seen)
+export.makeDocObject["setindex"] = function(source, init)
 	local doc = init
 	local value = source.value
 
@@ -890,7 +865,7 @@ export.makeDocObject["setindex"] = function(source, init, has_seen)
 	return doc
 end
 
-export.makeDocObject["tablefield"] = function(source, init, has_seen)
+export.makeDocObject["tablefield"] = function(source, init)
 	local doc = init
 
 	assert(source.field ~= nil, "Tablefield source without field property")
@@ -907,7 +882,7 @@ export.makeDocObject["tablefield"] = function(source, init, has_seen)
 	return doc
 end
 
-export.makeDocObject["tableindex"] = function(source, init, has_seen)
+export.makeDocObject["tableindex"] = function(source, init)
 	local doc = init
 	local index = source.index
 	local value = source.value
@@ -921,7 +896,7 @@ export.makeDocObject["tableindex"] = function(source, init, has_seen)
 	return doc
 end
 
-export.makeDocObject["doc.field"] = function(source, init, has_seen)
+export.makeDocObject["doc.field"] = function(source, init)
 	assert(source.field ~= nil, "ERROR: doc.field source missing field")
 	assert(source.extends ~= nil, "ERROR: doc.field source missing extends")
 
