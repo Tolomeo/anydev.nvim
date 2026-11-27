@@ -269,11 +269,11 @@ export.makeInferObject["table"] = function(source, uri)
 		end
 	end
 
-	-- TODO: what is this
-	if #source == 1 and source[1].type == "varargs" then
+	-- TODO: what is this? is this `{...}`?
+	--[[ if #source == 1 and source[1].type == "varargs" then
 		local node = vm.getInfer(source[1]):view(uri)
 		return ("%s[]"):format(node)
-	end
+	end ]]
 
 	return {
 		kind = "table",
@@ -422,15 +422,38 @@ export.makeInferObject["doc.type.table"] = function(source, uri)
 	-- infer._hasClass = true
 	local fields = {}
 	for i, field in ipairs(source.fields) do
-		local name = source.isTuple and ("[%d]"):format(i)
+		local name
+		local kind
+
+		--TODO: tables could be indexed with other tables
+		if source.isTuple then
+			kind = "index"
+			name = ("%d"):format(i)
+		elseif field.name.type == "doc.type" then
+			kind = "index"
+			name = ("%s"):format(vm.getInfer(field.name):view(uri))
+		elseif type(field.name[1] == "string") then
+			kind = "property"
+			name = field.name[1]
+		else
+			print("MakeInferObject['doc.type.table'] error: unsupported field key type")
+			goto continue
+		end
+
+		--[[ local name = source.isTuple and ("[%d]"):format(i)
 			or field.name.type == "doc.type" and ("[%s]"):format(vm.getInfer(field.name):view(uri))
 			or type(field.name[1] == "string") and field.name[1]
-			or ("[%q]"):format(field.name[1])
+			or ("[%q]"):format(field.name[1]) ]]
 		local documentation = ""
 		local fieldType, fieldInfer = export.inferObject(field)
 		local optional = fieldInfer and fieldInfer.node:isOptional() or false
 
-		table.insert(fields, { name = name, documentation = documentation, infer = fieldType, optional = optional })
+		table.insert(
+			fields,
+			{ kind = kind, name = name, documentation = documentation, infer = fieldType, optional = optional }
+		)
+
+		::continue::
 	end
 
 	return {
@@ -814,6 +837,7 @@ export.makeDocObject["setfield"] = function(source, init)
 		-- print(export.inspect(source))
 	end
 
+	doc.kind = "property"
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
@@ -844,6 +868,7 @@ export.makeDocObject["setmethod"] = function(source, init)
 	local doc = init
 	local method = source.method
 
+	doc.kind = "property"
 	doc.name = method[1]
 	doc.meta = export.documentObjectMeta(source, { "method" })
 
@@ -855,9 +880,16 @@ end
 
 export.makeDocObject["setindex"] = function(source, init)
 	local doc = init
+	local index = source.index
 	local value = source.value
 
-	doc.name = source.index[1]
+	--TODO: tables could be indexed with other tables as well
+	if index.type == "string" then
+		doc.kind = "property"
+	else
+		doc.kind = "index"
+	end
+	doc.name = index[1]
 	doc.meta = export.documentObjectMeta(source)
 
 	local inferObject = export.inferObject(value)
@@ -874,6 +906,7 @@ export.makeDocObject["tablefield"] = function(source, init)
 
 	local field = source.field
 
+	doc.kind = "property"
 	doc.name = field[1]
 	doc.meta = export.documentObjectMeta(source)
 
@@ -887,6 +920,13 @@ export.makeDocObject["tableindex"] = function(source, init)
 	local doc = init
 	local index = source.index
 	local value = source.value
+
+	--TODO: tables could be indexed with other tables as well
+	if index.type == "string" then
+		doc.kind = "property"
+	else
+		doc.kind = "index"
+	end
 
 	doc.name = index[1]
 	doc.meta = export.documentObjectMeta(source)
@@ -909,9 +949,11 @@ export.makeDocObject["doc.field"] = function(source, init)
 	local extends = source.extends
 
 	if field.type == "doc.field.name" then
+		doc.kind = "property"
 		doc.name = field[1]
 	else
-		doc.name = ("[%s]"):format(vm.getInfer(field):view(ws.rootUri))
+		doc.kind = "index"
+		doc.name = ("%s"):format(vm.getInfer(field):view(ws.rootUri))
 	end
 
 	-- TODO: follow?
