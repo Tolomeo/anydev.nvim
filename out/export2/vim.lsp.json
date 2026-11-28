@@ -117,10 +117,10 @@
                     "documentation": "",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
@@ -142,7 +142,6 @@
                                     "kind": "table"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, { resolved_config: (vim.lsp.Config)? }>"
@@ -876,20 +875,17 @@
                                     "documentation": "Map of client-id:request-id pairs",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, integer>"
                                     },
@@ -1174,10 +1170,10 @@
                                     "documentation": "Map of client_id:request_result.",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
@@ -1211,9 +1207,7 @@
                                                     ],
                                                     "kind": "table"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, { error: (lsp.ResponseError)?, result: any }>?"
                                     },
@@ -1341,10 +1335,10 @@
                     "documentation": " Map of client-defined handlers implementing custom (off-spec) commands which a server may\n invoke. Each key is a unique command name; each value is a function which is called when an LSP\n action (code action, code lenses, …) requests it by name.\n\n If an LSP response requests a command not defined client-side, Nvim will forward it to the\n server as `workspace/executeCommand`.\n\n - Argument 1 is the `Command`:\n   ```\n   Command\n     title: String\n     command: String\n     arguments?: any[]\n   ```\n - Argument 2 is the |lsp-handler| `ctx`.\n\n Example:\n\n ```lua\n vim.lsp.commands['java.action.generateToStringPrompt'] = function(_, ctx)\n   require(\"jdtls.async\").run(function()\n     local _, result = request(ctx.bufnr, 'java/checkToStringStatus', ctx.params)\n     local fields = ui.pick_many(result.fields, 'Include item in toString?', function(x)\n       return string.format('%s: %s', x.name, x.type)\n     end)\n     local _, edit = request(ctx.bufnr, 'java/generateToString', { context = ctx.params; fields = fields; })\n     vim.lsp.util.apply_workspace_edit(edit, offset_encoding)\n   end)\n end\n ```\n",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
@@ -1377,7 +1371,6 @@
                                     "returns": []
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, fun(command: lsp.Command, ctx: table)>"
@@ -2102,45 +2095,6 @@
                     "type": "setfield"
                 },
                 {
-                    "documentation": "",
-                    "infer": {
-                        "type": {
-                            "generics": [
-                                {
-                                    "generics": [],
-                                    "kind": "typereference",
-                                    "value": "string"
-                                },
-                                {
-                                    "generics": [],
-                                    "kind": "typereference",
-                                    "value": "lsp.Handler"
-                                }
-                            ],
-                            "kind": "typereference",
-                            "value": "table"
-                        },
-                        "view": "table<string, lsp.Handler>"
-                    },
-                    "kind": "property",
-                    "location": {
-                        "file": "lua/vim/lsp.lua",
-                        "finish": [
-                            16,
-                            10
-                        ],
-                        "start": [
-                            16,
-                            2
-                        ]
-                    },
-                    "meta": [
-                        "public"
-                    ],
-                    "name": "handlers",
-                    "type": "tablefield"
-                },
-                {
                     "documentation": " Checks if the given LSP config is enabled (globally, not per-buffer).\n\n Unlike `vim.lsp.config['…']`, this does not have the side-effect of resolving the config.\n\n@*param* `name` — Config name",
                     "infer": {
                         "type": {
@@ -2202,35 +2156,31 @@
                             "kind": "union",
                             "types": [
                                 {
-                                    "generics": [
+                                    "kind": "builtin",
+                                    "parameters": [
                                         {
-                                            "generics": [],
-                                            "kind": "typereference",
+                                            "kind": "builtin",
                                             "value": "integer"
                                         },
                                         {
-                                            "generics": [],
-                                            "kind": "typereference",
+                                            "kind": "builtin",
                                             "value": "string"
                                         }
                                     ],
-                                    "kind": "typereference",
                                     "value": "table"
                                 },
                                 {
-                                    "generics": [
+                                    "kind": "builtin",
+                                    "parameters": [
                                         {
-                                            "generics": [],
-                                            "kind": "typereference",
+                                            "kind": "builtin",
                                             "value": "string"
                                         },
                                         {
-                                            "generics": [],
-                                            "kind": "typereference",
+                                            "kind": "builtin",
                                             "value": "integer"
                                         }
                                     ],
-                                    "kind": "typereference",
                                     "value": "table"
                                 }
                             ]

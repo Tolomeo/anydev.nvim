@@ -61,19 +61,17 @@
                     "documentation": " Export for internal use only.",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "vim.lsp.Client"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, vim.lsp.Client>"
@@ -127,19 +125,17 @@
                     "documentation": "",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "vim.lsp.capability.Name"
                                 },
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "boolean"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<vim.lsp.capability.Name, boolean?>"
@@ -2047,19 +2043,17 @@
                     "documentation": "\n Each buffer's last used `languageId`.",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, string>"
@@ -2180,10 +2174,10 @@
                     "documentation": "\n Client commands. See [vim.lsp.ClientConfig].",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
@@ -2216,7 +2210,6 @@
                                     "returns": []
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, fun(command: lsp.Command, ctx: table)>"
@@ -2571,19 +2564,17 @@
                     "documentation": "\n See [vim.lsp.ClientConfig].",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "lsp.Handler"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, lsp.Handler>"
@@ -3000,10 +2991,10 @@
                     "documentation": "",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
@@ -3017,7 +3008,6 @@
                                     "kind": "array"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, lsp.Registration[]>"
@@ -3301,10 +3291,10 @@
                     "documentation": "\n The current pending requests in flight to the server. Entries are key-value\n pairs with the key being the request id while the value is a table with\n `type`, `bufnr`, and `method` key-value pairs. `type` is either \"pending\"\n for an active request, or \"cancel\" for a cancel request. It will be\n \"complete\" ephemerally while executing |LspRequest| autocmds when replies\n are received from the server.",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
@@ -3352,7 +3342,6 @@
                                     "kind": "table"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, { type: string, bufnr: integer, method: string }?>"

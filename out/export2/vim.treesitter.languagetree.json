@@ -23,10 +23,10 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "string"
                                                 },
                                                 {
@@ -45,9 +45,7 @@
                                                     },
                                                     "kind": "array"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<string, Range6[][]>"
                                     },
@@ -136,20 +134,17 @@
                                                 {
                                                     "infer": {
                                                         "type": {
-                                                            "generics": [
+                                                            "kind": "table",
+                                                            "parameters": [
                                                                 {
-                                                                    "generics": [],
-                                                                    "kind": "typereference",
+                                                                    "kind": "builtin",
                                                                     "value": "integer"
                                                                 },
                                                                 {
-                                                                    "generics": [],
                                                                     "kind": "typereference",
                                                                     "value": "TSTree"
                                                                 }
-                                                            ],
-                                                            "kind": "typereference",
-                                                            "value": "table"
+                                                            ]
                                                         },
                                                         "view": "table<integer, TSTree>?"
                                                     },
@@ -174,20 +169,17 @@
                                     "documentation": "the list of parsed trees, if parsing completed synchronously",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSTree>?"
                                     },
@@ -221,9 +213,9 @@
                     "documentation": "Callback handlers",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "TSCallbackName"
                                 },
@@ -238,7 +230,6 @@
                                     "kind": "array"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<TSCallbackName, function[]>"
@@ -265,9 +256,9 @@
                     "documentation": "Callback handlers (recursive)",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "TSCallbackName"
                                 },
@@ -282,7 +273,6 @@
                                     "kind": "array"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<TSCallbackName, function[]>"
@@ -309,10 +299,10 @@
                     "documentation": "Table of callback queues, keyed by each region for which the callbacks should be run",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
@@ -333,20 +323,17 @@
                                                 {
                                                     "infer": {
                                                         "type": {
-                                                            "generics": [
+                                                            "kind": "table",
+                                                            "parameters": [
                                                                 {
-                                                                    "generics": [],
-                                                                    "kind": "typereference",
+                                                                    "kind": "builtin",
                                                                     "value": "integer"
                                                                 },
                                                                 {
-                                                                    "generics": [],
                                                                     "kind": "typereference",
                                                                     "value": "TSTree"
                                                                 }
-                                                            ],
-                                                            "kind": "typereference",
-                                                            "value": "table"
+                                                            ]
                                                         },
                                                         "view": "table<integer, TSTree>?"
                                                     },
@@ -363,7 +350,6 @@
                                     "kind": "array"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, fun(err?: string, trees?: table<integer, TSTree>)[]>"
@@ -390,19 +376,17 @@
                     "documentation": "Injected languages",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "vim.treesitter.LanguageTree"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, vim.treesitter.LanguageTree>"
@@ -661,10 +645,10 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
@@ -677,9 +661,7 @@
                                                     },
                                                     "kind": "array"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSNode[]>"
                                     },
@@ -834,10 +816,10 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "string"
                                                 },
                                                 {
@@ -856,9 +838,7 @@
                                                     },
                                                     "kind": "array"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<string, Range6[][]>"
                                     },
@@ -1644,20 +1624,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSTree>"
                                     },
@@ -1943,20 +1920,17 @@
                                                 {
                                                     "infer": {
                                                         "type": {
-                                                            "generics": [
+                                                            "kind": "table",
+                                                            "parameters": [
                                                                 {
-                                                                    "generics": [],
-                                                                    "kind": "typereference",
+                                                                    "kind": "builtin",
                                                                     "value": "integer"
                                                                 },
                                                                 {
-                                                                    "generics": [],
                                                                     "kind": "typereference",
                                                                     "value": "TSTree"
                                                                 }
-                                                            ],
-                                                            "kind": "typereference",
-                                                            "value": "table"
+                                                            ]
                                                         },
                                                         "view": "table<integer, TSTree>?"
                                                     },
@@ -2003,19 +1977,17 @@
                     "documentation": "Table of regions for which the tree is currently running an async parse",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "string"
                                 },
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "boolean"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<string, boolean>"
@@ -2042,10 +2014,10 @@
                     "documentation": "",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
@@ -2059,7 +2031,6 @@
                                     "kind": "array"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, Range6[]>?"
@@ -2135,20 +2106,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSTree>?"
                                     },
@@ -2329,19 +2297,17 @@
                     "documentation": "Reference to parsed tree (one for each language).",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
-                                    "generics": [],
                                     "kind": "typereference",
                                     "value": "TSTree"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, TSTree>"
@@ -2368,10 +2334,10 @@
                     "documentation": "Set of valid region IDs.",
                     "infer": {
                         "type": {
-                            "generics": [
+                            "kind": "builtin",
+                            "parameters": [
                                 {
-                                    "generics": [],
-                                    "kind": "typereference",
+                                    "kind": "builtin",
                                     "value": "integer"
                                 },
                                 {
@@ -2379,7 +2345,6 @@
                                     "value": "true"
                                 }
                             ],
-                            "kind": "typereference",
                             "value": "table"
                         },
                         "view": "table<integer, true>"
@@ -2493,20 +2458,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "string"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "vim.treesitter.LanguageTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<string, vim.treesitter.LanguageTree>"
                                     },
@@ -2748,10 +2710,10 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
@@ -2764,9 +2726,7 @@
                                                     },
                                                     "kind": "array"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, Range6[]>"
                                     },
@@ -3442,20 +3402,17 @@
                                                 {
                                                     "infer": {
                                                         "type": {
-                                                            "generics": [
+                                                            "kind": "table",
+                                                            "parameters": [
                                                                 {
-                                                                    "generics": [],
-                                                                    "kind": "typereference",
+                                                                    "kind": "builtin",
                                                                     "value": "integer"
                                                                 },
                                                                 {
-                                                                    "generics": [],
                                                                     "kind": "typereference",
                                                                     "value": "TSTree"
                                                                 }
-                                                            ],
-                                                            "kind": "typereference",
-                                                            "value": "table"
+                                                            ]
                                                         },
                                                         "view": "table<integer, TSTree>?"
                                                     },
@@ -3480,20 +3437,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSTree>?"
                                     },
@@ -3543,20 +3497,17 @@
                                     "documentation": "An [nvim_buf_attach()]-like table argument with the following handlers:",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSCallbackNameOn"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "function"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<TSCallbackNameOn, function>"
                                     },
@@ -3901,20 +3852,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "TSTree"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, TSTree>"
                                     },

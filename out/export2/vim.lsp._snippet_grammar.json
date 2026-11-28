@@ -54,14 +54,13 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "typereference",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "vim.snippet.SnippetData"
                                                 }
                                             ],
-                                            "kind": "typereference",
                                             "value": "vim.snippet.Node"
                                         },
                                         "view": "vim.snippet.Node<vim.snippet.SnippetData|{ children: vim.snippet.Node<any>[] }>"

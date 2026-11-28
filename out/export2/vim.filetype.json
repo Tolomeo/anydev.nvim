@@ -88,19 +88,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "string"
                                                 },
                                                 {
                                                     "kind": "booleanliteral",
                                                     "value": "true"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<string, true>"
                                     },
@@ -597,52 +595,44 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "string"
                                                 },
                                                 {
-                                                    "generics": [
+                                                    "kind": "table",
+                                                    "parameters": [
                                                         {
-                                                            "generics": [],
-                                                            "kind": "typereference",
+                                                            "kind": "builtin",
                                                             "value": "string"
                                                         },
                                                         {
                                                             "kind": "union",
                                                             "types": [
                                                                 {
-                                                                    "generics": [],
                                                                     "kind": "typereference",
                                                                     "value": "vim.filetype.mapping"
                                                                 },
                                                                 {
-                                                                    "generics": [
+                                                                    "kind": "table",
+                                                                    "parameters": [
                                                                         {
-                                                                            "generics": [],
-                                                                            "kind": "typereference",
+                                                                            "kind": "builtin",
                                                                             "value": "string"
                                                                         },
                                                                         {
-                                                                            "generics": [],
                                                                             "kind": "typereference",
                                                                             "value": "vim.filetype.mapping"
                                                                         }
-                                                                    ],
-                                                                    "kind": "typereference",
-                                                                    "value": "table"
+                                                                    ]
                                                                 }
                                                             ]
                                                         }
-                                                    ],
-                                                    "kind": "typereference",
-                                                    "value": "table"
+                                                    ]
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<string, table<string, table<string, vim.filetype.mapping>|vim.filetype.mapping>>"
                                     },

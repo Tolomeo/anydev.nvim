@@ -1,0 +1,94 @@
+{
+    "documentation": "",
+    "infer": {
+        "type": {
+            "fields": [
+                {
+                    "documentation": " |lsp-handler| for the method \"textDocument/hover\"\n\n ```lua\n vim.lsp.handlers[\"textDocument/hover\"] = vim.lsp.with(\n   vim.lsp.handlers.hover, {\n     -- Use a sharp border with `FloatBorder` highlights\n     border = \"single\",\n     -- add the title in hover float window\n     title = \"hover\"\n   }\n )\n ```\n\n@*param* `config` — Configuration table.\n\n     - border:     (default=nil)\n         - Add borders to the floating window\n         - See |vim.lsp.util.open_floating_preview()| for more options.",
+                    "infer": {
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Handler"
+                        },
+                        "view": "lsp.Handler"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/handlers.lua",
+                        "finish": [
+                            396,
+                            16
+                        ],
+                        "start": [
+                            396,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public",
+                        "deprecated"
+                    ],
+                    "name": "hover",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " |lsp-handler| for the method \"textDocument/signatureHelp\".\n\n The active parameter is highlighted with |hl-LspSignatureActiveParameter|.\n\n ```lua\n vim.lsp.handlers[\"textDocument/signatureHelp\"] = vim.lsp.with(\n   vim.lsp.handlers.signature_help, {\n     -- Use a sharp border with `FloatBorder` highlights\n     border = \"single\"\n   }\n )\n ```\n\n@*param* `result` — Response from the language server\n\n@*param* `ctx` — Client context\n\n@*param* `config` — Configuration table.\n\n     - border:     (default=nil)\n         - Add borders to the floating window\n         - See |vim.lsp.util.open_floating_preview()| for more options",
+                    "infer": {
+                        "type": {
+                            "kind": "typereference",
+                            "value": "lsp.Handler"
+                        },
+                        "view": "lsp.Handler"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/handlers.lua",
+                        "finish": [
+                            455,
+                            25
+                        ],
+                        "start": [
+                            455,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public",
+                        "deprecated"
+                    ],
+                    "name": "signature_help",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table",
+            "parameters": [
+                {
+                    "kind": "builtin",
+                    "value": "string"
+                },
+                {
+                    "kind": "typereference",
+                    "value": "lsp.Handler"
+                }
+            ]
+        },
+        "view": "table<string, lsp.Handler>"
+    },
+    "kind": "property",
+    "location": {
+        "file": "lua/vim/lsp.lua",
+        "finish": [
+            16,
+            10
+        ],
+        "start": [
+            16,
+            2
+        ]
+    },
+    "meta": [
+        "public"
+    ],
+    "name": "handlers",
+    "type": "tablefield"
+}

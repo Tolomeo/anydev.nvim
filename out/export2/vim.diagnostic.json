@@ -12,20 +12,17 @@
                                     "documentation": "",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "vim.Diagnostic"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, vim.Diagnostic>"
                                     },
@@ -194,20 +191,17 @@
                                     "documentation": ": Table with actually present severity values as keys",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, integer>"
                                     },
@@ -518,20 +512,17 @@
                                     "documentation": ": List of active diagnostic namespaces |vim.diagnostic|.",
                                     "infer": {
                                         "type": {
-                                            "generics": [
+                                            "kind": "table",
+                                            "parameters": [
                                                 {
-                                                    "generics": [],
-                                                    "kind": "typereference",
+                                                    "kind": "builtin",
                                                     "value": "integer"
                                                 },
                                                 {
-                                                    "generics": [],
                                                     "kind": "typereference",
                                                     "value": "vim.diagnostic.NS"
                                                 }
-                                            ],
-                                            "kind": "typereference",
-                                            "value": "table"
+                                            ]
                                         },
                                         "view": "table<integer, vim.diagnostic.NS>"
                                     },
@@ -884,45 +875,6 @@
                         "deprecated"
                     ],
                     "name": "goto_prev",
-                    "type": "setfield"
-                },
-                {
-                    "documentation": " @nodoc",
-                    "infer": {
-                        "type": {
-                            "generics": [
-                                {
-                                    "generics": [],
-                                    "kind": "typereference",
-                                    "value": "string"
-                                },
-                                {
-                                    "generics": [],
-                                    "kind": "typereference",
-                                    "value": "vim.diagnostic.Handler"
-                                }
-                            ],
-                            "kind": "typereference",
-                            "value": "table"
-                        },
-                        "view": "table<string, vim.diagnostic.Handler>"
-                    },
-                    "kind": "property",
-                    "location": {
-                        "file": "lua/vim/diagnostic.lua",
-                        "finish": [
-                            413,
-                            10
-                        ],
-                        "start": [
-                            413,
-                            0
-                        ]
-                    },
-                    "meta": [
-                        "public"
-                    ],
-                    "name": "handlers",
                     "type": "setfield"
                 },
                 {

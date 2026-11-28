@@ -368,17 +368,37 @@ export.makeInferObject["doc.type"] = function(source, uri)
 end
 
 export.makeInferObject["doc.type.name"] = function(source, uri)
-	local generics = {}
+	--[[ local generics = {}
 
 	for i, sign in ipairs(source.signs or {}) do
 		generics[i] = export.makeInferObject(sign, uri)
+	end ]]
+
+	-- print(export.inspect(export.makeInferObject[source[1]](source, uri)))
+
+	local value = source[1]
+
+	if value == "nil" or value == "any" or value == "boolean" or value == "string" or value == "number" or value == "integer" then
+		return {
+			kind = "builtin",
+			value = value,
+		}
+	elseif value == "table" then
+		return {
+			kind = "table",
+		}
+	else
+		return {
+			kind = "typereference",
+			value = value,
+		}
 	end
 
-	return {
+	--[[ return {
 		kind = "typereference",
-		generics = generics,
+		-- generics = generics,
 		value = source[1],
-	}
+	} ]]
 end
 
 export.makeInferObject["generic"] = function(source, uri)
@@ -405,12 +425,12 @@ export.makeInferObject["doc.type.sign"] = function(source, uri)
 	-- print(source.node.type, export.inspect())
 	local inferObject = export.makeInferObject[source.node.type](source.node)
 
-	local generics = {}
+	local parameters = {}
 	for i, sign in ipairs(source.signs or {}) do
-		generics[i] = export.makeInferObject[sign.type](sign, uri)
+		parameters[i] = export.makeInferObject[sign.type](sign, uri)
 	end
 
-	inferObject.generics = generics
+	inferObject.parameters = parameters
 
 	return inferObject
 
