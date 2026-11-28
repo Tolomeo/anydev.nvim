@@ -1,129 +1,119 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Applying the workspace change is simply aborted if one of the changes provided\n fails. All operations executed before the failing operation stay executed.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Applying the workspace change is simply aborted if one of the changes provided\n fails. All operations executed before the failing operation stay executed.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                202,
-                                9
-                            ],
-                            "start": [
-                                202,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Abort",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " If the workspace edit contains only textual file changes they are executed transactionally.\n If resource changes (create, rename or delete file) are part of the change the failure\n handling strategy is abort.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                209,
-                                25
-                            ],
-                            "start": [
-                                209,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            202,
+                            9
                         ],
-                        "name": "TextOnlyTransactional",
-                        "type": "tablefield"
+                        "start": [
+                            202,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " All operations are executed transactionally. That means they either all\n succeed or no changes at all are applied to the workspace.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Abort",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " If the workspace edit contains only textual file changes they are executed transactionally.\n If resource changes (create, rename or delete file) are part of the change the failure\n handling strategy is abort.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                205,
-                                17
-                            ],
-                            "start": [
-                                205,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Transactional",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " The client tries to undo the operations already executed. But there is no\n guarantee that this succeeds.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                212,
-                                8
-                            ],
-                            "start": [
-                                212,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            209,
+                            25
                         ],
-                        "name": "Undo",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            209,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "TextOnlyTransactional",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " All operations are executed transactionally. That means they either all\n succeed or no changes at all are applied to the workspace.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            205,
+                            17
+                        ],
+                        "start": [
+                            205,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Transactional",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " The client tries to undo the operations already executed. But there is no\n guarantee that this succeeds.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            212,
+                            8
+                        ],
+                        "start": [
+                            212,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Undo",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

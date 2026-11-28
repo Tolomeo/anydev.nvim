@@ -1,135 +1,121 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Decodes (or \"unpacks\") the msgpack-encoded {str} to a Lua object.",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Decodes (or \"unpacks\") the msgpack-encoded {str} to a Lua object.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "str",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "str",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_meta/mpack.lua",
-                            "finish": [
-                                17,
-                                25
-                            ],
-                            "start": [
-                                17,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "decode",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Encodes (or \"packs\") Lua object {obj} as msgpack in a Lua string.",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_meta/mpack.lua",
+                        "finish": [
+                            17,
+                            25
+                        ],
+                        "start": [
+                            17,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "decode",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Encodes (or \"packs\") Lua object {obj} as msgpack in a Lua string.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "obj",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "obj",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_meta/mpack.lua",
-                            "finish": [
-                                22,
-                                25
-                            ],
-                            "start": [
-                                22,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_meta/mpack.lua",
+                        "finish": [
+                            22,
+                            25
                         ],
-                        "name": "encode",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            22,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "encode",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

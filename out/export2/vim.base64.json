@@ -1,135 +1,121 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Decode a Base64 encoded string.\n\n@*param* `str` — Base64 encoded string\n\n@*return* — : Decoded string",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Decode a Base64 encoded string.\n\n@*param* `str` — Base64 encoded string\n\n@*return* — : Decoded string",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Base64 encoded string",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "str",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": ": Decoded string",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "Base64 encoded string",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "str",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_meta/base64.lua",
-                            "finish": [
-                                16,
-                                26
-                            ],
-                            "start": [
-                                16,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": ": Decoded string",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "decode",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Encode {str} using Base64.\n\n@*param* `str` — String to encode\n\n@*return* — : Encoded string",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_meta/base64.lua",
+                        "finish": [
+                            16,
+                            26
+                        ],
+                        "start": [
+                            16,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "decode",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Encode {str} using Base64.\n\n@*param* `str` — String to encode\n\n@*return* — : Encoded string",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "String to encode",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "str",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": ": Encoded string",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "String to encode",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "str",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_meta/base64.lua",
-                            "finish": [
-                                10,
-                                26
-                            ],
-                            "start": [
-                                10,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": ": Encoded string",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_meta/base64.lua",
+                        "finish": [
+                            10,
+                            26
                         ],
-                        "name": "encode",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            10,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "encode",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

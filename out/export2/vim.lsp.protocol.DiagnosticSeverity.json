@@ -1,129 +1,119 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Reports an error.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Reports an error.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                19,
-                                9
-                            ],
-                            "start": [
-                                19,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Error",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " Reports a hint.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                25,
-                                8
-                            ],
-                            "start": [
-                                25,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            19,
+                            9
                         ],
-                        "name": "Hint",
-                        "type": "tablefield"
+                        "start": [
+                            19,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Reports an information.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Error",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Reports a hint.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                23,
-                                15
-                            ],
-                            "start": [
-                                23,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Information",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " Reports a warning.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                21,
-                                11
-                            ],
-                            "start": [
-                                21,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            25,
+                            8
                         ],
-                        "name": "Warning",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            25,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Hint",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Reports an information.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            23,
+                            15
+                        ],
+                        "start": [
+                            23,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Information",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Reports a warning.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            21,
+                            11
+                        ],
+                        "start": [
+                            21,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Warning",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

@@ -1,1339 +1,1216 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                "table<integer, boolean>"
-                            ],
-                            "view": "table<integer, boolean>"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                72,
-                                51
-                            ],
-                            "start": [
-                                72,
-                                11
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "_conceal_checked",
-                        "type": "doc.field"
+        "type": {
+            "fields": [
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": "table<integer, boolean>",
+                        "view": "table<integer, boolean>"
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                }
-                            ],
-                            "view": "boolean?"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                71,
-                                33
-                            ],
-                            "start": [
-                                71,
-                                11
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            72,
+                            51
                         ],
-                        "name": "_conceal_line",
-                        "type": "doc.field"
+                        "start": [
+                            72,
+                            11
+                        ]
                     },
-                    {
-                        "documentation": " A map from window ID to highlight states.\n This state is kept during rendering across each line update.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "items": {
-                                        "types": [
-                                            {
-                                                "kind": "typereference",
-                                                "value": "vim.treesitter.highlighter.State"
-                                            }
-                                        ],
-                                        "view": "vim.treesitter.highlighter.State"
-                                    },
-                                    "kind": "array"
-                                }
-                            ],
-                            "view": "vim.treesitter.highlighter.State[]"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "_conceal_checked",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                69,
-                                70
-                            ],
-                            "start": [
-                                69,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "private"
+                        "view": "boolean?"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            71,
+                            33
                         ],
-                        "name": "_highlight_states",
-                        "type": "doc.field"
+                        "start": [
+                            71,
+                            11
+                        ]
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "row",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                531,
-                                39
-                            ],
-                            "start": [
-                                531,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "_on_conceal_line",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "br",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "bc",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "er",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "ec",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                499,
-                                32
-                            ],
-                            "start": [
-                                499,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "_on_range",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "srow",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "erow",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                512,
-                                36
-                            ],
-                            "start": [
-                                512,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "_on_spell_nav",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                567,
-                                32
-                            ],
-                            "start": [
-                                567,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "_on_start",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "topline",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "botline",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                549,
-                                30
-                            ],
-                            "start": [
-                                549,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "_on_win",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                "table<string, vim.treesitter.highlighter.Query>"
-                            ],
-                            "view": "table<string, vim.treesitter.highlighter.Query>"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                70,
-                                73
-                            ],
-                            "start": [
-                                70,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "_queries",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                "table<integer, vim.treesitter.highlighter>"
-                            ],
-                            "view": "table<integer, vim.treesitter.highlighter>"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                64,
-                                58
-                            ],
-                            "start": [
-                                64,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "active",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                "table<integer, vim.treesitter.highlighter>"
-                            ],
-                            "view": "table<integer, vim.treesitter.highlighter>"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                78,
-                                8
-                            ],
-                            "start": [
-                                78,
-                                2
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "active",
-                        "type": "tablefield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                65,
-                                23
-                            ],
-                            "start": [
-                                65,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "bufnr",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": " @nodoc\n Removes all internal references to the highlighter",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                195,
-                                30
-                            ],
-                            "start": [
-                                195,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "public"
-                        ],
-                        "name": "destroy",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "arguments": [
-                                                            {
-                                                                "infer": {
-                                                                    "types": [
-                                                                        {
-                                                                            "kind": "typereference",
-                                                                            "value": "vim.treesitter.highlighter.State"
-                                                                        }
-                                                                    ],
-                                                                    "view": "vim.treesitter.highlighter.State"
-                                                                },
-                                                                "name": "state",
-                                                                "optional": false
-                                                            }
-                                                        ],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
-                                                    }
-                                                ],
-                                                "view": "fun(state: vim.treesitter.highlighter.State)"
-                                            },
-                                            "name": "fn",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                253,
-                                47
-                            ],
-                            "start": [
-                                253,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "package"
-                        ],
-                        "name": "for_each_highlight_state",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": " Gets the query used for @param lang\n\n@*param* `lang` — Language used by the highlighter.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Language used by the highlighter.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "lang",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.highlighter.Query"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter.Query"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                284,
-                                32
-                            ],
-                            "start": [
-                                284,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "public"
-                        ],
-                        "name": "get_query",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "\n Creates a highlighter for `tree`.\n\n@*param* `tree` — parser object to use for highlighting\n\n@*param* `opts` — Configuration of the highlighter:\n\n           - queries table overwrite queries used by the highlighter\n\n@*return* `Created` — highlighter object",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "parser object to use for highlighting",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.LanguageTree"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.LanguageTree"
-                                            },
-                                            "name": "tree",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Configuration of the highlighter:",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "highlighter object",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.highlighter"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "Created",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                91,
-                                26
-                            ],
-                            "start": [
-                                91,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "new",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "typereference",
-                                                                    "value": "Range6"
-                                                                }
-                                                            ],
-                                                            "view": "Range6"
-                                                        },
-                                                        "kind": "array"
-                                                    }
-                                                ],
-                                                "view": "Range6[]"
-                                            },
-                                            "name": "changes",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                266,
-                                37
-                            ],
-                            "start": [
-                                266,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "package"
-                        ],
-                        "name": "on_changedtree",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                260,
-                                32
-                            ],
-                            "start": [
-                                260,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "package"
-                        ],
-                        "name": "on_detach",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                66,
-                                42
-                            ],
-                            "start": [
-                                66,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "orig_spelloptions",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": " A map from window ID to whether we are currently parsing that window asynchronously",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "boolean"
-                                }
-                            ],
-                            "view": "boolean"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                76,
-                                25
-                            ],
-                            "start": [
-                                76,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "parsing",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": "@*param* `erow` — exclusive",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.highlighter"
-                                            },
-                                            "name": "self",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "srow",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "exclusive",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "erow",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                217,
-                                47
-                            ],
-                            "start": [
-                                217,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "method",
-                            "private"
-                        ],
-                        "name": "prepare_highlight_states",
-                        "type": "setmethod"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                74,
-                                38
-                            ],
-                            "start": [
-                                74,
-                                10
-                            ]
-                        },
-                        "meta": [
-                            "private"
-                        ],
-                        "name": "redraw_count",
-                        "type": "doc.field"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "_conceal_line",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": " A map from window ID to highlight states.\n This state is kept during rendering across each line update.",
+                    "infer": {
+                        "type": {
+                            "items": {
+                                "type": {
                                     "kind": "typereference",
-                                    "value": "vim.treesitter.LanguageTree"
+                                    "value": "vim.treesitter.highlighter.State"
+                                },
+                                "view": "vim.treesitter.highlighter.State"
+                            },
+                            "kind": "array"
+                        },
+                        "view": "vim.treesitter.highlighter.State[]"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            69,
+                            70
+                        ],
+                        "start": [
+                            69,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_highlight_states",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "row",
+                                    "optional": false
                                 }
                             ],
-                            "view": "vim.treesitter.LanguageTree"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/highlighter.lua",
-                            "finish": [
-                                73,
-                                42
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            531,
+                            39
+                        ],
+                        "start": [
+                            531,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_on_conceal_line",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "br",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "bc",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "er",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "ec",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                }
                             ],
-                            "start": [
-                                73,
-                                10
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            499,
+                            32
                         ],
-                        "name": "tree",
-                        "type": "doc.field"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            499,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_on_range",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "srow",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "erow",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            512,
+                            36
+                        ],
+                        "start": [
+                            512,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_on_spell_nav",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            567,
+                            32
+                        ],
+                        "start": [
+                            567,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "_on_start",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "topline",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "botline",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            549,
+                            30
+                        ],
+                        "start": [
+                            549,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_on_win",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": "table<string, vim.treesitter.highlighter.Query>",
+                        "view": "table<string, vim.treesitter.highlighter.Query>"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            70,
+                            73
+                        ],
+                        "start": [
+                            70,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "_queries",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": "table<integer, vim.treesitter.highlighter>",
+                        "view": "table<integer, vim.treesitter.highlighter>"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            64,
+                            58
+                        ],
+                        "start": [
+                            64,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "active",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": "table<integer, vim.treesitter.highlighter>",
+                        "view": "table<integer, vim.treesitter.highlighter>"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            78,
+                            8
+                        ],
+                        "start": [
+                            78,
+                            2
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "active",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            65,
+                            23
+                        ],
+                        "start": [
+                            65,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "bufnr",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": " @nodoc\n Removes all internal references to the highlighter",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            195,
+                            30
+                        ],
+                        "start": [
+                            195,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "public"
+                    ],
+                    "name": "destroy",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "arguments": [
+                                                {
+                                                    "infer": {
+                                                        "type": {
+                                                            "kind": "typereference",
+                                                            "value": "vim.treesitter.highlighter.State"
+                                                        },
+                                                        "view": "vim.treesitter.highlighter.State"
+                                                    },
+                                                    "name": "state",
+                                                    "optional": false
+                                                }
+                                            ],
+                                            "generics": [],
+                                            "kind": "function",
+                                            "returns": []
+                                        },
+                                        "view": "fun(state: vim.treesitter.highlighter.State)"
+                                    },
+                                    "name": "fn",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            253,
+                            47
+                        ],
+                        "start": [
+                            253,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "package"
+                    ],
+                    "name": "for_each_highlight_state",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": " Gets the query used for @param lang\n\n@*param* `lang` — Language used by the highlighter.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Language used by the highlighter.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "lang",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.highlighter.Query"
+                                        },
+                                        "view": "vim.treesitter.highlighter.Query"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            284,
+                            32
+                        ],
+                        "start": [
+                            284,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "public"
+                    ],
+                    "name": "get_query",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": "\n Creates a highlighter for `tree`.\n\n@*param* `tree` — parser object to use for highlighting\n\n@*param* `opts` — Configuration of the highlighter:\n\n           - queries table overwrite queries used by the highlighter\n\n@*return* `Created` — highlighter object",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "parser object to use for highlighting",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
+                                        },
+                                        "view": "vim.treesitter.LanguageTree"
+                                    },
+                                    "name": "tree",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Configuration of the highlighter:",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "highlighter object",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.highlighter"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "Created",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            91,
+                            26
+                        ],
+                        "start": [
+                            91,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "new",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "items": {
+                                                "type": {
+                                                    "kind": "typereference",
+                                                    "value": "Range6"
+                                                },
+                                                "view": "Range6"
+                                            },
+                                            "kind": "array"
+                                        },
+                                        "view": "Range6[]"
+                                    },
+                                    "name": "changes",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            266,
+                            37
+                        ],
+                        "start": [
+                            266,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "package"
+                    ],
+                    "name": "on_changedtree",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            260,
+                            32
+                        ],
+                        "start": [
+                            260,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "package"
+                    ],
+                    "name": "on_detach",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            66,
+                            42
+                        ],
+                        "start": [
+                            66,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "orig_spelloptions",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": " A map from window ID to whether we are currently parsing that window asynchronously",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "boolean"
+                        },
+                        "view": "boolean"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            76,
+                            25
+                        ],
+                        "start": [
+                            76,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "parsing",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "@*param* `erow` — exclusive",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "table"
+                                        },
+                                        "view": "vim.treesitter.highlighter"
+                                    },
+                                    "name": "self",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "srow",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "exclusive",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "erow",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            217,
+                            47
+                        ],
+                        "start": [
+                            217,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "method",
+                        "private"
+                    ],
+                    "name": "prepare_highlight_states",
+                    "type": "setmethod"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            74,
+                            38
+                        ],
+                        "start": [
+                            74,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "private"
+                    ],
+                    "name": "redraw_count",
+                    "type": "doc.field"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "typereference",
+                            "value": "vim.treesitter.LanguageTree"
+                        },
+                        "view": "vim.treesitter.LanguageTree"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/highlighter.lua",
+                        "finish": [
+                            73,
+                            42
+                        ],
+                        "start": [
+                            73,
+                            10
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "tree",
+                    "type": "doc.field"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "vim.treesitter.highlighter"
     },
     "kind": "property",

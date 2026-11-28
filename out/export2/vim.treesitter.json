@@ -1,1532 +1,1454 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Creates a new parser\n\n It is not recommended to use this; use |get_parser()| instead.\n\n@*param* `buf` — Buffer the parser will be tied to (0 for current buffer)\n\n@*param* `lang` — Language of the parser\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Creates a new parser\n\n It is not recommended to use this; use |get_parser()| instead.\n\n@*param* `buf` — Buffer the parser will be tied to (0 for current buffer)\n\n@*param* `lang` — Language of the parser\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer the parser will be tied to (0 for current buffer)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
+                                    "documentation": "Buffer the parser will be tied to (0 for current buffer)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
                                         },
-                                        {
-                                            "documentation": "Language of the parser",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "lang",
-                                            "optional": false
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Language of the parser",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
                                         },
-                                        {
-                                            "documentation": "Options to pass to the created language tree",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "to use for parsing",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.LanguageTree"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.LanguageTree"
-                                            },
-                                            "name": "object",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "string"
+                                    },
+                                    "name": "lang",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Options to pass to the created language tree",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                34,
-                                25
-                            ],
-                            "start": [
-                                34,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "to use for parsing",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
+                                        },
+                                        "view": "vim.treesitter.LanguageTree"
+                                    },
+                                    "name": "object",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "_create_parser",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Returns the fold level for {lnum} in the current buffer. Can be set directly to 'foldexpr':\n\n ```lua\n vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'\n ```\n\n@*param* `lnum` — Line number to calculate fold level for",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            34,
+                            25
+                        ],
+                        "start": [
+                            34,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "_create_parser",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns the fold level for {lnum} in the current buffer. Can be set directly to 'foldexpr':\n\n ```lua\n vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'\n ```\n\n@*param* `lnum` — Line number to calculate fold level for",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Line number to calculate fold level for",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "lnum",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "Line number to calculate fold level for",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "lnum",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                510,
-                                19
-                            ],
-                            "start": [
-                                510,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "foldexpr",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Returns a list of highlight capture names under the cursor\n\n@*param* `win` — |window-ID| or 0 for current window (default)\n\n\n@*return* `List` — of capture names",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            510,
+                            19
+                        ],
+                        "start": [
+                            510,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "foldexpr",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns a list of highlight capture names under the cursor\n\n@*param* `win` — |window-ID| or 0 for current window (default)\n\n\n@*return* `List` — of capture names",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "|window-ID| or 0 for current window (default)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
+                                    "documentation": "|window-ID| or 0 for current window (default)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "win",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "of capture names",
+                                    "infer": {
+                                        "type": {
+                                            "items": {
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                "view": "string"
                                             },
-                                            "name": "win",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "of capture names",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "items": {
-                                                            "types": [
-                                                                {
+                                            "kind": "array"
+                                        },
+                                        "view": "string[]"
+                                    },
+                                    "name": "List",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            341,
+                            33
+                        ],
+                        "start": [
+                            341,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_captures_at_cursor",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns a list of highlight captures at the given position\n\n Each capture is represented by a table containing the capture name as a string, the capture's\n language, a table of metadata (`priority`, `conceal`, ...; empty if none are defined), the id\n of the capture, and the (0-indexed) id of the matched pattern in the query.\n\n@*param* `buf` — Buffer number (0 for current buffer)\n\n@*param* `row` — Position row\n\n@*param* `col` — Position column",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Buffer number (0 for current buffer)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Position row",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "row",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Position column",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "col",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "items": {
+                                                "type": {
+                                                    "fields": [
+                                                        {
+                                                            "documentation": "",
+                                                            "infer": {
+                                                                "type": {
                                                                     "kind": "builtin",
                                                                     "value": "string"
-                                                                }
-                                                            ],
-                                                            "view": "string"
+                                                                },
+                                                                "view": "string"
+                                                            },
+                                                            "kind": "property",
+                                                            "name": "capture",
+                                                            "optional": false
                                                         },
-                                                        "kind": "array"
-                                                    }
-                                                ],
-                                                "view": "string[]"
-                                            },
-                                            "name": "List",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                341,
-                                33
-                            ],
-                            "start": [
-                                341,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_captures_at_cursor",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Returns a list of highlight captures at the given position\n\n Each capture is represented by a table containing the capture name as a string, the capture's\n language, a table of metadata (`priority`, `conceal`, ...; empty if none are defined), the id\n of the capture, and the (0-indexed) id of the matched pattern in the query.\n\n@*param* `buf` — Buffer number (0 for current buffer)\n\n@*param* `row` — Position row\n\n@*param* `col` — Position column",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer number (0 for current buffer)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Position row",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "row",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Position column",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "col",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "fields": [
-                                                                        {
-                                                                            "documentation": "",
-                                                                            "infer": {
-                                                                                "types": [
-                                                                                    {
-                                                                                        "kind": "builtin",
-                                                                                        "value": "string"
-                                                                                    }
-                                                                                ],
-                                                                                "view": "string"
-                                                                            },
-                                                                            "kind": "property",
-                                                                            "name": "capture",
-                                                                            "optional": false
-                                                                        },
-                                                                        {
-                                                                            "documentation": "",
-                                                                            "infer": {
-                                                                                "types": [
-                                                                                    {
-                                                                                        "kind": "builtin",
-                                                                                        "value": "string"
-                                                                                    }
-                                                                                ],
-                                                                                "view": "string"
-                                                                            },
-                                                                            "kind": "property",
-                                                                            "name": "lang",
-                                                                            "optional": false
-                                                                        },
-                                                                        {
-                                                                            "documentation": "",
-                                                                            "infer": {
-                                                                                "types": [
-                                                                                    {
-                                                                                        "kind": "typereference",
-                                                                                        "value": "vim.treesitter.query.TSMetadata"
-                                                                                    }
-                                                                                ],
-                                                                                "view": "vim.treesitter.query.TSMetadata"
-                                                                            },
-                                                                            "kind": "property",
-                                                                            "name": "metadata",
-                                                                            "optional": false
-                                                                        },
-                                                                        {
-                                                                            "documentation": "",
-                                                                            "infer": {
-                                                                                "types": [
-                                                                                    {
-                                                                                        "kind": "builtin",
-                                                                                        "value": "integer"
-                                                                                    }
-                                                                                ],
-                                                                                "view": "integer"
-                                                                            },
-                                                                            "kind": "property",
-                                                                            "name": "id",
-                                                                            "optional": false
-                                                                        },
-                                                                        {
-                                                                            "documentation": "",
-                                                                            "infer": {
-                                                                                "types": [
-                                                                                    {
-                                                                                        "kind": "builtin",
-                                                                                        "value": "integer"
-                                                                                    }
-                                                                                ],
-                                                                                "view": "integer"
-                                                                            },
-                                                                            "kind": "property",
-                                                                            "name": "pattern_id",
-                                                                            "optional": false
-                                                                        }
-                                                                    ],
-                                                                    "kind": "table"
-                                                                }
-                                                            ],
-                                                            "view": "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }"
+                                                        {
+                                                            "documentation": "",
+                                                            "infer": {
+                                                                "type": {
+                                                                    "kind": "builtin",
+                                                                    "value": "string"
+                                                                },
+                                                                "view": "string"
+                                                            },
+                                                            "kind": "property",
+                                                            "name": "lang",
+                                                            "optional": false
                                                         },
-                                                        "kind": "array"
-                                                    }
-                                                ],
-                                                "view": "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }[]"
+                                                        {
+                                                            "documentation": "",
+                                                            "infer": {
+                                                                "type": {
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.treesitter.query.TSMetadata"
+                                                                },
+                                                                "view": "vim.treesitter.query.TSMetadata"
+                                                            },
+                                                            "kind": "property",
+                                                            "name": "metadata",
+                                                            "optional": false
+                                                        },
+                                                        {
+                                                            "documentation": "",
+                                                            "infer": {
+                                                                "type": {
+                                                                    "kind": "builtin",
+                                                                    "value": "integer"
+                                                                },
+                                                                "view": "integer"
+                                                            },
+                                                            "kind": "property",
+                                                            "name": "id",
+                                                            "optional": false
+                                                        },
+                                                        {
+                                                            "documentation": "",
+                                                            "infer": {
+                                                                "type": {
+                                                                    "kind": "builtin",
+                                                                    "value": "integer"
+                                                                },
+                                                                "view": "integer"
+                                                            },
+                                                            "kind": "property",
+                                                            "name": "pattern_id",
+                                                            "optional": false
+                                                        }
+                                                    ],
+                                                    "kind": "table"
+                                                },
+                                                "view": "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }"
                                             },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                            "kind": "array"
+                                        },
+                                        "view": "{ capture: string, lang: string, metadata: vim.treesitter.query.TSMetadata, id: integer, pattern_id: integer }[]"
+                                    },
+                                    "name": "",
+                                    "optional": false
                                 }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                283,
-                                30
-                            ],
-                            "start": [
-                                283,
-                                9
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_captures_at_pos",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Returns the smallest named node at the given position\n\n NOTE: Calling this on an unparsed tree can yield an invalid node.\n If the tree is not known to be parsed by, e.g., an active highlighter,\n parse the tree first via\n\n ```lua\n vim.treesitter.get_parser(bufnr):parse(range)\n ```\n\n\n@*return* `Node` — at the given position",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.get_node.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim.treesitter.get_node.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "at the given position",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "TSNode|nil"
-                                            },
-                                            "name": "Node",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                393,
-                                19
-                            ],
-                            "start": [
-                                393,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            283,
+                            30
                         ],
-                        "name": "get_node",
-                        "type": "setfield"
+                        "start": [
+                            283,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Returns the node's range or an unpacked range table\n\n@*param* `node_or_range` — Node or table of positions\n\n\n@*return* `start_row`\n\n@*return* `start_col` — (byte offset)\n\n@*return* `end_row`\n\n@*return* `end_col` — (byte offset)",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_captures_at_pos",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns the smallest named node at the given position\n\n NOTE: Calling this on an unparsed tree can yield an invalid node.\n If the tree is not known to be parsed by, e.g., an active highlighter,\n parse the tree first via\n\n ```lua\n vim.treesitter.get_parser(bufnr):parse(range)\n ```\n\n\n@*return* `Node` — at the given position",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Node or table of positions",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range4"
-                                                    },
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "Range4|TSNode"
-                                            },
-                                            "name": "node_or_range",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "start_row",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.get_node.Opts"
                                         },
-                                        {
-                                            "documentation": "(byte offset)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "start_col",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "end_row",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "(byte offset)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "end_col",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "(vim.treesitter.get_node.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                148,
-                                25
-                            ],
-                            "start": [
-                                148,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "at the given position",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "TSNode"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "TSNode|nil"
+                                    },
+                                    "name": "Node",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_node_range",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Gets the text corresponding to a given node\n\n@*param* `source` — Buffer or string from which the {node} is extracted\n\n@*param* `opts` — Optional parameters.\n\n          - metadata (table) Metadata of a specific capture. This would be\n            set to `metadata[capture_id]` when using |vim.treesitter.query.add_directive()|.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "node",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Buffer or string from which the {node} is extracted",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "string|integer"
-                                            },
-                                            "name": "source",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Optional parameters.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                231,
-                                24
-                            ],
-                            "start": [
-                                231,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            393,
+                            19
                         ],
-                        "name": "get_node_text",
-                        "type": "setfield"
+                        "start": [
+                            393,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Returns the parser for a specific buffer and attaches it to the buffer\n\n If needed, this will create the parser.\n\n If no parser can be created, nil (and an error message) is returned.\n\n@*param* `buf` — (default: current buffer) Buffer the parser should be tied to\n\n@*param* `lang` — (default: from 'filetype') Language of this parser\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing\n\n@*return* `error` — message, if applicable",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_node",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns the node's range or an unpacked range table\n\n@*param* `node_or_range` — Node or table of positions\n\n\n@*return* `start_row`\n\n@*return* `start_col` — (byte offset)\n\n@*return* `end_row`\n\n@*return* `end_col` — (byte offset)",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "(default: current buffer) Buffer the parser should be tied to",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
+                                    "documentation": "Node or table of positions",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "Range4"
+                                                },
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "TSNode"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "(default: from 'filetype') Language of this parser",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "string|nil"
-                                            },
-                                            "name": "lang",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Options to pass to the created language tree",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "to use for parsing",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.LanguageTree"
-                                                    }
-                                                ],
-                                                "view": "(vim.treesitter.LanguageTree)?"
-                                            },
-                                            "name": "object",
-                                            "optional": true
-                                        },
-                                        {
-                                            "documentation": "message, if applicable",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string?"
-                                            },
-                                            "name": "error",
-                                            "optional": true
-                                        }
-                                    ]
+                                        "view": "Range4|TSNode"
+                                    },
+                                    "name": "node_or_range",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                81,
-                                21
-                            ],
-                            "start": [
-                                81,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "start_row",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "(byte offset)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "start_col",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "end_row",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "(byte offset)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "end_col",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_parser",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "Get the range of a |TSNode|. Can also supply {source} and {metadata}\nto get the range with directives applied.\n\n@*param* `source` — Buffer or string from which the {node} is extracted",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "node",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Buffer or string from which the {node} is extracted",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "string|integer|nil"
-                                            },
-                                            "name": "source",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.query.TSMetadata"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.query.TSMetadata|nil"
-                                            },
-                                            "name": "metadata",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                188,
-                                20
-                            ],
-                            "start": [
-                                188,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            148,
+                            25
                         ],
-                        "name": "get_range",
-                        "type": "setfield"
+                        "start": [
+                            148,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Returns a string parser\n\n@*param* `str` — Text to parse\n\n@*param* `lang` — Language of this string\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_node_range",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Gets the text corresponding to a given node\n\n@*param* `source` — Buffer or string from which the {node} is extracted\n\n@*param* `opts` — Optional parameters.\n\n          - metadata (table) Metadata of a specific capture. This would be\n            set to `metadata[capture_id]` when using |vim.treesitter.query.add_directive()|.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Text to parse",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "str",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
                                         },
-                                        {
-                                            "documentation": "Language of this string",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "lang",
-                                            "optional": false
+                                        "view": "TSNode"
+                                    },
+                                    "name": "node",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Buffer or string from which the {node} is extracted",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "Options to pass to the created language tree",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "to use for parsing",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.LanguageTree"
-                                                    }
-                                                ],
-                                                "view": "vim.treesitter.LanguageTree"
-                                            },
-                                            "name": "object",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                119,
-                                28
-                            ],
-                            "start": [
-                                119,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_string_parser",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Open a window that displays a textual representation of the nodes in the language tree.\n\n While in the window, press \"a\" to toggle display of anonymous nodes, \"I\" to toggle the\n display of the source language of each node, \"o\" to toggle the query editor, and press\n [<Enter>] to jump to the node under the cursor in the source buffer. Folding also works\n (try |zo|, |zc|, etc.).\n\n Can also be shown with `:InspectTree`. [:InspectTree](file:///usr/local/share/nvim/runtime/lua/vim)\n\n@*param* `opts` — Optional options table with the following possible keys:\n\n                      - bufnr (integer|nil): Buffer to draw the tree into. If omitted, a new\n                        buffer is created.\n                      - command (string|nil): Vimscript command to create the window. Default\n                        value is \"60vnew\". Only used when {winid} is nil.\n                      - lang (string|nil): The language of the source buffer. If omitted, detect\n                        from the filetype of the source buffer.\n                      - title (string|fun(bufnr:integer):string|nil): Title of the window. If a\n                        function, it accepts the buffer number of the source buffer as its only\n                        argument and should return a string.\n                      - winid (integer|nil): Window id to display the tree buffer in. If omitted,\n                        a new window is created with {command}.",
-                        "infer": {
-                            "types": [
+                                        "view": "string|integer"
+                                    },
+                                    "name": "source",
+                                    "optional": false
+                                },
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Optional options table with the following possible keys:",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "table|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                496,
-                                23
-                            ],
-                            "start": [
-                                496,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "inspect_tree",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Determines whether a node is the ancestor of another\n\n@*param* `dest` — Possible ancestor\n\n@*param* `source` — Possible descendant\n\n\n@*return* `True` — if {dest} is an ancestor of {source}",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Possible ancestor",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "dest",
-                                            "optional": false
+                                    "documentation": "Optional parameters.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "Possible descendant",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "source",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "if {dest} is an ancestor of {source}",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "True",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                132,
-                                22
-                            ],
-                            "start": [
-                                132,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "is_ancestor",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Determines whether (line, col) position is in node range\n\n@*param* `node` — defining the range\n\n@*param* `line` — Line (0-based)\n\n@*param* `col` — Column (0-based)\n\n\n@*return* `True` — if the position is in node range",
-                        "infer": {
-                            "types": [
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "defining the range",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "node",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
                                         },
-                                        {
-                                            "documentation": "Line (0-based)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "line",
-                                            "optional": false
+                                        "view": "string"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            231,
+                            24
+                        ],
+                        "start": [
+                            231,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_node_text",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns the parser for a specific buffer and attaches it to the buffer\n\n If needed, this will create the parser.\n\n If no parser can be created, nil (and an error message) is returned.\n\n@*param* `buf` — (default: current buffer) Buffer the parser should be tied to\n\n@*param* `lang` — (default: from 'filetype') Language of this parser\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing\n\n@*return* `error` — message, if applicable",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "(default: current buffer) Buffer the parser should be tied to",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "Column (0-based)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "col",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "if the position is in node range",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "True",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                253,
-                                27
-                            ],
-                            "start": [
-                                253,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "is_in_node_range",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " @nodoc",
-                        "infer": {
-                            "types": [
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
                                 {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                20,
-                                18
-                            ],
-                            "start": [
-                                20,
-                                0
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "language_version",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " @nodoc",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                23,
-                                26
-                            ],
-                            "start": [
-                                23,
-                                0
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "minimum_language_version",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Determines if a node contains a range\n\n\n@*return* `True` — if the {node} contains the {range}",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "TSNode"
-                                                    }
-                                                ],
-                                                "view": "TSNode"
-                                            },
-                                            "name": "node",
-                                            "optional": false
+                                    "documentation": "(default: from 'filetype') Language of this parser",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table"
-                                            },
-                                            "name": "range",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "if the {node} contains the {range}",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "True",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                263,
-                                24
-                            ],
-                            "start": [
-                                263,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "node_contains",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Starts or adjusts a |Visual| selection at cursor, based on tree nodes. The `target` parameter\n decides the selection behavior.\n\n@*param* `target` — Decides the selection behavior.\n\n@*param* `count` — (default: 1) Expand or adjust the selection this many times.\n\n```lua\ntarget:\n    | 'parent'\n    | 'child'\n    | 'next'\n    | 'prev'\n    | 'extend_next'\n    | 'extend_prev'\n```",
-                        "infer": {
-                            "types": [
+                                        "view": "string|nil"
+                                    },
+                                    "name": "lang",
+                                    "optional": false
+                                },
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Decides the selection behavior.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'child'"
-                                                    },
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'extend_next'"
-                                                    },
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'extend_prev'"
-                                                    },
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'next'"
-                                                    },
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'parent'"
-                                                    },
-                                                    {
-                                                        "kind": "stringliteral",
-                                                        "value": "'prev'"
-                                                    }
-                                                ],
-                                                "view": "'child'|'extend_next'|'extend_prev'|'next'|'parent'...(+1)"
-                                            },
-                                            "name": "target",
-                                            "optional": false
+                                    "documentation": "Options to pass to the created language tree",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "(default: 1) Expand or adjust the selection this many times.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer?"
-                                            },
-                                            "name": "count",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                519,
-                                17
-                            ],
-                            "start": [
-                                519,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "select",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Starts treesitter highlighting for a buffer\n\n Can be used in an ftplugin or FileType autocommand.\n\n Note: By default, disables regex syntax highlighting, which may be required for some plugins.\n In this case, add `vim.bo.syntax = 'ON'` after the call to `start`.\n\n Note: By default, the highlighter parses code asynchronously, using a segment time of 3ms.\n\n Example:\n\n ```lua\n vim.api.nvim_create_autocmd( 'FileType', { pattern = 'tex',\n     callback = function(ev)\n         vim.treesitter.start(ev.buf, 'latex')\n         vim.bo[ev.buf].syntax = 'ON'  -- only if additional legacy syntax is needed\n     end\n })\n ```\n\n@*param* `buf` — (default: current buffer) Buffer to be highlighted\n\n@*param* `lang` — (default: from 'filetype') Language of the parser",
-                        "infer": {
-                            "types": [
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "(default: current buffer) Buffer to be highlighted",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer?"
-                                            },
-                                            "name": "buf",
-                                            "optional": true
+                                    "documentation": "to use for parsing",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
                                         },
-                                        {
-                                            "documentation": "(default: from 'filetype') Language of the parser",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string?"
-                                            },
-                                            "name": "lang",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                449,
-                                16
-                            ],
-                            "start": [
-                                449,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "start",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": " Stops treesitter highlighting for a buffer\n\n@*param* `buf` — (default: current buffer) Buffer to stop highlighting",
-                        "infer": {
-                            "types": [
+                                        "view": "(vim.treesitter.LanguageTree)?"
+                                    },
+                                    "name": "object",
+                                    "optional": true
+                                },
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "(default: current buffer) Buffer to stop highlighting",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                    "documentation": "message, if applicable",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string?"
+                                    },
+                                    "name": "error",
+                                    "optional": true
                                 }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter.lua",
-                            "finish": [
-                                466,
-                                15
-                            ],
-                            "start": [
-                                466,
-                                9
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            81,
+                            21
                         ],
-                        "name": "stop",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            81,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_parser",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "Get the range of a |TSNode|. Can also supply {source} and {metadata}\nto get the range with directives applied.\n\n@*param* `source` — Buffer or string from which the {node} is extracted",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        },
+                                        "view": "TSNode"
+                                    },
+                                    "name": "node",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Buffer or string from which the {node} is extracted",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "string|integer|nil"
+                                    },
+                                    "name": "source",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "vim.treesitter.query.TSMetadata"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "vim.treesitter.query.TSMetadata|nil"
+                                    },
+                                    "name": "metadata",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            188,
+                            20
+                        ],
+                        "start": [
+                            188,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_range",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Returns a string parser\n\n@*param* `str` — Text to parse\n\n@*param* `lang` — Language of this string\n\n@*param* `opts` — Options to pass to the created language tree\n\n\n@*return* `object` — to use for parsing",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Text to parse",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "str",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Language of this string",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "lang",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Options to pass to the created language tree",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "to use for parsing",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.treesitter.LanguageTree"
+                                        },
+                                        "view": "vim.treesitter.LanguageTree"
+                                    },
+                                    "name": "object",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            119,
+                            28
+                        ],
+                        "start": [
+                            119,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_string_parser",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Open a window that displays a textual representation of the nodes in the language tree.\n\n While in the window, press \"a\" to toggle display of anonymous nodes, \"I\" to toggle the\n display of the source language of each node, \"o\" to toggle the query editor, and press\n [<Enter>] to jump to the node under the cursor in the source buffer. Folding also works\n (try |zo|, |zc|, etc.).\n\n Can also be shown with `:InspectTree`. [:InspectTree](file:///usr/local/share/nvim/runtime/lua/vim)\n\n@*param* `opts` — Optional options table with the following possible keys:\n\n                      - bufnr (integer|nil): Buffer to draw the tree into. If omitted, a new\n                        buffer is created.\n                      - command (string|nil): Vimscript command to create the window. Default\n                        value is \"60vnew\". Only used when {winid} is nil.\n                      - lang (string|nil): The language of the source buffer. If omitted, detect\n                        from the filetype of the source buffer.\n                      - title (string|fun(bufnr:integer):string|nil): Title of the window. If a\n                        function, it accepts the buffer number of the source buffer as its only\n                        argument and should return a string.\n                      - winid (integer|nil): Window id to display the tree buffer in. If omitted,\n                        a new window is created with {command}.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Optional options table with the following possible keys:",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "table|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            496,
+                            23
+                        ],
+                        "start": [
+                            496,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "inspect_tree",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Determines whether a node is the ancestor of another\n\n@*param* `dest` — Possible ancestor\n\n@*param* `source` — Possible descendant\n\n\n@*return* `True` — if {dest} is an ancestor of {source}",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Possible ancestor",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        },
+                                        "view": "TSNode"
+                                    },
+                                    "name": "dest",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Possible descendant",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        },
+                                        "view": "TSNode"
+                                    },
+                                    "name": "source",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "if {dest} is an ancestor of {source}",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "True",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            132,
+                            22
+                        ],
+                        "start": [
+                            132,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "is_ancestor",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Determines whether (line, col) position is in node range\n\n@*param* `node` — defining the range\n\n@*param* `line` — Line (0-based)\n\n@*param* `col` — Column (0-based)\n\n\n@*return* `True` — if the position is in node range",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "defining the range",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        },
+                                        "view": "TSNode"
+                                    },
+                                    "name": "node",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Line (0-based)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "line",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Column (0-based)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "col",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "if the position is in node range",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "True",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            253,
+                            27
+                        ],
+                        "start": [
+                            253,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "is_in_node_range",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " @nodoc",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            20,
+                            18
+                        ],
+                        "start": [
+                            20,
+                            0
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "language_version",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " @nodoc",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            23,
+                            26
+                        ],
+                        "start": [
+                            23,
+                            0
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "minimum_language_version",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Determines if a node contains a range\n\n\n@*return* `True` — if the {node} contains the {range}",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "TSNode"
+                                        },
+                                        "view": "TSNode"
+                                    },
+                                    "name": "node",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "table"
+                                        },
+                                        "view": "table"
+                                    },
+                                    "name": "range",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "if the {node} contains the {range}",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "True",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            263,
+                            24
+                        ],
+                        "start": [
+                            263,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "node_contains",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Starts or adjusts a |Visual| selection at cursor, based on tree nodes. The `target` parameter\n decides the selection behavior.\n\n@*param* `target` — Decides the selection behavior.\n\n@*param* `count` — (default: 1) Expand or adjust the selection this many times.\n\n```lua\ntarget:\n    | 'parent'\n    | 'child'\n    | 'next'\n    | 'prev'\n    | 'extend_next'\n    | 'extend_prev'\n```",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Decides the selection behavior.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'child'"
+                                                },
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'extend_next'"
+                                                },
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'extend_prev'"
+                                                },
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'next'"
+                                                },
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'parent'"
+                                                },
+                                                {
+                                                    "kind": "stringliteral",
+                                                    "value": "'prev'"
+                                                }
+                                            ]
+                                        },
+                                        "view": "'child'|'extend_next'|'extend_prev'|'next'|'parent'...(+1)"
+                                    },
+                                    "name": "target",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "(default: 1) Expand or adjust the selection this many times.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer?"
+                                    },
+                                    "name": "count",
+                                    "optional": true
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            519,
+                            17
+                        ],
+                        "start": [
+                            519,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "select",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Starts treesitter highlighting for a buffer\n\n Can be used in an ftplugin or FileType autocommand.\n\n Note: By default, disables regex syntax highlighting, which may be required for some plugins.\n In this case, add `vim.bo.syntax = 'ON'` after the call to `start`.\n\n Note: By default, the highlighter parses code asynchronously, using a segment time of 3ms.\n\n Example:\n\n ```lua\n vim.api.nvim_create_autocmd( 'FileType', { pattern = 'tex',\n     callback = function(ev)\n         vim.treesitter.start(ev.buf, 'latex')\n         vim.bo[ev.buf].syntax = 'ON'  -- only if additional legacy syntax is needed\n     end\n })\n ```\n\n@*param* `buf` — (default: current buffer) Buffer to be highlighted\n\n@*param* `lang` — (default: from 'filetype') Language of the parser",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "(default: current buffer) Buffer to be highlighted",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer?"
+                                    },
+                                    "name": "buf",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "(default: from 'filetype') Language of the parser",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string?"
+                                    },
+                                    "name": "lang",
+                                    "optional": true
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            449,
+                            16
+                        ],
+                        "start": [
+                            449,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "start",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Stops treesitter highlighting for a buffer\n\n@*param* `buf` — (default: current buffer) Buffer to stop highlighting",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "(default: current buffer) Buffer to stop highlighting",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter.lua",
+                        "finish": [
+                            466,
+                            15
+                        ],
+                        "start": [
+                            466,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "stop",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

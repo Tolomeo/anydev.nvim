@@ -1,100 +1,92 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Interested in change events",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Interested in change events",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                240,
-                                10
-                            ],
-                            "start": [
-                                240,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Change",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " Interested in create events.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                238,
-                                10
-                            ],
-                            "start": [
-                                238,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            240,
+                            10
                         ],
-                        "name": "Create",
-                        "type": "tablefield"
+                        "start": [
+                            240,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Interested in delete events",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Change",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Interested in create events.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                242,
-                                10
-                            ],
-                            "start": [
-                                242,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            238,
+                            10
                         ],
-                        "name": "Delete",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            238,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Create",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Interested in delete events",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            242,
+                            10
+                        ],
+                        "start": [
+                            242,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Delete",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

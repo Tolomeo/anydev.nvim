@@ -1,100 +1,92 @@
 {
     "documentation": " How a completion was triggered",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Completion was triggered by typing an identifier (24x7 code\n complete), manual invocation (e.g Ctrl+Space) or via API.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Completion was triggered by typing an identifier (24x7 code\n complete), manual invocation (e.g Ctrl+Space) or via API.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                91,
-                                11
-                            ],
-                            "start": [
-                                91,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Invoked",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " Completion was triggered by a trigger character specified by\n the `triggerCharacters` properties of the `CompletionRegistrationOptions`.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                94,
-                                20
-                            ],
-                            "start": [
-                                94,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            91,
+                            11
                         ],
-                        "name": "TriggerCharacter",
-                        "type": "tablefield"
+                        "start": [
+                            91,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Completion was re-triggered as the current completion list is incomplete.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Invoked",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Completion was triggered by a trigger character specified by\n the `triggerCharacters` properties of the `CompletionRegistrationOptions`.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                96,
-                                35
-                            ],
-                            "start": [
-                                96,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            94,
+                            20
                         ],
-                        "name": "TriggerForIncompleteCompletions",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            94,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "TriggerCharacter",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Completion was re-triggered as the current completion list is incomplete.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            96,
+                            35
+                        ],
+                        "start": [
+                            96,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "TriggerForIncompleteCompletions",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

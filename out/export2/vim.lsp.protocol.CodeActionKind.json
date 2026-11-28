@@ -1,245 +1,227 @@
 {
     "documentation": " A set of predefined code action kinds",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Empty kind.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Empty kind.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                262,
-                                9
-                            ],
-                            "start": [
-                                262,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Empty",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Base kind for quickfix actions",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                264,
-                                12
-                            ],
-                            "start": [
-                                264,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            262,
+                            9
                         ],
-                        "name": "QuickFix",
-                        "type": "tablefield"
+                        "start": [
+                            262,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Base kind for refactoring actions",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Empty",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for quickfix actions",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                266,
-                                12
-                            ],
-                            "start": [
-                                266,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Refactor",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Base kind for refactoring extraction actions\n\n Example extract actions:\n\n - Extract method\n - Extract function\n - Extract variable\n - Extract interface from class\n - ...",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                276,
-                                19
-                            ],
-                            "start": [
-                                276,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            264,
+                            12
                         ],
-                        "name": "RefactorExtract",
-                        "type": "tablefield"
+                        "start": [
+                            264,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Base kind for refactoring inline actions\n\n Example inline actions:\n\n - Inline function\n - Inline variable\n - Inline constant\n - ...",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "QuickFix",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for refactoring actions",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                285,
-                                18
-                            ],
-                            "start": [
-                                285,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "RefactorInline",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Base kind for refactoring rewrite actions\n\n Example rewrite actions:\n\n - Convert JavaScript function to class\n - Add or remove parameter\n - Encapsulate field\n - Make method static\n - Move method to base class\n - ...",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                296,
-                                19
-                            ],
-                            "start": [
-                                296,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            266,
+                            12
                         ],
-                        "name": "RefactorRewrite",
-                        "type": "tablefield"
+                        "start": [
+                            266,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Base kind for source actions\n\n Source code actions apply to the entire file.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Refactor",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for refactoring extraction actions\n\n Example extract actions:\n\n - Extract method\n - Extract function\n - Extract variable\n - Extract interface from class\n - ...",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                300,
-                                10
-                            ],
-                            "start": [
-                                300,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Source",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Base kind for an organize imports source action",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                302,
-                                25
-                            ],
-                            "start": [
-                                302,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            276,
+                            19
                         ],
-                        "name": "SourceOrganizeImports",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            276,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "RefactorExtract",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for refactoring inline actions\n\n Example inline actions:\n\n - Inline function\n - Inline variable\n - Inline constant\n - ...",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            285,
+                            18
+                        ],
+                        "start": [
+                            285,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "RefactorInline",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for refactoring rewrite actions\n\n Example rewrite actions:\n\n - Convert JavaScript function to class\n - Add or remove parameter\n - Encapsulate field\n - Make method static\n - Move method to base class\n - ...",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            296,
+                            19
+                        ],
+                        "start": [
+                            296,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "RefactorRewrite",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for source actions\n\n Source code actions apply to the entire file.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            300,
+                            10
+                        ],
+                        "start": [
+                            300,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Source",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Base kind for an organize imports source action",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            302,
+                            25
+                        ],
+                        "start": [
+                            302,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "SourceOrganizeImports",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

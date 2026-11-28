@@ -1,179 +1,161 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Select from a list of presentations for the color under the cursor.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Select from a list of presentations for the color under the cursor.",
+                    "infer": {
+                        "type": {
+                            "arguments": [],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/document_color.lua",
-                            "finish": [
-                                313,
-                                29
-                            ],
-                            "start": [
-                                313,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "color_presentation",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Enables or disables document color highlighting for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.document_color.enable(not vim.lsp.document_color.is_enabled())\n ```\n\n@*param* `enable` — True to enable, false to disable. (default: `true`)",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "True to enable, false to disable. (default: `true`)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean?"
-                                            },
-                                            "name": "enable",
-                                            "optional": true
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.capability.enable.Filter"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.capability.enable.Filter)?"
-                                            },
-                                            "name": "filter",
-                                            "optional": true
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.document_color.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.document_color.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/document_color.lua",
-                            "finish": [
-                                396,
-                                17
-                            ],
-                            "start": [
-                                396,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/document_color.lua",
+                        "finish": [
+                            313,
+                            29
                         ],
-                        "name": "enable",
-                        "type": "setfield"
+                        "start": [
+                            313,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Query whether document colors are enabled in the {filter}ed scope.",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "color_presentation",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Enables or disables document color highlighting for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.document_color.enable(not vim.lsp.document_color.is_enabled())\n ```\n\n@*param* `enable` — True to enable, false to disable. (default: `true`)",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.capability.enable.Filter"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.capability.enable.Filter)?"
-                                            },
-                                            "name": "filter",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "True to enable, false to disable. (default: `true`)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean?"
+                                    },
+                                    "name": "enable",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.capability.enable.Filter"
+                                        },
+                                        "view": "(vim.lsp.capability.enable.Filter)?"
+                                    },
+                                    "name": "filter",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.document_color.Opts"
+                                        },
+                                        "view": "(vim.lsp.document_color.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/document_color.lua",
-                            "finish": [
-                                381,
-                                21
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/document_color.lua",
+                        "finish": [
+                            396,
+                            17
+                        ],
+                        "start": [
+                            396,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "enable",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Query whether document colors are enabled in the {filter}ed scope.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.capability.enable.Filter"
+                                        },
+                                        "view": "(vim.lsp.capability.enable.Filter)?"
+                                    },
+                                    "name": "filter",
+                                    "optional": true
+                                }
                             ],
-                            "start": [
-                                381,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/document_color.lua",
+                        "finish": [
+                            381,
+                            21
                         ],
-                        "name": "is_enabled",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            381,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "is_enabled",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

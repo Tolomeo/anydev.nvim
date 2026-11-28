@@ -1,240 +1,216 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "method",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "args",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/provider/python.lua",
-                            "finish": [
-                                128,
-                                15
-                            ],
-                            "start": [
-                                128,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "call",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "@*return* `path` — to detected python, if any; nil if not found\n\n@*return* `error` — message if python can't be detected by {module}; nil if success",
-                        "infer": {
-                            "types": [
+                                        "view": "any"
+                                    },
+                                    "name": "method",
+                                    "optional": false
+                                },
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "module",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "to detected python, if any; nil if not found",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string?"
-                                            },
-                                            "name": "path",
-                                            "optional": true
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
                                         },
-                                        {
-                                            "documentation": "message if python can't be detected by {module}; nil if success",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string?"
-                                            },
-                                            "name": "error",
-                                            "optional": true
-                                        }
-                                    ]
+                                        "view": "any"
+                                    },
+                                    "name": "args",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/provider/python.lua",
-                            "finish": [
-                                79,
-                                27
-                            ],
-                            "start": [
-                                79,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "detect_by_module",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "host",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "nil"
+                                        },
+                                        "view": "nil"
+                                    },
+                                    "name": "",
+                                    "optional": false
                                 }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/provider/python.lua",
-                            "finish": [
-                                104,
-                                18
-                            ],
-                            "start": [
-                                104,
-                                9
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "require",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/provider/python.lua",
+                        "finish": [
+                            128,
+                            15
+                        ],
+                        "start": [
+                            128,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "call",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "@*return* `path` — to detected python, if any; nil if not found\n\n@*return* `error` — message if python can't be detected by {module}; nil if success",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "module",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/provider/python.lua",
-                            "finish": [
-                                147,
-                                16
-                            ],
-                            "start": [
-                                147,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "to detected python, if any; nil if not found",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string?"
+                                    },
+                                    "name": "path",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "message if python can't be detected by {module}; nil if success",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string?"
+                                    },
+                                    "name": "error",
+                                    "optional": true
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/provider/python.lua",
+                        "finish": [
+                            79,
+                            27
                         ],
-                        "name": "start",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            79,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "detect_by_module",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "host",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/provider/python.lua",
+                        "finish": [
+                            104,
+                            18
+                        ],
+                        "start": [
+                            104,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "require",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/provider/python.lua",
+                        "finish": [
+                            147,
+                            16
+                        ],
+                        "start": [
+                            147,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "start",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

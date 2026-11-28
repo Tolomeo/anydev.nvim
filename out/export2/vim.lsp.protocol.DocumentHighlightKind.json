@@ -1,100 +1,92 @@
 {
     "documentation": " A document highlight kind.",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Read-access of a symbol, like reading a variable.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Read-access of a symbol, like reading a variable.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                111,
-                                8
-                            ],
-                            "start": [
-                                111,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Read",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " A textual occurrence.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                109,
-                                8
-                            ],
-                            "start": [
-                                109,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            111,
+                            8
                         ],
-                        "name": "Text",
-                        "type": "tablefield"
+                        "start": [
+                            111,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Write-access of a symbol, like writing to a variable.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Read",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " A textual occurrence.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                113,
-                                9
-                            ],
-                            "start": [
-                                113,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            109,
+                            8
                         ],
-                        "name": "Write",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            109,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Text",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Write-access of a symbol, like writing to a variable.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            113,
+                            9
+                        ],
+                        "start": [
+                            113,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Write",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

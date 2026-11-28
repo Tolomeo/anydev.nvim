@@ -1,42 +1,38 @@
 {
     "documentation": " Completion item tags are extra annotations that tweak the rendering of a\n completion item",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Render a completion as obsolete, usually using a strike-out.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Render a completion as obsolete, usually using a strike-out.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                103,
-                                14
-                            ],
-                            "start": [
-                                103,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            103,
+                            14
                         ],
-                        "name": "Deprecated",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            103,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Deprecated",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

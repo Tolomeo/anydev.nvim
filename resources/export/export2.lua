@@ -350,6 +350,7 @@ export.makeInferObject["function"] = function(source, uri)
 	}
 end
 
+-- TODO: UNION
 export.makeInferObject["doc.type"] = function(source, uri)
 	local buf = {}
 	for _, tp in ipairs(source.types) do
@@ -359,15 +360,17 @@ export.makeInferObject["doc.type"] = function(source, uri)
 end
 
 export.makeInferObject["doc.type.name"] = function(source, uri)
-	if source.signs then
-		local buf = {}
-		for i, sign in ipairs(source.signs) do
-			buf[i] = vm.getInfer(sign):view(uri)
-		end
-		return ("%s<%s>"):format(source[1], table.concat(buf, ", "))
-	else
-		return source[1]
+	local generics = {}
+
+	for i, sign in ipairs(source.signs or {}) do
+		generics[i] = export.makeInferObject(sign, uri)
 	end
+
+	return {
+		kind = "typereference",
+		generics = generics,
+		value = source[1],
+	}
 end
 
 export.makeInferObject["generic"] = function(source, uri)
@@ -391,6 +394,18 @@ export.makeInferObject["doc.type.array"] = function(source, uri)
 end
 
 export.makeInferObject["doc.type.sign"] = function(source, uri)
+	-- print(source.node.type, export.inspect())
+	--[[ local inferObject = export.makeInferObject[source.node.type](source.node)
+
+	local generics = {}
+	for i, sign in ipairs(source.signs or {}) do
+		generics[i] = export.makeInferObject[sign.type](sign, uri)
+	end
+
+	inferObject.generics = generics
+
+	return inferObject ]]
+
 	local buf = {}
 	for i, sign in ipairs(source.signs) do
 		local view = vm.getInfer(sign):view(uri)
@@ -401,6 +416,7 @@ export.makeInferObject["doc.type.sign"] = function(source, uri)
 		end
 		buf[i] = view
 	end
+
 	local node = vm.compileNode(source)
 	for c in node:eachObject() do
 		if guide.isLiteral(c) then
@@ -579,12 +595,9 @@ function export.inferObject(...)
 		if infer.views["any"] then
 			local sourceInfer = {
 				view = view,
-				types = {
-					{
-
-						kind = "builtin",
-						value = "any",
-					},
+				type = {
+					kind = "builtin",
+					value = "any",
 				},
 			}
 			return sourceInfer, infer, source
@@ -614,10 +627,19 @@ function export.inferObject(...)
 			end
 		end
 
-		if #types > 0 then
+		if #types == 1 then
 			local sourceInfer = {
 				view = view,
-				types = types,
+				type = types[1],
+			}
+			return sourceInfer, infer, source
+		elseif #types > 1 then
+			local sourceInfer = {
+				view = view,
+				type = {
+					kind = "union",
+					types = types,
+				},
 			}
 			return sourceInfer, infer, source
 		end
@@ -625,11 +647,9 @@ function export.inferObject(...)
 
 	local sourceInfer = {
 		view = "unknown",
-		types = {
-			{
-				kind = "builtin",
-				value = "unknown",
-			},
+		type = {
+			kind = "builtin",
+			value = "unknown",
 		},
 	}
 	return sourceInfer, nil, nil
@@ -638,20 +658,22 @@ end
 function export.followTypes(inferSource, inferObject, documentObjectField)
 	documentObjectField = documentObjectField or export.documentObject
 
-	for i, t in ipairs(inferObject.types) do
-		if (t.kind == "table" and not t.fields) or (t.kind == "builtin" and t.value == "table") then
+	local inferObjectTypes = inferObject.type.kind == "union" and inferObject.type.types or { inferObject.type }
+
+	for _, inferObjectType in ipairs(inferObjectTypes) do
+		if
+			(inferObjectType.kind == "table" and not inferObjectType.fields)
+			or (inferObjectType.kind == "builtin" and inferObjectType.value == "table")
+		then
 			local fields = export.documentObjectFields(inferSource, documentObjectField)
 
 			if #fields > 0 then
-				inferObject.types[i] = {
-					kind = "table",
-					fields = fields,
-				}
+				inferObjectType.kind = "table"
+				inferObjectType.value = nil
+				inferObjectType.fields = fields
 			else
-				inferObject.types[i] = {
-					kind = "builtin",
-					value = "table",
-				}
+				inferObjectType.kind = "builtin"
+				inferObjectType.value = "table"
 			end
 		end
 	end
@@ -1061,24 +1083,34 @@ export.serializeAndExport = function(docs, outputDir)
 			return jsons
 		end
 
-		if #parent.infer.types ~= 1 or parent.infer.types[1].kind ~= "table" or not parent.infer.types[1].fields then
+		-- TODO: remove check on the fields
+		if #parent.infer.type.kind == "union" or parent.infer.type.kind ~= "table" or not parent.infer.type.fields then
 			return jsons
 		end
 
-		for i = #parent.infer.types[1].fields, 1, -1 do
-			local field = parent.infer.types[1].fields[i]
+		--[[ if #parent.infer.types ~= 1 or parent.infer.types[1].kind ~= "table" or not parent.infer.types[1].fields then
+			return jsons
+		end ]]
+
+		for i = #parent.infer.type.fields, 1, -1 do
+			local field = parent.infer.type.fields[i]
 
 			-- TODO: remove
 			if not field.infer then
 				goto continue
 			end
 
-			if #field.infer.types ~= 1 or field.infer.types[1].kind ~= "table" or not field.infer.types[1].fields then
+			-- TODO: remove check on the fields
+			if field.infer.type.kind == "union" or field.infer.type.kind ~= "table" or not field.infer.type.fields then
 				goto continue
 			end
 
+			--[[ if #field.infer.types ~= 1 or field.infer.types[1].kind ~= "table" or not field.infer.types[1].fields then
+				goto continue
+			end ]]
+
 			local childName = string.format("%s.%s", parentName, field.name)
-			local child = table.remove(parent.infer.types[1].fields, i)
+			local child = table.remove(parent.infer.type.fields, i)
 
 			for _, childChild in ipairs(getJsonDocs(child, childName)) do
 				table.insert(jsons, childChild)

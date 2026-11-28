@@ -1,42 +1,38 @@
 {
     "documentation": " Known error codes for an `InitializeError`;",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " If the protocol version provided by the client can't be handled by the server.\n @deprecated This initialize error got replaced by client capabilities. There is\n no version handshake in version 3.0x",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " If the protocol version provided by the client can't be handled by the server.\n @deprecated This initialize error got replaced by client capabilities. There is\n no version handshake in version 3.0x",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                220,
-                                26
-                            ],
-                            "start": [
-                                220,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            220,
+                            26
                         ],
-                        "name": "unknownProtocolVersion",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            220,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "unknownProtocolVersion",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

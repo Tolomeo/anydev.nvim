@@ -1,687 +1,616 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "string|integer"
-                                            },
-                                            "name": "source",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "range",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "string|integer"
+                                    },
+                                    "name": "source",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
+                                        },
+                                        "view": "Range"
+                                    },
+                                    "name": "range",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                204,
-                                20
-                            ],
-                            "start": [
-                                204,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "add_bytes",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "@*return* `whether` — r1 contains r2",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "r1",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "r2",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "r1 contains r2",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "whether",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                152,
-                                19
-                            ],
-                            "start": [
-                                152,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            204,
+                            20
                         ],
-                        "name": "contains",
-                        "type": "setfield"
+                        "start": [
+                            204,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "add_bytes",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "@*return* `whether` — r1 contains r2",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range4"
-                                                    }
-                                                ],
-                                                "view": "Range4"
-                                            },
-                                            "name": "r1",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range4"
-                                                    }
-                                                ],
-                                                "view": "Range4"
-                                            },
-                                            "name": "r2",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "Range"
+                                    },
+                                    "name": "r1",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
+                                        },
+                                        "view": "Range"
+                                    },
+                                    "name": "r2",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                172,
-                                16
-                            ],
-                            "start": [
-                                172,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "r1 contains r2",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "whether",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "equal",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "r1",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "r2",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                96,
-                                21
-                            ],
-                            "start": [
-                                96,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            152,
+                            19
                         ],
-                        "name": "intercepts",
-                        "type": "setfield"
+                        "start": [
+                            152,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "contains",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6"
-                                            },
-                                            "name": "r1",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range4"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6"
-                                            },
-                                            "name": "r2",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6?"
-                                            },
-                                            "name": "",
-                                            "optional": true
-                                        }
-                                    ]
+                                        "view": "Range4"
+                                    },
+                                    "name": "r1",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range4"
+                                        },
+                                        "view": "Range4"
+                                    },
+                                    "name": "r2",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                117,
-                                23
-                            ],
-                            "start": [
-                                117,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "intersection",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range"
-                                                    }
-                                                ],
-                                                "view": "Range"
-                                            },
-                                            "name": "r",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                135,
-                                18
-                            ],
-                            "start": [
-                                135,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            172,
+                            16
                         ],
-                        "name": "unpack4",
-                        "type": "setfield"
+                        "start": [
+                            172,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "equal",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "Range6"
-                                                    }
-                                                ],
-                                                "view": "Range6"
-                                            },
-                                            "name": "r",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
+                                        "view": "Range"
+                                    },
+                                    "name": "r1",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "Range"
+                                    },
+                                    "name": "r2",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                145,
-                                18
-                            ],
-                            "start": [
-                                145,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "unpack6",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "Check if a variable is a valid range object",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            96,
+                            21
+                        ],
+                        "start": [
+                            96,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "intercepts",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "r",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6"
+                                    },
+                                    "name": "r1",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6"
+                                    },
+                                    "name": "r2",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_range.lua",
-                            "finish": [
-                                77,
-                                19
-                            ],
-                            "start": [
-                                77,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6?"
+                                    },
+                                    "name": "",
+                                    "optional": true
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            117,
+                            23
                         ],
-                        "name": "validate",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            117,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "intersection",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range"
+                                        },
+                                        "view": "Range"
+                                    },
+                                    "name": "r",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            135,
+                            18
+                        ],
+                        "start": [
+                            135,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "unpack4",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "Range6"
+                                        },
+                                        "view": "Range6"
+                                    },
+                                    "name": "r",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            145,
+                            18
+                        ],
+                        "start": [
+                            145,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "unpack6",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "Check if a variable is a valid range object",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "r",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
+                                        },
+                                        "view": "boolean"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_range.lua",
+                        "finish": [
+                            77,
+                            19
+                        ],
+                        "start": [
+                            77,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "validate",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

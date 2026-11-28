@@ -1,71 +1,65 @@
 {
     "documentation": " Describes the content type that a client supports in various\n result literals like `Hover`, `ParameterInfo` or `CompletionItem`.\n\n Please note that `MarkupKinds` must not start with a `$`. This kinds\n are reserved for internal usage.",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Markdown is supported as a content format",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Markdown is supported as a content format",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                187,
-                                12
-                            ],
-                            "start": [
-                                187,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Markdown",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Plain text is supported as a content format",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                185,
-                                13
-                            ],
-                            "start": [
-                                185,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            187,
+                            12
                         ],
-                        "name": "PlainText",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            187,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Markdown",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Plain text is supported as a content format",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            185,
+                            13
+                        ],
+                        "start": [
+                            185,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "PlainText",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

@@ -1,124 +1,117 @@
 {
     "documentation": " Protocol for the Microsoft Language Server Protocol (mslsp)",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Gets a new ClientCapabilities object describing the LSP client\n capabilities.",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Gets a new ClientCapabilities object describing the LSP client\n capabilities.",
+                    "infer": {
+                        "type": {
+                            "arguments": [],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
                                 {
-                                    "arguments": [],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "lsp.ClientCapabilities"
-                                                    }
-                                                ],
-                                                "view": "lsp.ClientCapabilities"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "lsp.ClientCapabilities"
+                                        },
+                                        "view": "lsp.ClientCapabilities"
+                                    },
+                                    "name": "",
+                                    "optional": false
                                 }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                342,
-                                42
-                            ],
-                            "start": [
-                                342,
-                                9
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "make_client_capabilities",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Creates a normalized object describing LSP server capabilities.\n\n@*param* `server_capabilities` — Table of capabilities supported by the server\n\n@*return* — : Normalized table of capabilities",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            342,
+                            42
+                        ],
+                        "start": [
+                            342,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "make_client_capabilities",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Creates a normalized object describing LSP server capabilities.\n\n@*param* `server_capabilities` — Table of capabilities supported by the server\n\n@*return* — : Normalized table of capabilities",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Table of capabilities supported by the server",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table"
-                                            },
-                                            "name": "server_capabilities",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": ": Normalized table of capabilities",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "lsp.ServerCapabilities"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "lsp.ServerCapabilities|nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "Table of capabilities supported by the server",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "table"
+                                        },
+                                        "view": "table"
+                                    },
+                                    "name": "server_capabilities",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                651,
-                                38
-                            ],
-                            "start": [
-                                651,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": ": Normalized table of capabilities",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "lsp.ServerCapabilities"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "lsp.ServerCapabilities|nil"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            651,
+                            38
                         ],
-                        "name": "resolve_capabilities",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            651,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "resolve_capabilities",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "vim.lsp.protocol"
     },
     "kind": "property",

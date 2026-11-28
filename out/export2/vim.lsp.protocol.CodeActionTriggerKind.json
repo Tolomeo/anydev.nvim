@@ -1,71 +1,65 @@
 {
     "documentation": " The reason why code actions were requested.",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Code actions were requested automatically.\n\n This typically happens when current selection in a file changes, but can\n also be triggered when file content changes.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Code actions were requested automatically.\n\n This typically happens when current selection in a file changes, but can\n also be triggered when file content changes.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                312,
-                                13
-                            ],
-                            "start": [
-                                312,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Automatic",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " Code actions were explicitly requested by the user or by an extension.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                307,
-                                11
-                            ],
-                            "start": [
-                                307,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            312,
+                            13
                         ],
-                        "name": "Invoked",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            312,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Automatic",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Code actions were explicitly requested by the user or by an extension.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            307,
+                            11
+                        ],
+                        "start": [
+                            307,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Invoked",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

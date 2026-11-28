@@ -1,314 +1,280 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Types of events watchers will emit.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "enum"
-                                }
-                            ],
-                            "view": "enum vim._watch.FileChangeType"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Types of events watchers will emit.",
+                    "infer": {
+                        "type": {
+                            "kind": "enum"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_watch.lua",
-                            "finish": [
-                                6,
-                                16
-                            ],
-                            "start": [
-                                6,
-                                0
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "FileChangeType",
-                        "type": "setfield"
+                        "view": "enum vim._watch.FileChangeType"
                     },
-                    {
-                        "documentation": "@*param* `path` — The path to watch. Must refer to a directory.\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "The path to watch. Must refer to a directory.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "path",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim._watch.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
-                                        },
-                                        {
-                                            "documentation": "Callback for new events",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.Callback"
-                                                    }
-                                                ],
-                                                "view": "vim._watch.Callback"
-                                            },
-                                            "name": "callback",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "Stops the watcher",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "arguments": [],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
-                                                    }
-                                                ],
-                                                "view": "fun()"
-                                            },
-                                            "name": "cancel",
-                                            "optional": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_watch.lua",
-                            "finish": [
-                                284,
-                                18
-                            ],
-                            "start": [
-                                284,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_watch.lua",
+                        "finish": [
+                            6,
+                            16
                         ],
-                        "name": "inotify",
-                        "type": "setfield"
+                        "start": [
+                            6,
+                            0
+                        ]
                     },
-                    {
-                        "documentation": " Initializes and starts a |uv_fs_event_t|\n\n@*param* `path` — The path to watch\n\n@*param* `opts` — Additional options:\n\n      - uvflags (table|nil)\n                 Same flags as accepted by |uv.fs_event_start()|\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "FileChangeType",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "@*param* `path` — The path to watch. Must refer to a directory.\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "The path to watch",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "path",
-                                            "optional": false
+                                    "documentation": "The path to watch. Must refer to a directory.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
                                         },
-                                        {
-                                            "documentation": "Additional options:",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.watch.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim._watch.watch.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
+                                        "view": "string"
+                                    },
+                                    "name": "path",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.Opts"
                                         },
-                                        {
-                                            "documentation": "Callback for new events",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.Callback"
-                                                    }
-                                                ],
-                                                "view": "vim._watch.Callback"
-                                            },
-                                            "name": "callback",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "Stops the watcher",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "arguments": [],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
-                                                    }
-                                                ],
-                                                "view": "fun()"
-                                            },
-                                            "name": "cancel",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "(vim._watch.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "Callback for new events",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.Callback"
+                                        },
+                                        "view": "vim._watch.Callback"
+                                    },
+                                    "name": "callback",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_watch.lua",
-                            "finish": [
-                                60,
-                                16
-                            ],
-                            "start": [
-                                60,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "Stops the watcher",
+                                    "infer": {
+                                        "type": {
+                                            "arguments": [],
+                                            "generics": [],
+                                            "kind": "function",
+                                            "returns": []
+                                        },
+                                        "view": "fun()"
+                                    },
+                                    "name": "cancel",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "watch",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Initializes and starts a |uv_fs_event_t| recursively watching every directory underneath the\n directory at path.\n\n@*param* `path` — The path to watch. Must refer to a directory.\n\n@*param* `opts` — Additional options\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_watch.lua",
+                        "finish": [
+                            284,
+                            18
+                        ],
+                        "start": [
+                            284,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "inotify",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Initializes and starts a |uv_fs_event_t|\n\n@*param* `path` — The path to watch\n\n@*param* `opts` — Additional options:\n\n      - uvflags (table|nil)\n                 Same flags as accepted by |uv.fs_event_start()|\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "The path to watch. Must refer to a directory.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "path",
-                                            "optional": false
+                                    "documentation": "The path to watch",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
                                         },
-                                        {
-                                            "documentation": "Additional options",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim._watch.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
+                                        "view": "string"
+                                    },
+                                    "name": "path",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Additional options:",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.watch.Opts"
                                         },
-                                        {
-                                            "documentation": "Callback for new events",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim._watch.Callback"
-                                                    }
-                                                ],
-                                                "view": "vim._watch.Callback"
-                                            },
-                                            "name": "callback",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "Stops the watcher",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "arguments": [],
-                                                        "generics": [],
-                                                        "kind": "function",
-                                                        "returns": []
-                                                    }
-                                                ],
-                                                "view": "fun()"
-                                            },
-                                            "name": "cancel",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "(vim._watch.watch.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "Callback for new events",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.Callback"
+                                        },
+                                        "view": "vim._watch.Callback"
+                                    },
+                                    "name": "callback",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/_watch.lua",
-                            "finish": [
-                                129,
-                                20
-                            ],
-                            "start": [
-                                129,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "Stops the watcher",
+                                    "infer": {
+                                        "type": {
+                                            "arguments": [],
+                                            "generics": [],
+                                            "kind": "function",
+                                            "returns": []
+                                        },
+                                        "view": "fun()"
+                                    },
+                                    "name": "cancel",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_watch.lua",
+                        "finish": [
+                            60,
+                            16
                         ],
-                        "name": "watchdirs",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            60,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "watch",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Initializes and starts a |uv_fs_event_t| recursively watching every directory underneath the\n directory at path.\n\n@*param* `path` — The path to watch. Must refer to a directory.\n\n@*param* `opts` — Additional options\n\n@*param* `callback` — Callback for new events\n\n@*return* `cancel` — Stops the watcher",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "The path to watch. Must refer to a directory.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "path",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Additional options",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.Opts"
+                                        },
+                                        "view": "(vim._watch.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "Callback for new events",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim._watch.Callback"
+                                        },
+                                        "view": "vim._watch.Callback"
+                                    },
+                                    "name": "callback",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "Stops the watcher",
+                                    "infer": {
+                                        "type": {
+                                            "arguments": [],
+                                            "generics": [],
+                                            "kind": "function",
+                                            "returns": []
+                                        },
+                                        "view": "fun()"
+                                    },
+                                    "name": "cancel",
+                                    "optional": false
+                                }
+                            ]
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/_watch.lua",
+                        "finish": [
+                            129,
+                            20
+                        ],
+                        "start": [
+                            129,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "watchdirs",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

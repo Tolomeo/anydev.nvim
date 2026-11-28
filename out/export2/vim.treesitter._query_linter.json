@@ -1,209 +1,204 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_query_linter.lua",
-                            "finish": [
-                                197,
-                                16
-                            ],
-                            "start": [
-                                197,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "clear",
-                        "type": "setfield"
-                    },
-                    {
-                        "documentation": "@*param* `buf` — Buffer to lint\n\n@*param* `opts` — Options for linting",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer to lint",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "buf",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
                                         },
-                                        {
-                                            "documentation": "Options for linting",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "QueryLinterNormalizedOpts"
-                                                    },
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.treesitter.query.lint.Opts"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "QueryLinterNormalizedOpts|vim.treesitter.query.lint.Opts|nil"
-                                            },
-                                            "name": "opts",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_query_linter.lua",
-                            "finish": [
-                                160,
-                                15
-                            ],
-                            "start": [
-                                160,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "lint",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": "```lua\nfindstart:\n    | 0\n    | 1\n```",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_query_linter.lua",
+                        "finish": [
+                            197,
+                            16
+                        ],
+                        "start": [
+                            197,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "clear",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "@*param* `buf` — Buffer to lint\n\n@*param* `opts` — Options for linting",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "numericliteral",
-                                                        "value": "0"
-                                                    },
-                                                    {
-                                                        "kind": "numericliteral",
-                                                        "value": "1"
-                                                    }
-                                                ],
-                                                "view": "0|1"
-                                            },
-                                            "name": "findstart",
-                                            "optional": false
+                                    "documentation": "Buffer to lint",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "base",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "table"
-                                                    }
-                                                ],
-                                                "view": "integer|table"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "integer"
+                                    },
+                                    "name": "buf",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Options for linting",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "QueryLinterNormalizedOpts"
+                                                },
+                                                {
+                                                    "kind": "typereference",
+                                                    "value": "vim.treesitter.query.lint.Opts"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "QueryLinterNormalizedOpts|vim.treesitter.query.lint.Opts|nil"
+                                    },
+                                    "name": "opts",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/treesitter/_query_linter.lua",
-                            "finish": [
-                                203,
-                                19
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_query_linter.lua",
+                        "finish": [
+                            160,
+                            15
+                        ],
+                        "start": [
+                            160,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "lint",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": "```lua\nfindstart:\n    | 0\n    | 1\n```",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "numericliteral",
+                                                    "value": "0"
+                                                },
+                                                {
+                                                    "kind": "numericliteral",
+                                                    "value": "1"
+                                                }
+                                            ]
+                                        },
+                                        "view": "0|1"
+                                    },
+                                    "name": "findstart",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "base",
+                                    "optional": false
+                                }
                             ],
-                            "start": [
-                                203,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "table"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|table"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/treesitter/_query_linter.lua",
+                        "finish": [
+                            203,
+                            19
                         ],
-                        "name": "omnifunc",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            203,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "omnifunc",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

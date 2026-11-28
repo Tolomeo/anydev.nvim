@@ -1,624 +1,583 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " |lsp-handler| for the method `workspace/semanticTokens/refresh`\n\n Refresh requests are sent by the server to indicate a project-wide change\n that requires all tokens to be re-requested by the client. This handler will\n invalidate the current results of all buffers and automatically kick off a\n new request for buffers that are displayed in a window. For those that aren't, a\n the BufWinEnter event should take care of it next time it's displayed.",
-                        "infer": {
-                            "types": [
+        "type": {
+            "fields": [
+                {
+                    "documentation": " |lsp-handler| for the method `workspace/semanticTokens/refresh`\n\n Refresh requests are sent by the server to indicate a project-wide change\n that requires all tokens to be re-requested by the client. This handler will\n invalidate the current results of all buffers and automatically kick off a\n new request for buffers that are displayed in a window. For those that aren't, a\n the BufWinEnter event should take care of it next time it's displayed.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "err",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "_",
-                                            "optional": false
+                                        "view": "any"
+                                    },
+                                    "name": "err",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "any"
-                                                    }
-                                                ],
-                                                "view": "any"
-                                            },
-                                            "name": "ctx",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.NIL"
-                                                    }
-                                                ],
-                                                "view": "vim.NIL"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                        "view": "any"
+                                    },
+                                    "name": "_",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "any"
+                                        },
+                                        "view": "any"
+                                    },
+                                    "name": "ctx",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                979,
-                                19
-                            ],
-                            "start": [
-                                979,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.NIL"
+                                        },
+                                        "view": "vim.NIL"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "_refresh",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Enables or disables semantic tokens for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled())\n ```\n\n@*param* `enable` — true/nil to enable, false to disable",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            979,
+                            19
+                        ],
+                        "start": [
+                            979,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "_refresh",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Enables or disables semantic tokens for the {filter}ed scope.\n\n To \"toggle\", pass the inverse of `is_enabled()`:\n\n ```lua\n vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled())\n ```\n\n@*param* `enable` — true/nil to enable, false to disable",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "true/nil to enable, false to disable",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "boolean"
-                                                    }
-                                                ],
-                                                "view": "boolean?"
-                                            },
-                                            "name": "enable",
-                                            "optional": true
+                                    "documentation": "true/nil to enable, false to disable",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "boolean"
                                         },
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.capability.enable.Filter"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.capability.enable.Filter)?"
-                                            },
-                                            "name": "filter",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                        "view": "boolean?"
+                                    },
+                                    "name": "enable",
+                                    "optional": true
+                                },
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.capability.enable.Filter"
+                                        },
+                                        "view": "(vim.lsp.capability.enable.Filter)?"
+                                    },
+                                    "name": "filter",
+                                    "optional": true
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                847,
-                                17
-                            ],
-                            "start": [
-                                847,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "enable",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Force a refresh of all semantic tokens\n\n Only has an effect if the buffer is currently active for semantic token\n highlighting (|vim.lsp.semantic_tokens.enable()| has been called for it)\n\n@*param* `bufnr` — filter by buffer. All buffers if nil, current\n\n       buffer if 0",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            847,
+                            17
+                        ],
+                        "start": [
+                            847,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "enable",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Force a refresh of all semantic tokens\n\n Only has an effect if the buffer is currently active for semantic token\n highlighting (|vim.lsp.semantic_tokens.enable()| has been called for it)\n\n@*param* `bufnr` — filter by buffer. All buffers if nil, current\n\n       buffer if 0",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "filter by buffer. All buffers if nil, current",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "bufnr",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                    "documentation": "filter by buffer. All buffers if nil, current",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "bufnr",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                922,
-                                24
-                            ],
-                            "start": [
-                                922,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "force_refresh",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Return the semantic token(s) at the given position.\n If called without arguments, returns the token under the cursor.\n\n@*param* `bufnr` — Buffer number (0 for current buffer, default)\n\n@*param* `row` — Position row (default cursor position)\n\n@*param* `col` — Position column (default cursor position)\n\n\n@*return* — (table|nil) List of tokens at position. Each token has\n\n        the following fields:\n        - line (integer) line number, 0-based\n        - start_col (integer) start column, 0-based\n        - end_line (integer) end line number, 0-based\n        - end_col (integer) end column, 0-based\n        - type (string) token type as string, e.g. \"variable\"\n        - modifiers (table) token modifiers as a set. E.g., { static = true, readonly = true }\n        - client_id (integer)",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            922,
+                            24
+                        ],
+                        "start": [
+                            922,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "force_refresh",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Return the semantic token(s) at the given position.\n If called without arguments, returns the token under the cursor.\n\n@*param* `bufnr` — Buffer number (0 for current buffer, default)\n\n@*param* `row` — Position row (default cursor position)\n\n@*param* `col` — Position column (default cursor position)\n\n\n@*return* — (table|nil) List of tokens at position. Each token has\n\n        the following fields:\n        - line (integer) line number, 0-based\n        - start_col (integer) start column, 0-based\n        - end_line (integer) end line number, 0-based\n        - end_col (integer) end column, 0-based\n        - type (string) token type as string, e.g. \"variable\"\n        - modifiers (table) token modifiers as a set. E.g., { static = true, readonly = true }\n        - client_id (integer)",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer number (0 for current buffer, default)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "bufnr",
-                                            "optional": false
+                                    "documentation": "Buffer number (0 for current buffer, default)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "Position row (default cursor position)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "row",
-                                            "optional": false
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "bufnr",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Position row (default cursor position)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
                                         },
-                                        {
-                                            "documentation": "Position column (default cursor position)",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "integer|nil"
-                                            },
-                                            "name": "col",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "(table|nil) List of tokens at position. Each token has",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "items": {
-                                                            "types": [
-                                                                {
-                                                                    "kind": "typereference",
-                                                                    "value": "STTokenRangeInspect"
-                                                                }
-                                                            ],
-                                                            "view": "STTokenRangeInspect"
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "row",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Position column (default cursor position)",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "integer|nil"
+                                    },
+                                    "name": "col",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "(table|nil) List of tokens at position. Each token has",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "union",
+                                            "types": [
+                                                {
+                                                    "items": {
+                                                        "type": {
+                                                            "kind": "typereference",
+                                                            "value": "STTokenRangeInspect"
                                                         },
-                                                        "kind": "array"
+                                                        "view": "STTokenRangeInspect"
                                                     },
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "nil"
-                                                    }
-                                                ],
-                                                "view": "STTokenRangeInspect[]|nil"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                                    "kind": "array"
+                                                },
+                                                {
+                                                    "kind": "builtin",
+                                                    "value": "nil"
+                                                }
+                                            ]
+                                        },
+                                        "view": "STTokenRangeInspect[]|nil"
+                                    },
+                                    "name": "",
+                                    "optional": false
                                 }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                871,
-                                21
-                            ],
-                            "start": [
-                                871,
-                                9
                             ]
                         },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "get_at_pos",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Highlight a semantic token.\n\n Apply an extmark with a given highlight group for a semantic token. The\n mark will be deleted by the semantic token engine when appropriate; for\n example, when the LSP sends updated tokens. This function is intended for\n use inside |LspTokenUpdate| callbacks.\n\n@*param* `token` — Semantic token, provided as `ev.data.token` in |LspTokenUpdate|\n\n@*param* `bufnr` — Buffer to highlight, or `0` for current buffer.\n\n@*param* `client_id` — ID of the |vim.lsp.Client|\n\n@*param* `hl_group` — Highlight group name\n\n@*param* `opts` — Optional parameters:",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Semantic token, provided as `ev.data.token` in |LspTokenUpdate|",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table"
-                                            },
-                                            "name": "token",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Buffer to highlight, or `0` for current buffer.",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "bufnr",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "ID of the |vim.lsp.Client|",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "client_id",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Highlight group name",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "hl_group",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Optional parameters:",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.semantic_tokens.highlight_token.Opts"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.semantic_tokens.highlight_token.Opts)?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                955,
-                                26
-                            ],
-                            "start": [
-                                955,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            871,
+                            21
                         ],
-                        "name": "highlight_token",
-                        "type": "setfield"
+                        "start": [
+                            871,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Query whether semantic tokens is enabled in the {filter}ed scope",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "get_at_pos",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Highlight a semantic token.\n\n Apply an extmark with a given highlight group for a semantic token. The\n mark will be deleted by the semantic token engine when appropriate; for\n example, when the LSP sends updated tokens. This function is intended for\n use inside |LspTokenUpdate| callbacks.\n\n@*param* `token` — Semantic token, provided as `ev.data.token` in |LspTokenUpdate|\n\n@*param* `bufnr` — Buffer to highlight, or `0` for current buffer.\n\n@*param* `client_id` — ID of the |vim.lsp.Client|\n\n@*param* `hl_group` — Highlight group name\n\n@*param* `opts` — Optional parameters:",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "typereference",
-                                                        "value": "vim.lsp.capability.enable.Filter"
-                                                    }
-                                                ],
-                                                "view": "(vim.lsp.capability.enable.Filter)?"
-                                            },
-                                            "name": "filter",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "false"
-                                                    }
-                                                ],
-                                                "view": "false"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "Semantic token, provided as `ev.data.token` in |LspTokenUpdate|",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "table"
+                                        },
+                                        "view": "table"
+                                    },
+                                    "name": "token",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Buffer to highlight, or `0` for current buffer.",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "bufnr",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "ID of the |vim.lsp.Client|",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "client_id",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Highlight group name",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "hl_group",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Optional parameters:",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.semantic_tokens.highlight_token.Opts"
+                                        },
+                                        "view": "(vim.lsp.semantic_tokens.highlight_token.Opts)?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
                                 }
                             ],
-                            "view": "function"
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                833,
-                                21
-                            ],
-                            "start": [
-                                833,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "is_enabled",
-                        "type": "setfield"
+                        "view": "function"
                     },
-                    {
-                        "documentation": " Start the semantic token highlighting engine for the given buffer with the\n given client. The client must already be attached to the buffer.\n\n NOTE: This is currently called automatically by |vim.lsp.buf_attach_client()|. To\n opt-out of semantic highlighting with a server that supports it, you can\n delete the semanticTokensProvider table from the {server_capabilities} of\n your client in your |LspAttach| callback or your configuration's\n `on_attach` callback:\n\n ```lua\n client.server_capabilities.semanticTokensProvider = nil\n ```\n\n@*param* `bufnr` — Buffer number, or `0` for current buffer\n\n@*param* `client_id` — The ID of the |vim.lsp.Client|\n\n@*param* `opts` — Optional keyword arguments\n\n  - debounce (integer, default: 200): Debounce token requests\n        to the server by the given number in milliseconds",
-                        "infer": {
-                            "types": [
-                                {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer number, or `0` for current buffer",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "bufnr",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "The ID of the |vim.lsp.Client|",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "client_id",
-                                            "optional": false
-                                        },
-                                        {
-                                            "documentation": "Optional keyword arguments",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "table"
-                                                    }
-                                                ],
-                                                "view": "table?"
-                                            },
-                                            "name": "opts",
-                                            "optional": true
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
-                                }
-                            ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                806,
-                                16
-                            ],
-                            "start": [
-                                806,
-                                9
-                            ]
-                        },
-                        "meta": [
-                            "public",
-                            "deprecated"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            955,
+                            26
                         ],
-                        "name": "start",
-                        "type": "setfield"
+                        "start": [
+                            955,
+                            9
+                        ]
                     },
-                    {
-                        "documentation": " Stop the semantic token highlighting engine for the given buffer with the\n given client.\n\n@*param* `bufnr` — Buffer number, or `0` for current buffer\n\n@*param* `client_id` — The ID of the |vim.lsp.Client|",
-                        "infer": {
-                            "types": [
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "highlight_token",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Query whether semantic tokens is enabled in the {filter}ed scope",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "Buffer number, or `0` for current buffer",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "bufnr",
-                                            "optional": false
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "vim.lsp.capability.enable.Filter"
                                         },
-                                        {
-                                            "documentation": "The ID of the |vim.lsp.Client|",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "integer"
-                                                    }
-                                                ],
-                                                "view": "integer"
-                                            },
-                                            "name": "client_id",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": []
+                                        "view": "(vim.lsp.capability.enable.Filter)?"
+                                    },
+                                    "name": "filter",
+                                    "optional": true
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/semantic_tokens.lua",
-                            "finish": [
-                                826,
-                                15
-                            ],
-                            "start": [
-                                826,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "false"
+                                        },
+                                        "view": "false"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public",
-                            "deprecated"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            833,
+                            21
                         ],
-                        "name": "stop",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            833,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "is_enabled",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Start the semantic token highlighting engine for the given buffer with the\n given client. The client must already be attached to the buffer.\n\n NOTE: This is currently called automatically by |vim.lsp.buf_attach_client()|. To\n opt-out of semantic highlighting with a server that supports it, you can\n delete the semanticTokensProvider table from the {server_capabilities} of\n your client in your |LspAttach| callback or your configuration's\n `on_attach` callback:\n\n ```lua\n client.server_capabilities.semanticTokensProvider = nil\n ```\n\n@*param* `bufnr` — Buffer number, or `0` for current buffer\n\n@*param* `client_id` — The ID of the |vim.lsp.Client|\n\n@*param* `opts` — Optional keyword arguments\n\n  - debounce (integer, default: 200): Debounce token requests\n        to the server by the given number in milliseconds",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Buffer number, or `0` for current buffer",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "bufnr",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "The ID of the |vim.lsp.Client|",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "client_id",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "Optional keyword arguments",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "table"
+                                        },
+                                        "view": "table?"
+                                    },
+                                    "name": "opts",
+                                    "optional": true
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            806,
+                            16
+                        ],
+                        "start": [
+                            806,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public",
+                        "deprecated"
+                    ],
+                    "name": "start",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Stop the semantic token highlighting engine for the given buffer with the\n given client.\n\n@*param* `bufnr` — Buffer number, or `0` for current buffer\n\n@*param* `client_id` — The ID of the |vim.lsp.Client|",
+                    "infer": {
+                        "type": {
+                            "arguments": [
+                                {
+                                    "documentation": "Buffer number, or `0` for current buffer",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "bufnr",
+                                    "optional": false
+                                },
+                                {
+                                    "documentation": "The ID of the |vim.lsp.Client|",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "integer"
+                                        },
+                                        "view": "integer"
+                                    },
+                                    "name": "client_id",
+                                    "optional": false
+                                }
+                            ],
+                            "generics": [],
+                            "kind": "function",
+                            "returns": []
+                        },
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/semantic_tokens.lua",
+                        "finish": [
+                            826,
+                            15
+                        ],
+                        "start": [
+                            826,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public",
+                        "deprecated"
+                    ],
+                    "name": "stop",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

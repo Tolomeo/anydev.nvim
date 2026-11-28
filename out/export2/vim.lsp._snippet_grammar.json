@@ -1,99 +1,89 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": "",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "enum"
-                                }
-                            ],
-                            "view": "enum vim.snippet.Type"
+        "type": {
+            "fields": [
+                {
+                    "documentation": "",
+                    "infer": {
+                        "type": {
+                            "kind": "enum"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/_snippet_grammar.lua",
-                            "finish": [
-                                80,
-                                10
-                            ],
-                            "start": [
-                                80,
-                                0
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "NodeType",
-                        "type": "setfield"
+                        "view": "enum vim.snippet.Type"
                     },
-                    {
-                        "documentation": " Parses the given input into a snippet tree.",
-                        "infer": {
-                            "types": [
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/_snippet_grammar.lua",
+                        "finish": [
+                            80,
+                            10
+                        ],
+                        "start": [
+                            80,
+                            0
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "NodeType",
+                    "type": "setfield"
+                },
+                {
+                    "documentation": " Parses the given input into a snippet tree.",
+                    "infer": {
+                        "type": {
+                            "arguments": [
                                 {
-                                    "arguments": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    {
-                                                        "kind": "builtin",
-                                                        "value": "string"
-                                                    }
-                                                ],
-                                                "view": "string"
-                                            },
-                                            "name": "input",
-                                            "optional": false
-                                        }
-                                    ],
-                                    "generics": [],
-                                    "kind": "function",
-                                    "returns": [
-                                        {
-                                            "documentation": "",
-                                            "infer": {
-                                                "types": [
-                                                    "vim.snippet.Node<vim.snippet.SnippetData|{ children: vim.snippet.Node<any>[] }>"
-                                                ],
-                                                "view": "vim.snippet.Node<vim.snippet.SnippetData|{ children: vim.snippet.Node<any>[] }>"
-                                            },
-                                            "name": "",
-                                            "optional": false
-                                        }
-                                    ]
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": {
+                                            "kind": "builtin",
+                                            "value": "string"
+                                        },
+                                        "view": "string"
+                                    },
+                                    "name": "input",
+                                    "optional": false
                                 }
                             ],
-                            "view": "function"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/_snippet_grammar.lua",
-                            "finish": [
-                                175,
-                                16
-                            ],
-                            "start": [
-                                175,
-                                9
+                            "generics": [],
+                            "kind": "function",
+                            "returns": [
+                                {
+                                    "documentation": "",
+                                    "infer": {
+                                        "type": "vim.snippet.Node<vim.snippet.SnippetData|{ children: vim.snippet.Node<any>[] }>",
+                                        "view": "vim.snippet.Node<vim.snippet.SnippetData|{ children: vim.snippet.Node<any>[] }>"
+                                    },
+                                    "name": "",
+                                    "optional": false
+                                }
                             ]
                         },
-                        "meta": [
-                            "public"
+                        "view": "function"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/_snippet_grammar.lua",
+                        "finish": [
+                            175,
+                            16
                         ],
-                        "name": "parse",
-                        "type": "setfield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            175,
+                            9
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "parse",
+                    "type": "setfield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

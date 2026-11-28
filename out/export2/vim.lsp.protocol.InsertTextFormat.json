@@ -1,71 +1,65 @@
 {
     "documentation": " Defines whether the insert text in a completion item should be interpreted as\n plain text or a snippet.",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " The primary text to be inserted is treated as a plain string.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " The primary text to be inserted is treated as a plain string.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                249,
-                                13
-                            ],
-                            "start": [
-                                249,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "PlainText",
-                        "type": "tablefield"
+                        "view": "integer"
                     },
-                    {
-                        "documentation": " The primary text to be inserted is treated as a snippet.\n\n A snippet can define tab stops and placeholders with `$1`, `$2`\n and `${3:foo};`. `$0` defines the final tab stop, it defaults to\n the end of the snippet. Placeholders with equal identifiers are linked,\n that is typing in one will update others too.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "integer"
-                                }
-                            ],
-                            "view": "integer"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                256,
-                                11
-                            ],
-                            "start": [
-                                256,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            249,
+                            13
                         ],
-                        "name": "Snippet",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            249,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "PlainText",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " The primary text to be inserted is treated as a snippet.\n\n A snippet can define tab stops and placeholders with `$1`, `$2`\n and `${3:foo};`. `$0` defines the final tab stop, it defaults to\n the end of the snippet. Placeholders with equal identifiers are linked,\n that is typing in one will update others too.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "integer"
+                        },
+                        "view": "integer"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            256,
+                            11
+                        ],
+                        "start": [
+                            256,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Snippet",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",

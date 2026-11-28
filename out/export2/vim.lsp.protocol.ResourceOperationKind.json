@@ -1,100 +1,92 @@
 {
     "documentation": "",
     "infer": {
-        "types": [
-            {
-                "fields": [
-                    {
-                        "documentation": " Supports creating new files and folders.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+        "type": {
+            "fields": [
+                {
+                    "documentation": " Supports creating new files and folders.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                192,
-                                10
-                            ],
-                            "start": [
-                                192,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
-                        ],
-                        "name": "Create",
-                        "type": "tablefield"
+                        "view": "string"
                     },
-                    {
-                        "documentation": " Supports deleting existing files and folders.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
-                        },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                196,
-                                10
-                            ],
-                            "start": [
-                                196,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            192,
+                            10
                         ],
-                        "name": "Delete",
-                        "type": "tablefield"
+                        "start": [
+                            192,
+                            4
+                        ]
                     },
-                    {
-                        "documentation": " Supports renaming existing files and folders.",
-                        "infer": {
-                            "types": [
-                                {
-                                    "kind": "builtin",
-                                    "value": "string"
-                                }
-                            ],
-                            "view": "string"
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Create",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Supports deleting existing files and folders.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
                         },
-                        "kind": "property",
-                        "location": {
-                            "file": "lua/vim/lsp/protocol.lua",
-                            "finish": [
-                                194,
-                                10
-                            ],
-                            "start": [
-                                194,
-                                4
-                            ]
-                        },
-                        "meta": [
-                            "public"
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            196,
+                            10
                         ],
-                        "name": "Rename",
-                        "type": "tablefield"
-                    }
-                ],
-                "kind": "table"
-            }
-        ],
+                        "start": [
+                            196,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Delete",
+                    "type": "tablefield"
+                },
+                {
+                    "documentation": " Supports renaming existing files and folders.",
+                    "infer": {
+                        "type": {
+                            "kind": "builtin",
+                            "value": "string"
+                        },
+                        "view": "string"
+                    },
+                    "kind": "property",
+                    "location": {
+                        "file": "lua/vim/lsp/protocol.lua",
+                        "finish": [
+                            194,
+                            10
+                        ],
+                        "start": [
+                            194,
+                            4
+                        ]
+                    },
+                    "meta": [
+                        "public"
+                    ],
+                    "name": "Rename",
+                    "type": "tablefield"
+                }
+            ],
+            "kind": "table"
+        },
         "view": "table"
     },
     "kind": "property",
