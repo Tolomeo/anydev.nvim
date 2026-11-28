@@ -1078,36 +1078,16 @@ export.serializeAndExport = function(docs, outputDir)
 
 		local jsons = { { name = parentName, doc = parent } }
 
-		-- TODO: remove
-		if not parent.infer then
+		if parent.infer.type.kind ~= "table" then
 			return jsons
 		end
-
-		-- TODO: remove check on the fields
-		if #parent.infer.type.kind == "union" or parent.infer.type.kind ~= "table" or not parent.infer.type.fields then
-			return jsons
-		end
-
-		--[[ if #parent.infer.types ~= 1 or parent.infer.types[1].kind ~= "table" or not parent.infer.types[1].fields then
-			return jsons
-		end ]]
 
 		for i = #parent.infer.type.fields, 1, -1 do
 			local field = parent.infer.type.fields[i]
 
-			-- TODO: remove
-			if not field.infer then
+			if field.infer.type.kind ~= "table" then
 				goto continue
 			end
-
-			-- TODO: remove check on the fields
-			if field.infer.type.kind == "union" or field.infer.type.kind ~= "table" or not field.infer.type.fields then
-				goto continue
-			end
-
-			--[[ if #field.infer.types ~= 1 or field.infer.types[1].kind ~= "table" or not field.infer.types[1].fields then
-				goto continue
-			end ]]
 
 			local childName = string.format("%s.%s", parentName, field.name)
 			local child = table.remove(parent.infer.type.fields, i)
