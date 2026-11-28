@@ -352,11 +352,19 @@ end
 
 -- TODO: UNION
 export.makeInferObject["doc.type"] = function(source, uri)
-	local buf = {}
+	local types = {}
 	for _, tp in ipairs(source.types) do
-		buf[#buf + 1] = export.makeInferObject[tp.type](tp, uri)
+		types[#types + 1] = export.makeInferObject[tp.type](tp, uri)
 	end
-	return table.concat(buf, "|")
+
+	if #types == 1 then
+		return types[1]
+	else
+		return {
+			kind = "union",
+			types = types,
+		}
+	end
 end
 
 export.makeInferObject["doc.type.name"] = function(source, uri)
@@ -395,7 +403,7 @@ end
 
 export.makeInferObject["doc.type.sign"] = function(source, uri)
 	-- print(source.node.type, export.inspect())
-	--[[ local inferObject = export.makeInferObject[source.node.type](source.node)
+	local inferObject = export.makeInferObject[source.node.type](source.node)
 
 	local generics = {}
 	for i, sign in ipairs(source.signs or {}) do
@@ -404,9 +412,9 @@ export.makeInferObject["doc.type.sign"] = function(source, uri)
 
 	inferObject.generics = generics
 
-	return inferObject ]]
+	return inferObject
 
-	local buf = {}
+	--[[ local buf = {}
 	for i, sign in ipairs(source.signs) do
 		local view = vm.getInfer(sign):view(uri)
 		-- Strip outer <> from generic names since the sign
@@ -427,7 +435,7 @@ export.makeInferObject["doc.type.sign"] = function(source, uri)
 			end
 		end
 	end
-	return ("%s<%s>"):format(source.node[1], table.concat(buf, ", "))
+	return ("%s<%s>"):format(source.node[1], table.concat(buf, ", ")) ]]
 end
 
 export.makeInferObject["doc.type.table"] = function(source, uri)

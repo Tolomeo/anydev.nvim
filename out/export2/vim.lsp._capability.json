@@ -6,7 +6,22 @@
                 {
                     "documentation": "\n Static field for retrieving the instance associated with a specific `bufnr`.\n\n Index in the form of `bufnr` -> `capability`",
                     "infer": {
-                        "type": "table<integer, (vim.lsp.Capability)?>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "integer"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.Capability"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<integer, (vim.lsp.Capability)?>"
                     },
                     "kind": "property",
@@ -30,7 +45,22 @@
                 {
                     "documentation": "",
                     "infer": {
-                        "type": "table<vim.lsp.capability.Name, vim.lsp.Capability>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.capability.Name"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.Capability"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<vim.lsp.capability.Name, vim.lsp.Capability>"
                     },
                     "kind": "property",
@@ -108,7 +138,22 @@
                 {
                     "documentation": "\n Per-client state data, scoped to the lifetime of the attached client.",
                     "infer": {
-                        "type": "table<integer, table>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "integer"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "table"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<integer, table>"
                     },
                     "kind": "property",

@@ -20186,7 +20186,20 @@
                                                 "arguments": [
                                                     {
                                                         "infer": {
-                                                            "type": "table<K, V>",
+                                                            "type": {
+                                                                "generics": [
+                                                                    {
+                                                                        "kind": "genericreference",
+                                                                        "value": "K"
+                                                                    },
+                                                                    {
+                                                                        "kind": "genericreference",
+                                                                        "value": "V"
+                                                                    }
+                                                                ],
+                                                                "kind": "typereference",
+                                                                "value": "table"
+                                                            },
                                                             "view": "table<K, V>"
                                                         },
                                                         "name": "table",
@@ -21573,7 +21586,21 @@
                                 {
                                     "documentation": "(table) Table",
                                     "infer": {
-                                        "type": "table<any, T>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "any"
+                                                },
+                                                {
+                                                    "kind": "genericreference",
+                                                    "value": "T"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<any, T>"
                                     },
                                     "name": "t",
@@ -21873,7 +21900,21 @@
                                 {
                                     "documentation": "(table) Table",
                                     "infer": {
-                                        "type": "table<T, any>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "kind": "genericreference",
+                                                    "value": "T"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "any"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<T, any>"
                                     },
                                     "name": "t",
@@ -21977,7 +22018,21 @@
                                 {
                                     "documentation": "Table",
                                     "infer": {
-                                        "type": "table<any, T>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "any"
+                                                },
+                                                {
+                                                    "kind": "genericreference",
+                                                    "value": "T"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<any, T>"
                                     },
                                     "name": "t",
@@ -22034,7 +22089,21 @@
                                 {
                                     "documentation": "(table) Table",
                                     "infer": {
-                                        "type": "table<any, T>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "any"
+                                                },
+                                                {
+                                                    "kind": "genericreference",
+                                                    "value": "T"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<any, T>"
                                     },
                                     "name": "t",
@@ -22167,7 +22236,22 @@
                                 {
                                     "documentation": "Optional parameters.",
                                     "infer": {
-                                        "type": "table<string, any>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "any"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<string, any>"
                                     },
                                     "name": "opts",

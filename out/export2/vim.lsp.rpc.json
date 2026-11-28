@@ -9,8 +9,38 @@
                         "type": {
                             "kind": "union",
                             "types": [
-                                "table<integer, string>",
-                                "table<string, integer>"
+                                {
+                                    "generics": [
+                                        {
+                                            "generics": [],
+                                            "kind": "typereference",
+                                            "value": "integer"
+                                        },
+                                        {
+                                            "generics": [],
+                                            "kind": "typereference",
+                                            "value": "string"
+                                        }
+                                    ],
+                                    "kind": "typereference",
+                                    "value": "table"
+                                },
+                                {
+                                    "generics": [
+                                        {
+                                            "generics": [],
+                                            "kind": "typereference",
+                                            "value": "string"
+                                        },
+                                        {
+                                            "generics": [],
+                                            "kind": "typereference",
+                                            "value": "integer"
+                                        }
+                                    ],
+                                    "kind": "typereference",
+                                    "value": "table"
+                                }
                             ]
                         },
                         "view": "table<integer, string>|table<string, integer>"

@@ -27,7 +27,27 @@
                                             "arguments": [
                                                 {
                                                     "infer": {
-                                                        "type": "table<integer, TSNode[]>",
+                                                        "type": {
+                                                            "generics": [
+                                                                {
+                                                                    "generics": [],
+                                                                    "kind": "typereference",
+                                                                    "value": "integer"
+                                                                },
+                                                                {
+                                                                    "items": {
+                                                                        "type": {
+                                                                            "kind": "typereference",
+                                                                            "value": "TSNode"
+                                                                        },
+                                                                        "view": "TSNode"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "kind": "typereference",
+                                                            "value": "table"
+                                                        },
                                                         "view": "table<integer, TSNode[]>"
                                                     },
                                                     "name": "match",
@@ -163,7 +183,27 @@
                                             "arguments": [
                                                 {
                                                     "infer": {
-                                                        "type": "table<integer, TSNode[]>",
+                                                        "type": {
+                                                            "generics": [
+                                                                {
+                                                                    "generics": [],
+                                                                    "kind": "typereference",
+                                                                    "value": "integer"
+                                                                },
+                                                                {
+                                                                    "items": {
+                                                                        "type": {
+                                                                            "kind": "typereference",
+                                                                            "value": "TSNode"
+                                                                        },
+                                                                        "view": "TSNode"
+                                                                    },
+                                                                    "kind": "array"
+                                                                }
+                                                            ],
+                                                            "kind": "typereference",
+                                                            "value": "table"
+                                                        },
                                                         "view": "table<integer, TSNode[]>"
                                                     },
                                                     "name": "match",

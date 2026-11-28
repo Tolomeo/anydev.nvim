@@ -11,7 +11,22 @@
                                 {
                                     "documentation": "",
                                     "infer": {
-                                        "type": "table<integer, vim.Diagnostic>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "vim.Diagnostic"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<integer, vim.Diagnostic>"
                                     },
                                     "name": "line_diags",
@@ -178,7 +193,22 @@
                                 {
                                     "documentation": ": Table with actually present severity values as keys",
                                     "infer": {
-                                        "type": "table<integer, integer>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<integer, integer>"
                                     },
                                     "name": "",
@@ -487,7 +517,22 @@
                                 {
                                     "documentation": ": List of active diagnostic namespaces |vim.diagnostic|.",
                                     "infer": {
-                                        "type": "table<integer, vim.diagnostic.NS>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "vim.diagnostic.NS"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<integer, vim.diagnostic.NS>"
                                     },
                                     "name": "",
@@ -844,7 +889,22 @@
                 {
                     "documentation": " @nodoc",
                     "infer": {
-                        "type": "table<string, vim.diagnostic.Handler>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "string"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.diagnostic.Handler"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<string, vim.diagnostic.Handler>"
                     },
                     "kind": "property",

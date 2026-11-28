@@ -87,7 +87,21 @@
                                 {
                                     "documentation": "",
                                     "infer": {
-                                        "type": "table<string, true>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "kind": "booleanliteral",
+                                                    "value": "true"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<string, true>"
                                     },
                                     "name": "",
@@ -582,7 +596,54 @@
                                 {
                                     "documentation": "",
                                     "infer": {
-                                        "type": "table<string, table<string, table<string, vim.filetype.mapping>|vim.filetype.mapping>>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "string"
+                                                },
+                                                {
+                                                    "generics": [
+                                                        {
+                                                            "generics": [],
+                                                            "kind": "typereference",
+                                                            "value": "string"
+                                                        },
+                                                        {
+                                                            "kind": "union",
+                                                            "types": [
+                                                                {
+                                                                    "generics": [],
+                                                                    "kind": "typereference",
+                                                                    "value": "vim.filetype.mapping"
+                                                                },
+                                                                {
+                                                                    "generics": [
+                                                                        {
+                                                                            "generics": [],
+                                                                            "kind": "typereference",
+                                                                            "value": "string"
+                                                                        },
+                                                                        {
+                                                                            "generics": [],
+                                                                            "kind": "typereference",
+                                                                            "value": "vim.filetype.mapping"
+                                                                        }
+                                                                    ],
+                                                                    "kind": "typereference",
+                                                                    "value": "table"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "kind": "typereference",
+                                                    "value": "table"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<string, table<string, table<string, vim.filetype.mapping>|vim.filetype.mapping>>"
                                     },
                                     "name": "",

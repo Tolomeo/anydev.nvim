@@ -140,7 +140,22 @@
                                 {
                                     "documentation": "",
                                     "infer": {
-                                        "type": "table<integer, integer>",
+                                        "type": {
+                                            "generics": [
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                },
+                                                {
+                                                    "generics": [],
+                                                    "kind": "typereference",
+                                                    "value": "integer"
+                                                }
+                                            ],
+                                            "kind": "typereference",
+                                            "value": "table"
+                                        },
                                         "view": "table<integer, integer>"
                                     },
                                     "name": "",

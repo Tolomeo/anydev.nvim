@@ -60,7 +60,22 @@
                 {
                     "documentation": " Export for internal use only.",
                     "infer": {
-                        "type": "table<integer, vim.lsp.Client>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "integer"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.Client"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<integer, vim.lsp.Client>"
                     },
                     "kind": "property",
@@ -111,7 +126,22 @@
                 {
                     "documentation": "",
                     "infer": {
-                        "type": "table<vim.lsp.capability.Name, boolean?>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "vim.lsp.capability.Name"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "boolean"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<vim.lsp.capability.Name, boolean?>"
                     },
                     "kind": "property",
@@ -2016,7 +2046,22 @@
                 {
                     "documentation": "\n Each buffer's last used `languageId`.",
                     "infer": {
-                        "type": "table<integer, string>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "integer"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "string"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<integer, string>"
                     },
                     "kind": "property",
@@ -2134,7 +2179,46 @@
                 {
                     "documentation": "\n Client commands. See [vim.lsp.ClientConfig].",
                     "infer": {
-                        "type": "table<string, fun(command: lsp.Command, ctx: table)>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "string"
+                                },
+                                {
+                                    "arguments": [
+                                        {
+                                            "infer": {
+                                                "type": {
+                                                    "kind": "typereference",
+                                                    "value": "lsp.Command"
+                                                },
+                                                "view": "lsp.Command"
+                                            },
+                                            "name": "command",
+                                            "optional": false
+                                        },
+                                        {
+                                            "infer": {
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "table"
+                                                },
+                                                "view": "table"
+                                            },
+                                            "name": "ctx",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "generics": [],
+                                    "kind": "function",
+                                    "returns": []
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<string, fun(command: lsp.Command, ctx: table)>"
                     },
                     "kind": "property",
@@ -2486,7 +2570,22 @@
                 {
                     "documentation": "\n See [vim.lsp.ClientConfig].",
                     "infer": {
-                        "type": "table<string, lsp.Handler>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "string"
+                                },
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "lsp.Handler"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<string, lsp.Handler>"
                     },
                     "kind": "property",
@@ -2900,7 +2999,27 @@
                 {
                     "documentation": "",
                     "infer": {
-                        "type": "table<string, lsp.Registration[]>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": {
+                                            "kind": "typereference",
+                                            "value": "lsp.Registration"
+                                        },
+                                        "view": "lsp.Registration"
+                                    },
+                                    "kind": "array"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<string, lsp.Registration[]>"
                     },
                     "kind": "property",
@@ -3181,7 +3300,61 @@
                 {
                     "documentation": "\n The current pending requests in flight to the server. Entries are key-value\n pairs with the key being the request id while the value is a table with\n `type`, `bufnr`, and `method` key-value pairs. `type` is either \"pending\"\n for an active request, or \"cancel\" for a cancel request. It will be\n \"complete\" ephemerally while executing |LspRequest| autocmds when replies\n are received from the server.",
                     "infer": {
-                        "type": "table<integer, { type: string, bufnr: integer, method: string }?>",
+                        "type": {
+                            "generics": [
+                                {
+                                    "generics": [],
+                                    "kind": "typereference",
+                                    "value": "integer"
+                                },
+                                {
+                                    "fields": [
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                "view": "string"
+                                            },
+                                            "kind": "property",
+                                            "name": "type",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "integer"
+                                                },
+                                                "view": "integer"
+                                            },
+                                            "kind": "property",
+                                            "name": "bufnr",
+                                            "optional": false
+                                        },
+                                        {
+                                            "documentation": "",
+                                            "infer": {
+                                                "type": {
+                                                    "kind": "builtin",
+                                                    "value": "string"
+                                                },
+                                                "view": "string"
+                                            },
+                                            "kind": "property",
+                                            "name": "method",
+                                            "optional": false
+                                        }
+                                    ],
+                                    "kind": "table"
+                                }
+                            ],
+                            "kind": "typereference",
+                            "value": "table"
+                        },
                         "view": "table<integer, { type: string, bufnr: integer, method: string }?>"
                     },
                     "kind": "property",
